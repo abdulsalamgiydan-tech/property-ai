@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes result-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes result-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.65rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-result-card {
+  animation: result-card-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-result-section {
+  opacity: 0;
+  animation: result-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-result-delay-1 {
+  animation-delay: 0.07s;
+}
+.animate-result-delay-2 {
+  animation-delay: 0.14s;
+}
+.animate-result-delay-3 {
+  animation-delay: 0.21s;
+}
+.animate-result-delay-4 {
+  animation-delay: 0.28s;
+}
+.animate-result-delay-5 {
+  animation-delay: 0.35s;
+}
+.animate-result-delay-6 {
+  animation-delay: 0.42s;
+}
+.animate-result-delay-7 {
+  animation-delay: 0.49s;
+}
+.animate-result-delay-8 {
+  animation-delay: 0.56s;
+}
+.animate-result-delay-9 {
+  animation-delay: 0.63s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-result-card,
+  .animate-result-section {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
