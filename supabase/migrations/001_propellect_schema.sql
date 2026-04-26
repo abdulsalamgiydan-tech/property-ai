@@ -96,6 +96,10 @@ create policy "Users can insert their own comparisons"
   on public.property_comparisons for insert
   with check (auth.uid() = user_id);
 
+create policy "Users can update their own comparisons"
+  on public.property_comparisons for update
+  using (auth.uid() = user_id);
+
 create policy "Users can delete their own comparisons"
   on public.property_comparisons for delete
   using (auth.uid() = user_id);
