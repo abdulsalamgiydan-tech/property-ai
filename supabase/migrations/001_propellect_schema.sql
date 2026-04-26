@@ -1,7 +1,7 @@
 -- ============================================================
 -- Propellect — Database Schema Migration
 -- Run this in your Supabase SQL editor or via Supabase CLI.
--- App: lib/auth/afterSignup.ts inserts into public.waitlist (email, created_at).
+-- Safe to run multiple times (idempotent).
 -- ============================================================
 
 -- ── 0. waitlist ──────────────────────────────────────────────
@@ -14,13 +14,12 @@ create table if not exists public.waitlist (
 
 alter table public.waitlist enable row level security;
 
--- Allow anonymous inserts (magic-link is sent before sign-in)
+drop policy if exists "Anyone can join the waitlist" on public.waitlist;
 create policy "Anyone can join the waitlist"
   on public.waitlist for insert
-  to anon
   with check (true);
 
--- Only service role can read the waitlist
+drop policy if exists "Service role can read waitlist" on public.waitlist;
 create policy "Service role can read waitlist"
   on public.waitlist for select
   using (auth.role() = 'service_role');
@@ -46,23 +45,28 @@ create table if not exists public.property_reports (
 
 alter table public.property_reports enable row level security;
 
+drop policy if exists "Users can view their own reports" on public.property_reports;
 create policy "Users can view their own reports"
   on public.property_reports for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can insert their own reports" on public.property_reports;
 create policy "Users can insert their own reports"
   on public.property_reports for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can update their own reports" on public.property_reports;
 create policy "Users can update their own reports"
   on public.property_reports for update
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can delete their own reports" on public.property_reports;
 create policy "Users can delete their own reports"
   on public.property_reports for delete
   using (auth.uid() = user_id);
 
 -- Auto-update updated_at
+drop function if exists public.set_updated_at() cascade;
 create or replace function public.set_updated_at()
 returns trigger language plpgsql as $$
 begin
@@ -71,6 +75,7 @@ begin
 end;
 $$;
 
+drop trigger if exists set_property_reports_updated_at on public.property_reports;
 create trigger set_property_reports_updated_at
   before update on public.property_reports
   for each row execute function public.set_updated_at();
@@ -88,18 +93,22 @@ create table if not exists public.property_comparisons (
 
 alter table public.property_comparisons enable row level security;
 
+drop policy if exists "Users can view their own comparisons" on public.property_comparisons;
 create policy "Users can view their own comparisons"
   on public.property_comparisons for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can insert their own comparisons" on public.property_comparisons;
 create policy "Users can insert their own comparisons"
   on public.property_comparisons for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can update their own comparisons" on public.property_comparisons;
 create policy "Users can update their own comparisons"
   on public.property_comparisons for update
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can delete their own comparisons" on public.property_comparisons;
 create policy "Users can delete their own comparisons"
   on public.property_comparisons for delete
   using (auth.uid() = user_id);
@@ -118,18 +127,22 @@ create table if not exists public.watchlist_items (
 
 alter table public.watchlist_items enable row level security;
 
+drop policy if exists "Users can view their own watchlist" on public.watchlist_items;
 create policy "Users can view their own watchlist"
   on public.watchlist_items for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can insert their own watchlist items" on public.watchlist_items;
 create policy "Users can insert their own watchlist items"
   on public.watchlist_items for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can update their own watchlist items" on public.watchlist_items;
 create policy "Users can update their own watchlist items"
   on public.watchlist_items for update
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can delete their own watchlist items" on public.watchlist_items;
 create policy "Users can delete their own watchlist items"
   on public.watchlist_items for delete
   using (auth.uid() = user_id);
@@ -150,18 +163,22 @@ create table if not exists public.portfolio_properties (
 
 alter table public.portfolio_properties enable row level security;
 
+drop policy if exists "Users can view their own portfolio" on public.portfolio_properties;
 create policy "Users can view their own portfolio"
   on public.portfolio_properties for select
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can insert into their own portfolio" on public.portfolio_properties;
 create policy "Users can insert into their own portfolio"
   on public.portfolio_properties for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can update their own portfolio" on public.portfolio_properties;
 create policy "Users can update their own portfolio"
   on public.portfolio_properties for update
   using (auth.uid() = user_id);
 
+drop policy if exists "Users can delete from their own portfolio" on public.portfolio_properties;
 create policy "Users can delete from their own portfolio"
   on public.portfolio_properties for delete
   using (auth.uid() = user_id);
