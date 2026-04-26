@@ -1,7 +1,9 @@
 -- ============================================================
 -- Propellect — Database Schema Migration
 -- Run this in your Supabase SQL editor or via Supabase CLI.
--- Safe to run multiple times (idempotent).
+-- App: lib/auth/afterSignup.ts inserts into public.waitlist (email, created_at).
+-- Idempotent: safe to re-run (drops/recreates policies, trigger, and set_updated_at();
+-- tables use IF NOT EXISTS; no DROP TABLE).
 -- ============================================================
 
 -- ── 0. waitlist ──────────────────────────────────────────────
@@ -14,11 +16,14 @@ create table if not exists public.waitlist (
 
 alter table public.waitlist enable row level security;
 
+-- Allow anonymous inserts (magic-link is sent before sign-in)
 drop policy if exists "Anyone can join the waitlist" on public.waitlist;
 create policy "Anyone can join the waitlist"
   on public.waitlist for insert
+  to anon
   with check (true);
 
+-- Only service role can read the waitlist
 drop policy if exists "Service role can read waitlist" on public.waitlist;
 create policy "Service role can read waitlist"
   on public.waitlist for select
