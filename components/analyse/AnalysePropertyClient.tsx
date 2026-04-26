@@ -56,6 +56,7 @@ import {
   SUBURB_SUGGESTION_BANNER,
 } from "@/lib/suburbAssumptions";
 import { loadAnalyseDraft, saveAnalyseDraft } from "@/lib/auth/toolDraftStorage";
+import { SaveReportButton } from "@/components/analyse/SaveReportButton";
 import Link from "next/link";
 import {
   useEffect,
@@ -1714,6 +1715,27 @@ export function AnalysePropertyClient() {
                 </section>
 
                 {renderAnalyseProjections()}
+
+                {/* ── Actions ── */}
+                <section className="rounded-xl border border-zinc-700/50 bg-zinc-950/30 p-4">
+                  <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                    Actions
+                  </h3>
+                  <div className="flex flex-wrap gap-3">
+                    <SaveReportButton
+                      inputs={lastSavedInputsRef.current!}
+                      results={result}
+                      propertyName={propertyAddress || suburb || undefined}
+                      address={propertyAddress || undefined}
+                    />
+                    <a
+                      href="/compare-properties"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-600/80 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800/60"
+                    >
+                      Compare with another property
+                    </a>
+                  </div>
+                </section>
 
                 <GatedBlur
                   locked={!showFullToolAccess}

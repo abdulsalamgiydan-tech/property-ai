@@ -10,11 +10,6 @@ const tools = [
     available: true,
   },
   {
-    title: "Build an Investment Strategy",
-    caption: "Work out what type of property and structure suits your goals.",
-    available: false,
-  },
-  {
     title: "Compare Two Properties",
     caption: "Compare two deals side by side to see which stacks up better.",
     href: "/compare-properties",
@@ -22,9 +17,18 @@ const tools = [
     available: true,
   },
   {
-    title: "Portfolio View",
-    caption: "Understand how a property may fit into a broader portfolio over time.",
-    available: false,
+    title: "Suburb Intelligence",
+    caption: "Understand the investment profile of Australian suburbs — yields, vacancy, and growth.",
+    href: "/suburb-intelligence",
+    cta: "Explore suburbs",
+    available: true,
+  },
+  {
+    title: "Portfolio Tracker",
+    caption: "Track total value, debt, equity, and cashflow across your properties.",
+    href: "/portfolio",
+    cta: "View portfolio",
+    available: true,
   },
 ] as const;
 
@@ -54,10 +58,10 @@ export default function HomePage() {
               Try the analyser
             </Link>
             <Link
-              href="/compare-properties"
+              href="/dashboard"
               className="inline-flex flex-1 items-center justify-center rounded-xl border border-zinc-600/80 bg-zinc-900/80 px-5 py-3.5 text-sm font-semibold text-zinc-100 shadow-inner shadow-black/20 transition hover:border-zinc-500 hover:bg-zinc-800/80 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/30 sm:flex-initial sm:min-w-[11rem]"
             >
-              Compare 2 properties
+              View dashboard
             </Link>
           </div>
           <p className="mx-auto mt-5 max-w-xl text-xs leading-relaxed text-zinc-500">

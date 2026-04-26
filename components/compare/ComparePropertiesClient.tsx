@@ -25,6 +25,7 @@ import {
   type InvestmentStrategyId,
 } from "@/lib/investmentStrategy";
 import { loadCompareDraft, saveCompareDraft } from "@/lib/auth/toolDraftStorage";
+import { saveComparison } from "@/lib/supabase/comparisons";
 import {
   analyzeProperty,
   DEAL_SCORE_AMBER_MIN,
@@ -62,7 +63,29 @@ export function ComparePropertiesClient() {
   const [valueChartTab, setValueChartTab] = useState<ChartCompareTab>("overlay");
   const [cashflowChartTab, setCashflowChartTab] = useState<ChartCompareTab>("overlay");
 
-  const { showFullToolAccess, openEarlyAccessModal } = useAuth();
+  const { user, showFullToolAccess, openEarlyAccessModal } = useAuth();
+  const [savedComparisonId, setSavedComparisonId] = useState<string | null>(null);
+  const [savingComparison, setSavingComparison] = useState(false);
+  const [saveComparisonError, setSaveComparisonError] = useState<string | null>(null);
+
+  async function handleSaveComparison() {
+    if (!user) { openEarlyAccessModal(); return; }
+    if (!resultA || !resultB || !comparedInputsA || !comparedInputsB) return;
+    setSavingComparison(true);
+    setSaveComparisonError(null);
+    const res = await saveComparison({
+      label: `${comparedInputsA.suburb || "Property A"} vs ${comparedInputsB.suburb || "Property B"}`,
+      comparisonData: {
+        inputsA: comparedInputsA,
+        inputsB: comparedInputsB,
+        resultsA: resultA,
+        resultsB: resultB,
+      },
+    });
+    setSavingComparison(false);
+    if (res.ok) setSavedComparisonId(res.id);
+    else setSaveComparisonError(res.message);
+  }
   const lastComparedRef = useRef<{
     a: PropertyAnalysisInputs;
     b: PropertyAnalysisInputs;
@@ -648,6 +671,39 @@ export function ComparePropertiesClient() {
             </GatedBlur>
           </div>
         ) : null}
+
+        {/* Save comparison action */}
+        {resultA && resultB && (
+          <div className="mx-auto mt-8 max-w-3xl rounded-xl border border-zinc-700/50 bg-zinc-950/30 p-4">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">Actions</h3>
+            <div className="flex flex-wrap gap-3">
+              {savedComparisonId ? (
+                <div className="flex items-center gap-2 rounded-xl border border-emerald-500/25 bg-emerald-950/20 px-4 py-2.5 text-sm text-emerald-200">
+                  <svg className="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M20 6 9 17l-5-5" /></svg>
+                  Comparison saved to dashboard
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleSaveComparison}
+                  disabled={savingComparison}
+                  className="inline-flex items-center gap-2 rounded-xl border border-violet-500/50 bg-violet-950/30 px-4 py-2.5 text-sm font-semibold text-violet-200 transition hover:border-violet-400/70 hover:bg-violet-900/40 disabled:opacity-70"
+                >
+                  {savingComparison ? "Saving…" : user ? "Save comparison" : "Save comparison (sign in required)"}
+                </button>
+              )}
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-2 rounded-xl border border-zinc-600/80 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800/60"
+              >
+                View dashboard
+              </Link>
+            </div>
+            {saveComparisonError && (
+              <p className="mt-2 text-xs text-red-300" role="alert">{saveComparisonError}</p>
+            )}
+          </div>
+        )}
 
         <p className="mx-auto mt-12 max-w-3xl text-center text-[11px] leading-relaxed text-zinc-500">
           Illustrative model only. Not financial, tax, or legal advice. Depreciation and tax benefits are rough

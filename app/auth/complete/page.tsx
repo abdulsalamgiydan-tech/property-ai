@@ -39,10 +39,13 @@ function AuthCompleteInner() {
   const { loading, user, authConfigured } = useAuth();
   const redirectedRef = useRef(false);
 
-  const nextPath = useMemo(
-    () => safeInternalNextPath(searchParams.get("next")),
-    [searchParams]
-  );
+  const nextPath = useMemo(() => {
+    const raw = searchParams.get("next");
+    const safe = safeInternalNextPath(raw);
+    // Default to dashboard if no meaningful next path was provided
+    if (!safe || safe === "/") return "/dashboard";
+    return safe;
+  }, [searchParams]);
 
   useEffect(() => {
     if (loading) return;
