@@ -1,6 +1,7 @@
 -- ============================================================
 -- Propellect — Database Schema Migration
 -- Run this in your Supabase SQL editor or via Supabase CLI.
+-- App: lib/auth/afterSignup.ts inserts into public.waitlist (email, created_at).
 -- ============================================================
 
 -- ── 0. waitlist ──────────────────────────────────────────────
@@ -16,6 +17,7 @@ alter table public.waitlist enable row level security;
 -- Allow anonymous inserts (magic-link is sent before sign-in)
 create policy "Anyone can join the waitlist"
   on public.waitlist for insert
+  to anon
   with check (true);
 
 -- Only service role can read the waitlist
