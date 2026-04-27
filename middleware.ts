@@ -7,13 +7,14 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   // PKCE often lands here when Supabase falls back to Site URL (path `/`) instead of
   // `/auth/callback` — forward so `app/auth/callback/route.ts` can exchange the code.
-  if (
-    url.pathname === "/" &&
-    url.searchParams.has("code") &&
-    !url.searchParams.has("error")
-  ) {
-    url.pathname = "/auth/callback";
-    return NextResponse.redirect(url);
+  // Also rescue error URLs that land on the root.
+  if (url.pathname === "/") {
+    const hasCode = url.searchParams.has("code");
+    const hasError = url.searchParams.has("error");
+    if (hasCode || hasError) {
+      url.pathname = "/auth/callback";
+      return NextResponse.redirect(url);
+    }
   }
 
   const authFailureTarget = getSupabaseAuthFailureRedirectTarget(request.nextUrl);

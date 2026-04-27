@@ -41,29 +41,28 @@ function originFromEnv(): string | null {
  *   for non-Propellect hosts (e.g. preview deploys) the current browser origin is used.
  */
 export function getMagicLinkRedirectOrigin(clientFallbackOrigin: string): string {
-  if (!clientFallbackOrigin.trim()) {
-    return PROPELLECT_CANONICAL_ORIGIN;
-  }
-
-  if (isLocalDevOrigin(clientFallbackOrigin)) {
+  // 1. If we are on localhost, stay on localhost
+  if (clientFallbackOrigin && isLocalDevOrigin(clientFallbackOrigin)) {
     return clientFallbackOrigin;
   }
 
-  const fromEnv = originFromEnv();
-  if (fromEnv) {
-    return fromEnv;
-  }
-
+  // 2. If we are on propellect.com.au (apex or www), always use the canonical www origin
   try {
-    const host = new URL(clientFallbackOrigin).hostname;
-    if (isPropellectProductionHost(host)) {
-      return PROPELLECT_CANONICAL_ORIGIN;
+    if (clientFallbackOrigin) {
+      const host = new URL(clientFallbackOrigin).hostname;
+      if (isPropellectProductionHost(host)) {
+        return PROPELLECT_CANONICAL_ORIGIN;
+      }
     }
   } catch {
     /* ignore */
   }
 
-  return clientFallbackOrigin;
+  // 3. Fallback to env or provided origin
+  const fromEnv = originFromEnv();
+  if (fromEnv) return fromEnv;
+
+  return clientFallbackOrigin || PROPELLECT_CANONICAL_ORIGIN;
 }
 
 /**
