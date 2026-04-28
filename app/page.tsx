@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LogoMark } from "@/components/design/LogoMark";
 
 const tools = [
   {
@@ -35,45 +36,78 @@ const tools = [
 export default function HomePage() {
   return (
     <div className="min-h-full bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100">
-      <main className="mx-auto flex min-h-full max-w-5xl flex-col px-4 py-12 sm:px-6 sm:py-16">
-        <header className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-400">
-            AUSTRALIA
-          </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-5xl">
-            Property Investment Analyser
-          </h1>
-          <p className="mx-auto mt-3 max-w-xl text-base text-violet-200/80">
-            Data-backed tools for Australian property investors.
-          </p>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400">
-            Analyse a property, test cashflow, estimate tax impact, and model long-term outcomes before
-            you buy.
-          </p>
-          <div className="mx-auto mt-8 flex max-w-lg flex-col gap-3 sm:flex-row sm:justify-center">
-            <Link
-              href="/analyse-property"
-              className="inline-flex flex-1 items-center justify-center rounded-xl bg-violet-600 px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-violet-950/50 transition hover:bg-violet-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/40 sm:flex-initial sm:min-w-[11rem]"
-            >
-              Try the analyser
-            </Link>
-            <Link
-              href="/dashboard"
-              className="inline-flex flex-1 items-center justify-center rounded-xl border border-zinc-600/80 bg-zinc-900/80 px-5 py-3.5 text-sm font-semibold text-zinc-100 shadow-inner shadow-black/20 transition hover:border-zinc-500 hover:bg-zinc-800/80 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/30 sm:flex-initial sm:min-w-[11rem]"
-            >
-              View dashboard
-            </Link>
+      <main className="mx-auto flex min-h-full w-full max-w-7xl flex-col px-4 py-12 sm:px-6 sm:py-16">
+        <header className="relative overflow-hidden rounded-3xl border border-zinc-700/70 bg-zinc-900/80 p-7 shadow-2xl shadow-black/40 backdrop-blur-md sm:p-10">
+          <div
+            className="pointer-events-none absolute left-1/2 top-[-12rem] h-[30rem] w-[42rem] -translate-x-1/2 rounded-full"
+            style={{ background: "radial-gradient(closest-side, rgba(124,58,237,0.25), transparent)" }}
+          />
+          <div className="relative flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <LogoMark size={30} />
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-violet-300">
+                Australian property analysis platform
+              </p>
+              <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-5xl">
+                Investor-grade tools to analyse deals with clarity
+              </h1>
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-300 sm:text-base">
+                Model cashflow, tax impact, depreciation, stamp duty, and long-term projections using
+                practical assumptions for Australian residential property.
+              </p>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-zinc-400">
+                See the numbers instantly, then unlock deeper guidance for key risks and what needs to
+                improve.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link
+                  href="/analyse-property"
+                  className="inline-flex items-center justify-center rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-950/50 transition hover:bg-violet-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/40"
+                >
+                  Analyse a property
+                </Link>
+                <Link
+                  href="/compare-properties"
+                  className="inline-flex items-center justify-center rounded-xl border border-zinc-600/80 bg-zinc-900/85 px-5 py-3 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-800/80 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/30"
+                >
+                  Compare 2 properties
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="inline-flex items-center justify-center rounded-xl border border-violet-500/45 bg-violet-950/25 px-5 py-3 text-sm font-semibold text-violet-200 transition hover:bg-violet-950/40 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/30"
+                >
+                  Sign in / Get started
+                </Link>
+              </div>
+            </div>
+            <div className="grid w-full max-w-sm grid-cols-2 gap-3">
+              {[
+                ["Green status", "The numbers are strong"],
+                ["Amber status", "The assumptions are sensitive"],
+                ["Red status", "The deal needs improvement"],
+                ["Holding view", "The holding risk is elevated"],
+              ].map(([label, value]) => (
+                <div
+                  key={label}
+                  className="rounded-xl border border-zinc-700/75 bg-zinc-950/55 p-3 backdrop-blur-sm"
+                >
+                  <p className="text-[10px] uppercase tracking-wide text-zinc-500">{label}</p>
+                  <p className="mt-1 text-xs font-medium leading-relaxed text-zinc-200">{value}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          <p className="mx-auto mt-5 max-w-xl text-xs leading-relaxed text-zinc-500">
-            Run the tools on a real deal — you&apos;ll see a preview instantly, then you can unlock the full
-            analysis with free early access.
-          </p>
         </header>
 
         <section className="mt-14" aria-labelledby="tools-heading">
-          <h2 id="tools-heading" className="sr-only">
-            Tools
-          </h2>
+          <div className="mb-6">
+            <h2 id="tools-heading" className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
+              Explore the platform
+            </h2>
+            <p className="mt-2 text-sm text-zinc-400">
+              Each module is built for practical analysis, not generic calculators.
+            </p>
+          </div>
           <ul className="grid gap-5 sm:grid-cols-2">
             {tools.map((tool) => (
               <li key={tool.title}>
@@ -132,8 +166,8 @@ export default function HomePage() {
           </ul>
         </section>
 
-        <p className="mx-auto mt-12 max-w-2xl text-center text-xs leading-relaxed text-zinc-500">
-          Built for Australian residential investors. Illustrative modelling only. Not financial, tax, or
+        <p className="mx-auto mt-12 max-w-3xl text-center text-xs leading-relaxed text-zinc-500">
+          Built for Australian residential investors. Illustrative modelling only — not financial, tax or
           legal advice.
         </p>
       </main>
