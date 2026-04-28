@@ -174,7 +174,7 @@ export function DashboardClient() {
   if (!user) {
     return (
       <div className="min-h-full bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100">
-        <div className="mx-auto flex max-w-lg flex-col items-center justify-center px-4 py-24 text-center sm:px-6">
+        <div className="mx-auto flex max-w-lg flex-col items-center justify-center px-4 py-20 text-center sm:px-6 sm:py-24">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-violet-400">Dashboard</p>
           <h1 className="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
             Sign in to view your dashboard
@@ -215,8 +215,8 @@ export function DashboardClient() {
 
   return (
     <div className="min-h-full bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
-        <header className="relative mb-8 overflow-hidden rounded-3xl border border-zinc-700/70 bg-zinc-900/80 p-6 shadow-2xl shadow-black/40 backdrop-blur-md sm:p-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
+        <header className="relative mb-6 overflow-hidden rounded-3xl border border-zinc-700/70 bg-zinc-900/80 p-5 shadow-2xl shadow-black/40 backdrop-blur-md sm:mb-8 sm:p-8">
           <div
             className="pointer-events-none absolute right-[-8rem] top-[-10rem] h-[24rem] w-[24rem] rounded-full"
             style={{ background: "radial-gradient(closest-side, rgba(124,58,237,0.24), transparent)" }}
@@ -228,7 +228,10 @@ export function DashboardClient() {
             Your investment command centre
           </h1>
           <p className="relative mt-1 text-sm text-zinc-400">{user.email}</p>
-          <div className="relative mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <p className="relative mt-3 max-w-2xl text-xs leading-relaxed text-zinc-400 sm:text-sm">
+            Track saved analysis activity and prioritise your next action from one place.
+          </p>
+          <div className="relative mt-5 grid grid-cols-2 gap-3 xl:grid-cols-4">
             <MetricCard
               label="Saved reports"
               value={reports.length}
@@ -256,18 +259,20 @@ export function DashboardClient() {
 
         <SectionCard
           title="Quick actions"
-          description="Jump straight into the next analysis task."
+          description="Start a new analysis, comparison, or portfolio workflow."
           className="mb-8"
         >
-          <div className="flex flex-wrap gap-3">
-            <CTAButton href="/analyse-property">Analyse a property</CTAButton>
-            <CTAButton href="/compare-properties" variant="secondary">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            <CTAButton href="/analyse-property" className="w-full justify-center">
+              Analyse a property
+            </CTAButton>
+            <CTAButton href="/compare-properties" variant="secondary" className="w-full justify-center">
               Compare 2 properties
             </CTAButton>
-            <CTAButton href="/watchlist" variant="secondary">
+            <CTAButton href="/watchlist" variant="secondary" className="w-full justify-center">
               Watchlist
             </CTAButton>
-            <CTAButton href="/portfolio" variant="secondary">
+            <CTAButton href="/portfolio" variant="secondary" className="w-full justify-center">
               Portfolio
             </CTAButton>
           </div>
@@ -281,6 +286,7 @@ export function DashboardClient() {
           <div className="space-y-8">
             <SectionCard
               title="Saved property reports"
+              description="Your latest property analyses with score and status."
               actions={
                 reports.length > 0 ? (
                   <Link href="/analyse-property" className="text-xs text-violet-300 transition hover:text-violet-200">
@@ -307,6 +313,7 @@ export function DashboardClient() {
 
             <SectionCard
               title="Saved comparisons"
+              description="Head-to-head property comparisons you can revisit."
               actions={
                 comparisons.length > 0 ? (
                   <Link href="/compare-properties" className="text-xs text-violet-300 transition hover:text-violet-200">
