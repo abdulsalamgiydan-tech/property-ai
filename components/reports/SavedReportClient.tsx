@@ -5,15 +5,48 @@ import { GatedBlur } from "@/components/auth/GatedBlur";
 import { UnlockCard } from "@/components/auth/UnlockCard";
 import { getPropertyReport, deletePropertyReport, type SavedPropertyReport } from "@/lib/supabase/reports";
 import { addToWatchlist } from "@/lib/supabase/watchlist";
+import { addPortfolioProperty } from "@/lib/supabase/portfolio";
 import { formatAud, formatPercent, formatNumberGb } from "@/lib/formatCurrency";
 import { keyRiskBullets, whatDealLooksLikeBullets, neutralPreTaxDepositPercent, neutralPreTaxInterestRatePercent } from "@/lib/advisoryInsights";
 import { DEAL_SCORE_GREEN_MIN, DEAL_SCORE_AMBER_MIN } from "@/lib/propertyAnalysis";
 import { INVESTMENT_STRATEGIES } from "@/lib/investmentStrategy";
+import {
+  buildAmortisationScheduleYearly,
+  buildCashflowProjectionSeries,
+  buildPropertyValueVsMortgageSeries,
+  formatChartAud,
+  formatChartYear,
+} from "@/lib/projections";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { useRouter } from "next/navigation";
+import {
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 type Props = { reportId: string };
+const PROJECTION_SAMPLE_YEARS = [1, 5, 10, 20, 30] as const;
+const chartMargin = { top: 8, right: 12, left: 4, bottom: 32 };
+const legendProps = {
+  wrapperStyle: { paddingTop: 10, color: "#e4e4e7", fontSize: 12 },
+  iconType: "line" as const,
+  verticalAlign: "bottom" as const,
+};
+const chartTooltipContentStyle: CSSProperties = {
+  background: "#09090b",
+  border: "1px solid #3f3f46",
+  color: "#f4f4f5",
+  borderRadius: 8,
+  fontSize: 12,
+};
+const chartTooltipLabelStyle: CSSProperties = { color: "#a1a1aa", marginBottom: 4 };
+const chartTooltipItemStyle: CSSProperties = { color: "#f4f4f5" };
 
 function StatusPill({ status }: { status: string | null }) {
   if (!status) return null;
@@ -44,6 +77,8 @@ export function SavedReportClient({ reportId }: Props) {
   const [deleting, setDeleting] = useState(false);
   const [watchlisted, setWatchlisted] = useState(false);
   const [watchlistBusy, setWatchlistBusy] = useState(false);
+  const [portfolioAdded, setPortfolioAdded] = useState(false);
+  const [portfolioBusy, setPortfolioBusy] = useState(false);
 
   useEffect(() => {
     if (loading) return;
@@ -89,6 +124,23 @@ export function SavedReportClient({ reportId }: Props) {
     });
     setWatchlistBusy(false);
     if (res.ok) setWatchlisted(true);
+  }
+
+  async function handleAddToPortfolio() {
+    if (!report?.results_json) return;
+    const result = report.results_json;
+    setPortfolioBusy(true);
+    const res = await addPortfolioProperty({
+      propertyReportId: report.id,
+      label: report.property_name || report.suburb || "Property",
+      currentValue: result.purchasePrice,
+      loanBalance: result.loan,
+      weeklyRent: result.weeklyRent,
+      annualExpenses: result.effectiveAnnualExpenses,
+      ownershipPercentage: 100,
+    });
+    setPortfolioBusy(false);
+    if (res.ok) setPortfolioAdded(true);
   }
 
   if (loading || dataLoading) {
@@ -153,6 +205,48 @@ export function SavedReportClient({ reportId }: Props) {
   const neutralDep = neutralPreTaxDepositPercent(result);
   const neutralRate = neutralPreTaxInterestRatePercent(result);
   const lvrHigh = result.lvr > 80;
+  const projectionSeries = useMemo(() => {
+    const schedule = buildAmortisationScheduleYearly(
+      result.loan,
+      result.interestRatePercent,
+      30,
+      result.isInterestOnly,
+      result.loanTermYears
+    );
+    return {
+      valueVsDebt: buildPropertyValueVsMortgageSeries({
+        purchasePrice: result.purchasePrice,
+        suburbGrowthRatePercent: result.suburbGrowthPercent,
+        amortisation: schedule,
+      }),
+      cashflow: buildCashflowProjectionSeries({
+        weeklyRent: result.weeklyRent,
+        rentalGrowthRatePercent: result.rentalGrowthRatePercent,
+        annualExpenses: result.annualExpenses,
+        expensesGrowthRatePercent: 2.5,
+        amortisation: schedule,
+        buildingDepreciation: result.depreciation.buildingDepreciation,
+        fixturesEstimate: result.fixturesEstimate,
+        marginalTaxRate: result.marginalRate,
+        vacancyPercent: result.vacancyPercent,
+        pmFeePercent: result.pmFeePercent,
+      }),
+    };
+  }, [result]);
+  const projectionTableRows = useMemo(() => {
+    return PROJECTION_SAMPLE_YEARS.map((y) => {
+      const vd = projectionSeries.valueVsDebt.find((p) => p.year === y);
+      const cf = projectionSeries.cashflow.find((p) => p.year === y);
+      if (!vd || !cf) return null;
+      return {
+        year: y,
+        propertyValue: vd.propertyValue,
+        mortgageBalance: vd.mortgageBalance,
+        preTaxCashflow: cf.preTaxCashflow,
+        afterTaxCashflow: cf.afterTaxCashflow,
+      };
+    }).filter((row): row is NonNullable<typeof row> => row !== null);
+  }, [projectionSeries.cashflow, projectionSeries.valueVsDebt]);
 
   const statusStyles: Record<string, { card: string; ring: string; pill: string; shadow: string }> = {
     strong: {
@@ -236,9 +330,9 @@ export function SavedReportClient({ reportId }: Props) {
             </p>
           </section>
 
-          {/* Key snapshot */}
+          {/* Executive snapshot */}
           <section>
-            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">Key snapshot</h3>
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">Executive snapshot</h3>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/50 px-4 py-3">
                 <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Gross yield</p>
@@ -267,6 +361,28 @@ export function SavedReportClient({ reportId }: Props) {
               <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/50 px-4 py-3">
                 <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Upfront cash</p>
                 <p className="mt-1 text-lg font-semibold tabular-nums text-white">{formatAud(result.totalCashRequired)}</p>
+              </div>
+            </div>
+          </section>
+
+          <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">Why this score?</h3>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-lg border border-zinc-700/60 bg-zinc-950/50 p-3">
+                <p className="text-[11px] uppercase tracking-wide text-zinc-500">Yield strength</p>
+                <p className="mt-1 text-lg font-semibold text-zinc-100">{formatNumberGb(result.normYield)}</p>
+              </div>
+              <div className="rounded-lg border border-zinc-700/60 bg-zinc-950/50 p-3">
+                <p className="text-[11px] uppercase tracking-wide text-zinc-500">Cashflow strength</p>
+                <p className="mt-1 text-lg font-semibold text-zinc-100">{formatNumberGb(result.normCashflow)}</p>
+              </div>
+              <div className="rounded-lg border border-zinc-700/60 bg-zinc-950/50 p-3">
+                <p className="text-[11px] uppercase tracking-wide text-zinc-500">Growth strength</p>
+                <p className="mt-1 text-lg font-semibold text-zinc-100">{formatNumberGb(result.normGrowth)}</p>
+              </div>
+              <div className="rounded-lg border border-zinc-700/60 bg-zinc-950/50 p-3">
+                <p className="text-[11px] uppercase tracking-wide text-zinc-500">Risk buffer strength</p>
+                <p className="mt-1 text-lg font-semibold text-zinc-100">{formatNumberGb(result.normRisk)}</p>
               </div>
             </div>
           </section>
@@ -380,6 +496,106 @@ export function SavedReportClient({ reportId }: Props) {
             </dl>
           </section>
 
+          <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              Sensitivity testing
+            </h3>
+            <dl className="divide-y divide-zinc-700/50 text-sm">
+              <div className="flex justify-between gap-4 py-2">
+                <dt className="text-zinc-400">Break-even weekly rent (pre-tax)</dt>
+                <dd className="tabular-nums text-zinc-100">~{formatAud(result.diagnostics.breakEvenWeeklyPreTax)}/wk</dd>
+              </div>
+              <div className="flex justify-between gap-4 py-2">
+                <dt className="text-zinc-400">Break-even weekly rent (after-tax)</dt>
+                <dd className="tabular-nums text-zinc-100">~{formatAud(result.diagnostics.breakEvenWeeklyAfterTax)}/wk</dd>
+              </div>
+              {result.diagnostics.targetWeeklyForBuy ? (
+                <div className="flex justify-between gap-4 py-2">
+                  <dt className="text-zinc-400">Indicative weekly rent for Green status</dt>
+                  <dd className="tabular-nums text-zinc-100">~{formatAud(result.diagnostics.targetWeeklyForBuy)}/wk</dd>
+                </div>
+              ) : null}
+            </dl>
+          </section>
+
+          <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              30-year projections - property value vs mortgage
+            </h3>
+            <div className="mt-4 h-[17rem] w-full sm:h-[20rem]">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+                <LineChart data={projectionSeries.valueVsDebt} margin={chartMargin}>
+                  <XAxis dataKey="year" tick={{ fill: "#a1a1aa", fontSize: 11 }} tickFormatter={(v) => formatNumberGb(Number(v))} />
+                  <YAxis tick={{ fill: "#a1a1aa", fontSize: 11 }} tickFormatter={(v) => formatChartAud(Number(v))} width={88} />
+                  <Tooltip
+                    formatter={(value, name) => [formatChartAud(Number(value)), name]}
+                    labelFormatter={(label) => formatChartYear(Number(label))}
+                    contentStyle={chartTooltipContentStyle}
+                    labelStyle={chartTooltipLabelStyle}
+                    itemStyle={chartTooltipItemStyle}
+                  />
+                  <Legend {...legendProps} />
+                  <Line type="monotone" dataKey="propertyValue" stroke="#c4b5fd" strokeWidth={2.8} dot={false} name="Property value" />
+                  <Line type="monotone" dataKey="mortgageBalance" stroke="#fb7185" strokeWidth={2.4} dot={false} name="Mortgage balance" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+
+          <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              30-year projections - annual cashflow
+            </h3>
+            <div className="mt-4 h-[17rem] w-full sm:h-[20rem]">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+                <LineChart data={projectionSeries.cashflow} margin={chartMargin}>
+                  <XAxis dataKey="year" tick={{ fill: "#a1a1aa", fontSize: 11 }} tickFormatter={(v) => formatNumberGb(Number(v))} />
+                  <YAxis tick={{ fill: "#a1a1aa", fontSize: 11 }} tickFormatter={(v) => formatChartAud(Number(v))} width={88} />
+                  <Tooltip
+                    formatter={(value, name) => [formatChartAud(Number(value)), name]}
+                    labelFormatter={(label) => formatChartYear(Number(label))}
+                    contentStyle={chartTooltipContentStyle}
+                    labelStyle={chartTooltipLabelStyle}
+                    itemStyle={chartTooltipItemStyle}
+                  />
+                  <Legend {...legendProps} />
+                  <Line type="monotone" dataKey="preTaxCashflow" stroke="#fbbf24" strokeWidth={2.6} dot={false} name="Pre-tax cashflow" />
+                  <Line type="monotone" dataKey="afterTaxCashflow" stroke="#818cf8" strokeWidth={2.5} strokeDasharray="7 5" dot={false} name="After-tax cashflow" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+
+          <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
+            <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              Projection snapshot table
+            </h3>
+            <div className="overflow-x-auto rounded-lg border border-zinc-700/40">
+              <table className="w-full min-w-[36rem] border-collapse text-left text-xs text-zinc-300">
+                <thead>
+                  <tr className="border-b border-zinc-600/80 bg-zinc-900/80 text-[10px] uppercase tracking-wide text-zinc-400">
+                    <th className="px-3 py-2.5 font-semibold">Year</th>
+                    <th className="px-3 py-2.5 font-semibold">Property value</th>
+                    <th className="px-3 py-2.5 font-semibold">Mortgage balance</th>
+                    <th className="px-3 py-2.5 font-semibold">Pre-tax cashflow</th>
+                    <th className="px-3 py-2.5 font-semibold">After-tax cashflow</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {projectionTableRows.map((row) => (
+                    <tr key={row.year} className="border-b border-zinc-800/80 last:border-0">
+                      <td className="px-3 py-2.5 tabular-nums font-medium text-zinc-200">{formatNumberGb(row.year)}</td>
+                      <td className="px-3 py-2.5 tabular-nums">{formatAud(row.propertyValue)}</td>
+                      <td className="px-3 py-2.5 tabular-nums">{formatAud(row.mortgageBalance)}</td>
+                      <td className="px-3 py-2.5 tabular-nums">{formatAud(row.preTaxCashflow)}</td>
+                      <td className="px-3 py-2.5 tabular-nums">{formatAud(row.afterTaxCashflow)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
           {/* Actions */}
           <section className="rounded-xl border border-zinc-700/50 bg-zinc-950/30 p-4">
             <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">Actions</h3>
@@ -403,6 +619,21 @@ export function SavedReportClient({ reportId }: Props) {
                 className="inline-flex items-center gap-2 rounded-xl border border-zinc-600/80 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800/60 disabled:opacity-60"
               >
                 {watchlisted ? "Added to watchlist ✓" : watchlistBusy ? "Adding…" : "Add to watchlist"}
+              </button>
+              <button
+                type="button"
+                onClick={handleAddToPortfolio}
+                disabled={portfolioBusy || portfolioAdded}
+                className="inline-flex items-center gap-2 rounded-xl border border-zinc-600/80 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800/60 disabled:opacity-60"
+              >
+                {portfolioAdded ? "Added to portfolio ✓" : portfolioBusy ? "Adding…" : "Add to portfolio"}
+              </button>
+              <button
+                type="button"
+                disabled
+                className="inline-flex items-center gap-2 rounded-xl border border-zinc-700/80 bg-zinc-900/40 px-4 py-2.5 text-sm font-medium text-zinc-500"
+              >
+                Export report (coming soon)
               </button>
               <button
                 type="button"
