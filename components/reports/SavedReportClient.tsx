@@ -272,8 +272,8 @@ export function SavedReportClient({ reportId }: Props) {
 
   return (
     <div className="min-h-full bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100">
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="flex flex-wrap items-center gap-3 mb-6">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 sm:py-10">
+        <div className="mb-5 flex flex-wrap items-center gap-3">
           <Link
             href="/dashboard"
             className="inline-flex items-center gap-1 text-xs font-medium text-violet-400/90 transition hover:text-violet-300"
@@ -284,7 +284,7 @@ export function SavedReportClient({ reportId }: Props) {
           <span className="text-xs text-zinc-500">Saved report</span>
         </div>
 
-        <header className="mb-8">
+        <header className="mb-6 sm:mb-8">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-violet-400">
             Saved report
           </p>
@@ -299,9 +299,13 @@ export function SavedReportClient({ reportId }: Props) {
           <p className="mt-1 text-xs text-zinc-600">
             Saved {new Date(report.created_at).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })}
           </p>
+          <p className="mt-3 max-w-3xl text-xs leading-relaxed text-zinc-400 sm:text-sm">
+            A structured investor report view of your saved analysis, including cashflow, tax assumptions,
+            long-range projections, and decision guidance.
+          </p>
         </header>
 
-        <div className={`space-y-6 rounded-2xl border p-5 backdrop-blur-sm sm:p-7 ${s.card} ${s.ring} ${s.shadow}`}>
+        <div className={`space-y-5 rounded-2xl border p-4 backdrop-blur-sm sm:space-y-6 sm:p-7 ${s.card} ${s.ring} ${s.shadow}`}>
           {/* Score + status */}
           <section className="rounded-xl border border-zinc-600/40 bg-zinc-950/35 px-5 py-5 text-center">
             <div className="mx-auto flex flex-wrap items-center justify-center gap-2">
@@ -519,9 +523,14 @@ export function SavedReportClient({ reportId }: Props) {
           </section>
 
           <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              30-year projections - property value vs mortgage
-            </h3>
+            <div className="mb-3">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                30-year projections - property value vs mortgage
+              </h3>
+              <p className="mt-1 text-[11px] leading-relaxed text-zinc-500">
+                Nominal values from your saved growth and loan assumptions.
+              </p>
+            </div>
             <div className="mt-4 h-[17rem] w-full sm:h-[20rem]">
               <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                 <LineChart data={projectionSeries.valueVsDebt} margin={chartMargin}>
@@ -543,9 +552,14 @@ export function SavedReportClient({ reportId }: Props) {
           </section>
 
           <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              30-year projections - annual cashflow
-            </h3>
+            <div className="mb-3">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                30-year projections - annual cashflow
+              </h3>
+              <p className="mt-1 text-[11px] leading-relaxed text-zinc-500">
+                Year-by-year pre-tax and after-tax cashflow, not cumulative totals.
+              </p>
+            </div>
             <div className="mt-4 h-[17rem] w-full sm:h-[20rem]">
               <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                 <LineChart data={projectionSeries.cashflow} margin={chartMargin}>
@@ -570,8 +584,11 @@ export function SavedReportClient({ reportId }: Props) {
             <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">
               Projection snapshot table
             </h3>
+            <p className="mb-3 text-[11px] leading-relaxed text-zinc-500">
+              Snapshot years: {PROJECTION_SAMPLE_YEARS.join(", ")}.
+            </p>
             <div className="overflow-x-auto rounded-lg border border-zinc-700/40">
-              <table className="w-full min-w-[36rem] border-collapse text-left text-xs text-zinc-300">
+              <table className="w-full min-w-[40rem] border-collapse text-left text-xs text-zinc-300">
                 <thead>
                   <tr className="border-b border-zinc-600/80 bg-zinc-900/80 text-[10px] uppercase tracking-wide text-zinc-400">
                     <th className="px-3 py-2.5 font-semibold">Year</th>
@@ -599,16 +616,16 @@ export function SavedReportClient({ reportId }: Props) {
           {/* Actions */}
           <section className="rounded-xl border border-zinc-700/50 bg-zinc-950/30 p-4">
             <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-400">Actions</h3>
-            <div className="flex flex-wrap gap-3">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
               <Link
                 href="/analyse-property"
-                className="inline-flex items-center gap-2 rounded-xl border border-violet-500/50 bg-violet-950/30 px-4 py-2.5 text-sm font-semibold text-violet-200 transition hover:border-violet-400/70 hover:bg-violet-900/40"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-violet-500/50 bg-violet-950/30 px-4 py-2.5 text-sm font-semibold text-violet-200 transition hover:border-violet-400/70 hover:bg-violet-900/40"
               >
                 Re-run analysis
               </Link>
               <Link
                 href="/compare-properties"
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-600/80 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800/60"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-600/80 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800/60"
               >
                 Compare with another property
               </Link>
@@ -616,7 +633,7 @@ export function SavedReportClient({ reportId }: Props) {
                 type="button"
                 onClick={handleAddToWatchlist}
                 disabled={watchlistBusy || watchlisted}
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-600/80 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800/60 disabled:opacity-60"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-600/80 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800/60 disabled:opacity-60"
               >
                 {watchlisted ? "Added to watchlist ✓" : watchlistBusy ? "Adding…" : "Add to watchlist"}
               </button>
@@ -624,14 +641,14 @@ export function SavedReportClient({ reportId }: Props) {
                 type="button"
                 onClick={handleAddToPortfolio}
                 disabled={portfolioBusy || portfolioAdded}
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-600/80 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800/60 disabled:opacity-60"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-600/80 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-800/60 disabled:opacity-60"
               >
                 {portfolioAdded ? "Added to portfolio ✓" : portfolioBusy ? "Adding…" : "Add to portfolio"}
               </button>
               <button
                 type="button"
                 disabled
-                className="inline-flex items-center gap-2 rounded-xl border border-zinc-700/80 bg-zinc-900/40 px-4 py-2.5 text-sm font-medium text-zinc-500"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700/80 bg-zinc-900/40 px-4 py-2.5 text-sm font-medium text-zinc-500"
               >
                 Export report (coming soon)
               </button>
@@ -639,7 +656,7 @@ export function SavedReportClient({ reportId }: Props) {
                 type="button"
                 onClick={handleDelete}
                 disabled={deleting}
-                className="inline-flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-950/20 px-4 py-2.5 text-sm font-medium text-red-300 transition hover:border-red-500/50 hover:bg-red-950/30 disabled:opacity-60"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-500/30 bg-red-950/20 px-4 py-2.5 text-sm font-medium text-red-300 transition hover:border-red-500/50 hover:bg-red-950/30 disabled:opacity-60"
               >
                 {deleting ? "Deleting…" : "Delete report"}
               </button>
