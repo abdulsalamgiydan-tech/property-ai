@@ -75,6 +75,14 @@ export function Navbar() {
   const { user, loading, openEarlyAccessModal, signOut } = useAuth();
   const pathname = usePathname();
   const hidden = pathname.startsWith("/auth/");
+  const firstNameRaw =
+    typeof user?.user_metadata?.first_name === "string"
+      ? user.user_metadata.first_name
+      : typeof user?.user_metadata?.full_name === "string"
+        ? user.user_metadata.full_name.split(" ")[0]
+        : "";
+  const accountLabel = firstNameRaw.trim() || "Account";
+  const accountHref = "/dashboard";
 
   if (hidden) return null;
   const allLinks = user ? [...publicLinks, ...signedInLinks] : publicLinks;
@@ -106,7 +114,11 @@ export function Navbar() {
           <div className="ml-auto hidden items-center gap-2 lg:flex">
             {loading ? null : user ? (
               <>
-                <GlassPill className="min-h-9 px-3 text-xs text-zinc-300">{user.email ?? "Signed in"}</GlassPill>
+                <GlassPill className="min-h-9 px-3 text-xs text-zinc-300">
+                  <Link href={accountHref} className="hover:text-zinc-100">
+                    {accountLabel}
+                  </Link>
+                </GlassPill>
                 <CTAButton variant="secondary" className="px-3 py-2 text-xs" onClick={signOut}>
                   Sign out
                 </CTAButton>
@@ -148,9 +160,16 @@ export function Navbar() {
 
       {user ? (
         <div className="fixed bottom-[5.1rem] left-3 z-40 lg:hidden">
-          <CTAButton variant="secondary" className="px-3 py-2 text-xs" onClick={signOut}>
-            Sign out
-          </CTAButton>
+          <div className="flex items-center gap-2">
+            <GlassPill className="min-h-9 px-3 text-xs text-zinc-300">
+              <Link href={accountHref} className="hover:text-zinc-100">
+                {accountLabel}
+              </Link>
+            </GlassPill>
+            <CTAButton variant="secondary" className="px-3 py-2 text-xs" onClick={signOut}>
+              Sign out
+            </CTAButton>
+          </div>
         </div>
       ) : null}
 
