@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 const publicLinks: Array<{ href: string; label: string }> = [
   { href: "/", label: "Home" },
   { href: "/analyse-property", label: "Analyse" },
+  { href: "/strategy", label: "Strategy" },
   { href: "/compare-properties", label: "Compare" },
   { href: "/suburb-intelligence", label: "Suburb intelligence" },
 ];
