@@ -4,7 +4,7 @@ import {
   INVESTMENT_STRATEGIES,
   type InvestmentStrategyId,
 } from "@/lib/investmentStrategy";
-import { monthlyPiRepayment } from "@/lib/projections";
+import { firstLoanYearFinance } from "@/lib/projections";
 
 export type { InvestmentStrategyId } from "@/lib/investmentStrategy";
 
@@ -278,7 +278,9 @@ export function modelScoreFromAfterTaxCashflow(
   marginalRate: number,
   totalDepreciation: number,
   pmFeePercent: number = 0,
-  strategy: InvestmentStrategyId = DEFAULT_INVESTMENT_STRATEGY
+  strategy: InvestmentStrategyId = DEFAULT_INVESTMENT_STRATEGY,
+  loanTermYears: number = 30,
+  isInterestOnly: boolean = false
 ): number {
   const rentAnnualGross = weeklyRent * 52;
   const vacancyFactor = 1 - Math.max(0, vacancyPct) / 100;
@@ -286,7 +288,12 @@ export function modelScoreFromAfterTaxCashflow(
   const yieldPercent = (rentAnnualGross / purchasePrice) * 100;
   const d = Math.min(100, Math.max(0, depositPct));
   const loan = purchasePrice * (1 - d / 100);
-  const interestAnnual = loan * (annualRatePct / 100);
+  const { interestAnnual } = firstLoanYearFinance({
+    loan,
+    interestRatePercent: annualRatePct,
+    loanTermYears,
+    isInterestOnly,
+  });
   const pmFeeAnnual = rentAnnualEffective * (pmFeePercent / 100);
   const effectiveExpenses = annualExpenses + pmFeeAnnual;
   const preTax = rentAnnualEffective - interestAnnual - effectiveExpenses;
@@ -314,7 +321,9 @@ export function minimumWeeklyForBuyScoreAfterTax(
   totalDepreciation: number,
   currentWeekly: number,
   pmFeePercent: number = 0,
-  strategy: InvestmentStrategyId = DEFAULT_INVESTMENT_STRATEGY
+  strategy: InvestmentStrategyId = DEFAULT_INVESTMENT_STRATEGY,
+  loanTermYears: number = 30,
+  isInterestOnly: boolean = false
 ): number | null {
   if (
     modelScoreFromAfterTaxCashflow(
@@ -328,7 +337,9 @@ export function minimumWeeklyForBuyScoreAfterTax(
       marginalRate,
       totalDepreciation,
       pmFeePercent,
-      strategy
+      strategy,
+      loanTermYears,
+      isInterestOnly
     ) >= DEAL_SCORE_GREEN_MIN
   ) {
     return currentWeekly;
@@ -347,7 +358,9 @@ export function minimumWeeklyForBuyScoreAfterTax(
       marginalRate,
       totalDepreciation,
       pmFeePercent,
-      strategy
+      strategy,
+      loanTermYears,
+      isInterestOnly
     ) < DEAL_SCORE_GREEN_MIN &&
     hi < 500_000
   ) {
@@ -365,7 +378,9 @@ export function minimumWeeklyForBuyScoreAfterTax(
       marginalRate,
       totalDepreciation,
       pmFeePercent,
-      strategy
+      strategy,
+      loanTermYears,
+      isInterestOnly
     ) < DEAL_SCORE_GREEN_MIN
   ) {
     return null;
@@ -384,7 +399,9 @@ export function minimumWeeklyForBuyScoreAfterTax(
         marginalRate,
         totalDepreciation,
         pmFeePercent,
-        strategy
+        strategy,
+        loanTermYears,
+        isInterestOnly
       ) >= DEAL_SCORE_GREEN_MIN
     ) {
       hi = mid;
@@ -460,6 +477,7 @@ export type PropertyAnalysisResult = {
   totalCashRequired: number;
 
   // Cashflow (year 1)
+  /** First loan year: amortised interest (P&I) matches projection Year 0; IO uses opening balance × rate. */
   interestAnnual: number;
   pmFeeAnnual: number;
   effectiveAnnualExpenses: number;
@@ -553,18 +571,13 @@ export function analyzeProperty(input: PropertyAnalysisInputs): PropertyAnalysis
   const pmFeeAnnual = effectiveAnnualRent * (Math.max(0, pmFeePercent) / 100);
   const effectiveAnnualExpenses = expenses + pmFeeAnnual;
 
-  // Cashflow
-  const interestAnnual = loan * (rate / 100);
-  // For P&I loans, calculate year-1 principal repayment.
-  // Principal is NOT tax deductible but IS a real cash outgoing.
-  let annualPrincipalRepayment = 0;
-  if (!isInterestOnly && loan > 0 && rate > 0) {
-    const totalMonths = loanTermYears * 12;
-    const monthlyRepayment = monthlyPiRepayment(loan, rate, totalMonths);
-    const monthlyRate = rate / 100 / 12;
-    const monthlyInterest = loan * monthlyRate;
-    annualPrincipalRepayment = Math.max(0, (monthlyRepayment - monthlyInterest) * 12);
-  }
+  // Cashflow — first-year interest/principal from the same amortisation as projections (not opening × rate for P&I).
+  const { interestAnnual, principalAnnual: annualPrincipalRepayment } = firstLoanYearFinance({
+    loan,
+    interestRatePercent: rate,
+    loanTermYears,
+    isInterestOnly,
+  });
   const preTaxCashflow = effectiveAnnualRent - interestAnnual - effectiveAnnualExpenses;
   const actualCashPosition = preTaxCashflow - annualPrincipalRepayment;
 
@@ -640,7 +653,9 @@ export function analyzeProperty(input: PropertyAnalysisInputs): PropertyAnalysis
       totalDep,
       weekly,
       pmFeePercent,
-      strategy
+      strategy,
+      loanTermYears,
+      isInterestOnly
     );
     if (w !== null) {
       targetWeeklyForBuy = w;

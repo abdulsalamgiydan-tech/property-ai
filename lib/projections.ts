@@ -71,6 +71,34 @@ export function buildAmortisationScheduleYearly(
   return points;
 }
 
+/**
+ * Interest and principal paid in the first 12 months of the loan — same basis as
+ * {@link buildCashflowProjectionSeries} at projection year 0 (uses schedule year 1).
+ */
+export function firstLoanYearFinance(params: {
+  loan: number;
+  interestRatePercent: number;
+  loanTermYears: number;
+  isInterestOnly: boolean;
+}): { interestAnnual: number; principalAnnual: number } {
+  const { loan, interestRatePercent, loanTermYears, isInterestOnly } = params;
+  if (loan <= 0) {
+    return { interestAnnual: 0, principalAnnual: 0 };
+  }
+  const schedule = buildAmortisationScheduleYearly(
+    loan,
+    interestRatePercent,
+    1,
+    isInterestOnly,
+    loanTermYears
+  );
+  const y1 = schedule[1];
+  return {
+    interestAnnual: y1?.annualInterest ?? 0,
+    principalAnnual: y1?.annualPrincipal ?? 0,
+  };
+}
+
 export type PropertyValueMortgagePoint = {
   year: number;
   propertyValue: number;
