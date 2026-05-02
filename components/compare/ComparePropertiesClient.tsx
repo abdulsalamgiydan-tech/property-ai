@@ -576,7 +576,7 @@ export function ComparePropertiesClient() {
                       [
                         ["Gross yield", formatPercent(resultA.grossYieldPercent, 2), formatPercent(resultB.grossYieldPercent, 2)],
                         ["Pre-tax cashflow", formatAud(resultA.preTaxCashflow), formatAud(resultB.preTaxCashflow)],
-                        ["Estimated tax benefit", formatAud(resultA.taxBenefit), formatAud(resultB.taxBenefit)],
+                        ["Est. net tax effect", formatAud(resultA.taxBenefit), formatAud(resultB.taxBenefit)],
                         ["After-tax cashflow", formatAud(resultA.afterTaxCashflow), formatAud(resultB.afterTaxCashflow)],
                         [
                           "Estimated depreciation",
@@ -706,7 +706,7 @@ export function ComparePropertiesClient() {
         )}
 
         <p className="mx-auto mt-12 max-w-3xl text-center text-[11px] leading-relaxed text-zinc-500">
-          Illustrative model only. Not financial, tax, or legal advice. Depreciation and tax benefits are rough
+          Illustrative model only. Not financial, tax, or legal advice. Depreciation and tax effects are rough
           estimates only and should be confirmed with a qualified quantity surveyor and tax adviser.
         </p>
       </div>

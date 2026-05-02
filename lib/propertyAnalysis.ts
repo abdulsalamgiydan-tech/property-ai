@@ -290,9 +290,9 @@ export function modelScoreFromAfterTaxCashflow(
   const pmFeeAnnual = rentAnnualEffective * (pmFeePercent / 100);
   const effectiveExpenses = annualExpenses + pmFeeAnnual;
   const preTax = rentAnnualEffective - interestAnnual - effectiveExpenses;
-  const taxable = preTax - totalDepreciation;
-  const taxBenefit = taxable < 0 ? Math.abs(taxable) * marginalRate : 0;
-  const afterTax = preTax + taxBenefit;
+  const taxableIncome = preTax - totalDepreciation;
+  const taxEffect = taxableIncome * marginalRate;
+  const afterTax = preTax - taxEffect;
 
   const ny = normalizeYield(yieldPercent);
   const nc = normalizeCashflow(afterTax);
@@ -475,6 +475,7 @@ export type PropertyAnalysisResult = {
   marginalRate: number;
   depreciation: DepreciationEstimate;
   taxablePropertyResult: number;
+  /** Signed cashflow delta from tax: afterTaxCashflow - preTaxCashflow (positive = refund-style lift, negative = extra tax owed). */
   taxBenefit: number;
   afterTaxCashflow: number;
 
@@ -578,8 +579,9 @@ export function analyzeProperty(input: PropertyAnalysisInputs): PropertyAnalysis
   const depreciation = estimateDepreciation({ purchasePrice: price, yearBuilt, buildingValuePercent, fixturesEstimate });
   const totalDep = depreciation.totalDepreciation;
   const taxablePropertyResult = preTaxCashflow - totalDep;
-  const taxBenefit = taxablePropertyResult < 0 ? Math.abs(taxablePropertyResult) * m : 0;
-  const afterTaxCashflow = preTaxCashflow + taxBenefit;
+  const taxEffect = taxablePropertyResult * m;
+  const afterTaxCashflow = preTaxCashflow - taxEffect;
+  const taxBenefit = afterTaxCashflow - preTaxCashflow;
 
   // Cash-on-cash return
   const cashOnCashReturn = totalCashRequired > 0 ? (afterTaxCashflow / totalCashRequired) * 100 : 0;

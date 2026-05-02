@@ -28,12 +28,16 @@ export function negativeGearingSummaryBullets(
 
     `**Estimated depreciation (illustrative):** **${formatAud(dep)}/yr** combined building + plant—confirm with a quantity surveyor; do not rely on this figure for lodgement.`,
 
-    `**Estimated tax benefit** from the property result at **${(r.marginalRate * 100).toFixed(0)}%** marginal: **${formatAud(benefit)}/yr**—**salary bracket drives this**; it is **not** comprehensive tax advice.`,
+    `**Model tax cashflow effect** (signed) at **${(r.marginalRate * 100).toFixed(0)}%** marginal: **${formatAud(benefit)}/yr**—positive lifts after-tax cashflow vs pre-tax; **negative is extra tax owed** on taxable property income; **not** comprehensive tax advice.`,
 
     material
       ? `**After-tax cashflow** is **${formatAud(r.afterTaxCashflow)}/yr** versus **${formatAud(r.preTaxCashflow)}/yr** pre-tax—tax materially softens the annual hit (**~${formatAud(lift)}/yr**), but verify with an adviser.`
       : r.preTaxCashflow >= 0
-        ? `**After-tax** (**${formatAud(r.afterTaxCashflow)}/yr**) **tracks pre-tax** closely here—**no large gearing subsidy** is changing the story.`
+        ? lift < -1
+          ? `**After-tax** (**${formatAud(r.afterTaxCashflow)}/yr**) is **below pre-tax** (**${formatAud(r.preTaxCashflow)}/yr**)—the model applies tax on taxable property income (**~${formatAud(-lift)}/yr** drag vs pre-tax on these numbers).`
+          : lift > 1
+            ? `**After-tax** (**${formatAud(r.afterTaxCashflow)}/yr**) **improves on pre-tax** (**${formatAud(r.preTaxCashflow)}/yr**) via deductions in this stub (**~${formatAud(lift)}/yr**).`
+            : `**After-tax** (**${formatAud(r.afterTaxCashflow)}/yr**) **is close to pre-tax** (**${formatAud(r.preTaxCashflow)}/yr**) on these inputs.`
         : `**After-tax** (**${formatAud(r.afterTaxCashflow)}/yr**) **still underwater** versus pre-tax (**${formatAud(r.preTaxCashflow)}/yr**); **tax helps but does not fix** a weak rental stack on these numbers.`,
   ];
 }

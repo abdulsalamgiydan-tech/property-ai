@@ -1575,7 +1575,7 @@ export function AnalysePropertyClient() {
                     </div>
                   </div>
                   <p className="mb-3 text-[10px] leading-relaxed text-zinc-600">
-                    Period applies to pre-tax and after-tax cashflow, estimated tax benefit, and
+                    Period applies to pre-tax and after-tax cashflow, estimated tax cashflow effect, and
                     depreciation. Gross yield and upfront cash stay annual.
                   </p>
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -1637,7 +1637,7 @@ export function AnalysePropertyClient() {
 
                     <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/50 px-4 py-3">
                       <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">
-                        Est. tax benefit
+                        Est. net tax effect
                       </p>
                       <p className="mt-1 text-lg font-semibold tabular-nums text-violet-300">
                         {formatKeySnapshotAud(result.taxBenefit, snapshotPeriod)}
@@ -1854,7 +1854,7 @@ export function AnalysePropertyClient() {
         </div>
 
         <p className="mx-auto mt-12 max-w-3xl text-center text-[11px] leading-relaxed text-zinc-500">
-          Illustrative model only. Not financial, tax, or legal advice. Depreciation and tax benefits are
+          Illustrative model only. Not financial, tax, or legal advice. Depreciation and tax effects are
           rough estimates only and should be confirmed with a qualified quantity surveyor and tax
           adviser.
         </p>

@@ -355,7 +355,7 @@ export function SavedReportClient({ reportId }: Props) {
                 </p>
               </div>
               <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/50 px-4 py-3">
-                <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Est. tax benefit</p>
+                <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Est. net tax effect</p>
                 <p className="mt-1 text-lg font-semibold tabular-nums text-violet-300">{formatAud(result.taxBenefit)}/yr</p>
               </div>
               <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/50 px-4 py-3">
@@ -464,7 +464,7 @@ export function SavedReportClient({ reportId }: Props) {
                 </dd>
               </div>
               <div className="flex justify-between gap-4 py-2">
-                <dt className="text-zinc-400">Est. tax benefit</dt>
+                <dt className="text-zinc-400">Est. net tax effect</dt>
                 <dd className="tabular-nums text-violet-300">{formatAud(result.taxBenefit)}/yr</dd>
               </div>
             </dl>
@@ -729,7 +729,7 @@ export function SavedReportClient({ reportId }: Props) {
         </div>
 
         <p className="mt-10 text-center text-[11px] leading-relaxed text-zinc-500">
-          Illustrative model only. Not financial, tax, or legal advice. Depreciation and tax benefits are rough estimates only.
+          Illustrative model only. Not financial, tax, or legal advice. Depreciation and tax effects are rough estimates only.
         </p>
       </div>
     </div>

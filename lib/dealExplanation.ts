@@ -67,7 +67,7 @@ export function generateDealExplanationLocal(
 
   const bullet1 = `**${place} — ${band} profile (score ${score}).** **${y}%** gross yield with **${g}%** p.a. growth and **${v}%** vacancy: ${growthTone} ${vacTone}`;
 
-  const bullet2 = `**Cashflow:** **${formatAud(preTaxCashflow)}/yr** pre-tax vs **${formatAud(afterTaxCashflow)}/yr** after estimated deductions—**~${formatAud(totalDepreciation)}/yr** depreciation (estimate only) drives **~${formatAud(taxBenefit)}/yr** model tax benefit at this bracket.`;
+  const bullet2 = `**Cashflow:** **${formatAud(preTaxCashflow)}/yr** pre-tax vs **${formatAud(afterTaxCashflow)}/yr** after-tax in the model—**~${formatAud(totalDepreciation)}/yr** depreciation (estimate only); **~${formatAud(taxBenefit)}/yr** signed tax cashflow effect at this bracket (negative = extra tax on taxable property income).`;
 
   let bullet3: string;
   if (score >= DEAL_SCORE_GREEN_MIN) {

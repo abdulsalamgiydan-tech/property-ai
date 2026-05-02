@@ -148,9 +148,9 @@ export function buildCashflowProjectionSeries(params: {
       0
     );
     const yearDepreciation = buildingDepreciation + plantDepreciation;
-    const taxable = preTaxCashflow - yearDepreciation;
-    const taxBenefit = taxable < 0 ? Math.abs(taxable) * marginalTaxRate : 0;
-    const afterTaxCashflow = preTaxCashflow + taxBenefit;
+    const taxableIncome = preTaxCashflow - yearDepreciation;
+    const taxEffect = taxableIncome * marginalTaxRate;
+    const afterTaxCashflow = preTaxCashflow - taxEffect;
 
     return { year: p.year, annualRent, preTaxCashflow, afterTaxCashflow };
   });
