@@ -615,36 +615,94 @@ export function AnalysePropertyClient() {
             <p className="mt-1 text-[10px] leading-relaxed text-zinc-600">
               Years {PROJECTION_SAMPLE_YEARS.join(", ")} — annual figures, same basis as the charts.
             </p>
-            <div className="mt-3 overflow-x-auto rounded-lg border border-zinc-700/40">
-              <table className="w-full min-w-[36rem] border-collapse text-left text-xs text-zinc-300">
-                <thead>
-                  <tr className="border-b border-zinc-600/80 bg-zinc-900/80 text-[10px] uppercase tracking-wide text-zinc-400">
-                    <th className="px-3 py-2.5 pr-3 font-semibold">Year</th>
-                    <th className="px-3 py-2.5 pr-3 font-semibold">Property value</th>
-                    <th className="px-3 py-2.5 pr-3 font-semibold">Mortgage balance</th>
-                    <th className="px-3 py-2.5 pr-3 font-semibold">Pre-tax cashflow</th>
-                    <th className="px-3 py-2.5 font-semibold">After-tax cashflow</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {projectionTableRows.map((row, idx) => (
-                    <tr
-                      key={row.year}
-                      className={`border-b border-zinc-800/80 last:border-0 ${
-                        idx % 2 === 1 ? "bg-zinc-900/35" : "bg-transparent"
-                      }`}
-                    >
-                      <td className="px-3 py-2.5 pr-3 tabular-nums font-medium text-zinc-200">
-                        {formatNumberGb(row.year)}
-                      </td>
-                      <td className="px-3 py-2.5 pr-3 tabular-nums">{formatAud(row.propertyValue)}</td>
-                      <td className="px-3 py-2.5 pr-3 tabular-nums">{formatAud(row.mortgageBalance)}</td>
-                      <td className="px-3 py-2.5 pr-3 tabular-nums">{formatAud(row.preTaxCashflow)}</td>
-                      <td className="px-3 py-2.5 tabular-nums">{formatAud(row.afterTaxCashflow)}</td>
+
+            <div className="mt-3 space-y-3 md:hidden">
+              {projectionTableRows.map((row) => (
+                <div
+                  key={row.year}
+                  className="rounded-lg border border-zinc-700/40 bg-zinc-900/40 px-3 py-3"
+                >
+                  <h4 className="text-xs font-semibold uppercase tracking-wide text-zinc-300">
+                    Year {formatNumberGb(row.year)}
+                  </h4>
+                  <dl className="mt-3 space-y-2 text-xs text-zinc-300">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <dt className="shrink-0 text-zinc-500">Property value</dt>
+                      <dd className="min-w-0 text-right tabular-nums text-zinc-200">
+                        {formatAud(row.propertyValue)}
+                      </dd>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-3">
+                      <dt className="shrink-0 text-zinc-500">Mortgage balance</dt>
+                      <dd className="min-w-0 text-right tabular-nums text-zinc-200">
+                        {formatAud(row.mortgageBalance)}
+                      </dd>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-3">
+                      <dt className="shrink-0 text-zinc-500">Pre-tax cashflow</dt>
+                      <dd className="min-w-0 text-right tabular-nums text-zinc-200">
+                        {formatAud(row.preTaxCashflow)}
+                      </dd>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-3">
+                      <dt className="shrink-0 text-zinc-500">After-tax cashflow</dt>
+                      <dd className="min-w-0 text-right tabular-nums text-zinc-200">
+                        {formatAud(row.afterTaxCashflow)}
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-3 hidden md:block">
+              <div className="overflow-x-auto rounded-lg border border-zinc-700/40">
+                <table className="w-full min-w-0 border-collapse text-xs text-zinc-300">
+                  <thead>
+                    <tr className="border-b border-zinc-600/80 bg-zinc-900/80 text-[10px] font-semibold uppercase leading-tight tracking-wide text-zinc-400">
+                      <th className="px-2 py-2 text-left">Year</th>
+                      <th className="px-2 py-2 text-right">
+                        PROPERTY
+                        <br />
+                        VALUE
+                      </th>
+                      <th className="px-2 py-2 text-right">
+                        MORTGAGE
+                        <br />
+                        BALANCE
+                      </th>
+                      <th className="px-2 py-2 text-right">
+                        PRE-TAX
+                        <br />
+                        CASHFLOW
+                      </th>
+                      <th className="px-2 py-2 text-right">
+                        AFTER-TAX
+                        <br />
+                        CASHFLOW
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {projectionTableRows.map((row, idx) => (
+                      <tr
+                        key={row.year}
+                        className={`border-b border-zinc-800/80 last:border-0 ${
+                          idx % 2 === 1 ? "bg-zinc-900/35" : "bg-transparent"
+                        }`}
+                      >
+                        <td className="px-2 py-2 tabular-nums font-medium text-zinc-200">
+                          {formatNumberGb(row.year)}
+                        </td>
+                        <td className="px-2 py-2 text-right tabular-nums">{formatAud(row.propertyValue)}</td>
+                        <td className="px-2 py-2 text-right tabular-nums">{formatAud(row.mortgageBalance)}</td>
+                        <td className="px-2 py-2 text-right tabular-nums">{formatAud(row.preTaxCashflow)}</td>
+                        <td className="px-2 py-2 text-right tabular-nums">{formatAud(row.afterTaxCashflow)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </section>
         ) : null}
