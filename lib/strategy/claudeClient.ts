@@ -1,9 +1,10 @@
 import "server-only";
 
 import type { Archetype } from "@/lib/strategy/archetypes";
-import { parseStrategyOutputJson, type StrategyOutput } from "@/lib/strategy/strategyOutput";
+import { strategyOutputSchema, type StrategyOutput } from "@/lib/strategy/strategyOutput";
 import type { StrategyInput } from "@/lib/strategy/strategyInput";
 import { STRATEGY_SYSTEM_PROMPT } from "@/lib/strategy/systemPrompt";
+import { z } from "zod";
 
 export type StrategyInputForLlm = Omit<StrategyInput, "firstName">;
 
@@ -52,9 +53,27 @@ function extractJsonObjectText(raw: string): string {
   return t;
 }
 
-function parseModelOutput(text: string): unknown {
-  const jsonStr = extractJsonObjectText(text);
-  return JSON.parse(jsonStr) as unknown;
+function logRawClaudeResponse(responseText: string): void {
+  console.log("[claude] === RAW RESPONSE START ===");
+  console.log("[claude] First 2000 chars of response:", responseText.substring(0, 2000));
+  console.log("[claude] Length:", responseText.length);
+  console.log("[claude] === RAW RESPONSE END ===");
+}
+
+function parseValidateStrategyOutput(responseText: string): StrategyOutput {
+  const jsonStr = extractJsonObjectText(responseText);
+  try {
+    const parsed = JSON.parse(jsonStr);
+    console.log("[claude] Parsed object keys:", Object.keys(parsed));
+    console.log("[claude] First 1000 chars of stringified parsed:", JSON.stringify(parsed).substring(0, 1000));
+    const validated = strategyOutputSchema.parse(parsed);
+    return validated;
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      console.error("[claude] Zod validation errors:", JSON.stringify(err.issues, null, 2));
+    }
+    throw err;
+  }
 }
 
 async function callMessagesApi(body: Record<string, unknown>): Promise<string> {
@@ -93,7 +112,7 @@ export async function generateStrategy(
 
   const baseBody = {
     model: MODEL,
-    max_tokens: 4000,
+    max_tokens: 8000,
     temperature: 0.4,
     system: [
       {
@@ -106,18 +125,12 @@ export async function generateStrategy(
   };
 
   let text = await callMessagesApi(baseBody);
+  logRawClaudeResponse(text);
 
-  let parsed: unknown;
   try {
-    parsed = parseModelOutput(text);
+    return parseValidateStrategyOutput(text);
   } catch {
-    parsed = null;
-  }
-
-  let validated = parsed !== null ? parseStrategyOutputJson(parsed) : { ok: false as const };
-
-  if (validated.ok) {
-    return validated.output;
+    /* first attempt failed — retry */
   }
 
   const retryBody = {
@@ -141,17 +154,14 @@ export async function generateStrategy(
   };
 
   text = await callMessagesApi(retryBody);
+  logRawClaudeResponse(text);
 
   try {
-    parsed = parseModelOutput(text);
-  } catch {
+    return parseValidateStrategyOutput(text);
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      throw new Error("Strategy generation failed: output did not match StrategyOutput schema after retry.");
+    }
     throw new Error("Strategy generation failed: model returned invalid JSON after retry.");
   }
-
-  validated = parseStrategyOutputJson(parsed);
-  if (!validated.ok) {
-    throw new Error("Strategy generation failed: output did not match StrategyOutput schema after retry.");
-  }
-
-  return validated.output;
 }

@@ -42,6 +42,16 @@ const mobileLinks = [
     ),
   },
   {
+    href: "/strategy",
+    label: "Strategy",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="size-5">
+        <circle cx="12" cy="12" r="10" />
+        <path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z" />
+      </svg>
+    ),
+  },
+  {
     href: "/compare-properties",
     label: "Compare",
     icon: (
@@ -134,7 +144,7 @@ export function Navbar() {
       </nav>
 
       <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-700/80 bg-zinc-900/95 px-2 pb-safe pt-2 backdrop-blur-xl lg:hidden">
-        <ul className="grid grid-cols-5 gap-1">
+        <ul className="grid grid-cols-6 gap-1">
           {mobileLinks.map((item) => (
             <li key={item.href}>
               <Link

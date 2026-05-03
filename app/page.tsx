@@ -11,6 +11,14 @@ const tools = [
     available: true,
   },
   {
+    title: "Property Strategy",
+    caption:
+      "Get a personalised property investment strategy tailored to your goals and situation.",
+    href: "/strategy",
+    cta: "Get my strategy",
+    available: true,
+  },
+  {
     title: "Compare Two Properties",
     caption: "Compare two deals side by side to see which stacks up better.",
     href: "/compare-properties",
@@ -65,6 +73,13 @@ export default function HomePage() {
                   className="inline-flex items-center justify-center rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-950/50 transition hover:bg-violet-500 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/40"
                 >
                   Analyse a property
+                </Link>
+                <Link
+                  href="/strategy"
+                  className="inline-flex items-center justify-center rounded-xl border border-zinc-600/80 bg-zinc-900/85 px-5 py-3 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-800/80 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/30"
+                  aria-label="Property Strategy — Get a personalised property investment strategy tailored to your goals and situation."
+                >
+                  Get my strategy
                 </Link>
                 <Link
                   href="/compare-properties"

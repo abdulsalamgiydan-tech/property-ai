@@ -37,9 +37,21 @@ export async function GET(request: Request) {
     const supabase = await createServerSupabaseClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (error) {
+      console.error("[auth/callback] exchangeCodeForSession returned error:", {
+        message: error.message,
+        status: error.status,
+        name: error.name,
+        code_prefix: code.substring(0, 12) + "...",
+      });
       return NextResponse.redirect(buildAuthErrorUrl(origin, "session_exchange_failed", nextRaw));
     }
-  } catch {
+  } catch (e) {
+    const err = e as Error;
+    console.error("[auth/callback] exchangeCodeForSession threw:", {
+      message: err?.message,
+      name: err?.name,
+      stack: err?.stack,
+    });
     return NextResponse.redirect(buildAuthErrorUrl(origin, "session_exchange_failed", nextRaw));
   }
 
