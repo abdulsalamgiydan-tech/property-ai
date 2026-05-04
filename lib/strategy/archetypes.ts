@@ -165,14 +165,13 @@ export function selectArchetype(input: StrategyInput): {
     input.ppor !== null &&
     equity !== null &&
     equity >= 200_000 &&
-    input.liquidDepositAvailable < 80_000 &&
+    input.liquidDepositAvailable <= 150_000 &&
     input.existingInvestmentProperties.length === 0
   ) {
     return {
       id: ARCHETYPES.A11.id,
       archetype: ARCHETYPES.A11,
-      reasoning:
-        "Substantial PPOR equity with limited liquid deposit and no existing investment properties — funding the first IP from equity is the natural path.",
+      reasoning: `Substantial PPOR equity (${equity}) with liquid deposit (${input.liquidDepositAvailable}) at or below the equity-funded cash ceiling, and no existing investment properties — equity-release is the natural funding path for the first IP.`,
     };
   }
 
@@ -205,7 +204,7 @@ export function selectArchetype(input: StrategyInput): {
   if (
     householdIncome >= 250_000 &&
     input.primaryGoal === "capital_growth" &&
-    input.liquidDepositAvailable >= 250_000 &&
+    input.liquidDepositAvailable >= 150_000 &&
     horizonYears >= 20
   ) {
     return {
