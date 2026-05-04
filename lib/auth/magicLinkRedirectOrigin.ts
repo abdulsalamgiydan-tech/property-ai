@@ -1,7 +1,7 @@
 import { safeInternalNextPath } from "@/lib/auth/safeNextPath";
 
 /** Canonical production origin for Propellect magic links (must match Supabase redirect allowlist). */
-const PROPELLECT_CANONICAL_ORIGIN = "https://www.propellect.com.au";
+const PROPELLECT_CANONICAL_ORIGIN = "https://app.propellect.com.au";
 
 function isLocalDevOrigin(origin: string): boolean {
   try {
@@ -13,7 +13,11 @@ function isLocalDevOrigin(origin: string): boolean {
 }
 
 function isPropellectProductionHost(hostname: string): boolean {
-  return hostname === "www.propellect.com.au" || hostname === "propellect.com.au";
+  return (
+    hostname === "app.propellect.com.au" ||
+    hostname === "www.propellect.com.au" ||
+    hostname === "propellect.com.au"
+  );
 }
 
 function originFromEnv(): string | null {
@@ -35,7 +39,7 @@ function originFromEnv(): string | null {
  * Origin used to build `emailRedirectTo` → `{origin}/auth/callback?next=…`
  *
  * - **Local dev** (`localhost`, `127.0.0.1`): always the current browser origin (keeps port, http).
- * - **Propellect production** (apex or www): always `https://www.propellect.com.au` so magic links
+ * - **Propellect production** (apex, www, or app): always `https://app.propellect.com.au` so magic links
  *   never mix hosts.
  * - **`NEXT_PUBLIC_SITE_URL`**: when set, used after the same Propellect normalisation; otherwise
  *   for non-Propellect hosts (e.g. preview deploys) the current browser origin is used.
@@ -46,7 +50,7 @@ export function getMagicLinkRedirectOrigin(clientFallbackOrigin: string): string
     return clientFallbackOrigin;
   }
 
-  // 2. If we are on propellect.com.au (apex or www), always use the canonical www origin
+  // 2. If we are on propellect.com.au (apex, www, or app), always use the canonical app origin
   try {
     if (clientFallbackOrigin) {
       const host = new URL(clientFallbackOrigin).hostname;
@@ -67,7 +71,7 @@ export function getMagicLinkRedirectOrigin(clientFallbackOrigin: string): string
 
 /**
  * Full `emailRedirectTo` passed to `signInWithOtp` — always `{origin}/auth/callback?next=…`
- * with `origin` from {@link getMagicLinkRedirectOrigin} (www Propellect in prod, localhost in dev).
+ * with `origin` from {@link getMagicLinkRedirectOrigin} (app Propellect in prod, localhost in dev).
  */
 export function buildMagicLinkEmailRedirectTo(
   clientFallbackOrigin: string,
