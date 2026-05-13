@@ -26,6 +26,7 @@ import {
 } from "@/lib/investmentStrategy";
 import {
   analyzeProperty,
+  DEAL_ANALYSER_DEFAULT_PURCHASE_DATE,
   DEAL_SCORE_AMBER_MIN,
   DEAL_SCORE_GREEN_MIN,
   PURCHASE_COSTS_ALLOWANCE_AUD,
@@ -34,11 +35,16 @@ import {
 } from "@/lib/propertyAnalysis";
 import {
   buildAmortisationScheduleYearly,
-  buildCashflowProjectionSeries,
+  buildCashflowProjectionSeriesBudget2026,
   buildPropertyValueVsMortgageSeries,
   formatChartAud,
   formatChartYear,
 } from "@/lib/projections";
+import {
+  classifyTaxScenario,
+  taxScenarioLabel,
+  type TaxScenarioId,
+} from "@/lib/tax/budget2026Scenario";
 import {
   formatAud,
   formatInputNumber,
@@ -80,6 +86,13 @@ import {
 
 const ANALYSE_MIN_MS = 480;
 const PROJECTION_SAMPLE_YEARS = [0, 1, 5, 10, 20, 30] as const;
+
+function localIsoDate(d: Date = new Date()): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
 
 const chartMargin = { top: 8, right: 12, left: 4, bottom: 32 };
 const legendProps = {
@@ -132,6 +145,16 @@ export function AnalysePropertyClient() {
   const [yearBuilt, setYearBuilt] = useState("2010");
   const [buildingValuePercent, setBuildingValuePercent] = useState("80");
   const [fixturesEstimate, setFixturesEstimate] = useState("10,000");
+  const [purchaseDateStr, setPurchaseDateStr] = useState(localIsoDate);
+  const [propertyType, setPropertyType] = useState<"established" | "new_build">("established");
+  const [otherRentalIncome, setOtherRentalIncome] = useState("0");
+  const [cpiAssumptionPercent, setCpiAssumptionPercent] = useState("3");
+  const [saleDateStr, setSaleDateStr] = useState("");
+  const [salePriceStr, setSalePriceStr] = useState("");
+  const [holdingCostsStr, setHoldingCostsStr] = useState("");
+  const [isPreCGTAsset, setIsPreCGTAsset] = useState(false);
+  const [marketValueAt2027Str, setMarketValueAt2027Str] = useState("");
+  const [resultsTab, setResultsTab] = useState<"analysis" | "compare">("analysis");
 
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isAnalysing, setIsAnalysing] = useState(false);
@@ -177,6 +200,15 @@ export function AnalysePropertyClient() {
       suburb,
       state,
       isInterestOnly,
+      purchaseDate: purchaseDateStr,
+      propertyType,
+      otherRentalIncome,
+      cpiAssumptionPercent,
+      saleDate: saleDateStr,
+      salePrice: salePriceStr,
+      holdingCostsCapitalised: holdingCostsStr,
+      isPreCGTAsset,
+      marketValueAt1July2027: marketValueAt2027Str,
     };
   });
 
@@ -225,6 +257,15 @@ export function AnalysePropertyClient() {
     setSnapshotPeriod(d.snapshotPeriod);
     setCashflowView(d.cashflowView);
     setSuburbSuggestionActive(d.suburbSuggestionActive);
+    if (d.purchaseDate !== undefined) setPurchaseDateStr(d.purchaseDate);
+    if (d.propertyType !== undefined) setPropertyType(d.propertyType);
+    if (d.otherRentalIncome !== undefined) setOtherRentalIncome(d.otherRentalIncome);
+    if (d.cpiAssumptionPercent !== undefined) setCpiAssumptionPercent(d.cpiAssumptionPercent);
+    if (d.saleDate !== undefined) setSaleDateStr(d.saleDate);
+    if (d.salePrice !== undefined) setSalePriceStr(d.salePrice);
+    if (d.holdingCostsCapitalised !== undefined) setHoldingCostsStr(d.holdingCostsCapitalised);
+    if (d.isPreCGTAsset !== undefined) setIsPreCGTAsset(d.isPreCGTAsset);
+    if (d.marketValueAt1July2027 !== undefined) setMarketValueAt2027Str(d.marketValueAt1July2027);
     if (d.savedInputs) {
       lastSavedInputsRef.current = d.savedInputs;
       setResult(analyzeProperty(d.savedInputs));
@@ -262,6 +303,15 @@ export function AnalysePropertyClient() {
         cashflowView,
         suburbSuggestionActive,
         savedInputs: lastSavedInputsRef.current,
+        purchaseDate: purchaseDateStr,
+        propertyType,
+        otherRentalIncome,
+        cpiAssumptionPercent,
+        saleDate: saleDateStr,
+        salePrice: salePriceStr,
+        holdingCostsCapitalised: holdingCostsStr,
+        isPreCGTAsset,
+        marketValueAt1July2027: marketValueAt2027Str,
       });
     }, 450);
     return () => window.clearTimeout(t);
@@ -289,6 +339,15 @@ export function AnalysePropertyClient() {
     snapshotPeriod,
     cashflowView,
     suburbSuggestionActive,
+    purchaseDateStr,
+    propertyType,
+    otherRentalIncome,
+    cpiAssumptionPercent,
+    saleDateStr,
+    salePriceStr,
+    holdingCostsStr,
+    isPreCGTAsset,
+    marketValueAt2027Str,
   ]);
 
   function onNumberBlur(setValue: Dispatch<SetStateAction<string>>) {
@@ -401,13 +460,53 @@ export function AnalysePropertyClient() {
       result.isInterestOnly,
       result.loanTermYears
     );
+    const otherRent = parseNumber(otherRentalIncome);
+    const { cashflow, ledger } = buildCashflowProjectionSeriesBudget2026({
+      weeklyRent: result.weeklyRent,
+      rentalGrowthRatePercent: result.rentalGrowthRatePercent,
+      annualExpenses: result.annualExpenses,
+      expensesGrowthRatePercent,
+      amortisation: schedule,
+      buildingDepreciation: result.depreciation.buildingDepreciation,
+      fixturesEstimate: result.fixturesEstimate,
+      marginalTaxRate: result.marginalRate,
+      vacancyPercent: result.vacancyPercent,
+      pmFeePercent: result.pmFeePercent,
+      purchaseDate: result.purchaseDate,
+      propertyType: result.propertyType,
+      otherRentalIncome: Number.isFinite(otherRent) ? otherRent : 0,
+    });
     return {
       valueVsDebt: buildPropertyValueVsMortgageSeries({
         purchasePrice: result.purchasePrice,
         suburbGrowthRatePercent: result.suburbGrowthPercent,
         amortisation: schedule,
       }),
-      cashflow: buildCashflowProjectionSeries({
+      cashflow,
+      ledger,
+    };
+  }, [expensesGrowthRate, otherRentalIncome, result]);
+
+  const scenarioComparison = useMemo(() => {
+    if (!result || !projectionSeries) return null;
+    const rawEg = parseNumber(expensesGrowthRate);
+    const expensesGrowthRatePercent = Number.isFinite(rawEg) ? rawEg : 2.5;
+    const schedule = buildAmortisationScheduleYearly(
+      result.loan,
+      result.interestRatePercent,
+      30,
+      result.isInterestOnly,
+      result.loanTermYears
+    );
+    const otherRent = parseNumber(otherRentalIncome);
+    const other = Number.isFinite(otherRent) ? otherRent : 0;
+    const scenarios: TaxScenarioId[] = [
+      "GRANDFATHERED",
+      "POST_BUDGET_ESTABLISHED",
+      "POST_BUDGET_NEW_BUILD",
+    ];
+    return scenarios.map((scenarioOverride) => {
+      const { cashflow, ledger } = buildCashflowProjectionSeriesBudget2026({
         weeklyRent: result.weeklyRent,
         rentalGrowthRatePercent: result.rentalGrowthRatePercent,
         annualExpenses: result.annualExpenses,
@@ -418,9 +517,31 @@ export function AnalysePropertyClient() {
         marginalTaxRate: result.marginalRate,
         vacancyPercent: result.vacancyPercent,
         pmFeePercent: result.pmFeePercent,
-      }),
-    };
-  }, [expensesGrowthRate, result]);
+        purchaseDate: result.purchaseDate,
+        propertyType: result.propertyType,
+        otherRentalIncome: other,
+        scenarioOverride,
+      });
+      const cumulativeAfterTax = cashflow.reduce((s, p) => s + p.afterTaxCashflow, 0);
+      const cumulativeTaxCash = cashflow.reduce((s, p) => s + p.taxEffect, 0);
+      const cfEnd = ledger[ledger.length - 1]?.carryForwardBalanceEnd ?? 0;
+      return {
+        scenarioOverride,
+        label: taxScenarioLabel(scenarioOverride),
+        cumulativeAfterTax,
+        cumulativeTaxCash,
+        carryForwardEnd: cfEnd,
+      };
+    });
+  }, [expensesGrowthRate, otherRentalIncome, projectionSeries, result]);
+
+  const liveDetectedScenarioLabel = useMemo(() => {
+    const pd = purchaseDateStr.trim()
+      ? new Date(`${purchaseDateStr}T12:00:00`)
+      : new Date(DEAL_ANALYSER_DEFAULT_PURCHASE_DATE);
+    const id = classifyTaxScenario({ purchaseDate: pd, propertyType });
+    return taxScenarioLabel(id);
+  }, [purchaseDateStr, propertyType]);
 
   const projectionTableRows = useMemo(() => {
     if (!projectionSeries) return [];
@@ -430,13 +551,20 @@ export function AnalysePropertyClient() {
       if (!vd || !cf) return null;
       return {
         year: y,
+        financialYearLabel: cf.financialYearLabel,
         propertyValue: vd.propertyValue,
         mortgageBalance: vd.mortgageBalance,
         preTaxCashflow: cf.preTaxCashflow,
         afterTaxCashflow: cf.afterTaxCashflow,
+        rentalLossTaxTreatmentLabel: cf.rentalLossTaxTreatmentLabel,
+        carryForwardBalanceEnd: cf.carryForwardBalanceEnd,
       };
     }).filter((row): row is NonNullable<typeof row> => row !== null);
   }, [projectionSeries]);
+
+  const showCarryForwardLedger =
+    result?.taxScenarioId === "POST_BUDGET_ESTABLISHED" &&
+    Boolean(projectionSeries?.ledger.some((r) => r.fyEndingJuneYear >= 2028));
 
   const lvrHigh = result && result.lvr > 80;
   const neutralDep = result ? neutralPreTaxDepositPercent(result) : null;
@@ -650,6 +778,16 @@ export function AnalysePropertyClient() {
                         {formatAud(row.afterTaxCashflow)}
                       </dd>
                     </div>
+                    <div className="flex items-baseline justify-between gap-3">
+                      <dt className="shrink-0 text-zinc-500">Rental loss treatment</dt>
+                      <dd className="min-w-0 text-right text-[11px] text-zinc-200">{row.rentalLossTaxTreatmentLabel}</dd>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-3">
+                      <dt className="shrink-0 text-zinc-500">CF losses (end yr)</dt>
+                      <dd className="min-w-0 text-right tabular-nums text-zinc-200">
+                        {formatAud(row.carryForwardBalanceEnd)}
+                      </dd>
+                    </div>
                   </dl>
                 </div>
               ))}
@@ -657,30 +795,19 @@ export function AnalysePropertyClient() {
 
             <div className="mt-3 hidden md:block">
               <div className="overflow-x-auto rounded-lg border border-zinc-700/40">
-                <table className="w-full min-w-0 border-collapse text-xs text-zinc-300">
-                  <thead>
+                <table className="w-full min-w-[44rem] border-collapse text-xs text-zinc-300">
+                  <thead className="whitespace-nowrap">
                     <tr className="border-b border-zinc-600/80 bg-zinc-900/80 text-[10px] font-semibold uppercase leading-tight tracking-wide text-zinc-400">
                       <th className="px-2 py-2 text-left">Year</th>
-                      <th className="px-2 py-2 text-right">
-                        PROPERTY
-                        <br />
-                        VALUE
+                      <th className="px-2 py-2 text-left">FY</th>
+                      <th className="px-2 py-2 text-right">Property value</th>
+                      <th className="px-2 py-2 text-right">Mortgage</th>
+                      <th className="px-2 py-2 text-right">Pre-tax CF</th>
+                      <th className="px-2 py-2 text-right">After-tax CF</th>
+                      <th className="px-2 py-2 text-right max-w-[10rem] whitespace-normal text-left">
+                        Rental loss treatment
                       </th>
-                      <th className="px-2 py-2 text-right">
-                        MORTGAGE
-                        <br />
-                        BALANCE
-                      </th>
-                      <th className="px-2 py-2 text-right">
-                        PRE-TAX
-                        <br />
-                        CASHFLOW
-                      </th>
-                      <th className="px-2 py-2 text-right">
-                        AFTER-TAX
-                        <br />
-                        CASHFLOW
-                      </th>
+                      <th className="px-2 py-2 text-right">CF loss balance</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -694,16 +821,74 @@ export function AnalysePropertyClient() {
                         <td className="px-2 py-2 tabular-nums font-medium text-zinc-200">
                           {formatNumberGb(row.year)}
                         </td>
+                        <td className="px-2 py-2 tabular-nums text-zinc-400">{row.financialYearLabel}</td>
                         <td className="px-2 py-2 text-right tabular-nums">{formatAud(row.propertyValue)}</td>
                         <td className="px-2 py-2 text-right tabular-nums">{formatAud(row.mortgageBalance)}</td>
                         <td className="px-2 py-2 text-right tabular-nums">{formatAud(row.preTaxCashflow)}</td>
                         <td className="px-2 py-2 text-right tabular-nums">{formatAud(row.afterTaxCashflow)}</td>
+                        <td className="px-2 py-2 text-[10px] leading-snug text-zinc-300">
+                          {row.rentalLossTaxTreatmentLabel}
+                        </td>
+                        <td className="px-2 py-2 text-right tabular-nums">{formatAud(row.carryForwardBalanceEnd)}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
+          </section>
+        ) : null}
+
+        {showCarryForwardLedger && projectionSeries ? (
+          <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              Carry-forward losses ledger
+            </h3>
+            <p className="mt-2 text-[11px] leading-relaxed text-zinc-500">
+              Under the new rules, rental losses on this property from 1 July 2027 onward cannot reduce your salary tax.
+              They accumulate as carry-forward losses and reduce your taxable capital gain when you sell, recovering the
+              tax benefit at that point rather than year by year.
+            </p>
+            <div className="mt-4 h-44 w-full sm:h-52">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0}>
+                <LineChart
+                  data={projectionSeries.ledger.map((r) => ({
+                    year: r.year,
+                    balance: r.carryForwardBalanceEnd,
+                  }))}
+                  margin={chartMargin}
+                >
+                  <XAxis dataKey="year" tick={{ fill: "#a1a1aa", fontSize: 11 }} />
+                  <YAxis
+                    tick={{ fill: "#a1a1aa", fontSize: 11 }}
+                    tickFormatter={(v) => formatChartAud(Number(v))}
+                    width={72}
+                  />
+                  <Tooltip
+                    formatter={(value) => formatAud(Number(value))}
+                    contentStyle={chartTooltipContentStyle}
+                    labelStyle={chartTooltipLabelStyle}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="balance"
+                    stroke="#34d399"
+                    strokeWidth={2}
+                    dot={false}
+                    name="Carry-forward balance"
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <p className="mt-4 text-[10px] leading-relaxed text-zinc-500 border-t border-zinc-700/50 pt-3">
+              The tax treatment modelled here reflects the measures announced in the 2026-27 Federal Budget on 12 May
+              2026. These measures have not yet been enacted as legislation, and final design details (including the
+              precise definition of &quot;new build&quot;, the indexation method, and treatment of edge cases) will be
+              confirmed when the Explanatory Memorandum is published and the legislation passes Parliament. This tool
+              provides general illustrative modelling only and does not constitute personal tax, financial, or
+              investment advice. Before making decisions based on these projections, consult a qualified tax
+              professional or financial adviser.
+            </p>
           </section>
         ) : null}
       </>
@@ -1147,6 +1332,233 @@ export function AnalysePropertyClient() {
               </section>
 
               <section className="space-y-5 border-t border-zinc-700/60 pt-10">
+                <FormSectionHeading title="Tax scenario (Budget 2026)" infoLabel="Budget 2026 tax scenario">
+                  Purchase date and property type determine negative gearing and CGT regime classification.
+                </FormSectionHeading>
+
+                <div className="block text-left">
+                  <span className={labelClass}>Purchase / settlement date</span>
+                  <div className="mt-1 flex flex-wrap items-center gap-2">
+                    <input
+                      id="fld-purchase-date"
+                      type="date"
+                      value={purchaseDateStr}
+                      onChange={(e) => setPurchaseDateStr(e.target.value)}
+                      className={`${inputClass} max-w-[11rem]`}
+                    />
+                    <button
+                      type="button"
+                      className="text-xs font-medium text-violet-400 underline-offset-2 hover:underline"
+                      onClick={() => setPurchaseDateStr("")}
+                    >
+                      Clear (legacy default)
+                    </button>
+                  </div>
+                  <span className={helperClass}>
+                    When cleared, the model uses the built-in legacy purchase date (grandfathered classification).
+                  </span>
+                </div>
+
+                <div className="block text-left">
+                  <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
+                    <span className={labelClass}>Property type</span>
+                    <InfoButton label="What qualifies as new build">
+                      Off-the-plan apartments, new builds on previously vacant land, duplexes from knock-down rebuilds
+                      (where net dwellings increase), and new builds occupied less than 12 months before first sale.
+                      Established properties that have been extended, granny flats, and like-for-like knock-down
+                      rebuilds do NOT qualify.
+                    </InfoButton>
+                  </div>
+                  <div
+                    className="flex overflow-hidden rounded-xl border border-zinc-600/80 bg-zinc-900/60"
+                    role="group"
+                    aria-label="Property type"
+                  >
+                    {(
+                      [
+                        {
+                          label: "Established property",
+                          value: "established" as const,
+                        },
+                        {
+                          label: "New build (qualifying)",
+                          value: "new_build" as const,
+                        },
+                      ] as const
+                    ).map(({ label, value }) => (
+                      <button
+                        key={value}
+                        type="button"
+                        onClick={() => setPropertyType(value)}
+                        className={`flex-1 px-2 py-2.5 text-xs font-medium transition sm:text-sm ${
+                          propertyType === value
+                            ? "bg-violet-600 text-white"
+                            : "text-zinc-400 hover:text-zinc-200"
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-lg border border-emerald-500/25 bg-emerald-950/25 px-3 py-2 text-[11px] leading-snug text-emerald-100">
+                  <span className="font-semibold text-emerald-300">Detected scenario: </span>
+                  {liveDetectedScenarioLabel}
+                </div>
+
+                <div className="block text-left">
+                  <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
+                    <span className={labelClass} id="lbl-other-rent">
+                      Other rental income (optional)
+                    </span>
+                    <InfoButton label="Other rental income">
+                      If you own other rental properties with positive net rental income, ring-fenced losses from
+                      this property can offset that income before being carried forward.
+                    </InfoButton>
+                  </div>
+                  <input
+                    aria-labelledby="lbl-other-rent"
+                    aria-invalid={!!formErrors.otherRentalIncome}
+                    aria-describedby={formErrors.otherRentalIncome ? "err-other-rent" : undefined}
+                    type="text"
+                    inputMode="decimal"
+                    value={otherRentalIncome}
+                    onChange={(e) => {
+                      clearFieldError("otherRentalIncome");
+                      setOtherRentalIncome(e.target.value);
+                    }}
+                    onBlur={onNumberBlur(setOtherRentalIncome)}
+                    className={`${inputClass} ${formErrors.otherRentalIncome ? fieldErrClass : ""}`}
+                    placeholder="0"
+                  />
+                  {formErrors.otherRentalIncome ? (
+                    <p id="err-other-rent" className={fieldErrMsgClass} role="alert">
+                      {formErrors.otherRentalIncome}
+                    </p>
+                  ) : null}
+                </div>
+
+                <div className="block text-left">
+                  <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
+                    <span className={labelClass} id="lbl-cpi">
+                      CPI assumption (% p.a.)
+                    </span>
+                    <InfoButton label="CPI assumption">
+                      Used for CGT indexation and expense growth in projections — a simplifying assumption vs ATO CPI
+                      tables.
+                    </InfoButton>
+                  </div>
+                  <input
+                    aria-labelledby="lbl-cpi"
+                    aria-invalid={!!formErrors.cpiAssumptionPercent}
+                    aria-describedby={formErrors.cpiAssumptionPercent ? "err-cpi" : undefined}
+                    type="text"
+                    inputMode="decimal"
+                    value={cpiAssumptionPercent}
+                    onChange={(e) => {
+                      clearFieldError("cpiAssumptionPercent");
+                      setCpiAssumptionPercent(e.target.value);
+                    }}
+                    onBlur={onNumberBlur(setCpiAssumptionPercent)}
+                    className={`${inputClass} ${formErrors.cpiAssumptionPercent ? fieldErrClass : ""}`}
+                    placeholder="3"
+                  />
+                  {formErrors.cpiAssumptionPercent ? (
+                    <p id="err-cpi" className={fieldErrMsgClass} role="alert">
+                      {formErrors.cpiAssumptionPercent}
+                    </p>
+                  ) : null}
+                </div>
+
+                <div className="block text-left">
+                  <label className="flex cursor-pointer items-start gap-2 text-sm text-zinc-300">
+                    <input
+                      type="checkbox"
+                      checked={isPreCGTAsset}
+                      onChange={(e) => setIsPreCGTAsset(e.target.checked)}
+                      className="mt-1"
+                    />
+                    <span>Pre-CGT asset (optional) — cost base resets at 1 July 2027 for sales after that date</span>
+                  </label>
+                </div>
+
+                {isPreCGTAsset ? (
+                  <div className="block text-left">
+                    <span className={labelClass}>Market value at 1 July 2027</span>
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      aria-invalid={!!formErrors.marketValueAt1July2027}
+                      value={marketValueAt2027Str}
+                      onChange={(e) => {
+                        clearFieldError("marketValueAt1July2027");
+                        setMarketValueAt2027Str(e.target.value);
+                      }}
+                      onBlur={onNumberBlur(setMarketValueAt2027Str)}
+                      className={`${inputClass} ${formErrors.marketValueAt1July2027 ? fieldErrClass : ""}`}
+                      placeholder="e.g. 1,500,000"
+                    />
+                    {formErrors.marketValueAt1July2027 ? (
+                      <p className={fieldErrMsgClass} role="alert">
+                        {formErrors.marketValueAt1July2027}
+                      </p>
+                    ) : null}
+                  </div>
+                ) : null}
+
+                <FormSectionHeading title="Sale assumptions (CGT)" infoLabel="Sale assumptions">
+                  Optional — include to show illustrative capital gains tax using your hold period.
+                </FormSectionHeading>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <label className="block text-left">
+                    <span className={labelClass}>Sale date</span>
+                    <input
+                      type="date"
+                      value={saleDateStr}
+                      onChange={(e) => setSaleDateStr(e.target.value)}
+                      className={inputClass}
+                    />
+                  </label>
+                  <div className="block text-left">
+                    <span className={labelClass}>Sale price</span>
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      aria-invalid={!!formErrors.salePrice}
+                      value={salePriceStr}
+                      onChange={(e) => {
+                        clearFieldError("salePrice");
+                        setSalePriceStr(e.target.value);
+                      }}
+                      onBlur={onNumberBlur(setSalePriceStr)}
+                      className={`${inputClass} ${formErrors.salePrice ? fieldErrClass : ""}`}
+                      placeholder="e.g. 900,000"
+                    />
+                    {formErrors.salePrice ? (
+                      <p className={fieldErrMsgClass} role="alert">
+                        {formErrors.salePrice}
+                      </p>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="block text-left">
+                  <span className={labelClass}>Holding costs capitalised (optional)</span>
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    value={holdingCostsStr}
+                    onChange={(e) => setHoldingCostsStr(e.target.value)}
+                    onBlur={onNumberBlur(setHoldingCostsStr)}
+                    className={inputClass}
+                    placeholder="0"
+                  />
+                </div>
+              </section>
+
+              <section className="space-y-5 border-t border-zinc-700/60 pt-10">
                 <FormSectionHeading title="Tax & Depreciation" infoLabel="Tax and depreciation">
                   Rough inputs for marginal tax and simplified depreciation — illustrative only, not
                   lodgement advice.
@@ -1510,6 +1922,29 @@ export function AnalysePropertyClient() {
                 key={resultAnimKey}
                 className={`space-y-6 rounded-2xl border p-5 backdrop-blur-sm sm:p-7 ${statusStyles[result.status].card} ${statusStyles[result.status].ring} ${statusStyles[result.status].shadow}`}
               >
+                <section className="rounded-xl border border-amber-500/35 bg-amber-950/25 px-4 py-3 text-xs leading-relaxed text-zinc-200">
+                  The tax treatment modelled here reflects the measures announced in the 2026-27 Federal Budget on
+                  12 May 2026. These measures have not yet been enacted as legislation, and final design details
+                  (including the precise definition of &quot;new build&quot;, the indexation method, and treatment of
+                  edge cases) will be confirmed when the Explanatory Memorandum is published and the legislation passes
+                  Parliament. This tool provides general illustrative modelling only and does not constitute personal
+                  tax, financial, or investment advice. Before making decisions based on these projections, consult a
+                  qualified tax professional or financial adviser.
+                </section>
+
+                <div className="flex flex-wrap items-center gap-2 rounded-xl border border-zinc-700/60 bg-zinc-950/40 px-4 py-3">
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
+                    Detected scenario (from form)
+                  </span>
+                  <span className="rounded-full border border-emerald-500/35 bg-emerald-950/40 px-3 py-1 text-[11px] leading-snug text-emerald-100">
+                    {liveDetectedScenarioLabel}
+                  </span>
+                  <span className="text-[10px] text-zinc-600">
+                    Model run uses{" "}
+                    <span className="font-medium text-zinc-400">{result.taxScenarioDescription}</span>
+                  </span>
+                </div>
+
                 {/* Score + colour (no recommendation language) */}
                 <section className="rounded-xl border border-zinc-600/40 bg-zinc-950/35 px-5 py-5 text-center">
                   <div className="mx-auto flex flex-wrap items-center justify-center gap-2">
@@ -1604,6 +2039,79 @@ export function AnalysePropertyClient() {
                     </div>
                   </dl>
                 </section>
+
+                {result.cgt ? (
+                  <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                      Capital gains (illustrative — sale assumptions)
+                    </h3>
+                    <dl className="mt-3 space-y-2 text-sm text-zinc-300">
+                      <div className="flex justify-between gap-4">
+                        <dt className="text-zinc-500">Regime applied</dt>
+                        <dd className="m-0 text-right font-medium text-zinc-100">{result.cgt.regimeApplied}</dd>
+                      </div>
+                      <div className="flex justify-between gap-4">
+                        <dt className="text-zinc-500">Nominal gain</dt>
+                        <dd className="m-0 text-right tabular-nums">{formatAud(result.cgt.nominalGain)}</dd>
+                      </div>
+                      {result.cgt.preCommencementGain != null ? (
+                        <div className="flex justify-between gap-4">
+                          <dt className="text-zinc-500">Pre-commencement gain</dt>
+                          <dd className="m-0 text-right tabular-nums">
+                            {formatAud(result.cgt.preCommencementGain)}
+                          </dd>
+                        </div>
+                      ) : null}
+                      {result.cgt.postCommencementRealGain != null ? (
+                        <div className="flex justify-between gap-4">
+                          <dt className="text-zinc-500">Real post-commencement gain</dt>
+                          <dd className="m-0 text-right tabular-nums">
+                            {formatAud(result.cgt.postCommencementRealGain)}
+                          </dd>
+                        </div>
+                      ) : null}
+                      <div className="flex justify-between gap-4">
+                        <dt className="text-zinc-500">Carry-forward losses applied</dt>
+                        <dd className="m-0 text-right tabular-nums">
+                          {formatAud(result.cgt.carryForwardLossesApplied)}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-4">
+                        <dt className="text-zinc-500">Indexation (nominal)</dt>
+                        <dd className="m-0 text-right tabular-nums">
+                          {formatAud(result.cgt.indexationAmountApplied)}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-4">
+                        <dt className="text-zinc-500">Effective rate on residual real gain</dt>
+                        <dd className="m-0 text-right tabular-nums">
+                          {formatPercent(result.cgt.effectiveMarginalRateUsed * 100, 2)}
+                          {result.cgt.minimumTaxRateBinding ? (
+                            <span className="ml-1 text-[10px] text-amber-400">(30% floor binding)</span>
+                          ) : null}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-4 border-t border-zinc-700/60 pt-2">
+                        <dt className="text-zinc-400">CGT payable (est.)</dt>
+                        <dd className="m-0 text-right text-lg font-semibold tabular-nums text-white">
+                          {formatAud(result.cgt.cgtPayable)}
+                        </dd>
+                      </div>
+                      <div className="flex justify-between gap-4">
+                        <dt className="text-zinc-500">Net sale proceeds after CGT</dt>
+                        <dd className="m-0 text-right tabular-nums text-emerald-300">
+                          {formatAud(result.cgt.netSaleProceedsAfterCGT)}
+                        </dd>
+                      </div>
+                    </dl>
+                    {result.cgt.newBuildComparison ? (
+                      <p className="mt-3 text-[11px] leading-relaxed text-zinc-500">
+                        New build election compared old-style 50% discount ({formatAud(result.cgt.newBuildComparison.oldRegimeTax)} tax) vs new
+                        rules ({formatAud(result.cgt.newBuildComparison.newRegimeTax)} tax); the lower outcome was selected.
+                      </p>
+                    ) : null}
+                  </section>
+                ) : null}
 
                 {/* 1. Key snapshot cards */}
                 <section>
@@ -1772,7 +2280,66 @@ export function AnalysePropertyClient() {
                   </div>
                 </section>
 
-                {renderAnalyseProjections()}
+                <div className="flex flex-wrap gap-2 rounded-xl border border-zinc-700/60 bg-zinc-950/40 p-1">
+                  <button
+                    type="button"
+                    onClick={() => setResultsTab("analysis")}
+                    className={`flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:flex-none sm:px-4 ${
+                      resultsTab === "analysis"
+                        ? "bg-violet-600 text-white"
+                        : "text-zinc-400 hover:text-zinc-200"
+                    }`}
+                  >
+                    Analysis
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setResultsTab("compare")}
+                    className={`flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:flex-none sm:px-4 ${
+                      resultsTab === "compare"
+                        ? "bg-violet-600 text-white"
+                        : "text-zinc-400 hover:text-zinc-200"
+                    }`}
+                  >
+                    Compare scenarios
+                  </button>
+                </div>
+
+                {resultsTab === "analysis" ? renderAnalyseProjections() : null}
+
+                {resultsTab === "compare" && scenarioComparison ? (
+                  <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                      Same economics — three tax regimes
+                    </h3>
+                    <p className="mt-2 text-[11px] leading-relaxed text-zinc-500">
+                      This comparison illustrates how the same property economics would perform under each tax regime.
+                      Your actual regime is determined by your purchase date and property type.
+                    </p>
+                    <div className="mt-4 overflow-x-auto rounded-lg border border-zinc-700/40">
+                      <table className="w-full min-w-[28rem] border-collapse text-xs text-zinc-300">
+                        <thead>
+                          <tr className="border-b border-zinc-600/80 bg-zinc-900/80 text-[10px] font-semibold uppercase tracking-wide text-zinc-400">
+                            <th className="whitespace-nowrap px-3 py-2 text-left">Regime</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">30-yr after-tax CF</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">30-yr cumulative tax cash</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">CF losses end Y30</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {scenarioComparison.map((row) => (
+                            <tr key={row.scenarioOverride} className="border-b border-zinc-800/80 last:border-0">
+                              <td className="px-3 py-2 text-[11px] leading-snug text-zinc-200">{row.label}</td>
+                              <td className="px-3 py-2 text-right tabular-nums">{formatAud(row.cumulativeAfterTax)}</td>
+                              <td className="px-3 py-2 text-right tabular-nums">{formatAud(row.cumulativeTaxCash)}</td>
+                              <td className="px-3 py-2 text-right tabular-nums">{formatAud(row.carryForwardEnd)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+                ) : null}
 
                 {/* ── Actions ── */}
                 <section className="rounded-xl border border-zinc-700/50 bg-zinc-950/30 p-4">

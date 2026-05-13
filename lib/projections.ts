@@ -1,4 +1,14 @@
 import { formatAud, formatNumberGb } from "@/lib/formatCurrency";
+import {
+  calculateAnnualTaxImpact,
+  isNegativeGearingRingFenced,
+} from "@/lib/tax/budget2026AnnualTaxImpact";
+import {
+  formatFinancialYearLabel,
+  fyEndingJuneYearForProjectionRow,
+} from "@/lib/tax/budget2026FinancialYear";
+import type { TaxScenarioId } from "@/lib/tax/budget2026Scenario";
+import { classifyTaxScenario, type PropertyTypeInput } from "@/lib/tax/budget2026Scenario";
 
 export type YearlyAmortisationPoint = {
   year: number;
@@ -114,6 +124,58 @@ export type CashflowProjectionPoint = {
   afterTaxCashflow: number;
 };
 
+export type RentalLossTaxTreatmentKind =
+  | "deductible_salary"
+  | "ring_fenced"
+  | "na_positive";
+
+export type Budget2026LedgerRow = {
+  year: number;
+  financialYear: string;
+  fyEndingJuneYear: number;
+  netRentalPosition: number;
+  treatment: RentalLossTaxTreatmentKind;
+  treatmentLabel: string;
+  taxRefundFromNG: number;
+  lossAddedToCarryForward: number;
+  carryForwardBalanceEnd: number;
+};
+
+export type CashflowProjectionPointBudget2026 = CashflowProjectionPoint & {
+  financialYearLabel: string;
+  fyEndingJuneYear: number;
+  rentalLossTaxTreatment: RentalLossTaxTreatmentKind;
+  rentalLossTaxTreatmentLabel: string;
+  carryForwardBalanceEnd: number;
+  propertyTaxableIncome: number;
+  taxEffect: number;
+};
+
+function rentalLossTreatmentLabel(kind: RentalLossTaxTreatmentKind): string {
+  switch (kind) {
+    case "deductible_salary":
+      return "Deductible against salary";
+    case "ring_fenced":
+      return "Ring-fenced — carried forward";
+    case "na_positive":
+      return "N/A (positive rental income)";
+    default:
+      return kind;
+  }
+}
+
+function classifyRentalLossTreatment(
+  scenario: TaxScenarioId,
+  fyEndingJuneYear: number,
+  propertyTaxableIncome: number
+): RentalLossTaxTreatmentKind {
+  if (propertyTaxableIncome > 0) return "na_positive";
+  if (isNegativeGearingRingFenced(scenario, fyEndingJuneYear)) {
+    return "ring_fenced";
+  }
+  return "deductible_salary";
+}
+
 export function buildPropertyValueVsMortgageSeries(params: {
   purchasePrice: number;
   suburbGrowthRatePercent: number;
@@ -182,6 +244,129 @@ export function buildCashflowProjectionSeries(params: {
 
     return { year: p.year, annualRent, preTaxCashflow, afterTaxCashflow };
   });
+}
+
+/** Budget 2026 — ring-fencing, carry-forward ledger, FY-aware salary NG (personal-name ownership). */
+export function buildCashflowProjectionSeriesBudget2026(params: {
+  weeklyRent: number;
+  rentalGrowthRatePercent: number;
+  annualExpenses: number;
+  expensesGrowthRatePercent: number;
+  amortisation: YearlyAmortisationPoint[];
+  buildingDepreciation: number;
+  fixturesEstimate: number;
+  marginalTaxRate: number;
+  vacancyPercent: number;
+  pmFeePercent: number;
+  purchaseDate: Date;
+  propertyType: PropertyTypeInput;
+  /** When set, skips {@link classifyTaxScenario} (scenario comparison). */
+  scenarioOverride?: TaxScenarioId;
+  otherRentalIncome?: number;
+}): { cashflow: CashflowProjectionPointBudget2026[]; ledger: Budget2026LedgerRow[] } {
+  const {
+    weeklyRent,
+    rentalGrowthRatePercent,
+    annualExpenses,
+    expensesGrowthRatePercent,
+    amortisation,
+    buildingDepreciation,
+    fixturesEstimate,
+    marginalTaxRate,
+    vacancyPercent,
+    pmFeePercent,
+    purchaseDate,
+    propertyType,
+    scenarioOverride,
+    otherRentalIncome = 0,
+  } = params;
+
+  const scenario =
+    scenarioOverride ??
+    classifyTaxScenario({ purchaseDate, propertyType });
+
+  const rg = rentalGrowthRatePercent / 100;
+  const eg = expensesGrowthRatePercent / 100;
+  const vacancyFactor = 1 - Math.max(0, vacancyPercent) / 100;
+  const lastIdx = amortisation.length - 1;
+
+  let carryForward = 0;
+  const cashflow: CashflowProjectionPointBudget2026[] = [];
+  const ledger: Budget2026LedgerRow[] = [];
+
+  for (const p of amortisation) {
+    const grossAnnualRent = weeklyRent * 52 * Math.pow(1 + rg, p.year);
+    const annualRent = grossAnnualRent * vacancyFactor;
+    const pmFeeYear = annualRent * (pmFeePercent / 100);
+    const annualExpensesYear = annualExpenses * Math.pow(1 + eg, p.year) + pmFeeYear;
+
+    const next = p.year + 1;
+    const annualInterest =
+      next <= lastIdx ? amortisation[next].annualInterest : 0;
+
+    const preTaxCashflow = annualRent - annualInterest - annualExpensesYear;
+
+    const plantDepreciation = Math.max(
+      fixturesEstimate * 0.1 * Math.pow(0.85, p.year),
+      0
+    );
+    const yearDepreciation = buildingDepreciation + plantDepreciation;
+    const propertyTaxableIncome = preTaxCashflow - yearDepreciation;
+
+    const fyEndingJuneYear = fyEndingJuneYearForProjectionRow(
+      purchaseDate,
+      p.year
+    );
+    const financialYearLabel = formatFinancialYearLabel(fyEndingJuneYear);
+
+    const impact = calculateAnnualTaxImpact({
+      propertyTaxableIncome,
+      scenario,
+      fyEndingJuneYear,
+      marginalRate: marginalTaxRate,
+      carryForwardBalance: carryForward,
+      otherRentalIncome,
+    });
+
+    carryForward = impact.carryForwardBalanceEnd;
+
+    const taxEffect = impact.taxableRentalIncome * marginalTaxRate;
+    const afterTaxCashflow = preTaxCashflow - taxEffect;
+
+    const treatment = classifyRentalLossTreatment(
+      scenario,
+      fyEndingJuneYear,
+      propertyTaxableIncome
+    );
+
+    cashflow.push({
+      year: p.year,
+      annualRent,
+      preTaxCashflow,
+      afterTaxCashflow,
+      financialYearLabel,
+      fyEndingJuneYear,
+      rentalLossTaxTreatment: treatment,
+      rentalLossTaxTreatmentLabel: rentalLossTreatmentLabel(treatment),
+      carryForwardBalanceEnd: carryForward,
+      propertyTaxableIncome,
+      taxEffect,
+    });
+
+    ledger.push({
+      year: p.year + 1,
+      financialYear: financialYearLabel,
+      fyEndingJuneYear,
+      netRentalPosition: propertyTaxableIncome,
+      treatment,
+      treatmentLabel: rentalLossTreatmentLabel(treatment),
+      taxRefundFromNG: impact.taxRefundFromNG,
+      lossAddedToCarryForward: impact.lossAddedToCarryForward,
+      carryForwardBalanceEnd: carryForward,
+    });
+  }
+
+  return { cashflow, ledger };
 }
 
 export function formatChartAud(value: number): string {
