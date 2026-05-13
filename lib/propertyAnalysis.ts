@@ -4,12 +4,42 @@ import {
   INVESTMENT_STRATEGIES,
   type InvestmentStrategyId,
 } from "@/lib/investmentStrategy";
-import { firstLoanYearFinance } from "@/lib/projections";
+import {
+  buildAmortisationScheduleYearly,
+  buildCashflowProjectionSeriesBudget2026,
+  firstLoanYearFinance,
+} from "@/lib/projections";
+import { calculateCGT, type CalculateCgtResult } from "@/lib/tax/budget2026Cgt";
+import { calculateAnnualTaxImpact } from "@/lib/tax/budget2026AnnualTaxImpact";
+import { fyEndingJuneYearForProjectionRow } from "@/lib/tax/budget2026FinancialYear";
+import {
+  classifyTaxScenario,
+  taxScenarioLabel,
+  type PropertyTypeInput,
+  type TaxScenarioId,
+} from "@/lib/tax/budget2026Scenario";
 
 export type { InvestmentStrategyId } from "@/lib/investmentStrategy";
 
 /** Illustrative purchase costs (legal, inspections, etc.) */
 export const PURCHASE_COSTS_ALLOWANCE_AUD = 2100;
+
+/**
+ * When `purchaseDate` is omitted from inputs, this date is used so existing presets and
+ * saved drafts stay on grandfathered (pre-budget) tax treatment until the user sets a date.
+ */
+export const DEAL_ANALYSER_DEFAULT_PURCHASE_DATE = new Date("2026-05-01T12:00:00+10:00");
+
+function coercePurchaseDate(value: Date | string | undefined): Date {
+  if (value === undefined) return new Date(DEAL_ANALYSER_DEFAULT_PURCHASE_DATE.getTime());
+  return typeof value === "string" ? new Date(value) : value;
+}
+
+function holdYearsFromDates(purchaseDate: Date, saleDate: Date): number {
+  const ms = saleDate.getTime() - purchaseDate.getTime();
+  const years = ms / (365.25 * 24 * 3600 * 1000);
+  return Math.max(1, Math.min(40, Math.ceil(years)));
+}
 
 /**
  * Tiered stamp duty (transfer duty) calculation for standard residential
@@ -446,6 +476,23 @@ export type PropertyAnalysisInputs = {
   loanTermYears: number;
   pmFeePercent: number;
   strategy: InvestmentStrategyId;
+
+  /** Matches projection assumptions (default 2.5 when omitted). */
+  expensesGrowthRatePercent?: number;
+
+  /** Defaults so omitted fields preserve legacy grandfathered modelling. */
+  purchaseDate?: Date | string;
+  propertyType?: PropertyTypeInput;
+  /** Positive net rental income from other properties (ring-fence absorption). */
+  otherRentalIncome?: number;
+  /** CPI / general inflation assumption (% p.a.) — CGT indexation + holding-cost growth. */
+  cpiAssumptionPercent?: number;
+  isPreCGTAsset?: boolean;
+  marketValueAt1July2027?: number;
+  /** Sale modelling — when both set, CGT summary is included on the result. */
+  saleDate?: Date | string;
+  salePrice?: number;
+  holdingCostsCapitalised?: number;
 };
 
 export type ScoreStatus = "strong" | "borderline" | "weak";
@@ -527,6 +574,18 @@ export type PropertyAnalysisResult = {
   strategy: InvestmentStrategyId;
 
   diagnostics: DealDiagnostics;
+
+  /** Budget 2026 tax classification */
+  taxScenarioId: TaxScenarioId;
+  taxScenarioDescription: string;
+  purchaseDate: Date;
+  propertyType: PropertyTypeInput;
+  otherRentalIncome: number;
+  cpiAssumptionPercent: number;
+
+  /** Capital gains — present when sale inputs provided */
+  cgt?: CalculateCgtResult;
+  carryForwardLossesAtSale?: number;
 };
 
 export function analyzeProperty(input: PropertyAnalysisInputs): PropertyAnalysisResult {
@@ -549,7 +608,22 @@ export function analyzeProperty(input: PropertyAnalysisInputs): PropertyAnalysis
     loanTermYears,
     pmFeePercent,
     strategy,
+    otherRentalIncome: otherRentalIncomeIn,
+    cpiAssumptionPercent: cpiIn,
+    isPreCGTAsset,
+    marketValueAt1July2027,
+    saleDate: saleDateIn,
+    salePrice: salePriceIn,
+    holdingCostsCapitalised: holdingCostsIn,
+    expensesGrowthRatePercent: expensesGrowthIn,
   } = input;
+
+  const purchaseDate = coercePurchaseDate(input.purchaseDate);
+  const expensesGrowthRatePercent = expensesGrowthIn ?? 2.5;
+  const propertyType: PropertyTypeInput = input.propertyType ?? "established";
+  const otherRentalIncome = otherRentalIncomeIn ?? 0;
+  const cpiAssumptionPercent = cpiIn ?? 3;
+  const taxScenarioId = classifyTaxScenario({ purchaseDate, propertyType });
 
   // Yields
   const rentAnnualGross = weekly * 52;
@@ -592,9 +666,68 @@ export function analyzeProperty(input: PropertyAnalysisInputs): PropertyAnalysis
   const depreciation = estimateDepreciation({ purchasePrice: price, yearBuilt, buildingValuePercent, fixturesEstimate });
   const totalDep = depreciation.totalDepreciation;
   const taxablePropertyResult = preTaxCashflow - totalDep;
-  const taxEffect = taxablePropertyResult * m;
+
+  const fyFirst = fyEndingJuneYearForProjectionRow(purchaseDate, 0);
+  const year1Impact = calculateAnnualTaxImpact({
+    propertyTaxableIncome: taxablePropertyResult,
+    scenario: taxScenarioId,
+    fyEndingJuneYear: fyFirst,
+    marginalRate: m,
+    carryForwardBalance: 0,
+    otherRentalIncome,
+  });
+  const taxEffect = year1Impact.taxableRentalIncome * m;
   const afterTaxCashflow = preTaxCashflow - taxEffect;
   const taxBenefit = afterTaxCashflow - preTaxCashflow;
+
+  let cgt: CalculateCgtResult | undefined;
+  let carryForwardLossesAtSale: number | undefined;
+
+  if (saleDateIn !== undefined && salePriceIn !== undefined && Number.isFinite(salePriceIn)) {
+    const saleDate = coercePurchaseDate(saleDateIn);
+    const salePrice = salePriceIn;
+    const holdingCostsCapitalised = holdingCostsIn ?? 0;
+    const holdYears = holdYearsFromDates(purchaseDate, saleDate);
+    const scheduleYears = Math.max(0, holdYears - 1);
+    const schedule = buildAmortisationScheduleYearly(
+      loan,
+      rate,
+      scheduleYears,
+      isInterestOnly,
+      loanTermYears
+    );
+    const { ledger } = buildCashflowProjectionSeriesBudget2026({
+      weeklyRent: weekly,
+      rentalGrowthRatePercent: rentalGrowthRate,
+      annualExpenses: expenses,
+      expensesGrowthRatePercent,
+      amortisation: schedule,
+      buildingDepreciation: depreciation.buildingDepreciation,
+      fixturesEstimate,
+      marginalTaxRate: m,
+      vacancyPercent: vacancy,
+      pmFeePercent,
+      purchaseDate,
+      propertyType,
+      otherRentalIncome,
+    });
+    carryForwardLossesAtSale = ledger[ledger.length - 1]?.carryForwardBalanceEnd ?? 0;
+
+    cgt = calculateCGT({
+      purchaseDate,
+      purchasePrice: price,
+      saleDate,
+      salePrice,
+      scenario: taxScenarioId,
+      propertyType,
+      holdingCostsCapitalised,
+      marginalRate: m,
+      carryForwardLossesAtSale,
+      cpiAnnualPercent: cpiAssumptionPercent,
+      isPreCGTAsset,
+      marketValueAt1July2027,
+    });
+  }
 
   // Cash-on-cash return
   const cashOnCashReturn = totalCashRequired > 0 ? (afterTaxCashflow / totalCashRequired) * 100 : 0;
@@ -721,5 +854,14 @@ export function analyzeProperty(input: PropertyAnalysisInputs): PropertyAnalysis
       targetYieldPercentForBuy,
       isStrong,
     },
+
+    taxScenarioId,
+    taxScenarioDescription: taxScenarioLabel(taxScenarioId),
+    purchaseDate,
+    propertyType,
+    otherRentalIncome,
+    cpiAssumptionPercent,
+    cgt,
+    carryForwardLossesAtSale,
   };
 }

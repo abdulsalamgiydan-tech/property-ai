@@ -32,6 +32,15 @@ export type AnalyseDraftV1 = {
   cashflowView: "annual" | "weekly" | "monthly";
   suburbSuggestionActive: boolean;
   savedInputs: PropertyAnalysisInputs | null;
+  purchaseDate?: string;
+  propertyType?: "established" | "new_build";
+  otherRentalIncome?: string;
+  cpiAssumptionPercent?: string;
+  saleDate?: string;
+  salePrice?: string;
+  holdingCostsCapitalised?: string;
+  isPreCGTAsset?: boolean;
+  marketValueAt1July2027?: string;
 };
 
 export type CompareChartTab = "overlay" | "propertyA" | "propertyB";

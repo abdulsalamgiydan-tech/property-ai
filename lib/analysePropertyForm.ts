@@ -1,5 +1,6 @@
 import type { InvestmentStrategyId } from "@/lib/investmentStrategy";
 import type { PropertyAnalysisInputs } from "@/lib/propertyAnalysis";
+import type { PropertyTypeInput } from "@/lib/tax/budget2026Scenario";
 
 function parseNumber(value: string): number {
   const n = parseFloat(value.replace(/,/g, ""));
@@ -30,6 +31,16 @@ export type AnalysePropertyFormFields = {
   suburb: string;
   state: string;
   isInterestOnly: boolean;
+  /** yyyy-mm-dd — omit from analysable input when empty to preserve legacy default purchase date */
+  purchaseDate?: string;
+  propertyType?: "established" | "new_build";
+  otherRentalIncome?: string;
+  cpiAssumptionPercent?: string;
+  saleDate?: string;
+  salePrice?: string;
+  holdingCostsCapitalised?: string;
+  isPreCGTAsset?: boolean;
+  marketValueAt1July2027?: string;
 };
 
 export type AnalyseFormBuildResult =
@@ -132,31 +143,84 @@ export function buildPropertyAnalysisInputFromForm(
       "Enter the management fee as a percentage of rent collected (0 or higher).";
   }
 
+  const otherRentRaw = f.otherRentalIncome ?? "";
+  const cpiRaw = f.cpiAssumptionPercent ?? "";
+  const salePriceRaw = f.salePrice ?? "";
+  const mvRaw = f.marketValueAt1July2027 ?? "";
+  const holdingRaw = f.holdingCostsCapitalised ?? "";
+
+  const otherRent = parseNumber(otherRentRaw);
+  const cpi = parseNumber(cpiRaw);
+  const salePriceNum = salePriceRaw.trim() === "" ? NaN : parseNumber(salePriceRaw);
+  const mv2027 = parseNumber(mvRaw);
+  const holdingCosts = parseNumber(holdingRaw);
+
+  if (otherRentRaw.trim() !== "" && (!Number.isFinite(otherRent) || otherRent < 0)) {
+    nextErrors.otherRentalIncome = "Enter a valid amount (0 or higher).";
+  }
+  if (cpiRaw.trim() !== "" && (!Number.isFinite(cpi) || cpi < 0 || cpi > 50)) {
+    nextErrors.cpiAssumptionPercent = "CPI assumption should be between 0% and 50% p.a.";
+  }
+  if (salePriceRaw.trim() !== "" && (!Number.isFinite(salePriceNum) || salePriceNum < 0)) {
+    nextErrors.salePrice = "Sale price must be zero or higher.";
+  }
+  if (f.isPreCGTAsset && mvRaw.trim() !== "") {
+    if (!Number.isFinite(mv2027) || mv2027 <= 0) {
+      nextErrors.marketValueAt1July2027 = "Enter a positive market value at 1 July 2027.";
+    }
+  }
+
   if (Object.keys(nextErrors).length > 0) {
     return { ok: false, errors: nextErrors };
   }
 
+  const purchaseDateIso = (f.purchaseDate ?? "").trim();
+  const saleDateIso = (f.saleDate ?? "").trim();
+
+  const input: PropertyAnalysisInputs = {
+    purchasePrice: price,
+    weeklyRent: weekly,
+    rentalGrowthRatePercent: rentalGrowth,
+    interestRatePercent: rate,
+    depositPercent: deposit,
+    annualExpenses: expenses,
+    preTaxSalary: salary,
+    yearBuilt: yb,
+    buildingValuePercent: bvp,
+    fixturesEstimate: fix,
+    suburbGrowthPercent: growth,
+    vacancyPercent: vacancy,
+    suburb: f.suburb.trim(),
+    state: f.state,
+    isInterestOnly: f.isInterestOnly,
+    loanTermYears: loanYears,
+    pmFeePercent: pmFee,
+    strategy,
+    expensesGrowthRatePercent: expensesGrowth,
+    propertyType: (f.propertyType ?? "established") as PropertyTypeInput,
+    otherRentalIncome: Number.isFinite(otherRent) ? otherRent : 0,
+    cpiAssumptionPercent: Number.isFinite(cpi) ? cpi : 3,
+    isPreCGTAsset: f.isPreCGTAsset ?? false,
+  };
+
+  if (purchaseDateIso !== "") {
+    input.purchaseDate = new Date(`${purchaseDateIso}T12:00:00`);
+  }
+
+  if (input.isPreCGTAsset && Number.isFinite(mv2027) && mv2027 > 0) {
+    input.marketValueAt1July2027 = mv2027;
+  }
+
+  if (saleDateIso !== "" && Number.isFinite(salePriceNum)) {
+    input.saleDate = new Date(`${saleDateIso}T12:00:00`);
+    input.salePrice = salePriceNum;
+  }
+  if (holdingRaw.trim() !== "" && Number.isFinite(holdingCosts) && holdingCosts >= 0) {
+    input.holdingCostsCapitalised = holdingCosts;
+  }
+
   return {
     ok: true,
-    input: {
-      purchasePrice: price,
-      weeklyRent: weekly,
-      rentalGrowthRatePercent: rentalGrowth,
-      interestRatePercent: rate,
-      depositPercent: deposit,
-      annualExpenses: expenses,
-      preTaxSalary: salary,
-      yearBuilt: yb,
-      buildingValuePercent: bvp,
-      fixturesEstimate: fix,
-      suburbGrowthPercent: growth,
-      vacancyPercent: vacancy,
-      suburb: f.suburb.trim(),
-      state: f.state,
-      isInterestOnly: f.isInterestOnly,
-      loanTermYears: loanYears,
-      pmFeePercent: pmFee,
-      strategy,
-    },
+    input,
   };
 }
