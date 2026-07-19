@@ -39,11 +39,16 @@ const LICENCE =
 
 const ABS_BASE =
   "https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026";
+// Canonical path ABS 301-redirects to (observed 2026-07-19); file links on the
+// live pages use this base.
+const ABS_CANONICAL =
+  "https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-3-july-2021-june-2026";
 const PAGES = {
   landing: ABS_BASE,
   boundaries: `${ABS_BASE}/access-and-downloads/digital-boundary-files`,
   allocations: `${ABS_BASE}/access-and-downloads/allocation-files`,
   correspondences: `${ABS_BASE}/access-and-downloads/correspondences`,
+  allocationsCanonical: `${ABS_CANONICAL}/access-and-downloads/allocation-files`,
 };
 
 const RAW_ROOT = "warehouse/data/raw/asgs/ASGS3_2021"; // gitignored
@@ -108,6 +113,38 @@ const REQUIRED_CORRESPONDENCES = [
   ["SA2", "LGA", "derived_from_sa1"],
 ];
 
+// Exact artefact names resolved 2026-07-19 from the official ABS
+// allocation-files page: allocations are published at MESH BLOCK level as
+// xlsx (MB_2021_AUST.xlsx maps MB->SA1..STATE; SAL/POA/LGA_2021_AUST.xlsx
+// map MB->target). SA1->SAL/POA/LGA ratios are derived by joining on MB,
+// area-weighted from MB Albers areas until Census MB dwelling counts land.
+const ALLOCATION_TARGET_FILE = {
+  SAL: "SAL_2021_AUST.xlsx",
+  POA: "POA_2021_AUST.xlsx",
+  LGA: "LGA_2021_AUST.xlsx",
+};
+
+const meshBlockAllocationEntry = {
+  source_id: "abs_asgs",
+  dataset_id: "asgs_mb_2021_allocation",
+  entry_type: "allocation_input",
+  dataset_name:
+    "ASGS Ed.3 Mesh Block allocation file (MB -> SA1..STATE main structure, incl. Albers areas)",
+  publisher: PUBLISHER,
+  official_url: `${PAGES.allocationsCanonical}/MB_2021_AUST.xlsx`,
+  geography_level: "MB",
+  file_format: "xlsx",
+  expected_file_name: "MB_2021_AUST.xlsx",
+  boundary_version: BOUNDARY_VERSION,
+  licence_notes: LICENCE,
+  intended_raw_storage_path: `${RAW_ROOT}/allocations/MB_2021_AUST.xlsx`,
+  intended_staging_table: "staging.asgs_correspondence",
+  intended_core_table: "core.bridge_geography_correspondence",
+  status: "needs_review",
+  notes:
+    "Shared input for all SA1-based correspondences: joins to SAL/POA/LGA MB allocations on MB_CODE_2021.",
+};
+
 const correspondenceEntries = REQUIRED_CORRESPONDENCES.map(
   ([source, target, method]) => ({
     source_id: "abs_asgs",
@@ -116,23 +153,29 @@ const correspondenceEntries = REQUIRED_CORRESPONDENCES.map(
     correspondence_pair: `${source}->${target}`,
     dataset_name:
       method === "official_allocation"
-        ? `ASGS Ed.3 ${source} to ${target} allocation (official ABS allocation/correspondence file)`
+        ? `ASGS Ed.3 ${source} to ${target} correspondence (from official ABS MB-level allocation files)`
         : `ASGS Ed.3 ${source} to ${target} correspondence (derived by aggregating SA1 allocations)`,
     publisher: PUBLISHER,
     official_url:
-      method === "official_allocation" ? PAGES.allocations : PAGES.correspondences,
+      method === "official_allocation"
+        ? `${PAGES.allocationsCanonical}/${ALLOCATION_TARGET_FILE[target]}`
+        : PAGES.correspondences,
     geography_level: `${source}->${target}`,
-    file_format: "csv",
-    expected_file_name: null, // exact ABS file names to be confirmed from the pages above
+    file_format: method === "official_allocation" ? "xlsx" : "derived",
+    expected_file_name:
+      method === "official_allocation" ? ALLOCATION_TARGET_FILE[target] : null,
     boundary_version: BOUNDARY_VERSION,
     licence_notes: LICENCE,
-    intended_raw_storage_path: `${RAW_ROOT}/correspondences/`,
+    intended_raw_storage_path:
+      method === "official_allocation"
+        ? `${RAW_ROOT}/allocations/${ALLOCATION_TARGET_FILE[target]}`
+        : null,
     intended_staging_table: "staging.asgs_correspondence",
     intended_core_table: "core.bridge_geography_correspondence",
     status: "needs_review",
     notes:
       method === "official_allocation"
-        ? "Exact ABS artefact name not yet confirmed — pick from the allocation-files / correspondences pages during load; do not guess. SA1 links to non-ABS structures may be published via Mesh Block allocations, in which case derive SA1-level ratios from MB counts."
+        ? `MB-level allocation (MB -> ${target}); SA1 -> ${target} ratios derived by joining MB_2021_AUST.xlsx on MB_CODE_2021, area-weighted (ratio_basis=area) until Census MB dwelling counts are added.`
         : "Not a downloadable ABS file: derived internally by aggregating SA1 allocations with dwelling>population>area weights (see SPRINT_2 plan §3).",
   })
 );
@@ -208,7 +251,12 @@ async function verifyUrl(url) {
 
 // ── Main ─────────────────────────────────────────────────────────────────
 
-const entries = [...boundaryEntries, ...correspondenceEntries, ...documentationEntries];
+const entries = [
+  ...boundaryEntries,
+  meshBlockAllocationEntry,
+  ...correspondenceEntries,
+  ...documentationEntries,
+];
 
 if (OFFLINE) {
   console.log("--offline: skipping URL verification; all entries stay needs_review.");
