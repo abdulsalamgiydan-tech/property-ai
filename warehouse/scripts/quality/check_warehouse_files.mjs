@@ -8,6 +8,7 @@
  * Run: npm run warehouse:check
  */
 
+import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -37,6 +38,9 @@ const requiredFiles = [
   "warehouse/docs/WAREHOUSE_PLAN.md",
   "supabase/migrations/003_warehouse_foundation.sql",
   "supabase/migrations/004_postgis_geography.sql",
+  "supabase/migrations/005_asgs_staging.sql",
+  "warehouse/reports/asgs_source_manifest.json",
+  "warehouse/reports/asgs_source_manifest.md",
 ];
 
 const expectedRegisterHeaders = [
@@ -161,6 +165,73 @@ check(
   "WAREHOUSE_PLAN.md states missing data stays missing",
   planContent.includes("missing data stays missing")
 );
+
+console.log("\nMigration 005 sanity:");
+const sql005 = readSqlLower("supabase/migrations/005_asgs_staging.sql");
+if (sql005 !== null) {
+  check("no destructive DROP TABLE", !sql005.includes("drop table"));
+  check("no destructive DROP SCHEMA", !sql005.includes("drop schema"));
+  check("no TRUNCATE", !sql005.includes("truncate"));
+  check("no DELETE", !sql005.includes("delete from"));
+  check(
+    "creates staging.asgs_geography",
+    sql005.includes("create table if not exists staging.asgs_geography")
+  );
+  check(
+    "creates staging.asgs_correspondence",
+    sql005.includes("create table if not exists staging.asgs_correspondence")
+  );
+  check(
+    "staging geography has geometry column",
+    sql005.includes("geometry(multipolygon, 4326)")
+  );
+} else {
+  check("migration 005 readable", false, "file not found");
+}
+
+console.log("\nASGS source manifest:");
+const manifestPath = path.join(repoRoot, "warehouse/reports/asgs_source_manifest.json");
+if (fs.existsSync(manifestPath)) {
+  let manifest = null;
+  try {
+    manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  } catch {
+    check("manifest is valid JSON", false, "parse error");
+  }
+  if (manifest) {
+    check("manifest is valid JSON", Array.isArray(manifest.entries));
+    const entries = manifest.entries ?? [];
+    const boundaryLevels = new Set(
+      entries.filter((e) => e.entry_type === "boundary").map((e) => e.geography_level)
+    );
+    for (const level of ["STATE", "GCCSA", "SA4", "SA3", "SA2", "SA1", "LGA", "SAL", "POA"]) {
+      check(`boundary entry for ${level}`, boundaryLevels.has(level));
+    }
+    const pairs = new Set(
+      entries.filter((e) => e.entry_type === "correspondence").map((e) => e.correspondence_pair)
+    );
+    for (const pair of ["SA1->SAL", "SA1->POA", "SA1->LGA", "SA2->SAL", "SA2->POA", "SA2->LGA"]) {
+      check(`correspondence entry for ${pair}`, pairs.has(pair));
+    }
+  }
+} else {
+  check("manifest exists", false, "run discover_asgs_sources.mjs");
+}
+
+console.log("\nNo raw data committed:");
+try {
+  const tracked = execSync(
+    'git ls-files -- "*.zip" "*.shp" "*.gpkg" "*.parquet" "*.duckdb" "*.dbf" "warehouse/data" "data"',
+    { cwd: repoRoot, encoding: "utf8" }
+  ).trim();
+  check(
+    "no raw/boundary/archive files tracked by git",
+    tracked === "",
+    tracked ? `tracked: ${tracked.split("\n").slice(0, 5).join(", ")}` : undefined
+  );
+} catch (err) {
+  check("git ls-files raw-data scan", false, `could not run git: ${err.message}`);
+}
 
 console.log("");
 if (failures > 0) {

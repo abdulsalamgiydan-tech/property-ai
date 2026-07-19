@@ -12,16 +12,35 @@ sources:
   abs_asgs:
     enabled: true
     priority: 1            # geography backbone — everything else depends on it
+    # Discovered artefacts + verified URLs: warehouse/reports/asgs_source_manifest.json
+    # (regenerate with warehouse/scripts/geography/discover_asgs_sources.mjs)
+    discovery:
+      landing: https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026
+      boundary_downloads: https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files
+      allocation_files: https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/allocation-files
+      correspondences: https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/correspondences
+    raw_storage: warehouse/data/raw/asgs/ASGS3_2021   # gitignored
     extract:
       method: file_download
-      formats: [csv, gpkg]
+      formats: [shp_zip, csv]
     datasets:
-      - asgs_sal_2021       # Suburbs and Localities
-      - asgs_poa_2021       # Postal Areas
-      - asgs_sa1_to_sa4_2021
-      - asgs_lga_2021
-      - asgs_gccsa_state_2021
-      - asgs_correspondences # SA1 -> SAL / POA allocation files
+      # one boundary dataset per level (GDA2020 shapefile zips)
+      - asgs_state_2021_boundaries    # STE zip URL still needs_review in manifest
+      - asgs_gccsa_2021_boundaries
+      - asgs_sa4_2021_boundaries
+      - asgs_sa3_2021_boundaries
+      - asgs_sa2_2021_boundaries
+      - asgs_sa1_2021_boundaries
+      - asgs_lga_2021_boundaries
+      - asgs_sal_2021_boundaries
+      - asgs_poa_2021_boundaries
+      # correspondences (SA1-based official allocations; SA2 versions derived)
+      - asgs_corr_sa1_to_sal_2021
+      - asgs_corr_sa1_to_poa_2021
+      - asgs_corr_sa1_to_lga_2021
+      - asgs_corr_sa2_to_sal_2021
+      - asgs_corr_sa2_to_poa_2021
+      - asgs_corr_sa2_to_lga_2021
 
   abs_census:
     enabled: false          # future sprint
