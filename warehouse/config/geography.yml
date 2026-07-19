@@ -1,0 +1,50 @@
+# Geography model configuration.
+# Output levels are suburb (SAL) and postcode (POA).
+# Internal model keeps the full ASGS hierarchy — do NOT assume suburb = postcode = SA2.
+
+boundary_edition:
+  asgs_edition: 3
+  reference_year: 2021
+
+output_levels:
+  suburb:
+    geography_type: SAL
+    note: ABS Suburbs and Localities approximate gazetted suburbs
+  postcode:
+    geography_type: POA
+    note: ABS Postal Areas approximate Australia Post postcodes; not identical
+
+internal_levels:
+  - STATE
+  - GCCSA
+  - SA4
+  - SA3
+  - SA2
+  - SA1
+  - LGA
+  - SAL
+  - POA
+
+# Strict containment hierarchy (child -> parent). SAL, POA and LGA sit OUTSIDE
+# this hierarchy and are linked via correspondence weights, not containment.
+containment_hierarchy:
+  SA1: SA2
+  SA2: SA3
+  SA3: SA4
+  SA4: GCCSA
+  GCCSA: STATE
+
+# Cross-structure links resolved through core.bridge_geography_correspondence
+# using SA1-based allocation weights.
+correspondence_pairs:
+  - { source: SA1, target: SAL }
+  - { source: SA1, target: POA }
+  - { source: SA1, target: LGA }
+  - { source: SA2, target: SAL }
+  - { source: SA2, target: POA }
+  - { source: SA2, target: LGA }
+  - { source: SAL, target: POA }
+
+weighting:
+  preferred_order: [dwelling_weight, population_weight, area_weight]
+  note: use dwelling counts where available; fall back to population, then area

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "warehouse:check": "node warehouse/scripts/quality/check_warehouse_files.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",

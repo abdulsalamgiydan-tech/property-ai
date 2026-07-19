@@ -24,6 +24,15 @@
 .DS_Store
 *.pem
 
+# archives
+*.zip
+
+# warehouse raw data — never commit datasets
+data/
+warehouse/data/
+*.parquet
+*.duckdb
+
 # debug
 npm-debug.log*
 yarn-debug.log*

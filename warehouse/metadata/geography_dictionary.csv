@@ -1,0 +1,10 @@
+geography_type,full_name,defined_by,role_in_warehouse,approx_count_australia,notes
+STATE,State or Territory,ABS ASGS,internal_hierarchy_and_output_dimension,9,Includes Other Territories
+GCCSA,Greater Capital City Statistical Area,ABS ASGS,internal_hierarchy,35,Capital city vs rest-of-state split
+SA4,Statistical Area Level 4,ABS ASGS,internal_hierarchy,108,Labour-market sized regions
+SA3,Statistical Area Level 3,ABS ASGS,internal_hierarchy,359,Regional city / large LGA sized
+SA2,Statistical Area Level 2,ABS ASGS,internal_analysis_unit,2473,Primary ABS data release level; NOT equal to suburb or postcode
+SA1,Statistical Area Level 1,ABS ASGS,internal_allocation_unit,61845,Building block for correspondence weighting
+LGA,Local Government Area,State governments via ABS,internal_hierarchy_and_source_join,566,Council boundaries; change with amalgamations
+SAL,Suburbs and Localities,ABS ASGS (non-ABS structure),primary_output_unit_suburb,15353,ABS approximation of gazetted suburbs; the warehouse "suburb" output level
+POA,Postal Area,ABS ASGS (non-ABS structure),primary_output_unit_postcode,2644,ABS approximation of Australia Post postcodes; the warehouse "postcode" output level; not identical to postcodes

@@ -1,0 +1,66 @@
+# Warehouse source configuration.
+# Free-data-first: every source here must be free, official/public, and licensed for reuse.
+# No commercial data providers and no scraping of protected property portals.
+# Secrets never live in this file — connection details come from environment variables.
+
+defaults:
+  licence_requirement: free_reuse_permitted
+  allow_scraping_protected_sites: false
+  allow_commercial_data: false
+
+sources:
+  abs_asgs:
+    enabled: true
+    priority: 1            # geography backbone — everything else depends on it
+    extract:
+      method: file_download
+      formats: [csv, gpkg]
+    datasets:
+      - asgs_sal_2021       # Suburbs and Localities
+      - asgs_poa_2021       # Postal Areas
+      - asgs_sa1_to_sa4_2021
+      - asgs_lga_2021
+      - asgs_gccsa_state_2021
+      - asgs_correspondences # SA1 -> SAL / POA allocation files
+
+  abs_census:
+    enabled: false          # future sprint
+    priority: 2
+    extract:
+      method: file_download
+      formats: [csv]
+
+  abs_building_approvals:
+    enabled: false          # future sprint
+    priority: 3
+    extract:
+      method: file_download
+      formats: [xlsx, csv]
+
+  rba_rates:
+    enabled: false          # future sprint
+    priority: 4
+    extract:
+      method: file_download
+      formats: [xlsx, csv]
+
+  abs_lending_indicators:
+    enabled: false          # future sprint
+    priority: 5
+    extract:
+      method: file_download
+      formats: [xlsx, csv]
+
+  nsw_vg_sales:
+    enabled: false          # future sprint
+    priority: 6
+    extract:
+      method: file_download
+      formats: [dat, zip_extracted_locally]
+
+  nsw_rental_bonds:
+    enabled: false          # future sprint
+    priority: 7
+    extract:
+      method: file_download
+      formats: [xlsx, csv]
