@@ -1,0 +1,67 @@
+{
+  "generated_at": "2026-07-19T20:17:17Z",
+  "sprint": "Sprint 2 Part C5 — branch validation",
+  "target": {
+    "supabase_branch": "warehouse-validation",
+    "branch_ref": "lzonauinzatmtytyoems",
+    "production_touched": false,
+    "production_warehouse_schemas": 0,
+    "core_promotion_performed": false
+  },
+  "checks": {
+    "geo_total_rows": 83393,
+    "geo_rows_by_type": {
+      "STATE": 10, "GCCSA": 35, "SA4": 108, "SA3": 359, "SA2": 2473,
+      "SA1": 61845, "LGA": 566, "SAL": 15353, "POA": 2644
+    },
+    "all_9_levels_present": true,
+    "corr_total_rows": 227318,
+    "corr_rows_by_pair": {
+      "SA1->SAL": 73131, "SA1->POA": 65318, "SA1->LGA": 62372,
+      "SA2->SAL": 17496, "SA2->POA": 5904, "SA2->LGA": 3097
+    },
+    "sa1_correspondences_loaded": ["SA1->SAL", "SA1->POA", "SA1->LGA"],
+    "sa2_correspondences": "loaded (derived_sa1_aggregation from official MB allocations), not direct ABS files",
+    "invalid_geometry_count": 0,
+    "null_geography_code_count": 0,
+    "duplicate_geography_code_count": 0,
+    "zero_area_geometry_count": 0,
+    "srid_distinct": [4326],
+    "missing_lineage_geography": 0,
+    "missing_lineage_correspondence": 0,
+    "quarantined_geography_rows": 152,
+    "quarantined_geography_reasons": { "missing_geometry": 152 },
+    "quarantined_correspondence_rows": 159,
+    "quarantined_correspondence_reasons": { "zero_area_source": 159 },
+    "weights_reconciliation": {
+      "tolerance": 0.001,
+      "pairs_checked": 6,
+      "pairs_passed": 6,
+      "sources_not_reconciling": 0
+    }
+  },
+  "meta_results": {
+    "data_quality_result_rows": 33,
+    "quality_by_rule": [
+      { "rule_id": "no_duplicate_grain", "severity": "blocker", "status": "passed", "runs": 9, "failed_records": 0 },
+      { "rule_id": "nulls_not_zero", "severity": "blocker", "status": "passed", "runs": 9, "failed_records": 0 },
+      { "rule_id": "weights_reconcile", "severity": "blocker", "status": "passed", "runs": 6, "failed_records": 0 },
+      { "rule_id": "geometry_valid", "severity": "warning", "status": "failed", "runs": 9, "failed_records": 152, "note": "the 152 are ABS special-purpose codes published without geometry; quarantined and documented, expected" }
+    ],
+    "coverage_result_rows": 9,
+    "coverage_by_level": [
+      { "geography_type": "STATE", "expected": 9, "actual_non_quarantined": 9, "score": 1.0 },
+      { "geography_type": "GCCSA", "expected": 35, "actual_non_quarantined": 16, "score": 0.4571, "note": "dictionary expected count includes 19 special codes that have no geometry; all 35 published GCCSA rows are staged" },
+      { "geography_type": "SA4", "expected": 108, "actual_non_quarantined": 89, "score": 0.8241, "note": "19 special codes quarantined; all 108 rows staged" },
+      { "geography_type": "SA3", "expected": 359, "actual_non_quarantined": 340, "score": 0.9471, "note": "19 special codes quarantined; all 359 rows staged" },
+      { "geography_type": "SA2", "expected": 2473, "actual_non_quarantined": 2454, "score": 0.9923, "note": "19 special codes quarantined; all 2,473 rows staged" },
+      { "geography_type": "SA1", "expected": 61845, "actual_non_quarantined": 61811, "score": 0.9995, "note": "34 special codes quarantined; all 61,845 rows staged" },
+      { "geography_type": "LGA", "expected": 566, "actual_non_quarantined": 547, "score": 0.9664, "note": "19 special codes quarantined; all 566 rows staged" },
+      { "geography_type": "SAL", "expected": 15353, "actual_non_quarantined": 15334, "score": 0.9988, "note": "19 special codes quarantined; all 15,353 rows staged" },
+      { "geography_type": "POA", "expected": 2644, "actual_non_quarantined": 2641, "score": 0.9989, "note": "3 special codes quarantined; all 2,644 rows staged" }
+    ],
+    "load_runs": { "succeeded": 16, "failed": 0 }
+  },
+  "verdict": "Staging validation PASSED. Every level staged at exact ABS feature counts; zero invalid geometries, NULL codes, duplicates or missing lineage; all weight reconciliations green. Quarantines fully explained by ABS special-purpose codes. Ready for Part D core promotion review.",
+  "next_step": "Await explicit approval to promote staging -> core.dim_geography + bridges (Part D). No core writes performed."
+}
