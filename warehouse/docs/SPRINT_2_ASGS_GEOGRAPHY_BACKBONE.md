@@ -122,9 +122,10 @@ under the rule ids in `warehouse/config/quality_rules.yml`.
 
 ## Deliverables checklist
 
-- [ ] `discover_asgs_sources.mjs` implemented (produces a source manifest, no big downloads in repo)
-- [ ] `load_asgs_backbone.mjs` implemented (staging → core → bridges with gates)
-- [ ] `meta.source` / `meta.dataset` rows for ASGS registered
-- [ ] All 9 levels present in `core.dim_geography` with geometry
-- [ ] All 6 correspondences loaded with reconciling weights
+- [x] `discover_asgs_sources.mjs` implemented (produces a source manifest, no big downloads in repo)
+- [x] Part C: controlled download (13 files, SHA-256 inventory) + local extraction/inspection reports
+- [x] `load_asgs_backbone.mjs` staging phase implemented (staging tables + lineage + quality/coverage results; branch-only guardrails in code)
+- [ ] `meta.source` / `meta.dataset` rows for ASGS registered *(runs with the staging load — needs `WAREHOUSE_VALIDATION_DB_URL`)*
+- [ ] Part D: all 9 levels promoted to `core.dim_geography` with geometry *(blocked pending staging validation + approval)*
+- [ ] Part D: all 6 correspondences promoted with reconciling weights *(blocked pending approval)*
 - [ ] Validation gates green, results recorded in meta tables

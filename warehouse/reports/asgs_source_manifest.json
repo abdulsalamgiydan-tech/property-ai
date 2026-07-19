@@ -26,7 +26,7 @@
       "intended_staging_table": "staging.asgs_geography",
       "intended_core_table": "core.dim_geography",
       "status": "discovered",
-      "notes": "Exact href verified on the official ABS digital boundary files page 2026-07-20 (page-listed size 20.56 MB). Source SRS is GDA2020; transform to EPSG:4326 at staging. Note the live ABS href path is '...standard-asgs/edition-3-july-2021-june-2026/...' (the earlier candidate path redirects)."
+      "notes": "Exact href verified on the official ABS digital boundary files page 2026-07-20 (page-listed size 20.56 MB). Source SRS is GDA2020; transform to EPSG:4326 at staging. Note the live ABS href path is '...standard-asgs/edition-3-july-2021-june-2026/...' (the earlier candidate path redirects). Re-verified 2026-07-20 for Part C download: direct HEAD HTTP 200 and exact href present on the official ABS digital boundary files page."
     },
     {
       "source_id": "abs_asgs",
@@ -174,6 +174,24 @@
     },
     {
       "source_id": "abs_asgs",
+      "dataset_id": "asgs_mb_2021_allocation",
+      "entry_type": "allocation_input",
+      "dataset_name": "ASGS Ed.3 Mesh Block allocation file (MB -> SA1..STATE main structure, incl. Albers areas)",
+      "publisher": "Australian Bureau of Statistics",
+      "official_url": "https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-3-july-2021-june-2026/access-and-downloads/allocation-files/MB_2021_AUST.xlsx",
+      "geography_level": "MB",
+      "file_format": "xlsx",
+      "expected_file_name": "MB_2021_AUST.xlsx",
+      "boundary_version": "ASGS3_2021",
+      "licence_notes": "CC BY 4.0 (Creative Commons Attribution 4.0 International) — attribute the ABS",
+      "intended_raw_storage_path": "warehouse/data/raw/asgs/ASGS3_2021/correspondences/MB_2021_AUST.xlsx",
+      "intended_staging_table": "staging.asgs_correspondence",
+      "intended_core_table": "core.bridge_geography_correspondence",
+      "status": "discovered",
+      "notes": "Shared input for all SA1-based correspondences: joins to SAL/POA/LGA MB allocations on MB_CODE_2021. Exact href verified on the official ABS allocation files page 2026-07-20."
+    },
+    {
+      "source_id": "abs_asgs",
       "dataset_id": "asgs_corr_sa1_to_sal_2021",
       "entry_type": "correspondence",
       "correspondence_pair": "SA1->SAL",
@@ -182,14 +200,14 @@
       "official_url": "https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-3-july-2021-june-2026/access-and-downloads/allocation-files/SAL_2021_AUST.xlsx",
       "geography_level": "SA1->SAL",
       "file_format": "xlsx",
-      "expected_file_name": "SAL_2021_AUST.xlsx + MB_2021_AUST.xlsx",
+      "expected_file_name": "SAL_2021_AUST.xlsx",
       "boundary_version": "ASGS3_2021",
       "licence_notes": "CC BY 4.0 (Creative Commons Attribution 4.0 International) — attribute the ABS",
-      "intended_raw_storage_path": "warehouse/data/raw/asgs/ASGS3_2021/correspondences/",
+      "intended_raw_storage_path": "warehouse/data/raw/asgs/ASGS3_2021/correspondences/SAL_2021_AUST.xlsx",
       "intended_staging_table": "staging.asgs_correspondence",
       "intended_core_table": "core.bridge_geography_correspondence",
       "status": "discovered",
-      "notes": "Resolved 2026-07-20 from the official ABS allocation files page: ABS publishes no direct SA1-level file for this pair. Official inputs are Mesh Block allocations: SAL_2021_AUST.xlsx (MB->target, page-listed size 19.5 MB) joined to MB_2021_AUST.xlsx (MB->SA1..STATE main structure, 33.69 MB). SA1-level pairs are derived by aggregating MB rows (ratio_basis mesh_block_count at staging; dwelling/population weights applied later at core per Sprint 2 plan)."
+      "notes": "Resolved 2026-07-20 from the official ABS allocation files page: ABS publishes no direct SA1-level file for this pair. Official inputs are Mesh Block allocations: SAL_2021_AUST.xlsx (MB->target, page-listed size 19.5 MB) joined to MB_2021_AUST.xlsx (MB->SA1..STATE main structure, 33.69 MB). SA1-level pairs are derived by aggregating MB rows (ratio_basis mesh_block_count at staging; dwelling/population weights applied later at core per Sprint 2 plan). Requires the shared MB input asgs_mb_2021_allocation (MB_2021_AUST.xlsx) joined on MB_CODE_2021."
     },
     {
       "source_id": "abs_asgs",
@@ -201,14 +219,14 @@
       "official_url": "https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-3-july-2021-june-2026/access-and-downloads/allocation-files/POA_2021_AUST.xlsx",
       "geography_level": "SA1->POA",
       "file_format": "xlsx",
-      "expected_file_name": "POA_2021_AUST.xlsx + MB_2021_AUST.xlsx",
+      "expected_file_name": "POA_2021_AUST.xlsx",
       "boundary_version": "ASGS3_2021",
       "licence_notes": "CC BY 4.0 (Creative Commons Attribution 4.0 International) — attribute the ABS",
-      "intended_raw_storage_path": "warehouse/data/raw/asgs/ASGS3_2021/correspondences/",
+      "intended_raw_storage_path": "warehouse/data/raw/asgs/ASGS3_2021/correspondences/POA_2021_AUST.xlsx",
       "intended_staging_table": "staging.asgs_correspondence",
       "intended_core_table": "core.bridge_geography_correspondence",
       "status": "discovered",
-      "notes": "Resolved 2026-07-20 from the official ABS allocation files page: ABS publishes no direct SA1-level file for this pair. Official inputs are Mesh Block allocations: POA_2021_AUST.xlsx (MB->target, page-listed size 17.72 MB) joined to MB_2021_AUST.xlsx (MB->SA1..STATE main structure, 33.69 MB). SA1-level pairs are derived by aggregating MB rows (ratio_basis mesh_block_count at staging; dwelling/population weights applied later at core per Sprint 2 plan)."
+      "notes": "Resolved 2026-07-20 from the official ABS allocation files page: ABS publishes no direct SA1-level file for this pair. Official inputs are Mesh Block allocations: POA_2021_AUST.xlsx (MB->target, page-listed size 17.72 MB) joined to MB_2021_AUST.xlsx (MB->SA1..STATE main structure, 33.69 MB). SA1-level pairs are derived by aggregating MB rows (ratio_basis mesh_block_count at staging; dwelling/population weights applied later at core per Sprint 2 plan). Requires the shared MB input asgs_mb_2021_allocation (MB_2021_AUST.xlsx) joined on MB_CODE_2021."
     },
     {
       "source_id": "abs_asgs",
@@ -220,14 +238,14 @@
       "official_url": "https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-3-july-2021-june-2026/access-and-downloads/allocation-files/LGA_2021_AUST.xlsx",
       "geography_level": "SA1->LGA",
       "file_format": "xlsx",
-      "expected_file_name": "LGA_2021_AUST.xlsx + MB_2021_AUST.xlsx",
+      "expected_file_name": "LGA_2021_AUST.xlsx",
       "boundary_version": "ASGS3_2021",
       "licence_notes": "CC BY 4.0 (Creative Commons Attribution 4.0 International) — attribute the ABS",
-      "intended_raw_storage_path": "warehouse/data/raw/asgs/ASGS3_2021/correspondences/",
+      "intended_raw_storage_path": "warehouse/data/raw/asgs/ASGS3_2021/correspondences/LGA_2021_AUST.xlsx",
       "intended_staging_table": "staging.asgs_correspondence",
       "intended_core_table": "core.bridge_geography_correspondence",
       "status": "discovered",
-      "notes": "Resolved 2026-07-20 from the official ABS allocation files page: ABS publishes no direct SA1-level file for this pair. Official inputs are Mesh Block allocations: LGA_2021_AUST.xlsx (MB->target, page-listed size 19.07 MB) joined to MB_2021_AUST.xlsx (MB->SA1..STATE main structure, 33.69 MB). SA1-level pairs are derived by aggregating MB rows (ratio_basis mesh_block_count at staging; dwelling/population weights applied later at core per Sprint 2 plan)."
+      "notes": "Resolved 2026-07-20 from the official ABS allocation files page: ABS publishes no direct SA1-level file for this pair. Official inputs are Mesh Block allocations: LGA_2021_AUST.xlsx (MB->target, page-listed size 19.07 MB) joined to MB_2021_AUST.xlsx (MB->SA1..STATE main structure, 33.69 MB). SA1-level pairs are derived by aggregating MB rows (ratio_basis mesh_block_count at staging; dwelling/population weights applied later at core per Sprint 2 plan). Requires the shared MB input asgs_mb_2021_allocation (MB_2021_AUST.xlsx) joined on MB_CODE_2021."
     },
     {
       "source_id": "abs_asgs",

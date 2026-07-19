@@ -26,9 +26,10 @@ and intended staging/core targets: `asgs_source_manifest.json`.
 | asgs_sal_2021_boundaries | boundary | SAL | shp_zip | discovered | SAL_2021_AUST_GDA2020_SHP.zip |
 | asgs_poa_2021_boundaries | boundary | POA | shp_zip | discovered | POA_2021_AUST_GDA2020_SHP.zip |
 | asgs_lga_2021_boundaries | boundary | LGA | shp_zip | discovered | LGA_2021_AUST_GDA2020_SHP.zip |
-| asgs_corr_sa1_to_sal_2021 | correspondence | SA1->SAL | xlsx | discovered | SAL_2021_AUST.xlsx + MB_2021_AUST.xlsx |
-| asgs_corr_sa1_to_poa_2021 | correspondence | SA1->POA | xlsx | discovered | POA_2021_AUST.xlsx + MB_2021_AUST.xlsx |
-| asgs_corr_sa1_to_lga_2021 | correspondence | SA1->LGA | xlsx | discovered | LGA_2021_AUST.xlsx + MB_2021_AUST.xlsx |
+| asgs_mb_2021_allocation | allocation_input | MB | xlsx | discovered | MB_2021_AUST.xlsx |
+| asgs_corr_sa1_to_sal_2021 | correspondence | SA1->SAL | xlsx | discovered | SAL_2021_AUST.xlsx |
+| asgs_corr_sa1_to_poa_2021 | correspondence | SA1->POA | xlsx | discovered | POA_2021_AUST.xlsx |
+| asgs_corr_sa1_to_lga_2021 | correspondence | SA1->LGA | xlsx | discovered | LGA_2021_AUST.xlsx |
 | asgs_corr_sa2_to_sal_2021 | correspondence | SA2->SAL | csv | discovered | — |
 | asgs_corr_sa2_to_poa_2021 | correspondence | SA2->POA | csv | discovered | — |
 | asgs_corr_sa2_to_lga_2021 | correspondence | SA2->LGA | csv | discovered | — |
@@ -39,7 +40,8 @@ and intended staging/core targets: `asgs_source_manifest.json`.
 
 ## Next actions
 
-- All entries resolved — no `needs_review` remain (STATE verified 2026-07-20).
+- All entries resolved — no `needs_review` remain (STATE verified 2026-07-20; re-verified
+  at Part C download time: direct HEAD HTTP 200 + exact href on the official ABS page).
 - Downloads go to `warehouse/data/raw/asgs/ASGS3_2021` only (gitignored), hashed into `meta.source_file`.
 - Load via `load_asgs_backbone.mjs` (dry-run until approved) against the
   warehouse-validation Supabase branch — never production.

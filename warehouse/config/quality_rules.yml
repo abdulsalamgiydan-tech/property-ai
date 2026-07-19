@@ -43,6 +43,16 @@ rules:
     applies_to: [staging, core, mart]
     severity: blocker
 
+  - rule_id: geometry_valid
+    description: Boundary geometries must pass ST_IsValid; failures are quarantined in staging, never fixed silently
+    applies_to: [staging]
+    severity: warning     # becomes a blocker at core promotion
+
+  - rule_id: weights_reconcile
+    description: Correspondence weights for each source area must sum to 1.0 (±0.001) per target type
+    applies_to: [staging, core]
+    severity: blocker
+
   - rule_id: coverage_threshold
     description: Geography coverage below 60 percent of expected areas flags the dataset for review
     applies_to: [mart]
