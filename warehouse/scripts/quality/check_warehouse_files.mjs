@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
- * Warehouse skeleton validation (Sprint 1).
- * Verifies required folders, metadata/config files, migration 003,
- * and the source_register.csv header row. Exits non-zero on failure.
+ * Warehouse skeleton validation (Sprint 1 + 1.5).
+ * Verifies required folders, metadata/config files, migrations 003/004
+ * (non-destructive, PostGIS wired up), metadata content, and plan docs.
+ * Exits non-zero on failure.
  *
  * Run: npm run warehouse:check
  */
@@ -35,6 +36,7 @@ const requiredFiles = [
   "warehouse/config/quality_rules.yml",
   "warehouse/docs/WAREHOUSE_PLAN.md",
   "supabase/migrations/003_warehouse_foundation.sql",
+  "supabase/migrations/004_postgis_geography.sql",
 ];
 
 const expectedRegisterHeaders = [
@@ -91,24 +93,74 @@ if (fs.existsSync(registerPath)) {
   check("source_register.csv readable", false, "file not found");
 }
 
+function readSqlLower(relPath) {
+  const full = path.join(repoRoot, relPath);
+  if (!fs.existsSync(full)) return null;
+  return fs.readFileSync(full, "utf8").toLowerCase();
+}
+
 console.log("\nMigration 003 sanity:");
-const migrationPath = path.join(
-  repoRoot,
-  "supabase/migrations/003_warehouse_foundation.sql"
-);
-if (fs.existsSync(migrationPath)) {
-  const sql = fs.readFileSync(migrationPath, "utf8").toLowerCase();
+const sql003 = readSqlLower("supabase/migrations/003_warehouse_foundation.sql");
+if (sql003 !== null) {
   for (const schema of ["meta", "raw", "staging", "core", "mart", "audit"]) {
     check(
       `creates schema ${schema}`,
-      sql.includes(`create schema if not exists ${schema}`)
+      sql003.includes(`create schema if not exists ${schema}`)
     );
   }
-  check("no destructive DROP TABLE", !sql.includes("drop table"));
-  check("no destructive DROP SCHEMA", !sql.includes("drop schema"));
+  check("no destructive DROP TABLE", !sql003.includes("drop table"));
+  check("no destructive DROP SCHEMA", !sql003.includes("drop schema"));
 } else {
-  check("migration file readable", false, "file not found");
+  check("migration 003 readable", false, "file not found");
 }
+
+console.log("\nMigration 004 sanity:");
+const sql004 = readSqlLower("supabase/migrations/004_postgis_geography.sql");
+if (sql004 !== null) {
+  check("no destructive DROP TABLE", !sql004.includes("drop table"));
+  check("no destructive DROP SCHEMA", !sql004.includes("drop schema"));
+  check(
+    "enables PostGIS extension",
+    sql004.includes("create extension if not exists postgis")
+  );
+  check(
+    "adds geometry column to core.dim_geography",
+    /alter table core\.dim_geography\s+add column if not exists geom/.test(sql004) &&
+      sql004.includes("geometry(multipolygon, 4326)")
+  );
+  check("creates GIST index on geom", /using gist\s*\(\s*geom\s*\)/.test(sql004));
+} else {
+  check("migration 004 readable", false, "file not found");
+}
+
+console.log("\nMetadata content:");
+const registerContent = fs.existsSync(registerPath)
+  ? fs.readFileSync(registerPath, "utf8")
+  : "";
+check(
+  "source_register.csv includes abs_asgs",
+  registerContent.split(/\r?\n/).some((line) => line.startsWith("abs_asgs,"))
+);
+
+const geoDictPath = path.join(repoRoot, "warehouse/metadata/geography_dictionary.csv");
+const geoDictContent = fs.existsSync(geoDictPath)
+  ? fs.readFileSync(geoDictPath, "utf8")
+  : "";
+for (const geoType of ["SAL", "POA", "SA2"]) {
+  check(
+    `geography_dictionary.csv includes ${geoType}`,
+    geoDictContent.split(/\r?\n/).some((line) => line.startsWith(`${geoType},`))
+  );
+}
+
+const planPath = path.join(repoRoot, "warehouse/docs/WAREHOUSE_PLAN.md");
+const planContent = fs.existsSync(planPath)
+  ? fs.readFileSync(planPath, "utf8").toLowerCase()
+  : "";
+check(
+  "WAREHOUSE_PLAN.md states missing data stays missing",
+  planContent.includes("missing data stays missing")
+);
 
 console.log("");
 if (failures > 0) {
