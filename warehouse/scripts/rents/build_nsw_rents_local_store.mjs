@@ -123,7 +123,7 @@ async function parseSheet(filePath, sheetName, quarter, geoColIdx, geoType) {
 
   const rows = [];
   const suppressed = { s: 0, dash: 0 };
-  const parseNum = (v, reasonKey) => {
+  const parseNum = (v) => {
     if (v === null || v === undefined || v === "") return null;
     if (v === "s") { suppressed.s++; return null; }
     if (v === "-") { suppressed.dash++; return null; }

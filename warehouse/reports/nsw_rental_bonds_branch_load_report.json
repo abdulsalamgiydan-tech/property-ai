@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-07-20T10:28:19.067Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "frontend_changed": false,
+  "raw_rows_loaded_to_branch": false,
+  "loaded": {
+    "fact_rental_market_summary": 0,
+    "postcode_yield_quarterly": 0,
+    "suburb_yield_quarterly": 0
+  },
+  "skipped": {
+    "fact_rental_market_summary": "phase skipped: 28139 rows already present",
+    "fact_rental_market_summary_orphans": 0,
+    "postcode_rent_quarterly": "phase skipped: 4649 rows already present",
+    "suburb_rent_quarterly": "phase skipped: 3305 rows already present",
+    "mart.postcode_yield_quarterly": "phase skipped: 3251 rows already present",
+    "mart.suburb_yield_quarterly": "phase skipped: 3305 rows already present"
+  },
+  "gates_after": {
+    "dup_fact_grain": 0,
+    "null_geo_ids": 0,
+    "negative_rent": 0,
+    "orphan_facts": 0,
+    "yield_without_label": 0,
+    "yield_without_label_poa": 0,
+    "dup_yield_sal": 0,
+    "dup_yield_poa": 0
+  },
+  "core_state": {
+    "fact_total": 28139,
+    "suburb_rent": 3305,
+    "postcode_rent": 4649,
+    "suburb_yield": 3305,
+    "postcode_yield": 3251,
+    "db_size": "1596 MB"
+  }
+}
