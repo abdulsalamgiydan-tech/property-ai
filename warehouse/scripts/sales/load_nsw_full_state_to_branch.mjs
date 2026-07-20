@@ -149,10 +149,10 @@ const salesRows = async (sql) => (await duckSales.runAndReadAll(sql)).getRowObje
 const rentRows = async (sql) => (await duckRents.runAndReadAll(sql)).getRowObjects();
 
 if (!EXECUTE) {
-  const [maxP] = await salesRows("select max(reference_period) mp from nsw_sales_summary where period_type='month'");
+  const [maxP] = await salesRows("select least(max(reference_period), current_date) mp from nsw_sales_summary where period_type='month'");
   const cutoff = duckDate(maxP.mp);
-  const [d1] = await salesRows(`select count(*)::int n from nsw_sales_summary where period_type='year'`);
-  const [d2] = await salesRows(`select count(*)::int n from nsw_sales_summary where period_type='month' and reference_period > (date '${cutoff}' - interval 12 month)`);
+  const [d1] = await salesRows(`select count(*)::int n from nsw_sales_summary where period_type='year' and reference_period <= current_date`);
+  const [d2] = await salesRows(`select count(*)::int n from nsw_sales_summary where period_type='month' and reference_period <= current_date and reference_period > (date '${cutoff}' - interval 12 month)`);
   const [d3] = await rentRows("select count(*)::int n from nsw_rental_summary");
   console.log(`\nDry run: would load ${num(d1.n)} annual sales rows (all years) + ${num(d2.n)} trailing-12-month sales rows (of full local history)`);
   console.log(`+ ${num(d3.n)} rent summary rows (all quarters, all NSW), rebuild all sales/rent/yield marts. Existing pilot rows untouched (ON CONFLICT DO NOTHING).`);
@@ -165,21 +165,30 @@ if (!EXECUTE) {
 // ── Pre-read from DuckDB BEFORE opening the branch transaction ───────────
 
 console.log("\n  pre-reading local stores (before transaction)...");
-const [maxPeriodRow] = await salesRows("select max(reference_period) mp from nsw_sales_summary where period_type='month'");
+// Cap at today's real date: a single source data-entry error (settlement
+// date typo, e.g. "2102" for "2012") can otherwise poison MAX() and shift
+// the whole trailing-12-months window decades into the future.
+const [maxPeriodRow] = await salesRows("select least(max(reference_period), current_date) mp from nsw_sales_summary where period_type='month'");
 const monthlyCutoff = duckDate(maxPeriodRow.mp);
 console.log(`  trailing-12-months cutoff: rows after ${monthlyCutoff} minus 12 months`);
 
+// reference_period <= current_date excludes the handful of source
+// data-entry errors (e.g. settlement date typo'd as "2102" instead of
+// "2012") from ever being promoted — they stay harmlessly in the local
+// transaction-level store, never corrected or guessed, just not summarised
+// into a nonsensical future period.
 const annualSalesRows = (await salesRows(
   `select geography_id, geography_type, geography_code, reference_period, period_type, dwelling_type,
           transaction_count, median_sale_price, mean_sale_price, lower_quartile_sale_price,
           upper_quartile_sale_price, min_sale_price, max_sale_price, sample_size_confidence
-   from nsw_sales_summary where period_type='year'`
+   from nsw_sales_summary where period_type='year' and reference_period <= current_date`
 )).map((r) => ({ ...r, reference_period: duckDate(r.reference_period) }));
 const monthlySalesRows = (await salesRows(
   `select geography_id, geography_type, geography_code, reference_period, period_type, dwelling_type,
           transaction_count, median_sale_price, mean_sale_price, lower_quartile_sale_price,
           upper_quartile_sale_price, min_sale_price, max_sale_price, sample_size_confidence
-   from nsw_sales_summary where period_type='month' and reference_period > (date '${monthlyCutoff}' - interval 12 month)`
+   from nsw_sales_summary where period_type='month' and reference_period <= current_date
+     and reference_period > (date '${monthlyCutoff}' - interval 12 month)`
 )).map((r) => ({ ...r, reference_period: duckDate(r.reference_period) }));
 const rentSummaryRows = (await rentRows(
   `select geography_id, geography_type, geography_code, reference_period, dwelling_type, bedroom_count,
@@ -214,7 +223,7 @@ const report = {
   db_size_before: sizeBefore.pretty,
 };
 
-const insertBatchGeneric = async (rows, table, cols, buildTuple, batchSize = 500) => {
+const insertBatchGeneric = async (rows, table, cols, buildTuple, conflictClause = "on conflict do nothing", batchSize = 500) => {
   let loaded = 0;
   let skippedOrphan = 0;
   for (let i = 0; i < rows.length; i += batchSize) {
@@ -230,7 +239,7 @@ const insertBatchGeneric = async (rows, table, cols, buildTuple, batchSize = 500
       params.push(...buildTuple(r));
       return `(${Array.from({ length: cols.length }, (_, j) => `$${b + j + 1}`).join(",")})`;
     });
-    await client.query(`insert into ${table} (${cols.join(",")}) values ${tuples.join(",")} on conflict do nothing`, params);
+    await client.query(`insert into ${table} (${cols.join(",")}) values ${tuples.join(",")} ${conflictClause}`, params);
     loaded += tuples.length; // attempted; ON CONFLICT DO NOTHING makes exact "new" count harder — reported via table delta instead
   }
   return { attempted: loaded, skippedOrphan };
@@ -306,7 +315,15 @@ try {
     r.rental_count === null ? null : num(r.rental_count), r.total_bonds_held === null ? null : num(r.total_bonds_held),
     "nsw_rent_and_sales_report", "nsw_rent_tables_full_state", rentRunId, "passed", r.sample_size_confidence,
   ];
-  const rentResult = await insertBatchGeneric(rentSummaryRows, "core.fact_rental_market_summary", rentFactCols, buildRentTuple);
+  // bedroom_count is NULL for "Total" rows — SQL NULL is never equal to
+  // NULL, so the plain unique constraint alone would let duplicate "Total"
+  // rows through once the table already has data from a prior load. Target
+  // the coalesce(-1)-based expression index (created ahead of this run)
+  // explicitly so NULL "Total" cells correctly collide.
+  const rentResult = await insertBatchGeneric(
+    rentSummaryRows, "core.fact_rental_market_summary", rentFactCols, buildRentTuple,
+    "on conflict (geography_id, reference_period, dwelling_type, (coalesce(bedroom_count, -1))) do nothing"
+  );
   console.log(`  core.fact_rental_market_summary: attempted ${rentResult.attempted} rows (${rentResult.skippedOrphan} orphans skipped)`);
   report.loaded.rent_attempted = rentResult.attempted;
   await client.query(
@@ -331,9 +348,9 @@ try {
     console.log(`  ${table}: ${r.rowCount} new rows built`);
     return r.rowCount;
   };
-  report.loaded.suburb_sales_monthly = await buildSalesMart("SAL", "month", "reference_month", "mart.suburb_sales_monthly", `and f.reference_period > (date '${monthlyCutoff}' - interval 12 month)`);
+  report.loaded.suburb_sales_monthly = await buildSalesMart("SAL", "month", "reference_month", "mart.suburb_sales_monthly", `and f.reference_period > (date '${monthlyCutoff}' - interval '12 months')`);
   report.loaded.suburb_sales_annual = await buildSalesMart("SAL", "year", "reference_year", "mart.suburb_sales_annual");
-  report.loaded.postcode_sales_monthly = await buildSalesMart("POA", "month", "reference_month", "mart.postcode_sales_monthly", `and f.reference_period > (date '${monthlyCutoff}' - interval 12 month)`);
+  report.loaded.postcode_sales_monthly = await buildSalesMart("POA", "month", "reference_month", "mart.postcode_sales_monthly", `and f.reference_period > (date '${monthlyCutoff}' - interval '12 months')`);
   report.loaded.postcode_sales_annual = await buildSalesMart("POA", "year", "reference_year", "mart.postcode_sales_annual");
 
   // 5. Rent marts — postcode direct + suburb derived via POA->SAL correspondence (Sprint 6 method).
@@ -489,7 +506,7 @@ const [summary] = await q(`select
   (select count(*)::int from mart.suburb_rent_quarterly) as srq, (select count(*)::int from mart.postcode_rent_quarterly) as prq,
   (select count(*)::int from mart.suburb_yield_quarterly) as syq, (select count(*)::int from mart.postcode_yield_quarterly) as pyq,
   (select json_object_agg(l,n) from (select sample_size_confidence l, count(*)::int n from core.fact_residential_sales_summary group by 1) x) as sales_confidence_dist,
-  (select json_object_agg(l,n) from (select sample_size_confidence l, count(*)::int n from core.fact_rental_market_summary group by 1) x) as rent_confidence_dist,
+  (select json_object_agg(l,n) from (select confidence_label l, count(*)::int n from core.fact_rental_market_summary group by 1) x) as rent_confidence_dist,
   (select json_object_agg(l,n) from (select yield_confidence_label l, count(*)::int n from mart.suburb_yield_quarterly group by 1) x) as suburb_yield_dist,
   (select json_object_agg(l,n) from (select yield_confidence_label l, count(*)::int n from mart.postcode_yield_quarterly group by 1) x) as postcode_yield_dist,
   (select round(avg(gross_yield_percentage),2) from mart.postcode_yield_quarterly where gross_yield_percentage is not null) as postcode_avg_yield,

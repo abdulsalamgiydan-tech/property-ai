@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-07-20T11:41:54.744Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "scope": "full_state_nsw",
+  "suburb_yield_rows": 21359,
+  "postcode_yield_rows": 20583,
+  "suburb_yield_confidence_distribution": {
+    "medium": 2273,
+    "high": 4933,
+    "insufficient": 14153
+  },
+  "postcode_yield_confidence_distribution": {
+    "medium": 205,
+    "high": 6919,
+    "insufficient": 13459
+  },
+  "postcode_avg_gross_yield_pct": "3.41",
+  "postcode_gross_yield_range_pct": [
+    "1.19",
+    "10.25"
+  ],
+  "is_recommendation_score_avm_or_forecast": false,
+  "note": "Gross yield is a descriptive statistic combining independently-sourced quarterly rent and annual sales medians, now covering all of NSW. Not investment advice."
+}
