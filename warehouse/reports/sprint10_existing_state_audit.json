@@ -1,0 +1,94 @@
+{
+  "generated_at": "2026-07-21T07:00:00.000Z",
+  "git": {
+    "branch": "feature/deal-analyser-budget-2026",
+    "working_tree_clean": true,
+    "latest_commit": "924a35d feat(warehouse): Sprint 9 — NSW Residential Property Intelligence V1"
+  },
+  "supabase_targets": {
+    "production_project_ref": "oshquaxsloolqucwvigc",
+    "production_warehouse_schemas": 0,
+    "production_confirmed_distinct_from_branch": true,
+    "warehouse_validation_branch_ref": "lzonauinzatmtytyoems",
+    "branch_db_size_bytes": 2274790547,
+    "branch_db_size_pretty": "2169 MB",
+    "migrations_applied": ["003", "004", "005", "006_census_dwelling_stock", "007_building_approvals", "008_nsw_sales_marts", "009_nsw_rental_bonds_yield", "010_fact_rental_market_summary_null_bedroom_fix", "011_rba_interest_rates", "012_census_demographic_profiles", "013_market_intelligence_marts", "014_warehouse_readonly_access"]
+  },
+  "largest_branch_tables_by_total_size": [
+    { "table": "core.dim_geography", "total": "698 MB", "table_only": "119 MB", "index": "27 MB" },
+    { "table": "core.fact_dwelling_stock", "total": "402 MB", "table_only": "144 MB", "index": "258 MB" },
+    { "table": "core.fact_household_tenure", "total": "228 MB", "table_only": "94 MB", "index": "134 MB" },
+    { "table": "core.fact_rental_market_summary", "total": "163 MB", "table_only": "63 MB", "index": "101 MB" },
+    { "table": "core.fact_residential_sales_summary", "total": "151 MB", "table_only": "67 MB", "index": "84 MB" },
+    { "table": "core.bridge_geography_correspondence", "total": "115 MB", "table_only": "76 MB", "index": "39 MB" },
+    { "table": "mart.suburb_sales_annual", "total": "85 MB", "table_only": "51 MB", "index": "34 MB" },
+    { "table": "core.fact_building_approvals", "total": "44 MB", "table_only": "23 MB", "index": "21 MB" },
+    { "table": "mart.suburb_market_timeseries", "total": "31 MB", "table_only": "9.2 MB", "index": "22 MB" },
+    { "table": "mart.suburb_demographic_profile_2021", "total": "28 MB", "table_only": "19 MB", "index": "8.9 MB" },
+    { "table": "mart.suburb_sales_monthly", "total": "27 MB", "table_only": "18 MB", "index": "8.9 MB" },
+    { "table": "mart.postcode_sales_annual", "total": "25 MB", "table_only": "16 MB", "index": "9.0 MB" },
+    { "table": "mart.suburb_market_snapshot", "total": "23 MB", "table_only": "19 MB", "index": "4.4 MB" },
+    { "table": "mart.postcode_rent_quarterly", "total": "20 MB", "table_only": "11 MB", "index": "9.3 MB" },
+    { "table": "core.bridge_geography_relationship", "total": "17 MB", "table_only": "9.6 MB", "index": "7.7 MB" }
+  ],
+  "observation": "core.dim_geography is by far the largest single table (698 MB total, mostly the geom column + its GIST index) — this already holds the full national ASGS backbone including Victoria's SAL/POA/SA2/LGA/STATE rows (ASGS is loaded nationally, not per-state, per Sprint 2). fact_dwelling_stock and fact_household_tenure are large because they are SA1-grain national Census facts (also already national). This means Victoria geography and Census facts likely ALREADY EXIST on the branch from Sprint 2/3's national ASGS/Census loads — Phase 4/7 should query for existing VIC rows before assuming a new load is needed.",
+  "local_storage_by_dataset_mb": {
+    "asgs_2021_duckdb": 668,
+    "census_raw": 567,
+    "asgs_raw": 530,
+    "asgs_geography_parquet": 493,
+    "nsw_sales_duckdb": 411,
+    "nsw_sales_raw": 331,
+    "nsw_sales_transactions_parquet": 135,
+    "nsw_rents_raw": 51,
+    "census_2021_duckdb": 38,
+    "building_approvals_raw": 27,
+    "nsw_sales_summary_parquet": 26,
+    "nsw_rents_duckdb": 11,
+    "building_approvals_duckdb": 4.6,
+    "asgs_correspondence_parquet": 2.9,
+    "correspondence_dwelling_weights_parquet": 1.9,
+    "census_dwelling_stock_parquet": 1.7,
+    "census_household_tenure_parquet": 1.3,
+    "census_demographics_duckdb": 1.1,
+    "nsw_rental_summary_parquet": 0.864,
+    "rba_rates_duckdb": 0.524,
+    "census_demographics_parquet": 0.344,
+    "building_approvals_parquet": 0.280,
+    "rba_rates_raw": 0.132,
+    "rba_interest_rates_parquet": 0.012,
+    "total_approx_gb": 3.3
+  },
+  "test_build_lint_baseline": {
+    "npm_test": "35/35 passed (3 test files: env.test.ts 5, affordability.test.ts 17, budget2026.test.ts 13)",
+    "npm_run_build": "success, all routes registered correctly including /research/*",
+    "npm_run_lint": "8 errors, 4 warnings — all in components/strategy/StrategyForm.tsx and lib/tax/budget2026*.ts (pre-existing, unrelated to warehouse work)"
+  },
+  "existing_readonly_interfaces": {
+    "views": ["public.v_suburb_market_snapshot_v1", "public.v_postcode_market_snapshot_v1", "public.v_market_geography_search_v1", "public.v_suburb_demographic_profile_v1", "public.v_postcode_demographic_profile_v1", "public.v_metric_assumptions_v1"],
+    "functions": ["public.get_market_timeseries_v1(p_geography_id text)"],
+    "security_model": "views: security_invoker=false (owner-privilege); function: SECURITY DEFINER with pinned search_path; anon/authenticated granted SELECT/EXECUTE only; core/mart/staging/meta schemas have all privileges revoked from anon/authenticated"
+  },
+  "existing_research_ui": {
+    "routes": ["/research", "/research/suburb/[geographyCode]", "/research/postcode/[geographyCode]"],
+    "feature_flag": "WAREHOUSE_PREVIEW_ENABLED (disabled by default)",
+    "client_architecture": "lib/warehouse/client.ts — separate server-only client from the production app's lib/supabase/{client,server}.ts, using the branch's anon key",
+    "note_for_sprint10": "existing routes are NSW-implicit (geographyCode alone, no state segment) — Phase 12 must preserve these working or provide a compatible redirect/alias, since the spec asks for /research/suburb/[stateCode]/[geographyCode] as the new canonical shape"
+  },
+  "known_unresolved_issue_confirmed": {
+    "issue": "18,712 NSW sales records reclassified detached_house -> townhouse_villa_semidetached in Sprint 9 Phase 3; only new townhouse_villa cells were added to core.fact_residential_sales_summary; existing detached_house summary rows (loaded in Sprint 7, before reclassification) were never rebuilt",
+    "documented_in": "warehouse/reports/nsw_dwelling_type_reclassification_report.json, warehouse/reports/market_intelligence_branch_load_report.md",
+    "must_resolve_before": "any cross-state comparison work (Phase 1 of this sprint)"
+  },
+  "critical_discovery_national_data_already_present": {
+    "finding": "core.dim_geography, core.fact_dwelling_stock, core.fact_household_tenure, core.fact_building_approvals, mart.suburb_dwelling_stock_2021, mart.postcode_dwelling_stock_2021, mart.suburb_building_approvals, mart.postcode_building_approvals, mart.suburb_demographic_profile_2021 and mart.postcode_demographic_profile_2021 are ALL ALREADY NATIONAL, not NSW-only — verified by direct query: Victoria (state_code='2') already has 2,944 SAL geography rows, 23,552 dwelling-stock fact rows, 17,664 tenure fact rows, and IS ALREADY PRESENT in every one of the demographic/dwelling-stock/building-approvals marts listed above with the full expected 2,944 SAL rows in each.",
+    "why": "Sprint 2's ASGS load, Sprint 3's Census load, Sprint 4's ABS Building Approvals load (via the national ABS Data API), and Sprint 9's Census demographics build (read the 'for AUS' national GCP DataPack files, not a NSW-filtered subset) were all designed and executed as NATIONAL loads from the start — NSW-specific scoping only ever applied to the sales/rent/yield modules (which use NSW-specific official sources: NSW VG PSI, NSW DCJ Rent and Sales Report).",
+    "scope_impact": "Phase 4 (Victoria geography mapping) only needs to build VIC LOCALITY-NAME-to-SAL correspondence for the new VIC sales/rent source data — the ASGS backbone itself needs no new rows. Phase 7 (Victoria supply/demographics) requires NO new ABS download or local build at all — the data already exists on the branch; only the unified snapshot-builder SQL needs to include VIC alongside NSW when joining these already-present facts. This meaningfully narrows Sprint 10's true new-work surface to: NSW reconciliation, VIC sales (new source), VIC rent (new source), VIC yield (derived), snapshot/timeseries builder extended to loop over jurisdictions, cross-state API/UI, and refresh orchestration."
+  },
+  "risks_carried_into_sprint10": [
+    "Victoria geography/Census facts may already exist nationally on the branch from Sprints 2-3 — verify before re-loading anything.",
+    "core.dim_geography + fact_dwelling_stock + fact_household_tenure are already the 3 largest tables on the branch (1.3 GB combined) — any Victoria-specific additions to these would be additive rows only (VIC ASGS/Census rows likely already present), not new tables.",
+    "NSW reconciliation (Phase 1) must fully complete and PASS before any Victoria ingestion begins, per the task's explicit gate.",
+    "The existing /research routes have no state segment — Phase 12 needs a compatible strategy (new state-scoped routes, existing routes either redirect to NSW-scoped equivalents or remain as NSW-only aliases)."
+  ]
+}
