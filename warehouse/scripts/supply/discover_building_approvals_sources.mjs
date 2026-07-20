@@ -33,7 +33,6 @@ const reportsDir = path.join(repoRoot, "warehouse", "reports");
 
 const OFFLINE = process.argv.includes("--offline");
 const API_BASE = "https://data.api.abs.gov.au/rest";
-const EXPLORE_PAGE = "https://explore.data.abs.gov.au/vis?tm=building%20approvals&pg=0&df[ds]=ABS_TP&df[id]=BA_SA2";
 const PUBLISHER = "Australian Bureau of Statistics";
 const LICENCE = "CC BY 4.0 (Creative Commons Attribution 4.0 International) — attribute the ABS";
 const RAW_ROOT = "warehouse/data/raw/building_approvals"; // gitignored
