@@ -1,7 +1,128 @@
 {
-  "generated_at": "2026-07-20T09:38:25.222Z",
+  "generated_at": "2026-07-20T10:56:33.436Z",
   "raw_root": "warehouse/data/raw/nsw_sales (gitignored)",
+  "scope": "full_state_2001_current",
   "files": [
+    {
+      "file": "nsw_sales/2001.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 10833138,
+      "sha256": "fab186cee0ea4ce9be87cd2ccbff351e558535456b484854b18c26bd58e2b04f"
+    },
+    {
+      "file": "nsw_sales/2002.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 14889344,
+      "sha256": "1c6c2f8284f236d35a832ae2f0cd7bb5c0f0a253fcbc5192d61210348c70f547"
+    },
+    {
+      "file": "nsw_sales/2003.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 15347288,
+      "sha256": "7d2398d10392ec6ed5af12108a650d68cb055dddc923815e2708a8bfff029e2b"
+    },
+    {
+      "file": "nsw_sales/2004.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13782597,
+      "sha256": "45c01c5cb36f1b145427b8fc1eb6800c5d655158c4df1d35272cd0a3e66c00ad"
+    },
+    {
+      "file": "nsw_sales/2005.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 11055229,
+      "sha256": "2e3d0f146cef20578a2f1f7454f73dff6f206a39bc6145503a8d7d6c39f74643"
+    },
+    {
+      "file": "nsw_sales/2006.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 11305924,
+      "sha256": "99967eca9c4e20de8663d13d187dbfa8b12ed43da259a16e6223e73cc9624f47"
+    },
+    {
+      "file": "nsw_sales/2007.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12593052,
+      "sha256": "89cece86f2e06139f4f09c6e926a64ee797bd72e14d22478cda5a989485cf640"
+    },
+    {
+      "file": "nsw_sales/2008.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12846634,
+      "sha256": "0128ad7c0617cf472a11f51b514c341f832acd6e3f53a97261d883e052d80c6c"
+    },
+    {
+      "file": "nsw_sales/2009.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13483417,
+      "sha256": "8f0b5d548bc806dda5c75c58163750848981df3db660a769c746777f8c12a9e5"
+    },
+    {
+      "file": "nsw_sales/2010.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12861335,
+      "sha256": "16e6ed3d4710579266e6f6f1bcacae96f3e169a9bc0275c144d67c7ae46df359"
+    },
+    {
+      "file": "nsw_sales/2011.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12259550,
+      "sha256": "2b711153f9b19e3ca145bc3a5775d2431850c30960ae29e6562449750236d430"
+    },
+    {
+      "file": "nsw_sales/2012.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12468092,
+      "sha256": "361acaa7292aa2520fd10db2205cd7e5f64ecd80b4f57a532f59d41bbdc50ea3"
+    },
+    {
+      "file": "nsw_sales/2013.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13527803,
+      "sha256": "f36465ba352171d283f23a788e08852c27796046b36aca8bbfd730aeebc9ec53"
+    },
+    {
+      "file": "nsw_sales/2014.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 14627626,
+      "sha256": "f75647415f300ced79ad87039b308b7dc309144d3677fb33df0a9a593571dfb8"
+    },
+    {
+      "file": "nsw_sales/2015.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 16096307,
+      "sha256": "5714a30472e91cc434f6772ec701487bbcd0aed95e72a2a54b19df4a66d536fe"
+    },
+    {
+      "file": "nsw_sales/2016.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 14737662,
+      "sha256": "99f462a13e4ce107d4df99acb0319e955d29ccee91c7aa077b6834ef419ff0e6"
+    },
+    {
+      "file": "nsw_sales/2017.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 16278265,
+      "sha256": "45cbdabdca55832edccc09767dc2ffe5518841684f85645bdb6373a95fa56927"
+    },
+    {
+      "file": "nsw_sales/2018.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13880007,
+      "sha256": "2f64777966cc16612cfe6027371ad568e9c9284d5973d4d30c1f4ef343f0904f"
+    },
+    {
+      "file": "nsw_sales/2019.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12660302,
+      "sha256": "2184611a5fbeb78a095a9a2c3a08f7f993c62875b33b24f1c23be61d744efedd"
+    },
+    {
+      "file": "nsw_sales/2020.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13433078,
+      "sha256": "2b7a3e4e3e09ba7067da80ee0301090c3a0ec40c6262c90d2ba62124a1b1db23"
+    },
     {
       "file": "nsw_sales/2021.zip",
       "kind": "annual_bundle",

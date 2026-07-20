@@ -1,0 +1,518 @@
+[
+ {
+  "geography_code": "10050",
+  "geography_name": "Albury"
+ },
+ {
+  "geography_code": "10180",
+  "geography_name": "Armidale Regional"
+ },
+ {
+  "geography_code": "10250",
+  "geography_name": "Ballina"
+ },
+ {
+  "geography_code": "10300",
+  "geography_name": "Balranald"
+ },
+ {
+  "geography_code": "10470",
+  "geography_name": "Bathurst Regional"
+ },
+ {
+  "geography_code": "10500",
+  "geography_name": "Bayside (NSW)"
+ },
+ {
+  "geography_code": "10550",
+  "geography_name": "Bega Valley"
+ },
+ {
+  "geography_code": "10600",
+  "geography_name": "Bellingen"
+ },
+ {
+  "geography_code": "10650",
+  "geography_name": "Berrigan"
+ },
+ {
+  "geography_code": "10750",
+  "geography_name": "Blacktown"
+ },
+ {
+  "geography_code": "10800",
+  "geography_name": "Bland"
+ },
+ {
+  "geography_code": "10850",
+  "geography_name": "Blayney"
+ },
+ {
+  "geography_code": "10900",
+  "geography_name": "Blue Mountains"
+ },
+ {
+  "geography_code": "10950",
+  "geography_name": "Bogan"
+ },
+ {
+  "geography_code": "11150",
+  "geography_name": "Bourke"
+ },
+ {
+  "geography_code": "11200",
+  "geography_name": "Brewarrina"
+ },
+ {
+  "geography_code": "11250",
+  "geography_name": "Broken Hill"
+ },
+ {
+  "geography_code": "11300",
+  "geography_name": "Burwood"
+ },
+ {
+  "geography_code": "11350",
+  "geography_name": "Byron"
+ },
+ {
+  "geography_code": "11400",
+  "geography_name": "Cabonne"
+ },
+ {
+  "geography_code": "11450",
+  "geography_name": "Camden"
+ },
+ {
+  "geography_code": "11500",
+  "geography_name": "Campbelltown (NSW)"
+ },
+ {
+  "geography_code": "11520",
+  "geography_name": "Canada Bay"
+ },
+ {
+  "geography_code": "11570",
+  "geography_name": "Canterbury-Bankstown"
+ },
+ {
+  "geography_code": "11600",
+  "geography_name": "Carrathool"
+ },
+ {
+  "geography_code": "11650",
+  "geography_name": "Central Coast (NSW)"
+ },
+ {
+  "geography_code": "11700",
+  "geography_name": "Central Darling"
+ },
+ {
+  "geography_code": "11720",
+  "geography_name": "Cessnock"
+ },
+ {
+  "geography_code": "11730",
+  "geography_name": "Clarence Valley"
+ },
+ {
+  "geography_code": "11750",
+  "geography_name": "Cobar"
+ },
+ {
+  "geography_code": "11800",
+  "geography_name": "Coffs Harbour"
+ },
+ {
+  "geography_code": "12000",
+  "geography_name": "Coolamon"
+ },
+ {
+  "geography_code": "12150",
+  "geography_name": "Coonamble"
+ },
+ {
+  "geography_code": "12160",
+  "geography_name": "Cootamundra-Gundagai Regional"
+ },
+ {
+  "geography_code": "12350",
+  "geography_name": "Cowra"
+ },
+ {
+  "geography_code": "12380",
+  "geography_name": "Cumberland"
+ },
+ {
+  "geography_code": "12390",
+  "geography_name": "Dubbo Regional"
+ },
+ {
+  "geography_code": "12700",
+  "geography_name": "Dungog"
+ },
+ {
+  "geography_code": "12730",
+  "geography_name": "Edward River"
+ },
+ {
+  "geography_code": "12750",
+  "geography_name": "Eurobodalla"
+ },
+ {
+  "geography_code": "12850",
+  "geography_name": "Fairfield"
+ },
+ {
+  "geography_code": "12870",
+  "geography_name": "Federation"
+ },
+ {
+  "geography_code": "12900",
+  "geography_name": "Forbes"
+ },
+ {
+  "geography_code": "12930",
+  "geography_name": "Georges River"
+ },
+ {
+  "geography_code": "12950",
+  "geography_name": "Gilgandra"
+ },
+ {
+  "geography_code": "13010",
+  "geography_name": "Glen Innes Severn"
+ },
+ {
+  "geography_code": "13310",
+  "geography_name": "Goulburn Mulwaree"
+ },
+ {
+  "geography_code": "13340",
+  "geography_name": "Greater Hume Shire"
+ },
+ {
+  "geography_code": "13450",
+  "geography_name": "Griffith"
+ },
+ {
+  "geography_code": "13550",
+  "geography_name": "Gunnedah"
+ },
+ {
+  "geography_code": "13660",
+  "geography_name": "Gwydir"
+ },
+ {
+  "geography_code": "13800",
+  "geography_name": "Hawkesbury"
+ },
+ {
+  "geography_code": "13850",
+  "geography_name": "Hay"
+ },
+ {
+  "geography_code": "13910",
+  "geography_name": "Hilltops"
+ },
+ {
+  "geography_code": "14000",
+  "geography_name": "Hornsby"
+ },
+ {
+  "geography_code": "14100",
+  "geography_name": "Hunters Hill"
+ },
+ {
+  "geography_code": "14170",
+  "geography_name": "Inner West"
+ },
+ {
+  "geography_code": "14220",
+  "geography_name": "Inverell"
+ },
+ {
+  "geography_code": "14300",
+  "geography_name": "Junee"
+ },
+ {
+  "geography_code": "14350",
+  "geography_name": "Kempsey"
+ },
+ {
+  "geography_code": "14400",
+  "geography_name": "Kiama"
+ },
+ {
+  "geography_code": "14500",
+  "geography_name": "Ku-ring-gai"
+ },
+ {
+  "geography_code": "14550",
+  "geography_name": "Kyogle"
+ },
+ {
+  "geography_code": "14600",
+  "geography_name": "Lachlan"
+ },
+ {
+  "geography_code": "14650",
+  "geography_name": "Lake Macquarie"
+ },
+ {
+  "geography_code": "14700",
+  "geography_name": "Lane Cove"
+ },
+ {
+  "geography_code": "14750",
+  "geography_name": "Leeton"
+ },
+ {
+  "geography_code": "14850",
+  "geography_name": "Lismore"
+ },
+ {
+  "geography_code": "14870",
+  "geography_name": "Lithgow"
+ },
+ {
+  "geography_code": "14900",
+  "geography_name": "Liverpool"
+ },
+ {
+  "geography_code": "14920",
+  "geography_name": "Liverpool Plains"
+ },
+ {
+  "geography_code": "14950",
+  "geography_name": "Lockhart"
+ },
+ {
+  "geography_code": "15050",
+  "geography_name": "Maitland"
+ },
+ {
+  "geography_code": "15240",
+  "geography_name": "Mid-Coast"
+ },
+ {
+  "geography_code": "15270",
+  "geography_name": "Mid-Western Regional"
+ },
+ {
+  "geography_code": "15300",
+  "geography_name": "Moree Plains"
+ },
+ {
+  "geography_code": "15350",
+  "geography_name": "Mosman"
+ },
+ {
+  "geography_code": "15520",
+  "geography_name": "Murray River"
+ },
+ {
+  "geography_code": "15560",
+  "geography_name": "Murrumbidgee"
+ },
+ {
+  "geography_code": "15650",
+  "geography_name": "Muswellbrook"
+ },
+ {
+  "geography_code": "15700",
+  "geography_name": "Nambucca Valley"
+ },
+ {
+  "geography_code": "15750",
+  "geography_name": "Narrabri"
+ },
+ {
+  "geography_code": "15800",
+  "geography_name": "Narrandera"
+ },
+ {
+  "geography_code": "15850",
+  "geography_name": "Narromine"
+ },
+ {
+  "geography_code": "15900",
+  "geography_name": "Newcastle"
+ },
+ {
+  "geography_code": "15950",
+  "geography_name": "North Sydney"
+ },
+ {
+  "geography_code": "15990",
+  "geography_name": "Northern Beaches"
+ },
+ {
+  "geography_code": "16100",
+  "geography_name": "Oberon"
+ },
+ {
+  "geography_code": "16150",
+  "geography_name": "Orange"
+ },
+ {
+  "geography_code": "16200",
+  "geography_name": "Parkes"
+ },
+ {
+  "geography_code": "16260",
+  "geography_name": "Parramatta"
+ },
+ {
+  "geography_code": "16350",
+  "geography_name": "Penrith"
+ },
+ {
+  "geography_code": "16380",
+  "geography_name": "Port Macquarie-Hastings"
+ },
+ {
+  "geography_code": "16400",
+  "geography_name": "Port Stephens"
+ },
+ {
+  "geography_code": "16490",
+  "geography_name": "Queanbeyan-Palerang Regional"
+ },
+ {
+  "geography_code": "16550",
+  "geography_name": "Randwick"
+ },
+ {
+  "geography_code": "16610",
+  "geography_name": "Richmond Valley"
+ },
+ {
+  "geography_code": "16700",
+  "geography_name": "Ryde"
+ },
+ {
+  "geography_code": "16900",
+  "geography_name": "Shellharbour"
+ },
+ {
+  "geography_code": "16950",
+  "geography_name": "Shoalhaven"
+ },
+ {
+  "geography_code": "17000",
+  "geography_name": "Singleton"
+ },
+ {
+  "geography_code": "17040",
+  "geography_name": "Snowy Monaro Regional"
+ },
+ {
+  "geography_code": "17080",
+  "geography_name": "Snowy Valleys"
+ },
+ {
+  "geography_code": "17100",
+  "geography_name": "Strathfield"
+ },
+ {
+  "geography_code": "17150",
+  "geography_name": "Sutherland Shire"
+ },
+ {
+  "geography_code": "17200",
+  "geography_name": "Sydney"
+ },
+ {
+  "geography_code": "17310",
+  "geography_name": "Tamworth Regional"
+ },
+ {
+  "geography_code": "17350",
+  "geography_name": "Temora"
+ },
+ {
+  "geography_code": "17400",
+  "geography_name": "Tenterfield"
+ },
+ {
+  "geography_code": "17420",
+  "geography_name": "The Hills Shire"
+ },
+ {
+  "geography_code": "17550",
+  "geography_name": "Tweed"
+ },
+ {
+  "geography_code": "19399",
+  "geography_name": "Unincorporated NSW"
+ },
+ {
+  "geography_code": "17620",
+  "geography_name": "Upper Hunter Shire"
+ },
+ {
+  "geography_code": "17640",
+  "geography_name": "Upper Lachlan Shire"
+ },
+ {
+  "geography_code": "17650",
+  "geography_name": "Uralla"
+ },
+ {
+  "geography_code": "17750",
+  "geography_name": "Wagga Wagga"
+ },
+ {
+  "geography_code": "17850",
+  "geography_name": "Walcha"
+ },
+ {
+  "geography_code": "17900",
+  "geography_name": "Walgett"
+ },
+ {
+  "geography_code": "17950",
+  "geography_name": "Warren"
+ },
+ {
+  "geography_code": "18020",
+  "geography_name": "Warrumbungle Shire"
+ },
+ {
+  "geography_code": "18050",
+  "geography_name": "Waverley"
+ },
+ {
+  "geography_code": "18100",
+  "geography_name": "Weddin"
+ },
+ {
+  "geography_code": "18200",
+  "geography_name": "Wentworth"
+ },
+ {
+  "geography_code": "18250",
+  "geography_name": "Willoughby"
+ },
+ {
+  "geography_code": "18350",
+  "geography_name": "Wingecarribee"
+ },
+ {
+  "geography_code": "18400",
+  "geography_name": "Wollondilly"
+ },
+ {
+  "geography_code": "18450",
+  "geography_name": "Wollongong"
+ },
+ {
+  "geography_code": "18500",
+  "geography_name": "Woollahra"
+ },
+ {
+  "geography_code": "18710",
+  "geography_name": "Yass Valley"
+ }
+]

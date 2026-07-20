@@ -1,36 +1,25 @@
 #!/usr/bin/env node
 /**
- * NSW Valuer General sales local store builder — pilot (Sprint 5, Part C-E).
+ * NSW Valuer General sales local store builder — FULL STATE (Sprint 7, Part A).
  *
- * Reads the already-downloaded official NSW VG PSI bulk files (annual
- * zip-of-zips for 2021-2025 + current-year weekly zips), extracts them,
- * streams every district's .DAT text file, and keeps only the B (sale)
- * records whose suburb name or postcode falls inside the pilot LGA
- * footprint (Blacktown, Parramatta, Camden, Wollongong, Newcastle,
- * Shellharbour — derived spatially from the local ASGS backbone; see
- * warehouse/metadata/nsw_sales_pilot_sals.json / _pilot_poas.json).
+ * Full-state expansion of the Sprint 5 pilot build. Same proven pipeline
+ * (extraction, streaming B-record parse, natural-key dedup with
+ * latest-publication-wins, dwelling-type classification, price flagging,
+ * geography join, monthly+annual aggregation) — widened from the 6 pilot
+ * LGAs / 236 SALs / 63 POAs to all of NSW (4,542 SALs / 2,641 POAs), and
+ * from 2021-current to 2001-current (annual bundles 2001-2025 + current-year
+ * weekly files).
  *
- * PSI record format (validated directly against real downloaded sample
- * records — the official field-position PDFs are also Cloudflare-protected
- * and were not retrievable this session; see the source manifest notes):
- *   A;<district>;<generated_at>;VALNET;                                    (header)
- *   B;<district>;<property_id>;<sale_counter>;<ts>;<property_name>;
- *     <unit_no>;<house_no>;<street>;<suburb>;<postcode>;<area>;<area_unit>;
- *     <contract_date:YYYYMMDD>;<settlement_date:YYYYMMDD>;<price>;<blank>;
- *     <zone_code>;<nature_of_property>;<strata_lot>;...;<reference_no>;    (sale)
- *   C;...;<legal_description>;                                             (legal desc)
- *   D;...                                                                  (linked record)
- *   Z;...                                                                  (trailer)
+ * Because virtually every real NSW residential B record should match some
+ * real NSW suburb/postcode at full-state scope, there is no pilot pre-filter
+ * at scan time — every parseable B record is written to the transactions
+ * table (geo_match_method='unmatched' rows are excluded from aggregation
+ * downstream, and are a useful data-quality signal at this scale rather
+ * than a reason to drop the row at scan time).
  *
  * Local-first: raw files + this full store stay under warehouse/data/
  * (gitignored) and are NEVER promoted to Supabase in full — only curated
- * monthly/annual summaries leave the local store (Part F).
- *
- * Classification and price-flagging rules are conservative and documented
- * (see classifyDwelling / flagPrice below) because the authoritative NSW VG
- * code-list PDF could not be retrieved; ambiguous records get
- * 'unknown_residential' / a 'low' or 'medium' confidence label rather than
- * being forced into a specific category.
+ * annual + trailing-12-months summaries leave the local store (Part C).
  */
 
 import fs from "node:fs";
@@ -53,24 +42,20 @@ const DB_PATH = path.join(LOCAL_DIR, "nsw_sales.duckdb");
 const INVENTORY_OUT = rel("warehouse", "reports", "nsw_sales_download_inventory.json");
 const BSDTAR = "C:\\Windows\\System32\\tar.exe";
 
-const PILOT_SALS = JSON.parse(fs.readFileSync(rel("warehouse", "metadata", "nsw_sales_pilot_sals.json"), "utf8"));
-const PILOT_POAS = JSON.parse(fs.readFileSync(rel("warehouse", "metadata", "nsw_sales_pilot_poas.json"), "utf8"));
+const ALL_SALS = JSON.parse(fs.readFileSync(rel("warehouse", "metadata", "nsw_all_sals.json"), "utf8"));
+const ALL_POAS = JSON.parse(fs.readFileSync(rel("warehouse", "metadata", "nsw_all_poas.json"), "utf8"));
 
-// PSI suburb text is plain uppercase with no ABS "(NSW)" disambiguator suffix
-// and often no parenthetical qualifier at all — normalise both sides the
-// same way so e.g. "KARUAH" matches ABS SAL "Karuah".
 const normName = (s) => s.toUpperCase().replace(/\s*\([^)]*\)\s*$/, "").trim();
-const salByName = new Map(PILOT_SALS.map((r) => [normName(r.geography_name), r]));
-const poaByCode = new Map(PILOT_POAS.map((r) => [r.geography_code, r]));
-const poaCodeSet = new Set(PILOT_POAS.map((r) => r.geography_code));
+const salByName = new Map(ALL_SALS.map((r) => [normName(r.geography_name), r]));
+const poaByCode = new Map(ALL_POAS.map((r) => [r.geography_code, r]));
 
 function fail(msg) {
   console.error(`ERROR: ${msg}`);
   process.exit(1);
 }
 
-console.log("build_nsw_sales_local_store — NSW VG PSI pilot (local-first, no Supabase, no secrets)");
-console.log(`  pilot suburbs (SAL): ${PILOT_SALS.length}, pilot postcodes (POA): ${PILOT_POAS.length}`);
+console.log("build_nsw_sales_full_state_local_store — NSW VG PSI, full state (local-first, no Supabase, no secrets)");
+console.log(`  full-state suburbs (SAL): ${ALL_SALS.length}, postcodes (POA): ${ALL_POAS.length}`);
 
 // ── 1. Inventory (hash) every raw file already on disk ────────────────────
 
@@ -80,15 +65,17 @@ function sha256File(p) {
   return h.digest("hex");
 }
 
-if (!fs.existsSync(RAW_ROOT)) fail("no raw NSW sales files on disk — download the PSI zips first (see nsw_sales_source_manifest.md)");
+if (!fs.existsSync(RAW_ROOT)) fail("no raw NSW sales files on disk");
 const annualFiles = fs.readdirSync(RAW_ROOT).filter((f) => /^\d{4}\.zip$/.test(f)).sort();
 const weeklyDir = path.join(RAW_ROOT, "weekly");
 const weeklyFiles = fs.existsSync(weeklyDir) ? fs.readdirSync(weeklyDir).filter((f) => /^\d{8}\.zip$/.test(f)).sort() : [];
 if (annualFiles.length === 0) fail("no annual PSI bundles on disk");
+console.log(`  annual bundles on disk: ${annualFiles.length} (${annualFiles[0]} .. ${annualFiles[annualFiles.length - 1]}), weekly: ${weeklyFiles.length}`);
 
 const inventory = {
   generated_at: new Date().toISOString(),
   raw_root: "warehouse/data/raw/nsw_sales (gitignored)",
+  scope: "full_state_2001_current",
   files: [
     ...annualFiles.map((f) => {
       const p = path.join(RAW_ROOT, f);
@@ -103,14 +90,15 @@ const inventory = {
 fs.writeFileSync(INVENTORY_OUT, JSON.stringify(inventory, null, 2) + "\n");
 console.log(`\nInventory: ${annualFiles.length} annual bundles, ${weeklyFiles.length} current-year weekly files, hashes recorded`);
 
-// ── 2. Extract (idempotent: skip a target dir that already has content) ──
+// ── 2. Extract (idempotent) ───────────────────────────────────────────────
 
 function extractZip(zipPath, destDir) {
   fs.mkdirSync(destDir, { recursive: true });
   execFileSync(BSDTAR, ["-xf", zipPath, "-C", destDir], { stdio: "pipe" });
 }
 
-console.log("\nExtracting (nested zip-of-zips: annual -> weekly -> per-district .DAT)...");
+console.log("\nExtracting (format varies by vintage: recent years are annual zip-of-weekly-zips;");
+console.log("older years (~pre-2015) are a single zip with date-named folders of .DAT files directly)...");
 for (const f of annualFiles) {
   const year = f.replace(".zip", "");
   const yearDir = path.join(PROCESSED_ROOT, year);
@@ -121,12 +109,23 @@ for (const f of annualFiles) {
   const tmpWeeklyDir = path.join(PROCESSED_ROOT, `_tmp_${year}`);
   extractZip(path.join(RAW_ROOT, f), tmpWeeklyDir);
   const innerZips = fs.readdirSync(tmpWeeklyDir).filter((z) => z.endsWith(".zip"));
-  for (const iz of innerZips) {
-    const weekLabel = iz.replace(".zip", "");
-    extractZip(path.join(tmpWeeklyDir, iz), path.join(yearDir, weekLabel));
+  if (innerZips.length > 0) {
+    // Recent-vintage format: nested weekly zips.
+    for (const iz of innerZips) {
+      const weekLabel = iz.replace(".zip", "");
+      extractZip(path.join(tmpWeeklyDir, iz), path.join(yearDir, weekLabel));
+    }
+    fs.rmSync(tmpWeeklyDir, { recursive: true, force: true });
+    console.log(`  ${year}: extracted ${innerZips.length} weeks (nested-zip format)`);
+  } else {
+    // Older-vintage format: no inner zips — the top-level extraction
+    // already produced the final .DAT files (in date-named folders); move
+    // the whole tree into place rather than discarding it.
+    fs.mkdirSync(path.dirname(yearDir), { recursive: true });
+    fs.renameSync(tmpWeeklyDir, yearDir);
+    const datCount = fs.readdirSync(yearDir, { recursive: true }).filter((p) => String(p).toUpperCase().endsWith(".DAT")).length;
+    console.log(`  ${year}: extracted directly, ${datCount} .DAT files (flat/older format)`);
   }
-  fs.rmSync(tmpWeeklyDir, { recursive: true, force: true });
-  console.log(`  ${year}: extracted ${innerZips.length} weeks`);
 }
 if (weeklyFiles.length > 0) {
   const curDir = path.join(PROCESSED_ROOT, "current_year_weekly");
@@ -139,11 +138,7 @@ if (weeklyFiles.length > 0) {
   console.log(`  current_year_weekly: extracted ${weeklyFiles.length} weeks`);
 }
 
-// ── 3. Stream-parse every .DAT file, keep only pilot-area B records ──────
-//
-// .DAT files mix five record types with different column counts on one
-// line each (';'-delimited) — DuckDB's CSV reader can't parse that
-// directly, so this pass filters and reshapes into one fixed-schema CSV.
+// ── 3. Stream-parse every .DAT file — keep every parseable B record ───────
 
 function findDatFiles(root) {
   const out = [];
@@ -160,9 +155,9 @@ function findDatFiles(root) {
 }
 
 const datFiles = findDatFiles(PROCESSED_ROOT);
-console.log(`\nFound ${datFiles.length} district .DAT files across all years/weeks. Filtering to pilot area...`);
+console.log(`\nFound ${datFiles.length} district .DAT files across all years/weeks (full state, 2001-current). Parsing...`);
 
-const OUT_CSV = path.join(LOCAL_DIR, "_nsw_sales_pilot.tmp.csv");
+const OUT_CSV = path.join(LOCAL_DIR, "_nsw_sales_full.tmp.csv");
 fs.mkdirSync(LOCAL_DIR, { recursive: true });
 const out = fs.createWriteStream(OUT_CSV);
 out.write(
@@ -181,7 +176,8 @@ const csvCell = (v) => {
 
 let scannedFiles = 0;
 let scannedLines = 0;
-let matchedRows = 0;
+let writtenRows = 0;
+const startTs = Date.now();
 for (const file of datFiles) {
   scannedFiles++;
   const districtFromName = path.basename(file).split("_")[0];
@@ -190,15 +186,9 @@ for (const file of datFiles) {
     if (!line.startsWith("B;")) continue;
     scannedLines++;
     const f = line.split(";");
-    // f[0]=B f[1]=district f[2]=property_id f[3]=sale_counter f[4]=ts f[5]=property_name
-    // f[6]=unit_no f[7]=house_no f[8]=street f[9]=suburb f[10]=postcode f[11]=area
-    // f[12]=area_unit f[13]=contract_date f[14]=settlement_date f[15]=price f[16]=blank
-    // f[17]=zone_code f[18]=nature_of_property f[19]=strata_lot f[23]=reference_number
     const suburbRaw = (f[9] ?? "").trim();
     const postcode = (f[10] ?? "").trim();
-    const inPilot = salByName.has(normName(suburbRaw)) || poaCodeSet.has(postcode);
-    if (!inPilot) continue;
-    matchedRows++;
+    writtenRows++;
     out.write(
       [
         f[1] ?? districtFromName, f[2], f[3], f[6], f[7], f[8],
@@ -207,13 +197,16 @@ for (const file of datFiles) {
       ].map(csvCell).join(",") + "\n"
     );
   }
-  if (scannedFiles % 500 === 0) console.log(`  ...${scannedFiles}/${datFiles.length} files scanned, ${matchedRows} pilot-area rows so far`);
+  if (scannedFiles % 2000 === 0) {
+    const elapsedMin = ((Date.now() - startTs) / 60000).toFixed(1);
+    console.log(`  ...${scannedFiles}/${datFiles.length} files scanned, ${writtenRows} rows written (${elapsedMin} min elapsed)`);
+  }
 }
 await new Promise((res) => out.end(res));
-console.log(`Scan complete: ${scannedFiles} files, ${scannedLines} B records read, ${matchedRows} matched the pilot area`);
-if (matchedRows === 0) fail("no pilot-area records matched — check the pilot allow-lists / suburb-name normalisation");
+console.log(`Scan complete: ${scannedFiles} files, ${scannedLines} B records read, ${writtenRows} rows written`);
+if (writtenRows === 0) fail("no records written — something is wrong with the extracted files");
 
-// ── 4. DuckDB load + classification + price flagging ─────────────────────
+// ── 4. DuckDB load + classification + price flagging (same rules as pilot) ─
 
 if (fs.existsSync(DB_PATH)) {
   fs.rmSync(DB_PATH, { force: true });
@@ -231,25 +224,21 @@ await run(`create table nsw_sales_transactions_staged as
          try_strptime(settlement_date, '%Y%m%d')::date as settlement_date,
          try_cast(sale_price as double) as sale_price,
          zone_code, nature_of_property, strata_lot, reference_number, source_file,
-         -- filename suffix DDMMYYYY = the week this record was generated/published;
-         -- the same real-world sale can be (re)transmitted across several weekly
-         -- files (correction or verbatim repeat) — the latest publication wins.
          try_strptime(regexp_extract(source_file, '(\\d{8})\\.DAT$', 1), '%d%m%Y')::date as source_file_date
-  -- Explicit quote/escape (Sprint 7 fix): DuckDB's CSV auto-detection can
-  -- wrongly conclude "no quote character in use" from its sample and choke
-  -- on a later row whose property name contains an embedded comma.
+  -- Explicit quote/escape: DuckDB's CSV auto-detection samples only the
+  -- first ~20k rows and can wrongly conclude "no quote character in use"
+  -- when that sample happens to contain no quoted fields, then chokes on a
+  -- later row whose property name contains an embedded comma (e.g.
+  -- "WILANGEE, "). Force quoting behaviour instead of guessing it.
   from read_csv('${posix(OUT_CSV)}', header=true, all_varchar=true, quote='"', escape='"')`);
 fs.rmSync(OUT_CSV, { force: true });
 
 const [stagedN] = await one("select count(*) from nsw_sales_transactions_staged");
-console.log(`\nLoaded ${stagedN} raw pilot-area sale records into DuckDB (pre-dedup)`);
+console.log(`\nLoaded ${stagedN} raw full-state sale records into DuckDB (pre-dedup)`);
 
-// Natural key is (district, property_id, sale_counter, contract_date): the
-// same property can legitimately be sold multiple times over the 5-year
-// window, each with its own contract_date — sale_counter alone does not
-// disambiguate separate sale events. Within that key, keep only the most
-// recently PUBLISHED version (by source_file_date) — resolves both genuine
-// corrections (price/date amended in a later week) and verbatim repeats.
+// Natural key includes contract_date (Sprint 5 lesson: sale_counter alone
+// does not disambiguate separate sale events of the same property over
+// time); latest-published version wins for genuine republish/corrections.
 await run(`
   create table nsw_sales_transactions_raw as
   select * exclude (rn) from (
@@ -263,18 +252,10 @@ await run("drop table nsw_sales_transactions_staged");
 
 const [dedupCount] = await one("select count(*) from nsw_sales_transactions_raw");
 const dedupN = Number(dedupCount);
-console.log(`After natural-key dedup (district+property+sale_counter+contract_date, latest publication wins): ${dedupN} rows (${Number(stagedN) - dedupN} duplicate/republished rows resolved)`);
+console.log(`After natural-key dedup: ${dedupN} rows (${Number(stagedN) - dedupN} duplicate/republished rows resolved)`);
 
-// Classification: conservative, documented, source-preserving (see header
-// comment). VACANT LAND is exact-matched from the source's own nature text;
-// RESIDENCE + unit/strata marker -> apartment_unit (medium confidence, the
-// finer villa/townhouse-vs-flat distinction isn't recoverable from the
-// fields available without the code-list PDF); RESIDENCE + no unit/strata
-// marker -> detached_house (medium — inferred, not an explicit source flag);
-// anything else residential-shaped -> unknown_residential (low). Records
-// whose nature_of_property doesn't look residential at all (commercial,
-// industrial, rural, etc.) are excluded entirely — this pilot is
-// residential-only per its scope.
+// Classification: identical rules to the Sprint 5 pilot (see that script's
+// header comment for the full rationale — unchanged here).
 await run(`
   alter table nsw_sales_transactions_raw add column dwelling_type varchar;
   alter table nsw_sales_transactions_raw add column dwelling_type_confidence varchar;
@@ -311,11 +292,7 @@ const [classified, unresidential] = await one(
 );
 console.log(`  classified as residential: ${classified} (excluded as non-residential: ${unresidential})`);
 
-// Price flagging: never silently include non-market prices in stats.
-//   null/<=0            -> missing_or_invalid (excluded)
-//   0 < price < $10,000  -> likely_nominal_transfer (excluded from stats, kept in record)
-//   IQR outlier per (dwelling_type) among otherwise-valid prices -> outlier (excluded from stats)
-//   else                 -> ok (counted in aggregation)
+// Price flagging — identical rules to the pilot.
 await run(`
   alter table nsw_sales_transactions_raw add column price_flag varchar;
   update nsw_sales_transactions_raw set price_flag = case
@@ -345,7 +322,7 @@ const flagCounts = await db.runAndReadAll(
 );
 console.log("  price flags:", flagCounts.getRowObjects().map((r) => `${r.price_flag}=${r.n}`).join(", "));
 
-// ── 5. Geography join (name -> SAL, postcode -> POA) ─────────────────────
+// ── 5. Geography join — FULL NSW (4,542 SAL / 2,641 POA) ─────────────────
 
 await run(`
   alter table nsw_sales_transactions_raw add column sal_geography_id varchar;
@@ -385,7 +362,7 @@ const geoCounts = await db.runAndReadAll(
 );
 console.log("  geography match:", geoCounts.getRowObjects().map((r) => `${r.geo_match_method}=${r.n}`).join(", "));
 
-// ── 6. Monthly + annual summaries (only price_flag='ok' rows count) ──────
+// ── 6. Monthly + annual summaries (full history, local only) ─────────────
 
 await run(`
   create table nsw_sales_summary as
@@ -448,7 +425,7 @@ await run(`
   from unioned`);
 
 const [summaryN] = await one("select count(*) from nsw_sales_summary");
-console.log(`\nSummary rows built: ${summaryN} (monthly + annual, SAL + POA, by dwelling_type)`);
+console.log(`\nSummary rows built (full history, local only): ${summaryN}`);
 
 // ── 7. Parquet exports ────────────────────────────────────────────────────
 
@@ -458,8 +435,8 @@ await run("checkpoint");
 db.closeSync();
 
 const mb1 = (p) => (fs.statSync(p).size / 1024 / 1024).toFixed(1);
-console.log("\nLocal NSW sales store built (all gitignored):");
+console.log("\nLocal NSW sales store built, FULL STATE (all gitignored):");
 console.log(`  warehouse/data/local/nsw_sales.duckdb  ${mb1(DB_PATH)} MB`);
 console.log(`  warehouse/data/local/nsw_sales_transactions.parquet  ${mb1(path.join(LOCAL_DIR, "nsw_sales_transactions.parquet"))} MB`);
 console.log(`  warehouse/data/local/nsw_sales_summary.parquet  ${mb1(path.join(LOCAL_DIR, "nsw_sales_summary.parquet"))} MB`);
-console.log("No Supabase connection was made. Validate with validate_nsw_sales_local_store.mjs.");
+console.log("No Supabase connection was made. Validate with validate_nsw_sales_full_state_local_store.mjs.");

@@ -1,0 +1,127 @@
+{
+  "generated_at": "2026-07-20T10:49:24.813Z",
+  "store": "local DuckDB/Parquet (no Supabase connection made)",
+  "verdict": "PASSED",
+  "scope": "full_state_nsw",
+  "source_files": 15,
+  "all_files_hashed": true,
+  "raw_or_local_files_tracked_by_git": [],
+  "quarters_loaded": 15,
+  "by_quarter": [
+    {
+      "quarter": "2021-01-01",
+      "n": 17258
+    },
+    {
+      "quarter": "2021-04-01",
+      "n": 17256
+    },
+    {
+      "quarter": "2021-07-01",
+      "n": 17266
+    },
+    {
+      "quarter": "2021-10-01",
+      "n": 17255
+    },
+    {
+      "quarter": "2022-01-01",
+      "n": 17247
+    },
+    {
+      "quarter": "2022-04-01",
+      "n": 17228
+    },
+    {
+      "quarter": "2022-07-01",
+      "n": 17191
+    },
+    {
+      "quarter": "2022-10-01",
+      "n": 17166
+    },
+    {
+      "quarter": "2023-01-01",
+      "n": 17169
+    },
+    {
+      "quarter": "2023-04-01",
+      "n": 17180
+    },
+    {
+      "quarter": "2023-07-01",
+      "n": 17172
+    },
+    {
+      "quarter": "2023-10-01",
+      "n": 17144
+    },
+    {
+      "quarter": "2024-01-01",
+      "n": 17141
+    },
+    {
+      "quarter": "2024-04-01",
+      "n": 17130
+    },
+    {
+      "quarter": "2026-01-01",
+      "n": 17137
+    }
+  ],
+  "by_geography_type": [
+    {
+      "geography_type": "LGA",
+      "n": 48024
+    },
+    {
+      "geography_type": "POA",
+      "n": 209916
+    }
+  ],
+  "by_dwelling_type": [
+    {
+      "dwelling_type": "all",
+      "n": 60489
+    },
+    {
+      "dwelling_type": "apartment_unit",
+      "n": 50525
+    },
+    {
+      "dwelling_type": "detached_house",
+      "n": 56788
+    },
+    {
+      "dwelling_type": "other_residential",
+      "n": 50756
+    },
+    {
+      "dwelling_type": "townhouse_villa_semidetached",
+      "n": 39382
+    }
+  ],
+  "bedroom_breakdown_coverage": {
+    "with_bedroom": 206815,
+    "total_only": 51125
+  },
+  "checks": {
+    "null_geo_ids": 0,
+    "null_codes": 0,
+    "duplicate_keys": 0,
+    "non_positive_rent": 0,
+    "null_median_rent": 178868,
+    "null_rental_count": 213879,
+    "poa_unmatched_to_asgs": 0,
+    "lga_unmatched_to_asgs": 0,
+    "distinct_lgas_covered": 121,
+    "distinct_poas_covered": 615,
+    "unknown_dwelling_type": 0
+  },
+  "notes": [
+    "median_weekly_rent is NULL for DCJ-suppressed cells (<=10 bonds lodged, or <=30 lodged flagged for caution and also treated as NULL here) — never zero-filled or estimated.",
+    "Dwelling type mapping is a direct 1:1 preservation of DCJ's own categories (House/Flat-Unit/Townhouse/Other/Total), high confidence except 'Other' (medium) and any unmapped value ('unknown_residential', low).",
+    "POA geography join is an exact 4-digit postcode match against the full national ASGS POA list (DCJ's own report is inherently NSW-scoped, so no out-of-state code appears in the source data).",
+    "LGA geography join is an exact name match against all 129 NSW LGA names (filtered by state_code to avoid cross-state name collisions)."
+  ]
+}
