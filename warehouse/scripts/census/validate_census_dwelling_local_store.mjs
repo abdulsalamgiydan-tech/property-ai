@@ -117,7 +117,7 @@ const tenureCellsOk = byLevel.every((l) => l.tenure_cells === l.geographies * EX
 const allFilesOk = inventoryFiles.every((f) => f.on_disk && f.sha256_recorded);
 
 const passed =
-  allFilesOk && trackedData.length === 0 && requiredMeasuresOk &&
+  allFilesOk && trackedData.length === 0 && requiredMeasuresOk && tenureCellsOk &&
   checks.null_codes === 0 && checks.duplicate_keys === 0 && checks.duplicate_tenure_keys === 0 &&
   checks.dwelling_weight_violations === 0;
 

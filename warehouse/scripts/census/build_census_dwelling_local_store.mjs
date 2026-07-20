@@ -36,7 +36,6 @@ const posix = (p) => p.replaceAll("\\", "/");
 
 const MANIFEST = rel("warehouse", "reports", "census_dwelling_source_manifest.json");
 const INVENTORY_OUT = rel("warehouse", "reports", "census_dwelling_download_inventory.json");
-const RAW_ROOT = rel("warehouse", "data", "raw", "census", "2021");
 const PROCESSED = rel("warehouse", "data", "processed", "census", "2021");
 const LOCAL_DIR = rel("warehouse", "data", "local");
 const DB_PATH = path.join(LOCAL_DIR, "census_2021.duckdb");
@@ -284,7 +283,9 @@ async function readMbCountsXlsx(filePath) {
         return v;
       };
       const mb = cell("MB_CODE_2021");
-      if (mb === null) continue;
+      // Footer/annotation rows (e.g. "Data is current for Census Night, ...")
+      // are not data: 2021 MB codes are exactly 11 digits.
+      if (mb === null || !/^\d{11}$/.test(String(mb))) continue;
       const dw = cell("Dwelling");
       const ps = cell("Person");
       rows.push([String(mb), typeof dw === "number" ? dw : null, typeof ps === "number" ? ps : null]);
@@ -303,7 +304,9 @@ await run("create table mb_dwelling_counts (mb_code varchar primary key, dwellin
   out.write("mb_code,dwellings,persons\n");
   for (const [mb, dw, ps] of mbCounts) out.write(`${mb},${dw ?? ""},${ps ?? ""}\n`);
   await new Promise((res) => out.end(res));
-  await run(`copy mb_dwelling_counts from '${posix(csvPath)}' (header, nullstr '')`);
+  await run(`insert into mb_dwelling_counts
+    select * from read_csv('${posix(csvPath)}', header=true, nullstr='',
+      types={'mb_code':'VARCHAR','dwellings':'INTEGER','persons':'INTEGER'})`);
   fs.rmSync(csvPath, { force: true });
 }
 const [mbN, mbDw] = await one("select count(*), sum(dwellings) from mb_dwelling_counts");
@@ -395,7 +398,9 @@ for (const [target, file, codeCol] of ASGS_TARGETS) {
     }
   }
   await new Promise((res) => out.end(res));
-  await run(`copy correspondence_dwelling_weights from '${posix(csvPath)}' (header, nullstr '')`);
+  await run(`insert into correspondence_dwelling_weights
+    select * from read_csv('${posix(csvPath)}', header=true, nullstr='',
+      types={'source_geography_type':'VARCHAR','source_geography_code':'VARCHAR','target_geography_type':'VARCHAR','target_geography_code':'VARCHAR','dwelling_ratio':'DOUBLE','source_dwellings':'INTEGER','pair_dwellings':'INTEGER','mb_count':'INTEGER','census_year':'INTEGER'})`);
   fs.rmSync(csvPath, { force: true });
   console.log(`  ${target}: pairs aggregated`);
 }

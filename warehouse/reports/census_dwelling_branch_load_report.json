@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-07-20T05:57:13.031Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "frontend_changed": false,
+  "loaded": {
+    "fact_dwelling_stock": {
+      "loaded": 662296,
+      "skippedSpecial": 712
+    },
+    "fact_household_tenure": {
+      "loaded": 496722,
+      "skippedSpecial": 534
+    },
+    "correspondence_weights_updated": 221479,
+    "suburb_mart": 15334,
+    "postcode_mart": 2641
+  },
+  "skipped": {
+    "correspondence_weight_pairs_unmatched": 66
+  },
+  "gates_after": {
+    "dup_fact_grain": 0,
+    "null_geo_ids": 0,
+    "negative_counts": 0,
+    "orphan_facts": 0,
+    "weight_violations": 0
+  },
+  "core_state": {
+    "facts_by_type": {
+      "POA": 21128,
+      "SA2": 19632,
+      "SA1": 494488,
+      "LGA": 4376,
+      "SAL": 122672
+    },
+    "facts_by_measure": {
+      "occupied_private_dwellings": 496722,
+      "total_private_dwellings": 82787,
+      "unoccupied_private_dwellings": 82787
+    },
+    "fact_total": 662296,
+    "tenure_total": 496722,
+    "suburb_mart": 15334,
+    "postcode_mart": 2641,
+    "dwelling_weighted_pairs": 221479,
+    "db_size": "1487 MB"
+  },
+  "mart_vs_direct_abs_crosscheck": {
+    "SAL": {
+      "compared": 15334,
+      "mean_abs_diff": "3.5",
+      "median_abs_diff": "2.0",
+      "pct_within_5pct_or_5": "93.0"
+    },
+    "POA": {
+      "compared": 2641,
+      "mean_abs_diff": "7.8",
+      "median_abs_diff": "5.0",
+      "pct_within_5pct_or_5": "96.3"
+    }
+  }
+}

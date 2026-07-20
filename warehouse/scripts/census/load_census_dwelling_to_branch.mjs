@@ -123,6 +123,22 @@ const report = {
   gates_after: {},
 };
 
+// Pre-read EVERYTHING from DuckDB before the transaction opens: an idle
+// pause mid-transaction (while DuckDB materialises rows) gets the pooler to
+// terminate the connection and roll the whole load back.
+console.log("\n  pre-reading local store (before transaction)...");
+const dwellingRows = await duckRows(
+  `select geography_type t, geography_code c, gcp_table, source_column, measure_name m, dwelling_type dt, value_count v, dataset_id
+   from census_dwelling_stock where not is_quarantined`);
+const tenureRows = await duckRows(
+  `select geography_type t, geography_code c, gcp_table, source_column, tenure_type tt, household_count v, dataset_id
+   from census_household_tenure where not is_quarantined`);
+const weightRows = await duckRows(
+  `select source_geography_type st, source_geography_code sc, target_geography_type tt, target_geography_code tc, dwelling_ratio r
+   from correspondence_dwelling_weights where dwelling_ratio is not null`);
+duck.closeSync();
+console.log(`  pre-read: ${dwellingRows.length} dwelling cells, ${tenureRows.length} tenure cells, ${weightRows.length} weight pairs`);
+
 async function startRun(datasetId) {
   const { rows } = await client.query(
     "insert into meta.load_run (dataset_id, run_status) values ($1,'running') returning load_run_id", [datasetId]);
@@ -173,12 +189,7 @@ try {
       report.skipped[table] = `phase skipped: ${already} rows already present`;
       return { loaded: 0, skippedSpecial: 0 };
     }
-    const src = isDwelling
-      ? `select geography_type t, geography_code c, gcp_table, source_column, measure_name m, dwelling_type dt, value_count v, dataset_id
-         from census_dwelling_stock where not is_quarantined`
-      : `select geography_type t, geography_code c, gcp_table, source_column, tenure_type tt, household_count v, dataset_id
-         from census_household_tenure where not is_quarantined`;
-    const rows = await duckRows(src);
+    const rows = isDwelling ? dwellingRows : tenureRows;
     let loaded = 0;
     let skippedSpecial = 0;
     const perDataset = new Map();
@@ -223,8 +234,7 @@ try {
     console.log(`  correspondence weights: ${preState.dw_weights} already dwelling-based — phase skipped`);
     report.skipped.correspondence_weights = `phase skipped: ${preState.dw_weights} rows already upgraded`;
   } else {
-    const weights = await duckRows(
-      "select source_geography_type st, source_geography_code sc, target_geography_type tt, target_geography_code tc, dwelling_ratio r from correspondence_dwelling_weights where dwelling_ratio is not null");
+    const weights = weightRows;
     let updated = 0;
     let unmatched = 0;
     for (let i = 0; i < weights.length; i += 500) {
@@ -354,8 +364,7 @@ try {
   console.log("\nBranch load COMMITTED (branch only; production untouched).");
 } catch (err) {
   try { await client.query("rollback"); } catch {}
-  duck.closeSync();
-  await client.end();
+  try { await client.end(); } catch {}
   fail(`load aborted, transaction rolled back: ${String(err.message).slice(0, 300)}`);
 }
 
@@ -391,7 +400,6 @@ for (const [target, martTable] of [["SAL", "mart.suburb_dwelling_stock_2021"], [
 }
 report.core_state = summary;
 report.mart_vs_direct_abs_crosscheck = crossCheck;
-duck.closeSync();
 await client.end();
 
 fs.writeFileSync(RUN_REPORT, JSON.stringify(report, null, 2) + "\n");

@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-07-20T06:15:41.541Z",
+  "store": "local DuckDB/Parquet (no Supabase connection made)",
+  "verdict": "PASSED",
+  "source_files": [
+    {
+      "dataset_id": "census_gcp_lga_2021",
+      "size_mb": 13.2,
+      "sha256_recorded": true,
+      "on_disk": true
+    },
+    {
+      "dataset_id": "census_gcp_poa_2021",
+      "size_mb": 36.3,
+      "sha256_recorded": true,
+      "on_disk": true
+    },
+    {
+      "dataset_id": "census_gcp_sa1_2021",
+      "size_mb": 364.6,
+      "sha256_recorded": true,
+      "on_disk": true
+    },
+    {
+      "dataset_id": "census_gcp_sa2_2021",
+      "size_mb": 40.3,
+      "sha256_recorded": true,
+      "on_disk": true
+    },
+    {
+      "dataset_id": "census_gcp_sal_2021",
+      "size_mb": 97.9,
+      "sha256_recorded": true,
+      "on_disk": true
+    },
+    {
+      "dataset_id": "census_mb_counts_2021",
+      "size_mb": 14.4,
+      "sha256_recorded": true,
+      "on_disk": true
+    }
+  ],
+  "raw_or_local_files_tracked_by_git": [],
+  "by_level": [
+    {
+      "level": "SAL",
+      "dwelling_cells": 122816,
+      "tenure_cells": 92112,
+      "geographies": 15352,
+      "distinct_measures": 8,
+      "joined_to_asgs": 15334,
+      "unjoined": 18,
+      "asgs_without_census": 0,
+      "total_private_dwellings": 10318975
+    },
+    {
+      "level": "POA",
+      "dwelling_cells": 21144,
+      "tenure_cells": 15858,
+      "geographies": 2643,
+      "distinct_measures": 8,
+      "joined_to_asgs": 2641,
+      "unjoined": 2,
+      "asgs_without_census": 0,
+      "total_private_dwellings": 10318990
+    },
+    {
+      "level": "SA2",
+      "dwelling_cells": 19776,
+      "tenure_cells": 14832,
+      "geographies": 2472,
+      "distinct_measures": 8,
+      "joined_to_asgs": 2454,
+      "unjoined": 18,
+      "asgs_without_census": 0,
+      "total_private_dwellings": 10318900
+    },
+    {
+      "level": "SA1",
+      "dwelling_cells": 494752,
+      "tenure_cells": 371064,
+      "geographies": 61844,
+      "distinct_measures": 8,
+      "joined_to_asgs": 61811,
+      "unjoined": 33,
+      "asgs_without_census": 0,
+      "total_private_dwellings": 10318926
+    },
+    {
+      "level": "LGA",
+      "dwelling_cells": 4520,
+      "tenure_cells": 3390,
+      "geographies": 565,
+      "distinct_measures": 8,
+      "joined_to_asgs": 547,
+      "unjoined": 18,
+      "asgs_without_census": 0,
+      "total_private_dwellings": 10319010
+    }
+  ],
+  "checks": {
+    "null_codes": 0,
+    "duplicate_keys": 0,
+    "duplicate_tenure_keys": 0,
+    "negative_counts_quarantined": 0,
+    "quarantined_dwelling_cells": 0,
+    "quarantined_tenure_cells": 0,
+    "null_values_kept_null": 0,
+    "mb_rows": 368285,
+    "mb_total_dwellings": 10866421,
+    "dwelling_weight_pairs": 227318,
+    "zero_dwelling_sources_null": 5773,
+    "dwelling_weight_violations": 0
+  },
+  "national_totals_by_level": [
+    {
+      "level": "SAL",
+      "total_private_dwellings": 10318975
+    },
+    {
+      "level": "POA",
+      "total_private_dwellings": 10318990
+    },
+    {
+      "level": "SA2",
+      "total_private_dwellings": 10318900
+    },
+    {
+      "level": "SA1",
+      "total_private_dwellings": 10318926
+    },
+    {
+      "level": "LGA",
+      "total_private_dwellings": 10319010
+    }
+  ],
+  "notes": [
+    "Unjoined census geographies are ABS special codes (e.g. ZZZZ 'no usual address' style rows) and Census-only outside-ASGS rows — counted, kept quarantine-free in the store, and excluded at branch load by the dim join.",
+    "asgs_without_census counts backbone areas with no Census row (expected ~0).",
+    "NULL value_count cells are unpublished ABS cells kept NULL — never zero-filled.",
+    "Dwelling-weight ratios: per-source sums reconcile to 1.0 (±0.001); zero-dwelling sources stay NULL and fall back to area weights at load time."
+  ]
+}
