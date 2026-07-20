@@ -1,0 +1,190 @@
+{
+  "generated_at": "2026-07-20T18:44:12.493Z",
+  "policy": {
+    "official_rba_only": true,
+    "no_commercial_scraping": true,
+    "raw_files_outside_git": "warehouse/data/raw/rba_rates",
+    "unverified_sources_marked": "needs_review",
+    "scope": "National macro context only. Cash rate target full history plus a compact, well-labelled set of official housing lending-rate series. No forecast/survey products loaded.",
+    "download_method_note": "rba.gov.au has no Cloudflare/bot protection observed on statistics pages or CSV/XLSX endpoints — plain HTTPS GET succeeds directly (verified by this script). A gstack /browse session was used only for interactive discovery/navigation, not for the actual data fetches."
+  },
+  "licence": {
+    "summary": "Most RBA website material is CC BY 4.0 and may be reproduced/adapted with attribution to the RBA.",
+    "cash_rate_special_conditions": "The Cash Rate Target and other financial data are subject to additional terms in Sections 4-5 of the RBA Copyright and Disclaimer Notice. This warehouse uses it for internal research/statistical context only.",
+    "source_url": "https://www.rba.gov.au/copyright/",
+    "cc_by_4_0_confirmed": true,
+    "attribution_required": "Reserve Bank of Australia (RBA)"
+  },
+  "entries": [
+    {
+      "source_id": "rba_a2",
+      "dataset_id": "rba_cash_rate_target",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "RBA Statistical Table A2 — Changes in Monetary Policy and Administered Rates",
+      "publisher": "Reserve Bank of Australia",
+      "official_url": "https://www.rba.gov.au/statistics/cash-rate/",
+      "download_url": "https://www.rba.gov.au/statistics/tables/xls/a02hist.xlsx",
+      "file_format": "xlsx (2 sheets: Data, Notes)",
+      "measure": "Cash Rate Target (Series ID ARBAMPCNCRT) — 'New Cash Rate Target' as announced after each Monetary Policy Board decision that actually changed the rate. Event table: one row per rate-change announcement, effective the following day (same day prior to Feb 2008).",
+      "available_history": "1990-01-23 to 2026-05-06 (98 change-events)",
+      "refresh_frequency": "as_announced (irregular; updated after each Monetary Policy Board meeting where the rate changes)",
+      "known_limitations": [
+        "3 of 98 rows record the target as a RANGE of values (pre-Aug-1990 RBA practice), not a single number — stored with rate_percent = NULL and data_quality_status = 'range_not_numeric'; raw range text preserved in the local store only, never estimated to a single value.",
+        "This table only has a row when the rate actually changed — not the same as 'every Board meeting including holds'. The richer meeting-by-meeting table on /statistics/cash-rate/ (400 HTML rows) has no dedicated CSV/XLSX download and was not used as the load source."
+      ],
+      "licence_notes": "RBA Copyright and Disclaimer Notice, Section 4 (Cash Rate special conditions) — internal research/statistical use with attribution; not redistributed as a financial benchmark by this warehouse.",
+      "intended_raw_storage_path": "warehouse/data/raw/rba_rates/a02hist.xlsx",
+      "intended_local_table": "rba_rates.duckdb :: rba_cash_rate_target",
+      "intended_core_table": "core.fact_interest_rates (rate_type='cash_rate_target')",
+      "verification": {
+        "http_status": 200,
+        "series_id_confirmed": true
+      },
+      "status": "discovered"
+    },
+    {
+      "source_id": "rba_f6",
+      "dataset_id": "rba_housing_lending_rates",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "RBA Statistical Table F6 — Housing Lending Rates",
+      "publisher": "Reserve Bank of Australia (data sourced from APRA + RBA)",
+      "official_url": "https://www.rba.gov.au/statistics/interest-rates/",
+      "download_url": "https://www.rba.gov.au/statistics/tables/csv/f6-data.csv",
+      "xlsx_alternative_url": "https://www.rba.gov.au/statistics/tables/xls/f06hist.xlsx",
+      "file_format": "csv (metadata header rows + monthly data rows; 62 series columns total, 8 curated series loaded)",
+      "measure": "Weighted-average lending rates on housing credit outstanding, by owner-occupier/investor and by rate type (variable / fixed <=3yr / fixed >3yr), all authorised deposit-taking institutions. Modern (2019-current) APRA-sourced series.",
+      "available_history": "31/07/2019 to 31/05/2026 (83 months)",
+      "refresh_frequency": "monthly",
+      "series_loaded": [
+        {
+          "series_id": "FLRHOOTA",
+          "borrower_type": "owner_occupier",
+          "loan_type": "all",
+          "title": "Outstanding; Owner-occupied; All loans; All institutions"
+        },
+        {
+          "series_id": "FLRHOOVA",
+          "borrower_type": "owner_occupier",
+          "loan_type": "variable",
+          "title": "Outstanding; Owner-occupied; Variable-rate; All institutions"
+        },
+        {
+          "series_id": "FLRHOOFA",
+          "borrower_type": "owner_occupier",
+          "loan_type": "fixed_le_3y",
+          "title": "Outstanding; Owner-occupied; Fixed-rate <=3yr residual"
+        },
+        {
+          "series_id": "FLRHOOFB",
+          "borrower_type": "owner_occupier",
+          "loan_type": "fixed_gt_3y",
+          "title": "Outstanding; Owner-occupied; Fixed-rate >3yr residual"
+        },
+        {
+          "series_id": "FLRHIOTA",
+          "borrower_type": "investor",
+          "loan_type": "all",
+          "title": "Outstanding; Investment; All loans; All institutions"
+        },
+        {
+          "series_id": "FLRHIOVA",
+          "borrower_type": "investor",
+          "loan_type": "variable",
+          "title": "Outstanding; Investment; Variable-rate; All institutions"
+        },
+        {
+          "series_id": "FLRHIOFA",
+          "borrower_type": "investor",
+          "loan_type": "fixed_le_3y",
+          "title": "Outstanding; Investment; Fixed-rate <=3yr residual"
+        },
+        {
+          "series_id": "FLRHIOFB",
+          "borrower_type": "investor",
+          "loan_type": "fixed_gt_3y",
+          "title": "Outstanding; Investment; Fixed-rate >3yr residual"
+        }
+      ],
+      "series_not_loaded_reason": "F6 has 62 total columns split across 'Outstanding' vs 'New loans funded in the month' bases, plus repayment-type, LVR-band, loan-value-band splits and 'Large institutions'-only variants. Only the 8 'Outstanding, All institutions' series were loaded to keep this module compact per the task's 'keep this sprint small' instruction.",
+      "licence_notes": "CC BY 4.0",
+      "intended_raw_storage_path": "warehouse/data/raw/rba_rates/f6-data.csv",
+      "intended_local_table": "rba_rates.duckdb :: rba_housing_lending_rates_f6",
+      "intended_core_table": "core.fact_interest_rates (rate_type='housing_lending_rate', borrower_type/loan_type populated)",
+      "verification": {
+        "http_status": 200,
+        "series_found": 8,
+        "series_expected": 8
+      },
+      "status": "discovered"
+    },
+    {
+      "source_id": "rba_f5",
+      "dataset_id": "rba_indicator_lending_rates_housing",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "RBA Statistical Table F5 — Indicator Lending Rates (housing subset)",
+      "publisher": "Reserve Bank of Australia",
+      "official_url": "https://www.rba.gov.au/statistics/interest-rates/",
+      "download_url": "https://www.rba.gov.au/statistics/tables/csv/f5-data.csv",
+      "xlsx_alternative_url": "https://www.rba.gov.au/statistics/tables/xls/f05hist.xlsx",
+      "series_breaks_url": "https://www.rba.gov.au/statistics/tables/csv/f5-series-breaks.csv",
+      "file_format": "csv (metadata header rows + monthly data rows; 29 series columns total, 4 housing series loaded)",
+      "measure": "Older/longer-run indicator lending rate series predating the APRA housing-credit collection; gives the long-run 'standard variable' bank mortgage rate directly.",
+      "refresh_frequency": "monthly",
+      "series_loaded": [
+        {
+          "series_id": "FILRHLBVS",
+          "borrower_type": "owner_occupier",
+          "loan_type": "standard_variable",
+          "title": "Housing loans; Banks; Variable; Standard; Owner-occupier",
+          "history": "31/01/1959 to 30/06/2026 (810 months)"
+        },
+        {
+          "series_id": "FILRHL3YF",
+          "borrower_type": "owner_occupier",
+          "loan_type": "fixed_3y",
+          "title": "Housing loans; Banks; 3-year fixed; Owner-occupier",
+          "history": "30/09/1990 to 30/06/2026 (430 months)"
+        },
+        {
+          "series_id": "FILRHLBVSI",
+          "borrower_type": "investor",
+          "loan_type": "standard_variable",
+          "title": "Housing loans; Banks; Variable; Standard; Investor",
+          "history": "31/08/2015 to 30/06/2026 (131 months)"
+        },
+        {
+          "series_id": "FILRHL3YFI",
+          "borrower_type": "investor",
+          "loan_type": "fixed_3y",
+          "title": "Housing loans; Banks; 3-year fixed; Investor",
+          "history": "31/08/2015 to 30/06/2026 (131 months)"
+        }
+      ],
+      "known_limitations": [
+        "F5 and F6 use different collection methodologies and are NOT spliced into one continuous series — stored as distinct rate_type/loan_type combinations. A dedicated f5-series-breaks.csv documents internal breaks within F5 itself; not consumed this sprint (informational only, raw published values loaded as-is)."
+      ],
+      "series_not_loaded_reason": "F5 also covers small-business, personal, credit-card and large-business lending rates (25 of 29 columns) — out of scope for a residential-property warehouse.",
+      "licence_notes": "CC BY 4.0",
+      "intended_raw_storage_path": "warehouse/data/raw/rba_rates/f5-data.csv",
+      "intended_local_table": "rba_rates.duckdb :: rba_indicator_lending_rates_f5",
+      "intended_core_table": "core.fact_interest_rates (rate_type='indicator_lending_rate', borrower_type/loan_type populated)",
+      "verification": {
+        "http_status": 200,
+        "series_found": 4,
+        "series_expected": 4
+      },
+      "status": "discovered"
+    },
+    {
+      "source_id": "rba_j1",
+      "dataset_id": "rba_cash_rate_forecasts",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "RBA Statistical Table J1 — Market Economists' Cash Rate Forecasts",
+      "publisher": "Reserve Bank of Australia (survey of market economists)",
+      "official_url": "https://www.rba.gov.au/statistics/tables/",
+      "download_url": "https://www.rba.gov.au/statistics/tables/csv/j1-cash-rate.csv",
+      "status": "out_of_scope",
+      "notes": "Discovered while browsing the RBA statistical tables index (link text read \"J1 - Cash Rate\", misleading — the table itself is titled \"J1 MARKET ECONOMISTS' FORECASTS\" and contains survey-based median/mean/low/high forecast cash rates by target quarter, not historical actuals). Excluded per this sprint's hard rule against loading forecasts. Verified programmatically: title contains \"FORECAST\" = true."
+    }
+  ]
+}
