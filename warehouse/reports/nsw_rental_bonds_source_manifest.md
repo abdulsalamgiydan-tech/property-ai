@@ -1,7 +1,7 @@
 # NSW Rental Bonds Source Manifest (Sprint 6)
 
-Generated: 2026-07-20T10:04:33.099Z
-Statuses: 17 discovered.
+Generated: 2026-07-20T10:12:11.906Z
+Statuses: 15 discovered.
 
 ## Primary source
 
@@ -20,7 +20,7 @@ https://dcj.nsw.gov.au/about-us/families-and-communities-statistics/housing-rent
   2021-Q1 to 2026-Q1 to match the Sprint 5 sales pilot window.
 - Refresh frequency: quarterly.
 
-## Quarters (17 total, 17 verified live)
+## Quarters (17 total, 15 verified live)
 
 - 2021-03 ✅
 - 2021-06 ✅
@@ -36,13 +36,13 @@ https://dcj.nsw.gov.au/about-us/families-and-communities-statistics/housing-rent
 - 2023-12 ✅
 - 2024-03 ✅
 - 2024-06 ✅
-- 2024-09 ✅
-- 2025-03 ✅
 - 2026-03 ✅
 
 ## Known gaps (not fabricated)
 
+- 2024-09
 - 2024-12
+- 2025-03
 - 2025-06
 - 2025-09
 - 2025-12

@@ -1,0 +1,131 @@
+{
+  "generated_at": "2026-07-20T10:20:08.344Z",
+  "store": "local DuckDB/Parquet (no Supabase connection made)",
+  "verdict": "PASSED",
+  "source_files": 15,
+  "all_files_hashed": true,
+  "raw_or_local_files_tracked_by_git": [],
+  "pilot_lgas": [
+    "Blacktown",
+    "Parramatta",
+    "Camden",
+    "Wollongong",
+    "Newcastle",
+    "Shellharbour"
+  ],
+  "quarters_loaded": 15,
+  "by_quarter": [
+    {
+      "quarter": "2021-01-01",
+      "n": 1881
+    },
+    {
+      "quarter": "2021-04-01",
+      "n": 1885
+    },
+    {
+      "quarter": "2021-07-01",
+      "n": 1883
+    },
+    {
+      "quarter": "2021-10-01",
+      "n": 1883
+    },
+    {
+      "quarter": "2022-01-01",
+      "n": 1881
+    },
+    {
+      "quarter": "2022-04-01",
+      "n": 1881
+    },
+    {
+      "quarter": "2022-07-01",
+      "n": 1877
+    },
+    {
+      "quarter": "2022-10-01",
+      "n": 1875
+    },
+    {
+      "quarter": "2023-01-01",
+      "n": 1878
+    },
+    {
+      "quarter": "2023-04-01",
+      "n": 1877
+    },
+    {
+      "quarter": "2023-07-01",
+      "n": 1872
+    },
+    {
+      "quarter": "2023-10-01",
+      "n": 1869
+    },
+    {
+      "quarter": "2024-01-01",
+      "n": 1869
+    },
+    {
+      "quarter": "2024-04-01",
+      "n": 1868
+    },
+    {
+      "quarter": "2026-01-01",
+      "n": 1860
+    }
+  ],
+  "by_geography_type": [
+    {
+      "geography_type": "LGA",
+      "n": 2661
+    },
+    {
+      "geography_type": "POA",
+      "n": 25478
+    }
+  ],
+  "by_dwelling_type": [
+    {
+      "dwelling_type": "all",
+      "n": 6058
+    },
+    {
+      "dwelling_type": "apartment_unit",
+      "n": 5620
+    },
+    {
+      "dwelling_type": "detached_house",
+      "n": 5775
+    },
+    {
+      "dwelling_type": "other_residential",
+      "n": 5664
+    },
+    {
+      "dwelling_type": "townhouse_villa_semidetached",
+      "n": 5022
+    }
+  ],
+  "bedroom_breakdown_coverage": {
+    "with_bedroom": 23040,
+    "total_only": 5099
+  },
+  "checks": {
+    "null_geo_ids": 0,
+    "null_codes": 0,
+    "duplicate_keys": 0,
+    "non_positive_rent": 0,
+    "null_median_rent": 16990,
+    "null_rental_count": 21711,
+    "poa_unmatched_to_asgs": 0,
+    "unknown_dwelling_type": 0
+  },
+  "notes": [
+    "median_weekly_rent is NULL for DCJ-suppressed cells (<=10 bonds lodged, or <=30 lodged flagged for caution and also treated as NULL here) — never zero-filled or estimated.",
+    "Dwelling type mapping is a direct 1:1 preservation of DCJ's own categories (House/Flat-Unit/Townhouse/Other/Total), high confidence except 'Other' (medium) and any unmapped value ('unknown_residential', low).",
+    "POA geography join is an exact 4-digit postcode match (same reliable method as the Sprint 5 sales pilot's postcode join).",
+    "LGA geography join is an exact name match against the 6 pilot LGA names confirmed in Sprint 5's spatial derivation."
+  ]
+}

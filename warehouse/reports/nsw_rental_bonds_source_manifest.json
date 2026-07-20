@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-20T10:04:33.099Z",
+  "generated_at": "2026-07-20T10:12:11.906Z",
   "policy": {
     "official_nsw_gov_only": true,
     "no_commercial_scraping": true,
@@ -8,7 +8,9 @@
     "scope": "NSW only, pilot geography (6 LGAs). Quarterly rent tables (LGA + Postcode sheets), 2021-Q1 to 2026-Q1 where discoverable."
   },
   "known_gaps": [
+    "2024-09",
     "2024-12",
+    "2025-03",
     "2025-06",
     "2025-09",
     "2025-12"
@@ -78,7 +80,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-135-rent-tables-march-2021.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -91,7 +93,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-136-rent-tables-june-2021.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -104,7 +106,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-137-rent-tables-september-2021.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -117,7 +119,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-138-rent-tables-december-2021.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -130,7 +132,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-139-rent-tables-march-2022.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -143,7 +145,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-140-rent-tables-june-2022.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -156,7 +158,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-141-rent-tables-september-2022.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -169,7 +171,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-142-rent-tables-december-2022.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -182,7 +184,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-143-rent-tables-march-2023.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -195,7 +197,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-144-rent-tables-june-2023.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -208,7 +210,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-145-rent-tables-september-2023.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -221,7 +223,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-146-rent-tables-december-2023.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -234,7 +236,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-147-rent-tables-march-2024-quarter.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -247,33 +249,7 @@
       "file_format": "xlsx",
       "expected_file_name": "issue-148-rent-tables-june-2024-quarter.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
-    },
-    {
-      "source_id": "nsw_rent_and_sales_report",
-      "dataset_id": "nsw_rent_tables_2024-09",
-      "entry_type": "quarterly_file",
-      "dataset_name": "NSW DCJ Rent and Sales Report — Rent tables, 2024-09 quarter (Issue 149)",
-      "publisher": "NSW Department of Communities and Justice (DCJ)",
-      "official_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-149-rent-tables-sep-2024-quarter.xlsx",
-      "quarter": "2024-09",
-      "file_format": "xlsx",
-      "expected_file_name": "issue-149-rent-tables-sep-2024-quarter.xlsx",
-      "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
-    },
-    {
-      "source_id": "nsw_rent_and_sales_report",
-      "dataset_id": "nsw_rent_tables_2025-03",
-      "entry_type": "quarterly_file",
-      "dataset_name": "NSW DCJ Rent and Sales Report — Rent tables, 2025-03 quarter (Issue 151)",
-      "publisher": "NSW Department of Communities and Justice (DCJ)",
-      "official_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-151-rent-tables-mar-2025.xlsx",
-      "quarter": "2025-03",
-      "file_format": "xlsx",
-      "expected_file_name": "issue-151-rent-tables-mar-2025.xlsx",
-      "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     },
     {
       "source_id": "nsw_rent_and_sales_report",
@@ -286,7 +262,7 @@
       "file_format": "xlsx",
       "expected_file_name": "rent-tables-march-2026-quarter.xlsx",
       "status": "discovered",
-      "notes": "URL verified 2026-07-20 (HTTP 200)."
+      "notes": "URL verified 2026-07-20 (HTTP 200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, zip-magic=true)."
     }
   ]
 }

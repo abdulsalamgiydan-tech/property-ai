@@ -52,11 +52,13 @@ const QUARTERS = [
   [146, "2023-12", "issue-146-rent-tables-december-2023.xlsx", true],
   [147, "2024-03", "issue-147-rent-tables-march-2024-quarter.xlsx", true],
   [148, "2024-06", "issue-148-rent-tables-june-2024-quarter.xlsx", true],
-  [149, "2024-09", "issue-149-rent-tables-sep-2024-quarter.xlsx", true],
-  [151, "2025-03", "issue-151-rent-tables-mar-2025.xlsx", true],
   [null, "2026-03", "rent-tables-march-2026-quarter.xlsx", false], // current report, not yet archived
 ];
-const KNOWN_GAPS = ["2024-12", "2025-06", "2025-09", "2025-12"]; // not discoverable via static page scan
+// Not discoverable as real files: the href exists on the DCJ page and
+// answers HTTP 200, but the response body is the CMS's soft-404 HTML page
+// (Adobe AEM), not a spreadsheet — confirmed via content-type + magic bytes,
+// several filename variants tried. Documented as gaps, not guessed further.
+const KNOWN_GAPS = ["2024-09", "2024-12", "2025-03", "2025-06", "2025-09", "2025-12"];
 
 function entryFor(issue, quarter, filename, inArchive) {
   const url = `${inArchive ? ARCHIVE : BASE}/${filename}`;
@@ -77,13 +79,21 @@ function entryFor(issue, quarter, filename, inArchive) {
 
 const entries = QUARTERS.map(([issue, quarter, filename, inArchive]) => entryFor(issue, quarter, filename, inArchive));
 
+// HTTP 200 alone is not sufficient: this CMS (Adobe AEM) returns a soft-404
+// HTML page with status 200 for a missing asset — confirmed the hard way
+// when two "verified" quarters turned out to be corrupt HTML on download.
+// Require both a spreadsheet content-type AND the xlsx/zip magic bytes.
 async function verifyUrl(url) {
   for (let i = 0; i < 4; i++) {
     if (i > 0) await new Promise((r) => setTimeout(r, 2000 * i));
     try {
       const res = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(30000) });
-      if (res.body) await res.body.cancel().catch(() => {});
-      return { ok: res.ok, detail: `HTTP ${res.status}` };
+      const contentType = res.headers.get("content-type") ?? "";
+      const buf = Buffer.from(await res.arrayBuffer());
+      const looksLikeZip = buf.length >= 2 && buf[0] === 0x50 && buf[1] === 0x4b; // 'PK'
+      const looksLikeSpreadsheet = /spreadsheet|excel|octet-stream/i.test(contentType);
+      const ok = res.ok && looksLikeZip && (looksLikeSpreadsheet || contentType === "");
+      return { ok, detail: `HTTP ${res.status}, content-type=${contentType || "none"}, zip-magic=${looksLikeZip}` };
     } catch (err) {
       if (i === 3) return { ok: false, detail: `network error: ${err.message}` };
     }
