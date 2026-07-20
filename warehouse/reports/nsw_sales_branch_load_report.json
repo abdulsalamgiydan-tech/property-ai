@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-07-20T09:39:42.249Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "frontend_changed": false,
+  "raw_transactions_loaded_to_branch": false,
+  "loaded": {
+    "fact_residential_sales_summary": 34866,
+    "suburb_sales_monthly": 21829,
+    "suburb_sales_annual": 2966,
+    "postcode_sales_monthly": 8998,
+    "postcode_sales_annual": 1073
+  },
+  "skipped": {
+    "fact_residential_sales_summary_orphans": 0
+  },
+  "gates_after": {
+    "dup_fact_grain": 0,
+    "null_geo_ids": 0,
+    "negative_prices": 0,
+    "orphan_facts": 0,
+    "invalid_txn_count": 0
+  },
+  "core_state": {
+    "fact_total": 34866,
+    "confidence_dist": {
+      "medium": 7238,
+      "high": 4717,
+      "low": 7120,
+      "insufficient": 15791
+    },
+    "suburb_monthly": 21829,
+    "suburb_annual": 2966,
+    "postcode_monthly": 8998,
+    "postcode_annual": 1073,
+    "db_size": "1573 MB"
+  }
+}

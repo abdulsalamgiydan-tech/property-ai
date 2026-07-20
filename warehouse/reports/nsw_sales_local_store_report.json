@@ -1,0 +1,207 @@
+{
+  "generated_at": "2026-07-20T09:39:05.862Z",
+  "store": "local DuckDB/Parquet (no Supabase connection made)",
+  "verdict": "PASSED",
+  "source_files": 34,
+  "all_files_hashed": true,
+  "raw_or_local_files_tracked_by_git": [],
+  "pilot_lgas": [
+    "Blacktown",
+    "Parramatta",
+    "Camden",
+    "Wollongong",
+    "Newcastle",
+    "Shellharbour"
+  ],
+  "by_year_area_sample": [
+    {
+      "year": 1996,
+      "area": "12546",
+      "n": 1
+    },
+    {
+      "year": 1999,
+      "area": "13864",
+      "n": 1
+    },
+    {
+      "year": 2000,
+      "area": "14376",
+      "n": 1
+    },
+    {
+      "year": 2001,
+      "area": "13557",
+      "n": 1
+    },
+    {
+      "year": 2004,
+      "area": "12270",
+      "n": 1
+    },
+    {
+      "year": 2004,
+      "area": "13557",
+      "n": 1
+    },
+    {
+      "year": 2012,
+      "area": "10188",
+      "n": 1
+    },
+    {
+      "year": 2012,
+      "area": "11866",
+      "n": 5
+    },
+    {
+      "year": 2013,
+      "area": "13069",
+      "n": 1
+    },
+    {
+      "year": 2013,
+      "area": "13851",
+      "n": 2
+    },
+    {
+      "year": 2015,
+      "area": "11397",
+      "n": 1
+    },
+    {
+      "year": 2015,
+      "area": "11897",
+      "n": 1
+    },
+    {
+      "year": 2016,
+      "area": "11518",
+      "n": 1
+    },
+    {
+      "year": 2016,
+      "area": "11663",
+      "n": 1
+    },
+    {
+      "year": 2016,
+      "area": "12256",
+      "n": 1
+    },
+    {
+      "year": 2017,
+      "area": "10303",
+      "n": 1
+    },
+    {
+      "year": 2017,
+      "area": "10966",
+      "n": 1
+    },
+    {
+      "year": 2017,
+      "area": "11746",
+      "n": 1
+    },
+    {
+      "year": 2017,
+      "area": "13167",
+      "n": 1
+    },
+    {
+      "year": 2017,
+      "area": "13557",
+      "n": 2
+    },
+    {
+      "year": 2017,
+      "area": "14278",
+      "n": 1
+    },
+    {
+      "year": 2017,
+      "area": "2322",
+      "n": 1
+    },
+    {
+      "year": 2017,
+      "area": "2560",
+      "n": 1
+    },
+    {
+      "year": 2018,
+      "area": "10025",
+      "n": 1
+    },
+    {
+      "year": 2018,
+      "area": "11203",
+      "n": 1
+    },
+    {
+      "year": 2018,
+      "area": "11369",
+      "n": 1
+    },
+    {
+      "year": 2018,
+      "area": "12063",
+      "n": 2
+    },
+    {
+      "year": 2018,
+      "area": "12951",
+      "n": 1
+    },
+    {
+      "year": 2018,
+      "area": "13004",
+      "n": 1
+    },
+    {
+      "year": 2018,
+      "area": "13102",
+      "n": 1
+    }
+  ],
+  "by_year_area_full_row_count": 1498,
+  "by_dwelling_type": [
+    {
+      "dwelling_type": "apartment_unit",
+      "n": 70573
+    },
+    {
+      "dwelling_type": "detached_house",
+      "n": 114086
+    },
+    {
+      "dwelling_type": "residential_land",
+      "n": 26607
+    }
+  ],
+  "checks": {
+    "residential_rows": 211266,
+    "all_rows": 218213,
+    "no_transaction_date": 0,
+    "null_price": 0,
+    "non_positive_price": 0,
+    "duplicate_natural_keys": 0,
+    "missing_suburb": 0,
+    "missing_postcode": 304,
+    "classified": 211266,
+    "unknown_classified": 0,
+    "flagged_nominal": 137,
+    "flagged_invalid": 0,
+    "flagged_outlier": 6162,
+    "ok_for_stats": 204967,
+    "geo_unmatched": 0,
+    "summary_rows": 34866,
+    "summary_duplicate_keys": 0
+  },
+  "notes": [
+    "Non-arm's-length/nominal-value transfers (price < $10,000) and IQR-based outliers per dwelling_type are flagged and excluded from median/mean/quartile statistics — never silently included, never dropped from the transaction table.",
+    "geo_unmatched rows have neither a pilot suburb-name match nor a pilot postcode match despite being in the scanned files (e.g. a locality name variant) — excluded from marts, counted here for transparency.",
+    "unknown_residential rows are preserved with a 'low' confidence label rather than forced into a specific dwelling type, per the no-PDF field-mapping limitation documented in the source manifest."
+  ]
+}
