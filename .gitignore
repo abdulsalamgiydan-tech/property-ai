@@ -32,6 +32,13 @@ data/
 warehouse/data/
 *.parquet
 *.duckdb
+*.duckdb.wal
+*.shp
+*.dbf
+*.shx
+*.prj
+*.cpg
+*.gpkg
 
 # debug
 npm-debug.log*

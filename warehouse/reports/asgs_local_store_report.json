@@ -1,0 +1,116 @@
+{
+  "generated_at": "2026-07-20T03:27:48.614Z",
+  "store": "local DuckDB/Parquet (no Supabase connection made)",
+  "verdict": "PASSED",
+  "files": [
+    {
+      "file": "warehouse/data/local/asgs_2021.duckdb",
+      "size_mb": 667.3
+    },
+    {
+      "file": "warehouse/data/local/asgs_geography.parquet",
+      "size_mb": 492.9
+    },
+    {
+      "file": "warehouse/data/local/asgs_correspondence.parquet",
+      "size_mb": 2.8
+    }
+  ],
+  "geography_by_type": [
+    {
+      "geography_type": "GCCSA",
+      "n": 35,
+      "quarantined": 19
+    },
+    {
+      "geography_type": "LGA",
+      "n": 566,
+      "quarantined": 19
+    },
+    {
+      "geography_type": "POA",
+      "n": 2644,
+      "quarantined": 3
+    },
+    {
+      "geography_type": "SA1",
+      "n": 61845,
+      "quarantined": 34
+    },
+    {
+      "geography_type": "SA2",
+      "n": 2473,
+      "quarantined": 19
+    },
+    {
+      "geography_type": "SA3",
+      "n": 359,
+      "quarantined": 19
+    },
+    {
+      "geography_type": "SA4",
+      "n": 108,
+      "quarantined": 19
+    },
+    {
+      "geography_type": "SAL",
+      "n": 15353,
+      "quarantined": 19
+    },
+    {
+      "geography_type": "STATE",
+      "n": 10,
+      "quarantined": 1
+    }
+  ],
+  "correspondence_by_pair": [
+    {
+      "pair": "SA1->LGA",
+      "n": 62372,
+      "quarantined": 34
+    },
+    {
+      "pair": "SA1->POA",
+      "n": 65318,
+      "quarantined": 34
+    },
+    {
+      "pair": "SA1->SAL",
+      "n": 73131,
+      "quarantined": 34
+    },
+    {
+      "pair": "SA2->LGA",
+      "n": 3097,
+      "quarantined": 19
+    },
+    {
+      "pair": "SA2->POA",
+      "n": 5904,
+      "quarantined": 19
+    },
+    {
+      "pair": "SA2->SAL",
+      "n": 17496,
+      "quarantined": 19
+    }
+  ],
+  "checks": {
+    "null_codes": 0,
+    "duplicate_codes": 0,
+    "non_quarantined_missing_geom": 0,
+    "invalid_geoms": 0,
+    "zero_area_geoms": 0,
+    "quarantined_geo": 152,
+    "quarantined_corr": 159,
+    "non_quarantined_null_ratio": 0,
+    "weight_violations": 0,
+    "weight_tolerance": 0.001
+  },
+  "count_mismatches": {
+    "geography": [],
+    "correspondence": []
+  },
+  "quarantine_note": "Quarantined rows are ABS special-purpose codes (Migratory - Offshore - Shipping, No usual address, Outside Australia): no published geometry / zero Albers area. Preserved with reasons, never dropped, nothing invented.",
+  "crs": "geometry stored EPSG:4326 (transformed from GDA2020 EPSG:7844 at build); parquet geom is WKB"
+}

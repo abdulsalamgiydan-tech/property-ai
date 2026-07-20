@@ -9,8 +9,13 @@ Scripts for building the ABS ASGS geography backbone (Sprint 2). Plan:
 | `download_asgs_sources.mjs` | done | Controlled download of manifest-approved artefacts into gitignored raw storage; SHA-256 + size + URL recorded in `warehouse/reports/asgs_download_inventory.{json,md}` |
 | `inspect_asgs_local_files.mjs` | done | Extract boundary zips into `warehouse/data/processed/` (gitignored) and inspect layers, CRS, row counts and fields into `warehouse/reports/asgs_local_file_inspection.{json,md}` |
 | `load_asgs_backbone.mjs` | staging phase done | Load staged ASGS files into `staging.asgs_geography` / `staging.asgs_correspondence` with lineage + quality/coverage results. Core promotion is blocked pending approval. |
+| `promote_asgs_to_core.mjs` | built; paused | Staging → core promotion with blocking gates (single transaction, rollback on failure). Paused: branch disk cannot hold staging + core geometry copies. |
+| `build_asgs_local_store.mjs` | done | Build the local DuckDB/Parquet staging store (`warehouse/data/local/`, gitignored) from raw ABS files — keeps the Supabase branch lean; no DB connection. |
+| `validate_asgs_local_store.mjs` | done | Read-only validation of the local store; writes `asgs_local_store_report.{json,md}`. No DB connection. |
+| `cleanup_branch_staging.mjs` | prepared, NOT run | Branch-only truncate of the two heavy staging tables after the local store is validated. Requires `--execute --confirm-local-store-validated` AND explicit user approval. |
 
-Run order: `discover` → `download` → `inspect` → `load --execute`.
+Run order (local-first strategy): `discover` → `download` → `inspect` →
+`build_asgs_local_store` → `validate_asgs_local_store` → (approved) branch/core loads.
 `load_asgs_backbone.mjs` is a dry run by default; `--execute` needs
 `WAREHOUSE_VALIDATION_DB_URL` in `.env.local` (see `.env.example`) and refuses any
 database that is not the warehouse-validation branch.
