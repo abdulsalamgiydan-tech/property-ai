@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-07-20T19:16:38.228Z",
+  "scope": "in-place reclassification of the existing local NSW sales store — extraction/staging/dedup unaffected, not re-run",
+  "rule_version": 2,
+  "new_rule_records_affected": 18712,
+  "previous_classification_distribution": [
+    {
+      "dwelling_type": "apartment_unit",
+      "dwelling_type_confidence": "medium",
+      "n": 1504413
+    },
+    {
+      "dwelling_type": "detached_house",
+      "dwelling_type_confidence": "medium",
+      "n": 2556681
+    },
+    {
+      "dwelling_type": "other_residential",
+      "dwelling_type_confidence": "low",
+      "n": 45570
+    },
+    {
+      "dwelling_type": "residential_land",
+      "dwelling_type_confidence": "high",
+      "n": 573465
+    }
+  ],
+  "new_classification_distribution": [
+    {
+      "dwelling_type": "apartment_unit",
+      "dwelling_type_confidence": "medium",
+      "n": 1504413
+    },
+    {
+      "dwelling_type": "detached_house",
+      "dwelling_type_confidence": "medium",
+      "n": 2537969
+    },
+    {
+      "dwelling_type": "other_residential",
+      "dwelling_type_confidence": "low",
+      "n": 45570
+    },
+    {
+      "dwelling_type": "residential_land",
+      "dwelling_type_confidence": "high",
+      "n": 573465
+    },
+    {
+      "dwelling_type": "townhouse_villa_semidetached",
+      "dwelling_type_confidence": "medium",
+      "n": 18712
+    }
+  ],
+  "records_newly_classified_townhouse_villa": 18712,
+  "records_remaining_unknown_residential": 0,
+  "nsw_sales_summary_rows_rebuilt": 1395683,
+  "townhouse_villa_coverage_after": [
+    {
+      "geography_type": "POA",
+      "distinct_geos": 445,
+      "cells": 16494
+    },
+    {
+      "geography_type": "SAL",
+      "distinct_geos": 1044,
+      "cells": 20470
+    }
+  ],
+  "note_on_yield_recalculation": "Yield marts on the branch are recalculated in Phase 5-7's branch load, matching sales and rent dwelling_type exactly — townhouse_villa_semidetached now has real sales-side coverage for the first time (previously only rent-side existed for this type in the DCJ source, meaning yield could never be computed for it). This closes a gap, it does not narrow one."
+}
