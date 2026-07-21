@@ -1,0 +1,182 @@
+{
+  "generated_at": "2026-07-21T13:15:00.000Z",
+  "sprint": "Sprint 10 — Australia Residential Property Intelligence V2: NSW Reconciliation, Victoria Expansion, Cross-State Comparison and Automated Refresh",
+  "executive_summary": "NSW's Sprint 9 dwelling-classification drift (18,712 records) was fully reconciled and independently verified. A documented state-adapter architecture and canonical data contracts now govern both states. Victoria's residential sales (VPSR, suburb grain) and rental market (Homes Victoria, dual suburb/LGA grain) were sourced, geography-mapped (95% suburb-match rate for sales via direct + one documented alias rule, zero fuzzy matching), built into local stores, and promoted to the branch (741 suburb snapshot rows, 18,507 sales/rent/yield timeseries rows). Victoria's supply/demographics/affordability data was confirmed already-national from prior sprints, needing no re-ingestion. A shared multi-state schema (jurisdiction column, not per-state duplicate tables), a 16-metric national canonical registry, and a security-tested cross-state comparison API (4 new SECURITY DEFINER interfaces) were delivered. A new internal explore/compare UI and a data-freshness observability page were built and browser-tested against real branch data. A refresh orchestration framework (dry-run by default, production-target hard-refused, proven live) closes out the automation requirement without enabling any schedule. All 16 phases completed. Production was never touched; the Supabase branch was never merged; no raw data files were committed; no paid infrastructure was increased.",
+
+  "files_and_commits": {
+    "commits_created": 7,
+    "commit_list": [
+      "05fee3b feat(warehouse): Sprint 10 Phases 0-2 — NSW reconciliation + state-adapter architecture",
+      "4012937 feat(warehouse): Sprint 10 Phase 3-6 — Victoria source discovery, geography mapping, sales+rents local stores",
+      "21f8008 feat(warehouse): Sprint 10 Phase 7-9 — VIC supply/demographics confirmation, multi-state schema, branch load",
+      "18d9ede feat(warehouse): Sprint 10 Phase 10-11 — national metric registry + cross-state comparison API",
+      "1f9115c feat(warehouse,web): Sprint 10 Phase 12-13 (partial) — multi-state research UI + refresh registry",
+      "2c4394e feat(warehouse,web): Sprint 10 Phase 13-14 — refresh orchestration + freshness observability",
+      "7e8ccac test(warehouse): Sprint 10 Phase 15 — VIC contract tests, national metric validation, lint cleanup"
+    ],
+    "total_files_changed": 86,
+    "total_insertions": 21625,
+    "branch": "feature/deal-analyser-budget-2026"
+  },
+
+  "phase1_nsw_reconciliation": {
+    "status": "COMPLETE — blocking gate passed before any Victoria work began",
+    "records_reclassified": 18712,
+    "total_residential_transactions_unchanged": 4680129,
+    "branch_rows_replaced": 252412,
+    "snapshot_rows_rebuilt": { "suburb": 15334, "postcode": 2641 },
+    "timeseries_rows_rebuilt": 62432,
+    "validation_gates_all_zero": true,
+    "spot_check_proof": "3 exact-match cells (local DuckDB vs branch) — see nsw_sales_reconciliation_report.json"
+  },
+
+  "phase2_state_adapter_architecture": {
+    "status": "COMPLETE",
+    "deliverables": [
+      "warehouse/docs/STATE_ADAPTER_ARCHITECTURE.md",
+      "warehouse/docs/CANONICAL_PROPERTY_DATA_CONTRACTS.md",
+      "warehouse/config/jurisdictions.yml",
+      "lib/warehouse/contracts.ts + contracts.test.ts (10 tests, including new VIC fixtures added Phase 15)"
+    ],
+    "note": "NSW's existing scripts were NOT moved/renamed — only documented via thin adapter-manifest files, per the explicit 'do not rewrite working logic merely for aesthetics' instruction."
+  },
+
+  "phase3_victoria_source_discovery": {
+    "status": "COMPLETE",
+    "sources_selected": [
+      "VPSR Median House/Unit/Vacant Land by Suburb (Valuer-General Victoria, quarterly, CC BY 4.0)",
+      "VPSR Yearly Summary (state/metro/country grain, statewide sanity-check reference)",
+      "Homes Victoria Moving Annual Rent by Suburb (cumulative full history in each release)",
+      "Homes Victoria Quarterly Median Rent by LGA (documented fallback grain)"
+    ],
+    "sources_rejected": [
+      { "candidate": "CAV RTBA raw bond microdata", "reason": "Homes Victoria's own published aggregate is preferred over re-deriving the same statistic" },
+      { "candidate": "REIV median price data", "reason": "industry association, not official government/statutory authority; also feeds commercial portals" }
+    ],
+    "access_method_note": "VPSR sales files sit behind a Cloudflare JS challenge on land.vic.gov.au, resolved via the project's established legitimate headed-browser technique (same as NSW Sprint 5) — not a bypass.",
+    "already_national_no_new_work": ["ASGS geography", "Census demographics/dwelling-stock/tenure", "ABS Building Approvals", "RBA rates"]
+  },
+
+  "phase4_geography_mapping": {
+    "status": "COMPLETE",
+    "vpsr_sales_localities": { "total_distinct": 785, "direct_match": 579, "alias_match": 167, "ambiguous": 0, "unresolved": 39, "mapping_rate_pct": 95.0 },
+    "method": "Direct ASGS SAL name match + one documented alias rule (state-disambiguation-suffix strip). Zero fuzzy matching.",
+    "key_finding": "VPSR sales uses standard single-suburb names (unlike Homes Victoria's rent report), enabling suburb-grain VIC sales — overturned an earlier working assumption that LGA-grain would be needed for all VIC data."
+  },
+
+  "phase5_6_victoria_local_stores": {
+    "vic_sales_local_store": {
+      "total_summary_rows": 7145,
+      "geographies_covered": 785,
+      "dwelling_types": ["detached_house", "apartment_unit", "residential_land"],
+      "no_coverage": ["townhouse_villa_semidetached (VPSR has no such product)"],
+      "validation_gates_all_pass": true
+    },
+    "vic_rents_local_store": {
+      "total_summary_rows": 150709,
+      "suburb_grain_rows": 101399,
+      "lga_grain_fallback_rows": 49310,
+      "resolved_suburb_localities": "79 of 158 (50%) — remainder are genuine multi-suburb VG groupings, correctly excluded from suburb grain and covered via LGA fallback instead",
+      "validation_gates_all_pass": true
+    }
+  },
+
+  "phase7_supply_demographics_affordability": {
+    "status": "COMPLETE — verification only, no new ingestion required",
+    "vic_dwelling_stock_rows": 152192,
+    "vic_household_tenure_rows": 114144,
+    "vic_building_approvals_rows": 20358,
+    "affordability_methodology_identical_across_states": true,
+    "proof": "meta.metric_assumption has no jurisdiction column — confirmed by direct query, not assumed"
+  },
+
+  "phase8_9_migrations_and_branch_load": {
+    "migrations_created": ["015_multi_state_market_intelligence.sql", "016_market_comparison_interfaces.sql", "017_data_refresh_operations.sql"],
+    "jurisdiction_column_approach": "Extended existing canonical mart tables with a jurisdiction column (meta.jurisdiction lookup) — no VIC-specific duplicate tables created",
+    "vic_branch_load": {
+      "suburb_market_snapshot_vic_rows": 741,
+      "timeseries_sales": 6727,
+      "timeseries_rent": 8130,
+      "timeseries_yield": 706,
+      "timeseries_approvals": 2944,
+      "scope_note": "SAL grain only — VPSR has no postcode-level figures",
+      "geography_confidence_filter": "only direct/alias rows promoted, unresolved localities never written to Supabase",
+      "all_validation_gates_pass": true
+    }
+  },
+
+  "national_snapshot_and_timeseries_row_counts": {
+    "suburb_market_snapshot": { "NSW": 4542, "VIC": 2944 },
+    "postcode_market_snapshot": { "NSW": 613, "VIC": 694 },
+    "suburb_market_timeseries": { "NSW": 61603, "VIC": 18507 },
+    "postcode_market_timeseries": { "NSW": 23150, "VIC": 0 }
+  },
+
+  "branch_storage": {
+    "before_sprint_mb": 2169,
+    "after_sprint_mb": 2359,
+    "growth_mb": 190,
+    "capacity_budget_mb": 300,
+    "within_budget": true
+  },
+
+  "phase10_11_metrics_and_comparison_api": {
+    "national_metric_registry": "warehouse/config/market_metrics.yml — 16 canonical metrics, each with formula/unit/geography-compatibility/confidence-rules/null-rules/known-limitations",
+    "national_metric_validation": "Live spot-check against real branch data — see national_metric_validation_report.{json,md}. All checks pass (VIC gross_yield exact-matches its formula; NSW's documented period-decoupling behaviour confirmed as by-design, not a bug).",
+    "comparison_routes_delivered": [
+      "public.search_market_geographies_v2 (jurisdiction/type filter, row limit clamped 1-50 server-side)",
+      "public.get_market_snapshot_v2",
+      "public.compare_market_geographies_v1 (2-5 geographies, array-length enforced server-side, no ranking/score)",
+      "public.get_market_timeseries_v2"
+    ],
+    "cross_state_security_results": {
+      "tests_run": 7,
+      "all_pass": true,
+      "highlights": ["anon can execute all 4 functions", "anon denied direct mart.* SELECT/UPDATE (42501)", "anon denied direct meta.jurisdiction SELECT (42501)", "row-limit clamp verified (999->50)", "compare array-length bound verified (rejected count=1)", "SQL-injection-shaped parameter treated as literal, 0 rows, no secondary statement"]
+    }
+  },
+
+  "phase12_multi_state_ui": {
+    "feature_flag": "MULTI_STATE_RESEARCH_ENABLED (new, disabled by default, independent of WAREHOUSE_PREVIEW_ENABLED)",
+    "routes_delivered": ["/research/explore", "/research/compare", "/research/suburb/[geographyCode] (upgraded in place)", "/research/postcode/[geographyCode] (upgraded in place)"],
+    "route_not_delivered": "/research/suburb/[stateCode]/[geographyCode] — Next.js App Router forbids two differently-named dynamic segments at the same URL position; existing single-segment routes upgraded in place instead (documented in multi_state_research_ui_report.md)",
+    "browser_tests_run": 9,
+    "browser_tests_pass": 9,
+    "real_cross_state_comparison_verified": "1 NSW + 1 VIC suburb compared live, correctly showing non-aligned sales/rent periods per geography, 0 console errors"
+  },
+
+  "phase13_14_refresh_and_freshness": {
+    "no_schedule_enabled": true,
+    "orchestrator_scripts": ["plan_refresh.mjs", "run_refresh.mjs", "check_freshness.mjs", "generate_refresh_report.mjs"],
+    "production_target_rejection_proven_live": true,
+    "bug_found_and_fixed_during_testing": "plan_refresh.mjs and check_freshness.mjs initially counted plan/dry-run runs as evidence of a real refresh, which could falsely mark a dataset 'current'. Fixed and re-verified against the branch.",
+    "data_status_page": "/research/data-status, gated by WAREHOUSE_PREVIEW_ENABLED, reads public.v_dataset_freshness_v1 (anon SELECT granted, direct meta.* access revoked), no file paths/secrets/internal IDs exposed, browser-tested with 0 console errors"
+  },
+
+  "phase15_16_testing_and_validation": {
+    "unit_tests": { "files": 4, "tests": 48, "all_pass": true, "delta_from_session_start": "+7 tests (env.test.ts +3, contracts.test.ts +4)" },
+    "typescript": "npx tsc --noEmit clean (0 errors — also fixed 2 pre-existing errors encountered along the way)",
+    "lint": "8 errors / 6 warnings — identical to the 8-error baseline; all 6 warnings confirmed pre-existing in files never touched this session (verified via git log per file); 9 warnings this session's own new scripts had introduced were found and fixed",
+    "build": "npm run build succeeds, all new/modified routes compiled",
+    "warehouse_check": "npm run warehouse:check passes — no raw/boundary/archive files tracked by git",
+    "production_schemas": "zero on production (oshquaxsloolqucwvigc) — reconfirmed via MCP list_tables at the end of the sprint",
+    "raw_files_committed": false,
+    "secrets_in_new_files": false
+  },
+
+  "sprint_completion_checklist": {
+    "production_touched": false,
+    "branch_merged": false,
+    "production_deployment": false,
+    "raw_files_committed": false,
+    "paid_infrastructure_increased": false,
+    "feature_flags_disabled_by_default": true,
+    "nsw_vic_same_canonical_contracts": true,
+    "cross_state_comparison_works": true,
+    "automated_refresh_planning_exists": true,
+    "freshness_monitoring_exists": true,
+    "anonymous_read_only_access_safe": true
+  },
+
+  "recommended_next_step": "Request explicit human approval before any Supabase branch merge or production deployment — this sprint deliberately stopped short of both, per the sprint's non-negotiable safety rules. Before that approval is sought, recommended follow-up (not urgent, not blocking): (1) re-verify NSW's gross_yield methodology against its own yield_sale_period_used/yield_rent_period_used columns specifically (this sprint's national_metric_validation_report only spot-checked VIC's formula exactly; NSW's was verified by design reasoning, not a fresh live recompute); (2) consider whether the ~50% VIC rent locality coverage gap (79 of 158 suburb-grain localities) is acceptable for launch or whether a documented LGA-only VIC rent experience should be the default until a further ASGS correspondence effort resolves more of Homes Victoria's custom groupings; (3) decide whether to invest in chart visualisation (recharts is installed, currently unused — Phase 12 explicitly deferred this)."
+}
