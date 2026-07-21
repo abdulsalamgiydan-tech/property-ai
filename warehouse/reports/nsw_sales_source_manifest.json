@@ -65,14 +65,18 @@
       "dataset_name": "NSW Valuer General Property Sales Information — 1990 to 2001 archive",
       "publisher": "NSW Valuer General (Property NSW)",
       "official_url": "https://valuation.property.nsw.gov.au/embed/propertySalesInformation",
-      "format_guide_url": "https://www.valuergeneral.nsw.gov.au/__data/assets/pdf_file/0014/216401/Archived_Property_Sales_Data_File_Format_1990_to_2001_V2.pdf",
+      "official_url_note": "the interactive propertySalesInformation launch app itself returns 'currently unavailable' as of Sprint 11 Workstream 8 — the direct __psi/yearly/<YYYY>.zip download pattern (same domain, same as 2001-current) works regardless and was used directly.",
+      "format_guide_url": "https://www.nsw.gov.au/sites/default/files/noindex/2024-06/Archived_Property_Sales_Data_File_Format_1990_to_2001_V2.pdf",
+      "format_guide_url_note": "the original valuergeneral.nsw.gov.au PDF path now 404s after its Cloudflare redirect — NSW Government appears to have migrated documentation assets to the consolidated nsw.gov.au domain; found live via the nsw.gov.au resource-library page, not guessed.",
+      "zone_codes_guide_url": "https://www.nsw.gov.au/sites/default/files/noindex/2024-05/Property_Sales_Data_File_Zone_Codes_and_Descriptions_V2.pdf",
+      "download_url_pattern_annual": "https://www.valuergeneral.nsw.gov.au/__psi/yearly/<YYYY>.zip",
       "geography_level": "district",
       "available_history": "1990-01 to 2000-12 (annual files)",
       "refresh_frequency": "static (historical archive)",
-      "file_format": "annual zip, older format (documented separately from 2001-current)",
-      "licence_notes": "CC BY 4.0",
-      "status": "out_of_scope",
-      "notes": "Sprint 5 scope is 2001-current only. Deferred to a later backfill sprint."
+      "file_format": "annual zip, single ARCHIVE_SALES_<YYYY>.DAT flat file per year — verified against the official format fact sheet, materially fewer fields than 2001-current (no settlement_date, no nature_of_property)",
+      "licence_notes": "CC BY 4.0 (ND variant)",
+      "status": "built_and_validated_local_store",
+      "notes": "Sprint 11 Workstream 8: all 11 years (1990-2000) downloaded via the gstack /browse skill in headed mode (plain curl still 403s on valuergeneral.nsw.gov.au — confirmed unchanged since Sprint 5), 1,917,667 transaction rows after exact-duplicate collapse, dwelling_type classified from zone_code + a strata-plan text pattern (no nature_of_property field exists in this format, so classification confidence is necessarily lower than 2001-current — see nsw_sales_archive_local_store_report.md). Branch promotion deliberately deferred — would touch the already-live core.fact_residential_sales_summary that existing comparison APIs read from."
     }
   ]
 }
