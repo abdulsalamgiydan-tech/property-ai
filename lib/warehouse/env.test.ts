@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { isWarehouseConfigured, isWarehousePreviewEnabled } from "./env";
+import { isMultiStateResearchEnabled, isWarehouseConfigured, isWarehousePreviewEnabled } from "./env";
 
 describe("isWarehousePreviewEnabled", () => {
   afterEach(() => {
@@ -21,6 +21,29 @@ describe("isWarehousePreviewEnabled", () => {
   it("is enabled only when explicitly set to 'true'", () => {
     vi.stubEnv("WAREHOUSE_PREVIEW_ENABLED", "true");
     expect(isWarehousePreviewEnabled()).toBe(true);
+  });
+});
+
+describe("isMultiStateResearchEnabled", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("is disabled when the env var is absent (production-safe default)", () => {
+    vi.stubEnv("MULTI_STATE_RESEARCH_ENABLED", undefined as unknown as string);
+    expect(isMultiStateResearchEnabled()).toBe(false);
+  });
+
+  it("is disabled for any value other than the exact string 'true'", () => {
+    vi.stubEnv("MULTI_STATE_RESEARCH_ENABLED", "1");
+    expect(isMultiStateResearchEnabled()).toBe(false);
+  });
+
+  it("is enabled only when explicitly set to 'true', independent of WAREHOUSE_PREVIEW_ENABLED", () => {
+    vi.stubEnv("MULTI_STATE_RESEARCH_ENABLED", "true");
+    vi.stubEnv("WAREHOUSE_PREVIEW_ENABLED", undefined as unknown as string);
+    expect(isMultiStateResearchEnabled()).toBe(true);
+    expect(isWarehousePreviewEnabled()).toBe(false);
   });
 });
 

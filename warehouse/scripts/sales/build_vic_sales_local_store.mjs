@@ -190,10 +190,6 @@ const db = await instance.connect();
 async function run(sql) {
   return db.run(sql);
 }
-async function one(sql) {
-  const reader = await db.runAndReadAll(sql);
-  return reader.getRows()[0];
-}
 
 await run(`
   create table vic_sales_summary (

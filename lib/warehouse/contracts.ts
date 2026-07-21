@@ -33,6 +33,7 @@ export function sampleSizeConfidence(count: number | null | undefined): "high" |
 export type Jurisdiction = "NSW" | "VIC";
 
 export interface CanonicalSalesTransaction {
+  [key: string]: unknown;
   jurisdiction: Jurisdiction;
   source_transaction_id: string;
   source_version: string | null;
@@ -59,6 +60,7 @@ export interface CanonicalSalesTransaction {
 }
 
 export interface CanonicalRentalSummary {
+  [key: string]: unknown;
   jurisdiction: Jurisdiction;
   geography_type: "SAL" | "POA" | "LGA";
   geography_code: string;

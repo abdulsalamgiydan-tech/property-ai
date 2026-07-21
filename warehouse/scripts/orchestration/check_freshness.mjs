@@ -10,14 +10,7 @@
  *   node check_freshness.mjs --execute    # upserts meta.dataset_freshness_status
  */
 
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import pg from "pg";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, "..", "..", "..");
-const rel = (...p) => path.join(repoRoot, ...p);
 
 const EXECUTE = process.argv.includes("--execute");
 const BRANCH_REF = "lzonauinzatmtytyoems";

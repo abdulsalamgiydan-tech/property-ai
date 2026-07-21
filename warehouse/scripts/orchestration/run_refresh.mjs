@@ -18,7 +18,6 @@
  *   node run_refresh.mjs --dataset=vic_vpsr_median_house --execute --branch-load
  */
 
-import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
@@ -77,14 +76,18 @@ if (has("target=production") || argVal("target") === "production") fail("refusin
 const client = new pg.Client({ connectionString: DB_URL, ssl: { rejectUnauthorized: false } });
 await client.connect();
 
-const datasetsToRun = datasetId ? [datasetId] : Object.keys(DISPATCH).filter((id) => {
-  // crude jurisdiction filter for --jurisdiction=VIC scope (all dispatch entries are VIC this sprint)
-  return jurisdictionArg === "VIC";
-});
+const datasetsToRun = datasetId
+  ? [datasetId]
+  : // crude jurisdiction filter for --jurisdiction=VIC scope (all dispatch entries are VIC this sprint)
+    Object.keys(DISPATCH).filter(() => jurisdictionArg === "VIC");
 
 if (datasetsToRun.length === 0) fail(`no matching dataset for --dataset=${datasetId} --jurisdiction=${jurisdictionArg}`);
 
-console.log(`run_refresh — mode=${isPlan ? "plan" : isExecute ? "execute" : "dry-run"} target=${branchLoad ? "branch" : "local"} datasets=${datasetsToRun.join(",")}`);
+console.log(
+  `run_refresh — mode=${isPlan ? "plan" : isExecute ? "execute" : "dry-run"} target=${branchLoad ? "branch" : "local"} datasets=${datasetsToRun.join(",")}` +
+    (sinceArg ? ` since=${sinceArg} (accepted, not yet used to filter partial-history refreshes)` : "") +
+    (noDownload ? " no-download=true (accepted, no dataset here has an automated download step yet)" : "")
+);
 
 for (const id of datasetsToRun) {
   const runResult = await client.query(
