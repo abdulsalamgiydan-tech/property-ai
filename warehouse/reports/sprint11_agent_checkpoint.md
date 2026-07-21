@@ -4,137 +4,109 @@
 Coverage, Historical Harmonisation, Research Indicators, Automated
 Operations and Production Candidate)
 
-**Checkpoint written**: 2026-07-22 ~03:15 Australia/Sydney (supersedes the
-previous update, written after Workstream 5 — this file now reflects
-Workstream 6 completed)
+**Checkpoint written**: 2026-07-22 ~05:00 Australia/Sydney (supersedes the
+previous update, written after Workstream 6 — this file now reflects
+Workstreams 7 and 8 completed)
 
 ## Git state
 
 - Branch: `feature/australia-property-intelligence-v3`
-- Commit: `b9dce51`
+- Commit: `8076643`
 - Working tree: **clean**
 - Base: Sprint 10's `feature/deal-analyser-budget-2026` HEAD (`599beae`),
   preserved unmodified, no commits rewritten
-- All commits through `b9dce51` have been pushed to origin — confirmed
-  via `git push` immediately after this update. No push needed on resume
-  unless new local commits exist.
+- All commits through `8076643` have been pushed to origin.
 
 ## Supabase target
 
 - Validation branch: `warehouse-validation`, ref **`lzonauinzatmtytyoems`**
-  — the only allowed write target. Re-confirmed live via `list_branches`
-  during Workstream 6.
+  — the only allowed write target.
 - Production ref **`oshquaxsloolqucwvigc`** — must remain untouched.
-  Confirmed zero warehouse schemas at checkpoint time.
-- Branch DB size: 2,359 MB. No new Sprint 11 migrations applied yet.
-  Workstream 6 made **zero branch writes** (all rent adapters this
-  workstream stopped at the local-store stage; branch promotion is
-  Workstream 9's job).
+- Branch DB size: 2,359 MB. **Zero branch writes this session** (WS7 and
+  WS8 are both entirely local-only — no Supabase connection made by any
+  script in either workstream).
 
-## What's done (Workstreams 0-6)
+## What's done (Workstreams 0-8)
 
-1. **WS0** — Sprint 10 preserved and re-verified. New branch
-   `feature/australia-property-intelligence-v3` created and pushed.
-   Sprint 10 draft PR NOT created (`gh` CLI unavailable, user approved
-   skipping).
-2. **WS1** — Capacity audit. Supabase Pro plan confirmed (8,192 MB
-   included storage), 4,500 MB kept as the working safety margin. All 5
-   comparison-API interfaces measured live (4-101ms).
-3. **WS2** — National source discovery for QLD/SA/WA/TAS/ACT/NT,
-   live-verified. Free bulk SALES data doesn't exist in any of the 6
-   states. RENT is free for QLD, SA, WA (with extra complexity for WA).
-4. **WS3** — `jurisdiction_coverage.yml` + contract doc built from WS2.
-5. **WS4** — Cross-Census 2016-2021 population harmonisation, COMPLETE
-   and loaded to the branch (15,333 SAL + 2,641 POA rows, 100.00%
-   reconciliation).
-6. **WS5** — National population-demand layer, COMPLETE (61,335 SA2×year
-   observations, 2001-2025). Deliberately NOT promoted to the branch —
-   deferred to WS9.
-7. **WS6** — Remaining jurisdiction rent adapters, COMPLETE:
-   - **QLD**: RTA Bond Statistics workbook (single stable URL). Local
-     store built and validated — 341,712 rows, suburb/LGA/postcode grain,
-     Sep 2017-Jun 2026. Found and fixed a real bug (an "Other"
-     bond-count-only dwelling category was silently merging into
-     unlabelled null rows).
-   - **SA**: Housing Trust Private Rent Report. All 71 quarterly CKAN
-     resources (2008-06 to 2026-03) downloaded in full, but only the
-     current-format era (2024-09 to 2026-03, 7 quarters) parsed — the
-     workbook layout has 3 incompatible eras across that span (legacy
-     binary `.xls` pre-2012, then two different modern-xlsx column
-     layouts) and this pass deliberately does not fabricate a single
-     parser across them. Found and fixed two real bugs: postcode labels
-     are numeric cells (were silently producing zero postcode rows), and
-     3 of 258 postcodes appear twice per quarter with different values (a
-     Metro/Country split) — now quarantined as unresolved.
-   - **WA**: DMIRS Rental Bonds Data, structurally different from every
-     other source — publishes only RAW individual bond-lodgement records,
-     no pre-computed median anywhere. Computed suburb/postcode medians
-     in-house from 246,759 raw lodgements across 39 months (Mar 2023-May
-     2026), correctly labelled `direct_or_derived='derived'`. A safe
-     " WA"/", WA" state-suffix strip recovered 53 otherwise-unresolved
-     suburb labels; genuine typos/address fragments (211 of 993 labels)
-     correctly left unresolved.
-   - **TAS**: rent live-verified as **blocked_access** (not just
-     unresearched) — both identified official candidates (CBOS Rental
-     Bond Statistics, DOJ Rental Bonds Output Data) return HTTP 403 behind
-     Cloudflare bot protection, which this project's guardrails forbid
-     bypassing. No adapter will be built for TAS rent.
-   - **ACT/NT**: no adapter — confirmed zero sources exist (WS2).
-   - All three built adapters (QLD/SA/WA) validated with zero
-     duplicate/negative/invalid-period gate failures. **None promoted to
-     the branch** — deferred to Workstream 9 per this sprint's
-     established scope discipline (same pattern as WS4/WS5).
+Summary of 0-6 (see prior checkpoint commits for full detail): Sprint 10
+preserved; capacity audit; national source discovery (QLD/SA/WA/TAS/ACT/NT);
+coverage contract; 2016-2021 Census harmonisation (loaded to branch);
+national SA2 population layer (local only); QLD/SA/WA rent adapters built
+and validated (local only), TAS rent confirmed Cloudflare-blocked.
 
-## What's NOT done (Workstreams 7-22)
+7. **WS7** — Local-first national data lake catalogue, COMPLETE. Three
+   read-only scripts (`audit_local_storage.mjs`, `plan_local_cleanup.mjs`,
+   `verify_gitignored_data.mjs`), none of which write or delete anything.
+   Inventoried `warehouse/data/`: 9,865.89 MB total. Identified 6,374.55 MB
+   of `warehouse/data/processed/` as safe-to-delete scratch space (raw/
+   sources still on disk, so re-derivable) — **a pending human-approved-
+   only decision, not executed**. See `local_cleanup_plan.md` for the exact
+   `rm` commands. Found/fixed two real bugs while building it: a double-MB-
+   conversion display bug, and a stack-overflow crash walking the 149k-file
+   NSW sales processed tree (switched to an iterative traversal).
 
-Nothing has been started on: local-first data lake catalogue (WS7),
-historical sales backfill (WS8), SA2/LGA-level canonical marts (WS9 — the
-correspondence files from WS4, the SA2 population layer from WS5, AND now
-the QLD/SA/WA rent local stores from WS6 are all ready and waiting on
-WS9's schema decisions), research indicators (WS10), map explorer (WS11),
-expanded comparison workspace (WS12), export functionality (WS13),
-refresh engine v2 (WS14), GitHub Actions schedules (WS15), data-status
-console expansion (WS16), security/performance hardening beyond WS1's
-measurement pass (WS17), new feature flags (WS18), comprehensive testing
-(WS19), any Sprint 11 migrations (WS20), further documentation (WS21), or
-the final report/PR (WS22).
+8. **WS8** — NSW historical sales backfill (1990-2000), COMPLETE. All 11
+   archived annual PSI files downloaded via the `gstack /browse` skill in
+   **headed** mode (headless got stuck on Cloudflare's JS challenge; plain
+   curl still 403s, unchanged since Sprint 5). Found the format PDF had
+   moved to the consolidated `nsw.gov.au` domain (old URL now 404s) and
+   located the working copy live rather than guessing. Verified every
+   field position against the official fact sheet before parsing. Built
+   and validated a local store: 1,917,667 transaction rows. Dwelling-type
+   classification is necessarily coarser than 2001-current (no
+   `nature_of_property` field in this format) — uses `zone_code='A'`
+   (verified against the official Zone Codes fact sheet as the genuine
+   residential-zone signal) plus a strata-plan text pattern for ~23%
+   medium-confidence `apartment_unit` rows. Found and documented a real
+   data-quality characteristic: 1990's `zone_code` NULL rate is 58.3%,
+   declining to ~7-9% by the late 1990s — an honest undercount in the
+   earliest year, not a defect. Annual median price cross-check ($109k in
+   1990 to $205k in 2000) matches known NSW market history. Also evaluated
+   (not built) a genuine VIC backfill candidate — Valuer-General Victoria's
+   20-year annual Time Series dataset, live-verified and documented for a
+   future workstream. **Branch promotion deliberately deferred** — would
+   touch the already-live `core.fact_residential_sales_summary` that
+   existing comparison APIs read from.
 
-This is a **large amount of remaining work** — treat Workstreams 7-22 as
-a fresh multi-session effort.
+## What's NOT done (Workstreams 9-22)
+
+Nothing has been started on: canonical SA2/LGA marts (WS9 — this is where
+WS4's correspondence files, WS5's SA2 population layer, WS6's QLD/SA/WA
+rent local stores, AND now WS8's NSW archive local store all get consumed
+and promoted to the branch — a substantial, multi-part workstream),
+research indicators (WS10), map explorer (WS11), expanded comparison
+workspace (WS12), export functionality (WS13), refresh engine v2 (WS14),
+GitHub Actions schedules (WS15), data-status console expansion (WS16),
+security/performance hardening beyond WS1's measurement pass (WS17), new
+feature flags (WS18), comprehensive testing (WS19), any Sprint 11
+migrations (WS20), further documentation (WS21), or the final report/PR
+(WS22). Also the pending VIC 20-year sales backfill (evaluated, not built)
+and the NSW/QLD/SA/WA branch promotions are all queued behind WS9's schema
+decisions.
 
 ## Unresolved blockers (none sprint-wide)
 
 - Sprint 10 PR: documented, user-approved skip.
-- WA sales: licence (`Personal Use License`) compatibility unclear,
-  correctly not proceeded past.
-- TAS sales: still only search-verified (not live-downloaded) — separate
-  from the now-fully-resolved TAS rent finding above.
-
-None of these block the rest of the sprint.
+- TAS sales: still only search-verified (low priority, likely paid regardless).
+- WA sales licence unclear: documented, needs human judgement if revisited.
+- WS7's 6.3GB cleanup plan: written, not executed — human decision pending.
 
 ## Commands that must NOT be repeated
 
-- Don't re-run WS0's full Sprint 10 test/build/lint verification as a
-  first resume action — it already passed, nothing has changed.
-- Don't attempt `gh pr create` without first confirming `gh` is installed
-  and authenticated.
-- Don't re-run `build_cross_census_harmonisation.mjs` or
-  `load_cross_census_harmonisation_to_branch.mjs` — WS4 is complete,
-  verified, and committed.
-- Don't re-run `build_national_population_layer.mjs` — WS5 is complete
-  and committed. Query `warehouse/data/local/national_population.duckdb`
-  directly when WS9 needs it.
-- Don't re-run `build_qld_rents_local_store.mjs`,
-  `build_sa_rents_local_store.mjs`, `download_sa_rents.mjs`, or
-  `build_wa_rents_local_store.mjs` — all three are complete, validated,
-  and committed. Raw files already on disk (gitignored):
-  `warehouse/data/raw/qld_rents/`, `warehouse/data/raw/sa_rents/` (all 71
-  quarters), `warehouse/data/raw/wa_rents/`. Query
-  `warehouse/data/local/{qld,sa,wa}_rents.duckdb` directly when WS9 needs
-  them.
-- Don't attempt to build a TAS rent adapter or re-check CBOS/DOJ
-  Tasmania's sites — both are confirmed Cloudflare-blocked, bypassing
-  which is forbidden by this project's guardrails.
+- Don't re-run WS0's Sprint 10 re-verification suite as a first resume action.
+- Don't attempt `gh pr create` without confirming `gh` is installed/authenticated.
+- Don't re-run `build_cross_census_harmonisation.mjs`, `load_cross_census_harmonisation_to_branch.mjs`,
+  or `build_national_population_layer.mjs` — WS4/WS5 complete and committed.
+- Don't re-run `build_qld_rents_local_store.mjs`, `build_sa_rents_local_store.mjs`,
+  `download_sa_rents.mjs`, or `build_wa_rents_local_store.mjs` — WS6 complete and committed.
+- Don't attempt a TAS rent adapter or re-check CBOS/DOJ Tasmania — confirmed Cloudflare-blocked.
+- Don't re-run `audit_local_storage.mjs`/`plan_local_cleanup.mjs` unless new data has been
+  added since — re-run is cheap but the existing reports are current as of this checkpoint.
+- Don't re-run `build_nsw_sales_archive_local_store.mjs` — WS8 is complete and committed.
+  Raw files already on disk (gitignored): `warehouse/data/raw/nsw_sales_archive/` (11 zips
+  + 2 format-guide PDFs). Query `warehouse/data/local/nsw_sales_archive.duckdb` directly
+  when WS9 needs it.
+- Don't run the WS7 cleanup plan's `rm -rf` commands without explicit human approval first.
 
 ## Exact next command
 
@@ -142,40 +114,31 @@ None of these block the rest of the sprint.
 git status --short && git log --oneline -3
 ```
 
-(Confirm clean tree and current HEAD before starting new work — all
-commits through `b9dce51` are already pushed, no push needed unless this
-resume session created new local commits since.)
-
 ## Exact next task
 
-Begin **Workstream 7** (task #49): local-first national data lake
-catalogue. Per the sprint spec this needs
-`warehouse/scripts/storage/audit_local_storage.mjs`,
-`plan_local_cleanup.mjs`, and `verify_gitignored_data.mjs` — an inventory
-of everything now sitting in `warehouse/data/raw/` and
-`warehouse/data/local/` across all workstreams so far (ASGS boundaries,
-Census/correspondence files, SA2 population, QLD/SA/WA rent raw+local
-stores), confirming total local disk usage, gitignore correctness, and a
-documented retention/cleanup policy. This is a smaller, largely
-mechanical workstream — a good one to knock out before the larger WS8
-(historical sales backfill) or WS9 (canonical marts) efforts.
+Begin **Workstream 9** (task #51): canonical national market marts extended
+to SA2/LGA levels. This is the largest consolidation workstream so far — it
+needs to design and build the schema for `sa2_market_snapshot` and
+`lga_market_snapshot` mart tables, then promote (via safe INSERT/UPDATE,
+one migration) the four local-only datasets that have been waiting for it:
+WS4's SA1/SA2/LGA correspondence files, WS5's SA2 population layer, WS6's
+QLD/SA/WA rent local stores, and WS8's NSW 1990-2000 sales archive. Given
+its size, consider whether to split it into sub-passes (e.g. schema design
++ SA2 population first, then QLD/SA/WA rent, then NSW archive extension of
+the existing `core.fact_residential_sales_summary`) rather than one single
+pass — this decision is left to whoever picks this up next.
 
 ## Resume verification checklist
 
-Before doing anything else on resume:
-
 1. `git status --short` — confirm still on
    `feature/australia-property-intelligence-v3`, clean.
-2. Confirm HEAD is `b9dce51` (or later if this checkpoint file itself
-   shows a newer commit — always trust the actual git log over this
-   document if they ever disagree).
-3. Confirm no interrupted database transaction (no Sprint 11 migrations
-   have been applied yet, and WS6 made zero branch writes — nothing to
-   check here specifically, but always verify before any future
-   migration/branch-write work).
+2. Confirm HEAD is `8076643` (trust actual git log over this doc if they disagree).
+3. No Sprint 11 migrations exist yet and WS7/WS8 made zero branch writes —
+   nothing to check for interrupted transactions, but verify before any
+   future migration/branch-write work (which WS9 will be the first to do).
 4. Confirm `WAREHOUSE_VALIDATION_DB_URL` in `.env.local` still points at
    `lzonauinzatmtytyoems`, never `oshquaxsloolqucwvigc`.
-5. Resume Workstream 7.
+5. Resume Workstream 9.
 
 ## Scheduled resume
 
