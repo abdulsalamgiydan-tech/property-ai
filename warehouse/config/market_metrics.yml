@@ -1,0 +1,269 @@
+# National canonical metric registry (Sprint 10, Phase 10)
+#
+# Every metric surfaced by the research interface or comparison API must be
+# defined here. State adapters (NSW, VIC, future states) may NOT redefine a
+# metric's meaning — they may only supply or withhold values for it,
+# governed by geography/dwelling-type compatibility and confidence rules.
+
+metrics:
+  median_sale_price:
+    display_name: "Median sale price"
+    definition: "The median observed (NSW) or officially published (VIC) sale price for the given geography, period, and dwelling type."
+    formula: "NSW: median(sale_price) over qualifying transactions. VIC: taken directly from the official VPSR suburb median (VIC publishes no transaction-level data to recompute from)."
+    unit: "AUD"
+    required_inputs: ["sale_price (NSW) | published median (VIC)"]
+    source_precedence: ["NSW: Valuer General NSW PSI (transaction-level)", "VIC: Valuer-General Victoria VPSR (pre-aggregated)"]
+    period_alignment: "NSW: calendar month/year. VIC: VPSR quarter (Mar/Jun/Sep/Dec)."
+    geography_compatibility: ["SAL", "POA (NSW only — VIC VPSR has no postcode grain)"]
+    dwelling_type_compatibility: ["detached_house", "apartment_unit", "townhouse_villa_semidetached (NSW only)", "residential_land"]
+    confidence_rules: "NSW: sample_size_confidence from transaction_count (high>=30, medium>=10, low>=5, insufficient<5). VIC: same thresholds applied to the published transaction_count where available (latest quarter only); earlier quarters use the source's own </>=10-sales flag as a coarser proxy."
+    null_rules: "NULL when no qualifying transaction/publication exists for the period, or when the source flags the cell as carried-forward-with-no-sales (VIC '*' flag) — a stale carried-forward figure is never presented as a current observation."
+    known_cross_state_limitations: "VIC has no townhouse_villa_semidetached price and no postcode-grain price. Do not compare VIC 'apartment_unit' medians to NSW's as apples-to-apples without noting VIC's unit category is broader (includes attached townhouses in VG's own classification)."
+    interface_formatting: "AUD, thousands separator, no decimal places."
+
+  annual_price_change_pct:
+    display_name: "Annual price change (%)"
+    definition: "Percentage change in median sale price versus the same period one year earlier."
+    formula: "NSW: derived by comparing consecutive annual summary medians. VIC: taken directly from VPSR's own published year-on-year change column."
+    unit: "percent"
+    required_inputs: ["median_sale_price (current)", "median_sale_price (12 months prior)"]
+    source_precedence: ["NSW: derived", "VIC: source-published"]
+    period_alignment: "Same as median_sale_price."
+    geography_compatibility: ["SAL", "POA (NSW only)"]
+    dwelling_type_compatibility: ["detached_house", "apartment_unit", "townhouse_villa_semidetached (NSW only)", "residential_land"]
+    confidence_rules: "Inherits the lower of the two periods' confidence."
+    null_rules: "NULL if either period's median is NULL."
+    known_cross_state_limitations: "VIC's figure is source-published (not independently recomputed from a transaction population like NSW's), so it should not be treated as identically derived across states even though the definition is the same."
+    interface_formatting: "Signed percentage, 1 decimal place."
+
+  sales_volume:
+    display_name: "Sales volume"
+    definition: "Count of qualifying sale transactions (NSW) or the published rolling 12-month sales count (VIC) for the geography/period/dwelling type."
+    formula: "NSW: count(*) over qualifying transactions. VIC: VPSR's own published rolling_12m_transaction_count (a single published quarter count, not summed from quarterly medians, which cannot be validly aggregated)."
+    unit: "count"
+    required_inputs: ["transaction_count (NSW) | rolling_12m_transaction_count (VIC)"]
+    source_precedence: ["NSW: Valuer General NSW PSI", "VIC: Valuer-General Victoria VPSR"]
+    period_alignment: "NSW: trailing 12 months (annual). VIC: rolling 12 months ending the latest published VPSR quarter."
+    geography_compatibility: ["SAL", "POA (NSW only)"]
+    dwelling_type_compatibility: ["detached_house", "apartment_unit", "townhouse_villa_semidetached (NSW only)", "residential_land"]
+    confidence_rules: "Directly used as the confidence-threshold input for median_sale_price (see above)."
+    null_rules: "NULL where the source publishes no count for the period (VIC quarters other than the latest)."
+    known_cross_state_limitations: "NSW volume is an exact transaction count; VIC volume is a single official published count, not independently verifiable from the local store."
+    interface_formatting: "Integer, thousands separator."
+
+  sales_turnover_pct:
+    display_name: "Sales turnover (%)"
+    definition: "Sales volume as a percentage of total dwelling stock — a proxy for market activity/liquidity."
+    formula: "sales_volume_12m / dwelling_stock_total * 100"
+    unit: "percent"
+    required_inputs: ["sales_volume_12m", "dwelling_stock_total"]
+    source_precedence: ["derived"]
+    period_alignment: "Matches sales_volume_12m period; dwelling_stock_total is Census 2021 (fixed)."
+    geography_compatibility: ["SAL"]
+    dwelling_type_compatibility: ["all (computed across all dwelling types combined, not per-type)"]
+    confidence_rules: "insufficient if either input is NULL."
+    null_rules: "NULL if dwelling_stock_total is 0 or NULL."
+    known_cross_state_limitations: "None — dwelling_stock_total is the same national ABS Census source for both states."
+    interface_formatting: "Percentage, 1 decimal place."
+
+  median_rent:
+    display_name: "Median weekly rent"
+    definition: "Median weekly rent for new/renewed leases in the geography, period, and dwelling grouping."
+    formula: "NSW: derived from DCJ Rent and Sales Report bond lodgement data. VIC: taken directly from Homes Victoria's published moving-annual median (suburb) or quarterly median (LGA fallback)."
+    unit: "AUD/week"
+    required_inputs: ["median_weekly_rent"]
+    source_precedence: ["NSW: NSW DCJ", "VIC: Homes Victoria (DFFH)"]
+    period_alignment: "NSW: quarter. VIC: quarter (suburb file is a moving-annual figure recomputed each quarter, not a point-in-time single-quarter median)."
+    geography_compatibility: ["SAL", "POA (NSW only)", "LGA (VIC fallback only, for suburbs that cannot be mapped to a single SAL)"]
+    dwelling_type_compatibility: ["all", "detached_house (VIC: house sheets, by bedroom count)", "apartment_unit (VIC: flat sheets, by bedroom count)"]
+    confidence_rules: "sample_size_confidence from the published rental_count (high>=30, medium>=10, low>=5, insufficient<5), consistent across both states."
+    null_rules: "NULL where the source marks the cell suppressed (VIC's literal '-' convention) — never zero-filled or interpolated."
+    known_cross_state_limitations: "VIC's suburb-grain figure is a MOVING ANNUAL median (smoothed over the trailing year), not a single-quarter snapshot like NSW's — comparing the two directly overstates VIC's period precision; the interface must label this distinction."
+    interface_formatting: "AUD/week, no decimal places."
+
+  annual_rent_change_pct:
+    display_name: "Annual rent change (%)"
+    definition: "Percentage change in median weekly rent versus the same period one year earlier."
+    formula: "(rent_now - rent_prev) / rent_prev * 100"
+    unit: "percent"
+    required_inputs: ["median_weekly_rent (current)", "median_weekly_rent (12 months prior)"]
+    source_precedence: ["derived, both states"]
+    period_alignment: "Same as median_rent."
+    geography_compatibility: ["SAL", "POA (NSW only)", "LGA (VIC fallback)"]
+    dwelling_type_compatibility: ["all", "detached_house", "apartment_unit"]
+    confidence_rules: "Inherits the lower of the two periods' confidence."
+    null_rules: "NULL if either period's rent is NULL."
+    known_cross_state_limitations: "Same moving-annual-vs-point-in-time caveat as median_rent applies to the change calculation."
+    interface_formatting: "Signed percentage, 1 decimal place."
+
+  gross_yield:
+    display_name: "Gross rental yield"
+    definition: "Annualised rent as a percentage of sale price — a standard descriptive yield metric, not investment advice."
+    formula: "(median_weekly_rent * 52 / median_sale_price) * 100"
+    unit: "percent"
+    required_inputs: ["median_weekly_rent", "median_sale_price"]
+    source_precedence: ["derived, both states"]
+    period_alignment: "Uses the latest period each of rent and price are independently available — NOT forced to the same calendar period; the aligned periods used are recorded in source_periods."
+    geography_compatibility: ["SAL"]
+    dwelling_type_compatibility: ["NSW: detached_house/apartment_unit/townhouse_villa_semidetached (best-available real type, never the 'all' bucket, which has no matching sales figure). VIC: detached_house/apartment_unit (matched to whichever VPSR quarter has a rent observation in the same quarter)."]
+    confidence_rules: "'medium' when both inputs present, else 'insufficient'. Never 'high' — this is always a derived, cross-source metric."
+    null_rules: "NULL if either median_sale_price or median_weekly_rent is NULL for the aligned period."
+    known_cross_state_limitations: "Because sale price and rent come from independently-timed sources in both states, gross_yield is never a same-instant calculation — the interface must show which periods were actually used (yield_sale_period_used / yield_rent_period_used)."
+    interface_formatting: "Percentage, 2 decimal places."
+
+  dwelling_stock:
+    display_name: "Total private dwellings"
+    definition: "Total private dwelling count from the 2021 Census."
+    formula: "direct from ABS Census 2021 dwelling count."
+    unit: "count"
+    required_inputs: ["total_private_dwellings"]
+    source_precedence: ["ABS Census 2021 (national, identical source for every state)"]
+    period_alignment: "Fixed: Census 2021."
+    geography_compatibility: ["SAL", "POA"]
+    dwelling_type_compatibility: ["all"]
+    confidence_rules: "Always 'high' where the Census row exists (ABS full-count Census, not a sample)."
+    null_rules: "NULL only where no Census dwelling-count row exists for the geography (extremely rare)."
+    known_cross_state_limitations: "None — identical national source and methodology for NSW and VIC."
+    interface_formatting: "Integer, thousands separator."
+
+  approvals:
+    display_name: "Building approvals (rolling 12 months)"
+    definition: "Count of dwelling approvals in the trailing 12 months."
+    formula: "sum(approvals) over the trailing 12-month window."
+    unit: "count"
+    required_inputs: ["approvals_12m_total"]
+    source_precedence: ["ABS Building Approvals (national, identical source for every state)"]
+    period_alignment: "Rolling 12-month, current as of the latest ABS release."
+    geography_compatibility: ["SAL", "POA"]
+    dwelling_type_compatibility: ["all (with detached/other_residential sub-splits available)"]
+    confidence_rules: "Per ABS release confidence, identical methodology across states."
+    null_rules: "NULL where no ABS approvals row exists for the geography in the window."
+    known_cross_state_limitations: "None."
+    interface_formatting: "Integer."
+
+  approvals_per_1000_dwellings:
+    display_name: "Approvals per 1,000 dwellings"
+    definition: "Building approvals normalised by existing dwelling stock — a supply-pipeline intensity indicator."
+    formula: "approvals_12m_total / dwelling_stock_total * 1000"
+    unit: "rate per 1,000 dwellings"
+    required_inputs: ["approvals_12m_total", "dwelling_stock_total"]
+    source_precedence: ["derived"]
+    period_alignment: "Matches approvals period; stock is fixed at Census 2021."
+    geography_compatibility: ["SAL", "POA"]
+    dwelling_type_compatibility: ["all"]
+    confidence_rules: "insufficient if either input is NULL or dwelling_stock_total is 0."
+    null_rules: "NULL if either input missing."
+    known_cross_state_limitations: "None."
+    interface_formatting: "Decimal, 1 decimal place."
+
+  population:
+    display_name: "Total population"
+    definition: "Total usual resident population from the 2021 Census."
+    formula: "direct from ABS Census 2021."
+    unit: "count"
+    required_inputs: ["total_population"]
+    source_precedence: ["ABS Census 2021 (national)"]
+    period_alignment: "Fixed: Census 2021."
+    geography_compatibility: ["SAL", "POA"]
+    dwelling_type_compatibility: ["not applicable (population, not dwelling metric)"]
+    confidence_rules: "Always 'high' where the Census row exists."
+    null_rules: "NULL only where no Census row exists."
+    known_cross_state_limitations: "population_growth_2016_2021_pct remains NULL for every geography in every state where the 2016-to-2021 ASGS boundary comparison isn't directly valid (a national ASGS-versioning limitation, not state-specific)."
+    interface_formatting: "Integer, thousands separator."
+
+  household_income:
+    display_name: "Median weekly household income"
+    definition: "Median weekly household income from the 2021 Census."
+    formula: "direct from ABS Census 2021."
+    unit: "AUD/week"
+    required_inputs: ["median_weekly_household_income"]
+    source_precedence: ["ABS Census 2021 (national)"]
+    period_alignment: "Fixed: Census 2021."
+    geography_compatibility: ["SAL", "POA"]
+    dwelling_type_compatibility: ["not applicable"]
+    confidence_rules: "Always 'high' where the Census row exists."
+    null_rules: "NULL only where no Census row exists."
+    known_cross_state_limitations: "None — identical source/methodology."
+    interface_formatting: "AUD/week."
+
+  renter_share:
+    display_name: "Renter household share"
+    definition: "Percentage of households renting (any landlord type), from the 2021 Census tenure data."
+    formula: "direct from ABS Census 2021 tenure classification."
+    unit: "percent"
+    required_inputs: ["renter_household_pct"]
+    source_precedence: ["ABS Census 2021 (national)"]
+    period_alignment: "Fixed: Census 2021."
+    geography_compatibility: ["SAL", "POA"]
+    dwelling_type_compatibility: ["not applicable"]
+    confidence_rules: "Always 'high' where the Census row exists."
+    null_rules: "NULL only where no Census row exists."
+    known_cross_state_limitations: "None."
+    interface_formatting: "Percentage, 1 decimal place."
+
+  owner_with_mortgage_share:
+    display_name: "Owner (with mortgage) household share"
+    definition: "Percentage of households that are owner-occupied with a mortgage, from the 2021 Census tenure data."
+    formula: "direct from ABS Census 2021 tenure classification."
+    unit: "percent"
+    required_inputs: ["owner_with_mortgage_pct"]
+    source_precedence: ["ABS Census 2021 (national)"]
+    period_alignment: "Fixed: Census 2021."
+    geography_compatibility: ["SAL", "POA"]
+    dwelling_type_compatibility: ["not applicable"]
+    confidence_rules: "Always 'high' where the Census row exists."
+    null_rules: "NULL only where no Census row exists."
+    known_cross_state_limitations: "None."
+    interface_formatting: "Percentage, 1 decimal place."
+
+  price_to_income_ratio:
+    display_name: "Price-to-income ratio"
+    definition: "Median sale price divided by estimated annual household income — a standard descriptive affordability indicator, not a recommendation."
+    formula: "median_sale_price / (median_weekly_household_income * 52)"
+    unit: "ratio (x annual income)"
+    required_inputs: ["median_sale_price", "median_weekly_household_income"]
+    source_precedence: ["derived"]
+    period_alignment: "Combines a current-period sale price with a fixed Census-2021 income figure — a known period mismatch, documented not hidden."
+    geography_compatibility: ["SAL"]
+    dwelling_type_compatibility: ["all (uses the best-available median price, preferring detached_house)"]
+    confidence_rules: "insufficient if either input is NULL."
+    null_rules: "NULL if either input missing or income is 0."
+    known_cross_state_limitations: "Identical formula both states; the underlying income figure is equally Census-2021-fixed for both, so the period mismatch is consistent (not worse for one state)."
+    interface_formatting: "Decimal, 1 decimal place, suffixed 'x income'."
+
+  repayment_estimate:
+    display_name: "Estimated monthly repayment"
+    definition: "Descriptive research-context repayment estimate under a single documented baseline scenario (meta.metric_assumption, scenario standard_20pct_deposit_30yr_pi) — 20% deposit, 30-year principal & interest loan, current RBA variable housing lending rate, no LMI/stamp duty/fees. Not a loan offer, pre-approval, or financial advice."
+    formula: "standard P&I amortisation formula: (loan_amount * monthly_rate) * (1+monthly_rate)^360 / ((1+monthly_rate)^360 - 1), where loan_amount = median_sale_price * 0.8"
+    unit: "AUD/month"
+    required_inputs: ["median_sale_price", "rba_rate (mart.national_interest_rate_context)"]
+    source_precedence: ["derived, using the same meta.metric_assumption scenario for every jurisdiction — never redefined per state"]
+    period_alignment: "Uses the latest available RBA rate, independent of the sale-price period."
+    geography_compatibility: ["SAL"]
+    dwelling_type_compatibility: ["all (uses the best-available median price)"]
+    confidence_rules: "'medium' when all three inputs (price, rate, income for the ratio variant) present, else 'insufficient'."
+    null_rules: "NULL if median_sale_price or the RBA rate is missing."
+    known_cross_state_limitations: "None — the scenario, formula, and rate source are identical for NSW and VIC by construction (meta.metric_assumption has no jurisdiction column)."
+    interface_formatting: "AUD/month, no decimal places, always paired with a visible 'descriptive estimate, not financial advice' label."
+
+  repayment_to_income_ratio:
+    display_name: "Repayment-to-income ratio"
+    definition: "Estimated monthly repayment as a percentage of estimated monthly household income — descriptive context only."
+    formula: "est_monthly_repayment_owner_occupier / (median_weekly_household_income * 52 / 12) * 100"
+    unit: "percent"
+    required_inputs: ["est_monthly_repayment_owner_occupier", "median_weekly_household_income"]
+    source_precedence: ["derived"]
+    period_alignment: "Same as repayment_estimate + household_income."
+    geography_compatibility: ["SAL"]
+    dwelling_type_compatibility: ["all"]
+    confidence_rules: "insufficient if either input is NULL."
+    null_rules: "NULL if either input missing."
+    known_cross_state_limitations: "None — identical formula both states."
+    interface_formatting: "Percentage, 1 decimal place."
+
+jurisdiction_redefinition_policy: >
+  A state adapter may supply NULL for any metric it cannot support (with a
+  reason recorded in missing_metric_reasons), and may document a narrower
+  geography/dwelling-type compatibility than another state's adapter — but
+  may NEVER change a metric's formula, unit, or definition. All formula
+  changes must go through this file.

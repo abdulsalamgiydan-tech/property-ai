@@ -1,0 +1,53 @@
+{
+  "generated_at": "2026-07-21T11:30:00.000Z",
+  "scope": "Sprint 10 Phase 11 — security tests for the new v2/v1 cross-state comparison interfaces (migration 016)",
+  "target": "branch lzonauinzatmtytyoems only",
+  "tests": [
+    {
+      "name": "anon_can_execute_search_market_geographies_v2",
+      "method": "SET ROLE anon; SELECT ... FROM public.search_market_geographies_v2(...)",
+      "result": "PASS",
+      "detail": "anon successfully executed the RPC and received 5 VIC/Melbourne matches"
+    },
+    {
+      "name": "row_limit_clamp_enforced",
+      "method": "search_market_geographies_v2(p_limit => 999)",
+      "result": "PASS",
+      "detail": "requested limit 999 was clamped to 50 inside the function (LEAST/GREATEST), returning exactly 50 rows — cannot be bypassed by caller-supplied limit"
+    },
+    {
+      "name": "compare_row_count_enforced",
+      "method": "compare_market_geographies_v1(array['SAL_1'])",
+      "result": "PASS",
+      "detail": "call with 1 geography_id correctly raised P0001 'supports 2-5 geographies, got 1' and returned no rows"
+    },
+    {
+      "name": "sql_injection_probe",
+      "method": "search_market_geographies_v2(p_query => \"x'); select pg_sleep(0)--\")",
+      "result": "PASS",
+      "detail": "payload treated as a literal parameter value (0 matching rows returned), no secondary statement executed — PL/pgSQL parameter binding, not string concatenation"
+    },
+    {
+      "name": "anon_denied_direct_mart_select",
+      "method": "SET ROLE anon; SELECT count(*) FROM mart.suburb_market_snapshot",
+      "result": "PASS",
+      "detail": "permission denied for schema mart (42501) — no direct grant exists, confirming the only path to mart data is through the SECURITY DEFINER functions"
+    },
+    {
+      "name": "anon_denied_mart_write",
+      "method": "SET ROLE anon; UPDATE mart.suburb_market_snapshot SET jurisdiction='VIC' WHERE ...",
+      "result": "PASS",
+      "detail": "permission denied for schema mart (42501) — write attempt fails identically to read attempt"
+    },
+    {
+      "name": "anon_denied_meta_jurisdiction_direct_access",
+      "method": "SET ROLE anon; SELECT count(*) FROM meta.jurisdiction",
+      "result": "PASS",
+      "detail": "permission denied for schema meta (42501) — explicit REVOKE in migration 016 confirmed effective; jurisdiction lookup is only reachable via the SECURITY DEFINER search function"
+    }
+  ],
+  "all_tests_pass": true,
+  "not_tested_this_pass": [
+    "PostgREST-layer anon key end-to-end request (tested at the SQL role level via SET ROLE anon, which exercises the same GRANT/REVOKE state PostgREST relies on, but does not exercise the HTTP/PostgREST routing layer itself)"
+  ]
+}
