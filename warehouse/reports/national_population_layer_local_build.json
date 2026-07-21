@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-07-21T14:09:17.261Z",
+  "source": "ABS Regional Population, Table 1 (Estimated resident population, Statistical Areas Level 2, Australia), 2001-2025",
+  "source_type": "observed Estimated Resident Population (ERP) — NOT a projection",
+  "geography_level": "SA2",
+  "years_covered": "2001-2025",
+  "distinct_sa2_geographies": 2454,
+  "national_total_population_latest_year": 27613654,
+  "latest_year": 2025,
+  "growth_computed": {
+    "one_year": "2024 -> 2025",
+    "five_year_annualised": "2020 -> 2025"
+  },
+  "local_storage": {
+    "duckdb": "warehouse/data/local/national_population.duckdb",
+    "parquet": [
+      "sa2_population_2001_2025.parquet",
+      "sa2_population_growth.parquet"
+    ]
+  },
+  "branch_promotion_status": "NOT YET PROMOTED — deferred to Workstream 9, which owns the SA2/LGA canonical mart schema decisions. This is the validated local source of truth ready for that promotion."
+}
