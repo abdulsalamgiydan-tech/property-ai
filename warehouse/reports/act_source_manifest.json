@@ -1,0 +1,28 @@
+{
+  "jurisdiction": "ACT",
+  "generated_at": "2026-07-21T23:15:00+10:00",
+  "entries": [
+    {
+      "category": "sales",
+      "official_publisher": "unknown — no dataset found",
+      "official_product_name": null,
+      "page_url": "https://www.data.act.gov.au (open data portal, live-searched)",
+      "direct_data_url": null,
+      "access_method": "not applicable — 0 results",
+      "status": "blocked_access",
+      "reason": "Live-verified: searching data.act.gov.au for 'property sales' returned 0 results. ACTLIS (ACT Land Information System) provides land title search, not a bulk sales dataset. ACT's unique leasehold land system (Crown lease, not freehold) may also mean sales data is structured differently from other states — not investigated further this pass.",
+      "verification_note": "Direct browse search against the official portal, not search-engine-only"
+    },
+    {
+      "category": "rent",
+      "official_publisher": "unknown — no dataset found",
+      "official_product_name": null,
+      "page_url": "https://www.data.act.gov.au (open data portal, live-searched)",
+      "direct_data_url": null,
+      "access_method": "not applicable — 0 results",
+      "status": "blocked_access",
+      "reason": "Live-verified: searching data.act.gov.au for both 'rent' and 'rental bond' returned 0 results. The ACT Revenue Office administers rental bonds but does not appear to publish aggregate statistics on the open data portal.",
+      "verification_note": "Direct browse search against the official portal, not search-engine-only"
+    }
+  ]
+}

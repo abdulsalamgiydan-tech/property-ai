@@ -1,0 +1,36 @@
+{
+  "jurisdiction": "TAS",
+  "generated_at": "2026-07-21T23:14:00+10:00",
+  "entries": [
+    {
+      "category": "sales",
+      "official_publisher": "Office of the Valuer-General, Department of Natural Resources and Environment Tasmania",
+      "official_product_name": "Property Sales Report",
+      "page_url": "https://nre.tas.gov.au/land-tasmania/office-of-the-valuer-general",
+      "direct_data_url": "https://listdata.thelist.tas.gov.au/public/outgoing/sif/Properties_and_Titles/property_sales_report_example.pdf (example only)",
+      "access_method": "LIST (Land Information System Tasmania), fees payable per Service Tasmania's land-value lookup page",
+      "authentication_required": "unclear — not fully verified this pass",
+      "licence": "not yet determined",
+      "reuse_rights": "not yet determined",
+      "commercial_use_implications": "not yet determined",
+      "available_years": "not yet determined",
+      "update_cadence": "not yet determined",
+      "source_geography": "not yet determined",
+      "source_grain": "appears to be per-property (report example is titled 'PROPERTY SALES REPORT')",
+      "status": "paid_or_restricted",
+      "reason": "Service Tasmania's land-value page states fees may be payable for LIST services; no free bulk aggregate found via WebSearch this pass",
+      "verification_note": "SEARCH-ONLY THIS PASS — the example PDF was not downloaded, and Consumer, Building and Occupational Services Tasmania (the tenancy regulator, not yet checked) may hold a separate free rent dataset. This entry should be re-verified with a live browse pass before being treated as final."
+    },
+    {
+      "category": "rent",
+      "official_publisher": "unknown — not identified this pass",
+      "official_product_name": "unknown",
+      "page_url": null,
+      "direct_data_url": null,
+      "access_method": "not determined",
+      "status": "blocked_access",
+      "reason": "No official Tasmanian government bulk rental-bond or median-rent dataset was found via WebSearch or the pages checked (LIST, Service Tasmania) this pass.",
+      "verification_note": "Consumer, Building and Occupational Services Tasmania (cbos.tas.gov.au), the state's tenancy regulator, was not directly checked this pass and is the most likely candidate for a future free rent source — flagged for Workstream 6 follow-up before this jurisdiction's rent coverage is finalised as blocked."
+    }
+  ]
+}

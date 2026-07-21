@@ -1,0 +1,32 @@
+{
+  "jurisdiction": "NT",
+  "generated_at": "2026-07-21T23:16:00+10:00",
+  "entries": [
+    {
+      "category": "sales",
+      "official_publisher": "unknown — no dataset found",
+      "official_product_name": null,
+      "page_url": "https://data.nt.gov.au/group/property?groups=property (NT Government Open Data Portal, live-searched)",
+      "direct_data_url": null,
+      "access_method": "not applicable",
+      "status": "blocked_access",
+      "reason": "Live-verified: the 'Housing, property and land' group on data.nt.gov.au (12 datasets, all reviewed by name) contains only infrastructure planning and public-housing-waitlist datasets — no sales dataset. NT market statistics are commonly sourced from REINT (Real Estate Institute of the Northern Territory), an industry association, excluded per this project's official-government/statutory-authority-only rule (same reasoning applied to VIC's REIV rejection in Sprint 10)."
+    },
+    {
+      "category": "rent",
+      "official_publisher": "unknown — no dataset found",
+      "official_product_name": null,
+      "page_url": "https://data.nt.gov.au/group/property?groups=property (NT Government Open Data Portal, live-searched)",
+      "direct_data_url": null,
+      "access_method": "not applicable",
+      "status": "blocked_access",
+      "reason": "Same portal group reviewed live contains no rental dataset. No official NT government bulk rent source found this pass."
+    }
+  ],
+  "rejected_sources": [
+    {
+      "candidate": "REINT (Real Estate Institute of the Northern Territory)",
+      "reason_not_selected": "Industry association, not an official government/statutory authority — excluded per this sprint's 'official government or official statutory authority sources only' rule, matching the precedent set for VIC's REIV rejection in Sprint 10."
+    }
+  ]
+}
