@@ -3,8 +3,10 @@ import Link from "next/link";
 import { SectionCard } from "@/components/design/SectionCard";
 import { EmptyState } from "@/components/design/EmptyState";
 import { ResearchSearchForm } from "@/components/research/ResearchSearchForm";
+import { StateBadge } from "@/components/research/StateBadge";
 import { searchGeography } from "@/lib/warehouse/queries";
 import { stateLabel } from "@/lib/warehouse/stateCode";
+import { isMultiStateResearchEnabled } from "@/lib/warehouse/env";
 
 export const metadata: Metadata = {
   title: "Suburb Intelligence (Research Preview) | Propellect",
@@ -18,16 +20,27 @@ export default async function ResearchSearchPage({
 }) {
   const { q } = await searchParams;
   const results = q ? await searchGeography(q) : [];
+  const multiStateEnabled = isMultiStateResearchEnabled();
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-zinc-100">Suburb Intelligence</h1>
         <p className="mt-1 text-sm text-zinc-400">
-          Research-only snapshots for NSW suburbs and postcodes — sales, rent,
-          yield, supply, demographics and affordability context, combined
-          from official government sources.
+          Research-only snapshots for NSW{multiStateEnabled ? " and VIC" : ""} suburbs
+          and postcodes — sales, rent, yield, supply, demographics and
+          affordability context, combined from official government sources.
         </p>
+        {multiStateEnabled ? (
+          <div className="mt-3 flex gap-3 text-sm">
+            <Link href="/research/explore" className="text-violet-300 hover:underline">
+              Explore all suburbs/postcodes →
+            </Link>
+            <Link href="/research/compare" className="text-violet-300 hover:underline">
+              Compare geographies →
+            </Link>
+          </div>
+        ) : null}
       </div>
 
       <SectionCard>
@@ -52,9 +65,10 @@ export default async function ResearchSearchPage({
                 >
                   <span className="text-zinc-100">
                     {r.geography_name}
+                    {r.state_code === "2" ? <StateBadge jurisdiction="VIC" className="ml-2" /> : r.state_code === "1" ? <StateBadge jurisdiction="NSW" className="ml-2" /> : null}
                     <span className="ml-2 text-xs text-zinc-500">
                       {r.geography_type === "SAL" ? "Suburb" : "Postcode"}
-                      {stateLabel(r.state_code) ? ` · ${stateLabel(r.state_code)}` : ""}
+                      {stateLabel(r.state_code) && r.state_code !== "1" && r.state_code !== "2" ? ` · ${stateLabel(r.state_code)}` : ""}
                     </span>
                   </span>
                   {!r.has_suburb_snapshot && !r.has_postcode_snapshot ? (

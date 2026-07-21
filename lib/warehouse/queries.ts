@@ -217,3 +217,97 @@ export async function resolveGeographyByCode(type: "SAL" | "POA", code: string):
     .maybeSingle();
   return (data as GeographySearchResult) ?? null;
 }
+
+// ── Sprint 10 — multi-state (NSW + VIC) v2 interfaces ──────────────────────
+
+export type GeographySearchResultV2 = {
+  geography_id: string;
+  geography_type: "SAL" | "POA";
+  geography_code: string;
+  geography_name: string;
+  jurisdiction: "NSW" | "VIC" | null;
+  has_suburb_snapshot: boolean;
+  has_postcode_snapshot: boolean;
+};
+
+export async function searchGeographiesV2(params: {
+  query?: string;
+  jurisdiction?: "NSW" | "VIC";
+  geographyType?: "SAL" | "POA";
+  limit?: number;
+}): Promise<GeographySearchResultV2[]> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("search_market_geographies_v2", {
+    p_query: params.query ?? null,
+    p_jurisdiction: params.jurisdiction ?? null,
+    p_geography_type: params.geographyType ?? null,
+    p_limit: params.limit ?? 20,
+  });
+  if (error) return [];
+  return (data ?? []) as GeographySearchResultV2[];
+}
+
+export type MarketSnapshotV2 = MarketSnapshot & { jurisdiction: "NSW" | "VIC" | null; geography_method: string | null };
+
+export async function getMarketSnapshotV2(geographyId: string): Promise<MarketSnapshotV2 | null> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase.rpc("get_market_snapshot_v2", { p_geography_id: geographyId }).maybeSingle();
+  if (error) return null;
+  return (data as MarketSnapshotV2) ?? null;
+}
+
+export type CompareRow = {
+  geography_id: string;
+  geography_code: string;
+  geography_name: string;
+  jurisdiction: "NSW" | "VIC" | null;
+  geography_type: "SAL" | "POA" | null;
+  latest_sales_period: string | null;
+  latest_rent_period: string | null;
+  median_sale_price_12m: number | null;
+  annual_price_change_pct: number | null;
+  sales_sample_confidence: string | null;
+  median_weekly_rent_latest: number | null;
+  annual_rent_change_pct: number | null;
+  rent_confidence: string | null;
+  gross_yield_pct: number | null;
+  yield_confidence: string | null;
+  dwelling_stock_total: number | null;
+  approvals_per_1000_dwellings: number | null;
+  total_population: number | null;
+  median_weekly_household_income: number | null;
+  price_to_income_ratio: number | null;
+  est_monthly_repayment_owner_occupier: number | null;
+  confidence_label: string | null;
+  missing_metric_reasons: Record<string, string> | null;
+};
+
+export async function compareMarketGeographies(geographyIds: string[]): Promise<CompareRow[]> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return [];
+  if (geographyIds.length < 2 || geographyIds.length > 5) return [];
+  const { data, error } = await supabase.rpc("compare_market_geographies_v1", { p_geography_ids: geographyIds });
+  if (error) return [];
+  return (data ?? []) as CompareRow[];
+}
+
+export type TimeseriesRowV2 = TimeseriesRow & { jurisdiction: "NSW" | "VIC" | null; state_code: string | null };
+
+export async function getTimeseriesV2(geographyId: string): Promise<TimeseriesRowV2[]> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("get_market_timeseries_v2", { p_geography_id: geographyId });
+  if (error) return [];
+  const rows = (data ?? []) as TimeseriesRowV2[];
+  const now = Date.now();
+  const salesCutoff = now - SALES_TREND_MONTHS * 31 * 24 * 60 * 60 * 1000;
+  const rentYieldCutoff = now - RENT_YIELD_TREND_MONTHS * 31 * 24 * 60 * 60 * 1000;
+  return rows.filter((r) => {
+    const t = new Date(r.reference_period).getTime();
+    if (r.metric_family === "sales") return t >= salesCutoff;
+    if (r.metric_family === "rent" || r.metric_family === "yield") return t >= rentYieldCutoff;
+    return true;
+  });
+}

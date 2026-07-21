@@ -1,0 +1,97 @@
+# Refresh policy registry (Sprint 10, Phase 13)
+#
+# Source of truth for meta.dataset_refresh_policy. This yml is what a
+# human edits; check_freshness.mjs and plan_refresh.mjs both read the
+# branch table (populated from this file) at runtime — see
+# warehouse/scripts/orchestration/plan_refresh.mjs.
+#
+# No schedule is enabled by this sprint. Every dataset below is refreshed
+# manually, on demand, via warehouse/scripts/orchestration/run_refresh.mjs
+# --dataset=<id> (dry-run by default).
+
+datasets:
+  nsw_psi_2001_current_full_state:
+    jurisdiction: NSW
+    refresh_frequency: weekly_plus_annual
+    expected_cadence_days: 30
+    source_discovery_method: fixed_url
+    auto_discoverable: false
+    requires_headed_browser: true
+    notes: >
+      NSW Valuer General PSI weekly current-year file + annual bundles.
+      valuergeneral.nsw.gov.au sits behind a Cloudflare JS challenge,
+      resolved via a headed browser session (established Sprint 5
+      technique, not a bypass).
+
+  nsw_rent_tables_full_state:
+    jurisdiction: NSW
+    refresh_frequency: quarterly
+    expected_cadence_days: 95
+    source_discovery_method: fixed_url
+    auto_discoverable: false
+    requires_headed_browser: false
+    notes: NSW DCJ Rent and Sales Report, direct access, no bot protection.
+
+  vic_vpsr_median_house:
+    jurisdiction: VIC
+    refresh_frequency: quarterly
+    expected_cadence_days: 100
+    source_discovery_method: ckan_api
+    auto_discoverable: true
+    requires_headed_browser: true
+    notes: >
+      discover.data.vic.gov.au CKAN package_show API resolves the
+      current-quarter download URL live (no bot protection on the API
+      itself). The actual file download from www.land.vic.gov.au requires
+      a headed browser session (Cloudflare JS challenge).
+
+  vic_vpsr_median_unit:
+    jurisdiction: VIC
+    refresh_frequency: quarterly
+    expected_cadence_days: 100
+    source_discovery_method: ckan_api
+    auto_discoverable: true
+    requires_headed_browser: true
+    notes: Same access pattern as vic_vpsr_median_house.
+
+  vic_vpsr_median_land:
+    jurisdiction: VIC
+    refresh_frequency: quarterly
+    expected_cadence_days: 100
+    source_discovery_method: ckan_api
+    auto_discoverable: true
+    requires_headed_browser: true
+    notes: Same access pattern as vic_vpsr_median_house.
+
+  vic_moving_annual_rent_by_suburb:
+    jurisdiction: VIC
+    refresh_frequency: quarterly
+    expected_cadence_days: 100
+    source_discovery_method: manual_check
+    auto_discoverable: false
+    requires_headed_browser: false
+    notes: >
+      No CKAN/API discovered for dffh.vic.gov.au — current-quarter URL is
+      resolved by checking the rental-report publications page each
+      release. Cumulative full history in every file means only the
+      latest quarterly file needs fetching, not a growing backlog.
+
+  vic_quarterly_median_rent_by_lga:
+    jurisdiction: VIC
+    refresh_frequency: quarterly
+    expected_cadence_days: 100
+    source_discovery_method: manual_check
+    auto_discoverable: false
+    requires_headed_browser: false
+    notes: Same discovery method as the suburb file; LGA-grain fallback source.
+
+# Datasets loaded as NATIONAL (not jurisdiction-specific) and shared by
+# every state adapter — not included in the per-dataset policy list above
+# since they aren't re-fetched per jurisdiction. Their own refresh policy
+# was established in earlier sprints (annual/five-yearly ABS release
+# cadence) and is out of scope to change this sprint.
+national_shared_datasets:
+  - asgs_sal_2021_boundaries
+  - census_gcp_sal_2021
+  - building_approvals_sa2_2021
+  - rba_housing_lending_rates

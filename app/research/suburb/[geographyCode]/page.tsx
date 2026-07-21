@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MarketSnapshotView } from "@/components/research/MarketSnapshotView";
 import {
+  getMarketSnapshotV2,
   getMetricAssumptions,
   getSuburbDemographics,
-  getSuburbSnapshot,
-  getTimeseries,
+  getTimeseriesV2,
   resolveGeographyByCode,
 } from "@/lib/warehouse/queries";
 import { stateLabel } from "@/lib/warehouse/stateCode";
@@ -22,9 +22,9 @@ export default async function SuburbResearchPage({
   if (!geo) notFound();
 
   const [snapshot, demographics, timeseries, assumptions] = await Promise.all([
-    getSuburbSnapshot(geo.geography_id),
+    getMarketSnapshotV2(geo.geography_id),
     getSuburbDemographics(geo.geography_id),
-    getTimeseries(geo.geography_id),
+    getTimeseriesV2(geo.geography_id),
     getMetricAssumptions(),
   ]);
 

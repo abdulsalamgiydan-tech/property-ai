@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-07-21T12:15:00.000Z",
+  "scope": "Sprint 10 Phase 12 — multi-state (NSW + VIC) internal research UI",
+  "feature_flags": {
+    "WAREHOUSE_PREVIEW_ENABLED": "unchanged, still gates the entire /research tree (app/research/layout.tsx), disabled by default",
+    "MULTI_STATE_RESEARCH_ENABLED": "new this sprint, gates /research/explore and /research/compare specifically (checked inline in each page component), disabled by default. Both flags must be true for the new routes."
+  },
+  "routes_delivered": [
+    { "route": "/research", "status": "extended", "detail": "now mentions VIC when MULTI_STATE_RESEARCH_ENABLED is true, links to Explore/Compare, shows StateBadge on results" },
+    { "route": "/research/explore", "status": "new", "detail": "state + geography-type filterable search using search_market_geographies_v2, no default ranking, checkbox multi-select (2-5) feeding into Compare" },
+    { "route": "/research/compare", "status": "new", "detail": "reads ?ids=<geography_id,...> (2-5), renders compare_market_geographies_v1 as a side-by-side metric table with confidence badges and per-geography missing-data reasons" },
+    { "route": "/research/suburb/[geographyCode]", "status": "upgraded in place", "detail": "swapped to getMarketSnapshotV2/getTimeseriesV2 — URL unchanged for backward compatibility" },
+    { "route": "/research/postcode/[geographyCode]", "status": "upgraded in place", "detail": "same v2 swap, URL unchanged" }
+  ],
+  "routes_not_delivered": [
+    {
+      "planned_route": "/research/suburb/[stateCode]/[geographyCode] and /research/postcode/[stateCode]/[geographyCode]",
+      "reason": "Next.js App Router requires all dynamic segments at the same URL position to share one slug name across the whole route tree. A new [stateCode]/[geographyCode] route directly under /research/suburb/ collided with the existing [geographyCode] route at the same position (verified live: dev server threw 'You cannot use different slug names for the same dynamic path (\\'geographyCode\\' !== \\'stateCode\\')' and failed to start). Since geography_code is already globally unique (NSW postcodes 1000-2999, VIC 3000-3999, no overlap; ASGS SAL codes are nationally unique 5-digit codes), a state-prefixed path segment was not functionally necessary for correct routing — only a URL-aesthetics nicety. Given the direct conflict with 'preserve compatibility with existing URLs', the existing single-segment routes were upgraded to be jurisdiction-aware in place instead (StateBadge/jurisdiction rendering, v2 queries) rather than introducing a redundant, framework-incompatible URL shape."
+    }
+  ],
+  "components_added": [
+    "components/research/StateBadge.tsx",
+    "components/research/ExploreFilterForm.tsx",
+    "components/research/ExploreResultsList.tsx"
+  ],
+  "query_functions_added": [
+    "searchGeographiesV2 (search_market_geographies_v2 RPC)",
+    "getMarketSnapshotV2 (get_market_snapshot_v2 RPC)",
+    "compareMarketGeographies (compare_market_geographies_v1 RPC)",
+    "getTimeseriesV2 (get_market_timeseries_v2 RPC)"
+  ],
+  "no_rankings_no_scores": true,
+  "charts_deferred": {
+    "status": "not delivered this pass",
+    "detail": "recharts is installed and unused in the codebase; existing and new pages render sales/rent/yield trends as tables, not charts, matching the pre-existing MarketSnapshotView pattern. Adding chart visualisation was out of scope for this pass given the time budget — tables already satisfy 'label mismatched periods, don't interpolate missing observations' since every row shows its own period and confidence explicitly, with no interpolation performed anywhere in the query layer."
+  },
+  "browser_testing": {
+    "method": "gstack /browse against a real npm run dev server with WAREHOUSE_PREVIEW_ENABLED=true and MULTI_STATE_RESEARCH_ENABLED=true, pointed at the warehouse-validation branch (real committed VIC + NSW data)",
+    "tests_run": [
+      { "test": "GET /research/explore (no filters)", "result": "PASS — 0 console errors, 50 results shown" },
+      { "test": "GET /research/explore?q=Melbourne&state=VIC", "result": "PASS — 7 VIC suburb results, StateBadge rendered correctly" },
+      { "test": "checkbox select 2 VIC suburbs -> compare now link", "result": "PASS — generated /research/compare?ids=SAL_20830_ASGS3_2021,SAL_21640_ASGS3_2021" },
+      { "test": "GET /research/compare with 2 VIC geographies", "result": "PASS — real median price/rent/yield/confidence/missing-data rendered, 0 console errors" },
+      { "test": "GET /research/compare with 1 NSW + 1 VIC geography (cross-state)", "result": "PASS — real cross-state comparison, mismatched sales/rent periods (2026-01 NSW vs 2025-10/2025-07 VIC) correctly shown per-geography, not forced to align" },
+      { "test": "GET /research/compare?ids=<one id> (below minimum)", "result": "PASS — shows 'Nothing to compare yet' empty state, no crash" },
+      { "test": "GET /research/compare (no ids)", "result": "PASS — same empty state" },
+      { "test": "GET /research/suburb/13167 (existing route, v2-upgraded)", "result": "PASS — 0 console errors" },
+      { "test": "npm run build", "result": "PASS — all 5 new/upgraded routes compiled, TypeScript clean (only 2 pre-existing unrelated errors in contracts.test.ts)" }
+    ],
+    "all_tests_pass": true
+  },
+  "production_touched": false,
+  "flags_disabled_by_default": true
+}
