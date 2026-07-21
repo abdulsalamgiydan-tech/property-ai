@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-07-21T20:06:28.622Z",
+  "scope": "current-era files actually parsed by this script (subset of the 71 downloaded)",
+  "files": [
+    {
+      "period": "2024-09",
+      "file": "private-rental-report-2024-09.xlsx",
+      "bytes": 209978,
+      "sha256": "6efac337b6dc81442e75e9a845726a367fc986e0cdfbccbb489016e99a914cd2"
+    },
+    {
+      "period": "2024-12",
+      "file": "private-rental-report-2024-12.xlsx",
+      "bytes": 207338,
+      "sha256": "30343de2b5afb3c40a9c97e30a1a97e62ee095220071adfc7da659c035ee1643"
+    },
+    {
+      "period": "2025-03",
+      "file": "private-rental-report-2025-03.xlsx",
+      "bytes": 210737,
+      "sha256": "098be9dde08db274649404b165964c9d11d488586fe74326a9bb0faae6fa7449"
+    },
+    {
+      "period": "2025-06",
+      "file": "private-rental-report-2025-06.xlsx",
+      "bytes": 212442,
+      "sha256": "64d311a19def12384d5a798b2a5e7527f8fb6ea0c77db373e74401635e2a2173"
+    },
+    {
+      "period": "2025-09",
+      "file": "private-rental-report-2025-09.xlsx",
+      "bytes": 212141,
+      "sha256": "bbf53da1ee373a5f6ab3473a398cf57f328c938aae4c7f86bd81f96ea2a6b15b"
+    },
+    {
+      "period": "2025-12",
+      "file": "private-rental-report-2025-12.xlsx",
+      "bytes": 206987,
+      "sha256": "36dd017f004b4e19501029a3db70c7cfc02815bc176c4d94c62340646cde7ade"
+    },
+    {
+      "period": "2026-03",
+      "file": "private-rental-report-2026-03.xlsx",
+      "bytes": 211694,
+      "sha256": "d0db486e96141577e540886db6923b586d57db852c2088ffca9cbe894fb92b0a"
+    }
+  ]
+}

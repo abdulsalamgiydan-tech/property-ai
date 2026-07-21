@@ -1,0 +1,6786 @@
+[
+ {
+  "geography_code": "40001",
+  "geography_name": "Aberfoyle Park"
+ },
+ {
+  "geography_code": "40002",
+  "geography_name": "Adelaide"
+ },
+ {
+  "geography_code": "40003",
+  "geography_name": "Adelaide Airport"
+ },
+ {
+  "geography_code": "40004",
+  "geography_name": "Agery"
+ },
+ {
+  "geography_code": "40005",
+  "geography_name": "Alawoona"
+ },
+ {
+  "geography_code": "40006",
+  "geography_name": "Albert Park (SA)"
+ },
+ {
+  "geography_code": "40007",
+  "geography_name": "Alberton (SA)"
+ },
+ {
+  "geography_code": "40008",
+  "geography_name": "Aldgate"
+ },
+ {
+  "geography_code": "40009",
+  "geography_name": "Aldinga"
+ },
+ {
+  "geography_code": "40010",
+  "geography_name": "Aldinga Beach"
+ },
+ {
+  "geography_code": "40011",
+  "geography_name": "Alford"
+ },
+ {
+  "geography_code": "40012",
+  "geography_name": "Allenby Gardens"
+ },
+ {
+  "geography_code": "40013",
+  "geography_name": "Allendale East"
+ },
+ {
+  "geography_code": "40014",
+  "geography_name": "Allendale North"
+ },
+ {
+  "geography_code": "40015",
+  "geography_name": "Alma (SA)"
+ },
+ {
+  "geography_code": "40016",
+  "geography_name": "Altona (SA)"
+ },
+ {
+  "geography_code": "40017",
+  "geography_name": "Amata"
+ },
+ {
+  "geography_code": "40018",
+  "geography_name": "American Beach"
+ },
+ {
+  "geography_code": "40019",
+  "geography_name": "American River"
+ },
+ {
+  "geography_code": "40020",
+  "geography_name": "Amyton"
+ },
+ {
+  "geography_code": "40021",
+  "geography_name": "Anama"
+ },
+ {
+  "geography_code": "40022",
+  "geography_name": "Anangu Pitjantjatjara Yankunytjatjara"
+ },
+ {
+  "geography_code": "40023",
+  "geography_name": "Andamooka"
+ },
+ {
+  "geography_code": "40024",
+  "geography_name": "Andamooka Station"
+ },
+ {
+  "geography_code": "40025",
+  "geography_name": "Andrews"
+ },
+ {
+  "geography_code": "40026",
+  "geography_name": "Andrews Farm"
+ },
+ {
+  "geography_code": "40027",
+  "geography_name": "Angas Plains"
+ },
+ {
+  "geography_code": "40028",
+  "geography_name": "Angas Valley"
+ },
+ {
+  "geography_code": "40029",
+  "geography_name": "Angaston"
+ },
+ {
+  "geography_code": "40030",
+  "geography_name": "Angle Park"
+ },
+ {
+  "geography_code": "40031",
+  "geography_name": "Angle Vale"
+ },
+ {
+  "geography_code": "40032",
+  "geography_name": "Anna Creek"
+ },
+ {
+  "geography_code": "40033",
+  "geography_name": "Annadale"
+ },
+ {
+  "geography_code": "40034",
+  "geography_name": "Antechamber Bay"
+ },
+ {
+  "geography_code": "40035",
+  "geography_name": "Apamurra"
+ },
+ {
+  "geography_code": "40036",
+  "geography_name": "Apoinga"
+ },
+ {
+  "geography_code": "40037",
+  "geography_name": "Appila"
+ },
+ {
+  "geography_code": "40038",
+  "geography_name": "Arcoona"
+ },
+ {
+  "geography_code": "40039",
+  "geography_name": "Ardrossan"
+ },
+ {
+  "geography_code": "40040",
+  "geography_name": "Arkaroola"
+ },
+ {
+  "geography_code": "40041",
+  "geography_name": "Armagh"
+ },
+ {
+  "geography_code": "40042",
+  "geography_name": "Arno Bay"
+ },
+ {
+  "geography_code": "40043",
+  "geography_name": "Arthurton"
+ },
+ {
+  "geography_code": "40044",
+  "geography_name": "Ascot Park"
+ },
+ {
+  "geography_code": "40045",
+  "geography_name": "Ashbourne (SA)"
+ },
+ {
+  "geography_code": "40046",
+  "geography_name": "Ashford (SA)"
+ },
+ {
+  "geography_code": "40047",
+  "geography_name": "Ashton"
+ },
+ {
+  "geography_code": "40048",
+  "geography_name": "Ashville"
+ },
+ {
+  "geography_code": "40049",
+  "geography_name": "Athelstone"
+ },
+ {
+  "geography_code": "40050",
+  "geography_name": "Athol Park"
+ },
+ {
+  "geography_code": "40051",
+  "geography_name": "Auburn (SA)"
+ },
+ {
+  "geography_code": "40052",
+  "geography_name": "Auldana"
+ },
+ {
+  "geography_code": "40053",
+  "geography_name": "Australia Plains"
+ },
+ {
+  "geography_code": "40054",
+  "geography_name": "Avenue Range"
+ },
+ {
+  "geography_code": "40055",
+  "geography_name": "Avoca Dell"
+ },
+ {
+  "geography_code": "40056",
+  "geography_name": "Avon (SA)"
+ },
+ {
+  "geography_code": "40057",
+  "geography_name": "Back Valley"
+ },
+ {
+  "geography_code": "40058",
+  "geography_name": "Bagot Well"
+ },
+ {
+  "geography_code": "40059",
+  "geography_name": "Baird Bay"
+ },
+ {
+  "geography_code": "40060",
+  "geography_name": "Bakara"
+ },
+ {
+  "geography_code": "40061",
+  "geography_name": "Bakara Well"
+ },
+ {
+  "geography_code": "40062",
+  "geography_name": "Balaklava"
+ },
+ {
+  "geography_code": "40063",
+  "geography_name": "Bald Hills (SA)"
+ },
+ {
+  "geography_code": "40064",
+  "geography_name": "Baldina"
+ },
+ {
+  "geography_code": "40065",
+  "geography_name": "Balgowan (SA)"
+ },
+ {
+  "geography_code": "40066",
+  "geography_name": "Balhannah"
+ },
+ {
+  "geography_code": "40067",
+  "geography_name": "Ballast Head"
+ },
+ {
+  "geography_code": "40068",
+  "geography_name": "Bangham"
+ },
+ {
+  "geography_code": "40069",
+  "geography_name": "Bangor (SA)"
+ },
+ {
+  "geography_code": "40070",
+  "geography_name": "Banksia Park"
+ },
+ {
+  "geography_code": "40071",
+  "geography_name": "Barabba"
+ },
+ {
+  "geography_code": "40072",
+  "geography_name": "Barinia"
+ },
+ {
+  "geography_code": "40073",
+  "geography_name": "Barmera"
+ },
+ {
+  "geography_code": "40074",
+  "geography_name": "Barna"
+ },
+ {
+  "geography_code": "40075",
+  "geography_name": "Barndioota"
+ },
+ {
+  "geography_code": "40076",
+  "geography_name": "Baroota"
+ },
+ {
+  "geography_code": "40077",
+  "geography_name": "Barossa Goldfields"
+ },
+ {
+  "geography_code": "40078",
+  "geography_name": "Barunga Gap"
+ },
+ {
+  "geography_code": "40079",
+  "geography_name": "Basket Range"
+ },
+ {
+  "geography_code": "40080",
+  "geography_name": "Baudin Beach"
+ },
+ {
+  "geography_code": "40081",
+  "geography_name": "Bay Of Shoals"
+ },
+ {
+  "geography_code": "40082",
+  "geography_name": "Beachport"
+ },
+ {
+  "geography_code": "40083",
+  "geography_name": "Beatty"
+ },
+ {
+  "geography_code": "40084",
+  "geography_name": "Beaufort (SA)"
+ },
+ {
+  "geography_code": "40085",
+  "geography_name": "Beaumont (SA)"
+ },
+ {
+  "geography_code": "40086",
+  "geography_name": "Beaumonts"
+ },
+ {
+  "geography_code": "40087",
+  "geography_name": "Bedford Park"
+ },
+ {
+  "geography_code": "40088",
+  "geography_name": "Beetaloo Valley"
+ },
+ {
+  "geography_code": "40089",
+  "geography_name": "Belair"
+ },
+ {
+  "geography_code": "40090",
+  "geography_name": "Belalie East"
+ },
+ {
+  "geography_code": "40091",
+  "geography_name": "Belalie North"
+ },
+ {
+  "geography_code": "40092",
+  "geography_name": "Bellevue Heights"
+ },
+ {
+  "geography_code": "40093",
+  "geography_name": "Beltana"
+ },
+ {
+  "geography_code": "40094",
+  "geography_name": "Beltana Station"
+ },
+ {
+  "geography_code": "40095",
+  "geography_name": "Belton"
+ },
+ {
+  "geography_code": "40096",
+  "geography_name": "Belvidere"
+ },
+ {
+  "geography_code": "40097",
+  "geography_name": "Benbournie"
+ },
+ {
+  "geography_code": "40098",
+  "geography_name": "Berri"
+ },
+ {
+  "geography_code": "40099",
+  "geography_name": "Bethany"
+ },
+ {
+  "geography_code": "40100",
+  "geography_name": "Bethel"
+ },
+ {
+  "geography_code": "40101",
+  "geography_name": "Beulah Park"
+ },
+ {
+  "geography_code": "40102",
+  "geography_name": "Beverley (SA)"
+ },
+ {
+  "geography_code": "40103",
+  "geography_name": "Bibaringa"
+ },
+ {
+  "geography_code": "40104",
+  "geography_name": "Big Bend"
+ },
+ {
+  "geography_code": "40105",
+  "geography_name": "Biggs Flat"
+ },
+ {
+  "geography_code": "40106",
+  "geography_name": "Billiatt"
+ },
+ {
+  "geography_code": "40107",
+  "geography_name": "Binnum"
+ },
+ {
+  "geography_code": "40108",
+  "geography_name": "Birchmore"
+ },
+ {
+  "geography_code": "40109",
+  "geography_name": "Birdwood (SA)"
+ },
+ {
+  "geography_code": "40110",
+  "geography_name": "Birkenhead"
+ },
+ {
+  "geography_code": "40111",
+  "geography_name": "Black Forest"
+ },
+ {
+  "geography_code": "40112",
+  "geography_name": "Black Hill (SA)"
+ },
+ {
+  "geography_code": "40113",
+  "geography_name": "Black Point"
+ },
+ {
+  "geography_code": "40114",
+  "geography_name": "Black Rock (SA)"
+ },
+ {
+  "geography_code": "40115",
+  "geography_name": "Black Springs (SA)"
+ },
+ {
+  "geography_code": "40116",
+  "geography_name": "Blackfellows Caves"
+ },
+ {
+  "geography_code": "40117",
+  "geography_name": "Blackfellows Creek"
+ },
+ {
+  "geography_code": "40118",
+  "geography_name": "Blackford"
+ },
+ {
+  "geography_code": "40119",
+  "geography_name": "Blackwood (SA)"
+ },
+ {
+  "geography_code": "40120",
+  "geography_name": "Blair Athol (SA)"
+ },
+ {
+  "geography_code": "40121",
+  "geography_name": "Blakeview"
+ },
+ {
+  "geography_code": "40122",
+  "geography_name": "Blakiston"
+ },
+ {
+  "geography_code": "40123",
+  "geography_name": "Blanche Harbor"
+ },
+ {
+  "geography_code": "40124",
+  "geography_name": "Blanchetown"
+ },
+ {
+  "geography_code": "40125",
+  "geography_name": "Bletchley"
+ },
+ {
+  "geography_code": "40126",
+  "geography_name": "Blewitt Springs"
+ },
+ {
+  "geography_code": "40127",
+  "geography_name": "Blinman"
+ },
+ {
+  "geography_code": "40128",
+  "geography_name": "Bluff Beach"
+ },
+ {
+  "geography_code": "40129",
+  "geography_name": "Blyth"
+ },
+ {
+  "geography_code": "40130",
+  "geography_name": "Boatswain Point"
+ },
+ {
+  "geography_code": "40131",
+  "geography_name": "Bockelberg"
+ },
+ {
+  "geography_code": "40132",
+  "geography_name": "Boconnoc Park"
+ },
+ {
+  "geography_code": "40133",
+  "geography_name": "Bolivar"
+ },
+ {
+  "geography_code": "40134",
+  "geography_name": "Bolto"
+ },
+ {
+  "geography_code": "40135",
+  "geography_name": "Booborowie"
+ },
+ {
+  "geography_code": "40136",
+  "geography_name": "Bookpurnong"
+ },
+ {
+  "geography_code": "40137",
+  "geography_name": "Bool Lagoon"
+ },
+ {
+  "geography_code": "40138",
+  "geography_name": "Booleroo Centre"
+ },
+ {
+  "geography_code": "40139",
+  "geography_name": "Boolgun"
+ },
+ {
+  "geography_code": "40140",
+  "geography_name": "Boonerdo"
+ },
+ {
+  "geography_code": "40141",
+  "geography_name": "Boors Plain"
+ },
+ {
+  "geography_code": "40142",
+  "geography_name": "Bordertown"
+ },
+ {
+  "geography_code": "40143",
+  "geography_name": "Bordertown South"
+ },
+ {
+  "geography_code": "40144",
+  "geography_name": "Borrika"
+ },
+ {
+  "geography_code": "40145",
+  "geography_name": "Boston"
+ },
+ {
+  "geography_code": "40146",
+  "geography_name": "Bowden"
+ },
+ {
+  "geography_code": "40147",
+  "geography_name": "Bower"
+ },
+ {
+  "geography_code": "40148",
+  "geography_name": "Bowhill"
+ },
+ {
+  "geography_code": "40149",
+  "geography_name": "Bowillia"
+ },
+ {
+  "geography_code": "40150",
+  "geography_name": "Bowmans"
+ },
+ {
+  "geography_code": "40151",
+  "geography_name": "Bradbury (SA)"
+ },
+ {
+  "geography_code": "40152",
+  "geography_name": "Brady Creek"
+ },
+ {
+  "geography_code": "40153",
+  "geography_name": "Brahma Lodge"
+ },
+ {
+  "geography_code": "40154",
+  "geography_name": "Bramfield"
+ },
+ {
+  "geography_code": "40155",
+  "geography_name": "Bray"
+ },
+ {
+  "geography_code": "40156",
+  "geography_name": "Brenda Park"
+ },
+ {
+  "geography_code": "40157",
+  "geography_name": "Brentwood (SA)"
+ },
+ {
+  "geography_code": "40158",
+  "geography_name": "Bridgewater (SA)"
+ },
+ {
+  "geography_code": "40159",
+  "geography_name": "Bright (SA)"
+ },
+ {
+  "geography_code": "40160",
+  "geography_name": "Brighton (SA)"
+ },
+ {
+  "geography_code": "40161",
+  "geography_name": "Brimbago"
+ },
+ {
+  "geography_code": "40162",
+  "geography_name": "Brinkley"
+ },
+ {
+  "geography_code": "40163",
+  "geography_name": "Brinkworth"
+ },
+ {
+  "geography_code": "40164",
+  "geography_name": "Broadview"
+ },
+ {
+  "geography_code": "40165",
+  "geography_name": "Brompton"
+ },
+ {
+  "geography_code": "40166",
+  "geography_name": "Brooker"
+ },
+ {
+  "geography_code": "40167",
+  "geography_name": "Brooklyn Park"
+ },
+ {
+  "geography_code": "40168",
+  "geography_name": "Broughton River Valley"
+ },
+ {
+  "geography_code": "40169",
+  "geography_name": "Brown Beach"
+ },
+ {
+  "geography_code": "40170",
+  "geography_name": "Brown Hill Creek"
+ },
+ {
+  "geography_code": "40171",
+  "geography_name": "Brownlow"
+ },
+ {
+  "geography_code": "40172",
+  "geography_name": "Brownlow Ki"
+ },
+ {
+  "geography_code": "40173",
+  "geography_name": "Bruce (SA)"
+ },
+ {
+  "geography_code": "40174",
+  "geography_name": "Brukunga"
+ },
+ {
+  "geography_code": "40175",
+  "geography_name": "Buchanan (SA)"
+ },
+ {
+  "geography_code": "40176",
+  "geography_name": "Buchfelde"
+ },
+ {
+  "geography_code": "40177",
+  "geography_name": "Buckingham (SA)"
+ },
+ {
+  "geography_code": "40178",
+  "geography_name": "Buckland Park"
+ },
+ {
+  "geography_code": "40179",
+  "geography_name": "Buckleboo"
+ },
+ {
+  "geography_code": "40180",
+  "geography_name": "Bugle Hut"
+ },
+ {
+  "geography_code": "40181",
+  "geography_name": "Bugle Ranges"
+ },
+ {
+  "geography_code": "40182",
+  "geography_name": "Bull Creek (SA)"
+ },
+ {
+  "geography_code": "40183",
+  "geography_name": "Bumbunga"
+ },
+ {
+  "geography_code": "40184",
+  "geography_name": "Bunbury (SA)"
+ },
+ {
+  "geography_code": "40185",
+  "geography_name": "Bundaleer Gardens"
+ },
+ {
+  "geography_code": "40186",
+  "geography_name": "Bundaleer North"
+ },
+ {
+  "geography_code": "40187",
+  "geography_name": "Bundey"
+ },
+ {
+  "geography_code": "40188",
+  "geography_name": "Bungama"
+ },
+ {
+  "geography_code": "40189",
+  "geography_name": "Bungaree (SA)"
+ },
+ {
+  "geography_code": "40190",
+  "geography_name": "Burdett"
+ },
+ {
+  "geography_code": "40191",
+  "geography_name": "Burnsfield"
+ },
+ {
+  "geography_code": "40192",
+  "geography_name": "Burnside (SA)"
+ },
+ {
+  "geography_code": "40193",
+  "geography_name": "Burra (SA)"
+ },
+ {
+  "geography_code": "40194",
+  "geography_name": "Burra Eastern Districts"
+ },
+ {
+  "geography_code": "40195",
+  "geography_name": "Burrungule"
+ },
+ {
+  "geography_code": "40196",
+  "geography_name": "Burton (SA)"
+ },
+ {
+  "geography_code": "40197",
+  "geography_name": "Bute"
+ },
+ {
+  "geography_code": "40198",
+  "geography_name": "Butler (SA)"
+ },
+ {
+  "geography_code": "40199",
+  "geography_name": "Cadell"
+ },
+ {
+  "geography_code": "40200",
+  "geography_name": "Cadgee (SA)"
+ },
+ {
+  "geography_code": "40201",
+  "geography_name": "Calca"
+ },
+ {
+  "geography_code": "40202",
+  "geography_name": "Caliph"
+ },
+ {
+  "geography_code": "40203",
+  "geography_name": "Callington"
+ },
+ {
+  "geography_code": "40204",
+  "geography_name": "Calomba"
+ },
+ {
+  "geography_code": "40205",
+  "geography_name": "Caloote"
+ },
+ {
+  "geography_code": "40206",
+  "geography_name": "Calperum Station"
+ },
+ {
+  "geography_code": "40207",
+  "geography_name": "Caltowie"
+ },
+ {
+  "geography_code": "40208",
+  "geography_name": "Caltowie North"
+ },
+ {
+  "geography_code": "40209",
+  "geography_name": "Caltowie West"
+ },
+ {
+  "geography_code": "40210",
+  "geography_name": "Cambrai"
+ },
+ {
+  "geography_code": "40211",
+  "geography_name": "Camden Park (SA)"
+ },
+ {
+  "geography_code": "40212",
+  "geography_name": "Campbelltown (SA)"
+ },
+ {
+  "geography_code": "40213",
+  "geography_name": "Campoona"
+ },
+ {
+  "geography_code": "40214",
+  "geography_name": "Cannawigara"
+ },
+ {
+  "geography_code": "40215",
+  "geography_name": "Canowie"
+ },
+ {
+  "geography_code": "40216",
+  "geography_name": "Canowie Belt"
+ },
+ {
+  "geography_code": "40217",
+  "geography_name": "Canunda"
+ },
+ {
+  "geography_code": "40218",
+  "geography_name": "Cape Borda"
+ },
+ {
+  "geography_code": "40219",
+  "geography_name": "Cape Douglas"
+ },
+ {
+  "geography_code": "40220",
+  "geography_name": "Cape Jaffa"
+ },
+ {
+  "geography_code": "40221",
+  "geography_name": "Cape Jervis"
+ },
+ {
+  "geography_code": "40222",
+  "geography_name": "Caralue"
+ },
+ {
+  "geography_code": "40223",
+  "geography_name": "Carawa"
+ },
+ {
+  "geography_code": "40224",
+  "geography_name": "Carcuma"
+ },
+ {
+  "geography_code": "40225",
+  "geography_name": "Carew"
+ },
+ {
+  "geography_code": "40226",
+  "geography_name": "Carey Gully"
+ },
+ {
+  "geography_code": "40227",
+  "geography_name": "Caroline"
+ },
+ {
+  "geography_code": "40228",
+  "geography_name": "Carpenter Rocks"
+ },
+ {
+  "geography_code": "40229",
+  "geography_name": "Carrickalinga"
+ },
+ {
+  "geography_code": "40230",
+  "geography_name": "Carrieton"
+ },
+ {
+  "geography_code": "40231",
+  "geography_name": "Cassini"
+ },
+ {
+  "geography_code": "40232",
+  "geography_name": "Castambul"
+ },
+ {
+  "geography_code": "40233",
+  "geography_name": "Caurnamont"
+ },
+ {
+  "geography_code": "40234",
+  "geography_name": "Cavan (SA)"
+ },
+ {
+  "geography_code": "40235",
+  "geography_name": "Cavenagh"
+ },
+ {
+  "geography_code": "40236",
+  "geography_name": "Caveton"
+ },
+ {
+  "geography_code": "40237",
+  "geography_name": "Ceduna"
+ },
+ {
+  "geography_code": "40238",
+  "geography_name": "Ceduna Waters"
+ },
+ {
+  "geography_code": "40239",
+  "geography_name": "Chaffey"
+ },
+ {
+  "geography_code": "40240",
+  "geography_name": "Chain Of Ponds"
+ },
+ {
+  "geography_code": "40241",
+  "geography_name": "Chandada"
+ },
+ {
+  "geography_code": "40242",
+  "geography_name": "Chandlers Hill"
+ },
+ {
+  "geography_code": "40243",
+  "geography_name": "Chapel Hill (SA)"
+ },
+ {
+  "geography_code": "40244",
+  "geography_name": "Chapman Bore"
+ },
+ {
+  "geography_code": "40245",
+  "geography_name": "Charleston"
+ },
+ {
+  "geography_code": "40246",
+  "geography_name": "Charlton Gully"
+ },
+ {
+  "geography_code": "40247",
+  "geography_name": "Charra"
+ },
+ {
+  "geography_code": "40248",
+  "geography_name": "Cheltenham (SA)"
+ },
+ {
+  "geography_code": "40249",
+  "geography_name": "Cherry Gardens"
+ },
+ {
+  "geography_code": "40250",
+  "geography_name": "Cherryville"
+ },
+ {
+  "geography_code": "40251",
+  "geography_name": "Chilpenunda"
+ },
+ {
+  "geography_code": "40252",
+  "geography_name": "Chinaman Wells"
+ },
+ {
+  "geography_code": "40253",
+  "geography_name": "Chinbingina"
+ },
+ {
+  "geography_code": "40254",
+  "geography_name": "Chiton"
+ },
+ {
+  "geography_code": "40255",
+  "geography_name": "Chowilla"
+ },
+ {
+  "geography_code": "40256",
+  "geography_name": "Christie Downs"
+ },
+ {
+  "geography_code": "40257",
+  "geography_name": "Christies Beach"
+ },
+ {
+  "geography_code": "40258",
+  "geography_name": "Clapham"
+ },
+ {
+  "geography_code": "40259",
+  "geography_name": "Clare (SA)"
+ },
+ {
+  "geography_code": "40260",
+  "geography_name": "Clarence Gardens"
+ },
+ {
+  "geography_code": "40261",
+  "geography_name": "Clarence Park"
+ },
+ {
+  "geography_code": "40262",
+  "geography_name": "Clarendon (SA)"
+ },
+ {
+  "geography_code": "40263",
+  "geography_name": "Clay Wells"
+ },
+ {
+  "geography_code": "40264",
+  "geography_name": "Claypans"
+ },
+ {
+  "geography_code": "40265",
+  "geography_name": "Clayton Bay"
+ },
+ {
+  "geography_code": "40266",
+  "geography_name": "Clearview"
+ },
+ {
+  "geography_code": "40267",
+  "geography_name": "Cleland"
+ },
+ {
+  "geography_code": "40268",
+  "geography_name": "Clements Gap"
+ },
+ {
+  "geography_code": "40269",
+  "geography_name": "Cleve"
+ },
+ {
+  "geography_code": "40270",
+  "geography_name": "Clinton (SA)"
+ },
+ {
+  "geography_code": "40271",
+  "geography_name": "Clinton Centre"
+ },
+ {
+  "geography_code": "40272",
+  "geography_name": "Clovelly Park"
+ },
+ {
+  "geography_code": "40273",
+  "geography_name": "Cobdogla"
+ },
+ {
+  "geography_code": "40274",
+  "geography_name": "Cocata"
+ },
+ {
+  "geography_code": "40275",
+  "geography_name": "Cockaleechie"
+ },
+ {
+  "geography_code": "40276",
+  "geography_name": "Cockatoo Valley"
+ },
+ {
+  "geography_code": "40277",
+  "geography_name": "Cockburn"
+ },
+ {
+  "geography_code": "40278",
+  "geography_name": "Coffin Bay"
+ },
+ {
+  "geography_code": "40279",
+  "geography_name": "Colebatch"
+ },
+ {
+  "geography_code": "40280",
+  "geography_name": "Coles"
+ },
+ {
+  "geography_code": "40281",
+  "geography_name": "College Park"
+ },
+ {
+  "geography_code": "40282",
+  "geography_name": "Colley"
+ },
+ {
+  "geography_code": "40283",
+  "geography_name": "Collinsfield"
+ },
+ {
+  "geography_code": "40284",
+  "geography_name": "Collinsville (SA)"
+ },
+ {
+  "geography_code": "40285",
+  "geography_name": "Collinswood"
+ },
+ {
+  "geography_code": "40286",
+  "geography_name": "Colonel Light Gardens"
+ },
+ {
+  "geography_code": "40287",
+  "geography_name": "Colton"
+ },
+ {
+  "geography_code": "40288",
+  "geography_name": "Comaum"
+ },
+ {
+  "geography_code": "40289",
+  "geography_name": "Commissariat Point"
+ },
+ {
+  "geography_code": "40290",
+  "geography_name": "Commonwealth Hill"
+ },
+ {
+  "geography_code": "40291",
+  "geography_name": "Compton"
+ },
+ {
+  "geography_code": "40292",
+  "geography_name": "Concordia"
+ },
+ {
+  "geography_code": "40293",
+  "geography_name": "Condowie"
+ },
+ {
+  "geography_code": "40294",
+  "geography_name": "Conmurra"
+ },
+ {
+  "geography_code": "40295",
+  "geography_name": "Coober Pedy"
+ },
+ {
+  "geography_code": "40296",
+  "geography_name": "Coobowie"
+ },
+ {
+  "geography_code": "40297",
+  "geography_name": "Cooke Plains"
+ },
+ {
+  "geography_code": "40298",
+  "geography_name": "Coolillie"
+ },
+ {
+  "geography_code": "40299",
+  "geography_name": "Cooltong"
+ },
+ {
+  "geography_code": "40300",
+  "geography_name": "Coomandook"
+ },
+ {
+  "geography_code": "40301",
+  "geography_name": "Coombe"
+ },
+ {
+  "geography_code": "40302",
+  "geography_name": "Coomooroo"
+ },
+ {
+  "geography_code": "40303",
+  "geography_name": "Coomunga"
+ },
+ {
+  "geography_code": "40304",
+  "geography_name": "Coonalpyn"
+ },
+ {
+  "geography_code": "40305",
+  "geography_name": "Coonamia"
+ },
+ {
+  "geography_code": "40306",
+  "geography_name": "Coonawarra (SA)"
+ },
+ {
+  "geography_code": "40307",
+  "geography_name": "Coorabie"
+ },
+ {
+  "geography_code": "40308",
+  "geography_name": "Coorong"
+ },
+ {
+  "geography_code": "40309",
+  "geography_name": "Cootra"
+ },
+ {
+  "geography_code": "40310",
+  "geography_name": "Copeville"
+ },
+ {
+  "geography_code": "40311",
+  "geography_name": "Copley (SA)"
+ },
+ {
+  "geography_code": "40312",
+  "geography_name": "Corny Point"
+ },
+ {
+  "geography_code": "40313",
+  "geography_name": "Coromandel East"
+ },
+ {
+  "geography_code": "40314",
+  "geography_name": "Coromandel Valley"
+ },
+ {
+  "geography_code": "40315",
+  "geography_name": "Cortlinye"
+ },
+ {
+  "geography_code": "40316",
+  "geography_name": "Corunna Station"
+ },
+ {
+  "geography_code": "40317",
+  "geography_name": "Coulta"
+ },
+ {
+  "geography_code": "40318",
+  "geography_name": "Cowandilla"
+ },
+ {
+  "geography_code": "40319",
+  "geography_name": "Cowell"
+ },
+ {
+  "geography_code": "40320",
+  "geography_name": "Cowirra"
+ },
+ {
+  "geography_code": "40321",
+  "geography_name": "Cradock"
+ },
+ {
+  "geography_code": "40322",
+  "geography_name": "Crafers"
+ },
+ {
+  "geography_code": "40323",
+  "geography_name": "Crafers West"
+ },
+ {
+  "geography_code": "40324",
+  "geography_name": "Craigburn Farm"
+ },
+ {
+  "geography_code": "40325",
+  "geography_name": "Craigmore"
+ },
+ {
+  "geography_code": "40326",
+  "geography_name": "Crescent"
+ },
+ {
+  "geography_code": "40327",
+  "geography_name": "Cromer (SA)"
+ },
+ {
+  "geography_code": "40328",
+  "geography_name": "Cross Roads (SA)"
+ },
+ {
+  "geography_code": "40329",
+  "geography_name": "Croydon (SA)"
+ },
+ {
+  "geography_code": "40330",
+  "geography_name": "Croydon Park (SA)"
+ },
+ {
+  "geography_code": "40331",
+  "geography_name": "Crystal Brook (SA)"
+ },
+ {
+  "geography_code": "40332",
+  "geography_name": "Cudlee Creek"
+ },
+ {
+  "geography_code": "40333",
+  "geography_name": "Culburra"
+ },
+ {
+  "geography_code": "40334",
+  "geography_name": "Cultana"
+ },
+ {
+  "geography_code": "40335",
+  "geography_name": "Cumberland Park"
+ },
+ {
+  "geography_code": "40336",
+  "geography_name": "Cummins"
+ },
+ {
+  "geography_code": "40337",
+  "geography_name": "Cungena"
+ },
+ {
+  "geography_code": "40338",
+  "geography_name": "Cunliffe"
+ },
+ {
+  "geography_code": "40339",
+  "geography_name": "Cunningham (SA)"
+ },
+ {
+  "geography_code": "40340",
+  "geography_name": "Cunyarie"
+ },
+ {
+  "geography_code": "40341",
+  "geography_name": "Curramulka"
+ },
+ {
+  "geography_code": "40342",
+  "geography_name": "Currency Creek"
+ },
+ {
+  "geography_code": "40343",
+  "geography_name": "Custon"
+ },
+ {
+  "geography_code": "40344",
+  "geography_name": "Cuttlefish Bay"
+ },
+ {
+  "geography_code": "40345",
+  "geography_name": "Cygnet River"
+ },
+ {
+  "geography_code": "40346",
+  "geography_name": "D'Estrees Bay"
+ },
+ {
+  "geography_code": "40347",
+  "geography_name": "Dalkey"
+ },
+ {
+  "geography_code": "40348",
+  "geography_name": "Danggali"
+ },
+ {
+  "geography_code": "40349",
+  "geography_name": "Darke Peak"
+ },
+ {
+  "geography_code": "40350",
+  "geography_name": "Darlington (SA)"
+ },
+ {
+  "geography_code": "40351",
+  "geography_name": "Davenport (SA)"
+ },
+ {
+  "geography_code": "40352",
+  "geography_name": "Daveyston"
+ },
+ {
+  "geography_code": "40353",
+  "geography_name": "Davoren Park"
+ },
+ {
+  "geography_code": "40354",
+  "geography_name": "Daw Park"
+ },
+ {
+  "geography_code": "40355",
+  "geography_name": "Dawesley"
+ },
+ {
+  "geography_code": "40356",
+  "geography_name": "Dawson (SA)"
+ },
+ {
+  "geography_code": "40357",
+  "geography_name": "De Mole River"
+ },
+ {
+  "geography_code": "40358",
+  "geography_name": "Deep Creek (SA)"
+ },
+ {
+  "geography_code": "40359",
+  "geography_name": "Deepwater (SA)"
+ },
+ {
+  "geography_code": "40360",
+  "geography_name": "Delamere (SA)"
+ },
+ {
+  "geography_code": "40361",
+  "geography_name": "Denial Bay"
+ },
+ {
+  "geography_code": "40362",
+  "geography_name": "Dernancourt"
+ },
+ {
+  "geography_code": "40363",
+  "geography_name": "Devlins Pound"
+ },
+ {
+  "geography_code": "40364",
+  "geography_name": "Devon Park (SA)"
+ },
+ {
+  "geography_code": "40365",
+  "geography_name": "Dingabledinga"
+ },
+ {
+  "geography_code": "40366",
+  "geography_name": "Direk"
+ },
+ {
+  "geography_code": "40367",
+  "geography_name": "Dismal Swamp"
+ },
+ {
+  "geography_code": "40368",
+  "geography_name": "Donovans"
+ },
+ {
+  "geography_code": "40369",
+  "geography_name": "Dorset Vale"
+ },
+ {
+  "geography_code": "40370",
+  "geography_name": "Douglas Point"
+ },
+ {
+  "geography_code": "40371",
+  "geography_name": "Dover Gardens"
+ },
+ {
+  "geography_code": "40372",
+  "geography_name": "Dowlingville"
+ },
+ {
+  "geography_code": "40373",
+  "geography_name": "Dry Creek (SA)"
+ },
+ {
+  "geography_code": "40374",
+  "geography_name": "Dublin"
+ },
+ {
+  "geography_code": "40375",
+  "geography_name": "Duck Ponds"
+ },
+ {
+  "geography_code": "40376",
+  "geography_name": "Dudley East"
+ },
+ {
+  "geography_code": "40377",
+  "geography_name": "Dudley Park (SA)"
+ },
+ {
+  "geography_code": "40378",
+  "geography_name": "Dudley West"
+ },
+ {
+  "geography_code": "40379",
+  "geography_name": "Dulwich"
+ },
+ {
+  "geography_code": "40380",
+  "geography_name": "Duncan"
+ },
+ {
+  "geography_code": "40381",
+  "geography_name": "Dutton"
+ },
+ {
+  "geography_code": "40382",
+  "geography_name": "Dutton East"
+ },
+ {
+  "geography_code": "40383",
+  "geography_name": "East Moonta"
+ },
+ {
+  "geography_code": "40384",
+  "geography_name": "Eastwood (SA)"
+ },
+ {
+  "geography_code": "40385",
+  "geography_name": "Eba"
+ },
+ {
+  "geography_code": "40386",
+  "geography_name": "Eba Anchorage"
+ },
+ {
+  "geography_code": "40387",
+  "geography_name": "Ebenezer (SA)"
+ },
+ {
+  "geography_code": "40388",
+  "geography_name": "Echunga"
+ },
+ {
+  "geography_code": "40389",
+  "geography_name": "Eden Hills"
+ },
+ {
+  "geography_code": "40390",
+  "geography_name": "Eden Valley"
+ },
+ {
+  "geography_code": "40391",
+  "geography_name": "Edillilie"
+ },
+ {
+  "geography_code": "40392",
+  "geography_name": "Edinburgh"
+ },
+ {
+  "geography_code": "40393",
+  "geography_name": "Edinburgh North"
+ },
+ {
+  "geography_code": "40394",
+  "geography_name": "Edithburgh"
+ },
+ {
+  "geography_code": "40395",
+  "geography_name": "Edwardstown"
+ },
+ {
+  "geography_code": "40396",
+  "geography_name": "Eight Mile Creek (SA)"
+ },
+ {
+  "geography_code": "40397",
+  "geography_name": "Elizabeth"
+ },
+ {
+  "geography_code": "40398",
+  "geography_name": "Elizabeth Downs"
+ },
+ {
+  "geography_code": "40399",
+  "geography_name": "Elizabeth East"
+ },
+ {
+  "geography_code": "40400",
+  "geography_name": "Elizabeth Grove"
+ },
+ {
+  "geography_code": "40401",
+  "geography_name": "Elizabeth North"
+ },
+ {
+  "geography_code": "40402",
+  "geography_name": "Elizabeth Park"
+ },
+ {
+  "geography_code": "40403",
+  "geography_name": "Elizabeth South"
+ },
+ {
+  "geography_code": "40404",
+  "geography_name": "Elizabeth Vale"
+ },
+ {
+  "geography_code": "40405",
+  "geography_name": "Elliston"
+ },
+ {
+  "geography_code": "40406",
+  "geography_name": "Elwomple"
+ },
+ {
+  "geography_code": "40407",
+  "geography_name": "Emu Bay"
+ },
+ {
+  "geography_code": "40408",
+  "geography_name": "Emu Downs"
+ },
+ {
+  "geography_code": "40409",
+  "geography_name": "Emu Flat (SA)"
+ },
+ {
+  "geography_code": "40410",
+  "geography_name": "Encounter Bay"
+ },
+ {
+  "geography_code": "40411",
+  "geography_name": "Enfield (SA)"
+ },
+ {
+  "geography_code": "40412",
+  "geography_name": "Erindale"
+ },
+ {
+  "geography_code": "40413",
+  "geography_name": "Erith"
+ },
+ {
+  "geography_code": "40414",
+  "geography_name": "Erskine (SA)"
+ },
+ {
+  "geography_code": "40415",
+  "geography_name": "Ethelton"
+ },
+ {
+  "geography_code": "40416",
+  "geography_name": "Ettrick (SA)"
+ },
+ {
+  "geography_code": "40417",
+  "geography_name": "Eudunda"
+ },
+ {
+  "geography_code": "40418",
+  "geography_name": "Eurelia"
+ },
+ {
+  "geography_code": "40419",
+  "geography_name": "Euromina"
+ },
+ {
+  "geography_code": "40420",
+  "geography_name": "Evandale (SA)"
+ },
+ {
+  "geography_code": "40421",
+  "geography_name": "Evanston"
+ },
+ {
+  "geography_code": "40422",
+  "geography_name": "Evanston Gardens"
+ },
+ {
+  "geography_code": "40423",
+  "geography_name": "Evanston Park"
+ },
+ {
+  "geography_code": "40424",
+  "geography_name": "Evanston South"
+ },
+ {
+  "geography_code": "40425",
+  "geography_name": "Everard Central"
+ },
+ {
+  "geography_code": "40426",
+  "geography_name": "Everard Park"
+ },
+ {
+  "geography_code": "40427",
+  "geography_name": "Exeter (SA)"
+ },
+ {
+  "geography_code": "40428",
+  "geography_name": "Eyre"
+ },
+ {
+  "geography_code": "40429",
+  "geography_name": "Fairview Park"
+ },
+ {
+  "geography_code": "40430",
+  "geography_name": "False Bay"
+ },
+ {
+  "geography_code": "40431",
+  "geography_name": "Farina"
+ },
+ {
+  "geography_code": "40432",
+  "geography_name": "Farrell Flat"
+ },
+ {
+  "geography_code": "40433",
+  "geography_name": "Felixstow"
+ },
+ {
+  "geography_code": "40434",
+  "geography_name": "Ferryden Park"
+ },
+ {
+  "geography_code": "40435",
+  "geography_name": "Field"
+ },
+ {
+  "geography_code": "40436",
+  "geography_name": "Findon"
+ },
+ {
+  "geography_code": "40437",
+  "geography_name": "Finniss"
+ },
+ {
+  "geography_code": "40438",
+  "geography_name": "Firle"
+ },
+ {
+  "geography_code": "40439",
+  "geography_name": "Fischer"
+ },
+ {
+  "geography_code": "40440",
+  "geography_name": "Fisher (SA)"
+ },
+ {
+  "geography_code": "40441",
+  "geography_name": "Fisherman Bay"
+ },
+ {
+  "geography_code": "40442",
+  "geography_name": "Fitzroy (SA)"
+ },
+ {
+  "geography_code": "40443",
+  "geography_name": "Five Miles"
+ },
+ {
+  "geography_code": "40444",
+  "geography_name": "Flagstaff Hill"
+ },
+ {
+  "geography_code": "40445",
+  "geography_name": "Flaxley"
+ },
+ {
+  "geography_code": "40446",
+  "geography_name": "Flaxman Valley"
+ },
+ {
+  "geography_code": "40447",
+  "geography_name": "Flinders Chase"
+ },
+ {
+  "geography_code": "40448",
+  "geography_name": "Flinders Park"
+ },
+ {
+  "geography_code": "40449",
+  "geography_name": "Flinders Ranges"
+ },
+ {
+  "geography_code": "40450",
+  "geography_name": "Florina Station"
+ },
+ {
+  "geography_code": "40451",
+  "geography_name": "Fords"
+ },
+ {
+  "geography_code": "40452",
+  "geography_name": "Forest Range"
+ },
+ {
+  "geography_code": "40453",
+  "geography_name": "Forestville (SA)"
+ },
+ {
+  "geography_code": "40454",
+  "geography_name": "Forreston"
+ },
+ {
+  "geography_code": "40455",
+  "geography_name": "Forster (SA)"
+ },
+ {
+  "geography_code": "40456",
+  "geography_name": "Foul Bay"
+ },
+ {
+  "geography_code": "40457",
+  "geography_name": "Fountain"
+ },
+ {
+  "geography_code": "40458",
+  "geography_name": "Fox"
+ },
+ {
+  "geography_code": "40459",
+  "geography_name": "Frahns"
+ },
+ {
+  "geography_code": "40460",
+  "geography_name": "Frances"
+ },
+ {
+  "geography_code": "40461",
+  "geography_name": "Franklyn"
+ },
+ {
+  "geography_code": "40462",
+  "geography_name": "Frankton"
+ },
+ {
+  "geography_code": "40463",
+  "geography_name": "Frayville"
+ },
+ {
+  "geography_code": "40464",
+  "geography_name": "Freeling"
+ },
+ {
+  "geography_code": "40465",
+  "geography_name": "Frewville"
+ },
+ {
+  "geography_code": "40466",
+  "geography_name": "Frome Downs"
+ },
+ {
+  "geography_code": "40467",
+  "geography_name": "Fulham (SA)"
+ },
+ {
+  "geography_code": "40468",
+  "geography_name": "Fulham Gardens"
+ },
+ {
+  "geography_code": "40469",
+  "geography_name": "Fullarton"
+ },
+ {
+  "geography_code": "40470",
+  "geography_name": "Furner"
+ },
+ {
+  "geography_code": "40471",
+  "geography_name": "Galga"
+ },
+ {
+  "geography_code": "40472",
+  "geography_name": "Gammon Ranges"
+ },
+ {
+  "geography_code": "40473",
+  "geography_name": "Garden Island (SA)"
+ },
+ {
+  "geography_code": "40474",
+  "geography_name": "Gawler (SA)"
+ },
+ {
+  "geography_code": "40475",
+  "geography_name": "Gawler Belt"
+ },
+ {
+  "geography_code": "40476",
+  "geography_name": "Gawler East"
+ },
+ {
+  "geography_code": "40477",
+  "geography_name": "Gawler Ranges"
+ },
+ {
+  "geography_code": "40478",
+  "geography_name": "Gawler River"
+ },
+ {
+  "geography_code": "40479",
+  "geography_name": "Gawler South"
+ },
+ {
+  "geography_code": "40480",
+  "geography_name": "Gawler West"
+ },
+ {
+  "geography_code": "40481",
+  "geography_name": "Gemmells"
+ },
+ {
+  "geography_code": "40482",
+  "geography_name": "Georgetown (SA)"
+ },
+ {
+  "geography_code": "40483",
+  "geography_name": "Gepps Cross"
+ },
+ {
+  "geography_code": "40484",
+  "geography_name": "Geranium"
+ },
+ {
+  "geography_code": "40485",
+  "geography_name": "Geranium Plains"
+ },
+ {
+  "geography_code": "40486",
+  "geography_name": "Gerard"
+ },
+ {
+  "geography_code": "40487",
+  "geography_name": "German Creek"
+ },
+ {
+  "geography_code": "40488",
+  "geography_name": "German Flat"
+ },
+ {
+  "geography_code": "40489",
+  "geography_name": "Germein Bay"
+ },
+ {
+  "geography_code": "40490",
+  "geography_name": "Gidgealpa"
+ },
+ {
+  "geography_code": "40491",
+  "geography_name": "Gifford Hill"
+ },
+ {
+  "geography_code": "40492",
+  "geography_name": "Gilberton (SA)"
+ },
+ {
+  "geography_code": "40493",
+  "geography_name": "Giles Corner"
+ },
+ {
+  "geography_code": "40494",
+  "geography_name": "Gillentown"
+ },
+ {
+  "geography_code": "40495",
+  "geography_name": "Gilles Plains"
+ },
+ {
+  "geography_code": "40496",
+  "geography_name": "Gillman"
+ },
+ {
+  "geography_code": "40497",
+  "geography_name": "Gladstone (SA)"
+ },
+ {
+  "geography_code": "40498",
+  "geography_name": "Glandore"
+ },
+ {
+  "geography_code": "40499",
+  "geography_name": "Glanville"
+ },
+ {
+  "geography_code": "40500",
+  "geography_name": "Glen Osmond"
+ },
+ {
+  "geography_code": "40501",
+  "geography_name": "Glenalta"
+ },
+ {
+  "geography_code": "40502",
+  "geography_name": "Glenburnie"
+ },
+ {
+  "geography_code": "40503",
+  "geography_name": "Glencoe (SA)"
+ },
+ {
+  "geography_code": "40504",
+  "geography_name": "Glendambo"
+ },
+ {
+  "geography_code": "40505",
+  "geography_name": "Glenelg (SA)"
+ },
+ {
+  "geography_code": "40506",
+  "geography_name": "Glenelg East"
+ },
+ {
+  "geography_code": "40507",
+  "geography_name": "Glenelg North"
+ },
+ {
+  "geography_code": "40508",
+  "geography_name": "Glenelg South"
+ },
+ {
+  "geography_code": "40509",
+  "geography_name": "Glengowrie"
+ },
+ {
+  "geography_code": "40510",
+  "geography_name": "Glenroy (SA)"
+ },
+ {
+  "geography_code": "40511",
+  "geography_name": "Glenside"
+ },
+ {
+  "geography_code": "40512",
+  "geography_name": "Glenunga"
+ },
+ {
+  "geography_code": "40513",
+  "geography_name": "Globe Derby Park"
+ },
+ {
+  "geography_code": "40514",
+  "geography_name": "Glossop"
+ },
+ {
+  "geography_code": "40515",
+  "geography_name": "Glynde"
+ },
+ {
+  "geography_code": "40516",
+  "geography_name": "Golden Grove"
+ },
+ {
+  "geography_code": "40517",
+  "geography_name": "Golden Heights"
+ },
+ {
+  "geography_code": "40518",
+  "geography_name": "Gomersal"
+ },
+ {
+  "geography_code": "40519",
+  "geography_name": "Good Hope Landing"
+ },
+ {
+  "geography_code": "40520",
+  "geography_name": "Goodwood (SA)"
+ },
+ {
+  "geography_code": "40521",
+  "geography_name": "Goolwa"
+ },
+ {
+  "geography_code": "40522",
+  "geography_name": "Goolwa Beach"
+ },
+ {
+  "geography_code": "40523",
+  "geography_name": "Goolwa North"
+ },
+ {
+  "geography_code": "40524",
+  "geography_name": "Goolwa South"
+ },
+ {
+  "geography_code": "40525",
+  "geography_name": "Gosse"
+ },
+ {
+  "geography_code": "40526",
+  "geography_name": "Gould Creek"
+ },
+ {
+  "geography_code": "40527",
+  "geography_name": "Goyder"
+ },
+ {
+  "geography_code": "40528",
+  "geography_name": "Grace Plains"
+ },
+ {
+  "geography_code": "40529",
+  "geography_name": "Grampus"
+ },
+ {
+  "geography_code": "40530",
+  "geography_name": "Grange (SA)"
+ },
+ {
+  "geography_code": "40531",
+  "geography_name": "Green Fields"
+ },
+ {
+  "geography_code": "40532",
+  "geography_name": "Green Hills Range"
+ },
+ {
+  "geography_code": "40533",
+  "geography_name": "Green Patch"
+ },
+ {
+  "geography_code": "40534",
+  "geography_name": "Greenacres"
+ },
+ {
+  "geography_code": "40535",
+  "geography_name": "Greenhill (SA)"
+ },
+ {
+  "geography_code": "40536",
+  "geography_name": "Greenock"
+ },
+ {
+  "geography_code": "40537",
+  "geography_name": "Greenways"
+ },
+ {
+  "geography_code": "40538",
+  "geography_name": "Greenwith"
+ },
+ {
+  "geography_code": "40539",
+  "geography_name": "Gulfview Heights"
+ },
+ {
+  "geography_code": "40540",
+  "geography_name": "Gulnare"
+ },
+ {
+  "geography_code": "40541",
+  "geography_name": "Gum Creek"
+ },
+ {
+  "geography_code": "40542",
+  "geography_name": "Gumeracha"
+ },
+ {
+  "geography_code": "40543",
+  "geography_name": "Gurra Gurra"
+ },
+ {
+  "geography_code": "40544",
+  "geography_name": "Hackham"
+ },
+ {
+  "geography_code": "40545",
+  "geography_name": "Hackham West"
+ },
+ {
+  "geography_code": "40546",
+  "geography_name": "Hacklins Corner"
+ },
+ {
+  "geography_code": "40547",
+  "geography_name": "Hackney"
+ },
+ {
+  "geography_code": "40548",
+  "geography_name": "Hahndorf"
+ },
+ {
+  "geography_code": "40549",
+  "geography_name": "Haines"
+ },
+ {
+  "geography_code": "40550",
+  "geography_name": "Halbury"
+ },
+ {
+  "geography_code": "40551",
+  "geography_name": "Halidon"
+ },
+ {
+  "geography_code": "40552",
+  "geography_name": "Hallelujah Hills"
+ },
+ {
+  "geography_code": "40553",
+  "geography_name": "Hallett"
+ },
+ {
+  "geography_code": "40554",
+  "geography_name": "Hallett Cove"
+ },
+ {
+  "geography_code": "40555",
+  "geography_name": "Hambidge"
+ },
+ {
+  "geography_code": "40556",
+  "geography_name": "Hamilton (SA)"
+ },
+ {
+  "geography_code": "40557",
+  "geography_name": "Hamley"
+ },
+ {
+  "geography_code": "40558",
+  "geography_name": "Hamley Bridge"
+ },
+ {
+  "geography_code": "40559",
+  "geography_name": "Hammond"
+ },
+ {
+  "geography_code": "40560",
+  "geography_name": "Hampden (SA)"
+ },
+ {
+  "geography_code": "40561",
+  "geography_name": "Hampstead Gardens"
+ },
+ {
+  "geography_code": "40562",
+  "geography_name": "Hansborough"
+ },
+ {
+  "geography_code": "40563",
+  "geography_name": "Hanson"
+ },
+ {
+  "geography_code": "40564",
+  "geography_name": "Happy Valley (SA)"
+ },
+ {
+  "geography_code": "40565",
+  "geography_name": "Hardwicke Bay"
+ },
+ {
+  "geography_code": "40566",
+  "geography_name": "Hardy"
+ },
+ {
+  "geography_code": "40567",
+  "geography_name": "Harrogate"
+ },
+ {
+  "geography_code": "40568",
+  "geography_name": "Hart (SA)"
+ },
+ {
+  "geography_code": "40569",
+  "geography_name": "Hartley (SA)"
+ },
+ {
+  "geography_code": "40570",
+  "geography_name": "Haslam"
+ },
+ {
+  "geography_code": "40571",
+  "geography_name": "Hatherleigh"
+ },
+ {
+  "geography_code": "40572",
+  "geography_name": "Hawker (SA)"
+ },
+ {
+  "geography_code": "40573",
+  "geography_name": "Hawson"
+ },
+ {
+  "geography_code": "40574",
+  "geography_name": "Hawthorn (SA)"
+ },
+ {
+  "geography_code": "40575",
+  "geography_name": "Hawthorndene"
+ },
+ {
+  "geography_code": "40576",
+  "geography_name": "Hay Flat"
+ },
+ {
+  "geography_code": "40577",
+  "geography_name": "Hay Valley"
+ },
+ {
+  "geography_code": "40578",
+  "geography_name": "Hayborough"
+ },
+ {
+  "geography_code": "40579",
+  "geography_name": "Hazelwood Park"
+ },
+ {
+  "geography_code": "40580",
+  "geography_name": "Heathfield"
+ },
+ {
+  "geography_code": "40581",
+  "geography_name": "Heathpool"
+ },
+ {
+  "geography_code": "40582",
+  "geography_name": "Hectorville"
+ },
+ {
+  "geography_code": "40583",
+  "geography_name": "Hendon (SA)"
+ },
+ {
+  "geography_code": "40584",
+  "geography_name": "Henley Beach"
+ },
+ {
+  "geography_code": "40585",
+  "geography_name": "Henley Beach South"
+ },
+ {
+  "geography_code": "40586",
+  "geography_name": "Hewett"
+ },
+ {
+  "geography_code": "40587",
+  "geography_name": "Highbury (SA)"
+ },
+ {
+  "geography_code": "40588",
+  "geography_name": "Highgate (SA)"
+ },
+ {
+  "geography_code": "40589",
+  "geography_name": "Highland Valley"
+ },
+ {
+  "geography_code": "40590",
+  "geography_name": "Hill River (SA)"
+ },
+ {
+  "geography_code": "40591",
+  "geography_name": "Hillbank"
+ },
+ {
+  "geography_code": "40592",
+  "geography_name": "Hillcrest (SA)"
+ },
+ {
+  "geography_code": "40593",
+  "geography_name": "Hillier"
+ },
+ {
+  "geography_code": "40594",
+  "geography_name": "Hilltown"
+ },
+ {
+  "geography_code": "40595",
+  "geography_name": "Hilton (SA)"
+ },
+ {
+  "geography_code": "40596",
+  "geography_name": "Hincks"
+ },
+ {
+  "geography_code": "40597",
+  "geography_name": "Hindmarsh (SA)"
+ },
+ {
+  "geography_code": "40598",
+  "geography_name": "Hindmarsh Island"
+ },
+ {
+  "geography_code": "40599",
+  "geography_name": "Hindmarsh Tiers"
+ },
+ {
+  "geography_code": "40600",
+  "geography_name": "Hindmarsh Valley"
+ },
+ {
+  "geography_code": "40601",
+  "geography_name": "Holden Hill"
+ },
+ {
+  "geography_code": "40602",
+  "geography_name": "Holder (SA)"
+ },
+ {
+  "geography_code": "40603",
+  "geography_name": "Holder Siding"
+ },
+ {
+  "geography_code": "40604",
+  "geography_name": "Honiton"
+ },
+ {
+  "geography_code": "40605",
+  "geography_name": "Hope Forest"
+ },
+ {
+  "geography_code": "40606",
+  "geography_name": "Hope Gap"
+ },
+ {
+  "geography_code": "40607",
+  "geography_name": "Hope Valley (SA)"
+ },
+ {
+  "geography_code": "40608",
+  "geography_name": "Hornsdale"
+ },
+ {
+  "geography_code": "40609",
+  "geography_name": "Horsnell Gully"
+ },
+ {
+  "geography_code": "40610",
+  "geography_name": "Hoskin Corner"
+ },
+ {
+  "geography_code": "40611",
+  "geography_name": "Houghton"
+ },
+ {
+  "geography_code": "40612",
+  "geography_name": "Hove"
+ },
+ {
+  "geography_code": "40613",
+  "geography_name": "Hoyleton"
+ },
+ {
+  "geography_code": "40614",
+  "geography_name": "Huddleston"
+ },
+ {
+  "geography_code": "40615",
+  "geography_name": "Humbug Scrub"
+ },
+ {
+  "geography_code": "40616",
+  "geography_name": "Huntfield Heights"
+ },
+ {
+  "geography_code": "40617",
+  "geography_name": "Hyde Park (SA)"
+ },
+ {
+  "geography_code": "40618",
+  "geography_name": "Hynam"
+ },
+ {
+  "geography_code": "40619",
+  "geography_name": "Ingle Farm"
+ },
+ {
+  "geography_code": "40620",
+  "geography_name": "Inglewood (SA)"
+ },
+ {
+  "geography_code": "40621",
+  "geography_name": "Ingomar"
+ },
+ {
+  "geography_code": "40622",
+  "geography_name": "Inkerman (SA)"
+ },
+ {
+  "geography_code": "40623",
+  "geography_name": "Inkster"
+ },
+ {
+  "geography_code": "40624",
+  "geography_name": "Inman Valley"
+ },
+ {
+  "geography_code": "40625",
+  "geography_name": "Innamincka"
+ },
+ {
+  "geography_code": "40626",
+  "geography_name": "Inneston"
+ },
+ {
+  "geography_code": "40627",
+  "geography_name": "Iron Knob"
+ },
+ {
+  "geography_code": "40628",
+  "geography_name": "Ironbank"
+ },
+ {
+  "geography_code": "40629",
+  "geography_name": "Ironstone"
+ },
+ {
+  "geography_code": "40630",
+  "geography_name": "Island Beach"
+ },
+ {
+  "geography_code": "40631",
+  "geography_name": "Island Lagoon"
+ },
+ {
+  "geography_code": "40632",
+  "geography_name": "Iwantja"
+ },
+ {
+  "geography_code": "40633",
+  "geography_name": "Jabuk"
+ },
+ {
+  "geography_code": "40634",
+  "geography_name": "James Well"
+ },
+ {
+  "geography_code": "40635",
+  "geography_name": "Jamestown"
+ },
+ {
+  "geography_code": "40636",
+  "geography_name": "Jamieson (SA)"
+ },
+ {
+  "geography_code": "40637",
+  "geography_name": "Jericho (SA)"
+ },
+ {
+  "geography_code": "40638",
+  "geography_name": "Jerusalem"
+ },
+ {
+  "geography_code": "40639",
+  "geography_name": "Jervois"
+ },
+ {
+  "geography_code": "40640",
+  "geography_name": "Joanna"
+ },
+ {
+  "geography_code": "40641",
+  "geography_name": "Johnburgh"
+ },
+ {
+  "geography_code": "40642",
+  "geography_name": "Joslin"
+ },
+ {
+  "geography_code": "40643",
+  "geography_name": "Julanka Holdings"
+ },
+ {
+  "geography_code": "40644",
+  "geography_name": "Julia"
+ },
+ {
+  "geography_code": "40645",
+  "geography_name": "Jupiter Creek"
+ },
+ {
+  "geography_code": "40646",
+  "geography_name": "Kadina"
+ },
+ {
+  "geography_code": "40647",
+  "geography_name": "Kainton"
+ },
+ {
+  "geography_code": "40648",
+  "geography_name": "Kalamurina"
+ },
+ {
+  "geography_code": "40649",
+  "geography_name": "Kalanbi"
+ },
+ {
+  "geography_code": "40650",
+  "geography_name": "Kalangadoo"
+ },
+ {
+  "geography_code": "40651",
+  "geography_name": "Kalbeeba"
+ },
+ {
+  "geography_code": "40652",
+  "geography_name": "Kaldoonera"
+ },
+ {
+  "geography_code": "40653",
+  "geography_name": "Kalka"
+ },
+ {
+  "geography_code": "40654",
+  "geography_name": "Kallora"
+ },
+ {
+  "geography_code": "40655",
+  "geography_name": "Kaltjiti"
+ },
+ {
+  "geography_code": "40656",
+  "geography_name": "Kangarilla"
+ },
+ {
+  "geography_code": "40657",
+  "geography_name": "Kangaroo Flat (SA)"
+ },
+ {
+  "geography_code": "40658",
+  "geography_name": "Kangaroo Head"
+ },
+ {
+  "geography_code": "40659",
+  "geography_name": "Kangaroo Inn"
+ },
+ {
+  "geography_code": "40660",
+  "geography_name": "Kanmantoo"
+ },
+ {
+  "geography_code": "40661",
+  "geography_name": "Kanni"
+ },
+ {
+  "geography_code": "40662",
+  "geography_name": "Kanpi"
+ },
+ {
+  "geography_code": "40663",
+  "geography_name": "Kanyaka"
+ },
+ {
+  "geography_code": "40664",
+  "geography_name": "Kapinnie"
+ },
+ {
+  "geography_code": "40665",
+  "geography_name": "Kappawanta"
+ },
+ {
+  "geography_code": "40666",
+  "geography_name": "Kapunda"
+ },
+ {
+  "geography_code": "40667",
+  "geography_name": "Karatta"
+ },
+ {
+  "geography_code": "40668",
+  "geography_name": "Karcultaby"
+ },
+ {
+  "geography_code": "40669",
+  "geography_name": "Karkoo"
+ },
+ {
+  "geography_code": "40670",
+  "geography_name": "Karoonda"
+ },
+ {
+  "geography_code": "40671",
+  "geography_name": "Karte"
+ },
+ {
+  "geography_code": "40672",
+  "geography_name": "Katarapko"
+ },
+ {
+  "geography_code": "40673",
+  "geography_name": "Keilira"
+ },
+ {
+  "geography_code": "40674",
+  "geography_name": "Keith"
+ },
+ {
+  "geography_code": "40675",
+  "geography_name": "Kellidie Bay"
+ },
+ {
+  "geography_code": "40676",
+  "geography_name": "Kelly"
+ },
+ {
+  "geography_code": "40677",
+  "geography_name": "Kensington (SA)"
+ },
+ {
+  "geography_code": "40678",
+  "geography_name": "Kensington Gardens"
+ },
+ {
+  "geography_code": "40679",
+  "geography_name": "Kensington Park"
+ },
+ {
+  "geography_code": "40680",
+  "geography_name": "Kent Town"
+ },
+ {
+  "geography_code": "40681",
+  "geography_name": "Kenton Valley"
+ },
+ {
+  "geography_code": "40682",
+  "geography_name": "Kepa"
+ },
+ {
+  "geography_code": "40683",
+  "geography_name": "Keppoch"
+ },
+ {
+  "geography_code": "40684",
+  "geography_name": "Kersbrook"
+ },
+ {
+  "geography_code": "40685",
+  "geography_name": "Keswick"
+ },
+ {
+  "geography_code": "40686",
+  "geography_name": "Keswick Terminal"
+ },
+ {
+  "geography_code": "40687",
+  "geography_name": "Keyneton"
+ },
+ {
+  "geography_code": "40688",
+  "geography_name": "Ki Ki"
+ },
+ {
+  "geography_code": "40689",
+  "geography_name": "Kiana"
+ },
+ {
+  "geography_code": "40690",
+  "geography_name": "Kidman Park"
+ },
+ {
+  "geography_code": "40691",
+  "geography_name": "Kielpa"
+ },
+ {
+  "geography_code": "40692",
+  "geography_name": "Kilburn"
+ },
+ {
+  "geography_code": "40693",
+  "geography_name": "Kilkenny"
+ },
+ {
+  "geography_code": "40694",
+  "geography_name": "Kimba"
+ },
+ {
+  "geography_code": "40695",
+  "geography_name": "Kingoonya"
+ },
+ {
+  "geography_code": "40696",
+  "geography_name": "Kings Park (SA)"
+ },
+ {
+  "geography_code": "40697",
+  "geography_name": "Kingscote"
+ },
+ {
+  "geography_code": "40698",
+  "geography_name": "Kingsford (SA)"
+ },
+ {
+  "geography_code": "40699",
+  "geography_name": "Kingston On Murray"
+ },
+ {
+  "geography_code": "40700",
+  "geography_name": "Kingston Park"
+ },
+ {
+  "geography_code": "40701",
+  "geography_name": "Kingston Se"
+ },
+ {
+  "geography_code": "40702",
+  "geography_name": "Kingswood (SA)"
+ },
+ {
+  "geography_code": "40703",
+  "geography_name": "Klemzig"
+ },
+ {
+  "geography_code": "40704",
+  "geography_name": "Kohinoor"
+ },
+ {
+  "geography_code": "40705",
+  "geography_name": "Kondoolka"
+ },
+ {
+  "geography_code": "40706",
+  "geography_name": "Kongal"
+ },
+ {
+  "geography_code": "40707",
+  "geography_name": "Kongorong"
+ },
+ {
+  "geography_code": "40708",
+  "geography_name": "Koolgera"
+ },
+ {
+  "geography_code": "40709",
+  "geography_name": "Koolunga"
+ },
+ {
+  "geography_code": "40710",
+  "geography_name": "Koolywurtie"
+ },
+ {
+  "geography_code": "40711",
+  "geography_name": "Koonamore"
+ },
+ {
+  "geography_code": "40712",
+  "geography_name": "Koongawa"
+ },
+ {
+  "geography_code": "40713",
+  "geography_name": "Koonibba"
+ },
+ {
+  "geography_code": "40714",
+  "geography_name": "Koonoona"
+ },
+ {
+  "geography_code": "40715",
+  "geography_name": "Koonunga"
+ },
+ {
+  "geography_code": "40716",
+  "geography_name": "Koorine"
+ },
+ {
+  "geography_code": "40717",
+  "geography_name": "Kooroona"
+ },
+ {
+  "geography_code": "40718",
+  "geography_name": "Koppamurra"
+ },
+ {
+  "geography_code": "40719",
+  "geography_name": "Koppio"
+ },
+ {
+  "geography_code": "40720",
+  "geography_name": "Korunye"
+ },
+ {
+  "geography_code": "40721",
+  "geography_name": "Kringin"
+ },
+ {
+  "geography_code": "40722",
+  "geography_name": "Krondorf"
+ },
+ {
+  "geography_code": "40723",
+  "geography_name": "Krongart"
+ },
+ {
+  "geography_code": "40724",
+  "geography_name": "Kudla"
+ },
+ {
+  "geography_code": "40725",
+  "geography_name": "Kuitpo"
+ },
+ {
+  "geography_code": "40726",
+  "geography_name": "Kuitpo Colony"
+ },
+ {
+  "geography_code": "40727",
+  "geography_name": "Kulpara"
+ },
+ {
+  "geography_code": "40728",
+  "geography_name": "Kurralta Park"
+ },
+ {
+  "geography_code": "40729",
+  "geography_name": "Kyancutta"
+ },
+ {
+  "geography_code": "40730",
+  "geography_name": "Kybunga"
+ },
+ {
+  "geography_code": "40731",
+  "geography_name": "Kybybolite"
+ },
+ {
+  "geography_code": "40732",
+  "geography_name": "Kyeema"
+ },
+ {
+  "geography_code": "40733",
+  "geography_name": "Laffer"
+ },
+ {
+  "geography_code": "40734",
+  "geography_name": "Lake Albert (SA)"
+ },
+ {
+  "geography_code": "40735",
+  "geography_name": "Lake Alexandrina"
+ },
+ {
+  "geography_code": "40736",
+  "geography_name": "Lake Carlet"
+ },
+ {
+  "geography_code": "40737",
+  "geography_name": "Lake Everard"
+ },
+ {
+  "geography_code": "40738",
+  "geography_name": "Lake Eyre"
+ },
+ {
+  "geography_code": "40739",
+  "geography_name": "Lake Frome"
+ },
+ {
+  "geography_code": "40740",
+  "geography_name": "Lake Gairdner"
+ },
+ {
+  "geography_code": "40741",
+  "geography_name": "Lake Gilles"
+ },
+ {
+  "geography_code": "40742",
+  "geography_name": "Lake Macfarlane"
+ },
+ {
+  "geography_code": "40743",
+  "geography_name": "Lake Plains"
+ },
+ {
+  "geography_code": "40744",
+  "geography_name": "Lake Torrens"
+ },
+ {
+  "geography_code": "40745",
+  "geography_name": "Lake View"
+ },
+ {
+  "geography_code": "40746",
+  "geography_name": "Lameroo"
+ },
+ {
+  "geography_code": "40747",
+  "geography_name": "Langhorne Creek"
+ },
+ {
+  "geography_code": "40748",
+  "geography_name": "Langs Landing"
+ },
+ {
+  "geography_code": "40749",
+  "geography_name": "Largs Bay"
+ },
+ {
+  "geography_code": "40750",
+  "geography_name": "Largs North"
+ },
+ {
+  "geography_code": "40751",
+  "geography_name": "Laura (SA)"
+ },
+ {
+  "geography_code": "40752",
+  "geography_name": "Laura Bay"
+ },
+ {
+  "geography_code": "40753",
+  "geography_name": "Leabrook"
+ },
+ {
+  "geography_code": "40754",
+  "geography_name": "Leasingham"
+ },
+ {
+  "geography_code": "40755",
+  "geography_name": "Leawood Gardens"
+ },
+ {
+  "geography_code": "40756",
+  "geography_name": "Leigh Creek (SA)"
+ },
+ {
+  "geography_code": "40757",
+  "geography_name": "Leigh Creek Station"
+ },
+ {
+  "geography_code": "40758",
+  "geography_name": "Leighton"
+ },
+ {
+  "geography_code": "40759",
+  "geography_name": "Lenswood"
+ },
+ {
+  "geography_code": "40760",
+  "geography_name": "Lewiston"
+ },
+ {
+  "geography_code": "40761",
+  "geography_name": "Light Pass"
+ },
+ {
+  "geography_code": "40762",
+  "geography_name": "Lightsview"
+ },
+ {
+  "geography_code": "40763",
+  "geography_name": "Lincoln National Park"
+ },
+ {
+  "geography_code": "40764",
+  "geography_name": "Linden Park"
+ },
+ {
+  "geography_code": "40765",
+  "geography_name": "Lindley"
+ },
+ {
+  "geography_code": "40766",
+  "geography_name": "Lindon"
+ },
+ {
+  "geography_code": "40767",
+  "geography_name": "Linwood"
+ },
+ {
+  "geography_code": "40768",
+  "geography_name": "Lipson"
+ },
+ {
+  "geography_code": "40769",
+  "geography_name": "Little Douglas"
+ },
+ {
+  "geography_code": "40770",
+  "geography_name": "Littlehampton"
+ },
+ {
+  "geography_code": "40771",
+  "geography_name": "Lobethal"
+ },
+ {
+  "geography_code": "40772",
+  "geography_name": "Lochaber"
+ },
+ {
+  "geography_code": "40773",
+  "geography_name": "Lochiel (SA)"
+ },
+ {
+  "geography_code": "40774",
+  "geography_name": "Lock"
+ },
+ {
+  "geography_code": "40775",
+  "geography_name": "Lockleys"
+ },
+ {
+  "geography_code": "40776",
+  "geography_name": "Long Flat (SA)"
+ },
+ {
+  "geography_code": "40777",
+  "geography_name": "Long Plains"
+ },
+ {
+  "geography_code": "40778",
+  "geography_name": "Longwood (SA)"
+ },
+ {
+  "geography_code": "40779",
+  "geography_name": "Lonsdale"
+ },
+ {
+  "geography_code": "40780",
+  "geography_name": "Louth Bay"
+ },
+ {
+  "geography_code": "40781",
+  "geography_name": "Loveday"
+ },
+ {
+  "geography_code": "40782",
+  "geography_name": "Lowan Vale"
+ },
+ {
+  "geography_code": "40783",
+  "geography_name": "Lowbank"
+ },
+ {
+  "geography_code": "40784",
+  "geography_name": "Lower Broughton"
+ },
+ {
+  "geography_code": "40785",
+  "geography_name": "Lower Hermitage"
+ },
+ {
+  "geography_code": "40786",
+  "geography_name": "Lower Inman Valley"
+ },
+ {
+  "geography_code": "40787",
+  "geography_name": "Lower Light"
+ },
+ {
+  "geography_code": "40788",
+  "geography_name": "Lower Mitcham"
+ },
+ {
+  "geography_code": "40789",
+  "geography_name": "Loxton"
+ },
+ {
+  "geography_code": "40790",
+  "geography_name": "Loxton North"
+ },
+ {
+  "geography_code": "40791",
+  "geography_name": "Lucindale"
+ },
+ {
+  "geography_code": "40792",
+  "geography_name": "Lucky Bay"
+ },
+ {
+  "geography_code": "40793",
+  "geography_name": "Lyndhurst (SA)"
+ },
+ {
+  "geography_code": "40794",
+  "geography_name": "Lyndoch"
+ },
+ {
+  "geography_code": "40795",
+  "geography_name": "Lynton"
+ },
+ {
+  "geography_code": "40796",
+  "geography_name": "Lyrup"
+ },
+ {
+  "geography_code": "40797",
+  "geography_name": "Maaoupe"
+ },
+ {
+  "geography_code": "40798",
+  "geography_name": "Mabel Creek"
+ },
+ {
+  "geography_code": "40799",
+  "geography_name": "Macclesfield (SA)"
+ },
+ {
+  "geography_code": "40800",
+  "geography_name": "Macdonald Park"
+ },
+ {
+  "geography_code": "40801",
+  "geography_name": "Macgillivray"
+ },
+ {
+  "geography_code": "40802",
+  "geography_name": "Macumba"
+ },
+ {
+  "geography_code": "40803",
+  "geography_name": "Magarey"
+ },
+ {
+  "geography_code": "40804",
+  "geography_name": "Magdala"
+ },
+ {
+  "geography_code": "40805",
+  "geography_name": "Maggea"
+ },
+ {
+  "geography_code": "40806",
+  "geography_name": "Magill"
+ },
+ {
+  "geography_code": "40807",
+  "geography_name": "Mahanewo"
+ },
+ {
+  "geography_code": "40808",
+  "geography_name": "Maitland (SA)"
+ },
+ {
+  "geography_code": "40809",
+  "geography_name": "Makin"
+ },
+ {
+  "geography_code": "40810",
+  "geography_name": "Malinong"
+ },
+ {
+  "geography_code": "40811",
+  "geography_name": "Mallala"
+ },
+ {
+  "geography_code": "40812",
+  "geography_name": "Malpas"
+ },
+ {
+  "geography_code": "40813",
+  "geography_name": "Maltee"
+ },
+ {
+  "geography_code": "40814",
+  "geography_name": "Malvern (SA)"
+ },
+ {
+  "geography_code": "40815",
+  "geography_name": "Mambray Creek"
+ },
+ {
+  "geography_code": "40816",
+  "geography_name": "Mangalo"
+ },
+ {
+  "geography_code": "40817",
+  "geography_name": "Manna Hill"
+ },
+ {
+  "geography_code": "40818",
+  "geography_name": "Mannanarie"
+ },
+ {
+  "geography_code": "40819",
+  "geography_name": "Manningham"
+ },
+ {
+  "geography_code": "40820",
+  "geography_name": "Mannum"
+ },
+ {
+  "geography_code": "40821",
+  "geography_name": "Manoora (SA)"
+ },
+ {
+  "geography_code": "40822",
+  "geography_name": "Mansfield Park"
+ },
+ {
+  "geography_code": "40823",
+  "geography_name": "Mantung"
+ },
+ {
+  "geography_code": "40824",
+  "geography_name": "Marama"
+ },
+ {
+  "geography_code": "40825",
+  "geography_name": "Marananga"
+ },
+ {
+  "geography_code": "40826",
+  "geography_name": "Marble Hill"
+ },
+ {
+  "geography_code": "40827",
+  "geography_name": "Marcollat"
+ },
+ {
+  "geography_code": "40828",
+  "geography_name": "Marden"
+ },
+ {
+  "geography_code": "40829",
+  "geography_name": "Marino"
+ },
+ {
+  "geography_code": "40830",
+  "geography_name": "Marion"
+ },
+ {
+  "geography_code": "40831",
+  "geography_name": "Marion Bay (SA)"
+ },
+ {
+  "geography_code": "40832",
+  "geography_name": "Markaranka"
+ },
+ {
+  "geography_code": "40833",
+  "geography_name": "Marks Landing"
+ },
+ {
+  "geography_code": "40834",
+  "geography_name": "Marla"
+ },
+ {
+  "geography_code": "40835",
+  "geography_name": "Marleston"
+ },
+ {
+  "geography_code": "40836",
+  "geography_name": "Marola"
+ },
+ {
+  "geography_code": "40837",
+  "geography_name": "Marrabel"
+ },
+ {
+  "geography_code": "40838",
+  "geography_name": "Marree"
+ },
+ {
+  "geography_code": "40839",
+  "geography_name": "Marryatville"
+ },
+ {
+  "geography_code": "40840",
+  "geography_name": "Maryvale (SA)"
+ },
+ {
+  "geography_code": "40841",
+  "geography_name": "Maslin Beach"
+ },
+ {
+  "geography_code": "40842",
+  "geography_name": "Matta Flat"
+ },
+ {
+  "geography_code": "40843",
+  "geography_name": "Maude (SA)"
+ },
+ {
+  "geography_code": "40844",
+  "geography_name": "Mawson Lakes"
+ },
+ {
+  "geography_code": "40845",
+  "geography_name": "Mayfield (SA)"
+ },
+ {
+  "geography_code": "40846",
+  "geography_name": "Maylands (SA)"
+ },
+ {
+  "geography_code": "40847",
+  "geography_name": "McBean Pound"
+ },
+ {
+  "geography_code": "40848",
+  "geography_name": "McCallum"
+ },
+ {
+  "geography_code": "40849",
+  "geography_name": "McCracken"
+ },
+ {
+  "geography_code": "40850",
+  "geography_name": "McHarg Creek"
+ },
+ {
+  "geography_code": "40851",
+  "geography_name": "McLaren Flat"
+ },
+ {
+  "geography_code": "40852",
+  "geography_name": "McLaren Vale"
+ },
+ {
+  "geography_code": "40853",
+  "geography_name": "Meadows"
+ },
+ {
+  "geography_code": "40854",
+  "geography_name": "Medindie"
+ },
+ {
+  "geography_code": "40855",
+  "geography_name": "Medindie Gardens"
+ },
+ {
+  "geography_code": "40856",
+  "geography_name": "Melrose (SA)"
+ },
+ {
+  "geography_code": "40857",
+  "geography_name": "Melrose Park (SA)"
+ },
+ {
+  "geography_code": "40858",
+  "geography_name": "Melton (SA)"
+ },
+ {
+  "geography_code": "40859",
+  "geography_name": "Meningie"
+ },
+ {
+  "geography_code": "40860",
+  "geography_name": "Meningie East"
+ },
+ {
+  "geography_code": "40861",
+  "geography_name": "Meningie West"
+ },
+ {
+  "geography_code": "40862",
+  "geography_name": "Menzies (SA)"
+ },
+ {
+  "geography_code": "40863",
+  "geography_name": "Mercunda"
+ },
+ {
+  "geography_code": "40864",
+  "geography_name": "Merghiny"
+ },
+ {
+  "geography_code": "40865",
+  "geography_name": "Meribah"
+ },
+ {
+  "geography_code": "40866",
+  "geography_name": "Merriton"
+ },
+ {
+  "geography_code": "40867",
+  "geography_name": "Middle Beach"
+ },
+ {
+  "geography_code": "40868",
+  "geography_name": "Middle River"
+ },
+ {
+  "geography_code": "40869",
+  "geography_name": "Middleback Range"
+ },
+ {
+  "geography_code": "40870",
+  "geography_name": "Middleton (SA)"
+ },
+ {
+  "geography_code": "40871",
+  "geography_name": "Midgee (SA)"
+ },
+ {
+  "geography_code": "40872",
+  "geography_name": "Mil-Lel"
+ },
+ {
+  "geography_code": "40873",
+  "geography_name": "Milang"
+ },
+ {
+  "geography_code": "40874",
+  "geography_name": "Mile End"
+ },
+ {
+  "geography_code": "40875",
+  "geography_name": "Mile End South"
+ },
+ {
+  "geography_code": "40876",
+  "geography_name": "Milendella"
+ },
+ {
+  "geography_code": "40877",
+  "geography_name": "Millbrook (SA)"
+ },
+ {
+  "geography_code": "40878",
+  "geography_name": "Millicent"
+ },
+ {
+  "geography_code": "40879",
+  "geography_name": "Millswood"
+ },
+ {
+  "geography_code": "40880",
+  "geography_name": "Miltalie"
+ },
+ {
+  "geography_code": "40881",
+  "geography_name": "Mimili"
+ },
+ {
+  "geography_code": "40882",
+  "geography_name": "Minbrie"
+ },
+ {
+  "geography_code": "40883",
+  "geography_name": "Minburra"
+ },
+ {
+  "geography_code": "40884",
+  "geography_name": "Mindarie (SA)"
+ },
+ {
+  "geography_code": "40885",
+  "geography_name": "Mingbool"
+ },
+ {
+  "geography_code": "40886",
+  "geography_name": "Minlaton"
+ },
+ {
+  "geography_code": "40887",
+  "geography_name": "Minnipa"
+ },
+ {
+  "geography_code": "40888",
+  "geography_name": "Mintaro"
+ },
+ {
+  "geography_code": "40889",
+  "geography_name": "Minvalara"
+ },
+ {
+  "geography_code": "40890",
+  "geography_name": "Miranda (SA)"
+ },
+ {
+  "geography_code": "40891",
+  "geography_name": "Mitcham (SA)"
+ },
+ {
+  "geography_code": "40892",
+  "geography_name": "Mitchell (SA)"
+ },
+ {
+  "geography_code": "40893",
+  "geography_name": "Mitchell Park (SA)"
+ },
+ {
+  "geography_code": "40894",
+  "geography_name": "Mitchellville"
+ },
+ {
+  "geography_code": "40895",
+  "geography_name": "Moana"
+ },
+ {
+  "geography_code": "40896",
+  "geography_name": "Mobilong"
+ },
+ {
+  "geography_code": "40897",
+  "geography_name": "Moculta"
+ },
+ {
+  "geography_code": "40898",
+  "geography_name": "Modbury"
+ },
+ {
+  "geography_code": "40899",
+  "geography_name": "Modbury Heights"
+ },
+ {
+  "geography_code": "40900",
+  "geography_name": "Modbury North"
+ },
+ {
+  "geography_code": "40901",
+  "geography_name": "Moerlong"
+ },
+ {
+  "geography_code": "40902",
+  "geography_name": "Monarto"
+ },
+ {
+  "geography_code": "40903",
+  "geography_name": "Monarto South"
+ },
+ {
+  "geography_code": "40904",
+  "geography_name": "Monash (SA)"
+ },
+ {
+  "geography_code": "40905",
+  "geography_name": "Monbulla"
+ },
+ {
+  "geography_code": "40906",
+  "geography_name": "Mongolata"
+ },
+ {
+  "geography_code": "40907",
+  "geography_name": "Montacute"
+ },
+ {
+  "geography_code": "40908",
+  "geography_name": "Montarra"
+ },
+ {
+  "geography_code": "40909",
+  "geography_name": "Monteith"
+ },
+ {
+  "geography_code": "40910",
+  "geography_name": "Moockra"
+ },
+ {
+  "geography_code": "40911",
+  "geography_name": "Moody"
+ },
+ {
+  "geography_code": "40912",
+  "geography_name": "Mooleulooloo"
+ },
+ {
+  "geography_code": "40913",
+  "geography_name": "Moonaree"
+ },
+ {
+  "geography_code": "40914",
+  "geography_name": "Moonta"
+ },
+ {
+  "geography_code": "40915",
+  "geography_name": "Moonta Bay"
+ },
+ {
+  "geography_code": "40916",
+  "geography_name": "Moonta Mines"
+ },
+ {
+  "geography_code": "40917",
+  "geography_name": "Moorak"
+ },
+ {
+  "geography_code": "40918",
+  "geography_name": "Moorlands"
+ },
+ {
+  "geography_code": "40919",
+  "geography_name": "Moorook"
+ },
+ {
+  "geography_code": "40920",
+  "geography_name": "Moorook South"
+ },
+ {
+  "geography_code": "40921",
+  "geography_name": "Moppa"
+ },
+ {
+  "geography_code": "40922",
+  "geography_name": "Morchard"
+ },
+ {
+  "geography_code": "40923",
+  "geography_name": "Morgan"
+ },
+ {
+  "geography_code": "40924",
+  "geography_name": "Morn Hill"
+ },
+ {
+  "geography_code": "40925",
+  "geography_name": "Morphett Vale"
+ },
+ {
+  "geography_code": "40926",
+  "geography_name": "Morphetts Flat"
+ },
+ {
+  "geography_code": "40927",
+  "geography_name": "Morphettville"
+ },
+ {
+  "geography_code": "40928",
+  "geography_name": "Mortana"
+ },
+ {
+  "geography_code": "40929",
+  "geography_name": "Moseley"
+ },
+ {
+  "geography_code": "40930",
+  "geography_name": "Mosquito Hill"
+ },
+ {
+  "geography_code": "40931",
+  "geography_name": "Motpena"
+ },
+ {
+  "geography_code": "40932",
+  "geography_name": "Mount Barker (SA)"
+ },
+ {
+  "geography_code": "40933",
+  "geography_name": "Mount Barker Junction"
+ },
+ {
+  "geography_code": "40934",
+  "geography_name": "Mount Barker Springs"
+ },
+ {
+  "geography_code": "40935",
+  "geography_name": "Mount Barker Summit"
+ },
+ {
+  "geography_code": "40936",
+  "geography_name": "Mount Benson"
+ },
+ {
+  "geography_code": "40937",
+  "geography_name": "Mount Bryan"
+ },
+ {
+  "geography_code": "40938",
+  "geography_name": "Mount Bryan East"
+ },
+ {
+  "geography_code": "40939",
+  "geography_name": "Mount Burr"
+ },
+ {
+  "geography_code": "40940",
+  "geography_name": "Mount Charles"
+ },
+ {
+  "geography_code": "40941",
+  "geography_name": "Mount Compass"
+ },
+ {
+  "geography_code": "40942",
+  "geography_name": "Mount Cooper (SA)"
+ },
+ {
+  "geography_code": "40943",
+  "geography_name": "Mount Crawford"
+ },
+ {
+  "geography_code": "40944",
+  "geography_name": "Mount Damper"
+ },
+ {
+  "geography_code": "40945",
+  "geography_name": "Mount Drummond"
+ },
+ {
+  "geography_code": "40946",
+  "geography_name": "Mount Dutton Bay"
+ },
+ {
+  "geography_code": "40947",
+  "geography_name": "Mount Gambier"
+ },
+ {
+  "geography_code": "40948",
+  "geography_name": "Mount George (SA)"
+ },
+ {
+  "geography_code": "40949",
+  "geography_name": "Mount Hope (SA)"
+ },
+ {
+  "geography_code": "40950",
+  "geography_name": "Mount Ive"
+ },
+ {
+  "geography_code": "40951",
+  "geography_name": "Mount Jagged"
+ },
+ {
+  "geography_code": "40952",
+  "geography_name": "Mount Joy"
+ },
+ {
+  "geography_code": "40953",
+  "geography_name": "Mount Light"
+ },
+ {
+  "geography_code": "40954",
+  "geography_name": "Mount Magnificent"
+ },
+ {
+  "geography_code": "40955",
+  "geography_name": "Mount Mary"
+ },
+ {
+  "geography_code": "40956",
+  "geography_name": "Mount Mcintyre"
+ },
+ {
+  "geography_code": "40957",
+  "geography_name": "Mount Mckenzie"
+ },
+ {
+  "geography_code": "40958",
+  "geography_name": "Mount Observation (SA)"
+ },
+ {
+  "geography_code": "40959",
+  "geography_name": "Mount Osmond"
+ },
+ {
+  "geography_code": "40960",
+  "geography_name": "Mount Pleasant (SA)"
+ },
+ {
+  "geography_code": "40961",
+  "geography_name": "Mount Schank"
+ },
+ {
+  "geography_code": "40962",
+  "geography_name": "Mount Serle"
+ },
+ {
+  "geography_code": "40963",
+  "geography_name": "Mount Templeton"
+ },
+ {
+  "geography_code": "40964",
+  "geography_name": "Mount Torrens"
+ },
+ {
+  "geography_code": "40965",
+  "geography_name": "Mount Wedge"
+ },
+ {
+  "geography_code": "40966",
+  "geography_name": "Mount Willoughby"
+ },
+ {
+  "geography_code": "40967",
+  "geography_name": "Moyhall"
+ },
+ {
+  "geography_code": "40968",
+  "geography_name": "Mudamuckla"
+ },
+ {
+  "geography_code": "40969",
+  "geography_name": "Mulgundawa"
+ },
+ {
+  "geography_code": "40970",
+  "geography_name": "Mullaquana"
+ },
+ {
+  "geography_code": "40971",
+  "geography_name": "Muloorina"
+ },
+ {
+  "geography_code": "40972",
+  "geography_name": "Mundallio"
+ },
+ {
+  "geography_code": "40973",
+  "geography_name": "Mundic Creek"
+ },
+ {
+  "geography_code": "40974",
+  "geography_name": "Mundoo Island"
+ },
+ {
+  "geography_code": "40975",
+  "geography_name": "Mundoora"
+ },
+ {
+  "geography_code": "40976",
+  "geography_name": "Mundulla"
+ },
+ {
+  "geography_code": "40977",
+  "geography_name": "Mundulla West"
+ },
+ {
+  "geography_code": "40978",
+  "geography_name": "Mungeranie"
+ },
+ {
+  "geography_code": "40979",
+  "geography_name": "Munno Para"
+ },
+ {
+  "geography_code": "40980",
+  "geography_name": "Munno Para Downs"
+ },
+ {
+  "geography_code": "40981",
+  "geography_name": "Munno Para West"
+ },
+ {
+  "geography_code": "40982",
+  "geography_name": "Murbko"
+ },
+ {
+  "geography_code": "40983",
+  "geography_name": "Murdinga"
+ },
+ {
+  "geography_code": "40984",
+  "geography_name": "Murlong"
+ },
+ {
+  "geography_code": "40985",
+  "geography_name": "Murputja - Nyapari"
+ },
+ {
+  "geography_code": "40986",
+  "geography_name": "Murrawong"
+ },
+ {
+  "geography_code": "40987",
+  "geography_name": "Murray Bridge"
+ },
+ {
+  "geography_code": "40988",
+  "geography_name": "Murray Bridge East"
+ },
+ {
+  "geography_code": "40989",
+  "geography_name": "Murray Bridge North"
+ },
+ {
+  "geography_code": "40990",
+  "geography_name": "Murray Bridge South"
+ },
+ {
+  "geography_code": "40991",
+  "geography_name": "Murray Town"
+ },
+ {
+  "geography_code": "40992",
+  "geography_name": "Murtho"
+ },
+ {
+  "geography_code": "40993",
+  "geography_name": "Muston"
+ },
+ {
+  "geography_code": "40994",
+  "geography_name": "Mutooroo"
+ },
+ {
+  "geography_code": "40995",
+  "geography_name": "Mylor"
+ },
+ {
+  "geography_code": "40996",
+  "geography_name": "Mypolonga"
+ },
+ {
+  "geography_code": "40997",
+  "geography_name": "Myponga"
+ },
+ {
+  "geography_code": "40998",
+  "geography_name": "Myponga Beach"
+ },
+ {
+  "geography_code": "40999",
+  "geography_name": "Myrtle Bank (SA)"
+ },
+ {
+  "geography_code": "41000",
+  "geography_name": "Nackara"
+ },
+ {
+  "geography_code": "41001",
+  "geography_name": "Nadia"
+ },
+ {
+  "geography_code": "41002",
+  "geography_name": "Naidia"
+ },
+ {
+  "geography_code": "41003",
+  "geography_name": "Nailsworth"
+ },
+ {
+  "geography_code": "41004",
+  "geography_name": "Nain"
+ },
+ {
+  "geography_code": "41005",
+  "geography_name": "Nairne"
+ },
+ {
+  "geography_code": "41006",
+  "geography_name": "Nalyappa"
+ },
+ {
+  "geography_code": "41007",
+  "geography_name": "Nangkita"
+ },
+ {
+  "geography_code": "41008",
+  "geography_name": "Nangwarry"
+ },
+ {
+  "geography_code": "41009",
+  "geography_name": "Nantawarra"
+ },
+ {
+  "geography_code": "41010",
+  "geography_name": "Napperby"
+ },
+ {
+  "geography_code": "41011",
+  "geography_name": "Naracoorte"
+ },
+ {
+  "geography_code": "41012",
+  "geography_name": "Narridy"
+ },
+ {
+  "geography_code": "41013",
+  "geography_name": "Narrung (SA)"
+ },
+ {
+  "geography_code": "41014",
+  "geography_name": "Naturi"
+ },
+ {
+  "geography_code": "41015",
+  "geography_name": "Neales Flat"
+ },
+ {
+  "geography_code": "41016",
+  "geography_name": "Nectar Brook"
+ },
+ {
+  "geography_code": "41017",
+  "geography_name": "Nelshaby"
+ },
+ {
+  "geography_code": "41018",
+  "geography_name": "Nene Valley"
+ },
+ {
+  "geography_code": "41019",
+  "geography_name": "Nepabunna"
+ },
+ {
+  "geography_code": "41020",
+  "geography_name": "Nepean Bay"
+ },
+ {
+  "geography_code": "41021",
+  "geography_name": "Netherby (SA)"
+ },
+ {
+  "geography_code": "41022",
+  "geography_name": "Netherton"
+ },
+ {
+  "geography_code": "41023",
+  "geography_name": "Netley"
+ },
+ {
+  "geography_code": "41024",
+  "geography_name": "New Port"
+ },
+ {
+  "geography_code": "41025",
+  "geography_name": "New Residence"
+ },
+ {
+  "geography_code": "41026",
+  "geography_name": "New Town (SA)"
+ },
+ {
+  "geography_code": "41027",
+  "geography_name": "New Well"
+ },
+ {
+  "geography_code": "41028",
+  "geography_name": "Newland"
+ },
+ {
+  "geography_code": "41029",
+  "geography_name": "Newton"
+ },
+ {
+  "geography_code": "41030",
+  "geography_name": "Ngapala"
+ },
+ {
+  "geography_code": "41031",
+  "geography_name": "Ngarkat"
+ },
+ {
+  "geography_code": "41032",
+  "geography_name": "Nildottie"
+ },
+ {
+  "geography_code": "41033",
+  "geography_name": "Ninnes"
+ },
+ {
+  "geography_code": "41034",
+  "geography_name": "Noarlunga Centre"
+ },
+ {
+  "geography_code": "41035",
+  "geography_name": "Noarlunga Downs"
+ },
+ {
+  "geography_code": "41036",
+  "geography_name": "Nora Creina"
+ },
+ {
+  "geography_code": "41037",
+  "geography_name": "Normanville (SA)"
+ },
+ {
+  "geography_code": "41038",
+  "geography_name": "North Adelaide"
+ },
+ {
+  "geography_code": "41039",
+  "geography_name": "North Beach (SA)"
+ },
+ {
+  "geography_code": "41040",
+  "geography_name": "North Booborowie"
+ },
+ {
+  "geography_code": "41041",
+  "geography_name": "North Brighton"
+ },
+ {
+  "geography_code": "41042",
+  "geography_name": "North Cape"
+ },
+ {
+  "geography_code": "41043",
+  "geography_name": "North Haven (SA)"
+ },
+ {
+  "geography_code": "41044",
+  "geography_name": "North Moonta"
+ },
+ {
+  "geography_code": "41045",
+  "geography_name": "North Plympton"
+ },
+ {
+  "geography_code": "41046",
+  "geography_name": "North Shields"
+ },
+ {
+  "geography_code": "41047",
+  "geography_name": "North West Bend"
+ },
+ {
+  "geography_code": "41048",
+  "geography_name": "North Yelta"
+ },
+ {
+  "geography_code": "41049",
+  "geography_name": "Northern Heights"
+ },
+ {
+  "geography_code": "41050",
+  "geography_name": "Northfield"
+ },
+ {
+  "geography_code": "41051",
+  "geography_name": "Northgate (SA)"
+ },
+ {
+  "geography_code": "41052",
+  "geography_name": "Norton Summit"
+ },
+ {
+  "geography_code": "41053",
+  "geography_name": "Norwood (SA)"
+ },
+ {
+  "geography_code": "41054",
+  "geography_name": "Notts Well"
+ },
+ {
+  "geography_code": "41055",
+  "geography_name": "Novar Gardens"
+ },
+ {
+  "geography_code": "41056",
+  "geography_name": "Nullarbor"
+ },
+ {
+  "geography_code": "41057",
+  "geography_name": "Nunjikompita"
+ },
+ {
+  "geography_code": "41058",
+  "geography_name": "Nuriootpa"
+ },
+ {
+  "geography_code": "41059",
+  "geography_name": "Nurom"
+ },
+ {
+  "geography_code": "41060",
+  "geography_name": "Nurragi"
+ },
+ {
+  "geography_code": "41061",
+  "geography_name": "O'Halloran Hill"
+ },
+ {
+  "geography_code": "41062",
+  "geography_name": "O'Sullivan Beach"
+ },
+ {
+  "geography_code": "41063",
+  "geography_name": "Oak Valley (SA)"
+ },
+ {
+  "geography_code": "41064",
+  "geography_name": "Oakbank"
+ },
+ {
+  "geography_code": "41065",
+  "geography_name": "Oakden"
+ },
+ {
+  "geography_code": "41066",
+  "geography_name": "Oakden Hills"
+ },
+ {
+  "geography_code": "41067",
+  "geography_name": "Oaklands Park"
+ },
+ {
+  "geography_code": "41068",
+  "geography_name": "Ob Flat"
+ },
+ {
+  "geography_code": "41069",
+  "geography_name": "Olary"
+ },
+ {
+  "geography_code": "41070",
+  "geography_name": "Old Calperum"
+ },
+ {
+  "geography_code": "41071",
+  "geography_name": "Old Noarlunga"
+ },
+ {
+  "geography_code": "41072",
+  "geography_name": "Old Reynella"
+ },
+ {
+  "geography_code": "41073",
+  "geography_name": "Old Teal Flat"
+ },
+ {
+  "geography_code": "41074",
+  "geography_name": "Olympic Dam"
+ },
+ {
+  "geography_code": "41075",
+  "geography_name": "One Tree Hill"
+ },
+ {
+  "geography_code": "41076",
+  "geography_name": "Onkaparinga Hills"
+ },
+ {
+  "geography_code": "41077",
+  "geography_name": "Oodla Wirra"
+ },
+ {
+  "geography_code": "41078",
+  "geography_name": "Oodnadatta"
+ },
+ {
+  "geography_code": "41079",
+  "geography_name": "Orroroo"
+ },
+ {
+  "geography_code": "41080",
+  "geography_name": "Osborne (SA)"
+ },
+ {
+  "geography_code": "41081",
+  "geography_name": "Ottoway"
+ },
+ {
+  "geography_code": "41082",
+  "geography_name": "Outer Harbor"
+ },
+ {
+  "geography_code": "41083",
+  "geography_name": "Overland Corner"
+ },
+ {
+  "geography_code": "41084",
+  "geography_name": "Ovingham"
+ },
+ {
+  "geography_code": "41085",
+  "geography_name": "Owen"
+ },
+ {
+  "geography_code": "41086",
+  "geography_name": "Padthaway"
+ },
+ {
+  "geography_code": "41087",
+  "geography_name": "Paechtown"
+ },
+ {
+  "geography_code": "41088",
+  "geography_name": "Pages Flat"
+ },
+ {
+  "geography_code": "41089",
+  "geography_name": "Paisley"
+ },
+ {
+  "geography_code": "41090",
+  "geography_name": "Palkagee"
+ },
+ {
+  "geography_code": "41091",
+  "geography_name": "Pallamana"
+ },
+ {
+  "geography_code": "41092",
+  "geography_name": "Palmer (SA)"
+ },
+ {
+  "geography_code": "41093",
+  "geography_name": "Pandurra"
+ },
+ {
+  "geography_code": "41094",
+  "geography_name": "Panitya (SA)"
+ },
+ {
+  "geography_code": "41095",
+  "geography_name": "Panorama"
+ },
+ {
+  "geography_code": "41096",
+  "geography_name": "Para Hills"
+ },
+ {
+  "geography_code": "41097",
+  "geography_name": "Para Hills West"
+ },
+ {
+  "geography_code": "41098",
+  "geography_name": "Para Vista"
+ },
+ {
+  "geography_code": "41099",
+  "geography_name": "Parachilna"
+ },
+ {
+  "geography_code": "41100",
+  "geography_name": "Paracombe"
+ },
+ {
+  "geography_code": "41101",
+  "geography_name": "Paradise (SA)"
+ },
+ {
+  "geography_code": "41102",
+  "geography_name": "Parafield"
+ },
+ {
+  "geography_code": "41103",
+  "geography_name": "Parafield Gardens"
+ },
+ {
+  "geography_code": "41104",
+  "geography_name": "Parakylia"
+ },
+ {
+  "geography_code": "41105",
+  "geography_name": "Paralowie"
+ },
+ {
+  "geography_code": "41106",
+  "geography_name": "Paramatta"
+ },
+ {
+  "geography_code": "41107",
+  "geography_name": "Paratoo"
+ },
+ {
+  "geography_code": "41108",
+  "geography_name": "Parawa"
+ },
+ {
+  "geography_code": "41109",
+  "geography_name": "Parham"
+ },
+ {
+  "geography_code": "41110",
+  "geography_name": "Parilla"
+ },
+ {
+  "geography_code": "41111",
+  "geography_name": "Paringa"
+ },
+ {
+  "geography_code": "41112",
+  "geography_name": "Paris Creek"
+ },
+ {
+  "geography_code": "41113",
+  "geography_name": "Park Holme"
+ },
+ {
+  "geography_code": "41114",
+  "geography_name": "Parkside (SA)"
+ },
+ {
+  "geography_code": "41115",
+  "geography_name": "Parnaroo"
+ },
+ {
+  "geography_code": "41116",
+  "geography_name": "Parndana"
+ },
+ {
+  "geography_code": "41117",
+  "geography_name": "Parrakie"
+ },
+ {
+  "geography_code": "41118",
+  "geography_name": "Parsons Beach"
+ },
+ {
+  "geography_code": "41119",
+  "geography_name": "Paruna"
+ },
+ {
+  "geography_code": "41120",
+  "geography_name": "Pasadena"
+ },
+ {
+  "geography_code": "41121",
+  "geography_name": "Paskeville"
+ },
+ {
+  "geography_code": "41122",
+  "geography_name": "Pata"
+ },
+ {
+  "geography_code": "41123",
+  "geography_name": "Payneham"
+ },
+ {
+  "geography_code": "41124",
+  "geography_name": "Payneham South"
+ },
+ {
+  "geography_code": "41125",
+  "geography_name": "Peake"
+ },
+ {
+  "geography_code": "41126",
+  "geography_name": "Pearlah"
+ },
+ {
+  "geography_code": "41127",
+  "geography_name": "Peebinga"
+ },
+ {
+  "geography_code": "41128",
+  "geography_name": "Peep Hill"
+ },
+ {
+  "geography_code": "41129",
+  "geography_name": "Pekina"
+ },
+ {
+  "geography_code": "41130",
+  "geography_name": "Pelican Lagoon"
+ },
+ {
+  "geography_code": "41131",
+  "geography_name": "Pelican Point (SA)"
+ },
+ {
+  "geography_code": "41132",
+  "geography_name": "Pellaring Flat"
+ },
+ {
+  "geography_code": "41133",
+  "geography_name": "Penfield"
+ },
+ {
+  "geography_code": "41134",
+  "geography_name": "Penfield Gardens"
+ },
+ {
+  "geography_code": "41135",
+  "geography_name": "Penneshaw"
+ },
+ {
+  "geography_code": "41136",
+  "geography_name": "Pennington"
+ },
+ {
+  "geography_code": "41137",
+  "geography_name": "Penola"
+ },
+ {
+  "geography_code": "41138",
+  "geography_name": "Penong"
+ },
+ {
+  "geography_code": "41139",
+  "geography_name": "Penrice"
+ },
+ {
+  "geography_code": "41140",
+  "geography_name": "Penwortham"
+ },
+ {
+  "geography_code": "41141",
+  "geography_name": "Perlubie"
+ },
+ {
+  "geography_code": "41142",
+  "geography_name": "Perponda"
+ },
+ {
+  "geography_code": "41143",
+  "geography_name": "Peterborough (SA)"
+ },
+ {
+  "geography_code": "41144",
+  "geography_name": "Peterhead"
+ },
+ {
+  "geography_code": "41145",
+  "geography_name": "Petersville"
+ },
+ {
+  "geography_code": "41146",
+  "geography_name": "Petherick"
+ },
+ {
+  "geography_code": "41147",
+  "geography_name": "Petina"
+ },
+ {
+  "geography_code": "41148",
+  "geography_name": "Petwood"
+ },
+ {
+  "geography_code": "41149",
+  "geography_name": "Pewsey Vale"
+ },
+ {
+  "geography_code": "41150",
+  "geography_name": "Piccadilly (SA)"
+ },
+ {
+  "geography_code": "41151",
+  "geography_name": "Piednippie"
+ },
+ {
+  "geography_code": "41152",
+  "geography_name": "Pike River"
+ },
+ {
+  "geography_code": "41153",
+  "geography_name": "Pimba"
+ },
+ {
+  "geography_code": "41154",
+  "geography_name": "Pimbaacla"
+ },
+ {
+  "geography_code": "41155",
+  "geography_name": "Pine Creek (SA)"
+ },
+ {
+  "geography_code": "41156",
+  "geography_name": "Pine Creek Station"
+ },
+ {
+  "geography_code": "41157",
+  "geography_name": "Pine Hill"
+ },
+ {
+  "geography_code": "41158",
+  "geography_name": "Pine Point"
+ },
+ {
+  "geography_code": "41159",
+  "geography_name": "Pinery"
+ },
+ {
+  "geography_code": "41160",
+  "geography_name": "Pinkawillinie"
+ },
+ {
+  "geography_code": "41161",
+  "geography_name": "Pinkerton Plains"
+ },
+ {
+  "geography_code": "41162",
+  "geography_name": "Pinks Beach"
+ },
+ {
+  "geography_code": "41163",
+  "geography_name": "Pinnaroo"
+ },
+ {
+  "geography_code": "41164",
+  "geography_name": "Pipalyatjara"
+ },
+ {
+  "geography_code": "41165",
+  "geography_name": "Pirie East"
+ },
+ {
+  "geography_code": "41166",
+  "geography_name": "Pleasant Park"
+ },
+ {
+  "geography_code": "41167",
+  "geography_name": "Plympton"
+ },
+ {
+  "geography_code": "41168",
+  "geography_name": "Plympton Park"
+ },
+ {
+  "geography_code": "41169",
+  "geography_name": "Point Boston"
+ },
+ {
+  "geography_code": "41170",
+  "geography_name": "Point Lowly"
+ },
+ {
+  "geography_code": "41171",
+  "geography_name": "Point Pass"
+ },
+ {
+  "geography_code": "41172",
+  "geography_name": "Point Pearce"
+ },
+ {
+  "geography_code": "41173",
+  "geography_name": "Point Souttar"
+ },
+ {
+  "geography_code": "41174",
+  "geography_name": "Point Sturt"
+ },
+ {
+  "geography_code": "41175",
+  "geography_name": "Point Turton"
+ },
+ {
+  "geography_code": "41176",
+  "geography_name": "Polda"
+ },
+ {
+  "geography_code": "41177",
+  "geography_name": "Polish Hill River"
+ },
+ {
+  "geography_code": "41178",
+  "geography_name": "Poltalloch"
+ },
+ {
+  "geography_code": "41179",
+  "geography_name": "Pompoota"
+ },
+ {
+  "geography_code": "41180",
+  "geography_name": "Ponde"
+ },
+ {
+  "geography_code": "41181",
+  "geography_name": "Poochera"
+ },
+ {
+  "geography_code": "41182",
+  "geography_name": "Pooginagoric"
+ },
+ {
+  "geography_code": "41183",
+  "geography_name": "Pooginook"
+ },
+ {
+  "geography_code": "41184",
+  "geography_name": "Poonindie"
+ },
+ {
+  "geography_code": "41185",
+  "geography_name": "Pooraka"
+ },
+ {
+  "geography_code": "41186",
+  "geography_name": "Porky Flat"
+ },
+ {
+  "geography_code": "41187",
+  "geography_name": "Port Adelaide"
+ },
+ {
+  "geography_code": "41188",
+  "geography_name": "Port Arthur (SA)"
+ },
+ {
+  "geography_code": "41189",
+  "geography_name": "Port Augusta"
+ },
+ {
+  "geography_code": "41190",
+  "geography_name": "Port Augusta West"
+ },
+ {
+  "geography_code": "41191",
+  "geography_name": "Port Bonython"
+ },
+ {
+  "geography_code": "41192",
+  "geography_name": "Port Broughton"
+ },
+ {
+  "geography_code": "41193",
+  "geography_name": "Port Davis"
+ },
+ {
+  "geography_code": "41194",
+  "geography_name": "Port Elliot"
+ },
+ {
+  "geography_code": "41195",
+  "geography_name": "Port Gawler"
+ },
+ {
+  "geography_code": "41196",
+  "geography_name": "Port Germein"
+ },
+ {
+  "geography_code": "41197",
+  "geography_name": "Port Gibbon"
+ },
+ {
+  "geography_code": "41198",
+  "geography_name": "Port Hughes"
+ },
+ {
+  "geography_code": "41199",
+  "geography_name": "Port Julia"
+ },
+ {
+  "geography_code": "41200",
+  "geography_name": "Port Kenny"
+ },
+ {
+  "geography_code": "41201",
+  "geography_name": "Port Lincoln"
+ },
+ {
+  "geography_code": "41202",
+  "geography_name": "Port Macdonnell"
+ },
+ {
+  "geography_code": "41203",
+  "geography_name": "Port Mannum"
+ },
+ {
+  "geography_code": "41204",
+  "geography_name": "Port Moorowie"
+ },
+ {
+  "geography_code": "41205",
+  "geography_name": "Port Neill"
+ },
+ {
+  "geography_code": "41206",
+  "geography_name": "Port Noarlunga"
+ },
+ {
+  "geography_code": "41207",
+  "geography_name": "Port Noarlunga South"
+ },
+ {
+  "geography_code": "41208",
+  "geography_name": "Port Paterson"
+ },
+ {
+  "geography_code": "41209",
+  "geography_name": "Port Pirie"
+ },
+ {
+  "geography_code": "41210",
+  "geography_name": "Port Pirie South"
+ },
+ {
+  "geography_code": "41211",
+  "geography_name": "Port Pirie West"
+ },
+ {
+  "geography_code": "41212",
+  "geography_name": "Port Rickaby"
+ },
+ {
+  "geography_code": "41213",
+  "geography_name": "Port Victoria"
+ },
+ {
+  "geography_code": "41214",
+  "geography_name": "Port Vincent"
+ },
+ {
+  "geography_code": "41215",
+  "geography_name": "Port Wakefield"
+ },
+ {
+  "geography_code": "41216",
+  "geography_name": "Port Willunga"
+ },
+ {
+  "geography_code": "41217",
+  "geography_name": "Porter Lagoon"
+ },
+ {
+  "geography_code": "41218",
+  "geography_name": "Price"
+ },
+ {
+  "geography_code": "41219",
+  "geography_name": "Proof Range"
+ },
+ {
+  "geography_code": "41220",
+  "geography_name": "Prospect (SA)"
+ },
+ {
+  "geography_code": "41221",
+  "geography_name": "Prospect Hill"
+ },
+ {
+  "geography_code": "41222",
+  "geography_name": "Pukatja"
+ },
+ {
+  "geography_code": "41223",
+  "geography_name": "Puntabie"
+ },
+ {
+  "geography_code": "41224",
+  "geography_name": "Punthari"
+ },
+ {
+  "geography_code": "41225",
+  "geography_name": "Punyelroo"
+ },
+ {
+  "geography_code": "41226",
+  "geography_name": "Pureba"
+ },
+ {
+  "geography_code": "41227",
+  "geography_name": "Purnong"
+ },
+ {
+  "geography_code": "41228",
+  "geography_name": "Pyap"
+ },
+ {
+  "geography_code": "41229",
+  "geography_name": "Pyap West"
+ },
+ {
+  "geography_code": "41230",
+  "geography_name": "Pygery"
+ },
+ {
+  "geography_code": "41231",
+  "geography_name": "Qualco"
+ },
+ {
+  "geography_code": "41232",
+  "geography_name": "Queenstown (SA)"
+ },
+ {
+  "geography_code": "41233",
+  "geography_name": "Quorn"
+ },
+ {
+  "geography_code": "41234",
+  "geography_name": "Racecourse Bay"
+ },
+ {
+  "geography_code": "41235",
+  "geography_name": "Ramco"
+ },
+ {
+  "geography_code": "41236",
+  "geography_name": "Ramco Heights"
+ },
+ {
+  "geography_code": "41237",
+  "geography_name": "Ramsay (SA)"
+ },
+ {
+  "geography_code": "41238",
+  "geography_name": "Rapid Bay"
+ },
+ {
+  "geography_code": "41239",
+  "geography_name": "Red Creek"
+ },
+ {
+  "geography_code": "41240",
+  "geography_name": "Redbanks"
+ },
+ {
+  "geography_code": "41241",
+  "geography_name": "Redhill"
+ },
+ {
+  "geography_code": "41242",
+  "geography_name": "Redwood Park"
+ },
+ {
+  "geography_code": "41243",
+  "geography_name": "Reedy Creek (SA)"
+ },
+ {
+  "geography_code": "41244",
+  "geography_name": "Reeves Plains"
+ },
+ {
+  "geography_code": "41245",
+  "geography_name": "Regency Park"
+ },
+ {
+  "geography_code": "41246",
+  "geography_name": "Reid (SA)"
+ },
+ {
+  "geography_code": "41247",
+  "geography_name": "Rendelsham"
+ },
+ {
+  "geography_code": "41248",
+  "geography_name": "Renmark"
+ },
+ {
+  "geography_code": "41249",
+  "geography_name": "Renmark North"
+ },
+ {
+  "geography_code": "41250",
+  "geography_name": "Renmark South"
+ },
+ {
+  "geography_code": "41251",
+  "geography_name": "Renmark West"
+ },
+ {
+  "geography_code": "41252",
+  "geography_name": "Renown Park"
+ },
+ {
+  "geography_code": "41253",
+  "geography_name": "Reynella"
+ },
+ {
+  "geography_code": "41254",
+  "geography_name": "Reynella East"
+ },
+ {
+  "geography_code": "41255",
+  "geography_name": "Rhynie"
+ },
+ {
+  "geography_code": "41256",
+  "geography_name": "Richmond (SA)"
+ },
+ {
+  "geography_code": "41257",
+  "geography_name": "Ridgehaven"
+ },
+ {
+  "geography_code": "41258",
+  "geography_name": "Ridleyton"
+ },
+ {
+  "geography_code": "41259",
+  "geography_name": "Risdon Park"
+ },
+ {
+  "geography_code": "41260",
+  "geography_name": "Risdon Park South"
+ },
+ {
+  "geography_code": "41261",
+  "geography_name": "Riverglades"
+ },
+ {
+  "geography_code": "41262",
+  "geography_name": "Riverglen"
+ },
+ {
+  "geography_code": "41263",
+  "geography_name": "Riverton (SA)"
+ },
+ {
+  "geography_code": "41264",
+  "geography_name": "Robe"
+ },
+ {
+  "geography_code": "41265",
+  "geography_name": "Robertstown"
+ },
+ {
+  "geography_code": "41266",
+  "geography_name": "Rochester (SA)"
+ },
+ {
+  "geography_code": "41267",
+  "geography_name": "Rockleigh"
+ },
+ {
+  "geography_code": "41268",
+  "geography_name": "Rocky Camp"
+ },
+ {
+  "geography_code": "41269",
+  "geography_name": "Rocky Gully (SA)"
+ },
+ {
+  "geography_code": "41270",
+  "geography_name": "Rocky Plain (SA)"
+ },
+ {
+  "geography_code": "41271",
+  "geography_name": "Rocky Point (SA)"
+ },
+ {
+  "geography_code": "41272",
+  "geography_name": "Rogues Point"
+ },
+ {
+  "geography_code": "41273",
+  "geography_name": "Rose Park"
+ },
+ {
+  "geography_code": "41274",
+  "geography_name": "Rosedale (SA)"
+ },
+ {
+  "geography_code": "41275",
+  "geography_name": "Rosetown"
+ },
+ {
+  "geography_code": "41276",
+  "geography_name": "Rosewater"
+ },
+ {
+  "geography_code": "41277",
+  "geography_name": "Roseworthy"
+ },
+ {
+  "geography_code": "41278",
+  "geography_name": "Rosslyn Park"
+ },
+ {
+  "geography_code": "41279",
+  "geography_name": "Rostrevor"
+ },
+ {
+  "geography_code": "41280",
+  "geography_name": "Rowland Flat"
+ },
+ {
+  "geography_code": "41281",
+  "geography_name": "Roxby Downs"
+ },
+ {
+  "geography_code": "41282",
+  "geography_name": "Royal Park"
+ },
+ {
+  "geography_code": "41283",
+  "geography_name": "Royston Park"
+ },
+ {
+  "geography_code": "41284",
+  "geography_name": "Rudall"
+ },
+ {
+  "geography_code": "41285",
+  "geography_name": "SA Remainder"
+ },
+ {
+  "geography_code": "41286",
+  "geography_name": "Saddleworth"
+ },
+ {
+  "geography_code": "41287",
+  "geography_name": "Saints"
+ },
+ {
+  "geography_code": "41288",
+  "geography_name": "Salisbury (SA)"
+ },
+ {
+  "geography_code": "41289",
+  "geography_name": "Salisbury Downs"
+ },
+ {
+  "geography_code": "41290",
+  "geography_name": "Salisbury East"
+ },
+ {
+  "geography_code": "41291",
+  "geography_name": "Salisbury Heights"
+ },
+ {
+  "geography_code": "41292",
+  "geography_name": "Salisbury North"
+ },
+ {
+  "geography_code": "41293",
+  "geography_name": "Salisbury Park"
+ },
+ {
+  "geography_code": "41294",
+  "geography_name": "Salisbury Plain"
+ },
+ {
+  "geography_code": "41295",
+  "geography_name": "Salisbury South"
+ },
+ {
+  "geography_code": "41296",
+  "geography_name": "Salt Creek"
+ },
+ {
+  "geography_code": "41297",
+  "geography_name": "Salter Springs"
+ },
+ {
+  "geography_code": "41298",
+  "geography_name": "Saltia"
+ },
+ {
+  "geography_code": "41299",
+  "geography_name": "Sampson Flat"
+ },
+ {
+  "geography_code": "41300",
+  "geography_name": "Sandalwood"
+ },
+ {
+  "geography_code": "41301",
+  "geography_name": "Sandergrove"
+ },
+ {
+  "geography_code": "41302",
+  "geography_name": "Sanderston"
+ },
+ {
+  "geography_code": "41303",
+  "geography_name": "Sandilands (SA)"
+ },
+ {
+  "geography_code": "41304",
+  "geography_name": "Sandleton"
+ },
+ {
+  "geography_code": "41305",
+  "geography_name": "Sandy Creek (SA)"
+ },
+ {
+  "geography_code": "41306",
+  "geography_name": "Sandy Grove"
+ },
+ {
+  "geography_code": "41307",
+  "geography_name": "Sapphiretown"
+ },
+ {
+  "geography_code": "41308",
+  "geography_name": "Sceale Bay"
+ },
+ {
+  "geography_code": "41309",
+  "geography_name": "Schell Well"
+ },
+ {
+  "geography_code": "41310",
+  "geography_name": "Scott Creek"
+ },
+ {
+  "geography_code": "41311",
+  "geography_name": "Seacliff"
+ },
+ {
+  "geography_code": "41312",
+  "geography_name": "Seacliff Park"
+ },
+ {
+  "geography_code": "41313",
+  "geography_name": "Seacombe Gardens"
+ },
+ {
+  "geography_code": "41314",
+  "geography_name": "Seacombe Heights"
+ },
+ {
+  "geography_code": "41315",
+  "geography_name": "Seaford (SA)"
+ },
+ {
+  "geography_code": "41316",
+  "geography_name": "Seaford Heights"
+ },
+ {
+  "geography_code": "41317",
+  "geography_name": "Seaford Meadows"
+ },
+ {
+  "geography_code": "41318",
+  "geography_name": "Seaford Rise"
+ },
+ {
+  "geography_code": "41319",
+  "geography_name": "Seal Bay"
+ },
+ {
+  "geography_code": "41320",
+  "geography_name": "Seaton (SA)"
+ },
+ {
+  "geography_code": "41321",
+  "geography_name": "Seaview Downs"
+ },
+ {
+  "geography_code": "41322",
+  "geography_name": "Sebastopol (SA)"
+ },
+ {
+  "geography_code": "41323",
+  "geography_name": "Second Valley"
+ },
+ {
+  "geography_code": "41324",
+  "geography_name": "Sedan"
+ },
+ {
+  "geography_code": "41325",
+  "geography_name": "Seddon (SA)"
+ },
+ {
+  "geography_code": "41326",
+  "geography_name": "Sefton Park"
+ },
+ {
+  "geography_code": "41327",
+  "geography_name": "Sellicks Beach"
+ },
+ {
+  "geography_code": "41328",
+  "geography_name": "Sellicks Hill"
+ },
+ {
+  "geography_code": "41329",
+  "geography_name": "Semaphore"
+ },
+ {
+  "geography_code": "41330",
+  "geography_name": "Semaphore Park"
+ },
+ {
+  "geography_code": "41331",
+  "geography_name": "Semaphore South"
+ },
+ {
+  "geography_code": "41332",
+  "geography_name": "Senior"
+ },
+ {
+  "geography_code": "41333",
+  "geography_name": "Seppeltsfield"
+ },
+ {
+  "geography_code": "41334",
+  "geography_name": "Sevenhill"
+ },
+ {
+  "geography_code": "41335",
+  "geography_name": "Shaugh"
+ },
+ {
+  "geography_code": "41336",
+  "geography_name": "Shea-Oak Log"
+ },
+ {
+  "geography_code": "41337",
+  "geography_name": "Sheaoak Flat"
+ },
+ {
+  "geography_code": "41338",
+  "geography_name": "Sheidow Park"
+ },
+ {
+  "geography_code": "41339",
+  "geography_name": "Sheringa"
+ },
+ {
+  "geography_code": "41340",
+  "geography_name": "Sherlock (SA)"
+ },
+ {
+  "geography_code": "41341",
+  "geography_name": "Sherwood (SA)"
+ },
+ {
+  "geography_code": "41342",
+  "geography_name": "Short"
+ },
+ {
+  "geography_code": "41343",
+  "geography_name": "Silverton (SA)"
+ },
+ {
+  "geography_code": "41344",
+  "geography_name": "Skye (SA)"
+ },
+ {
+  "geography_code": "41345",
+  "geography_name": "Sleaford"
+ },
+ {
+  "geography_code": "41346",
+  "geography_name": "Smithfield (SA)"
+ },
+ {
+  "geography_code": "41347",
+  "geography_name": "Smithfield Plains"
+ },
+ {
+  "geography_code": "41348",
+  "geography_name": "Smoky Bay"
+ },
+ {
+  "geography_code": "41349",
+  "geography_name": "Snowtown"
+ },
+ {
+  "geography_code": "41350",
+  "geography_name": "Solomon"
+ },
+ {
+  "geography_code": "41351",
+  "geography_name": "Solomontown"
+ },
+ {
+  "geography_code": "41352",
+  "geography_name": "Somerton Park"
+ },
+ {
+  "geography_code": "41353",
+  "geography_name": "South Brighton"
+ },
+ {
+  "geography_code": "41354",
+  "geography_name": "South Hummocks"
+ },
+ {
+  "geography_code": "41355",
+  "geography_name": "South Kilkerran"
+ },
+ {
+  "geography_code": "41356",
+  "geography_name": "South Plympton"
+ },
+ {
+  "geography_code": "41357",
+  "geography_name": "Southend"
+ },
+ {
+  "geography_code": "41358",
+  "geography_name": "Spalding (SA)"
+ },
+ {
+  "geography_code": "41359",
+  "geography_name": "Spectacle Lake"
+ },
+ {
+  "geography_code": "41360",
+  "geography_name": "Spence (SA)"
+ },
+ {
+  "geography_code": "41361",
+  "geography_name": "Spring Farm (SA)"
+ },
+ {
+  "geography_code": "41362",
+  "geography_name": "Spring Gully (SA)"
+ },
+ {
+  "geography_code": "41363",
+  "geography_name": "Springfield (SA)"
+ },
+ {
+  "geography_code": "41364",
+  "geography_name": "Springton"
+ },
+ {
+  "geography_code": "41365",
+  "geography_name": "Square Mile"
+ },
+ {
+  "geography_code": "41366",
+  "geography_name": "St Agnes (SA)"
+ },
+ {
+  "geography_code": "41367",
+  "geography_name": "St Clair (SA)"
+ },
+ {
+  "geography_code": "41368",
+  "geography_name": "St Georges"
+ },
+ {
+  "geography_code": "41369",
+  "geography_name": "St Ives (SA)"
+ },
+ {
+  "geography_code": "41370",
+  "geography_name": "St Johns"
+ },
+ {
+  "geography_code": "41371",
+  "geography_name": "St Kilda (SA)"
+ },
+ {
+  "geography_code": "41372",
+  "geography_name": "St Kitts"
+ },
+ {
+  "geography_code": "41373",
+  "geography_name": "St Marys (SA)"
+ },
+ {
+  "geography_code": "41374",
+  "geography_name": "St Morris"
+ },
+ {
+  "geography_code": "41375",
+  "geography_name": "St Peters (SA)"
+ },
+ {
+  "geography_code": "41376",
+  "geography_name": "Stanley (SA)"
+ },
+ {
+  "geography_code": "41377",
+  "geography_name": "Stanley Flat"
+ },
+ {
+  "geography_code": "41378",
+  "geography_name": "Stansbury"
+ },
+ {
+  "geography_code": "41379",
+  "geography_name": "Steelton"
+ },
+ {
+  "geography_code": "41380",
+  "geography_name": "Steinfeld"
+ },
+ {
+  "geography_code": "41381",
+  "geography_name": "Stephenston"
+ },
+ {
+  "geography_code": "41382",
+  "geography_name": "Stepney"
+ },
+ {
+  "geography_code": "41383",
+  "geography_name": "Stewart Range"
+ },
+ {
+  "geography_code": "41384",
+  "geography_name": "Stirling (SA)"
+ },
+ {
+  "geography_code": "41385",
+  "geography_name": "Stirling North"
+ },
+ {
+  "geography_code": "41386",
+  "geography_name": "Stockport"
+ },
+ {
+  "geography_code": "41387",
+  "geography_name": "Stockwell"
+ },
+ {
+  "geography_code": "41388",
+  "geography_name": "Stockyard Creek (SA)"
+ },
+ {
+  "geography_code": "41389",
+  "geography_name": "Stockyard Plain"
+ },
+ {
+  "geography_code": "41390",
+  "geography_name": "Stokes Bay"
+ },
+ {
+  "geography_code": "41391",
+  "geography_name": "Stone Hut"
+ },
+ {
+  "geography_code": "41392",
+  "geography_name": "Stone Well"
+ },
+ {
+  "geography_code": "41393",
+  "geography_name": "Stonyfell"
+ },
+ {
+  "geography_code": "41394",
+  "geography_name": "Stow"
+ },
+ {
+  "geography_code": "41395",
+  "geography_name": "Strathalbyn (SA)"
+ },
+ {
+  "geography_code": "41396",
+  "geography_name": "Streaky Bay"
+ },
+ {
+  "geography_code": "41397",
+  "geography_name": "Struan"
+ },
+ {
+  "geography_code": "41398",
+  "geography_name": "Stuart (SA)"
+ },
+ {
+  "geography_code": "41399",
+  "geography_name": "Stuarts Creek"
+ },
+ {
+  "geography_code": "41400",
+  "geography_name": "Stun'Sail Boom"
+ },
+ {
+  "geography_code": "41401",
+  "geography_name": "Sturt (SA)"
+ },
+ {
+  "geography_code": "41402",
+  "geography_name": "Sturt Vale"
+ },
+ {
+  "geography_code": "41403",
+  "geography_name": "Sultana Point"
+ },
+ {
+  "geography_code": "41404",
+  "geography_name": "Summertown"
+ },
+ {
+  "geography_code": "41405",
+  "geography_name": "Sunlands"
+ },
+ {
+  "geography_code": "41406",
+  "geography_name": "Sunnybrae"
+ },
+ {
+  "geography_code": "41407",
+  "geography_name": "Sunnydale"
+ },
+ {
+  "geography_code": "41408",
+  "geography_name": "Sunnyside (SA)"
+ },
+ {
+  "geography_code": "41409",
+  "geography_name": "Sunnyvale"
+ },
+ {
+  "geography_code": "41410",
+  "geography_name": "Surrey Downs"
+ },
+ {
+  "geography_code": "41411",
+  "geography_name": "Sutherlands"
+ },
+ {
+  "geography_code": "41412",
+  "geography_name": "Suttontown"
+ },
+ {
+  "geography_code": "41413",
+  "geography_name": "Swan Reach (SA)"
+ },
+ {
+  "geography_code": "41414",
+  "geography_name": "Swanport"
+ },
+ {
+  "geography_code": "41415",
+  "geography_name": "Swede Flat"
+ },
+ {
+  "geography_code": "41416",
+  "geography_name": "Tailem Bend"
+ },
+ {
+  "geography_code": "41417",
+  "geography_name": "Taldra"
+ },
+ {
+  "geography_code": "41418",
+  "geography_name": "Talia"
+ },
+ {
+  "geography_code": "41419",
+  "geography_name": "Tantanoola"
+ },
+ {
+  "geography_code": "41420",
+  "geography_name": "Tanunda"
+ },
+ {
+  "geography_code": "41421",
+  "geography_name": "Taperoo"
+ },
+ {
+  "geography_code": "41422",
+  "geography_name": "Taplan"
+ },
+ {
+  "geography_code": "41423",
+  "geography_name": "Taratap"
+ },
+ {
+  "geography_code": "41424",
+  "geography_name": "Tarcoola"
+ },
+ {
+  "geography_code": "41425",
+  "geography_name": "Tarcowie"
+ },
+ {
+  "geography_code": "41426",
+  "geography_name": "Tarlee"
+ },
+ {
+  "geography_code": "41427",
+  "geography_name": "Tarnma"
+ },
+ {
+  "geography_code": "41428",
+  "geography_name": "Tarpeena"
+ },
+ {
+  "geography_code": "41429",
+  "geography_name": "Tatachilla"
+ },
+ {
+  "geography_code": "41430",
+  "geography_name": "Taunton (SA)"
+ },
+ {
+  "geography_code": "41431",
+  "geography_name": "Taylorville"
+ },
+ {
+  "geography_code": "41432",
+  "geography_name": "Tea Tree Gully"
+ },
+ {
+  "geography_code": "41433",
+  "geography_name": "Teal Flat"
+ },
+ {
+  "geography_code": "41434",
+  "geography_name": "Telowie"
+ },
+ {
+  "geography_code": "41435",
+  "geography_name": "Templers"
+ },
+ {
+  "geography_code": "41436",
+  "geography_name": "Tennyson (SA)"
+ },
+ {
+  "geography_code": "41437",
+  "geography_name": "Tepko"
+ },
+ {
+  "geography_code": "41438",
+  "geography_name": "Teringie"
+ },
+ {
+  "geography_code": "41439",
+  "geography_name": "Terowie"
+ },
+ {
+  "geography_code": "41440",
+  "geography_name": "The Gap (SA)"
+ },
+ {
+  "geography_code": "41441",
+  "geography_name": "The Pines (SA)"
+ },
+ {
+  "geography_code": "41442",
+  "geography_name": "The Range (SA)"
+ },
+ {
+  "geography_code": "41443",
+  "geography_name": "Thebarton"
+ },
+ {
+  "geography_code": "41444",
+  "geography_name": "Thevenard"
+ },
+ {
+  "geography_code": "41445",
+  "geography_name": "Thomas Plain"
+ },
+ {
+  "geography_code": "41446",
+  "geography_name": "Thompson Beach"
+ },
+ {
+  "geography_code": "41447",
+  "geography_name": "Thorngate"
+ },
+ {
+  "geography_code": "41448",
+  "geography_name": "Thornlea"
+ },
+ {
+  "geography_code": "41449",
+  "geography_name": "Thrington"
+ },
+ {
+  "geography_code": "41450",
+  "geography_name": "Tiatukia"
+ },
+ {
+  "geography_code": "41451",
+  "geography_name": "Tickera"
+ },
+ {
+  "geography_code": "41452",
+  "geography_name": "Tiddy Widdy Beach"
+ },
+ {
+  "geography_code": "41453",
+  "geography_name": "Tieyon"
+ },
+ {
+  "geography_code": "41454",
+  "geography_name": "Tilley Swamp"
+ },
+ {
+  "geography_code": "41455",
+  "geography_name": "Tintinara"
+ },
+ {
+  "geography_code": "41456",
+  "geography_name": "Tolderol"
+ },
+ {
+  "geography_code": "41457",
+  "geography_name": "Tonsley"
+ },
+ {
+  "geography_code": "41458",
+  "geography_name": "Tooligie"
+ },
+ {
+  "geography_code": "41459",
+  "geography_name": "Tooperang"
+ },
+ {
+  "geography_code": "41460",
+  "geography_name": "Toora (SA)"
+ },
+ {
+  "geography_code": "41461",
+  "geography_name": "Toorak Gardens"
+ },
+ {
+  "geography_code": "41462",
+  "geography_name": "Tootenilla"
+ },
+ {
+  "geography_code": "41463",
+  "geography_name": "Torrens Island"
+ },
+ {
+  "geography_code": "41464",
+  "geography_name": "Torrens Park"
+ },
+ {
+  "geography_code": "41465",
+  "geography_name": "Torrens Vale"
+ },
+ {
+  "geography_code": "41466",
+  "geography_name": "Torrensville"
+ },
+ {
+  "geography_code": "41467",
+  "geography_name": "Tothill Belt"
+ },
+ {
+  "geography_code": "41468",
+  "geography_name": "Tothill Creek"
+ },
+ {
+  "geography_code": "41469",
+  "geography_name": "Totness"
+ },
+ {
+  "geography_code": "41470",
+  "geography_name": "Towitta"
+ },
+ {
+  "geography_code": "41471",
+  "geography_name": "Tranmere (SA)"
+ },
+ {
+  "geography_code": "41472",
+  "geography_name": "Trinity Gardens"
+ },
+ {
+  "geography_code": "41473",
+  "geography_name": "Trott Park"
+ },
+ {
+  "geography_code": "41474",
+  "geography_name": "Truro"
+ },
+ {
+  "geography_code": "41475",
+  "geography_name": "Tulka"
+ },
+ {
+  "geography_code": "41476",
+  "geography_name": "Tumby Bay"
+ },
+ {
+  "geography_code": "41477",
+  "geography_name": "Tungkillo"
+ },
+ {
+  "geography_code": "41478",
+  "geography_name": "Tunkalilla"
+ },
+ {
+  "geography_code": "41479",
+  "geography_name": "Tusmore"
+ },
+ {
+  "geography_code": "41480",
+  "geography_name": "Two Wells"
+ },
+ {
+  "geography_code": "41481",
+  "geography_name": "Tyringa"
+ },
+ {
+  "geography_code": "41482",
+  "geography_name": "Ucolta"
+ },
+ {
+  "geography_code": "41483",
+  "geography_name": "Uley"
+ },
+ {
+  "geography_code": "41484",
+  "geography_name": "Uleybury"
+ },
+ {
+  "geography_code": "41485",
+  "geography_name": "Ulooloo"
+ },
+ {
+  "geography_code": "41486",
+  "geography_name": "Ulyerra"
+ },
+ {
+  "geography_code": "41487",
+  "geography_name": "Undalya"
+ },
+ {
+  "geography_code": "41488",
+  "geography_name": "Underdale"
+ },
+ {
+  "geography_code": "41489",
+  "geography_name": "Ungarra"
+ },
+ {
+  "geography_code": "41490",
+  "geography_name": "Unley"
+ },
+ {
+  "geography_code": "41491",
+  "geography_name": "Unley Park"
+ },
+ {
+  "geography_code": "41492",
+  "geography_name": "Uno"
+ },
+ {
+  "geography_code": "41493",
+  "geography_name": "Upper Hermitage"
+ },
+ {
+  "geography_code": "41494",
+  "geography_name": "Upper Sturt"
+ },
+ {
+  "geography_code": "41495",
+  "geography_name": "Uraidla"
+ },
+ {
+  "geography_code": "41496",
+  "geography_name": "Urania"
+ },
+ {
+  "geography_code": "41497",
+  "geography_name": "Urrbrae"
+ },
+ {
+  "geography_code": "41498",
+  "geography_name": "Uworra"
+ },
+ {
+  "geography_code": "41499",
+  "geography_name": "Vale Park"
+ },
+ {
+  "geography_code": "41500",
+  "geography_name": "Valley View"
+ },
+ {
+  "geography_code": "41501",
+  "geography_name": "Veitch"
+ },
+ {
+  "geography_code": "41502",
+  "geography_name": "Venus Bay (SA)"
+ },
+ {
+  "geography_code": "41503",
+  "geography_name": "Verdun"
+ },
+ {
+  "geography_code": "41504",
+  "geography_name": "Verran"
+ },
+ {
+  "geography_code": "41505",
+  "geography_name": "Victor Harbor"
+ },
+ {
+  "geography_code": "41506",
+  "geography_name": "Vine Vale"
+ },
+ {
+  "geography_code": "41507",
+  "geography_name": "Virginia (SA)"
+ },
+ {
+  "geography_code": "41508",
+  "geography_name": "Vista"
+ },
+ {
+  "geography_code": "41509",
+  "geography_name": "Vivonne Bay"
+ },
+ {
+  "geography_code": "41510",
+  "geography_name": "Waddikee"
+ },
+ {
+  "geography_code": "41511",
+  "geography_name": "Waikerie"
+ },
+ {
+  "geography_code": "41512",
+  "geography_name": "Waitpinga"
+ },
+ {
+  "geography_code": "41513",
+  "geography_name": "Walker Flat"
+ },
+ {
+  "geography_code": "41514",
+  "geography_name": "Walkerville (SA)"
+ },
+ {
+  "geography_code": "41515",
+  "geography_name": "Walkley Heights"
+ },
+ {
+  "geography_code": "41516",
+  "geography_name": "Wall Flat"
+ },
+ {
+  "geography_code": "41517",
+  "geography_name": "Wallala"
+ },
+ {
+  "geography_code": "41518",
+  "geography_name": "Wallaroo (SA)"
+ },
+ {
+  "geography_code": "41519",
+  "geography_name": "Wallaroo Mines"
+ },
+ {
+  "geography_code": "41520",
+  "geography_name": "Wallaroo Plain"
+ },
+ {
+  "geography_code": "41521",
+  "geography_name": "Walloway"
+ },
+ {
+  "geography_code": "41522",
+  "geography_name": "Waltowa"
+ },
+ {
+  "geography_code": "41523",
+  "geography_name": "Wami Kata"
+ },
+ {
+  "geography_code": "41524",
+  "geography_name": "Wanbi"
+ },
+ {
+  "geography_code": "41525",
+  "geography_name": "Wandana (SA)"
+ },
+ {
+  "geography_code": "41526",
+  "geography_name": "Wandearah East"
+ },
+ {
+  "geography_code": "41527",
+  "geography_name": "Wandearah West"
+ },
+ {
+  "geography_code": "41528",
+  "geography_name": "Wandilo"
+ },
+ {
+  "geography_code": "41529",
+  "geography_name": "Wangary"
+ },
+ {
+  "geography_code": "41530",
+  "geography_name": "Wangolina"
+ },
+ {
+  "geography_code": "41531",
+  "geography_name": "Wanilla"
+ },
+ {
+  "geography_code": "41532",
+  "geography_name": "Wappilka"
+ },
+ {
+  "geography_code": "41533",
+  "geography_name": "Warburto"
+ },
+ {
+  "geography_code": "41534",
+  "geography_name": "Ward Belt"
+ },
+ {
+  "geography_code": "41535",
+  "geography_name": "Ward Hill"
+ },
+ {
+  "geography_code": "41536",
+  "geography_name": "Warnertown"
+ },
+ {
+  "geography_code": "41537",
+  "geography_name": "Warnes"
+ },
+ {
+  "geography_code": "41538",
+  "geography_name": "Warooka"
+ },
+ {
+  "geography_code": "41539",
+  "geography_name": "Warradale"
+ },
+ {
+  "geography_code": "41540",
+  "geography_name": "Warramboo"
+ },
+ {
+  "geography_code": "41541",
+  "geography_name": "Washpool (SA)"
+ },
+ {
+  "geography_code": "41542",
+  "geography_name": "Wasleys"
+ },
+ {
+  "geography_code": "41543",
+  "geography_name": "Watarru"
+ },
+ {
+  "geography_code": "41544",
+  "geography_name": "Watchman"
+ },
+ {
+  "geography_code": "41545",
+  "geography_name": "Waterfall Gully"
+ },
+ {
+  "geography_code": "41546",
+  "geography_name": "Waterloo (SA)"
+ },
+ {
+  "geography_code": "41547",
+  "geography_name": "Waterloo Corner"
+ },
+ {
+  "geography_code": "41548",
+  "geography_name": "Watervale"
+ },
+ {
+  "geography_code": "41549",
+  "geography_name": "Watraba"
+ },
+ {
+  "geography_code": "41550",
+  "geography_name": "Wattle Flat (SA)"
+ },
+ {
+  "geography_code": "41551",
+  "geography_name": "Wattle Park"
+ },
+ {
+  "geography_code": "41552",
+  "geography_name": "Wattle Range"
+ },
+ {
+  "geography_code": "41553",
+  "geography_name": "Wattle Range East"
+ },
+ {
+  "geography_code": "41554",
+  "geography_name": "Wauraltee"
+ },
+ {
+  "geography_code": "41555",
+  "geography_name": "Wayville"
+ },
+ {
+  "geography_code": "41556",
+  "geography_name": "Webb Beach"
+ },
+ {
+  "geography_code": "41557",
+  "geography_name": "Wedge Island (SA)"
+ },
+ {
+  "geography_code": "41558",
+  "geography_name": "Weeroona Island"
+ },
+ {
+  "geography_code": "41559",
+  "geography_name": "Weetulta"
+ },
+ {
+  "geography_code": "41560",
+  "geography_name": "Welland"
+ },
+ {
+  "geography_code": "41561",
+  "geography_name": "Wellington (SA)"
+ },
+ {
+  "geography_code": "41562",
+  "geography_name": "Wellington East"
+ },
+ {
+  "geography_code": "41563",
+  "geography_name": "Wepar"
+ },
+ {
+  "geography_code": "41564",
+  "geography_name": "West Beach (SA)"
+ },
+ {
+  "geography_code": "41565",
+  "geography_name": "West Bundaleer"
+ },
+ {
+  "geography_code": "41566",
+  "geography_name": "West Croydon"
+ },
+ {
+  "geography_code": "41567",
+  "geography_name": "West Hindmarsh"
+ },
+ {
+  "geography_code": "41568",
+  "geography_name": "West Lakes"
+ },
+ {
+  "geography_code": "41569",
+  "geography_name": "West Lakes Shore"
+ },
+ {
+  "geography_code": "41570",
+  "geography_name": "West Range"
+ },
+ {
+  "geography_code": "41571",
+  "geography_name": "West Richmond"
+ },
+ {
+  "geography_code": "41572",
+  "geography_name": "Westall"
+ },
+ {
+  "geography_code": "41573",
+  "geography_name": "Westbourne Park"
+ },
+ {
+  "geography_code": "41574",
+  "geography_name": "Western Flat"
+ },
+ {
+  "geography_code": "41575",
+  "geography_name": "Western River"
+ },
+ {
+  "geography_code": "41576",
+  "geography_name": "Wharminda"
+ },
+ {
+  "geography_code": "41577",
+  "geography_name": "White Hill"
+ },
+ {
+  "geography_code": "41578",
+  "geography_name": "White Hut"
+ },
+ {
+  "geography_code": "41579",
+  "geography_name": "White Sands"
+ },
+ {
+  "geography_code": "41580",
+  "geography_name": "White Well Corner"
+ },
+ {
+  "geography_code": "41581",
+  "geography_name": "Whites Flat"
+ },
+ {
+  "geography_code": "41582",
+  "geography_name": "Whites River"
+ },
+ {
+  "geography_code": "41583",
+  "geography_name": "Whites Valley"
+ },
+ {
+  "geography_code": "41584",
+  "geography_name": "Whitwarta"
+ },
+ {
+  "geography_code": "41585",
+  "geography_name": "Whyalla"
+ },
+ {
+  "geography_code": "41586",
+  "geography_name": "Whyalla Barson"
+ },
+ {
+  "geography_code": "41587",
+  "geography_name": "Whyalla Jenkins"
+ },
+ {
+  "geography_code": "41588",
+  "geography_name": "Whyalla Norrie"
+ },
+ {
+  "geography_code": "41589",
+  "geography_name": "Whyalla Playford"
+ },
+ {
+  "geography_code": "41590",
+  "geography_name": "Whyalla Stuart"
+ },
+ {
+  "geography_code": "41591",
+  "geography_name": "Whyte Yarcowie"
+ },
+ {
+  "geography_code": "41592",
+  "geography_name": "Wigley Flat"
+ },
+ {
+  "geography_code": "41593",
+  "geography_name": "Wilcherry"
+ },
+ {
+  "geography_code": "41594",
+  "geography_name": "Wild Dog Valley (SA)"
+ },
+ {
+  "geography_code": "41595",
+  "geography_name": "Wild Horse Plains"
+ },
+ {
+  "geography_code": "41596",
+  "geography_name": "Wilgena"
+ },
+ {
+  "geography_code": "41597",
+  "geography_name": "Willalo"
+ },
+ {
+  "geography_code": "41598",
+  "geography_name": "Willalooka"
+ },
+ {
+  "geography_code": "41599",
+  "geography_name": "Willamulka"
+ },
+ {
+  "geography_code": "41600",
+  "geography_name": "Willaston"
+ },
+ {
+  "geography_code": "41601",
+  "geography_name": "William Creek"
+ },
+ {
+  "geography_code": "41602",
+  "geography_name": "Williamstown (SA)"
+ },
+ {
+  "geography_code": "41603",
+  "geography_name": "Willippa"
+ },
+ {
+  "geography_code": "41604",
+  "geography_name": "Willochra"
+ },
+ {
+  "geography_code": "41605",
+  "geography_name": "Willoughby (SA)"
+ },
+ {
+  "geography_code": "41606",
+  "geography_name": "Willow Creek"
+ },
+ {
+  "geography_code": "41607",
+  "geography_name": "Willow Springs"
+ },
+ {
+  "geography_code": "41608",
+  "geography_name": "Willowie"
+ },
+ {
+  "geography_code": "41609",
+  "geography_name": "Willson River"
+ },
+ {
+  "geography_code": "41610",
+  "geography_name": "Willunga"
+ },
+ {
+  "geography_code": "41611",
+  "geography_name": "Willunga Hill"
+ },
+ {
+  "geography_code": "41612",
+  "geography_name": "Willunga South"
+ },
+ {
+  "geography_code": "41613",
+  "geography_name": "Willyaroo"
+ },
+ {
+  "geography_code": "41614",
+  "geography_name": "Wilmington"
+ },
+ {
+  "geography_code": "41615",
+  "geography_name": "Windsor (SA)"
+ },
+ {
+  "geography_code": "41616",
+  "geography_name": "Windsor Gardens"
+ },
+ {
+  "geography_code": "41617",
+  "geography_name": "Wingfield"
+ },
+ {
+  "geography_code": "41618",
+  "geography_name": "Winkie"
+ },
+ {
+  "geography_code": "41619",
+  "geography_name": "Winninowie"
+ },
+ {
+  "geography_code": "41620",
+  "geography_name": "Winulta"
+ },
+ {
+  "geography_code": "41621",
+  "geography_name": "Wirrabara"
+ },
+ {
+  "geography_code": "41622",
+  "geography_name": "Wirraminna"
+ },
+ {
+  "geography_code": "41623",
+  "geography_name": "Wirrega"
+ },
+ {
+  "geography_code": "41624",
+  "geography_name": "Wirrina Cove"
+ },
+ {
+  "geography_code": "41625",
+  "geography_name": "Wirrulla"
+ },
+ {
+  "geography_code": "41626",
+  "geography_name": "Wisanger"
+ },
+ {
+  "geography_code": "41627",
+  "geography_name": "Wistow"
+ },
+ {
+  "geography_code": "41628",
+  "geography_name": "Witera"
+ },
+ {
+  "geography_code": "41629",
+  "geography_name": "Wokurna"
+ },
+ {
+  "geography_code": "41630",
+  "geography_name": "Wolseley"
+ },
+ {
+  "geography_code": "41631",
+  "geography_name": "Wombats Rest"
+ },
+ {
+  "geography_code": "41632",
+  "geography_name": "Wongulla"
+ },
+ {
+  "geography_code": "41633",
+  "geography_name": "Wongyarra"
+ },
+ {
+  "geography_code": "41634",
+  "geography_name": "Wonna"
+ },
+ {
+  "geography_code": "41635",
+  "geography_name": "Wonuarra"
+ },
+ {
+  "geography_code": "41636",
+  "geography_name": "Woodchester"
+ },
+ {
+  "geography_code": "41637",
+  "geography_name": "Woodcroft (SA)"
+ },
+ {
+  "geography_code": "41638",
+  "geography_name": "Woodforde"
+ },
+ {
+  "geography_code": "41639",
+  "geography_name": "Woodlane"
+ },
+ {
+  "geography_code": "41640",
+  "geography_name": "Woodleigh (SA)"
+ },
+ {
+  "geography_code": "41641",
+  "geography_name": "Woods Point (SA)"
+ },
+ {
+  "geography_code": "41642",
+  "geography_name": "Woodside (SA)"
+ },
+ {
+  "geography_code": "41643",
+  "geography_name": "Woodville (SA)"
+ },
+ {
+  "geography_code": "41644",
+  "geography_name": "Woodville Gardens"
+ },
+ {
+  "geography_code": "41645",
+  "geography_name": "Woodville North"
+ },
+ {
+  "geography_code": "41646",
+  "geography_name": "Woodville Park"
+ },
+ {
+  "geography_code": "41647",
+  "geography_name": "Woodville South"
+ },
+ {
+  "geography_code": "41648",
+  "geography_name": "Woodville West"
+ },
+ {
+  "geography_code": "41649",
+  "geography_name": "Wool Bay"
+ },
+ {
+  "geography_code": "41650",
+  "geography_name": "Woolpunda"
+ },
+ {
+  "geography_code": "41651",
+  "geography_name": "Woolshed Flat (SA)"
+ },
+ {
+  "geography_code": "41652",
+  "geography_name": "Woolsheds"
+ },
+ {
+  "geography_code": "41653",
+  "geography_name": "Woolumbool"
+ },
+ {
+  "geography_code": "41654",
+  "geography_name": "Woolundunga"
+ },
+ {
+  "geography_code": "41655",
+  "geography_name": "Woomera"
+ },
+ {
+  "geography_code": "41656",
+  "geography_name": "Worlds End (SA)"
+ },
+ {
+  "geography_code": "41657",
+  "geography_name": "Worrolong"
+ },
+ {
+  "geography_code": "41658",
+  "geography_name": "Wrattonbully"
+ },
+ {
+  "geography_code": "41659",
+  "geography_name": "Wudinna"
+ },
+ {
+  "geography_code": "41660",
+  "geography_name": "Wunkar"
+ },
+ {
+  "geography_code": "41661",
+  "geography_name": "Wye"
+ },
+ {
+  "geography_code": "41662",
+  "geography_name": "Wynarka"
+ },
+ {
+  "geography_code": "41663",
+  "geography_name": "Wynn Vale"
+ },
+ {
+  "geography_code": "41664",
+  "geography_name": "Wyomi"
+ },
+ {
+  "geography_code": "41665",
+  "geography_name": "Yacka"
+ },
+ {
+  "geography_code": "41666",
+  "geography_name": "Yadlamalka"
+ },
+ {
+  "geography_code": "41667",
+  "geography_name": "Yahl"
+ },
+ {
+  "geography_code": "41668",
+  "geography_name": "Yalanda"
+ },
+ {
+  "geography_code": "41669",
+  "geography_name": "Yalata"
+ },
+ {
+  "geography_code": "41670",
+  "geography_name": "Yallunda Flat"
+ },
+ {
+  "geography_code": "41671",
+  "geography_name": "Yalpara"
+ },
+ {
+  "geography_code": "41672",
+  "geography_name": "Yamba (SA)"
+ },
+ {
+  "geography_code": "41673",
+  "geography_name": "Yanerbie"
+ },
+ {
+  "geography_code": "41674",
+  "geography_name": "Yaninee"
+ },
+ {
+  "geography_code": "41675",
+  "geography_name": "Yankalilla"
+ },
+ {
+  "geography_code": "41676",
+  "geography_name": "Yantanabie"
+ },
+ {
+  "geography_code": "41677",
+  "geography_name": "Yanyarrie"
+ },
+ {
+  "geography_code": "41678",
+  "geography_name": "Yardea"
+ },
+ {
+  "geography_code": "41679",
+  "geography_name": "Yarrah"
+ },
+ {
+  "geography_code": "41680",
+  "geography_name": "Yatala Vale"
+ },
+ {
+  "geography_code": "41681",
+  "geography_name": "Yatina"
+ },
+ {
+  "geography_code": "41682",
+  "geography_name": "Yattalunga (SA)"
+ },
+ {
+  "geography_code": "41683",
+  "geography_name": "Yeelanna"
+ },
+ {
+  "geography_code": "41684",
+  "geography_name": "Yellabinna"
+ },
+ {
+  "geography_code": "41685",
+  "geography_name": "Yelta (SA)"
+ },
+ {
+  "geography_code": "41686",
+  "geography_name": "Yinkanie"
+ },
+ {
+  "geography_code": "41687",
+  "geography_name": "Yongala"
+ },
+ {
+  "geography_code": "41688",
+  "geography_name": "Yorke Valley"
+ },
+ {
+  "geography_code": "41689",
+  "geography_name": "Yorketown"
+ },
+ {
+  "geography_code": "41690",
+  "geography_name": "Younghusband"
+ },
+ {
+  "geography_code": "41691",
+  "geography_name": "Younghusband Holdings"
+ },
+ {
+  "geography_code": "41692",
+  "geography_name": "Yumali"
+ },
+ {
+  "geography_code": "41693",
+  "geography_name": "Yumbarra"
+ },
+ {
+  "geography_code": "41694",
+  "geography_name": "Yundi"
+ },
+ {
+  "geography_code": "41695",
+  "geography_name": "Yunta"
+ },
+ {
+  "geography_code": "41696",
+  "geography_name": "Zadows Landing"
+ }
+]
