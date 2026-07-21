@@ -1,0 +1,263 @@
+{
+  "generated_at": "2026-07-21T10:01:33.733Z",
+  "scope": "Victorian Property Sales Report (VPSR) suburb-level locality set — union across median_house, median_unit, median_land, Q4 2025",
+  "total_distinct_localities": 785,
+  "direct_sal_mappings": 579,
+  "alias_mappings_asgs_disambiguation_suffix": 167,
+  "ambiguous_count": 0,
+  "unresolved_count": 39,
+  "cross_state_contamination": 0,
+  "per_file_counts": {
+    "detached_house": 772,
+    "apartment_unit": 444,
+    "residential_land": 213
+  },
+  "mapping_rate_pct": 95,
+  "validation": {
+    "direct_sal_mappings_count": 579,
+    "alias_mappings_count": 167,
+    "correspondence_derived_count": 0,
+    "ambiguous_count": 0,
+    "unresolved_count": 39,
+    "duplicate_mappings": 0,
+    "cross_state_contamination": 0,
+    "every_published_row_has_geography_confidence": true
+  },
+  "method_note": "Direct + single deterministic alias rule (ASGS state-disambiguation-suffix strip, see warehouse/config/vic_locality_aliases.yml). No fuzzy matching used. Zero ambiguous cases: the alias rule only resolves when exactly one ASGS SAL candidate remains after stripping.",
+  "unresolved_localities": [
+    {
+      "locality_raw": "ALTONA EAST",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "ASCOT (GREATER BENDIGO)",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "BALCOMBE",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "BELLFIELD (BANYULE)",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "CHELTENHAM EAST",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "CHELTENHAM NORTH",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "CLAYTON NORTH",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "COBURG EAST",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "COONANS HILL",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "COWES WEST",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "GARDEN CITY",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "GOLDEN POINT (BALLARAT)",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "GREEN LAKE",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "HASTINGS WEST",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "HILLSIDE (GREATER MELBOURNE)",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "HILLSIDE (MELTON)",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "JEERALANG NORTH",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "KANGAROO GROUND SOUTH",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "KEW NORTH",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "KILLARA (WODONGA)",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "LARA LAKE",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "LAVERTON SOUTH",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "MERINDA PARK",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "NEWTOWN (GREATER GEELONG)",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "OSBORNE",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "PATTERSON GARDENS",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "ROSEBUD SOUTH",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "SANCTUARY LAKES",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "STUDFIELD",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "SUNNYCLIFFS",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "SYNDAL",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "THOMSON (GREATER GEELONG)",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "WALLAN EAST",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "WENDOUREE WEST",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "WESTALL",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "WESTGARTH",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "WOOLAMAI WATERS",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "FISHERMANS BEND",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    },
+    {
+      "locality_raw": "JOLIMONT",
+      "reason": "no_asgs_sal_match",
+      "candidate_count": 0,
+      "candidates": ""
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-07-21T10:14:26.974Z",
+  "files": [
+    {
+      "file": "moving_annual_rent_suburb_sep2025.xlsx",
+      "bytes": 1135709,
+      "sha256": "817c5b8ea7985651af84519149276ef0281f8b6cfa4bcada39ea8aa87ed2952e"
+    },
+    {
+      "file": "quarterly_median_rent_lga_sep2025.xlsx",
+      "bytes": 674773,
+      "sha256": "b8e96347494f09fea2a2ace55997fd34c9398f8509cb3450d65444aebfaaa837"
+    }
+  ]
+}

@@ -1,0 +1,322 @@
+[
+ {
+  "geography_code": "20110",
+  "geography_name": "Alpine"
+ },
+ {
+  "geography_code": "20260",
+  "geography_name": "Ararat"
+ },
+ {
+  "geography_code": "20570",
+  "geography_name": "Ballarat"
+ },
+ {
+  "geography_code": "20660",
+  "geography_name": "Banyule"
+ },
+ {
+  "geography_code": "20740",
+  "geography_name": "Bass Coast"
+ },
+ {
+  "geography_code": "20830",
+  "geography_name": "Baw Baw"
+ },
+ {
+  "geography_code": "20910",
+  "geography_name": "Bayside (Vic.)"
+ },
+ {
+  "geography_code": "21010",
+  "geography_name": "Benalla"
+ },
+ {
+  "geography_code": "21110",
+  "geography_name": "Boroondara"
+ },
+ {
+  "geography_code": "21180",
+  "geography_name": "Brimbank"
+ },
+ {
+  "geography_code": "21270",
+  "geography_name": "Buloke"
+ },
+ {
+  "geography_code": "21370",
+  "geography_name": "Campaspe"
+ },
+ {
+  "geography_code": "21450",
+  "geography_name": "Cardinia"
+ },
+ {
+  "geography_code": "21610",
+  "geography_name": "Casey"
+ },
+ {
+  "geography_code": "21670",
+  "geography_name": "Central Goldfields"
+ },
+ {
+  "geography_code": "21750",
+  "geography_name": "Colac Otway"
+ },
+ {
+  "geography_code": "21830",
+  "geography_name": "Corangamite"
+ },
+ {
+  "geography_code": "21890",
+  "geography_name": "Darebin"
+ },
+ {
+  "geography_code": "22110",
+  "geography_name": "East Gippsland"
+ },
+ {
+  "geography_code": "22170",
+  "geography_name": "Frankston"
+ },
+ {
+  "geography_code": "22250",
+  "geography_name": "Gannawarra"
+ },
+ {
+  "geography_code": "22310",
+  "geography_name": "Glen Eira"
+ },
+ {
+  "geography_code": "22410",
+  "geography_name": "Glenelg"
+ },
+ {
+  "geography_code": "22490",
+  "geography_name": "Golden Plains"
+ },
+ {
+  "geography_code": "22620",
+  "geography_name": "Greater Bendigo"
+ },
+ {
+  "geography_code": "22670",
+  "geography_name": "Greater Dandenong"
+ },
+ {
+  "geography_code": "22750",
+  "geography_name": "Greater Geelong"
+ },
+ {
+  "geography_code": "22830",
+  "geography_name": "Greater Shepparton"
+ },
+ {
+  "geography_code": "22910",
+  "geography_name": "Hepburn"
+ },
+ {
+  "geography_code": "22980",
+  "geography_name": "Hindmarsh"
+ },
+ {
+  "geography_code": "23110",
+  "geography_name": "Hobsons Bay"
+ },
+ {
+  "geography_code": "23190",
+  "geography_name": "Horsham"
+ },
+ {
+  "geography_code": "23270",
+  "geography_name": "Hume"
+ },
+ {
+  "geography_code": "23350",
+  "geography_name": "Indigo"
+ },
+ {
+  "geography_code": "23430",
+  "geography_name": "Kingston (Vic.)"
+ },
+ {
+  "geography_code": "23670",
+  "geography_name": "Knox"
+ },
+ {
+  "geography_code": "23810",
+  "geography_name": "Latrobe (Vic.)"
+ },
+ {
+  "geography_code": "23940",
+  "geography_name": "Loddon"
+ },
+ {
+  "geography_code": "24130",
+  "geography_name": "Macedon Ranges"
+ },
+ {
+  "geography_code": "24210",
+  "geography_name": "Manningham"
+ },
+ {
+  "geography_code": "24250",
+  "geography_name": "Mansfield"
+ },
+ {
+  "geography_code": "24330",
+  "geography_name": "Maribyrnong"
+ },
+ {
+  "geography_code": "24410",
+  "geography_name": "Maroondah"
+ },
+ {
+  "geography_code": "24600",
+  "geography_name": "Melbourne"
+ },
+ {
+  "geography_code": "24650",
+  "geography_name": "Melton"
+ },
+ {
+  "geography_code": "24780",
+  "geography_name": "Mildura"
+ },
+ {
+  "geography_code": "24850",
+  "geography_name": "Mitchell"
+ },
+ {
+  "geography_code": "24900",
+  "geography_name": "Moira"
+ },
+ {
+  "geography_code": "24970",
+  "geography_name": "Monash"
+ },
+ {
+  "geography_code": "25060",
+  "geography_name": "Moonee Valley"
+ },
+ {
+  "geography_code": "25150",
+  "geography_name": "Moorabool"
+ },
+ {
+  "geography_code": "25250",
+  "geography_name": "Moreland"
+ },
+ {
+  "geography_code": "25340",
+  "geography_name": "Mornington Peninsula"
+ },
+ {
+  "geography_code": "25430",
+  "geography_name": "Mount Alexander"
+ },
+ {
+  "geography_code": "25490",
+  "geography_name": "Moyne"
+ },
+ {
+  "geography_code": "25620",
+  "geography_name": "Murrindindi"
+ },
+ {
+  "geography_code": "25710",
+  "geography_name": "Nillumbik"
+ },
+ {
+  "geography_code": "25810",
+  "geography_name": "Northern Grampians"
+ },
+ {
+  "geography_code": "25900",
+  "geography_name": "Port Phillip"
+ },
+ {
+  "geography_code": "25990",
+  "geography_name": "Pyrenees"
+ },
+ {
+  "geography_code": "26080",
+  "geography_name": "Queenscliffe"
+ },
+ {
+  "geography_code": "26170",
+  "geography_name": "South Gippsland"
+ },
+ {
+  "geography_code": "26260",
+  "geography_name": "Southern Grampians"
+ },
+ {
+  "geography_code": "26350",
+  "geography_name": "Stonnington"
+ },
+ {
+  "geography_code": "26430",
+  "geography_name": "Strathbogie"
+ },
+ {
+  "geography_code": "26490",
+  "geography_name": "Surf Coast"
+ },
+ {
+  "geography_code": "26610",
+  "geography_name": "Swan Hill"
+ },
+ {
+  "geography_code": "26670",
+  "geography_name": "Towong"
+ },
+ {
+  "geography_code": "26700",
+  "geography_name": "Wangaratta"
+ },
+ {
+  "geography_code": "26730",
+  "geography_name": "Warrnambool"
+ },
+ {
+  "geography_code": "26810",
+  "geography_name": "Wellington"
+ },
+ {
+  "geography_code": "26890",
+  "geography_name": "West Wimmera"
+ },
+ {
+  "geography_code": "26980",
+  "geography_name": "Whitehorse"
+ },
+ {
+  "geography_code": "27070",
+  "geography_name": "Whittlesea"
+ },
+ {
+  "geography_code": "27170",
+  "geography_name": "Wodonga"
+ },
+ {
+  "geography_code": "27260",
+  "geography_name": "Wyndham"
+ },
+ {
+  "geography_code": "27350",
+  "geography_name": "Yarra"
+ },
+ {
+  "geography_code": "27450",
+  "geography_name": "Yarra Ranges"
+ },
+ {
+  "geography_code": "27630",
+  "geography_name": "Yarriambiack"
+ },
+ {
+  "geography_code": "29399",
+  "geography_name": "Unincorporated Vic"
+ }
+]

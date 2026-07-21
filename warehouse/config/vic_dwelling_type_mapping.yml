@@ -1,0 +1,42 @@
+# Victoria dwelling-type mapping (Sprint 10, Phase 5)
+#
+# VPSR (Victorian Property Sales Report) publishes three separate,
+# parallel products, each pre-aggregated (median by suburb by quarter) with
+# no per-transaction evidence fields. Unlike NSW PSI, there is no strata
+# lot / unit number / nature-of-property field to further split a category
+# — so each VPSR product maps 1:1 to exactly one canonical dwelling type,
+# with the remaining canonical types (townhouse_villa_semidetached,
+# other_residential, unknown_residential) having NO VIC VPSR coverage this
+# sprint (documented gap, not invented).
+
+mapping:
+  vic_vpsr_median_house:
+    canonical_dwelling_type: detached_house
+    source_product: "VPSR Median House by Suburb"
+
+  vic_vpsr_median_unit:
+    canonical_dwelling_type: apartment_unit
+    source_product: "VPSR Median Unit by Suburb"
+    note: >
+      VG's "unit" category includes both flats/apartments and attached
+      townhouses/villas in a single figure — VPSR has no further split.
+      Mapped to apartment_unit as the closer of the two canonical types
+      (matches typical strata/attached-dwelling composition of VG's "unit"
+      class), with the coverage limitation documented in
+      VIC_DWELLING_TYPE_CLASSIFICATION.md. This is a documented modelling
+      choice, not an invented classification.
+
+  vic_vpsr_median_land:
+    canonical_dwelling_type: residential_land
+    source_product: "VPSR Median Vacant Land by Suburb"
+
+unmapped_canonical_types:
+  - townhouse_villa_semidetached
+  - other_residential
+  - unknown_residential
+
+unmapped_reason: >
+  No official Victorian source distinguishes these categories at the
+  suburb-median grain this sprint. Rows for these dwelling types are simply
+  absent from vic_sales_summary (never fabricated, never merged into
+  detached_house/apartment_unit).

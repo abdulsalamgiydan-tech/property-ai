@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-07-21T10:09:38.109Z",
+  "scope": "Victoria VPSR sales local store (warehouse/data/local/vic_sales.duckdb), suburb (SAL) grain, Q4 2025 release",
+  "total_summary_rows": 7145,
+  "by_dwelling_type": [
+    {
+      "dwelling_type": "apartment_unit",
+      "n": 2220,
+      "geographies": 419
+    },
+    {
+      "dwelling_type": "detached_house",
+      "n": 3860,
+      "geographies": 735
+    },
+    {
+      "dwelling_type": "residential_land",
+      "n": 1065,
+      "geographies": 206
+    }
+  ],
+  "geography_confidence_distribution": [
+    {
+      "geography_confidence": "alias",
+      "n": 1495
+    },
+    {
+      "geography_confidence": "direct",
+      "n": 5305
+    },
+    {
+      "geography_confidence": "unresolved",
+      "n": 345
+    }
+  ],
+  "unresolved_locality_count": 39,
+  "carried_forward_no_sales_rows": 76,
+  "validation_gates": {
+    "duplicate_transaction_keys": 0,
+    "duplicate_summary_grain": 0,
+    "negative_prices": 0,
+    "missing_required_dates": 0,
+    "nominal_or_non_market_transfers_identified": "not_applicable — VPSR is a published aggregate, no per-transaction transfer-type field exists",
+    "geography_mapping_confidence_present": true,
+    "summary_duplicate_grain_zero": true,
+    "transaction_rows_promoted_to_supabase": false,
+    "raw_and_local_files_git_tracked": false
+  },
+  "all_gates_pass": true,
+  "source_inventory": {
+    "generated_at": "2026-07-21T10:07:14.629Z",
+    "files": [
+      {
+        "dataset_id": "vic_vpsr_median_house",
+        "file": "median_house_q4_2025.xls",
+        "bytes": 238592,
+        "sha256": "ebfb384bc15b914afa4156dbafe349746706058d87bfbc114aaeb5787f035efb"
+      },
+      {
+        "dataset_id": "vic_vpsr_median_unit",
+        "file": "median_unit_q4_2025.xls",
+        "bytes": 150528,
+        "sha256": "9f1cdb31863f6ebe5bf02a9337c89b8830eadd6da503b0619928a22a5f57df5c"
+      },
+      {
+        "dataset_id": "vic_vpsr_median_land",
+        "file": "median_land_q4_2025.xls",
+        "bytes": 87552,
+        "sha256": "2cd1597e6e450d64862cf69ad6c6961c83e1087882e0b0b8e58467a96188d733"
+      }
+    ]
+  },
+  "git_tracking_check": {
+    "raw_dir": "warehouse/data/raw/vic_sales/ — gitignored",
+    "local_dir": "warehouse/data/local/ — gitignored"
+  },
+  "notes": [
+    "VPSR is a pre-aggregated median-price product (no individual transactions), so there is no transactions table and no transaction-level duplicate-key gate for VIC — this differs structurally from NSW and is documented, not a gap.",
+    "geography_confidence: direct/alias rows are used in downstream marts; unresolved rows are retained in the local store (never dropped) but excluded from anything promoted to Supabase, per warehouse/config/vic_locality_aliases.yml.",
+    "carried_forward_no_sales rows have median_sale_price=NULL (never the stale carried-forward source figure) — see the '*' flag handling in build_vic_sales_local_store.mjs."
+  ]
+}
