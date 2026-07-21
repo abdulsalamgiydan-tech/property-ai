@@ -13,9 +13,9 @@ Operations and Production Candidate)
 - Working tree: **clean**
 - Base: Sprint 10's `feature/deal-analyser-budget-2026` HEAD (`599beae`),
   preserved unmodified, no commits rewritten
-- **Only commit `41dbcc0` has been pushed to origin.** Commits `b902c9d`,
-  `66215e5`, `72a71cb` are local-only — **push before doing anything else
-  on resume.**
+- All commits through `9b3f9f5` (this checkpoint commit) have been pushed
+  to origin — confirmed via `git push` immediately after this checkpoint
+  was written. No push needed on resume unless new local commits exist.
 
 ## Supabase target
 
@@ -92,10 +92,12 @@ None of these block the rest of the sprint.
 ## Exact next command
 
 ```bash
-git push origin feature/australia-property-intelligence-v3
+git status --short && git log --oneline -3
 ```
 
-(Syncs the 3 unpushed commits to the remote.)
+(Confirm clean tree and current HEAD before starting new work — all
+commits through `9b3f9f5` are already pushed, no push needed unless this
+resume session created new local commits since.)
 
 ## Exact next task
 

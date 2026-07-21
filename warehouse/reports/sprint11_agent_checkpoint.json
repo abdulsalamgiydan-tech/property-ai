@@ -8,7 +8,7 @@
     "working_tree_status": "clean",
     "base_branch": "feature/deal-analyser-budget-2026 (Sprint 10, HEAD 599beae — preserved unmodified, no commits rewritten)",
     "pushed_to_origin": true,
-    "last_push_commit": "41dbcc0 (subsequent commits b902c9d, 66215e5, 72a71cb made locally after that push and NOT yet re-pushed — push before next major action)"
+    "last_push_commit": "9b3f9f5 (this checkpoint commit) — all commits through this one confirmed pushed via git push immediately after checkpoint write"
   },
   "supabase": {
     "target_branch_name": "warehouse-validation",
@@ -116,8 +116,8 @@
     "Do NOT re-download the QLD RTA or SA rent probe files for verification purposes again — their structure is already documented in the manifests. Only download for real when building the Workstream 6 adapter (to a permanent warehouse/data/raw/ location, not a .tmp_ probe).",
     "Do NOT attempt gh pr create without first confirming gh is installed and authenticated — it was not available this session."
   ],
-  "last_successful_command": "git commit -m 'docs(warehouse): Sprint 11 Workstream 3 — national jurisdiction coverage contract' (commit 72a71cb)",
-  "exact_next_command": "git push origin feature/australia-property-intelligence-v3 (to sync commits b902c9d, 66215e5, 72a71cb to the remote, since only 41dbcc0 was pushed so far)",
+  "last_successful_command": "git push origin feature/australia-property-intelligence-v3 (pushed commits through 9b3f9f5, this checkpoint commit)",
+  "exact_next_command": "git status --short && git log --oneline -3 (confirm clean tree and current HEAD before starting Workstream 4 — no push needed unless new local commits exist)",
   "exact_next_task": "After pushing, begin Workstream 4 (task #46): cross-Census 2016-2021 harmonisation. First step: verify the official ABS correspondence files (2016 SAL/POA/SA2/LGA to 2021 equivalents) are still accessible at their known Sprint-2-era URLs before assuming they remain valid — do not assume, re-verify live per this sprint's own stated methodology rule.",
   "remaining_completion_checklist": [
     "Every AU state/territory has verified source research (DONE — QLD/SA/WA/TAS/ACT/NT this session, NSW/VIC in Sprint 10), explicit coverage status (DONE, jurisdiction_coverage.yml), a functioning jurisdiction adapter (NOT DONE for any of the 6 new states), national ABS/RBA context (already true for all), loaded sales/rental outputs wherever free official data supports them (NOT DONE — QLD/SA/WA rent sources selected but not built/loaded)",
