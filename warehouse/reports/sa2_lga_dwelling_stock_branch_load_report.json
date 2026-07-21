@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-07-21T21:49:53.230Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "frontend_changed": false,
+  "raw_rows_loaded_to_branch": false,
+  "method": "pure in-database SQL transformation, no local file dependency",
+  "loaded": {
+    "sa2_dwelling_stock_2021": 2454,
+    "lga_dwelling_stock_2021": 547
+  },
+  "gates_after": {
+    "dup_sa2": 0,
+    "dup_lga": 0,
+    "negative_sa2": 0,
+    "negative_lga": 0,
+    "orphan_sa2": 0,
+    "orphan_lga": 0
+  },
+  "core_state": {
+    "sa2_mart": 2454,
+    "lga_mart": 547,
+    "db_size": "2630 MB"
+  }
+}

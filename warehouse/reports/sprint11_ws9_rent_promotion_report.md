@@ -79,25 +79,46 @@ Branch DB size: 2,629 MB (was 2,359 MB before this session) — comfortably
 under the 4,500 MB internal working ceiling and the 8,192 MB actual plan
 limit.
 
-## What's still NOT done
+## Sub-pass 2 — SA2/LGA dwelling stock marts
 
-- **Yield marts** (`mart.suburb_yield_quarterly` etc.) are not extended
-  for QLD/SA/WA — none of these three jurisdictions has any sales data
-  loaded (Workstream 2's finding: no free bulk sales source exists for
-  any of them), so gross yield cannot be computed regardless.
+Migration 019 added `mart.sa2_dwelling_stock_2021` and
+`mart.lga_dwelling_stock_2021`. Confirmed live before writing the
+migration: `core.fact_dwelling_stock` and `core.fact_household_tenure`
+already contain **native** (not correspondence-derived) SA2 (19,632 rows,
+`dataset_id=census_gcp_sa2_2021`) and LGA (4,376 rows,
+`dataset_id=census_gcp_lga_2021`) facts loaded in an earlier sprint. Built
+as a direct in-database SQL pass-through — no local file, no download, no
+correspondence weighting needed (simpler and more accurate than the SA1-
+correspondence approach the existing SAL/POA dwelling-stock marts use,
+since SA2/LGA are themselves native ABS Census geographies).
+
+Found and fixed one real bug: `jsonb_build_array($2)` alone doesn't give
+PostgreSQL enough type information to infer the parameter's type —
+fixed with an explicit `$2::text` cast.
+
+Result: **2,454 SA2 rows + 547 LGA rows** built, all post-load gates pass
+(0 duplicates, 0 negative dwelling counts, 0 orphans). Branch DB grew by
+only 1MB (2,629→2,630 MB) since this reused entirely existing fact data.
+
+## What's still NOT done (deferred, documented, not fabricated)
+
+- **Yield marts** (`mart.suburb_yield_quarterly` etc.) not extended for
+  QLD/SA/WA — none of the three has sales data loaded (Workstream 2's
+  finding), so gross yield cannot be computed regardless.
 - **`mart.suburb_market_snapshot` / `mart.postcode_market_snapshot`**
-  (the wide per-geography snapshot tables) are not extended with
-  QLD/SA/WA rows this pass — that requires replicating the fuller
-  snapshot-assembly logic already used for NSW/VIC (combining rent with
-  demographics/supply/affordability into one wide row), a separate,
-  larger piece of work.
-- **NSW's 1990-2000 sales archive** (Workstream 8) is not yet promoted —
-  still queued behind this sub-pass.
-- **SA2/LGA-grain Census marts** (`sa2_dwelling_stock_2021`,
-  `lga_demographic_profile_2021`, etc.) are not built — a genuinely
-  promising discovery for a future sub-pass is that
-  `core.fact_dwelling_stock` and `core.fact_household_tenure` **already
-  contain real SA2 and LGA rows** (loaded natively from the same ABS
-  Census GCP DataPacks already used for SAL, in an earlier sprint) — no
-  new data load would be needed, only new mart views mirroring the
-  existing `suburb_dwelling_stock_2021` pattern.
+  (wide per-geography snapshots) not extended with QLD/SA/WA — requires
+  replicating the fuller NSW/VIC snapshot-assembly logic, a larger piece
+  of work than this sub-pass scope.
+- **SA2/LGA wide demographic profile marts** (`sa2_demographic_profile_2021`
+  etc., mirroring `suburb_demographic_profile_2021`) — deliberately NOT
+  built this pass. Unlike dwelling stock, the wide demographic profile
+  needs G01 (population)/G02 (median age, income)/G35 (household
+  composition) Census tables, which — unlike dwelling stock and tenure —
+  were only ever downloaded/built locally at SAL/POA grain for the
+  market-intelligence pipeline. Extending to SA2/LGA would need a genuine
+  new local Census data build, not just a new mart view. Flagged as a
+  real, well-scoped future task.
+- **NSW's 1990-2000 sales archive** (Workstream 8) not yet promoted —
+  touches the already-live `core.fact_residential_sales_summary` that
+  existing comparison APIs read from, deliberately deferred given the
+  scope of this session (WS10-13 also needed).
