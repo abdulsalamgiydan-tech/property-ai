@@ -29,10 +29,10 @@ unavailable, or blocked by a restricted/paid official source?
 |---|---|---|---|---|---|
 | NSW | available | available | derived | available | derived |
 | VIC | partially_available | partially_available | derived | available | derived |
-| QLD | official_source_paid | unavailable (source selected) | unavailable | available | unavailable |
-| SA | official_source_paid | unavailable (source selected) | unavailable | available | unavailable |
-| WA | official_source_restricted | unavailable (source selected) | unavailable | available | unavailable |
-| TAS | official_source_restricted (unverified) | unavailable (unverified) | unavailable | available | unavailable |
+| QLD | official_source_paid | unavailable (adapter built, not promoted) | unavailable | available | unavailable |
+| SA | official_source_paid | unavailable (adapter built, not promoted) | unavailable | available | unavailable |
+| WA | official_source_restricted | unavailable (adapter built, not promoted) | unavailable | available | unavailable |
+| TAS | official_source_restricted (unverified) | unavailable (blocked — Cloudflare, live-verified WS6) | unavailable | available | unavailable |
 | ACT | unavailable | unavailable | unavailable | available | unavailable |
 | NT | unavailable | unavailable | unavailable | available | unavailable |
 

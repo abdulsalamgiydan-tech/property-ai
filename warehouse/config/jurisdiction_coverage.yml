@@ -62,10 +62,10 @@ jurisdictions:
 
   QLD:
     asgs_state_code: "3"
-    onboard_status: source_selected_not_yet_built
+    onboard_status: adapter_built_not_yet_promoted
     metric_families:
       sales: { status: official_source_paid, notes: "Valuer-General sells per-property via business centres/QVAS — no free bulk aggregate. See queensland_source_manifest.json." }
-      rents: { status: unavailable, notes: "source selected (RTA Quarterly Data) but not yet loaded — Workstream 6" }
+      rents: { status: unavailable, notes: "Workstream 6: local store built and validated (341,712 rows, suburb/LGA/postcode, Sep 2017-Jun 2026, 0 validation gate failures) but not yet promoted to the branch or exposed publicly — deferred to Workstream 9. See qld_rents_local_store_report.json." }
       yields: { status: unavailable, notes: "cannot derive without a sales source" }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, notes: "already national since Sprint 2-4" }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
@@ -80,10 +80,10 @@ jurisdictions:
 
   SA:
     asgs_state_code: "4"
-    onboard_status: source_selected_not_yet_built
+    onboard_status: adapter_built_not_yet_promoted
     metric_families:
       sales: { status: official_source_paid, notes: "Land Services SA sells via SAILIS/Property Edge — no free bulk aggregate. See south_australia_source_manifest.json." }
-      rents: { status: unavailable, notes: "source selected (SA Housing Trust Private Rent Report) but not yet loaded — Workstream 6" }
+      rents: { status: unavailable, notes: "Workstream 6: local store built and validated for the current-format era only (2024-09..2026-03, 7 quarters, suburb+postcode, 0 validation gate failures) — not yet promoted to the branch or exposed publicly, deferred to Workstream 9. 47 earlier quarterly files downloaded but not parsed (format drift across 3 incompatible eras). See sa_rents_local_store_report.json." }
       yields: { status: unavailable }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
@@ -98,10 +98,10 @@ jurisdictions:
 
   WA:
     asgs_state_code: "5"
-    onboard_status: source_selected_not_yet_built
+    onboard_status: adapter_built_not_yet_promoted
     metric_families:
       sales: { status: official_source_restricted, notes: "Landgate sells per-report; free catalogue metadata carries a Personal Use License not clearly compatible with this platform. See western_australia_source_manifest.json." }
-      rents: { status: unavailable, notes: "source selected (WA Rental Bonds Data) but requires raw-lodgement median computation, larger adapter build — Workstream 6" }
+      rents: { status: unavailable, notes: "Workstream 6: local store built and validated (31,335 rows, suburb+postcode, Mar 2023-May 2026, medians computed in-house from 246,759 raw bond lodgements since no source-published aggregate exists) — not yet promoted to the branch or exposed publicly, deferred to Workstream 9. See wa_rents_local_store_report.json." }
       yields: { status: unavailable }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
@@ -116,10 +116,10 @@ jurisdictions:
 
   TAS:
     asgs_state_code: "6"
-    onboard_status: verification_incomplete
+    onboard_status: rent_blocked_sales_verification_incomplete
     metric_families:
       sales: { status: official_source_restricted, notes: "Valuer-General via LIST appears fee-based; not fully verified. See tasmania_source_manifest.json." }
-      rents: { status: unavailable, notes: "no source identified this pass; Consumer, Building and Occupational Services Tasmania not yet checked — flagged for follow-up" }
+      rents: { status: unavailable, notes: "Workstream 6: live-verified as blocked. Both identified official candidates (CBOS Rental Bond Statistics, DOJ Rental Bonds Output Data) return HTTP 403 behind Cloudflare bot protection, which this project's guardrails forbid bypassing. Finalised as blocked_access, no adapter will be built. See tasmania_source_manifest.json." }
       yields: { status: unavailable }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }

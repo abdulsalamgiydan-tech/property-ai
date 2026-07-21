@@ -23,14 +23,14 @@
     },
     {
       "category": "rent",
-      "official_publisher": "unknown — not identified this pass",
-      "official_product_name": "unknown",
-      "page_url": null,
+      "official_publisher": "Consumer, Building and Occupational Services Tasmania / Department of Justice Tasmania (both identified, both inaccessible)",
+      "official_product_name": "CBOS Rental Bond Statistics; DOJ Rental Bonds Output Data",
+      "page_url": "https://www.cbos.tas.gov.au/topics/housing/renting/bonds/rental-bond-statistics ; https://www.justice.tas.gov.au/about-us/access-to-information/rental-bonds-output-data",
       "direct_data_url": null,
-      "access_method": "not determined",
+      "access_method": "blocked — both cbos.tas.gov.au and justice.tas.gov.au return HTTP 403 with a Cloudflare 'Enable JavaScript and cookies to continue' challenge page",
       "status": "blocked_access",
-      "reason": "No official Tasmanian government bulk rental-bond or median-rent dataset was found via WebSearch or the pages checked (LIST, Service Tasmania) this pass.",
-      "verification_note": "Consumer, Building and Occupational Services Tasmania (cbos.tas.gov.au), the state's tenancy regulator, was not directly checked this pass and is the most likely candidate for a future free rent source — flagged for Workstream 6 follow-up before this jurisdiction's rent coverage is finalised as blocked."
+      "reason": "Live-verified in Workstream 6 (2026-07-22): both identified official Tasmanian government rental-bond data pages are behind Cloudflare bot protection. This project's guardrails explicitly forbid bypassing Cloudflare/CAPTCHA/anti-bot protection, so this source cannot be built even though the underlying data is genuinely free and official.",
+      "verification_note": "RESOLVED (was 'search-only' in Workstream 2, now live-verified as definitively blocked in Workstream 6). A third-party mirror (Tenants' Union of Tasmania quarterly rent statistics, tutas.org.au) republishes figures derived from the same underlying bond-lodgement data, but is an advocacy organisation, not an official government/statutory source, so it does not satisfy this project's 'official sources only' rule regardless of accessibility. TAS rent coverage is finalised as blocked_access; no adapter will be built."
     }
   ]
 }

@@ -32,6 +32,14 @@ something to work around by scraping or purchasing without approval.
 official sources — a real, substantial win for national rent coverage,
 leaving TAS/ACT/NT as the true rent gaps.
 
+**Workstream 6 update (2026-07-22)**: QLD, SA, and WA rent adapters are
+now built and validated (see `qld_rents_local_store_report.md`,
+`sa_rents_local_store_report.md`, `wa_rents_local_store_report.md`).
+Tasmania's rent status was upgraded from "no source found" to a
+definitive live-verified finding: both identified candidates are behind
+Cloudflare bot protection and are therefore blocked, not merely
+unresearched — see `tasmania_source_manifest.md`.
+
 ## Per-jurisdiction detail
 
 ### Queensland
