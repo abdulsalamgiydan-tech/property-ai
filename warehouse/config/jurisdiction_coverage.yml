@@ -62,10 +62,10 @@ jurisdictions:
 
   QLD:
     asgs_state_code: "3"
-    onboard_status: adapter_built_not_yet_promoted
+    onboard_status: fully_onboarded_rent_only
     metric_families:
       sales: { status: official_source_paid, notes: "Valuer-General sells per-property via business centres/QVAS — no free bulk aggregate. See queensland_source_manifest.json." }
-      rents: { status: unavailable, notes: "Workstream 6: local store built and validated (341,712 rows, suburb/LGA/postcode, Sep 2017-Jun 2026, 0 validation gate failures) but not yet promoted to the branch or exposed publicly — deferred to Workstream 9. See qld_rents_local_store_report.json." }
+      rents: { status: available, earliest_period: "2017-Q3", latest_period: current, geography_levels: [SAL, LGA, POA], direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: high, notes: "Workstream 9: promoted to core.fact_rental_market_summary + mart.suburb/postcode/lga_rent_quarterly. 187,952 SAL + 23,345 LGA + 123,088 POA facts loaded." }
       yields: { status: unavailable, notes: "cannot derive without a sales source" }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, notes: "already national since Sprint 2-4" }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
@@ -80,10 +80,10 @@ jurisdictions:
 
   SA:
     asgs_state_code: "4"
-    onboard_status: adapter_built_not_yet_promoted
+    onboard_status: fully_onboarded_rent_only
     metric_families:
       sales: { status: official_source_paid, notes: "Land Services SA sells via SAILIS/Property Edge — no free bulk aggregate. See south_australia_source_manifest.json." }
-      rents: { status: unavailable, notes: "Workstream 6: local store built and validated for the current-format era only (2024-09..2026-03, 7 quarters, suburb+postcode, 0 validation gate failures) — not yet promoted to the branch or exposed publicly, deferred to Workstream 9. 47 earlier quarterly files downloaded but not parsed (format drift across 3 incompatible eras). See sa_rents_local_store_report.json." }
+      rents: { status: partially_available, earliest_period: "2024-Q3", latest_period: current, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: high, notes: "Workstream 9: promoted to core.fact_rental_market_summary + mart.suburb/postcode_rent_quarterly. Current-format era only (7 quarters) — 47 earlier quarterly files downloaded but not parsed (format drift across 3 incompatible eras). No LGA grain (source doesn't publish it)." }
       yields: { status: unavailable }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
@@ -98,10 +98,10 @@ jurisdictions:
 
   WA:
     asgs_state_code: "5"
-    onboard_status: adapter_built_not_yet_promoted
+    onboard_status: fully_onboarded_rent_only
     metric_families:
       sales: { status: official_source_restricted, notes: "Landgate sells per-report; free catalogue metadata carries a Personal Use License not clearly compatible with this platform. See western_australia_source_manifest.json." }
-      rents: { status: unavailable, notes: "Workstream 6: local store built and validated (31,335 rows, suburb+postcode, Mar 2023-May 2026, medians computed in-house from 246,759 raw bond lodgements since no source-published aggregate exists) — not yet promoted to the branch or exposed publicly, deferred to Workstream 9. See wa_rents_local_store_report.json." }
+      rents: { status: partially_available, earliest_period: "2023-03", latest_period: current, geography_levels: [SAL, POA], direct_or_derived: derived, refresh_frequency: monthly, confidence_ceiling: medium, notes: "Workstream 9: promoted to core.fact_rental_market_summary + mart.suburb/postcode_rent_quarterly. Medians computed in-house from raw bond lodgements (direct_or_derived=derived, the only jurisdiction where this is true) since no source-published aggregate exists. No LGA grain (source doesn't publish it)." }
       yields: { status: unavailable }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
