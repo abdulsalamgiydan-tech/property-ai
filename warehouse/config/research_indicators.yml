@@ -1,0 +1,185 @@
+# National research indicator registry (Sprint 11, Workstream 10)
+#
+# This is a documentation/definition registry for indicators ALREADY
+# computed elsewhere in the warehouse (mart.suburb_market_snapshot,
+# mart.postcode_market_snapshot, mart.*_demographic_profile_2021) — it does
+# not introduce new computation. Its purpose is to give every indicator a
+# single, canonical, transparent definition that the product (and this
+# file itself) can be checked against.
+#
+# Hard rules enforced by every entry below:
+#   - Every indicator is DESCRIPTIVE (a measured or directly-derived
+#     statistic). None is a prediction, forecast, recommendation, or score.
+#   - No indicator here is combined into a composite "investment score" or
+#     ranking anywhere in this registry or the product.
+#   - Every indicator that depends on a sample size publishes a
+#     `confidence_field` alongside the value — the confidence label must
+#     always be checked before treating a value as reliable, and the
+#     product must always surface it next to the value, never hide it.
+#   - Missing/insufficient data means the indicator is NULL, never
+#     zero-filled, interpolated, or estimated across mismatched boundaries.
+
+indicators:
+  median_sale_price_12m:
+    label: "Median sale price (trailing 12 months)"
+    category: sales
+    formula: "median(sale_price) for settled residential sales in the trailing 12 months"
+    unit: AUD
+    source_table: mart.suburb_market_snapshot / mart.postcode_market_snapshot
+    confidence_field: sales_sample_confidence
+    geography_levels: [SAL, POA]
+    jurisdictions_available: [NSW, VIC]
+    notes: "VIC's VPSR source is itself a pre-aggregated quarterly median, not transaction-level like NSW — see JURISDICTION_COVERAGE_CONTRACT.md."
+
+  annual_price_change_pct:
+    label: "Annual price change"
+    category: sales
+    formula: "(median_sale_price_12m - median_sale_price_prev_12m) / median_sale_price_prev_12m * 100"
+    unit: percent
+    source_table: mart.suburb_market_snapshot / mart.postcode_market_snapshot
+    confidence_field: sales_sample_confidence
+    geography_levels: [SAL, POA]
+    jurisdictions_available: [NSW, VIC]
+    notes: "A period-over-period comparison of two independently-computed medians — not a smoothed trend or a forecast of future change."
+
+  sales_turnover_pct:
+    label: "Sales turnover rate"
+    category: sales
+    formula: "(sales_volume_12m / dwelling_stock_total) * 100"
+    unit: percent
+    source_table: mart.suburb_market_snapshot / mart.postcode_market_snapshot
+    confidence_field: sales_sample_confidence
+    reference_implementation: lib/warehouse/affordability.ts#calculateSalesTurnoverPct
+    geography_levels: [SAL, POA]
+    jurisdictions_available: [NSW, VIC]
+    notes: "A liquidity/market-activity indicator — the share of the existing dwelling stock that changed hands in the trailing 12 months. NULL when dwelling_stock_total is 0 or unknown, never divided by zero."
+
+  median_weekly_rent_latest:
+    label: "Median weekly rent (latest quarter)"
+    category: rent
+    formula: "median new-bond-lodgement weekly rent, latest published quarter"
+    unit: "AUD/week"
+    source_table: mart.suburb_market_snapshot / mart.postcode_market_snapshot / mart.lga_rent_quarterly
+    confidence_field: rent_confidence
+    geography_levels: [SAL, POA, LGA]
+    jurisdictions_available: [NSW, VIC, QLD, SA, WA]
+    notes: "WA's figure is derived (median computed in-house from raw bond lodgements, no source-published aggregate) — see direct_or_derived on the underlying fact row. Every other jurisdiction publishes the median directly."
+
+  annual_rent_change_pct:
+    label: "Annual rent change"
+    category: rent
+    formula: "(median_weekly_rent_latest - median_weekly_rent_prev) / median_weekly_rent_prev * 100"
+    unit: percent
+    source_table: mart.suburb_market_snapshot / mart.postcode_market_snapshot
+    confidence_field: rent_confidence
+    geography_levels: [SAL, POA]
+    jurisdictions_available: [NSW, VIC]
+
+  gross_yield_pct:
+    label: "Gross rental yield"
+    category: yield
+    formula: "(median_weekly_rent * 52) / median_sale_price * 100"
+    unit: percent
+    source_table: mart.suburb_market_snapshot / mart.postcode_market_snapshot / mart.*_yield_quarterly
+    confidence_field: yield_confidence
+    reference_implementation: lib/warehouse/affordability.ts#calculateGrossYieldPct
+    geography_levels: [SAL, POA]
+    jurisdictions_available: [NSW, VIC]
+    notes: "Requires BOTH an independently-sourced sales median and rent median for the same geography and a compatible period — yield_confidence_label is 'insufficient' (not a guessed value) whenever either side is missing or low-confidence. Descriptive statistic only — never presented as an investment recommendation, score, or forecast (this framing is enforced in the underlying table comments too)."
+
+  approvals_per_1000_dwellings:
+    label: "New dwelling approvals per 1,000 existing dwellings"
+    category: supply
+    formula: "(approvals_12m / dwelling_stock_total) * 1000"
+    unit: "approvals per 1,000 dwellings"
+    source_table: mart.suburb_market_snapshot / mart.postcode_market_snapshot / mart.suburb_building_approvals
+    confidence_field: supply_confidence
+    reference_implementation: lib/warehouse/affordability.ts#calculateApprovalsPer1000
+    geography_levels: [SAL, POA, SA2, LGA]
+    jurisdictions_available: [all — ABS Building Approvals is a national dataset, loaded natively at SA2 grain since Sprint 2-4]
+    notes: "A supply-pressure indicator, normalising the raw approvals count by existing dwelling stock so different-sized geographies are comparable. SA2 is the native ABS Building Approvals grain; SAL/POA figures are carried via the dwelling-weighted ASGS correspondence bridge."
+
+  dwelling_stock_total:
+    label: "Total private dwellings"
+    category: supply
+    formula: "direct ABS 2021 Census cell (total_private_dwellings)"
+    unit: count
+    source_table: mart.*_dwelling_stock_2021
+    confidence_field: confidence_label
+    geography_levels: [SAL, POA, SA2, LGA]
+    jurisdictions_available: [all — native ABS Census GCP DataPack geography for SA2/LGA; correspondence-derived for SAL/POA]
+
+  population_growth_2016_2021_pct:
+    label: "Population growth, 2016 to 2021 Census"
+    category: demographics
+    formula: "(population_2021 - population_2016) / population_2016 * 100, population_2016 converted from 2016-boundary Census counts via a population-weighted ABS official correspondence file"
+    unit: percent
+    source_table: mart.*_demographic_profile_2021
+    confidence_field: "NULL when population_2016 base < 50 people (small-base suppression) — see CROSS_CENSUS_HARMONISATION_METHOD.md"
+    geography_levels: [SAL, POA]
+    jurisdictions_available: [NSW, VIC — see CROSS_CENSUS_HARMONISATION_METHOD.md for the 2016->2021 boundary conversion method]
+    notes: "The only indicator in this registry involving a boundary-conversion approximation rather than a direct published cell — the conversion method, its 100.00% national reconciliation check, and its suppression rule are fully documented separately. Never computed from a population base below 50 people (a small-number percentage change is statistically meaningless and would mislead more than it informs)."
+
+  price_to_income_ratio:
+    label: "Price-to-income ratio"
+    category: affordability
+    formula: "median_sale_price_12m / (median_weekly_household_income * 52)"
+    unit: "years of gross household income"
+    source_table: mart.suburb_market_snapshot / mart.postcode_market_snapshot
+    confidence_field: affordability_confidence
+    reference_implementation: lib/warehouse/affordability.ts#calculatePriceToIncomeRatio
+    geography_levels: [SAL, POA]
+    jurisdictions_available: [NSW, VIC]
+    notes: "A widely-used, transparent affordability ratio (higher = less affordable relative to income) — not a recommendation, and never combined with any other metric into a single score."
+
+  rent_to_income_ratio:
+    label: "Rent-to-income ratio"
+    category: affordability
+    formula: "median_weekly_rent / median_weekly_household_income"
+    unit: "share of weekly household income"
+    source_table: mart.suburb_market_snapshot / mart.postcode_market_snapshot
+    confidence_field: affordability_confidence
+    reference_implementation: lib/warehouse/affordability.ts#calculateRentToIncomeRatio
+    geography_levels: [SAL, POA]
+    jurisdictions_available: [NSW, VIC]
+
+  repayment_to_income_pct:
+    label: "Est. mortgage repayment as % of income"
+    category: affordability
+    formula: "monthly_repayment(loan_principal, rba_rate, 30yr) / (median_weekly_household_income * 52 / 12) * 100"
+    unit: percent
+    source_table: mart.suburb_market_snapshot / mart.postcode_market_snapshot
+    confidence_field: affordability_confidence
+    reference_implementation: lib/warehouse/affordability.ts#calculateRepaymentToIncomePct
+    geography_levels: [SAL, POA]
+    jurisdictions_available: [NSW, VIC]
+    notes: "Uses a single shared national assumption scenario (standard_20pct_deposit_30yr_pi — 20% deposit, 30-year principal & interest, current RBA-published rate) across every geography, never a per-state redefinition. Explicit modelling assumption, not a guaranteed rate quote — this is descriptive research modelling only, never financial advice."
+
+  renter_share:
+    label: "Renter household share"
+    category: tenure
+    formula: "renter_households / total_households (from ABS Census G35/tenure table), expressed as a share"
+    unit: "share (0-1)"
+    source_table: mart.suburb_market_snapshot / mart.*_demographic_profile_2021
+    confidence_field: confidence_label
+    geography_levels: [SAL, POA, SA2, LGA]
+    jurisdictions_available: [all — native or correspondence-derived, same pattern as dwelling_stock_total]
+
+  detached_house_pct / apartment_unit_pct:
+    label: "Dwelling type composition"
+    category: dwelling_composition
+    formula: "occupied_private_dwellings of that type / total occupied_private_dwellings, from ABS Census"
+    unit: percent
+    source_table: mart.*_demographic_profile_2021
+    confidence_field: confidence_label
+    geography_levels: [SAL, POA]
+    jurisdictions_available: [NSW, VIC]
+
+# ── Explicitly out of scope for this registry ────────────────────────────
+excluded_by_design:
+  - "Any composite score, index, or ranking combining two or more indicators into one number."
+  - "Any buy/sell/hold recommendation."
+  - "Any suburb investment ranking or 'best suburbs' list."
+  - "Any automated valuation (AVM) for an individual property."
+  - "Any price forecast — every indicator above describes the past or present only, never a projection."
+  - "Any causal claim (e.g. 'X causes prices to rise') — correlational observations are never presented as causal."
