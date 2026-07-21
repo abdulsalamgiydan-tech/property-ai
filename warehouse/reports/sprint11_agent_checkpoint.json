@@ -1,50 +1,52 @@
 {
   "sprint_name": "Sprint 11 — Australian Residential Property Intelligence V3 (National Coverage, Historical Harmonisation, Research Indicators, Automated Operations and Production Candidate)",
-  "checkpoint_timestamp": "2026-07-22T02:15:00+10:00",
-  "supersedes_checkpoint_timestamp": "2026-07-22T01:45:00+10:00",
+  "checkpoint_timestamp": "2026-07-22T03:15:00+10:00",
+  "supersedes_checkpoint_timestamp": "2026-07-22T02:15:00+10:00",
   "checkpoint_timezone": "Australia/Sydney",
   "git": {
     "branch": "feature/australia-property-intelligence-v3",
-    "commit_hash": "5363498",
+    "commit_hash": "b9dce51",
     "working_tree_status": "clean",
     "base_branch": "feature/deal-analyser-budget-2026 (Sprint 10, HEAD 599beae — preserved unmodified, no commits rewritten)",
     "pushed_to_origin": true,
-    "last_push_commit": "5363498 — all commits through this one confirmed pushed via git push immediately after this checkpoint update"
+    "last_push_commit": "b9dce51 — all commits through this one confirmed pushed via git push immediately after this checkpoint update"
   },
   "supabase": {
     "target_branch_name": "warehouse-validation",
     "target_branch_ref": "lzonauinzatmtytyoems",
     "production_ref_that_must_remain_prohibited": "oshquaxsloolqucwvigc",
-    "production_status_at_checkpoint": "zero warehouse schemas, confirmed via WS0 re-verification and unchanged since",
+    "production_status_at_checkpoint": "zero warehouse schemas, re-confirmed live via list_branches during Workstream 6",
     "branch_db_size_at_checkpoint_mb": 2359,
     "verified_plan_included_capacity_mb": 8192,
     "internal_working_safety_ceiling_mb": 4500,
     "hard_stop_threshold_mb": 3375,
     "no_new_migrations_applied_this_session": true,
-    "last_migration_applied": "017_data_refresh_operations.sql (Sprint 10, already committed and applied — no Sprint 11 migrations exist yet)"
+    "last_migration_applied": "017_data_refresh_operations.sql (Sprint 10, already committed and applied — no Sprint 11 migrations exist yet)",
+    "workstream_6_branch_writes": "zero — all three rent adapters (QLD/SA/WA) stopped at the local-store stage, branch promotion deferred to Workstream 9"
   },
   "phase_completed": [
-    "Workstream 0 — Sprint 10 preserved, re-verified (48/48 tests, build, lint at baseline, warehouse:check all pass), pushed to origin. Sprint 11 branch feature/australia-property-intelligence-v3 created from Sprint 10 HEAD and pushed. Draft PR for Sprint 10 NOT created (gh CLI unavailable, no token — user explicitly approved skipping this and continuing).",
-    "Workstream 1 — National capacity/cost/architecture audit complete. Corrected finding: Supabase org plan is Pro (8,192MB included storage, not the previously-assumed 4,500MB) — kept 4,500MB as the working internal safety margin anyway. All 5 public comparison-API interfaces measured live via EXPLAIN ANALYZE: 4-101ms, all well under target. One optimisation candidate found (no index on ILIKE suburb-name search) and documented for Workstream 17, not fixed yet.",
-    "Workstream 2 — National source discovery for QLD/SA/WA/TAS/ACT/NT complete (live-verified via WebSearch + gstack /browse + CKAN API/curl, not search-snippet-only). Key finding: free bulk automatable SALES data does not exist in any of the 6 states — all paid or blocked. RENT is available free for QLD (RTA, verified, current to Jun 2026), SA (SA Housing Trust, verified via CKAN API, history to 2008), and WA (DMIRS raw bond lodgements, CC BY 4.0, needs in-house median computation — flagged as extra adapter work). TAS got search-only verification (flagged for follow-up). ACT and NT both live-searched directly against their official portals and confirmed zero results — national-context-only for both this sprint.",
-    "Workstream 3 — jurisdiction_coverage.yml + JURISDICTION_COVERAGE_CONTRACT.md complete, built directly from Workstream 2's findings. Documents per-jurisdiction x per-metric-family status for all 8 states/territories. Key finding: supply/demographic context already available nationally for all 8 (confirmed, not assumed); land_values/vacancy/planning_pipeline unavailable nationally (no source found for ANY jurisdiction including NSW/VIC, an honest gap); population_growth capped at partially_available everywhere pending Workstream 4.",
-    "Workstream 4 — Cross-Census 2016-2021 population harmonisation COMPLETE. Downloaded live-verified ABS correspondence files (SA1/SA2/LGA/POA/SAL) and 2016 Census G01 population (SSC/POA grain). Built population-weighted conversion reconciling to 100.00% of Australia's true 2016 population for both SAL and POA. Loaded to branch as a pure UPDATE (no schema change, zero storage growth): 15,333/15,334 SAL and 2,641/2,641 POA rows now have population_2016; 10,935 SAL and 2,596 POA have a publishable growth rate. Independently re-verified post-commit.",
-    "Workstream 5 — National population-demand layer COMPLETE. Downloaded ABS Regional Population Table 1 (genuine observed ERP, SA2 grain, 2001-2025, no bot protection). Built local store: 61,335 (SA2 x year) observations across 2,454 SA2 geographies, with 1-year and 5-year-annualised growth. Validated: national total 27,613,654 at June 2025 matches Australia's known population; independently-computed top-5 fastest-growing SA2s matched ABS's own published narrative highlights verbatim. Deliberately NOT promoted to branch — SA2 has no mart table yet, deferred to Workstream 9."
+    "Workstream 0 — Sprint 10 preserved, re-verified, pushed. Sprint 11 branch created. Draft PR NOT created (gh CLI unavailable, user approved skip).",
+    "Workstream 1 — National capacity/cost/architecture audit complete. Supabase Pro plan confirmed (8,192MB), 4,500MB kept as working safety margin. All 5 comparison-API interfaces measured live (4-101ms).",
+    "Workstream 2 — National source discovery for QLD/SA/WA/TAS/ACT/NT complete, live-verified. Free bulk SALES data doesn't exist in any of the 6 states. RENT free for QLD/SA/WA. TAS/ACT/NT flagged as gaps.",
+    "Workstream 3 — jurisdiction_coverage.yml + JURISDICTION_COVERAGE_CONTRACT.md complete.",
+    "Workstream 4 — Cross-Census 2016-2021 population harmonisation COMPLETE, loaded to branch (15,333 SAL + 2,641 POA rows, 100.00% reconciliation, pure UPDATE, zero storage growth).",
+    "Workstream 5 — National population-demand layer COMPLETE (61,335 SA2×year observations, 2001-2025, ABS Regional Population). Deliberately NOT promoted to branch — deferred to Workstream 9.",
+    "Workstream 6 — Remaining jurisdiction rent adapters COMPLETE. QLD: RTA Bond Statistics, 341,712 rows (suburb/LGA/postcode, Sep 2017-Jun 2026) — fixed a real bug (an 'Other' dwelling category silently merging into null rows). SA: Housing Trust Private Rent Report, all 71 quarterly files (2008-06..2026-03) downloaded, current-format era only parsed (2024-09..2026-03, 7 quarters, 3 incompatible format eras across the full span, deliberately not fabricated across) — fixed two real bugs (numeric postcode labels producing zero rows; 3 of 258 postcodes appearing twice per quarter with different values, now quarantined). WA: DMIRS raw bond lodgements (no source-published median anywhere) — computed suburb/postcode medians in-house from 246,759 raw records across 39 months, correctly labelled direct_or_derived='derived'; a safe state-suffix strip recovered 53 otherwise-unresolved suburb labels. TAS rent live-verified as blocked_access (both candidate sites are behind Cloudflare bot protection, which this project's guardrails forbid bypassing) — upgraded from Workstream 2's 'not researched' finding to a definitive result; no adapter will be built. ACT/NT confirmed to have no source (Workstream 2). All three built adapters (QLD/SA/WA) validated with zero duplicate/negative/invalid-period gate failures. None promoted to the branch — deferred to Workstream 9."
   ],
-  "phase_in_progress": "none — Workstream 5 was cleanly completed and committed before this checkpoint update. Workstream 6 (remaining jurisdiction adapters) has not been started.",
+  "phase_in_progress": "none — Workstream 6 was cleanly completed and committed before this checkpoint update. Workstream 7 has not been started.",
   "exact_tasks_completed": [
     "Task #42 (S11 WS0) — completed",
     "Task #43 (S11 WS1) — completed",
     "Task #44 (S11 WS2) — completed",
     "Task #45 (S11 WS3) — completed",
     "Task #46 (S11 WS4) — completed",
-    "Task #47 (S11 WS5) — completed"
+    "Task #47 (S11 WS5) — completed",
+    "Task #48 (S11 WS6) — completed"
   ],
   "exact_tasks_remaining_in_order": [
-    "Task #48 (S11 WS6) — remaining jurisdiction adapters (QLD/SA/ACT/TAS/NT/WA) — NOT STARTED. Effective order given WS2 findings: QLD rent, SA rent, WA rent (extra work), TAS deferred pending re-verification, ACT/NT have no selected source (national context only).",
     "Task #49 (S11 WS7) — local-first national data lake catalogue — NOT STARTED",
     "Task #50 (S11 WS8) — historical sales backfill — NOT STARTED",
-    "Task #51 (S11 WS9) — canonical national market marts (SA2/LGA levels) — NOT STARTED. Inputs already prepared: ABS correspondence files (WS4) and SA2 population layer (WS5) are downloaded/built locally, waiting on this workstream's schema decisions.",
+    "Task #51 (S11 WS9) — canonical national market marts (SA2/LGA levels) — NOT STARTED. Inputs already prepared and waiting: WS4 correspondence files, WS5 SA2 population layer, WS6 QLD/SA/WA rent local stores.",
     "Task #52 (S11 WS10) — transparent research indicators — NOT STARTED",
     "Task #53 (S11 WS11) — national map explorer — NOT STARTED",
     "Task #54 (S11 WS12) — advanced comparison workspace (2-10 geographies) — NOT STARTED",
@@ -60,59 +62,57 @@
     "Task #64 (S11 WS22) — final review, sprint11_final_report, draft PR — NOT STARTED"
   ],
   "files_created_this_session": [
-    "warehouse/reports/sprint10_pr_handover.json",
-    "warehouse/reports/sprint10_pr_handover.md",
-    "warehouse/reports/sprint11_existing_state_audit.json",
-    "warehouse/reports/sprint11_existing_state_audit.md",
-    "warehouse/reports/sprint11_capacity_plan.json",
-    "warehouse/reports/sprint11_capacity_plan.md",
-    "warehouse/reports/national_jurisdiction_source_manifest.json",
-    "warehouse/reports/national_jurisdiction_source_manifest.md",
-    "warehouse/reports/queensland_source_manifest.{json,md}",
-    "warehouse/reports/south_australia_source_manifest.{json,md}",
-    "warehouse/reports/western_australia_source_manifest.{json,md}",
-    "warehouse/reports/tasmania_source_manifest.{json,md}",
-    "warehouse/reports/act_source_manifest.{json,md}",
-    "warehouse/reports/northern_territory_source_manifest.{json,md}",
-    "warehouse/docs/NATIONAL_SOURCE_ACCESS_DECISIONS.md",
-    "warehouse/config/jurisdiction_coverage.yml",
-    "warehouse/docs/JURISDICTION_COVERAGE_CONTRACT.md",
-    "warehouse/docs/CROSS_CENSUS_HARMONISATION_METHOD.md",
-    "warehouse/reports/cross_census_harmonisation_local_build.json",
-    "warehouse/reports/cross_census_harmonisation_report.{json,md}",
-    "warehouse/reports/cross_census_harmonisation_branch_load_report.json",
-    "warehouse/scripts/geography/build_cross_census_harmonisation.mjs",
-    "warehouse/scripts/geography/validate_cross_census_harmonisation.mjs",
-    "warehouse/scripts/geography/load_cross_census_harmonisation_to_branch.mjs",
-    "warehouse/reports/national_population_layer_local_build.json",
-    "warehouse/reports/national_population_layer_report.{json,md}",
-    "warehouse/scripts/demographics/build_national_population_layer.mjs"
+    "warehouse/adapters/qld/rents/adapter.md",
+    "warehouse/adapters/sa/rents/adapter.md",
+    "warehouse/adapters/wa/rents/adapter.md",
+    "warehouse/docs/QLD_DATA_METHOD.md",
+    "warehouse/docs/SA_DATA_METHOD.md",
+    "warehouse/docs/WA_DATA_METHOD.md",
+    "warehouse/metadata/qld_all_lgas.json",
+    "warehouse/metadata/qld_all_sals.json",
+    "warehouse/metadata/sa_all_sals.json",
+    "warehouse/metadata/wa_all_sals.json",
+    "warehouse/reports/qld_rents_download_inventory.json",
+    "warehouse/reports/qld_rents_local_store_report.{json,md}",
+    "warehouse/reports/sa_rents_download_inventory.json",
+    "warehouse/reports/sa_rents_local_store_report.{json,md}",
+    "warehouse/reports/sa_rents_parsed_inventory.json",
+    "warehouse/reports/wa_rents_local_store_report.{json,md}",
+    "warehouse/scripts/rents/build_qld_rents_local_store.mjs",
+    "warehouse/scripts/rents/build_sa_rents_local_store.mjs",
+    "warehouse/scripts/rents/build_wa_rents_local_store.mjs",
+    "warehouse/scripts/rents/download_sa_rents.mjs",
+    "warehouse/scripts/rents/validate_qld_rents_local_store.mjs",
+    "warehouse/scripts/rents/validate_sa_rents_local_store.mjs",
+    "warehouse/scripts/rents/validate_wa_rents_local_store.mjs"
   ],
-  "files_modified_this_session": [],
+  "files_modified_this_session": [
+    "warehouse/config/jurisdiction_coverage.yml — QLD/SA/WA rents notes updated to reflect adapters built (not yet promoted); TAS rents status updated to definitive blocked_access",
+    "warehouse/docs/JURISDICTION_COVERAGE_CONTRACT.md — coverage table row updates for QLD/SA/WA/TAS",
+    "warehouse/reports/national_jurisdiction_source_manifest.md — added a Workstream 6 update note",
+    "warehouse/reports/tasmania_source_manifest.{json,md} — rent entry rewritten with the definitive live-verified blocked finding"
+  ],
   "migrations_applied_this_session": [],
   "local_datasets_downloaded_this_session": [
-    "QLD RTA rent data (probe only, deleted after inspection — verification, not a persisted local store)",
-    "SA Private Rent Report Q1 2026 (probe only, deleted after inspection)",
-    "ABS 2016->2021 correspondence CSVs (SA1, SA2, LGA, POA, SSC-to-SAL) — PERSISTED at warehouse/data/raw/abs_correspondence/asgs_2016_to_2021/ (gitignored)",
-    "ABS 2016 Census GCP SSC (85MB) and POA (33MB) zips — PERSISTED at warehouse/data/raw/census_2016/{gcp_ssc,gcp_poa}/ (gitignored), extracted to warehouse/data/processed/census_2016/",
-    "ABS Regional Population Table 1 (SA2, 2001-2025, 688KB) and population-components file (764KB) — PERSISTED at warehouse/data/raw/abs_regional_population/ (gitignored). Components file downloaded but not yet parsed."
+    "QLD RTA rent workbook (rta-bond-statistics.xlsx, 6.25MB) — PERSISTED at warehouse/data/raw/qld_rents/ (gitignored)",
+    "SA Private Rent Report — ALL 71 quarterly CKAN resources (2008-06..2026-03, ~24MB total) — PERSISTED at warehouse/data/raw/sa_rents/ (gitignored). Only 7 (2024-09..2026-03) actually parsed into the local store; the other 64 remain for a future extension.",
+    "WA DMIRS rental bond zip (wa-rental-bond.zip, 3.6MB, 39 monthly CSVs) — PERSISTED at warehouse/data/raw/wa_rents/ (gitignored)"
   ],
   "local_datasets_validated_this_session": [
-    "QLD RTA rent file structure confirmed (13 sheets, suburb/postcode/LGA/state grain, current to Jun 2026)",
-    "SA Private Rent Report structure confirmed (4 sheets: Suburb/PC/Region/SLA, current to Mar 2026)",
-    "ABS correspondence files structure confirmed (SSC_CODE_2016/POA_CODE_2016, RATIO_FROM_TO, quality indicators) matches official documentation exactly",
-    "2016 Census G01 population tables confirmed correct format (SSC_CODE_2016/POA_CODE_2016 + Tot_P_P), conversion reconciled to 100.00% of true national 2016 population",
-    "ABS Regional Population SA2 table validated: national total 27,613,654 (June 2025) plausible, zero negative population rows, independently-computed top-5 growth SA2s exactly matched ABS's own published narrative"
+    "QLD RTA workbook structure confirmed (13 sheets, suburb/LGA/postcode grain with a matching rent+bond-count sheet pair per grain, quarters Sep2017-Jun2026 column-aligned)",
+    "SA Private Rent Report format-drift mapped precisely across the full 2008-2026 span (legacy binary .xls pre-2012; 30-col 'Final Suburbs' layout 2012-2020; 31-col 'Suburb' layout 2020-2024; 27-col current layout 2024-2026) — only the current layout parsed",
+    "WA rental bond zip confirmed genuine, government-attributed (CC BY 4.0, Government of Western Australia DMIRS) via the dataset page's own text, checked live before download since it's hosted via a third-party government open-data aggregator rather than the primary agency domain",
+    "All three (QLD/SA/WA) local stores validated with zero duplicate-grain, zero negative-rent, zero invalid-period gate failures"
   ],
-  "note_on_probe_files": "QLD/SA rent probes were deleted after inspection (no persistent store). The ABS correspondence, 2016 Census, and Regional Population files ARE persisted locally (gitignored) since Workstreams 4 and 5 actually used them to build and load real data — do not re-download these on resume.",
+  "note_on_probe_files": "No probe-and-delete files this session — all three (QLD/SA/WA) downloads were persisted directly since each was known in advance to be needed for a real adapter build (unlike WS2's earlier lighter discovery-only probes).",
   "branch_loads_completed_this_session": [
-    "cross_census_harmonisation_branch_load_report.json — UPDATE only (no schema change) on mart.suburb_demographic_profile_2021 (15,333 rows) and mart.postcode_demographic_profile_2021 (2,641 rows), filling population_2016/population_growth_2016_2021_pct. Zero storage growth. Independently re-verified post-commit."
+    "NONE this session — Workstream 6 made zero branch writes. All three rent adapters stopped at the validated local-store stage; branch promotion is Workstream 9's responsibility."
   ],
   "validations_passed_this_session": [
-    "Sprint 10 re-verification: 48/48 tests, build succeeds, lint at baseline, warehouse:check passes",
-    "Live query performance measurement on all 5 comparison-API interfaces (all pass targets)",
-    "Cross-census harmonisation: 100.00% population reconciliation for both SAL and POA, all branch-load validation gates zero, independently re-verified via a separate read-only query after commit",
-    "National population layer: national total plausibility, zero negative rows, top-5 growth cross-validated against ABS's own published narrative",
+    "QLD rents: 341,712 rows, 0 duplicate/negative/invalid-period gate failures",
+    "SA rents: 41,007 rows (current era only), 0 duplicate/negative/invalid-period gate failures",
+    "WA rents: 31,335 rows, 0 duplicate/negative/invalid-period gate failures, derived-median label verified never mislabelled as direct",
+    "npm run warehouse:check passed after each of the 4 commits this session",
     "git diff --check clean, no raw/large files staged, working tree clean at checkpoint time"
   ],
   "validations_failed_this_session": [],
@@ -123,9 +123,9 @@
       "resolution_path": "manual gh pr create command recorded in warehouse/reports/sprint10_pr_handover.md, or user supplies a token in a future session"
     },
     {
-      "blocker": "Tasmania source verification incomplete (search-level only, not live-downloaded)",
-      "status": "documented, flagged for follow-up in Workstream 6, not sprint-blocking",
-      "resolution_path": "live browse verification of LIST sales-report example + Consumer, Building and Occupational Services Tasmania's site for a rent source"
+      "blocker": "TAS sales verification still search-only (not live-downloaded) — separate from the now-resolved TAS rent finding",
+      "status": "documented, low priority (sales already known paid/restricted at the Valuer-General, unlikely to change the outcome), not sprint-blocking",
+      "resolution_path": "live browse verification of the LIST 'Property Sales Report' example if full TAS sales confirmation is ever prioritised"
     },
     {
       "blocker": "WA sales 'Sales Evidence data' catalogue entry's Personal Use License compatibility with this platform's use case is unclear",
@@ -133,32 +133,33 @@
       "resolution_path": "requires human legal/licensing judgement before any future reconsideration — not something to resolve autonomously"
     }
   ],
-  "background_processes_still_running": "none — verified via curl to localhost:3000 (connection refused) and `jobs -l` (empty) immediately before this checkpoint",
+  "background_processes_still_running": "none — confirmed no lingering dev server or background jobs before this checkpoint",
   "commands_that_must_not_be_repeated": [
-    "Do NOT re-run Workstream 0's Sprint 10 re-verification test/build/lint suite as a first action on resume — it already passed and nothing has changed since. Only re-run if resuming after an unusual gap or suspected corruption.",
-    "Do NOT re-download the QLD RTA or SA rent probe files for verification purposes again — their structure is already documented in the manifests. Only download for real when building the Workstream 6 adapter (to a permanent warehouse/data/raw/ location, not a .tmp_ probe).",
-    "Do NOT attempt gh pr create without first confirming gh is installed and authenticated — it was not available this session.",
+    "Do NOT re-run Workstream 0's Sprint 10 re-verification test/build/lint suite as a first action on resume — it already passed and nothing has changed since.",
+    "Do NOT attempt gh pr create without first confirming gh is installed and authenticated.",
     "Do NOT re-run build_cross_census_harmonisation.mjs or load_cross_census_harmonisation_to_branch.mjs — Workstream 4 is complete, verified, and committed.",
-    "Do NOT re-run build_national_population_layer.mjs — Workstream 5 is complete and committed. Query warehouse/data/local/national_population.duckdb directly when Workstream 9 needs it, rather than rebuilding."
+    "Do NOT re-run build_national_population_layer.mjs — Workstream 5 is complete and committed. Query warehouse/data/local/national_population.duckdb directly when Workstream 9 needs it.",
+    "Do NOT re-run build_qld_rents_local_store.mjs, build_sa_rents_local_store.mjs, download_sa_rents.mjs, or build_wa_rents_local_store.mjs — all three (QLD/SA/WA) are complete, validated, and committed. Query warehouse/data/local/{qld,sa,wa}_rents.duckdb directly when Workstream 9 needs them.",
+    "Do NOT attempt to build a TAS rent adapter or re-check CBOS/DOJ Tasmania's sites — both are confirmed Cloudflare-blocked, and bypassing bot protection is forbidden by this project's guardrails."
   ],
-  "last_successful_command": "git push origin feature/australia-property-intelligence-v3 (pushed commits through 5363498, this checkpoint update)",
-  "exact_next_command": "git status --short && git log --oneline -3 (confirm clean tree and current HEAD before starting Workstream 6)",
-  "exact_next_task": "Begin Workstream 6 (task #48): remaining jurisdiction adapters. Start with QLD's RTA rent adapter (source already live-verified in WS2, stable URL, no bot protection) — download for real to warehouse/data/raw/qld_rents/, parse suburb/postcode/LGA sheets, build local DuckDB store, validate, write warehouse/reports/qld_rents_local_store_report.{json,md}, following the exact same pattern as VIC's rent adapter from Sprint 10. Then SA (SA Housing Trust Private Rent Report). WA's rent adapter (raw bond lodgements needing in-house median computation) is more complex — do it last. Each jurisdiction needs warehouse/adapters/<jurisdiction>/, warehouse/docs/<JURISDICTION>_DATA_METHOD.md, warehouse/reports/<jurisdiction>_adapter_validation_report.{md,json}.",
+  "last_successful_command": "git push origin feature/australia-property-intelligence-v3 (pushed commits through b9dce51, this checkpoint update)",
+  "exact_next_command": "git status --short && git log --oneline -3 (confirm clean tree and current HEAD before starting Workstream 7)",
+  "exact_next_task": "Begin Workstream 7 (task #49): local-first national data lake catalogue. Build warehouse/scripts/storage/audit_local_storage.mjs (inventory everything in warehouse/data/raw/ and warehouse/data/local/ across all workstreams so far: ASGS boundaries, Census/correspondence files, SA2 population, QLD/SA/WA rent raw+local stores), plan_local_cleanup.mjs, and verify_gitignored_data.mjs. Smaller, largely mechanical workstream — good to finish before the larger WS8 (historical sales backfill) or WS9 (canonical marts) efforts.",
   "remaining_completion_checklist": [
-    "Every AU state/territory has verified source research (DONE — QLD/SA/WA/TAS/ACT/NT this session, NSW/VIC in Sprint 10), explicit coverage status (DONE, jurisdiction_coverage.yml), a functioning jurisdiction adapter (NOT DONE for any of the 6 new states), national ABS/RBA context (already true for all), loaded sales/rental outputs wherever free official data supports them (NOT DONE — QLD/SA/WA rent sources selected but not built/loaded)",
+    "Every AU state/territory has verified source research (DONE — all 8 states/territories, live-verified), explicit coverage status (DONE, jurisdiction_coverage.yml), a functioning jurisdiction adapter (DONE for QLD/SA/WA rent — built and validated but not yet promoted; TAS/ACT/NT confirmed no adapter possible), national ABS/RBA context (already true for all), loaded sales/rental outputs wherever free official data supports them (PARTIALLY DONE — QLD/SA/WA rent local stores built, branch promotion pending Workstream 9)",
     "NSW and VIC remain fully valid (TRUE — untouched this session)",
-    "Census period harmonisation for defensible 2016-2021 comparisons (DONE — Workstream 4, 100.00% reconciliation, loaded to branch, independently verified)",
+    "Census period harmonisation for defensible 2016-2021 comparisons (DONE — Workstream 4)",
     "National snapshots/timeseries use one canonical metric registry (TRUE for NSW/VIC from Sprint 10; not yet extended to new jurisdictions or SA2/LGA levels)",
     "Transparent descriptive market indicators available (NOT STARTED — Workstream 10)",
-    "Research UI supports Australia-wide search, map exploration, comparison (partially true — explore/compare exist for NSW/VIC from Sprint 10; map explorer NOT STARTED; new-jurisdiction support pending their adapters)",
+    "Research UI supports Australia-wide search, map exploration, comparison (partially true — explore/compare exist for NSW/VIC from Sprint 10; map explorer NOT STARTED; new-jurisdiction support pending branch promotion in WS9)",
     "Refresh jobs incremental, resumable, safe (Sprint 10's v1 refresh orchestrator exists; v2 upgrade NOT STARTED — Workstream 14)",
     "Read-only security tests pass (TRUE for existing NSW/VIC interfaces from Sprint 10; new interfaces not yet built)",
-    "Performance limits and DB capacity remain safe (TRUE — measured this session, comfortable margin, zero growth from WS4/WS5 since both were UPDATE-only or local-only)",
-    "Production remains untouched (TRUE, reconfirmed this session)",
+    "Performance limits and DB capacity remain safe (TRUE — zero branch growth from WS4-WS6 since all were UPDATE-only or local-only)",
+    "Production remains untouched (TRUE, reconfirmed live this session)",
     "No raw/large file tracked by git (TRUE, reconfirmed this session)",
-    "No paid source or infrastructure introduced (TRUE — WS2 explicitly declined every paid option found)",
+    "No paid source or infrastructure introduced (TRUE)",
     "Final production-readiness report and draft PR exist (NOT STARTED — Workstream 22, final step)",
-    "System documents rather than pretends completeness for inaccessible sources (TRUE so far — WS2/WS3/WS5 explicitly did this)"
+    "System documents rather than pretends completeness for inaccessible sources (TRUE — WS2/WS3/WS5/WS6 all explicitly did this, including the TAS Cloudflare-blocked finding this session)"
   ],
   "safe_commit_created_at_checkpoint": true,
   "production_remains_untouched": true,
