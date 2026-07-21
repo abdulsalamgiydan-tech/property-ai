@@ -318,6 +318,45 @@ export async function compareMarketGeographies(geographyIds: string[]): Promise<
   return (data ?? []) as CompareRow[];
 }
 
+// ── Sprint 11 Workstream 11 — national map explorer ────────────────────────
+
+export type MapMarker = {
+  geography_id: string;
+  geography_type: "SAL" | "POA" | "LGA";
+  geography_code: string;
+  geography_name: string;
+  state_code: string | null;
+  jurisdiction: "NSW" | "VIC" | "QLD" | "SA" | "WA" | null;
+  centroid_lat: number;
+  centroid_lon: number;
+  median_sale_price_12m: number | null;
+  sales_confidence: string | null;
+  median_weekly_rent_latest: number | null;
+  rent_confidence: string | null;
+  has_full_snapshot: boolean;
+};
+
+export type MapBounds = { minLat: number; maxLat: number; minLon: number; maxLon: number };
+
+export async function getMapMarkers(
+  bounds: MapBounds,
+  geographyType?: "SAL" | "POA" | "LGA",
+  limit = 500
+): Promise<MapMarker[]> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("get_market_map_markers_v1", {
+    p_min_lat: bounds.minLat,
+    p_max_lat: bounds.maxLat,
+    p_min_lon: bounds.minLon,
+    p_max_lon: bounds.maxLon,
+    p_geography_type: geographyType ?? null,
+    p_limit: limit,
+  });
+  if (error) return [];
+  return (data ?? []) as MapMarker[];
+}
+
 export type TimeseriesRowV2 = TimeseriesRow & { jurisdiction: "NSW" | "VIC" | null; state_code: string | null };
 
 export async function getTimeseriesV2(geographyId: string): Promise<TimeseriesRowV2[]> {
