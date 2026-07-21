@@ -1,0 +1,67 @@
+{
+  "generated_at": "2026-07-21T13:28:16.921Z",
+  "method": "warehouse/docs/CROSS_CENSUS_HARMONISATION_METHOD.md",
+  "sal": {
+    "total_matched": 15333,
+    "with_publishable_growth_rate": 10935,
+    "suppressed_insufficient_population_base": 4398
+  },
+  "poa": {
+    "total_matched": 2641,
+    "with_publishable_growth_rate": 2596,
+    "suppressed_insufficient_population_base": 45
+  },
+  "spot_check_5_largest_sal": [
+    {
+      "geography_id": "SAL_22086_ASGS3_2021",
+      "geography_code": "SAL22086",
+      "population_2016_converted": 49913,
+      "population_2021": 66781,
+      "growth_pct": 33.79,
+      "confidence": "medium",
+      "contributing_correspondence_rows": 1
+    },
+    {
+      "geography_id": "SAL_20661_ASGS3_2021",
+      "geography_code": "SAL20661",
+      "population_2016_converted": 50347,
+      "population_2021": 65178,
+      "growth_pct": 29.46,
+      "confidence": "medium",
+      "contributing_correspondence_rows": 1
+    },
+    {
+      "geography_id": "SAL_22451_ASGS3_2021",
+      "geography_code": "SAL22451",
+      "population_2016_converted": 34562,
+      "population_2021": 56370,
+      "growth_pct": 63.1,
+      "confidence": "medium",
+      "contributing_correspondence_rows": 1
+    },
+    {
+      "geography_id": "SAL_21640_ASGS3_2021",
+      "geography_code": "SAL21640",
+      "population_2016_converted": 47312,
+      "population_2021": 54941,
+      "growth_pct": 16.13,
+      "confidence": "medium",
+      "contributing_correspondence_rows": 3
+    },
+    {
+      "geography_id": "SAL_22027_ASGS3_2021",
+      "geography_code": "SAL22027",
+      "population_2016_converted": 46578,
+      "population_2021": 54118,
+      "growth_pct": 16.19,
+      "confidence": "medium",
+      "contributing_correspondence_rows": 2
+    }
+  ],
+  "validation_gates": {
+    "source_target_reconciliation_pct_sal": "see cross_census_harmonisation_local_build.json (100.00%)",
+    "source_target_reconciliation_pct_poa": "see cross_census_harmonisation_local_build.json (100.00%)",
+    "low_confidence_growth_suppressed_to_null": true,
+    "no_duplicate_final_grain": "one row per geography_id, enforced by GROUP BY in the build script"
+  }
+}
