@@ -1,0 +1,175 @@
+# National jurisdiction coverage contract (Sprint 11, Workstream 3)
+#
+# Source of truth for what data actually exists per jurisdiction x metric
+# family. Prevents the product from implying uniform national coverage.
+# Feeds a safe read-only public view (Workstream 20) so every research
+# page can show an honest availability badge per metric.
+#
+# Status vocabulary (used consistently across every jurisdiction/metric):
+#   available          — direct official data loaded (or a confirmed free
+#                         source not yet loaded but ready to build)
+#   partially_available — available at a coarser geography or narrower
+#                         dwelling-type/date coverage than the ideal
+#   derived             — computed from other available inputs (e.g. yield
+#                         from separately-sourced sales+rent)
+#   stale                — was available, source has not refreshed within
+#                         its expected cadence
+#   unavailable           — no official source identified
+#   official_source_restricted — a source exists but its licence/access
+#                         terms are unclear or restrictive (e.g. WA sales
+#                         evidence's Personal Use License)
+#   official_source_paid  — a source exists but requires payment; not
+#                         purchased without explicit human approval
+
+jurisdictions:
+  NSW:
+    asgs_state_code: "1"
+    onboard_status: fully_onboarded
+    since_sprint: 5
+    metric_families:
+      sales: { status: available, earliest_period: "2001", latest_period: current, geography_levels: [SAL, POA], dwelling_type_detail: "detached_house, apartment_unit, townhouse_villa_semidetached, residential_land, other_residential", direct_or_derived: direct, refresh_frequency: weekly_plus_annual, confidence_ceiling: high, notes: "transaction-level, VG PSI" }
+      rents: { status: available, earliest_period: "2011", latest_period: current, geography_levels: [SAL, POA], direct_or_derived: "direct (POA), derived (SAL, via correspondence)", refresh_frequency: quarterly, confidence_ceiling: high }
+      yields: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "combines separately-sourced sales+rent, periods not forced to align" }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: monthly }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
+      population_growth: { status: partially_available, notes: "2016-2021 comparison NULL pending Workstream 4 harmonisation; single-Census population is available" }
+      affordability: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "shared national assumption scenario, not state-specific" }
+      land_values: { status: unavailable, notes: "no official bulk land-value source loaded" }
+      vacancy: { status: unavailable, notes: "no official vacancy-rate source identified" }
+      planning_pipeline: { status: unavailable }
+
+  VIC:
+    asgs_state_code: "2"
+    onboard_status: fully_onboarded
+    since_sprint: 10
+    metric_families:
+      sales: { status: partially_available, earliest_period: "2023-Q4", latest_period: current, geography_levels: [SAL], dwelling_type_detail: "detached_house, apartment_unit, residential_land — no townhouse/villa split, no postcode grain", direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: medium, notes: "VPSR is a pre-aggregated summary, not transaction-level like NSW" }
+      rents: { status: partially_available, geography_levels: [SAL, LGA], direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: medium, notes: "SAL grain only for the ~50% of localities that resolve to a single ASGS suburb; LGA fallback for the rest" }
+      yields: { status: derived, direct_or_derived: derived, confidence_ceiling: medium }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: partially_available, notes: "same 2016-2021 harmonisation gap as NSW" }
+      affordability: { status: derived, confidence_ceiling: medium }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  QLD:
+    asgs_state_code: "3"
+    onboard_status: source_selected_not_yet_built
+    metric_families:
+      sales: { status: official_source_paid, notes: "Valuer-General sells per-property via business centres/QVAS — no free bulk aggregate. See queensland_source_manifest.json." }
+      rents: { status: unavailable, notes: "source selected (RTA Quarterly Data) but not yet loaded — Workstream 6" }
+      yields: { status: unavailable, notes: "cannot derive without a sales source" }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, notes: "already national since Sprint 2-4" }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: partially_available }
+      affordability: { status: unavailable, notes: "requires a sales input, which is not yet available" }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  SA:
+    asgs_state_code: "4"
+    onboard_status: source_selected_not_yet_built
+    metric_families:
+      sales: { status: official_source_paid, notes: "Land Services SA sells via SAILIS/Property Edge — no free bulk aggregate. See south_australia_source_manifest.json." }
+      rents: { status: unavailable, notes: "source selected (SA Housing Trust Private Rent Report) but not yet loaded — Workstream 6" }
+      yields: { status: unavailable }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: partially_available }
+      affordability: { status: unavailable }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  WA:
+    asgs_state_code: "5"
+    onboard_status: source_selected_not_yet_built
+    metric_families:
+      sales: { status: official_source_restricted, notes: "Landgate sells per-report; free catalogue metadata carries a Personal Use License not clearly compatible with this platform. See western_australia_source_manifest.json." }
+      rents: { status: unavailable, notes: "source selected (WA Rental Bonds Data) but requires raw-lodgement median computation, larger adapter build — Workstream 6" }
+      yields: { status: unavailable }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: partially_available }
+      affordability: { status: unavailable }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  TAS:
+    asgs_state_code: "6"
+    onboard_status: verification_incomplete
+    metric_families:
+      sales: { status: official_source_restricted, notes: "Valuer-General via LIST appears fee-based; not fully verified. See tasmania_source_manifest.json." }
+      rents: { status: unavailable, notes: "no source identified this pass; Consumer, Building and Occupational Services Tasmania not yet checked — flagged for follow-up" }
+      yields: { status: unavailable }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: partially_available }
+      affordability: { status: unavailable }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  ACT:
+    asgs_state_code: "8"
+    onboard_status: national_context_only
+    metric_families:
+      sales: { status: unavailable, notes: "official open data portal live-searched, zero results. See act_source_manifest.json." }
+      rents: { status: unavailable, notes: "same — zero results" }
+      yields: { status: unavailable }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: partially_available }
+      affordability: { status: unavailable }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  NT:
+    asgs_state_code: "7"
+    onboard_status: national_context_only
+    metric_families:
+      sales: { status: unavailable, notes: "official open data portal's property group live-reviewed (12/12 datasets), no sales data. REINT rejected as non-official. See northern_territory_source_manifest.json." }
+      rents: { status: unavailable, notes: "same portal group — no rent data" }
+      yields: { status: unavailable }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: partially_available }
+      affordability: { status: unavailable }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+shared_notes:
+  - "dwelling_stock, building_approvals, demographics, income, tenure are 'available' for EVERY jurisdiction because ASGS geography and Census/Building-Approvals data were loaded nationally in Sprints 2-4 — this is not jurisdiction-specific work, confirmed by direct query for each state, not assumed."
+  - "population_growth is 'partially_available' everywhere pending Workstream 4's 2016-2021 Census harmonisation — a single-Census population figure is available now, but the growth RATE is not until harmonisation completes."
+  - "land_values, vacancy, and planning_pipeline are unavailable for every jurisdiction — no official free bulk source for any of these three metric families was identified in this sprint for any state, including NSW/VIC. This is a genuine, honestly-documented national gap, not a jurisdiction-specific one."
+  - "affordability is 'unavailable' for QLD/SA/WA/TAS/ACT/NT because it requires a sales price input, which none of those jurisdictions have loaded yet — it will become 'derived' automatically once/if a sales source is onboarded for a state, using the exact same shared assumption scenario as NSW/VIC (no per-state redefinition)."
