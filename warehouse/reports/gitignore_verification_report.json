@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-07-21T20:28:33.001Z",
+  "scope": "Sprint 11 Workstream 7 — gitignore verification for the local data lake",
+  "checks": [
+    {
+      "name": "no files tracked under warehouse/data/",
+      "pass": true
+    },
+    {
+      "name": "no files staged under warehouse/data/",
+      "pass": true
+    },
+    {
+      "name": "no raw-data-extension files staged outside warehouse/data/",
+      "pass": true
+    },
+    {
+      "name": ".gitignore has a blanket warehouse/data/ rule",
+      "pass": true
+    },
+    {
+      "name": "extension inventory recorded",
+      "pass": true,
+      "detail": "cpg, csv, dat, dbf, duckdb, parquet, prj, sbn, sbx, shp, shx, txt, xls, xlsx, xml, zip"
+    }
+  ],
+  "all_passed": true,
+  "extensions_on_disk": [
+    "cpg",
+    "csv",
+    "dat",
+    "dbf",
+    "duckdb",
+    "parquet",
+    "prj",
+    "sbn",
+    "sbx",
+    "shp",
+    "shx",
+    "txt",
+    "xls",
+    "xlsx",
+    "xml",
+    "zip"
+  ]
+}
