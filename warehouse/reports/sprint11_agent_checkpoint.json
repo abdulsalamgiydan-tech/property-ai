@@ -1,15 +1,15 @@
 {
   "sprint_name": "Sprint 11 — Australian Residential Property Intelligence V3 (National Coverage, Historical Harmonisation, Research Indicators, Automated Operations and Production Candidate)",
-  "checkpoint_timestamp": "2026-07-22T01:45:00+10:00",
-  "supersedes_checkpoint_timestamp": "2026-07-22T00:35:00+10:00",
+  "checkpoint_timestamp": "2026-07-22T02:15:00+10:00",
+  "supersedes_checkpoint_timestamp": "2026-07-22T01:45:00+10:00",
   "checkpoint_timezone": "Australia/Sydney",
   "git": {
     "branch": "feature/australia-property-intelligence-v3",
-    "commit_hash": "2746fb4",
+    "commit_hash": "5363498",
     "working_tree_status": "clean",
     "base_branch": "feature/deal-analyser-budget-2026 (Sprint 10, HEAD 599beae — preserved unmodified, no commits rewritten)",
     "pushed_to_origin": true,
-    "last_push_commit": "2746fb4 — all commits through this one confirmed pushed via git push immediately after this checkpoint update"
+    "last_push_commit": "5363498 — all commits through this one confirmed pushed via git push immediately after this checkpoint update"
   },
   "supabase": {
     "target_branch_name": "warehouse-validation",
@@ -28,22 +28,23 @@
     "Workstream 1 — National capacity/cost/architecture audit complete. Corrected finding: Supabase org plan is Pro (8,192MB included storage, not the previously-assumed 4,500MB) — kept 4,500MB as the working internal safety margin anyway. All 5 public comparison-API interfaces measured live via EXPLAIN ANALYZE: 4-101ms, all well under target. One optimisation candidate found (no index on ILIKE suburb-name search) and documented for Workstream 17, not fixed yet.",
     "Workstream 2 — National source discovery for QLD/SA/WA/TAS/ACT/NT complete (live-verified via WebSearch + gstack /browse + CKAN API/curl, not search-snippet-only). Key finding: free bulk automatable SALES data does not exist in any of the 6 states — all paid or blocked. RENT is available free for QLD (RTA, verified, current to Jun 2026), SA (SA Housing Trust, verified via CKAN API, history to 2008), and WA (DMIRS raw bond lodgements, CC BY 4.0, needs in-house median computation — flagged as extra adapter work). TAS got search-only verification (flagged for follow-up). ACT and NT both live-searched directly against their official portals and confirmed zero results — national-context-only for both this sprint.",
     "Workstream 3 — jurisdiction_coverage.yml + JURISDICTION_COVERAGE_CONTRACT.md complete, built directly from Workstream 2's findings. Documents per-jurisdiction x per-metric-family status for all 8 states/territories. Key finding: supply/demographic context already available nationally for all 8 (confirmed, not assumed); land_values/vacancy/planning_pipeline unavailable nationally (no source found for ANY jurisdiction including NSW/VIC, an honest gap); population_growth capped at partially_available everywhere pending Workstream 4.",
-    "Workstream 4 — Cross-Census 2016-2021 population harmonisation COMPLETE. Downloaded live-verified ABS correspondence files (SA1/SA2/LGA/POA/SAL) and 2016 Census G01 population (SSC/POA grain). Built population-weighted conversion reconciling to 100.00% of Australia's true 2016 population for both SAL and POA. Loaded to branch as a pure UPDATE (no schema change, zero storage growth): 15,333/15,334 SAL and 2,641/2,641 POA rows now have population_2016; 10,935 SAL and 2,596 POA have a publishable growth rate. Independently re-verified post-commit."
+    "Workstream 4 — Cross-Census 2016-2021 population harmonisation COMPLETE. Downloaded live-verified ABS correspondence files (SA1/SA2/LGA/POA/SAL) and 2016 Census G01 population (SSC/POA grain). Built population-weighted conversion reconciling to 100.00% of Australia's true 2016 population for both SAL and POA. Loaded to branch as a pure UPDATE (no schema change, zero storage growth): 15,333/15,334 SAL and 2,641/2,641 POA rows now have population_2016; 10,935 SAL and 2,596 POA have a publishable growth rate. Independently re-verified post-commit.",
+    "Workstream 5 — National population-demand layer COMPLETE. Downloaded ABS Regional Population Table 1 (genuine observed ERP, SA2 grain, 2001-2025, no bot protection). Built local store: 61,335 (SA2 x year) observations across 2,454 SA2 geographies, with 1-year and 5-year-annualised growth. Validated: national total 27,613,654 at June 2025 matches Australia's known population; independently-computed top-5 fastest-growing SA2s matched ABS's own published narrative highlights verbatim. Deliberately NOT promoted to branch — SA2 has no mart table yet, deferred to Workstream 9."
   ],
-  "phase_in_progress": "none — Workstream 4 was cleanly completed, loaded to the branch, independently re-verified, and committed before this checkpoint update. Workstream 5 (national population-demand layer) has not been started.",
+  "phase_in_progress": "none — Workstream 5 was cleanly completed and committed before this checkpoint update. Workstream 6 (remaining jurisdiction adapters) has not been started.",
   "exact_tasks_completed": [
     "Task #42 (S11 WS0) — completed",
     "Task #43 (S11 WS1) — completed",
     "Task #44 (S11 WS2) — completed",
     "Task #45 (S11 WS3) — completed",
-    "Task #46 (S11 WS4) — completed"
+    "Task #46 (S11 WS4) — completed",
+    "Task #47 (S11 WS5) — completed"
   ],
   "exact_tasks_remaining_in_order": [
-    "Task #47 (S11 WS5) — national population-demand layer — NOT STARTED",
-    "Task #48 (S11 WS6) — remaining jurisdiction adapters (QLD/SA/ACT/TAS/NT/WA) — NOT STARTED",
+    "Task #48 (S11 WS6) — remaining jurisdiction adapters (QLD/SA/ACT/TAS/NT/WA) — NOT STARTED. Effective order given WS2 findings: QLD rent, SA rent, WA rent (extra work), TAS deferred pending re-verification, ACT/NT have no selected source (national context only).",
     "Task #49 (S11 WS7) — local-first national data lake catalogue — NOT STARTED",
     "Task #50 (S11 WS8) — historical sales backfill — NOT STARTED",
-    "Task #51 (S11 WS9) — canonical national market marts (SA2/LGA levels) — NOT STARTED",
+    "Task #51 (S11 WS9) — canonical national market marts (SA2/LGA levels) — NOT STARTED. Inputs already prepared: ABS correspondence files (WS4) and SA2 population layer (WS5) are downloaded/built locally, waiting on this workstream's schema decisions.",
     "Task #52 (S11 WS10) — transparent research indicators — NOT STARTED",
     "Task #53 (S11 WS11) — national map explorer — NOT STARTED",
     "Task #54 (S11 WS12) — advanced comparison workspace (2-10 geographies) — NOT STARTED",
@@ -82,7 +83,10 @@
     "warehouse/reports/cross_census_harmonisation_branch_load_report.json",
     "warehouse/scripts/geography/build_cross_census_harmonisation.mjs",
     "warehouse/scripts/geography/validate_cross_census_harmonisation.mjs",
-    "warehouse/scripts/geography/load_cross_census_harmonisation_to_branch.mjs"
+    "warehouse/scripts/geography/load_cross_census_harmonisation_to_branch.mjs",
+    "warehouse/reports/national_population_layer_local_build.json",
+    "warehouse/reports/national_population_layer_report.{json,md}",
+    "warehouse/scripts/demographics/build_national_population_layer.mjs"
   ],
   "files_modified_this_session": [],
   "migrations_applied_this_session": [],
@@ -90,15 +94,17 @@
     "QLD RTA rent data (probe only, deleted after inspection — verification, not a persisted local store)",
     "SA Private Rent Report Q1 2026 (probe only, deleted after inspection)",
     "ABS 2016->2021 correspondence CSVs (SA1, SA2, LGA, POA, SSC-to-SAL) — PERSISTED at warehouse/data/raw/abs_correspondence/asgs_2016_to_2021/ (gitignored)",
-    "ABS 2016 Census GCP SSC (85MB) and POA (33MB) zips — PERSISTED at warehouse/data/raw/census_2016/{gcp_ssc,gcp_poa}/ (gitignored), extracted to warehouse/data/processed/census_2016/"
+    "ABS 2016 Census GCP SSC (85MB) and POA (33MB) zips — PERSISTED at warehouse/data/raw/census_2016/{gcp_ssc,gcp_poa}/ (gitignored), extracted to warehouse/data/processed/census_2016/",
+    "ABS Regional Population Table 1 (SA2, 2001-2025, 688KB) and population-components file (764KB) — PERSISTED at warehouse/data/raw/abs_regional_population/ (gitignored). Components file downloaded but not yet parsed."
   ],
   "local_datasets_validated_this_session": [
     "QLD RTA rent file structure confirmed (13 sheets, suburb/postcode/LGA/state grain, current to Jun 2026)",
     "SA Private Rent Report structure confirmed (4 sheets: Suburb/PC/Region/SLA, current to Mar 2026)",
     "ABS correspondence files structure confirmed (SSC_CODE_2016/POA_CODE_2016, RATIO_FROM_TO, quality indicators) matches official documentation exactly",
-    "2016 Census G01 population tables confirmed correct format (SSC_CODE_2016/POA_CODE_2016 + Tot_P_P), conversion reconciled to 100.00% of true national 2016 population"
+    "2016 Census G01 population tables confirmed correct format (SSC_CODE_2016/POA_CODE_2016 + Tot_P_P), conversion reconciled to 100.00% of true national 2016 population",
+    "ABS Regional Population SA2 table validated: national total 27,613,654 (June 2025) plausible, zero negative population rows, independently-computed top-5 growth SA2s exactly matched ABS's own published narrative"
   ],
-  "note_on_probe_files": "QLD/SA rent probes were deleted after inspection (no persistent store). The ABS correspondence and 2016 Census files ARE persisted locally (gitignored) since Workstream 4 actually used them to build and load real data — do not re-download these on resume.",
+  "note_on_probe_files": "QLD/SA rent probes were deleted after inspection (no persistent store). The ABS correspondence, 2016 Census, and Regional Population files ARE persisted locally (gitignored) since Workstreams 4 and 5 actually used them to build and load real data — do not re-download these on resume.",
   "branch_loads_completed_this_session": [
     "cross_census_harmonisation_branch_load_report.json — UPDATE only (no schema change) on mart.suburb_demographic_profile_2021 (15,333 rows) and mart.postcode_demographic_profile_2021 (2,641 rows), filling population_2016/population_growth_2016_2021_pct. Zero storage growth. Independently re-verified post-commit."
   ],
@@ -106,6 +112,7 @@
     "Sprint 10 re-verification: 48/48 tests, build succeeds, lint at baseline, warehouse:check passes",
     "Live query performance measurement on all 5 comparison-API interfaces (all pass targets)",
     "Cross-census harmonisation: 100.00% population reconciliation for both SAL and POA, all branch-load validation gates zero, independently re-verified via a separate read-only query after commit",
+    "National population layer: national total plausibility, zero negative rows, top-5 growth cross-validated against ABS's own published narrative",
     "git diff --check clean, no raw/large files staged, working tree clean at checkpoint time"
   ],
   "validations_failed_this_session": [],
@@ -131,11 +138,12 @@
     "Do NOT re-run Workstream 0's Sprint 10 re-verification test/build/lint suite as a first action on resume — it already passed and nothing has changed since. Only re-run if resuming after an unusual gap or suspected corruption.",
     "Do NOT re-download the QLD RTA or SA rent probe files for verification purposes again — their structure is already documented in the manifests. Only download for real when building the Workstream 6 adapter (to a permanent warehouse/data/raw/ location, not a .tmp_ probe).",
     "Do NOT attempt gh pr create without first confirming gh is installed and authenticated — it was not available this session.",
-    "Do NOT re-run build_cross_census_harmonisation.mjs or load_cross_census_harmonisation_to_branch.mjs — Workstream 4 is complete, verified, and committed. Re-running the branch load is harmless (idempotent UPDATE, same values) but unnecessary."
+    "Do NOT re-run build_cross_census_harmonisation.mjs or load_cross_census_harmonisation_to_branch.mjs — Workstream 4 is complete, verified, and committed.",
+    "Do NOT re-run build_national_population_layer.mjs — Workstream 5 is complete and committed. Query warehouse/data/local/national_population.duckdb directly when Workstream 9 needs it, rather than rebuilding."
   ],
-  "last_successful_command": "git push origin feature/australia-property-intelligence-v3 (pushed commits through 2746fb4, this checkpoint update)",
-  "exact_next_command": "git status --short && git log --oneline -3 (confirm clean tree and current HEAD before starting Workstream 5)",
-  "exact_next_task": "Begin Workstream 5 (task #47): national population-demand layer. Add official ABS ERP (Estimated Resident Population) / Regional Population context beyond the static 2021 Census. First step: WebSearch + live verification (same pattern as WS2/WS4) of the current ABS ERP/Regional Population product page and its actual geography grain — verify, don't assume, before committing to a build approach. Do not use population projections in historical metrics, only observed ERP.",
+  "last_successful_command": "git push origin feature/australia-property-intelligence-v3 (pushed commits through 5363498, this checkpoint update)",
+  "exact_next_command": "git status --short && git log --oneline -3 (confirm clean tree and current HEAD before starting Workstream 6)",
+  "exact_next_task": "Begin Workstream 6 (task #48): remaining jurisdiction adapters. Start with QLD's RTA rent adapter (source already live-verified in WS2, stable URL, no bot protection) — download for real to warehouse/data/raw/qld_rents/, parse suburb/postcode/LGA sheets, build local DuckDB store, validate, write warehouse/reports/qld_rents_local_store_report.{json,md}, following the exact same pattern as VIC's rent adapter from Sprint 10. Then SA (SA Housing Trust Private Rent Report). WA's rent adapter (raw bond lodgements needing in-house median computation) is more complex — do it last. Each jurisdiction needs warehouse/adapters/<jurisdiction>/, warehouse/docs/<JURISDICTION>_DATA_METHOD.md, warehouse/reports/<jurisdiction>_adapter_validation_report.{md,json}.",
   "remaining_completion_checklist": [
     "Every AU state/territory has verified source research (DONE — QLD/SA/WA/TAS/ACT/NT this session, NSW/VIC in Sprint 10), explicit coverage status (DONE, jurisdiction_coverage.yml), a functioning jurisdiction adapter (NOT DONE for any of the 6 new states), national ABS/RBA context (already true for all), loaded sales/rental outputs wherever free official data supports them (NOT DONE — QLD/SA/WA rent sources selected but not built/loaded)",
     "NSW and VIC remain fully valid (TRUE — untouched this session)",
@@ -145,18 +153,18 @@
     "Research UI supports Australia-wide search, map exploration, comparison (partially true — explore/compare exist for NSW/VIC from Sprint 10; map explorer NOT STARTED; new-jurisdiction support pending their adapters)",
     "Refresh jobs incremental, resumable, safe (Sprint 10's v1 refresh orchestrator exists; v2 upgrade NOT STARTED — Workstream 14)",
     "Read-only security tests pass (TRUE for existing NSW/VIC interfaces from Sprint 10; new interfaces not yet built)",
-    "Performance limits and DB capacity remain safe (TRUE — measured this session, comfortable margin)",
+    "Performance limits and DB capacity remain safe (TRUE — measured this session, comfortable margin, zero growth from WS4/WS5 since both were UPDATE-only or local-only)",
     "Production remains untouched (TRUE, reconfirmed this session)",
     "No raw/large file tracked by git (TRUE, reconfirmed this session)",
     "No paid source or infrastructure introduced (TRUE — WS2 explicitly declined every paid option found)",
     "Final production-readiness report and draft PR exist (NOT STARTED — Workstream 22, final step)",
-    "System documents rather than pretends completeness for inaccessible sources (TRUE so far — WS2/WS3 explicitly did this)"
+    "System documents rather than pretends completeness for inaccessible sources (TRUE so far — WS2/WS3/WS5 explicitly did this)"
   ],
   "safe_commit_created_at_checkpoint": true,
   "production_remains_untouched": true,
   "scheduled_resume": {
-    "time": "2026-07-22T01:10:00+10:00",
+    "time": "next ScheduleWakeup call immediately following this checkpoint write",
     "timezone": "Australia/Sydney",
-    "mechanism": "ScheduleWakeup tool call immediately following this checkpoint write"
+    "mechanism": "ScheduleWakeup tool call"
   }
 }

@@ -5,17 +5,17 @@ Coverage, Historical Harmonisation, Research Indicators, Automated
 Operations and Production Candidate)
 
 **Checkpoint written**: 2026-07-22 00:35 Australia/Sydney (superseded by
-an update at 2026-07-22 01:45 Australia/Sydney after Workstream 4
-completed — this file reflects the update)
+updates after Workstream 4 and now Workstream 5 completed — this file
+reflects the latest state as of 2026-07-22 ~02:10 Australia/Sydney)
 
 ## Git state
 
 - Branch: `feature/australia-property-intelligence-v3`
-- Commit: `2746fb4`
+- Commit: `5363498`
 - Working tree: **clean**
 - Base: Sprint 10's `feature/deal-analyser-budget-2026` HEAD (`599beae`),
   preserved unmodified, no commits rewritten
-- All commits through `2746fb4` have been pushed to origin — confirmed
+- All commits through `5363498` have been pushed to origin — confirmed
   via `git push` immediately after this update. No push needed on resume
   unless new local commits exist.
 
@@ -71,19 +71,32 @@ completed — this file reflects the update)
    publishable growth rate (suppressed below a 50-person base).
    Independently re-verified via a separate read-only query after commit.
 
-## What's NOT done (Workstreams 5-22)
+6. **WS5** — National population-demand layer, COMPLETE. Downloaded
+   ABS Regional Population Table 1 (genuine observed ERP, SA2 grain,
+   2001-2025, no bot protection). Built local store: 61,335 (SA2 x year)
+   observations, 2,454 distinct SA2s, 1-year and 5-year-annualised growth
+   computed. Validated: national total (27.6M at June 2025) matches
+   Australia's known population; independently-computed top-5
+   fastest-growing SA2s matched ABS's own published narrative highlights
+   verbatim (strong cross-validation). **Deliberately NOT promoted to the
+   branch** — SA2 has no mart table yet; promotion deferred to WS9 which
+   owns that schema decision. Companion migration-components file
+   downloaded but not parsed (reserved for later if needed).
 
-Nothing has been started on the national ERP/Regional Population layer
-(WS5), the actual jurisdiction adapters (QLD/SA/WA/TAS rent sources are
-*selected* but not *built or loaded* — WS6), SA2/LGA-level marts (WS9,
-though the correspondence files needed for it are already downloaded),
-research indicators, the map explorer, the expanded comparison workspace,
-export functionality, the refresh engine v2, GitHub Actions schedules,
-the data-status console expansion, security/performance hardening beyond
-WS1's measurement pass, new feature flags, comprehensive testing, any
-Sprint 11 migrations, further documentation, or the final report/PR.
+## What's NOT done (Workstreams 6-22)
 
-This is a **large amount of remaining work** — treat Workstreams 5-22 as
+Nothing has been started on the actual jurisdiction adapters (QLD/SA/
+WA/TAS rent sources are *selected* but not *built or loaded* — WS6),
+SA2/LGA-level marts (WS9 — the correspondence files AND the SA2
+population layer needed for it are already downloaded/built locally,
+waiting on WS9's schema decisions), research indicators, the map
+explorer, the expanded comparison workspace, export functionality, the
+refresh engine v2, GitHub Actions schedules, the data-status console
+expansion, security/performance hardening beyond WS1's measurement pass,
+new feature flags, comprehensive testing, any Sprint 11 migrations,
+further documentation, or the final report/PR.
+
+This is a **large amount of remaining work** — treat Workstreams 6-22 as
 a fresh multi-session effort, not something to rush.
 
 ## Unresolved blockers (none sprint-wide)
@@ -112,6 +125,12 @@ None of these block the rest of the sprint.
   `warehouse/data/raw/abs_correspondence/` and
   `warehouse/data/raw/census_2016/` (gitignored, but present on disk —
   don't re-download unless doing a fresh environment setup).
+- Don't re-run `build_national_population_layer.mjs` — WS5 is complete
+  and committed. The SA2 population xlsx files are already at
+  `warehouse/data/raw/abs_regional_population/` (gitignored, present on
+  disk). The local DuckDB/Parquet outputs are ready and waiting for WS9
+  to promote them — query `warehouse/data/local/national_population.duckdb`
+  directly rather than rebuilding it.
 
 ## Exact next command
 
@@ -120,20 +139,24 @@ git status --short && git log --oneline -3
 ```
 
 (Confirm clean tree and current HEAD before starting new work — all
-commits through `2746fb4` are already pushed, no push needed unless this
+commits through `5363498` are already pushed, no push needed unless this
 resume session created new local commits since.)
 
 ## Exact next task
 
-Begin **Workstream 5** (task #47): national population-demand layer.
-Add official ABS population context beyond the static 2021 Census —
-target datasets: Estimated Resident Population (ERP), Regional Population.
-First step: WebSearch + live verification (same pattern as WS2/WS4) of
-the current ABS ERP/Regional Population product page and its actual
-geography grain (national ERP is typically published at SA2 grain, not
-suburb/postcode — verify, don't assume, before committing to a build
-approach). Do not use population *projections* in historical metrics —
-only observed ERP.
+Begin **Workstream 6** (task #48): remaining jurisdiction adapters.
+Effective priority given WS2's findings (ACT/NT have no selected source):
+**QLD first** — build the RTA rent adapter. The source is already
+live-verified in WS2 (stable URL, no bot protection, current to Jun 2026).
+Follow the exact same pattern as VIC's rent adapter from Sprint 10:
+download the file for real to `warehouse/data/raw/qld_rents/`, parse the
+suburb/postcode/LGA sheets, build a local DuckDB store, validate, write
+`warehouse/reports/qld_rents_local_store_report.{json,md}`. Then SA
+(SA Housing Trust Private Rent Report, similarly already verified). WA's
+rent adapter is more complex (raw bond lodgements needing in-house median
+computation) — do it last of the three. Each jurisdiction needs:
+`warehouse/adapters/<jurisdiction>/`, `warehouse/docs/<JURISDICTION>_DATA_METHOD.md`,
+`warehouse/reports/<jurisdiction>_adapter_validation_report.{md,json}`.
 
 ## Resume verification checklist
 
@@ -141,7 +164,7 @@ Before doing anything else on resume:
 
 1. `git status --short` — confirm still on
    `feature/australia-property-intelligence-v3`, clean.
-2. Confirm HEAD is `72a71cb` (or later if this checkpoint file itself
+2. Confirm HEAD is `5363498` (or later if this checkpoint file itself
    shows a newer commit — always trust the actual git log over this
    document if they ever disagree).
 3. Confirm no interrupted database transaction (no Sprint 11 migrations
