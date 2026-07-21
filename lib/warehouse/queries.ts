@@ -198,6 +198,31 @@ export async function getTimeseries(geographyId: string): Promise<TimeseriesRow[
   });
 }
 
+export type DatasetFreshness = {
+  dataset_id: string;
+  jurisdiction: "NSW" | "VIC" | null;
+  dataset_name: string | null;
+  publisher: string | null;
+  latest_source_period: string | null;
+  last_retrieved_at: string | null;
+  last_successful_validation_at: string | null;
+  expected_cadence_days: number | null;
+  freshness_status: "current" | "due" | "stale" | "failed" | "blocked" | "manual_review" | string;
+  current_branch_row_count: number | null;
+  last_failure_summary: string | null;
+  local_only_or_branch_published: "local_only" | "branch_published" | null;
+  source_url: string | null;
+  computed_at: string;
+};
+
+export async function getDatasetFreshness(): Promise<DatasetFreshness[]> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.from("v_dataset_freshness_v1").select("*").order("dataset_id");
+  if (error) return [];
+  return (data ?? []) as DatasetFreshness[];
+}
+
 export async function getMetricAssumptions(): Promise<MetricAssumption[]> {
   const supabase = createWarehouseClient();
   if (!supabase) return [];

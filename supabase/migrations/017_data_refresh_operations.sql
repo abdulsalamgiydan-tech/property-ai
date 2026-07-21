@@ -61,7 +61,27 @@ create table if not exists meta.dataset_freshness_status (
 comment on table meta.dataset_freshness_status is
   'Computed freshness snapshot per dataset, refreshed by check_freshness.mjs. Backs the /research/data-status observability page (Phase 14). Never exposes local file paths, secrets, internal DB identifiers, or raw operational logs — only the fields listed here.';
 
--- meta.dataset_refresh_policy / meta.dataset_freshness_status are read via
--- a dedicated public view in a later migration if/when the /research/
--- data-status page needs direct Supabase access; this migration only
--- creates the metadata tables themselves (no public grants here).
+-- ── Public read-only view for /research/data-status (Phase 14) ────────────
+-- Same security model as migration 014/016: security_invoker=false view,
+-- SELECT granted to anon/authenticated only, no direct grant on meta.*.
+-- Exposes only non-sensitive columns — no local file paths, secrets,
+-- internal DB identifiers, or raw operational logs.
+create or replace view public.v_dataset_freshness_v1
+  with (security_invoker = false) as
+select
+  f.dataset_id, f.jurisdiction, d.dataset_name, s.publisher,
+  f.latest_source_period, f.last_retrieved_at, f.last_successful_validation_at,
+  f.expected_cadence_days, f.freshness_status, f.current_branch_row_count,
+  f.last_failure_summary, f.local_only_or_branch_published, f.source_url,
+  f.computed_at
+from meta.dataset_freshness_status f
+left join meta.dataset d on d.dataset_id = f.dataset_id
+left join meta.source s on s.source_id = d.source_id;
+comment on view public.v_dataset_freshness_v1 is
+  'Read-only public projection of meta.dataset_freshness_status for the /research/data-status observability page. Never exposes local file paths, secrets, internal DB identifiers, or raw operational logs — only the fields listed here.';
+
+grant usage on schema public to anon, authenticated;
+grant select on public.v_dataset_freshness_v1 to anon, authenticated;
+revoke all on meta.dataset_refresh_policy from anon, authenticated;
+revoke all on meta.dataset_refresh_run from anon, authenticated;
+revoke all on meta.dataset_freshness_status from anon, authenticated;

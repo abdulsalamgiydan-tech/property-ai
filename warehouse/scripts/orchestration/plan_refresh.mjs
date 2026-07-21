@@ -48,7 +48,9 @@ await client.connect();
 const policies = await client.query(`
   select p.dataset_id, p.jurisdiction, p.refresh_frequency, p.expected_cadence_days,
          p.source_discovery_method, p.auto_discoverable, p.requires_headed_browser,
-         (select max(started_at) from meta.dataset_refresh_run r where r.dataset_id = p.dataset_id and r.status = 'succeeded') as last_success
+         -- Exclude 'plan'/'dry-run' modes: they never touch actual data,
+         -- so they must never count as evidence a dataset was refreshed.
+         (select max(started_at) from meta.dataset_refresh_run r where r.dataset_id = p.dataset_id and r.status = 'succeeded' and r.mode not in ('plan', 'dry-run')) as last_success
   from meta.dataset_refresh_policy p
   where ($1::text is null or p.jurisdiction = $1)
     and ($2::text is null or p.dataset_id = $2)
