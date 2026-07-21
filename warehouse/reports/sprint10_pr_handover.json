@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-07-21T22:05:00+10:00",
+  "purpose": "Sprint 11 Workstream 0 handover — Sprint 10 preservation, push, and draft-PR status",
+  "sprint10_branch": "feature/deal-analyser-budget-2026",
+  "sprint10_head_commit": "599beae",
+  "sprint10_pushed_to_origin": true,
+  "origin_remote": "https://github.com/abdulsalamgiydan-tech/property-ai.git",
+  "re_verification_results": {
+    "tests": "48/48 pass (vitest run)",
+    "build": "npm run build succeeds — all routes compiled including /research/data-status, /research/explore, /research/compare",
+    "lint": "8 errors / 6 warnings — identical to the established pre-existing baseline (verified per-file with git log that none are new)",
+    "warehouse_check": "npm run warehouse:check passes — no raw/boundary/archive files tracked by git",
+    "sprint10_final_report_exists": true,
+    "sprint10_final_report_path": "warehouse/reports/sprint10_final_report.md"
+  },
+  "draft_pr_status": {
+    "created": false,
+    "blocker": "gh CLI is not installed in this environment and no GITHUB_TOKEN/GH_TOKEN environment variable is present, so the PR cannot be created via the GitHub API without either installing gh and completing an interactive browser auth.login flow, or being supplied a token — neither of which this autonomous session can perform unattended.",
+    "user_decision": "User explicitly chose to skip programmatic PR creation and continue the sprint without it (2026-07-21).",
+    "manual_creation_instructions": "gh pr create --base main --head feature/deal-analyser-budget-2026 --draft --title \"Australia Residential Property Intelligence V2 (NSW + VIC)\" --body-file warehouse/reports/sprint10_pr_handover.md   (or open https://github.com/abdulsalamgiydan-tech/property-ai/compare/main...feature/deal-analyser-budget-2026 in a browser and click 'Create pull request', selecting Draft)",
+    "not_a_sprint_blocker": "Per this sprint's own rule that a source/tooling-specific blocker must not stop unrelated workstreams, Sprint 11 continues without this PR existing yet."
+  },
+  "sprint11_branch": {
+    "name": "feature/australia-property-intelligence-v3",
+    "created_from": "599beae (feature/deal-analyser-budget-2026 HEAD)",
+    "pushed_to_origin": false
+  },
+  "sprint10_commits_preserved": [
+    "05fee3b feat(warehouse): Sprint 10 Phases 0-2 — NSW reconciliation + state-adapter architecture",
+    "4012937 feat(warehouse): Sprint 10 Phase 3-6 — Victoria source discovery, geography mapping, sales+rents local stores",
+    "21f8008 feat(warehouse): Sprint 10 Phase 7-9 — VIC supply/demographics confirmation, multi-state schema, branch load",
+    "18d9ede feat(warehouse): Sprint 10 Phase 10-11 — national metric registry + cross-state comparison API",
+    "1f9115c feat(warehouse,web): Sprint 10 Phase 12-13 (partial) — multi-state research UI + refresh registry",
+    "2c4394e feat(warehouse,web): Sprint 10 Phase 13-14 — refresh orchestration + freshness observability",
+    "7e8ccac test(warehouse): Sprint 10 Phase 15 — VIC contract tests, national metric validation, lint cleanup",
+    "599beae docs(warehouse): Sprint 10 final report"
+  ],
+  "no_history_rewritten": true
+}
