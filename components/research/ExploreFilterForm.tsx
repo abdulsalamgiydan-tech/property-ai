@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { GeographySearchBox } from "@/components/research/GeographySearchBox";
 
 export function ExploreFilterForm({
   initialQuery = "",
@@ -18,19 +19,30 @@ export function ExploreFilterForm({
   const router = useRouter();
 
   return (
-    <form
-      className="flex flex-col gap-3 sm:flex-row sm:items-end"
-      onSubmit={(e) => {
-        e.preventDefault();
-        const params = new URLSearchParams();
-        if (query.trim()) params.set("q", query.trim());
-        if (jurisdiction) params.set("state", jurisdiction);
-        if (geographyType) params.set("type", geographyType);
-        router.push(`/research/explore?${params.toString()}`);
-      }}
-    >
+    <div className="space-y-4">
+      <div>
+        <label className="mb-1 block text-xs text-zinc-500">Jump straight to a profile</label>
+        <GeographySearchBox
+          placeholder="Type a suburb or postcode name…"
+          jurisdiction={jurisdiction === "NSW" || jurisdiction === "VIC" ? jurisdiction : undefined}
+          geographyType={geographyType === "SAL" || geographyType === "POA" ? geographyType : undefined}
+          onSelect={(r) => router.push(r.geography_type === "SAL" ? `/research/suburb/${r.geography_code}` : `/research/postcode/${r.geography_code}`)}
+        />
+      </div>
+
+      <form
+        className="flex flex-col gap-3 sm:flex-row sm:items-end"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const params = new URLSearchParams();
+          if (query.trim()) params.set("q", query.trim());
+          if (jurisdiction) params.set("state", jurisdiction);
+          if (geographyType) params.set("type", geographyType);
+          router.push(`/research/explore?${params.toString()}`);
+        }}
+      >
       <div className="flex-1">
-        <label className="mb-1 block text-xs text-zinc-500">Search</label>
+        <label className="mb-1 block text-xs text-zinc-500">Or browse by filter</label>
         <input
           type="text"
           value={query}
@@ -72,6 +84,7 @@ export function ExploreFilterForm({
       >
         Filter
       </button>
-    </form>
+      </form>
+    </div>
   );
 }
