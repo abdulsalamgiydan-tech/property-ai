@@ -100,6 +100,53 @@ export function SavedReportClient({ reportId }: Props) {
     void load();
   }, [reportId, user, loading]);
 
+  const result = report?.results_json ?? null;
+  const inputs = report?.inputs_json ?? null;
+
+  const projectionSeries = useMemo(() => {
+    if (!result) return { valueVsDebt: [], cashflow: [] };
+    const schedule = buildAmortisationScheduleYearly(
+      result.loan,
+      result.interestRatePercent,
+      30,
+      result.isInterestOnly,
+      result.loanTermYears
+    );
+    return {
+      valueVsDebt: buildPropertyValueVsMortgageSeries({
+        purchasePrice: result.purchasePrice,
+        suburbGrowthRatePercent: result.suburbGrowthPercent,
+        amortisation: schedule,
+      }),
+      cashflow: buildCashflowProjectionSeries({
+        weeklyRent: result.weeklyRent,
+        rentalGrowthRatePercent: result.rentalGrowthRatePercent,
+        annualExpenses: result.annualExpenses,
+        expensesGrowthRatePercent: 2.5,
+        amortisation: schedule,
+        buildingDepreciation: result.depreciation.buildingDepreciation,
+        fixturesEstimate: result.fixturesEstimate,
+        marginalTaxRate: result.marginalRate,
+        vacancyPercent: result.vacancyPercent,
+        pmFeePercent: result.pmFeePercent,
+      }),
+    };
+  }, [result]);
+  const projectionTableRows = useMemo(() => {
+    return PROJECTION_SAMPLE_YEARS.map((y) => {
+      const vd = projectionSeries.valueVsDebt.find((p) => p.year === y);
+      const cf = projectionSeries.cashflow.find((p) => p.year === y);
+      if (!vd || !cf) return null;
+      return {
+        year: y,
+        propertyValue: vd.propertyValue,
+        mortgageBalance: vd.mortgageBalance,
+        preTaxCashflow: cf.preTaxCashflow,
+        afterTaxCashflow: cf.afterTaxCashflow,
+      };
+    }).filter((row): row is NonNullable<typeof row> => row !== null);
+  }, [projectionSeries.cashflow, projectionSeries.valueVsDebt]);
+
   async function handleDelete() {
     if (!confirm("Delete this saved report? This cannot be undone.")) return;
     setDeleting(true);
@@ -184,9 +231,6 @@ export function SavedReportClient({ reportId }: Props) {
 
   if (!report) return null;
 
-  const result = report.results_json;
-  const inputs = report.inputs_json;
-
   if (!result || !inputs) {
     return (
       <div className="min-h-full bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100">
@@ -205,48 +249,6 @@ export function SavedReportClient({ reportId }: Props) {
   const neutralDep = neutralPreTaxDepositPercent(result);
   const neutralRate = neutralPreTaxInterestRatePercent(result);
   const lvrHigh = result.lvr > 80;
-  const projectionSeries = useMemo(() => {
-    const schedule = buildAmortisationScheduleYearly(
-      result.loan,
-      result.interestRatePercent,
-      30,
-      result.isInterestOnly,
-      result.loanTermYears
-    );
-    return {
-      valueVsDebt: buildPropertyValueVsMortgageSeries({
-        purchasePrice: result.purchasePrice,
-        suburbGrowthRatePercent: result.suburbGrowthPercent,
-        amortisation: schedule,
-      }),
-      cashflow: buildCashflowProjectionSeries({
-        weeklyRent: result.weeklyRent,
-        rentalGrowthRatePercent: result.rentalGrowthRatePercent,
-        annualExpenses: result.annualExpenses,
-        expensesGrowthRatePercent: 2.5,
-        amortisation: schedule,
-        buildingDepreciation: result.depreciation.buildingDepreciation,
-        fixturesEstimate: result.fixturesEstimate,
-        marginalTaxRate: result.marginalRate,
-        vacancyPercent: result.vacancyPercent,
-        pmFeePercent: result.pmFeePercent,
-      }),
-    };
-  }, [result]);
-  const projectionTableRows = useMemo(() => {
-    return PROJECTION_SAMPLE_YEARS.map((y) => {
-      const vd = projectionSeries.valueVsDebt.find((p) => p.year === y);
-      const cf = projectionSeries.cashflow.find((p) => p.year === y);
-      if (!vd || !cf) return null;
-      return {
-        year: y,
-        propertyValue: vd.propertyValue,
-        mortgageBalance: vd.mortgageBalance,
-        preTaxCashflow: cf.preTaxCashflow,
-        afterTaxCashflow: cf.afterTaxCashflow,
-      };
-    }).filter((row): row is NonNullable<typeof row> => row !== null);
-  }, [projectionSeries.cashflow, projectionSeries.valueVsDebt]);
 
   const statusStyles: Record<string, { card: string; ring: string; pill: string; shadow: string }> = {
     strong: {

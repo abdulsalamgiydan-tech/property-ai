@@ -167,6 +167,8 @@ export function AnalysePropertyClient() {
 
   const { showFullToolAccess, openEarlyAccessModal } = useAuth();
   const lastSavedInputsRef = useRef<PropertyAnalysisInputs | null>(null);
+  const [lastSavedInputs, setLastSavedInputs] =
+    useState<PropertyAnalysisInputs | null>(null);
   const draftHydratedRef = useRef(false);
 
   const inputClass =
@@ -223,6 +225,7 @@ export function AnalysePropertyClient() {
       if (!built.ok) return prev;
       const next = analyzeProperty(built.input);
       lastSavedInputsRef.current = built.input;
+      setLastSavedInputs(built.input);
       return next;
     });
   }, [investmentStrategy, currentYear]);
@@ -268,6 +271,7 @@ export function AnalysePropertyClient() {
     if (d.marketValueAt1July2027 !== undefined) setMarketValueAt2027Str(d.marketValueAt1July2027);
     if (d.savedInputs) {
       lastSavedInputsRef.current = d.savedInputs;
+      setLastSavedInputs(d.savedInputs);
       setResult(analyzeProperty(d.savedInputs));
       setResultAnimKey((k) => k + 1);
     }
@@ -411,6 +415,7 @@ export function AnalysePropertyClient() {
     setResult(null);
     const builtInput = built.input;
     lastSavedInputsRef.current = builtInput;
+    setLastSavedInputs(builtInput);
     const started = performance.now();
     const waitThen = (next: AnalysisResult | null) => {
       const elapsed = performance.now() - started;
@@ -2348,7 +2353,7 @@ export function AnalysePropertyClient() {
                   </h3>
                   <div className="flex flex-wrap gap-3">
                     <SaveReportButton
-                      inputs={lastSavedInputsRef.current!}
+                      inputs={lastSavedInputs!}
                       results={result}
                       propertyName={propertyAddress || suburb || undefined}
                       address={propertyAddress || undefined}

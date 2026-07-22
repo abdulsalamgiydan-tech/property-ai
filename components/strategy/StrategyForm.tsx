@@ -112,6 +112,15 @@ function assembleStrategyInput(args: {
   return base;
 }
 
+const FREE_MAX = 500;
+function CharCount({ len }: { len: number }) {
+  return (
+    <span className="text-[10px] text-zinc-500 tabular-nums">
+      {len} / {FREE_MAX}
+    </span>
+  );
+}
+
 export function StrategyForm({
   onSubmit,
   disabled,
@@ -263,15 +272,6 @@ export function StrategyForm({
   }
 
   const err = (key: string) => submitErrors[key];
-
-  const FREE_MAX = 500;
-  function CharCount({ len }: { len: number }) {
-    return (
-      <span className="text-[10px] text-zinc-500 tabular-nums">
-        {len} / {FREE_MAX}
-      </span>
-    );
-  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-10">
