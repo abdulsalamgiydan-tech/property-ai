@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { DATASETS } from "./refresh_registry.mjs";
+
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 
 describe("refresh_registry", () => {
   it("has no duplicate dataset_id values", () => {
@@ -37,6 +42,20 @@ describe("refresh_registry", () => {
     const known = new Set(["ALL", "NSW", "VIC", "QLD", "SA", "WA", "TAS", "ACT", "NT"]);
     for (const d of DATASETS) {
       expect(known.has(d.jurisdiction), `${d.dataset_id} has unknown jurisdiction "${d.jurisdiction}"`).toBe(true);
+    }
+  });
+
+  // WS19 — catches drift where a script gets renamed/moved/deleted but the
+  // registry entry pointing to it doesn't get updated (the orchestrator
+  // would only discover this at run time, mid-refresh, on that dataset).
+  it("every referenced script and report path actually exists on disk", () => {
+    for (const d of DATASETS) {
+      for (const field of ["build_script", "validate_script", "branch_load_script", "local_report"]) {
+        const p = d[field];
+        if (!p) continue;
+        const abs = path.join(repoRoot, p);
+        expect(fs.existsSync(abs), `${d.dataset_id}.${field} = "${p}" does not exist at ${abs}`).toBe(true);
+      }
     }
   });
 });
