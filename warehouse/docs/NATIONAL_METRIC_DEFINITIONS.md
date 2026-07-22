@@ -34,7 +34,8 @@ or confidence rule. All such changes go through
 | dwelling_stock | Total private dwellings | count | SAL, POA | none (identical national Census source) |
 | approvals | Building approvals (12m) | count | SAL, POA | none (identical national ABS source) |
 | approvals_per_1000_dwellings | Approvals per 1,000 dwellings | rate | SAL, POA | none |
-| population | Total population | count | SAL, POA | population_growth_2016_2021_pct NULL nationally (ASGS boundary versioning) |
+| population | Total population | count | SAL, POA | direct 2021 Census figure |
+| population_growth_2016_2021_pct | Population growth, 2016-2021 | % | SAL, POA | **Corrected 2026-07-22 (Sprint 12 WS4)**: this row previously said "NULL nationally (ASGS boundary versioning)" — that was accurate before Sprint 11 WS4 built the cross-Census correspondence; now genuinely populated (derived, not direct — see `population_growth_method`/`population_growth_confidence`/`population_growth_correspondence_version` columns, which carry lineage independently of the row's general `geography_method`/`confidence_label`). Suppressed (NULL) below a 50-person 2016 population base. See `CROSS_CENSUS_HARMONISATION_METHOD.md`. |
 | household_income | Median weekly household income | AUD/week | SAL, POA | none |
 | renter_share | Renter household share | % | SAL, POA | none |
 | owner_with_mortgage_share | Owner (with mortgage) share | % | SAL, POA | none |
