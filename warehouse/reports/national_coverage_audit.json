@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22T06:06:22.310Z",
+  "generated_at": "2026-07-22T07:32:21.105Z",
   "method": "Quantitative fields live-queried against warehouse-validation (read-only); qualitative access-status fields carried from Sprint 11 WS2's national_jurisdiction_source_manifest.json",
   "jurisdictions_covered": [
     "NSW",
@@ -35,6 +35,8 @@
         "household_composition",
         "household_income",
         "building_approvals",
+        "dwelling_commencements",
+        "dwelling_completions",
         "housing_lending_rates",
         "sales_volume",
         "rental_observations"
@@ -45,9 +47,7 @@
         "supply_per_1000_dwellings"
       ],
       "domains_unavailable": [
-        "internal_migration",
-        "dwelling_commencements",
-        "dwelling_completions"
+        "internal_migration"
       ]
     },
     "VIC": {
@@ -72,6 +72,8 @@
         "household_composition",
         "household_income",
         "building_approvals",
+        "dwelling_commencements",
+        "dwelling_completions",
         "housing_lending_rates",
         "sales_volume",
         "rental_observations"
@@ -82,9 +84,7 @@
         "supply_per_1000_dwellings"
       ],
       "domains_unavailable": [
-        "internal_migration",
-        "dwelling_commencements",
-        "dwelling_completions"
+        "internal_migration"
       ]
     },
     "QLD": {
@@ -110,6 +110,8 @@
         "household_composition",
         "household_income",
         "building_approvals",
+        "dwelling_commencements",
+        "dwelling_completions",
         "housing_lending_rates",
         "sales_volume",
         "rental_observations"
@@ -120,9 +122,7 @@
         "supply_per_1000_dwellings"
       ],
       "domains_unavailable": [
-        "internal_migration",
-        "dwelling_commencements",
-        "dwelling_completions"
+        "internal_migration"
       ]
     },
     "SA": {
@@ -147,6 +147,8 @@
         "household_composition",
         "household_income",
         "building_approvals",
+        "dwelling_commencements",
+        "dwelling_completions",
         "housing_lending_rates",
         "rental_observations"
       ],
@@ -156,8 +158,6 @@
       "domains_unavailable": [
         "gross_yield",
         "internal_migration",
-        "dwelling_commencements",
-        "dwelling_completions",
         "affordability",
         "sales_volume"
       ]
@@ -184,6 +184,8 @@
         "household_composition",
         "household_income",
         "building_approvals",
+        "dwelling_commencements",
+        "dwelling_completions",
         "housing_lending_rates",
         "rental_observations"
       ],
@@ -193,8 +195,6 @@
       "domains_unavailable": [
         "gross_yield",
         "internal_migration",
-        "dwelling_commencements",
-        "dwelling_completions",
         "affordability",
         "sales_volume"
       ]
@@ -221,6 +221,8 @@
         "household_composition",
         "household_income",
         "building_approvals",
+        "dwelling_commencements",
+        "dwelling_completions",
         "housing_lending_rates",
         "sales_volume"
       ],
@@ -231,8 +233,6 @@
       "domains_unavailable": [
         "gross_yield",
         "internal_migration",
-        "dwelling_commencements",
-        "dwelling_completions",
         "rental_observations"
       ]
     },
@@ -258,6 +258,8 @@
         "household_composition",
         "household_income",
         "building_approvals",
+        "dwelling_commencements",
+        "dwelling_completions",
         "housing_lending_rates",
         "sales_volume"
       ],
@@ -268,8 +270,6 @@
       "domains_unavailable": [
         "gross_yield",
         "internal_migration",
-        "dwelling_commencements",
-        "dwelling_completions",
         "rental_observations"
       ]
     },
@@ -296,6 +296,8 @@
         "household_composition",
         "household_income",
         "building_approvals",
+        "dwelling_commencements",
+        "dwelling_completions",
         "housing_lending_rates",
         "sales_volume",
         "rental_observations"
@@ -306,9 +308,7 @@
         "supply_per_1000_dwellings"
       ],
       "domains_unavailable": [
-        "internal_migration",
-        "dwelling_commencements",
-        "dwelling_completions"
+        "internal_migration"
       ]
     }
   },

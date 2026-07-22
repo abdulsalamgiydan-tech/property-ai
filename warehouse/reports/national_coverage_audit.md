@@ -1,6 +1,6 @@
 # National Coverage Audit (Sprint 12, Workstream 1)
 
-Generated 2026-07-22T06:06:22.310Z by `warehouse/scripts/audit/build_national_coverage_registry.mjs`.
+Generated 2026-07-22T07:32:21.105Z by `warehouse/scripts/audit/build_national_coverage_registry.mjs`.
 Quantitative fields (row counts, reference periods, coverage fractions) are
 live-queried against `warehouse-validation` at generation time — not
 hand-narrated. Qualitative access-status findings (paid/restricted/blocked)
@@ -33,12 +33,12 @@ Geography backbone: 25,795 geographies across 9 levels (SA1: 19,746, SAL: 4,542,
 | tenure | available | 154,032 rows | - |
 | population | available | 4,542 rows / 4,542 | - |
 | population growth | available | 3,344 rows / 4,542 | - |
-| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3) | - |
+| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter. | - |
 | household composition | available | 4,542 rows / 4,542 | - |
 | household income | available | 4,542 rows / 4,542 | - |
 | building approvals | available | 25,038 rows | 2025-06-01 to 2026-05-01 |
-| dwelling commencements | unavailable | ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3) | - |
-| dwelling completions | unavailable | ABS Building Activity (completions) not loaded — same gap as commencements | - |
+| dwelling commencements | available | 366 rows | 1980-09-01 to 2026-03-01 |
+| dwelling completions | available | 410 rows | 1969-09-01 to 2026-03-01 |
 | housing lending rates | available | 664 rows | - |
 | affordability | derived | computed at query time from sales + shared national assumption scenario, requires a sales source | - |
 | sales volume | available | sale_count column within the sales fact/mart, same source as residential_sales | - |
@@ -60,12 +60,12 @@ Geography backbone: 19,804 geographies across 9 levels (SAL: 2,944, SA1: 15,478,
 | tenure | available | 118,308 rows | - |
 | population | available | 2,944 rows / 2,944 | - |
 | population growth | available | 2,070 rows / 2,944 | - |
-| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3) | - |
+| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter. | - |
 | household composition | available | 2,944 rows / 2,944 | - |
 | household income | available | 2,944 rows / 2,944 | - |
 | building approvals | available | 20,358 rows | 2025-06-01 to 2026-05-01 |
-| dwelling commencements | unavailable | ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3) | - |
-| dwelling completions | unavailable | ABS Building Activity (completions) not loaded — same gap as commencements | - |
+| dwelling commencements | available | 366 rows | 1980-09-01 to 2026-03-01 |
+| dwelling completions | available | 410 rows | 1969-09-01 to 2026-03-01 |
 | housing lending rates | available | 664 rows | - |
 | affordability | derived | computed at query time from sales + shared national assumption scenario, requires a sales source | - |
 | sales volume | available | sale_count column within the sales fact/mart, same source as residential_sales | - |
@@ -87,12 +87,12 @@ Geography backbone: 16,939 geographies across 9 levels (SAL: 3,233, POA: 433, SA
 | tenure | available | 101,010 rows | - |
 | population | available | 3,233 rows / 3,233 | - |
 | population growth | available | 2,371 rows / 3,233 | - |
-| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3) | - |
+| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter. | - |
 | household composition | available | 3,233 rows / 3,233 | - |
 | household income | available | 3,233 rows / 3,233 | - |
 | building approvals | available | 21,294 rows | 2025-06-01 to 2026-05-01 |
-| dwelling commencements | unavailable | ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3) | - |
-| dwelling completions | unavailable | ABS Building Activity (completions) not loaded — same gap as commencements | - |
+| dwelling commencements | available | 366 rows | 1980-09-01 to 2026-03-01 |
+| dwelling completions | available | 410 rows | 1969-09-01 to 2026-03-01 |
 | housing lending rates | available | 664 rows | - |
 | affordability | derived | computed at query time from sales + shared national assumption scenario, requires a sales source | - |
 | sales volume | available | sale_count column within the sales fact/mart, same source as residential_sales | - |
@@ -114,12 +114,12 @@ Geography backbone: 6,645 geographies across 9 levels (SAL: 1,696, SA2: 174, POA
 | tenure | available | 39,642 rows | - |
 | population | available | 1,696 rows / 1,696 | - |
 | population growth | available | 1,137 rows / 1,696 | - |
-| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3) | - |
+| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter. | - |
 | household composition | available | 1,696 rows / 1,696 | - |
 | household income | available | 1,696 rows / 1,696 | - |
 | building approvals | available | 6,786 rows | 2025-06-01 to 2026-05-01 |
-| dwelling commencements | unavailable | ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3) | - |
-| dwelling completions | unavailable | ABS Building Activity (completions) not loaded — same gap as commencements | - |
+| dwelling commencements | available | 366 rows | 1980-09-01 to 2026-03-01 |
+| dwelling completions | available | 410 rows | 1969-09-01 to 2026-03-01 |
 | housing lending rates | available | 664 rows | - |
 | affordability | unavailable | requires a sales price input, not available for this jurisdiction | - |
 | sales volume | unavailable | - | - |
@@ -141,12 +141,12 @@ Geography backbone: 8,882 geographies across 9 levels (POA: 386, SA2: 265, SAL: 
 | tenure | available | 53,010 rows | - |
 | population | available | 1,699 rows / 1,699 | - |
 | population growth | available | 1,107 rows / 1,699 | - |
-| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3) | - |
+| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter. | - |
 | household composition | available | 1,699 rows / 1,699 | - |
 | household income | available | 1,699 rows / 1,699 | - |
 | building approvals | available | 10,335 rows | 2025-06-01 to 2026-05-01 |
-| dwelling commencements | unavailable | ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3) | - |
-| dwelling completions | unavailable | ABS Building Activity (completions) not loaded — same gap as commencements | - |
+| dwelling commencements | available | 366 rows | 1980-09-01 to 2026-03-01 |
+| dwelling completions | available | 504 rows | 1957-03-01 to 2026-03-01 |
 | housing lending rates | available | 664 rows | - |
 | affordability | unavailable | requires a sales price input, not available for this jurisdiction | - |
 | sales volume | unavailable | - | - |
@@ -168,12 +168,12 @@ Geography backbone: 2,518 geographies across 9 levels (SAL: 776, SA2: 99, SA4: 4
 | tenure | available | 14,976 rows | - |
 | population | available | 776 rows / 776 | - |
 | population growth | available | 561 rows / 776 | - |
-| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3) | - |
+| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter. | - |
 | household composition | available | 776 rows / 776 | - |
 | household income | available | 776 rows / 776 | - |
 | building approvals | available | 3,861 rows | 2025-06-01 to 2026-05-01 |
-| dwelling commencements | unavailable | ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3) | - |
-| dwelling completions | unavailable | ABS Building Activity (completions) not loaded — same gap as commencements | - |
+| dwelling commencements | available | 366 rows | 1980-09-01 to 2026-03-01 |
+| dwelling completions | available | 410 rows | 1969-09-01 to 2026-03-01 |
 | housing lending rates | available | 664 rows | - |
 | affordability | derived | computed at query time from sales + shared national assumption scenario, requires a sales source | - |
 | sales volume | available | sale_count column within the sales fact/mart, same source as residential_sales | - |
@@ -195,12 +195,12 @@ Geography backbone: 1,083 geographies across 9 levels (SAL: 303, GCCSA: 2, SA2: 
 | tenure | available | 6,414 rows | - |
 | population | available | 303 rows / 303 | - |
 | population growth | available | 229 rows / 303 | - |
-| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3) | - |
+| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter. | - |
 | household composition | available | 303 rows / 303 | - |
 | household income | available | 303 rows / 303 | - |
 | building approvals | available | 2,652 rows | 2025-06-01 to 2026-05-01 |
-| dwelling commencements | unavailable | ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3) | - |
-| dwelling completions | unavailable | ABS Building Activity (completions) not loaded — same gap as commencements | - |
+| dwelling commencements | available | 366 rows | 1980-09-01 to 2026-03-01 |
+| dwelling completions | available | 454 rows | 1969-09-01 to 2026-03-01 |
 | housing lending rates | available | 664 rows | - |
 | affordability | derived | computed at query time from sales + shared national assumption scenario, requires a sales source | - |
 | sales volume | available | sale_count column within the sales fact/mart, same source as residential_sales | - |
@@ -222,12 +222,12 @@ Geography backbone: 1,536 geographies across 9 levels (SA2: 134, SAL: 136, POA: 
 | tenure | available | 9,138 rows | - |
 | population | available | 136 rows / 136 | - |
 | population growth | available | 111 rows / 136 | - |
-| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3) | - |
+| internal migration | unavailable | no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter. | - |
 | household composition | available | 136 rows / 136 | - |
 | household income | available | 136 rows / 136 | - |
 | building approvals | available | 5,226 rows | 2025-06-01 to 2026-05-01 |
-| dwelling commencements | unavailable | ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3) | - |
-| dwelling completions | unavailable | ABS Building Activity (completions) not loaded — same gap as commencements | - |
+| dwelling commencements | available | 366 rows | 1980-09-01 to 2026-03-01 |
+| dwelling completions | available | 454 rows | 1969-09-01 to 2026-03-01 |
 | housing lending rates | available | 664 rows | - |
 | affordability | derived | computed at query time from sales + shared national assumption scenario, requires a sales source | - |
 | sales volume | available | sale_count column within the sales fact/mart, same source as residential_sales | - |

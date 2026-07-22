@@ -158,6 +158,17 @@ const dwellingStockCounts = await factCountsByState("fact_dwelling_stock");
 const tenureCounts = await factCountsByState("fact_household_tenure");
 const approvalsCounts = await factCountsByState("fact_building_approvals");
 
+// Sprint 12 WS3: dwelling commencements/completions, STATE grain (a
+// separate fact table from approvals — see migration 029).
+const constructionActivityRows = await q(`
+  select g.state_code, f.stage, count(*)::int as n, min(f.reference_period)::text as earliest, max(f.reference_period)::text as latest
+  from core.fact_dwelling_construction_activity f
+  join core.dim_geography g on g.geography_id = f.geography_id
+  group by g.state_code, f.stage
+`);
+const commencedByState = new Map(constructionActivityRows.filter((r) => r.stage === "commenced").map((r) => [r.state_code, r]));
+const completedByState = new Map(constructionActivityRows.filter((r) => r.stage === "completed").map((r) => [r.state_code, r]));
+
 // Finding: core.fact_rental_market_summary has ZERO rows for VIC (all 4
 // geography_types checked live) despite jurisdiction_coverage.yml
 // describing VIC rents as "partially_available... refresh_frequency:
@@ -278,7 +289,7 @@ for (const j of JURISDICTIONS) {
   domains.population_growth = demo && Number(demo.has_growth) > 0
     ? { status: "available", row_count: Number(demo.has_growth), of_total: Number(demo.n), method: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence (see CROSS_CENSUS_HARMONISATION_METHOD.md)", direct_or_derived: "derived", correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)." }
     : { status: "unavailable", row_count: 0 };
-  domains.internal_migration = { status: "unavailable", finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)" };
+  domains.internal_migration = { status: "unavailable", finding: "no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter." };
   domains.household_composition = demo && Number(demo.has_household_composition) > 0
     ? { status: "available", row_count: Number(demo.has_household_composition), of_total: Number(demo.n), fields: "family_households, lone_person_households, average_household_size" }
     : { status: "unavailable", row_count: 0 };
@@ -286,8 +297,14 @@ for (const j of JURISDICTIONS) {
     ? { status: "available", row_count: Number(demo.has_income), of_total: Number(demo.n) }
     : { status: "unavailable", row_count: 0 };
   domains.building_approvals = approvals ? { status: "available", row_count: approvals.n, earliest_period: approvals.earliest, latest_period: approvals.latest } : { status: "unavailable", row_count: 0 };
-  domains.dwelling_commencements = { status: "unavailable", finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)" };
-  domains.dwelling_completions = { status: "unavailable", finding: "ABS Building Activity (completions) not loaded — same gap as commencements" };
+  const commenced = commencedByState.get(j.state_code);
+  const completed = completedByState.get(j.state_code);
+  domains.dwelling_commencements = commenced
+    ? { status: "available", row_count: commenced.n, earliest_period: commenced.earliest, latest_period: commenced.latest, geography_grain: "STATE", note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available" }
+    : { status: "unavailable" };
+  domains.dwelling_completions = completed
+    ? { status: "available", row_count: completed.n, earliest_period: completed.earliest, latest_period: completed.latest, geography_grain: "STATE", note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available" }
+    : { status: "unavailable" };
   domains.housing_lending_rates = { status: "available", row_count: interestRateSeries.filter((s) => s.rate_type === "housing_lending_rate").reduce((a, s) => a + s.n, 0), note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction" };
   domains.affordability = sales ? { status: "derived", note: "computed at query time from sales + shared national assumption scenario, requires a sales source" } : { status: "unavailable", finding: "requires a sales price input, not available for this jurisdiction" };
   domains.sales_volume = sales ? { status: "available", note: "sale_count column within the sales fact/mart, same source as residential_sales" } : { status: "unavailable" };

@@ -6,7 +6,7 @@
 # Qualitative fields (paid/restricted/blocked findings) are carried from
 # Sprint 11 WS2's live-verified source discovery
 # (national_jurisdiction_source_manifest.json), not re-invented here.
-generated_at: 2026-07-22T06:06:22.310Z
+generated_at: 2026-07-22T07:32:21.105Z
 jurisdictions:
   NSW:
     asgs_state_code: 1
@@ -59,7 +59,7 @@ jurisdictions:
         correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
       internal_migration:
         status: unavailable
-        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+        finding: "no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter."
       household_composition:
         status: available
         row_count: 4542
@@ -75,11 +75,19 @@ jurisdictions:
         earliest_period: 2025-06-01
         latest_period: 2026-05-01
       dwelling_commencements:
-        status: unavailable
-        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+        status: available
+        row_count: 366
+        earliest_period: 1980-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       dwelling_completions:
-        status: unavailable
-        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+        status: available
+        row_count: 410
+        earliest_period: 1969-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       housing_lending_rates:
         status: available
         row_count: 664
@@ -150,7 +158,7 @@ jurisdictions:
         correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
       internal_migration:
         status: unavailable
-        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+        finding: "no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter."
       household_composition:
         status: available
         row_count: 2944
@@ -166,11 +174,19 @@ jurisdictions:
         earliest_period: 2025-06-01
         latest_period: 2026-05-01
       dwelling_commencements:
-        status: unavailable
-        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+        status: available
+        row_count: 366
+        earliest_period: 1980-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       dwelling_completions:
-        status: unavailable
-        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+        status: available
+        row_count: 410
+        earliest_period: 1969-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       housing_lending_rates:
         status: available
         row_count: 664
@@ -242,7 +258,7 @@ jurisdictions:
         correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
       internal_migration:
         status: unavailable
-        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+        finding: "no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter."
       household_composition:
         status: available
         row_count: 3233
@@ -258,11 +274,19 @@ jurisdictions:
         earliest_period: 2025-06-01
         latest_period: 2026-05-01
       dwelling_commencements:
-        status: unavailable
-        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+        status: available
+        row_count: 366
+        earliest_period: 1980-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       dwelling_completions:
-        status: unavailable
-        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+        status: available
+        row_count: 410
+        earliest_period: 1969-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       housing_lending_rates:
         status: available
         row_count: 664
@@ -332,7 +356,7 @@ jurisdictions:
         correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
       internal_migration:
         status: unavailable
-        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+        finding: "no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter."
       household_composition:
         status: available
         row_count: 1696
@@ -348,11 +372,19 @@ jurisdictions:
         earliest_period: 2025-06-01
         latest_period: 2026-05-01
       dwelling_commencements:
-        status: unavailable
-        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+        status: available
+        row_count: 366
+        earliest_period: 1980-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       dwelling_completions:
-        status: unavailable
-        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+        status: available
+        row_count: 410
+        earliest_period: 1969-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       housing_lending_rates:
         status: available
         row_count: 664
@@ -421,7 +453,7 @@ jurisdictions:
         correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
       internal_migration:
         status: unavailable
-        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+        finding: "no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter."
       household_composition:
         status: available
         row_count: 1699
@@ -437,11 +469,19 @@ jurisdictions:
         earliest_period: 2025-06-01
         latest_period: 2026-05-01
       dwelling_commencements:
-        status: unavailable
-        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+        status: available
+        row_count: 366
+        earliest_period: 1980-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       dwelling_completions:
-        status: unavailable
-        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+        status: available
+        row_count: 504
+        earliest_period: 1957-03-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       housing_lending_rates:
         status: available
         row_count: 664
@@ -510,7 +550,7 @@ jurisdictions:
         correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
       internal_migration:
         status: unavailable
-        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+        finding: "no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter."
       household_composition:
         status: available
         row_count: 776
@@ -526,11 +566,19 @@ jurisdictions:
         earliest_period: 2025-06-01
         latest_period: 2026-05-01
       dwelling_commencements:
-        status: unavailable
-        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+        status: available
+        row_count: 366
+        earliest_period: 1980-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       dwelling_completions:
-        status: unavailable
-        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+        status: available
+        row_count: 410
+        earliest_period: 1969-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       housing_lending_rates:
         status: available
         row_count: 664
@@ -599,7 +647,7 @@ jurisdictions:
         correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
       internal_migration:
         status: unavailable
-        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+        finding: "no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter."
       household_composition:
         status: available
         row_count: 303
@@ -615,11 +663,19 @@ jurisdictions:
         earliest_period: 2025-06-01
         latest_period: 2026-05-01
       dwelling_commencements:
-        status: unavailable
-        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+        status: available
+        row_count: 366
+        earliest_period: 1980-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       dwelling_completions:
-        status: unavailable
-        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+        status: available
+        row_count: 454
+        earliest_period: 1969-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       housing_lending_rates:
         status: available
         row_count: 664
@@ -690,7 +746,7 @@ jurisdictions:
         correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
       internal_migration:
         status: unavailable
-        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+        finding: "no ABS internal-migration dataset loaded at any grain. Live-checked Sprint 12 WS3: ABS's 'Regional internal migration estimates, provisional' (SA2 grain) exists but its latest-release page shows March 2021 as the most recent issue — either discontinued or on a very slow cadence, not confirmed current as of this check (2026-07-22). Not pursued further this pass; a future workstream should re-check whether a newer edition or successor publication exists before building an adapter."
       household_composition:
         status: available
         row_count: 136
@@ -706,11 +762,19 @@ jurisdictions:
         earliest_period: 2025-06-01
         latest_period: 2026-05-01
       dwelling_commencements:
-        status: unavailable
-        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+        status: available
+        row_count: 366
+        earliest_period: 1980-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       dwelling_completions:
-        status: unavailable
-        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+        status: available
+        row_count: 454
+        earliest_period: 1969-09-01
+        latest_period: 2026-03-01
+        geography_grain: STATE
+        note: "ABS Building Activity (cat. 8752.0), Sprint 12 WS3 — STATE grain only, no SAL/POA available"
       housing_lending_rates:
         status: available
         row_count: 664
