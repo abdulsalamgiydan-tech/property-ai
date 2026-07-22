@@ -19,6 +19,7 @@ export async function GET() {
       { path: "/api/v1/quality", method: "GET", description: "Aggregate data-quality rule and incident summary." },
       { path: "/api/v1/freshness", method: "GET", description: "Per-dataset freshness status." },
       { path: "/api/v1/export/:geographyId", method: "GET", description: "Reproducible export bundle (?format=json|csv) -- snapshot + timeseries + per-metric lineage, downloadable." },
+      { path: "/api/v1/sources", method: "GET", description: "Research evidence catalogue -- every registered source, publisher, licence, status, and published metric coverage." },
     ],
   });
 }

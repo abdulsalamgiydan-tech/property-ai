@@ -532,6 +532,32 @@ export async function getExportBundle(geographyId: string): Promise<ExportBundle
   return { geography_id: geographyId, mart_table: martTable, exported_at: new Date().toISOString(), snapshot, timeseries, lineage };
 }
 
+// ── Sprint 12 WS5 — research evidence catalogue ─────────────────────────
+
+export type EvidenceCatalogueEntry = {
+  source_id: string;
+  source_name: string;
+  publisher: string;
+  source_category: string;
+  official_or_independent: string;
+  source_url: string | null;
+  licence: string | null;
+  access_method: string | null;
+  update_frequency: string | null;
+  implementation_status: string;
+  known_limitations: string | null;
+  dataset_count: number;
+  published_metric_family_count: number;
+};
+
+export async function getEvidenceCatalogue(): Promise<EvidenceCatalogueEntry[]> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.from("v_evidence_catalogue_v1").select("*");
+  if (error) return [];
+  return (data ?? []) as EvidenceCatalogueEntry[];
+}
+
 export function exportBundleToCsv(bundle: ExportBundle): string {
   const header = ["reference_period", "period_type", "dwelling_type", "metric_family", "transaction_count", "median_sale_price", "median_weekly_rent", "gross_yield_percentage", "approvals_count", "confidence_label", "source_dataset"];
   const rows = bundle.timeseries.map((r) =>

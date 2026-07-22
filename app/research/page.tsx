@@ -31,16 +31,21 @@ export default async function ResearchSearchPage({
           and postcodes — sales, rent, yield, supply, demographics and
           affordability context, combined from official government sources.
         </p>
-        {multiStateEnabled ? (
-          <div className="mt-3 flex gap-3 text-sm">
-            <Link href="/research/explore" className="text-violet-300 hover:underline">
-              Explore all suburbs/postcodes →
-            </Link>
-            <Link href="/research/compare" className="text-violet-300 hover:underline">
-              Compare geographies →
-            </Link>
-          </div>
-        ) : null}
+        <div className="mt-3 flex flex-wrap gap-3 text-sm">
+          {multiStateEnabled ? (
+            <>
+              <Link href="/research/explore" className="text-violet-300 hover:underline">
+                Explore all suburbs/postcodes →
+              </Link>
+              <Link href="/research/compare" className="text-violet-300 hover:underline">
+                Compare geographies →
+              </Link>
+            </>
+          ) : null}
+          <Link href="/research/sources" className="text-violet-300 hover:underline">
+            Evidence catalogue →
+          </Link>
+        </div>
       </div>
 
       <SectionCard>
