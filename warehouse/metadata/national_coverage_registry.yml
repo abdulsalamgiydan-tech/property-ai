@@ -1,0 +1,821 @@
+# National coverage registry (Sprint 12, Workstream 1)
+# GENERATED — do not hand-edit. Regenerate with:
+#   node warehouse/scripts/audit/build_national_coverage_registry.mjs
+# Quantitative fields (row_count, earliest_period, latest_period, of_total)
+# are live-queried against warehouse-validation at generation time.
+# Qualitative fields (paid/restricted/blocked findings) are carried from
+# Sprint 11 WS2's live-verified source discovery
+# (national_jurisdiction_source_manifest.json), not re-invented here.
+generated_at: 2026-07-22T05:40:21.794Z
+jurisdictions:
+  NSW:
+    asgs_state_code: 1
+    geography_backbone:
+      SA1: 19746
+      SAL: 4542
+      SA2: 642
+      LGA: 129
+      POA: 613
+      SA3: 92
+      SA4: 28
+      GCCSA: 2
+      STATE: 1
+    meta_jurisdiction_registered: true
+    meta_jurisdiction_status: active
+    finding_meta_jurisdiction_gap: null
+    domains:
+      residential_sales:
+        status: available
+        row_count: 277687
+        earliest_period: 1903-01-01
+        latest_period: 2032-01-01
+        source: "NSW Valuer General PSI"
+      residential_rents:
+        status: available
+        direct_or_derived: direct
+        row_count: 257251
+        earliest_period: 2021-01-01
+        latest_period: 2026-01-01
+      gross_yield:
+        status: derived
+        note: "requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored"
+      dwelling_stock:
+        status: available
+        row_count: 205376
+        source: "ABS Census GCP dwelling stock (national load, Sprints 2-4)"
+      tenure:
+        status: available
+        row_count: 154032
+      population:
+        status: available
+        row_count: 4542
+        of_total: 4542
+      population_growth:
+        status: available
+        row_count: 3344
+        of_total: 4542
+        method: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence (see CROSS_CENSUS_HARMONISATION_METHOD.md)"
+        direct_or_derived: derived
+        correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
+      internal_migration:
+        status: unavailable
+        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+      household_composition:
+        status: available
+        row_count: 4542
+        of_total: 4542
+        fields: "family_households, lone_person_households, average_household_size"
+      household_income:
+        status: available
+        row_count: 4542
+        of_total: 4542
+      building_approvals:
+        status: available
+        row_count: 25038
+        earliest_period: 2025-06-01
+        latest_period: 2026-05-01
+      dwelling_commencements:
+        status: unavailable
+        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+      dwelling_completions:
+        status: unavailable
+        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+      housing_lending_rates:
+        status: available
+        row_count: 664
+        note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction"
+      affordability:
+        status: derived
+        note: "computed at query time from sales + shared national assumption scenario, requires a sales source"
+      sales_volume:
+        status: available
+        note: "sale_count column within the sales fact/mart, same source as residential_sales"
+      rental_observations:
+        status: available
+        note: "observation_count column within the rent fact/mart, same source as residential_rents"
+      supply_per_1000_dwellings:
+        status: derived
+        note: "approvals_per_1000_dwellings, computed at query time in compare_market_geographies_v1 and similar"
+      source_freshness:
+        status: "meta.dataset_freshness_status tracks this per dataset_id (Sprint 11 WS16), not per jurisdiction directly"
+      confidence:
+        status: "every populated mart row carries a confidence_label column; distribution not jurisdiction-specific"
+  VIC:
+    asgs_state_code: 2
+    geography_backbone:
+      SAL: 2944
+      SA1: 15478
+      SA2: 522
+      SA3: 66
+      POA: 694
+      LGA: 80
+      SA4: 17
+      GCCSA: 2
+      STATE: 1
+    meta_jurisdiction_registered: true
+    meta_jurisdiction_status: active
+    finding_meta_jurisdiction_gap: null
+    domains:
+      residential_sales:
+        status: available
+        row_count: 190
+        earliest_period: 1998-01-01
+        latest_period: 2026-07-01
+        source: "VIC VPSR"
+      residential_rents:
+        status: available_snapshot_only
+        row_count: 79
+        note: "latest-value only, no quarterly time series — this jurisdiction's rent pipeline bypasses the shared core.fact_rental_market_summary table that NSW/QLD/SA/WA use"
+        stray_fact_table_rows: 2
+      gross_yield:
+        status: derived
+        note: "requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored"
+      dwelling_stock:
+        status: available
+        row_count: 157744
+        source: "ABS Census GCP dwelling stock (national load, Sprints 2-4)"
+      tenure:
+        status: available
+        row_count: 118308
+      population:
+        status: available
+        row_count: 2944
+        of_total: 2944
+      population_growth:
+        status: available
+        row_count: 2070
+        of_total: 2944
+        method: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence (see CROSS_CENSUS_HARMONISATION_METHOD.md)"
+        direct_or_derived: derived
+        correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
+      internal_migration:
+        status: unavailable
+        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+      household_composition:
+        status: available
+        row_count: 2944
+        of_total: 2944
+        fields: "family_households, lone_person_households, average_household_size"
+      household_income:
+        status: available
+        row_count: 2944
+        of_total: 2944
+      building_approvals:
+        status: available
+        row_count: 20358
+        earliest_period: 2025-06-01
+        latest_period: 2026-05-01
+      dwelling_commencements:
+        status: unavailable
+        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+      dwelling_completions:
+        status: unavailable
+        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+      housing_lending_rates:
+        status: available
+        row_count: 664
+        note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction"
+      affordability:
+        status: derived
+        note: "computed at query time from sales + shared national assumption scenario, requires a sales source"
+      sales_volume:
+        status: available
+        note: "sale_count column within the sales fact/mart, same source as residential_sales"
+      rental_observations:
+        status: available
+        note: "observation_count column within the rent fact/mart, same source as residential_rents"
+      supply_per_1000_dwellings:
+        status: derived
+        note: "approvals_per_1000_dwellings, computed at query time in compare_market_geographies_v1 and similar"
+      source_freshness:
+        status: "meta.dataset_freshness_status tracks this per dataset_id (Sprint 11 WS16), not per jurisdiction directly"
+      confidence:
+        status: "every populated mart row carries a confidence_label column; distribution not jurisdiction-specific"
+  QLD:
+    asgs_state_code: 3
+    geography_backbone:
+      SAL: 3233
+      POA: 433
+      SA2: 546
+      SA1: 12545
+      SA3: 82
+      LGA: 78
+      SA4: 19
+      GCCSA: 2
+      STATE: 1
+    meta_jurisdiction_registered: true
+    meta_jurisdiction_status: rent_only
+    finding_meta_jurisdiction_gap: null
+    domains:
+      residential_sales:
+        status: available
+        row_count: 110
+        earliest_period: 2001-01-01
+        latest_period: 2026-07-01
+        source: null
+      residential_rents:
+        status: available
+        direct_or_derived: direct
+        row_count: 334385
+        earliest_period: 2012-01-01
+        latest_period: 2026-04-01
+      gross_yield:
+        status: derived
+        note: "requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored"
+      dwelling_stock:
+        status: available
+        row_count: 134680
+        source: "ABS Census GCP dwelling stock (national load, Sprints 2-4)"
+      tenure:
+        status: available
+        row_count: 101010
+      population:
+        status: available
+        row_count: 3233
+        of_total: 3233
+      population_growth:
+        status: available
+        row_count: 2371
+        of_total: 3233
+        method: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence (see CROSS_CENSUS_HARMONISATION_METHOD.md)"
+        direct_or_derived: derived
+        correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
+      internal_migration:
+        status: unavailable
+        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+      household_composition:
+        status: available
+        row_count: 3233
+        of_total: 3233
+        fields: "family_households, lone_person_households, average_household_size"
+      household_income:
+        status: available
+        row_count: 3233
+        of_total: 3233
+      building_approvals:
+        status: available
+        row_count: 21294
+        earliest_period: 2025-06-01
+        latest_period: 2026-05-01
+      dwelling_commencements:
+        status: unavailable
+        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+      dwelling_completions:
+        status: unavailable
+        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+      housing_lending_rates:
+        status: available
+        row_count: 664
+        note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction"
+      affordability:
+        status: derived
+        note: "computed at query time from sales + shared national assumption scenario, requires a sales source"
+      sales_volume:
+        status: available
+        note: "sale_count column within the sales fact/mart, same source as residential_sales"
+      rental_observations:
+        status: available
+        note: "observation_count column within the rent fact/mart, same source as residential_rents"
+      supply_per_1000_dwellings:
+        status: derived
+        note: "approvals_per_1000_dwellings, computed at query time in compare_market_geographies_v1 and similar"
+      source_freshness:
+        status: "meta.dataset_freshness_status tracks this per dataset_id (Sprint 11 WS16), not per jurisdiction directly"
+      confidence:
+        status: "every populated mart row carries a confidence_label column; distribution not jurisdiction-specific"
+  SA:
+    asgs_state_code: 4
+    geography_backbone:
+      SAL: 1696
+      SA2: 174
+      POA: 341
+      LGA: 71
+      SA3: 28
+      SA4: 7
+      GCCSA: 2
+      STATE: 1
+      SA1: 4325
+    meta_jurisdiction_registered: true
+    meta_jurisdiction_status: rent_only
+    finding_meta_jurisdiction_gap: null
+    domains:
+      residential_sales:
+        status: official_source_paid_or_restricted
+        row_count: 0
+        finding: "Land Services SA (exclusive statutory provider since 2017) sells sales/valuation data via SAILIS and the 'Property Edge' platform — described as a commercial research platform requiring purchase/account access. No free bulk aggregate found on data.sa.gov.au."
+      residential_rents:
+        status: available
+        direct_or_derived: direct
+        row_count: 40550
+        earliest_period: 2024-07-01
+        latest_period: 2026-01-01
+      gross_yield:
+        status: unavailable
+        note: "requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored"
+      dwelling_stock:
+        status: available
+        row_count: 52856
+        source: "ABS Census GCP dwelling stock (national load, Sprints 2-4)"
+      tenure:
+        status: available
+        row_count: 39642
+      population:
+        status: available
+        row_count: 1696
+        of_total: 1696
+      population_growth:
+        status: available
+        row_count: 1137
+        of_total: 1696
+        method: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence (see CROSS_CENSUS_HARMONISATION_METHOD.md)"
+        direct_or_derived: derived
+        correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
+      internal_migration:
+        status: unavailable
+        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+      household_composition:
+        status: available
+        row_count: 1696
+        of_total: 1696
+        fields: "family_households, lone_person_households, average_household_size"
+      household_income:
+        status: available
+        row_count: 1696
+        of_total: 1696
+      building_approvals:
+        status: available
+        row_count: 6786
+        earliest_period: 2025-06-01
+        latest_period: 2026-05-01
+      dwelling_commencements:
+        status: unavailable
+        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+      dwelling_completions:
+        status: unavailable
+        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+      housing_lending_rates:
+        status: available
+        row_count: 664
+        note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction"
+      affordability:
+        status: unavailable
+        finding: "requires a sales price input, not available for this jurisdiction"
+      sales_volume:
+        status: unavailable
+      rental_observations:
+        status: available
+        note: "observation_count column within the rent fact/mart, same source as residential_rents"
+      supply_per_1000_dwellings:
+        status: derived
+        note: "approvals_per_1000_dwellings, computed at query time in compare_market_geographies_v1 and similar"
+      source_freshness:
+        status: "meta.dataset_freshness_status tracks this per dataset_id (Sprint 11 WS16), not per jurisdiction directly"
+      confidence:
+        status: "every populated mart row carries a confidence_label column; distribution not jurisdiction-specific"
+  WA:
+    asgs_state_code: 5
+    geography_backbone:
+      POA: 386
+      SA2: 265
+      SAL: 1699
+      LGA: 137
+      SA3: 34
+      SA4: 10
+      GCCSA: 2
+      STATE: 1
+      SA1: 6348
+    meta_jurisdiction_registered: true
+    meta_jurisdiction_status: rent_only
+    finding_meta_jurisdiction_gap: null
+    domains:
+      residential_sales:
+        status: official_source_paid_or_restricted
+        row_count: 0
+        finding: "Landgate 'Property sales reports' (property/street/suburb/LGA grain) are all explicitly 'Order now' fee-based products via land-enquiry.app.landgate.wa.gov.au. The open-data-portal 'Sales Evidence data' entry only hosts a data dictionary and schema files, not the bulk data itself, and what data exists is licensed under a 'Personal Use License' — not clearly compatible with a research platform's intended use."
+      residential_rents:
+        status: available
+        direct_or_derived: direct
+        row_count: 28034
+        earliest_period: 2023-03-01
+        latest_period: 2026-05-01
+      gross_yield:
+        status: unavailable
+        note: "requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored"
+      dwelling_stock:
+        status: available
+        row_count: 70680
+        source: "ABS Census GCP dwelling stock (national load, Sprints 2-4)"
+      tenure:
+        status: available
+        row_count: 53010
+      population:
+        status: available
+        row_count: 1699
+        of_total: 1699
+      population_growth:
+        status: available
+        row_count: 1107
+        of_total: 1699
+        method: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence (see CROSS_CENSUS_HARMONISATION_METHOD.md)"
+        direct_or_derived: derived
+        correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
+      internal_migration:
+        status: unavailable
+        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+      household_composition:
+        status: available
+        row_count: 1699
+        of_total: 1699
+        fields: "family_households, lone_person_households, average_household_size"
+      household_income:
+        status: available
+        row_count: 1699
+        of_total: 1699
+      building_approvals:
+        status: available
+        row_count: 10335
+        earliest_period: 2025-06-01
+        latest_period: 2026-05-01
+      dwelling_commencements:
+        status: unavailable
+        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+      dwelling_completions:
+        status: unavailable
+        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+      housing_lending_rates:
+        status: available
+        row_count: 664
+        note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction"
+      affordability:
+        status: unavailable
+        finding: "requires a sales price input, not available for this jurisdiction"
+      sales_volume:
+        status: unavailable
+      rental_observations:
+        status: available
+        note: "observation_count column within the rent fact/mart, same source as residential_rents"
+      supply_per_1000_dwellings:
+        status: derived
+        note: "approvals_per_1000_dwellings, computed at query time in compare_market_geographies_v1 and similar"
+      source_freshness:
+        status: "meta.dataset_freshness_status tracks this per dataset_id (Sprint 11 WS16), not per jurisdiction directly"
+      confidence:
+        status: "every populated mart row carries a confidence_label column; distribution not jurisdiction-specific"
+  TAS:
+    asgs_state_code: 6
+    geography_backbone:
+      SAL: 776
+      SA2: 99
+      SA4: 4
+      SA3: 15
+      POA: 115
+      LGA: 29
+      GCCSA: 2
+      STATE: 1
+      SA1: 1477
+    meta_jurisdiction_registered: false
+    meta_jurisdiction_status: null
+    finding_meta_jurisdiction_gap: "TAS has ASGS geography loaded (2518 geographies across 9 levels) but is NOT registered in meta.jurisdiction — a real gap for Sprint 12 WS2 to close."
+    domains:
+      residential_sales:
+        status: official_source_paid_or_restricted
+        row_count: 0
+        finding: "Office of the Valuer-General publishes 'Property Sales Reports' via the LIST (Land Information System Tasmania) at listdata.thelist.tas.gov.au — fees are payable per the Service Tasmania land-value lookup page. No free bulk aggregate confirmed."
+      residential_rents:
+        status: blocked_access
+        row_count: 0
+        finding: "No official Tasmanian government bulk rental-bond or median-rent dataset was found via WebSearch or the LIST/Service Tasmania pages checked this pass. Requires deeper investigation of Consumer, Building and Occupational Services Tasmania (the tenancy regulator) directly."
+      gross_yield:
+        status: unavailable
+        note: "requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored"
+      dwelling_stock:
+        status: available
+        row_count: 19968
+        source: "ABS Census GCP dwelling stock (national load, Sprints 2-4)"
+      tenure:
+        status: available
+        row_count: 14976
+      population:
+        status: available
+        row_count: 776
+        of_total: 776
+      population_growth:
+        status: available
+        row_count: 561
+        of_total: 776
+        method: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence (see CROSS_CENSUS_HARMONISATION_METHOD.md)"
+        direct_or_derived: derived
+        correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
+      internal_migration:
+        status: unavailable
+        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+      household_composition:
+        status: available
+        row_count: 776
+        of_total: 776
+        fields: "family_households, lone_person_households, average_household_size"
+      household_income:
+        status: available
+        row_count: 776
+        of_total: 776
+      building_approvals:
+        status: available
+        row_count: 3861
+        earliest_period: 2025-06-01
+        latest_period: 2026-05-01
+      dwelling_commencements:
+        status: unavailable
+        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+      dwelling_completions:
+        status: unavailable
+        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+      housing_lending_rates:
+        status: available
+        row_count: 664
+        note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction"
+      affordability:
+        status: unavailable
+        finding: "requires a sales price input, not available for this jurisdiction"
+      sales_volume:
+        status: unavailable
+      rental_observations:
+        status: unavailable
+      supply_per_1000_dwellings:
+        status: derived
+        note: "approvals_per_1000_dwellings, computed at query time in compare_market_geographies_v1 and similar"
+      source_freshness:
+        status: "meta.dataset_freshness_status tracks this per dataset_id (Sprint 11 WS16), not per jurisdiction directly"
+      confidence:
+        status: "every populated mart row carries a confidence_label column; distribution not jurisdiction-specific"
+  NT:
+    asgs_state_code: 7
+    geography_backbone:
+      SAL: 303
+      GCCSA: 2
+      SA2: 68
+      LGA: 19
+      POA: 34
+      SA3: 9
+      SA4: 2
+      STATE: 1
+      SA1: 645
+    meta_jurisdiction_registered: false
+    meta_jurisdiction_status: null
+    finding_meta_jurisdiction_gap: "NT has ASGS geography loaded (1083 geographies across 9 levels) but is NOT registered in meta.jurisdiction — a real gap for Sprint 12 WS2 to close."
+    domains:
+      residential_sales:
+        status: unavailable
+        row_count: 0
+        finding: "NT's open data portal (data.nt.gov.au) 'Housing, property and land' group (12 datasets, live-verified) contains only infrastructure planning and public-housing-waitlist data — no sales dataset. NT market statistics are commonly sourced from REINT (Real Estate Institute of the Northern Territory), an industry association, which is excluded per this project's 'official government/statutory authority only' rule (same reasoning as VIC's REIV rejection, Sprint 10)."
+      residential_rents:
+        status: blocked_access
+        row_count: 0
+        finding: "Same portal group contains no rental dataset. No official NT government bulk rent source found this pass."
+      gross_yield:
+        status: unavailable
+        note: "requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored"
+      dwelling_stock:
+        status: available
+        row_count: 8552
+        source: "ABS Census GCP dwelling stock (national load, Sprints 2-4)"
+      tenure:
+        status: available
+        row_count: 6414
+      population:
+        status: available
+        row_count: 303
+        of_total: 303
+      population_growth:
+        status: available
+        row_count: 229
+        of_total: 303
+        method: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence (see CROSS_CENSUS_HARMONISATION_METHOD.md)"
+        direct_or_derived: derived
+        correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
+      internal_migration:
+        status: unavailable
+        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+      household_composition:
+        status: available
+        row_count: 303
+        of_total: 303
+        fields: "family_households, lone_person_households, average_household_size"
+      household_income:
+        status: available
+        row_count: 303
+        of_total: 303
+      building_approvals:
+        status: available
+        row_count: 2652
+        earliest_period: 2025-06-01
+        latest_period: 2026-05-01
+      dwelling_commencements:
+        status: unavailable
+        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+      dwelling_completions:
+        status: unavailable
+        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+      housing_lending_rates:
+        status: available
+        row_count: 664
+        note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction"
+      affordability:
+        status: unavailable
+        finding: "requires a sales price input, not available for this jurisdiction"
+      sales_volume:
+        status: unavailable
+      rental_observations:
+        status: unavailable
+      supply_per_1000_dwellings:
+        status: derived
+        note: "approvals_per_1000_dwellings, computed at query time in compare_market_geographies_v1 and similar"
+      source_freshness:
+        status: "meta.dataset_freshness_status tracks this per dataset_id (Sprint 11 WS16), not per jurisdiction directly"
+      confidence:
+        status: "every populated mart row carries a confidence_label column; distribution not jurisdiction-specific"
+  ACT:
+    asgs_state_code: 8
+    geography_backbone:
+      SA2: 134
+      SAL: 136
+      POA: 25
+      SA4: 1
+      SA3: 10
+      GCCSA: 1
+      LGA: 1
+      STATE: 1
+      SA1: 1227
+    meta_jurisdiction_registered: false
+    meta_jurisdiction_status: null
+    finding_meta_jurisdiction_gap: "ACT has ASGS geography loaded (1536 geographies across 9 levels) but is NOT registered in meta.jurisdiction — a real gap for Sprint 12 WS2 to close."
+    domains:
+      residential_sales:
+        status: available
+        row_count: 86
+        earliest_period: 1992-01-01
+        latest_period: 2026-06-01
+        source: null
+      residential_rents:
+        status: available
+        direct_or_derived: direct
+        row_count: 689
+        earliest_period: 2021-01-01
+        latest_period: 2026-01-01
+      gross_yield:
+        status: derived
+        note: "requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored"
+      dwelling_stock:
+        status: available
+        row_count: 12184
+        source: "ABS Census GCP dwelling stock (national load, Sprints 2-4)"
+      tenure:
+        status: available
+        row_count: 9138
+      population:
+        status: available
+        row_count: 136
+        of_total: 136
+      population_growth:
+        status: available
+        row_count: 111
+        of_total: 136
+        method: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence (see CROSS_CENSUS_HARMONISATION_METHOD.md)"
+        direct_or_derived: derived
+        correction_note: "jurisdiction_coverage.yml (Sprint 11 WS3) and JURISDICTION_COVERAGE_CONTRACT.md describe this as 'partially_available pending Workstream 4' — that was accurate when written but is now STALE; WS4 completed later in Sprint 11 and this is live-queried as populated. Those docs need correcting (tracked in national_coverage_audit.md)."
+      internal_migration:
+        status: unavailable
+        finding: "no ABS internal-migration dataset loaded at any grain — a genuine national gap, not jurisdiction-specific (candidate for Sprint 12 WS3)"
+      household_composition:
+        status: available
+        row_count: 136
+        of_total: 136
+        fields: "family_households, lone_person_households, average_household_size"
+      household_income:
+        status: available
+        row_count: 136
+        of_total: 136
+      building_approvals:
+        status: available
+        row_count: 5226
+        earliest_period: 2025-06-01
+        latest_period: 2026-05-01
+      dwelling_commencements:
+        status: unavailable
+        finding: "ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3)"
+      dwelling_completions:
+        status: unavailable
+        finding: "ABS Building Activity (completions) not loaded — same gap as commencements"
+      housing_lending_rates:
+        status: available
+        row_count: 664
+        note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction"
+      affordability:
+        status: derived
+        note: "computed at query time from sales + shared national assumption scenario, requires a sales source"
+      sales_volume:
+        status: available
+        note: "sale_count column within the sales fact/mart, same source as residential_sales"
+      rental_observations:
+        status: available
+        note: "observation_count column within the rent fact/mart, same source as residential_rents"
+      supply_per_1000_dwellings:
+        status: derived
+        note: "approvals_per_1000_dwellings, computed at query time in compare_market_geographies_v1 and similar"
+      source_freshness:
+        status: "meta.dataset_freshness_status tracks this per dataset_id (Sprint 11 WS16), not per jurisdiction directly"
+      confidence:
+        status: "every populated mart row carries a confidence_label column; distribution not jurisdiction-specific"
+national:
+  interest_rate_series:
+    -
+      rate_type: cash_rate_target
+      borrower_type: null
+      loan_type: null
+      n: 98
+      earliest: 1990-01-23
+      latest: 2026-05-06
+    -
+      rate_type: housing_lending_rate
+      borrower_type: investor
+      loan_type: all
+      n: 83
+      earliest: 2019-07-31
+      latest: 2026-05-31
+    -
+      rate_type: housing_lending_rate
+      borrower_type: investor
+      loan_type: fixed_gt_3y
+      n: 83
+      earliest: 2019-07-31
+      latest: 2026-05-31
+    -
+      rate_type: housing_lending_rate
+      borrower_type: investor
+      loan_type: fixed_le_3y
+      n: 83
+      earliest: 2019-07-31
+      latest: 2026-05-31
+    -
+      rate_type: housing_lending_rate
+      borrower_type: investor
+      loan_type: variable
+      n: 83
+      earliest: 2019-07-31
+      latest: 2026-05-31
+    -
+      rate_type: housing_lending_rate
+      borrower_type: owner_occupier
+      loan_type: all
+      n: 83
+      earliest: 2019-07-31
+      latest: 2026-05-31
+    -
+      rate_type: housing_lending_rate
+      borrower_type: owner_occupier
+      loan_type: fixed_gt_3y
+      n: 83
+      earliest: 2019-07-31
+      latest: 2026-05-31
+    -
+      rate_type: housing_lending_rate
+      borrower_type: owner_occupier
+      loan_type: fixed_le_3y
+      n: 83
+      earliest: 2019-07-31
+      latest: 2026-05-31
+    -
+      rate_type: housing_lending_rate
+      borrower_type: owner_occupier
+      loan_type: variable
+      n: 83
+      earliest: 2019-07-31
+      latest: 2026-05-31
+    -
+      rate_type: indicator_lending_rate
+      borrower_type: investor
+      loan_type: fixed_3y
+      n: 131
+      earliest: 2015-08-31
+      latest: 2026-06-30
+    -
+      rate_type: indicator_lending_rate
+      borrower_type: investor
+      loan_type: standard_variable
+      n: 131
+      earliest: 2015-08-31
+      latest: 2026-06-30
+    -
+      rate_type: indicator_lending_rate
+      borrower_type: owner_occupier
+      loan_type: fixed_3y
+      n: 430
+      earliest: 1990-09-30
+      latest: 2026-06-30
+    -
+      rate_type: indicator_lending_rate
+      borrower_type: owner_occupier
+      loan_type: standard_variable
+      n: 810
+      earliest: 1959-01-31
+      latest: 2026-06-30
+  note: "RBA cash rate and housing lending rates are national context, loaded once (Sprint 11 WS8), applying identically to every jurisdiction."

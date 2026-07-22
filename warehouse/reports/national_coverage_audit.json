@@ -1,0 +1,351 @@
+{
+  "generated_at": "2026-07-22T05:40:21.794Z",
+  "method": "Quantitative fields live-queried against warehouse-validation (read-only); qualitative access-status fields carried from Sprint 11 WS2's national_jurisdiction_source_manifest.json",
+  "jurisdictions_covered": [
+    "NSW",
+    "VIC",
+    "QLD",
+    "SA",
+    "WA",
+    "TAS",
+    "NT",
+    "ACT"
+  ],
+  "registry_summary": {
+    "NSW": {
+      "geography_levels_loaded": [
+        "SA1",
+        "SAL",
+        "SA2",
+        "LGA",
+        "POA",
+        "SA3",
+        "SA4",
+        "GCCSA",
+        "STATE"
+      ],
+      "meta_jurisdiction_registered": true,
+      "domains_available": [
+        "residential_sales",
+        "residential_rents",
+        "dwelling_stock",
+        "tenure",
+        "population",
+        "population_growth",
+        "household_composition",
+        "household_income",
+        "building_approvals",
+        "housing_lending_rates",
+        "sales_volume",
+        "rental_observations"
+      ],
+      "domains_derived": [
+        "gross_yield",
+        "affordability",
+        "supply_per_1000_dwellings"
+      ],
+      "domains_unavailable": [
+        "internal_migration",
+        "dwelling_commencements",
+        "dwelling_completions"
+      ]
+    },
+    "VIC": {
+      "geography_levels_loaded": [
+        "SAL",
+        "SA1",
+        "SA2",
+        "SA3",
+        "POA",
+        "LGA",
+        "SA4",
+        "GCCSA",
+        "STATE"
+      ],
+      "meta_jurisdiction_registered": true,
+      "domains_available": [
+        "residential_sales",
+        "dwelling_stock",
+        "tenure",
+        "population",
+        "population_growth",
+        "household_composition",
+        "household_income",
+        "building_approvals",
+        "housing_lending_rates",
+        "sales_volume",
+        "rental_observations"
+      ],
+      "domains_derived": [
+        "gross_yield",
+        "affordability",
+        "supply_per_1000_dwellings"
+      ],
+      "domains_unavailable": [
+        "internal_migration",
+        "dwelling_commencements",
+        "dwelling_completions"
+      ]
+    },
+    "QLD": {
+      "geography_levels_loaded": [
+        "SAL",
+        "POA",
+        "SA2",
+        "SA1",
+        "SA3",
+        "LGA",
+        "SA4",
+        "GCCSA",
+        "STATE"
+      ],
+      "meta_jurisdiction_registered": true,
+      "domains_available": [
+        "residential_sales",
+        "residential_rents",
+        "dwelling_stock",
+        "tenure",
+        "population",
+        "population_growth",
+        "household_composition",
+        "household_income",
+        "building_approvals",
+        "housing_lending_rates",
+        "sales_volume",
+        "rental_observations"
+      ],
+      "domains_derived": [
+        "gross_yield",
+        "affordability",
+        "supply_per_1000_dwellings"
+      ],
+      "domains_unavailable": [
+        "internal_migration",
+        "dwelling_commencements",
+        "dwelling_completions"
+      ]
+    },
+    "SA": {
+      "geography_levels_loaded": [
+        "SAL",
+        "SA2",
+        "POA",
+        "LGA",
+        "SA3",
+        "SA4",
+        "GCCSA",
+        "STATE",
+        "SA1"
+      ],
+      "meta_jurisdiction_registered": true,
+      "domains_available": [
+        "residential_rents",
+        "dwelling_stock",
+        "tenure",
+        "population",
+        "population_growth",
+        "household_composition",
+        "household_income",
+        "building_approvals",
+        "housing_lending_rates",
+        "rental_observations"
+      ],
+      "domains_derived": [
+        "supply_per_1000_dwellings"
+      ],
+      "domains_unavailable": [
+        "gross_yield",
+        "internal_migration",
+        "dwelling_commencements",
+        "dwelling_completions",
+        "affordability",
+        "sales_volume"
+      ]
+    },
+    "WA": {
+      "geography_levels_loaded": [
+        "POA",
+        "SA2",
+        "SAL",
+        "LGA",
+        "SA3",
+        "SA4",
+        "GCCSA",
+        "STATE",
+        "SA1"
+      ],
+      "meta_jurisdiction_registered": true,
+      "domains_available": [
+        "residential_rents",
+        "dwelling_stock",
+        "tenure",
+        "population",
+        "population_growth",
+        "household_composition",
+        "household_income",
+        "building_approvals",
+        "housing_lending_rates",
+        "rental_observations"
+      ],
+      "domains_derived": [
+        "supply_per_1000_dwellings"
+      ],
+      "domains_unavailable": [
+        "gross_yield",
+        "internal_migration",
+        "dwelling_commencements",
+        "dwelling_completions",
+        "affordability",
+        "sales_volume"
+      ]
+    },
+    "TAS": {
+      "geography_levels_loaded": [
+        "SAL",
+        "SA2",
+        "SA4",
+        "SA3",
+        "POA",
+        "LGA",
+        "GCCSA",
+        "STATE",
+        "SA1"
+      ],
+      "meta_jurisdiction_registered": false,
+      "domains_available": [
+        "dwelling_stock",
+        "tenure",
+        "population",
+        "population_growth",
+        "household_composition",
+        "household_income",
+        "building_approvals",
+        "housing_lending_rates"
+      ],
+      "domains_derived": [
+        "supply_per_1000_dwellings"
+      ],
+      "domains_unavailable": [
+        "gross_yield",
+        "internal_migration",
+        "dwelling_commencements",
+        "dwelling_completions",
+        "affordability",
+        "sales_volume",
+        "rental_observations"
+      ]
+    },
+    "NT": {
+      "geography_levels_loaded": [
+        "SAL",
+        "GCCSA",
+        "SA2",
+        "LGA",
+        "POA",
+        "SA3",
+        "SA4",
+        "STATE",
+        "SA1"
+      ],
+      "meta_jurisdiction_registered": false,
+      "domains_available": [
+        "dwelling_stock",
+        "tenure",
+        "population",
+        "population_growth",
+        "household_composition",
+        "household_income",
+        "building_approvals",
+        "housing_lending_rates"
+      ],
+      "domains_derived": [
+        "supply_per_1000_dwellings"
+      ],
+      "domains_unavailable": [
+        "residential_sales",
+        "gross_yield",
+        "internal_migration",
+        "dwelling_commencements",
+        "dwelling_completions",
+        "affordability",
+        "sales_volume",
+        "rental_observations"
+      ]
+    },
+    "ACT": {
+      "geography_levels_loaded": [
+        "SA2",
+        "SAL",
+        "POA",
+        "SA4",
+        "SA3",
+        "GCCSA",
+        "LGA",
+        "STATE",
+        "SA1"
+      ],
+      "meta_jurisdiction_registered": false,
+      "domains_available": [
+        "residential_sales",
+        "residential_rents",
+        "dwelling_stock",
+        "tenure",
+        "population",
+        "population_growth",
+        "household_composition",
+        "household_income",
+        "building_approvals",
+        "housing_lending_rates",
+        "sales_volume",
+        "rental_observations"
+      ],
+      "domains_derived": [
+        "gross_yield",
+        "affordability",
+        "supply_per_1000_dwellings"
+      ],
+      "domains_unavailable": [
+        "internal_migration",
+        "dwelling_commencements",
+        "dwelling_completions"
+      ]
+    }
+  },
+  "known_stale_docs_found": [
+    "warehouse/config/jurisdiction_coverage.yml: population_growth listed as 'partially_available pending Workstream 4' for every jurisdiction — WS4 completed later in Sprint 11, this field is now genuinely 'available' with derived/correspondence-based values. Needs correcting.",
+    "warehouse/docs/JURISDICTION_COVERAGE_CONTRACT.md: same population_growth staleness; also its coverage table doesn't reflect QLD/SA/WA rent promotion (WS9) despite being dated 2026-07-21."
+  ],
+  "meta_jurisdiction_gaps": [
+    "TAS",
+    "NT",
+    "ACT"
+  ],
+  "findings": [
+    {
+      "id": "stale_population_growth_docs",
+      "severity": "documentation",
+      "detail": "warehouse/config/jurisdiction_coverage.yml and warehouse/docs/JURISDICTION_COVERAGE_CONTRACT.md both describe population_growth as 'partially_available pending Workstream 4' for every jurisdiction. WS4 completed later in Sprint 11 (see CROSS_CENSUS_HARMONISATION_METHOD.md); this audit's live query confirms population_growth_2016_2021_pct is genuinely populated (majority of rows nationally). Needs correcting."
+    },
+    {
+      "id": "confidence_conflates_direct_and_derived",
+      "severity": "data_quality",
+      "detail": "population_growth_2016_2021_pct rows are labelled geography_method='direct', confidence_label='official' in mart.suburb_demographic_profile_2021 — identical to the directly-published 2021 population figures in the SAME row, even though growth is a derived, correspondence-weighted value. Contradicts this project's principle that derived values must be clearly distinguished from directly published ones. Candidate for Sprint 12 WS4/WS8 (likely needs a per-column, not per-row, lineage/confidence model)."
+    },
+    {
+      "id": "future_reference_period_nsw_sales",
+      "severity": "data_quality",
+      "detail": "2 rows in core.fact_residential_sales_summary (SAL_12348 / POA_2070, both Lindfield NSW, dataset_id=nsw_psi_2001_current_full_state) carry reference_period=2032-01-01 — a date ~5.5 years in the future, impossible for a settled sale. Both already carry sample_size_confidence='insufficient' (transaction_count=1) so they don't surface as a trustworthy statistic, but the underlying parsing defect is real and current. A small number of pre-1990 dates (as early as 1903) also exist in the same table — plausibly genuine historical transactions in the VG archive, not flagged as errors. Candidate data-quality rule for Sprint 12 WS9: reject/quarantine any reference_period outside [earliest plausible source year, current date]."
+    },
+    {
+      "id": "poa_geography_has_no_state_code",
+      "severity": "architecture",
+      "detail": "core.dim_geography.state_code is NULL for all 2,641 current POA rows (ASGS postal areas are not assigned a single definitive state at the boundary-file level). A naive join from any fact table to dim_geography.state_code therefore silently drops every postcode-grain fact from a per-jurisdiction count/filter — this audit's own first draft had exactly this bug (fixed here using the official Australia Post postcode-to-state range table, applied only within this audit script). Separately, mart.postcode_market_snapshot has its own `jurisdiction` column but it is only populated for NSW/VIC (1,334 of 2,641 POA rows have jurisdiction=NULL there) — QLD/SA/WA's rent-only postcode data has no jurisdiction label at all in that table, meaning the public map/API's jurisdiction display is likely NULL for those markers too. Candidate for Sprint 12 WS6 (national canonical marts) to fix structurally, e.g. a generated postcode_to_state column or function used consistently everywhere POA jurisdiction is needed.",
+      "residual_unattributed_rows": "postcode-range heuristic leaves a small residual of facts unattributable to any of the 8 ranges (out-of-range/malformed postcode codes) — reported per-domain in the registry, not silently dropped or force-assigned."
+    },
+    {
+      "id": "vic_rent_bypasses_shared_fact_table",
+      "severity": "architecture",
+      "detail": "core.fact_rental_market_summary has ZERO rows for VIC (state_code=2) across all geography types — live-verified, matches a finding already recorded in Sprint 11's session history. jurisdiction_coverage.yml describes VIC rent as 'partially_available... refresh_frequency: quarterly', implying a time series, but no VIC rent time series exists anywhere in mart.suburb_rent_quarterly / mart.lga_rent_quarterly / mart.postcode_rent_quarterly (all live-queried at 0 VIC rows). VIC's rent value exists ONLY as a single latest-value column, mart.suburb_market_snapshot.median_weekly_rent_latest (79 of 2,944 VIC suburbs populated) — VIC's rent pipeline diverged from the shared core-fact/quarterly-mart pattern every other rent-bearing jurisdiction (NSW/QLD/SA/WA) uses. This audit reports VIC rent as 'available_snapshot_only' rather than 'available' to reflect this genuinely narrower capability (no history, no trend). Candidate for Sprint 12 WS6 to either backfill VIC into the shared quarterly pipeline or explicitly document the divergence in the coverage contract rather than implying parity with the other jurisdictions."
+    }
+  ]
+}

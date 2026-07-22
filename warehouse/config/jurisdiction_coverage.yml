@@ -35,7 +35,7 @@ jurisdictions:
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
-      population_growth: { status: partially_available, notes: "2016-2021 comparison NULL pending Workstream 4 harmonisation; single-Census population is available" }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence completed (see CROSS_CENSUS_HARMONISATION_METHOD.md); most SAL/POA geographies now carry a real growth figure, suppressed only below the 50-person small-cell threshold" }
       affordability: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "shared national assumption scenario, not state-specific" }
       land_values: { status: unavailable, notes: "no official bulk land-value source loaded" }
       vacancy: { status: unavailable, notes: "no official vacancy-rate source identified" }
@@ -47,14 +47,14 @@ jurisdictions:
     since_sprint: 10
     metric_families:
       sales: { status: partially_available, earliest_period: "2023-Q4", latest_period: current, geography_levels: [SAL], dwelling_type_detail: "detached_house, apartment_unit, residential_land — no townhouse/villa split, no postcode grain", direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: medium, notes: "VPSR is a pre-aggregated summary, not transaction-level like NSW" }
-      rents: { status: partially_available, geography_levels: [SAL, LGA], direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: medium, notes: "SAL grain only for the ~50% of localities that resolve to a single ASGS suburb; LGA fallback for the rest" }
+      rents: { status: available_snapshot_only, geography_levels: [SAL], direct_or_derived: direct, refresh_frequency: not_currently_refreshed, confidence_ceiling: medium, notes: "Corrected 2026-07-22 (Sprint 12 WS1 audit): live-verified zero rows in core.fact_rental_market_summary and in every quarterly rent mart (suburb/lga/postcode_rent_quarterly) for VIC. Rent exists only as mart.suburb_market_snapshot.median_weekly_rent_latest (79 of 2,944 suburbs), loaded once via Sprint 10's market-intelligence pipeline (load_vic_market_intelligence_to_branch.mjs) directly into the wide snapshot table — VIC never went through the quarterly core-fact/mart pattern Sprint 11 WS9 established for QLD/SA/WA. No time series, no trend. See national_coverage_audit.md." }
       yields: { status: derived, direct_or_derived: derived, confidence_ceiling: medium }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
-      population_growth: { status: partially_available, notes: "same 2016-2021 harmonisation gap as NSW" }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "same Sprint 11 WS4 correspondence method as NSW, see CROSS_CENSUS_HARMONISATION_METHOD.md" }
       affordability: { status: derived, confidence_ceiling: medium }
       land_values: { status: unavailable }
       vacancy: { status: unavailable }
@@ -72,7 +72,7 @@ jurisdictions:
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
-      population_growth: { status: partially_available }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
       affordability: { status: unavailable, notes: "requires a sales input, which is not yet available" }
       land_values: { status: unavailable }
       vacancy: { status: unavailable }
@@ -90,7 +90,7 @@ jurisdictions:
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
-      population_growth: { status: partially_available }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
       affordability: { status: unavailable }
       land_values: { status: unavailable }
       vacancy: { status: unavailable }
@@ -108,7 +108,7 @@ jurisdictions:
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
-      population_growth: { status: partially_available }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
       affordability: { status: unavailable }
       land_values: { status: unavailable }
       vacancy: { status: unavailable }
@@ -126,7 +126,7 @@ jurisdictions:
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
-      population_growth: { status: partially_available }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
       affordability: { status: unavailable }
       land_values: { status: unavailable }
       vacancy: { status: unavailable }
@@ -144,7 +144,7 @@ jurisdictions:
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
-      population_growth: { status: partially_available }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
       affordability: { status: unavailable }
       land_values: { status: unavailable }
       vacancy: { status: unavailable }
@@ -162,7 +162,7 @@ jurisdictions:
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
-      population_growth: { status: partially_available }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
       affordability: { status: unavailable }
       land_values: { status: unavailable }
       vacancy: { status: unavailable }
@@ -170,6 +170,7 @@ jurisdictions:
 
 shared_notes:
   - "dwelling_stock, building_approvals, demographics, income, tenure are 'available' for EVERY jurisdiction because ASGS geography and Census/Building-Approvals data were loaded nationally in Sprints 2-4 — this is not jurisdiction-specific work, confirmed by direct query for each state, not assumed."
-  - "population_growth is 'partially_available' everywhere pending Workstream 4's 2016-2021 Census harmonisation — a single-Census population figure is available now, but the growth RATE is not until harmonisation completes."
+  - "population_growth is 'available' (derived) everywhere as of Sprint 11 Workstream 4 — 2016-2021 cross-Census population-weighted correspondence completed and validated (100.00% national reconciliation, see CROSS_CENSUS_HARMONISATION_METHOD.md). Corrected 2026-07-22 (Sprint 12 WS1 audit) — this line previously said 'partially_available... pending Workstream 4', which was accurate when first written but went stale once WS4 completed later in the same sprint."
+  - "VIC residential rent is genuinely narrower than its 'partially_available' status alone implies: core.fact_rental_market_summary has zero VIC rows and there is no VIC rent time series anywhere in the quarterly rent marts — VIC rent exists only as a single latest-value snapshot column (mart.suburb_market_snapshot.median_weekly_rent_latest, 79 of 2,944 suburbs). Found and documented 2026-07-22 (Sprint 12 WS1 audit, national_coverage_audit.md)."
   - "land_values, vacancy, and planning_pipeline are unavailable for every jurisdiction — no official free bulk source for any of these three metric families was identified in this sprint for any state, including NSW/VIC. This is a genuine, honestly-documented national gap, not a jurisdiction-specific one."
   - "affordability is 'unavailable' for QLD/SA/WA/TAS/ACT/NT because it requires a sales price input, which none of those jurisdictions have loaded yet — it will become 'derived' automatically once/if a sales source is onboarded for a state, using the exact same shared assumption scenario as NSW/VIC (no per-state redefinition)."
