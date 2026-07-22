@@ -1,6 +1,6 @@
 # National Coverage Audit (Sprint 12, Workstream 1)
 
-Generated 2026-07-22T07:32:21.105Z by `warehouse/scripts/audit/build_national_coverage_registry.mjs`.
+Generated 2026-07-22T08:05:49.046Z by `warehouse/scripts/audit/build_national_coverage_registry.mjs`.
 Quantitative fields (row counts, reference periods, coverage fractions) are
 live-queried against `warehouse-validation` at generation time — not
 hand-narrated. Qualitative access-status findings (paid/restricted/blocked)

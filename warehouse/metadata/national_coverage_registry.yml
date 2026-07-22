@@ -6,7 +6,7 @@
 # Qualitative fields (paid/restricted/blocked findings) are carried from
 # Sprint 11 WS2's live-verified source discovery
 # (national_jurisdiction_source_manifest.json), not re-invented here.
-generated_at: 2026-07-22T07:32:21.105Z
+generated_at: 2026-07-22T08:05:49.046Z
 jurisdictions:
   NSW:
     asgs_state_code: 1
