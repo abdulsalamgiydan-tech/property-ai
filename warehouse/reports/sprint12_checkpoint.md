@@ -1,97 +1,79 @@
 # Sprint 12 Checkpoint
 
-Stopping cleanly here per this project's context-checkpoint protocol,
-rather than starting WS6 (a very large workstream) at declining depth
-within an already very long session. This session completed Sprint 11
-WS17-22, a full GitHub Actions CI reconciliation, Sprint 12 Phase 0, and
-4 of the 6 "Foundation Block" workstreams (WS1, WS2, WS4, WS3). All work
-below is committed, pushed, and independently verified — nothing is left
-in a partial or unvalidated state.
+Stopping cleanly here per this project's context-checkpoint protocol, after
+closing out Workstream 6 with a fully committed, pushed, and independently
+verified result. All work below is committed, pushed, and re-confirmed live
+against the branch — nothing is left in a partial or unvalidated state.
 
 ## Branch and commit
 
 - Branch: `feature/national-residential-research-platform-v1`
-- Latest commit: `6d6e17e`
+- Latest commit: `1ef0dcf`
 - Base: Sprint 11's final commit `b3913e1`
-- GitHub Actions: **green on every pushed commit this session** —
-  `cebec8d`, `d7fc2fd`, `fcec63d`, `1862981`, `515c19b`, `83db10e`,
-  `6d6e17e` (all `success`, independently confirmed via `gh run view`)
+- GitHub Actions: **green on every pushed commit this session**, most
+  recently `1ef0dcf` (run [29902750018](https://github.com/abdulsalamgiydan-tech/property-ai/actions/runs/29902750018),
+  watched to completion — Build, lint, test, warehouse checks all passed)
 - Sprint 11 draft PR: [#4](https://github.com/abdulsalamgiydan-tech/property-ai/pull/4)
   (review-only, not merged)
-- Sprint 12 branch has no PR yet (not required until WS18)
 
-## Completed this session (Foundation Block progress: 4 of 6 workstreams)
+## Completed this session (Foundation Block progress: 5 of 6 workstreams)
 
-**Phase 0** (`cebec8d`): branch, PR, capacity plan (75%/3,375 MB budget),
-baseline.
+**Phase 0, WS1, WS2, WS4, WS3** — see prior checkpoint history in git log;
+unchanged since the last checkpoint.
 
-**WS1 — National coverage audit** (`d7fc2fd`): live-queried,
-re-runnable registry generator. 5 real findings (2 stale docs fixed
-immediately; 3 flagged for later — future reference-period bug, POA
-jurisdiction-attribution gap, VIC rent architecture gap).
-
-**WS2 — TAS/ACT/NT onboarding** (`1862981`): registered all 3 in
-`meta.jurisdiction`; discovered a live ABS successor publication (Total
-Value of Dwellings) and loaded 928 rows of GCCSA-grain sales for all
-three — **all 8 Australian jurisdictions now have real market data for
-the first time**. Live-reconfirmed TAS rent remains genuinely
-Cloudflare-blocked.
-
-**WS4 — 2016-2021 boundary reconciliation** (`83db10e`): built a genuine,
-queryable, version-aware geography bridge (17,974 2016 geography rows,
-18,616 correspondence rows at every quality level, 2 new editions in
-`dim_geography_version`) and fixed the exact lineage defect WS1 found —
-4 new dedicated columns so `population_growth_2016_2021_pct` never again
-shares its provenance with the row's direct 2021 figures. Found and
-handled 3 genuine ABS special/non-spatial cases (new SAL with no 2016
-predecessor, unallocated residuals, "No usual address"/"Migratory"
-pseudo-codes) — corrected the naive 100.00% reconciliation to an honest
-99.80%, still within tolerance. Manually verified a real split geography
-(Snowy Mountains locality → Thredbo/Perisher Valley/7 wilderness
-slivers).
-
-**WS3 — National demand/supply context** (`6d6e17e`): discovered and
-loaded a live ABS quarterly source ("Building Activity, Australia") for
-dwelling commencements and completions — 6,390 rows, STATE grain, both
-dwelling types, both stages, back to 1969/1980. Closes 2 of the 6
-priority gaps. Live-checked ABS's internal-migration candidate (Regional
-Internal Migration Estimates) — found it but its latest release is from
-March 2021, not confirmed current; documented as an open gap rather than
-built on an unverified stale source.
+**WS6 — National canonical market mart rollup** (`1ef0dcf`): Live inspection
+showed `mart.suburb_market_snapshot`/`postcode_market_snapshot` already had
+a schema comprehensive enough for the national mission — this was a
+completeness and bug-fix exercise, not a rebuild. Found and fixed two real
+defects (population_growth_2016_2021_pct hardcoded to NULL in the build
+script despite WS4 computing the real figure; jurisdiction never populated
+outside NSW/VIC). Found and closed a third, previously undocumented gap:
+QLD/SA/WA have substantial real rent data (211k/28k/20k rows, loaded Sprint
+11) that had never been rolled up into the wide snapshot/timeseries marts —
+now rolled up additively without touching NSW/VIC's existing values.
+TAS/ACT/NT deliberately excluded (GCCSA-grain sales can't map into
+SAL/POA-grain marts without fabricating a cross-grain match) — documented,
+not worked around. Full report: `sprint12_ws6_national_market_marts_report.md`.
 
 ## Validation status
 
 - `npm run warehouse:check`: pass
-- `npm test`: 85/85 pass (13 new this session across WS4 and WS3)
+- `npm test`: 89/89 pass (4 new this session for WS6: postcode-heuristic
+  correctness/malformed-input handling, rollup script safety pattern,
+  rent-null-only overwrite guard)
 - `npm run lint`: 0 errors, 6 warnings (all pre-existing, unrelated)
 - `npm run build`: pass
-- GitHub Actions: green on all 7 commits pushed this session
-- Production: re-verified untouched at Phase 0; every DB write since went
-  through the same connection-string guard (branch-ref required,
-  production-ref hard-refused)
-- No raw data or secrets committed (all downloaded xlsx files and local
-  DuckDB/JSON stores confirmed gitignored via `git check-ignore -v`)
-- Branch storage: 2,634.1 MB (Phase 0) → 2,663.8 MB (now) — +29.7 MB
-  across 4 real data-loading workstreams, still only 59.2% of the 4,500 MB
-  ceiling, far under the 3,375 MB (75%) Sprint 12 budget
+- GitHub Actions: green on all 9 commits pushed this session
+- Production: re-verified untouched (zero warehouse schema tables via
+  `list_tables` on `oshquaxsloolqucwvigc`)
+- No raw data or secrets committed
+- Branch storage: 2,634.1 MB (Phase 0) → 2,672 MB (now) — +37.9 MB across 5
+  real data workstreams, 79.2% of the 3,375 MB (75%) Sprint 12 budget,
+  59.4% of the 4,500 MB hard ceiling
 
 ## New migrations this session
 
-025 (TAS/ACT/NT jurisdiction registration), 026 (sales_only status), 027
-(boundary-reconciliation lineage columns), 028 (bridge-correspondence
-natural-key constraint), 029 (dwelling construction activity table).
+025, 026, 027, 028, 029 (unchanged since WS3/WS4 — WS6 needed no schema
+changes, every column it populated already existed).
 
-## New fact data this session
+## New/changed data this session (cumulative)
 
-- 928 rows: `core.fact_residential_sales_summary` (TAS/NT/ACT, GCCSA
-  grain, `dataset_id='abs_tvd_tas_act_nt_gccsa'`)
-- 17,974 rows: `core.dim_geography` (2016 SSC/POA, `is_current=false`)
-- 18,616 rows: `core.bridge_geography_correspondence`
-  (`correspondence_version='ABS_2016_to_ASGS3_2021'`)
-- 15,333 + 2,641 rows updated: demographic profile marts (population_2016
-  + growth + new lineage columns)
-- 6,390 rows: `core.fact_dwelling_construction_activity` (new table,
-  STATE grain, all 8 jurisdictions)
+Unchanged from the prior checkpoint, plus WS6's rollup:
+- `mart.suburb_market_snapshot`: jurisdiction +7,843 rows, population_growth
+  +10,935 rows, rent +2,540 rows (QLD/SA/WA)
+- `mart.postcode_market_snapshot`: jurisdiction +1,334 rows, population_growth
+  +2,596 rows, rent +1,119 rows (QLD/SA/WA)
+- `mart.suburb_market_timeseries`: +22,515 new `metric_family='rent'` rows
+  (QLD/SA/WA, correctly source-labelled per state, trailing 24 months)
+
+## New files this session (WS6)
+
+- `warehouse/scripts/market_intelligence/rollup_national_market_snapshot.mjs`
+- `warehouse/scripts/market_intelligence/rollup_national_market_snapshot.test.ts`
+- `warehouse/scripts/lib/postcode_to_state.mjs` (extracted shared module —
+  also now imported by `build_national_coverage_registry.mjs`)
+- `warehouse/reports/sprint12_ws6_national_market_marts_report.md`
+- `warehouse/reports/sprint12_ws6_national_snapshot_rollup_report.json`
 
 ## Active process status
 
@@ -100,69 +82,61 @@ lock files held.
 
 ## Unfinished files
 
-None — every file touched this session is committed and working.
+None — every file touched this session is committed and pushed.
 
 ## Remaining Foundation Block workstreams (not started)
 
-Per the "RESUME SPRINT 12 — NATIONAL DATA FOUNDATION CLOSURE" mission,
-the 6-workstream Foundation Block is:
-
-1. ~~WS4 — boundary reconciliation~~ ✅ done
-2. ~~WS3 — demand/supply context~~ ✅ done (2 of 6 priority gaps closed;
-   4 remain documented as open, not blocking)
-3. **WS6 — national canonical market marts** (not started) — refactor
-   `mart.suburb_market_snapshot`/`postcode_market_snapshot`/
-   `*_market_timeseries` into a coherent national model with full
-   metadata (identity/market/supply/demand/affordability/lineage
-   columns), shared structures not per-state tables, compatibility views
-   so existing interfaces don't break. This is the largest remaining
-   workstream — it should incorporate 2 concrete fixes WS1/WS4 already
-   identified: the POA jurisdiction-attribution gap and VIC's rent
-   architecture gap.
-4. **WS8 — field-level data lineage** (not started) — machine-queryable
+1. ~~WS4, WS3, WS6~~ ✅ all done
+2. **WS8 — field-level data lineage** (not started) — machine-queryable
    lineage entities (source/dataset/file/retrieval/checksum/load-run/
    transformation/correspondence/observation/derived-metric/mart-row/
    quality-result), a lineage query service, completeness percentages.
    Should build on the real lineage columns WS4 already added to the
-   demographic profile marts as a proof of pattern.
-5. **WS9 — automated data-quality monitoring** (not started) —
-   `meta.data_quality_rule/run/result`, `meta.data_freshness_status`,
-   `meta.data_incident`, `meta.data_quarantine_summary`, ~20 specific
-   rules. Should incorporate the future-reference-period rule WS1 already
-   found justification for (2 rows with `reference_period=2032-01-01` in
-   NSW sales).
-6. **WS10 — national refresh engine v3** (not started) — the largest
-   engineering lift: 20 capabilities including dependency-aware
-   incremental refresh, schema/geography/quality validation gates,
-   affected-mart-only rebuild, pre-promotion comparison, resumable
-   checkpoints. Should come last since it depends on WS6/WS8/WS9's
-   structures existing first (per the mission's own stated sequencing).
+   demographic profile marts as a proof of pattern. **Open design question
+   for WS8 to resolve**: WS6 confirmed those 4 lineage columns exist only on
+   `mart.suburb_demographic_profile_2021`/`postcode_demographic_profile_2021`,
+   NOT on the wide snapshot marts — per-metric lineage columns on every wide
+   mart would not scale to dozens of metrics; WS8 should likely design a
+   separate, generic lineage table keyed by (mart, row, metric) instead of
+   replicating WS4's column-per-metric pattern everywhere.
+3. **WS9 — automated data-quality monitoring** (not started) — ~20 rule
+   types. Should incorporate the future-reference-period rule WS1 already
+   found justification for, AND the new anomaly WS6 observed (a handful of
+   `mart.postcode_rent_quarterly` rows joining to POA geographies with
+   abnormal non-4-digit `geography_code` values, e.g. `10102100701` —
+   flagged but not investigated, a good candidate first real rule to write).
+4. **WS10 — national refresh engine v3** (not started) — largest remaining
+   engineering lift, depends on WS6/WS8/WS9 structures existing first.
 
 ## Exact next command
 
-Read this checkpoint and `sprint12_delivery_plan.md`, then resume with
-**WS6 (national canonical market marts)** — the mission's own sequencing
-note says WS6 should follow WS3/WS4 (both now done) and precede WS8/WS9/
-WS10.
-
 ```bash
-node warehouse/scripts/audit/build_national_coverage_registry.mjs  # re-run to refresh ground truth before starting WS6
+# Read the WS6 report first, then start WS8.
+cat warehouse/reports/sprint12_ws6_national_market_marts_report.md
 ```
 
 ## Exact resume prompt
 
 > Continue Sprint 12 from the checkpoint in
 > `warehouse/reports/sprint12_checkpoint.md`. Read it first. Resume with
-> Workstream 6 (national canonical market marts) — WS3 and WS4 are both
-> complete. Incorporate the 2 concrete fixes already identified (POA
-> jurisdiction-attribution gap from WS1, VIC rent architecture gap from
-> WS1) as part of the mart refactor. Continue autonomously through WS8,
-> WS9, WS10 per the original Foundation Block mission, checkpointing
-> again if context runs low.
+> Workstream 8 (field-level data lineage) — WS3, WS4, and WS6 are all
+> complete. Build machine-queryable lineage entities (source/dataset/file/
+> retrieval-event/checksum/load-run/transformation/correspondence/
+> observation/derived-metric/mart-row/quality-result), a lineage query/
+> service suitable for a future "About this metric" panel, and
+> completeness-percentage validation. Build on the real lineage columns WS4
+> already added to the demographic profile marts as a proof of pattern —
+> WS6 confirmed those columns exist only on the demographic marts, not the
+> wide snapshot marts, which is a real design question WS8 should resolve
+> (per-metric lineage columns vs a separate lineage table joined by
+> mart-row-id). "No mart metric may be considered publishable if mandatory
+> lineage is absent" is a blocking requirement. Commit WS8 independently,
+> then continue autonomously through WS9 and WS10 per the original
+> Foundation Block mission, checkpointing again if context runs low.
 
 ## Known blockers
 
-None blocking further work. TAS rent (Cloudflare-blocked, live-
-reconfirmed) and ABS internal migration (stale latest-release, not
-confirmed current) are both genuine, documented gaps — neither blocks
-WS6/WS8/WS9/WS10.
+None blocking further work. TAS rent (Cloudflare-blocked), ABS internal
+migration (stale latest-release), TAS/ACT/NT sales grain mismatch with
+SAL/POA-grain marts, and QLD postcode-grain rent (source appears SAL-only)
+are all genuine, documented gaps — none block WS8/WS9/WS10.
