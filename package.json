@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "warehouse:check": "node warehouse/scripts/quality/check_warehouse_files.mjs"
+    "warehouse:check": "node warehouse/scripts/quality/check_warehouse_files.mjs",
+    "warehouse:refresh": "node warehouse/scripts/orchestration/refresh_engine_v2.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
