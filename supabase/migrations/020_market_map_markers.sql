@@ -79,7 +79,7 @@ begin
   -- was first loaded), most with every metric NULL — only rows with at
   -- least one real metric count as a genuine snapshot, otherwise every
   -- geography in the country would wrongly report has_full_snapshot=true.
-  snap as (
+  with snap as (
     select geography_id, median_sale_price_12m, sales_sample_confidence, median_weekly_rent_latest, rent_confidence, true as full_snap
     from mart.suburb_market_snapshot
     where dwelling_type is null and (median_sale_price_12m is not null or median_weekly_rent_latest is not null)
