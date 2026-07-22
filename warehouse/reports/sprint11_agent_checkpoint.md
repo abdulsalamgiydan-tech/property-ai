@@ -4,80 +4,94 @@
 Coverage, Historical Harmonisation, Research Indicators, Automated
 Operations and Production Candidate)
 
-**Checkpoint written**: 2026-07-22 ~07:35 Australia/Sydney (supersedes the
-previous update, written after Workstream 8 — this file now reflects the
-first Workstream 9 sub-pass: QLD/SA/WA rent promoted to the branch)
+**Checkpoint written**: 2026-07-22 ~10:40 Australia/Sydney (supersedes the
+previous update, written after WS9 sub-pass 1 — this file now reflects
+WS9 sub-pass 2 and Workstreams 10-13, all complete, per the user's
+explicit instruction "go ahead till ws13 is finished")
 
 ## Git state
 
 - Branch: `feature/australia-property-intelligence-v3`
-- Commit: `1926c35`
+- Commit: `d778478`
 - Working tree: **clean**
 - Base: Sprint 10's `feature/deal-analyser-budget-2026` HEAD (`599beae`),
   preserved unmodified, no commits rewritten
-- All commits through `1926c35` have been pushed to origin.
+- All commits through `d778478` have been pushed to origin.
 
 ## Supabase target
 
 - Validation branch: `warehouse-validation`, ref **`lzonauinzatmtytyoems`**
-  — the only allowed write target. Re-confirmed live via `list_branches`
-  at the start of this resume.
+  — the only allowed write target.
 - Production ref **`oshquaxsloolqucwvigc`** — confirmed zero warehouse
   schema tables at this checkpoint (re-verified live).
-- Branch DB size: **2,629 MB** (was 2,359 MB before this session) — grew
-  from this session's first real branch write (QLD/SA/WA rent + migration
-  018). Comfortably under the 4,500 MB internal working ceiling.
-- **Migration 018 applied**: `mart.lga_rent_quarterly` (new table).
+- Branch DB size: **2,630 MB** — comfortably under the 4,500 MB internal
+  working ceiling.
+- **Migrations applied this session**: 018 (`mart.lga_rent_quarterly`),
+  019 (`mart.sa2_dwelling_stock_2021` / `mart.lga_dwelling_stock_2021`),
+  020 (`get_market_map_markers_v1` RPC + QLD/SA/WA added to
+  `meta.jurisdiction`), 021 (widened `compare_market_geographies_v1` to
+  2-10 geographies). All applied and verified live.
 
-## What's done (Workstreams 0-8, plus WS9 sub-pass 1)
+## What's done (Workstreams 0-13)
 
-Summary of 0-8 (see prior checkpoint commits for full detail): Sprint 10
+Summary of 0-8 — see prior checkpoint commits for full detail: Sprint 10
 preserved; capacity audit; national source discovery; coverage contract;
-2016-2021 Census harmonisation (loaded to branch); national SA2
-population layer (local only); QLD/SA/WA rent + NSW 1990-2000 sales
-archive all built and validated locally; local data lake catalogue.
+Census harmonisation (branch); SA2 population layer (local); QLD/SA/WA
+rent + NSW 1990-2000 sales archive (local); local data lake catalogue.
 
-**Workstream 9, sub-pass 1 — QLD/SA/WA rent branch promotion, COMPLETE.**
-Migration 018 added `mart.lga_rent_quarterly` (mirrors the existing
-suburb/postcode pattern). Building it surfaced and **corrected** a wrong
-initial assumption: the 48,024 pre-existing LGA-grain fact rows were
-assumed to be VIC's, but are actually **NSW DCJ's own dormant LGA rent
-data from Sprint 6** — unqueryable until this migration. VIC has zero
-rows in `core.fact_rental_market_summary` at all (its rent lives in
-`mart.suburb_market_snapshot` via a separate pipeline). Promoted all
-three Workstream 6 local stores: 402,971 fact rows added (QLD 187,952
-SAL + 23,345 LGA + 123,088 POA; SA 27,798 SAL + 12,752 POA; WA 19,794 SAL
-+ 8,242 POA), plus 78,202 + 33,426 + 13,931 rows across the three
-quarterly rent marts. Found and fixed two real bugs: a spread-over-large-
-array stack overflow (same class as Workstream 7's) and a missed
-expression-based unique index (migration 010's NULL-safe coalesce) the
-initial `ON CONFLICT` clause didn't target. Post-load gates all pass (0
-duplicates, 0 nulls, 0 negative rents, 0 orphans). QLD/SA/WA rent is now
-genuinely queryable for the first time. `jurisdiction_coverage.yml`
-updated accordingly.
+**WS9 (canonical marts) — COMPLETE, two sub-passes:**
+1. QLD/SA/WA rent promoted to `core.fact_rental_market_summary` +
+   `mart.suburb/postcode/lga_rent_quarterly` (402,971 fact rows). Found
+   and corrected a wrong assumption: pre-existing LGA facts were NSW's
+   (dormant since Sprint 6), not VIC's.
+2. `mart.sa2_dwelling_stock_2021` / `mart.lga_dwelling_stock_2021` built
+   as a direct pass-through of already-existing native SA2/LGA Census
+   facts (2,454 + 547 rows) — no new data load needed.
+   Deferred (documented, not fabricated): wide demographic profiles at
+   SA2/LGA (needs a new local Census build), NSW archive sales promotion,
+   `mart.suburb_market_snapshot` extension for QLD/SA/WA.
 
-## What's NOT done — remaining Workstream 9 sub-passes, then 10-22
+**WS10 (research indicators) — COMPLETE.** `research_indicators.yml` +
+`RESEARCH_INDICATOR_DEFINITIONS.md` document every indicator already
+computed in the warehouse — no new computation, pure transparency work.
+Explicitly documents what's excluded by design (composite scores,
+rankings, recommendations, AVMs, forecasts).
 
-Per `warehouse/reports/sprint11_ws9_rent_promotion_report.md`'s "What's
-still NOT done" section:
-- **Yield marts** for QLD/SA/WA — not possible, none of the three has any
-  sales data (Workstream 2's finding).
-- **`mart.suburb_market_snapshot` / `mart.postcode_market_snapshot`**
-  (wide per-geography snapshot tables) not yet extended with QLD/SA/WA —
-  requires replicating the fuller NSW/VIC snapshot-assembly logic.
-- **NSW's 1990-2000 sales archive** (Workstream 8) not yet promoted.
-- **SA2/LGA Census marts** — a promising discovery for the next sub-pass:
-  `core.fact_dwelling_stock` and `core.fact_household_tenure` **already
-  contain real SA2 and LGA rows** (loaded natively from the same ABS
-  Census GCP DataPacks already used for SAL, in an earlier sprint) — this
-  likely needs only new mart VIEWS (mirroring
-  `mart.suburb_dwelling_stock_2021`/`suburb_demographic_profile_2021`),
-  not a new data load.
+**WS11 (national map explorer) — COMPLETE.** `/research/map`, Leaflet +
+OpenStreetMap (free, no API key). `get_market_map_markers_v1` RPC
+(migration 020) — bounding-box-limited, row-capped, covers all 5 loaded
+jurisdictions. Found and fixed two real bugs during live browser testing:
+snapshot placeholder rows wrongly reporting `has_full_snapshot=true`, and
+the rent fallback picking a NULL "latest" quarter instead of the latest
+quarter with real data. Verified live: 500 NSW markers + QLD rent-only
+markers both render correctly with correct colours.
 
-Then Workstreams 10-22 (research indicators, map explorer, comparison
-workspace, export, refresh engine v2, GitHub Actions, data-status
-console, security hardening, feature flags, testing, remaining
-migrations, docs, final report/PR) are entirely untouched.
+**WS12 (comparison workspace) — COMPLETE.** Widened
+`compare_market_geographies_v1` (migration 021) from 2-5 to 2-10
+geographies; updated Explore selection UI and Compare page validation.
+Verified live: 8-geography comparison renders correctly, 11 is correctly
+rejected.
+
+**WS13 (research report export) — COMPLETE.** `ExportButtons` component
+(CSV/JSON/Print, no PDF library — browser print-to-PDF satisfies "no PDF
+unless free local tooling"), wired into `/research/compare`. Global print
+CSS added (forces black-on-white regardless of dark theme). Verified live
+by intercepting `URL.createObjectURL` to inspect actual generated file
+content — both CSV and JSON confirmed correct.
+
+## What's NOT done — Workstreams 14-22
+
+Refresh engine v2, GitHub Actions schedules, data-status console
+expansion, security/performance hardening beyond WS1's measurement pass,
+new feature flags (WS18 — note WS11/12/13's new UI is currently gated
+behind the EXISTING `MULTI_STATE_RESEARCH_ENABLED` flag, reused rather
+than inventing new flags ahead of WS18's dedicated pass), comprehensive
+testing, remaining migrations, further documentation, final report/PR.
+
+Also still queued from WS9: wide demographic profiles at SA2/LGA, NSW
+archive sales promotion into `core.fact_residential_sales_summary`, and
+extending `mart.suburb_market_snapshot`/`postcode_market_snapshot` with
+QLD/SA/WA rows.
 
 ## Unresolved blockers (none sprint-wide)
 
@@ -86,18 +100,21 @@ migrations, docs, final report/PR) are entirely untouched.
 - WA sales licence unclear: documented, needs human judgement if revisited.
 - WS7's 6.3GB local cleanup plan: written, not executed — human decision pending.
 
-## Commands that must NOT be repeated
+## Commands/actions that must NOT be repeated
 
 - Don't re-run WS0's Sprint 10 re-verification suite as a first resume action.
 - Don't attempt `gh pr create` without confirming `gh` is installed/authenticated.
 - Don't re-run any WS4/5/6/8 local-store build scripts — all complete and committed.
 - Don't attempt a TAS rent adapter or re-check CBOS/DOJ Tasmania — confirmed Cloudflare-blocked.
-- **Don't re-run `load_qld_sa_wa_rents_to_branch.mjs --execute`** — already committed to the
-  branch. Re-running is technically safe (ON CONFLICT DO NOTHING makes it idempotent) but
-  unnecessary and wastes time re-reading 400k+ local rows.
+- Don't re-run `load_qld_sa_wa_rents_to_branch.mjs --execute` or
+  `load_sa2_lga_dwelling_stock_to_branch.mjs --execute` — both already committed to the branch.
 - Don't run the WS7 cleanup plan's `rm -rf` commands without explicit human approval.
-- Don't assume `core.fact_rental_market_summary`'s pre-existing LGA rows are VIC's — they are
-  NSW's (corrected finding this session, documented in the WS9 report and the live table comment).
+- Don't assume `core.fact_rental_market_summary`'s LGA rows are VIC's — they are NSW's.
+- Don't invent new feature flags for research UI routes — WS18 owns that; the existing
+  `MULTI_STATE_RESEARCH_ENABLED` flag is the correct gate to reuse until WS18 runs.
+- When testing in a browser, remember the `gstack /browse` daemon resets state between
+  separate Bash calls — chain `goto` + follow-up commands within ONE call, and re-snapshot
+  for fresh @refs after any daemon restart message.
 
 ## Exact next command
 
@@ -107,31 +124,32 @@ git status --short && git log --oneline -3
 
 ## Exact next task
 
-Continue **Workstream 9, sub-pass 2**: build `mart.sa2_dwelling_stock_2021`
-and `mart.lga_dwelling_stock_2021` (mirroring
-`mart.suburb_dwelling_stock_2021`'s construction exactly) plus the wide
-`mart.sa2_demographic_profile_2021` / `mart.lga_demographic_profile_2021`
-snapshot tables (mirroring `mart.suburb_demographic_profile_2021`), all
-from `core.fact_dwelling_stock` / `core.fact_household_tenure` rows that
-**already exist** at SA2/LGA grain on the branch — verify this by
-re-querying `select geography_type, count(*) from core.fact_dwelling_stock
-f join core.dim_geography g on g.geography_id=f.geography_id group by 1`
-before starting, in case anything has changed. This should be achievable
-without any new data download — purely new mart-view migrations + INSERT
-... SELECT from existing fact data.
+The user's explicit scope for this session ("go ahead till ws13 is
+finished") is now complete. On resume, either:
+(a) continue autonomously into **Workstream 14** (incremental national
+refresh engine v2) if the standing "autonomous sprint execution" guidance
+applies, or
+(b) wait for explicit user direction on which workstream to pick up next,
+given the last two user messages in this session were scoped requests
+("go ahead till ws13", not an open-ended "continue the whole sprint").
+Check the actual conversation for which applies before proceeding.
+
+If resuming into WS14: no local build work is needed first — this is a
+refresh-orchestration engineering task (dependency graph, hash-based
+skip, checkpoints, resumability) building on the existing v1 orchestrator
+from Sprint 10.
 
 ## Resume verification checklist
 
 1. `git status --short` — confirm still on
    `feature/australia-property-intelligence-v3`, clean.
-2. Confirm HEAD is `1926c35` (trust actual git log over this doc if they disagree).
-3. Confirm no interrupted transaction: query
-   `select count(*) from core.fact_rental_market_summary` and confirm it
-   reads 660,911 (this checkpoint's known-good post-commit value) before
-   assuming the last transaction landed cleanly.
-4. Confirm `WAREHOUSE_VALIDATION_DB_URL` in `.env.local` still points at
+2. Confirm HEAD is `d778478` (trust actual git log over this doc if they disagree).
+3. Confirm `WAREHOUSE_VALIDATION_DB_URL` in `.env.local` still points at
    `lzonauinzatmtytyoems`, never `oshquaxsloolqucwvigc`.
-5. Resume Workstream 9, sub-pass 2.
+4. No dev server or browse daemon should be running — verify with
+   `curl -s -o /dev/null -w "%{http_code}" --max-time 2 http://localhost:3000`
+   (expect connection failure/000) before starting a new one.
+5. Resume per "Exact next task" above.
 
 ## Scheduled resume
 
