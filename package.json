@@ -9,7 +9,15 @@
     "lint": "eslint",
     "test": "vitest run",
     "warehouse:check": "node warehouse/scripts/quality/check_warehouse_files.mjs",
-    "warehouse:refresh": "node warehouse/scripts/orchestration/refresh_engine_v2.mjs"
+    "warehouse:refresh": "node warehouse/scripts/orchestration/refresh_engine_v2.mjs",
+    "warehouse:quality:check": "node warehouse/scripts/quality/run_quality_check.mjs",
+    "warehouse:quality:dataset": "node warehouse/scripts/quality/run_quality_check.mjs --execute",
+    "warehouse:quality:jurisdiction": "node warehouse/scripts/quality/run_quality_check.mjs --execute",
+    "warehouse:quality:domain": "node warehouse/scripts/quality/run_quality_check.mjs --execute",
+    "warehouse:quality:report": "node warehouse/scripts/quality/quality_report.mjs",
+    "warehouse:freshness": "node warehouse/scripts/orchestration/check_freshness.mjs",
+    "warehouse:incidents": "node warehouse/scripts/quality/report_incidents.mjs",
+    "warehouse:lineage:check": "node warehouse/scripts/lineage/validate_metric_lineage_completeness.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
