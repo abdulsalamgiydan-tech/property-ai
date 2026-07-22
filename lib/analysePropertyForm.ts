@@ -82,9 +82,11 @@ export function buildPropertyAnalysisInputFromForm(
         ? "Please enter expected weekly rent (use 0 only if you are modelling no rent)."
         : "Weekly rent needs to be a valid number.";
   }
-  if (!Number.isFinite(deposit)) {
+  if (!Number.isFinite(deposit) || deposit < 0 || deposit > 100) {
     nextErrors.depositPercent =
-      "Enter your deposit as a percentage of the purchase price (e.g. 20 for 20%).";
+      f.depositPercent.trim() === ""
+        ? "Enter your deposit as a percentage of the purchase price (e.g. 20 for 20%)."
+        : "Deposit must be between 0% and 100% of the purchase price.";
   }
   if (!Number.isFinite(rate) || rate < 0) {
     nextErrors.interestRate =
