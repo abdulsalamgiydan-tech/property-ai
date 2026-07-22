@@ -7,6 +7,7 @@ import {
   removeFromWatchlist,
   type WatchlistItem,
 } from "@/lib/supabase/watchlist";
+import { GeographySearchBox } from "@/components/research/GeographySearchBox";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -40,6 +41,13 @@ function WatchlistItemRow({
         ? item.notes || "Note"
         : item.notes || "Property";
 
+  const profileHref =
+    item.geography_code && item.geography_type
+      ? item.geography_type === "SAL"
+        ? `/research/suburb/${item.geography_code}`
+        : `/research/postcode/${item.geography_code}`
+      : null;
+
   return (
     <div className="flex items-start justify-between gap-4 rounded-xl border border-zinc-700/60 bg-zinc-900/60 p-4">
       <div className="flex min-w-0 flex-1 flex-col gap-1">
@@ -53,6 +61,11 @@ function WatchlistItemRow({
               className="text-[10px] text-violet-400 transition hover:text-violet-300"
             >
               View report →
+            </Link>
+          )}
+          {profileHref && (
+            <Link href={profileHref} className="text-[10px] text-violet-400 transition hover:text-violet-300">
+              Open research profile →
             </Link>
           )}
         </div>
@@ -79,7 +92,7 @@ function WatchlistItemRow({
   );
 }
 
-export function WatchlistClient() {
+export function WatchlistClient({ geographySearchEnabled = false }: { geographySearchEnabled?: boolean } = {}) {
   const { user, loading, openEarlyAccessModal } = useAuth();
   const [items, setItems] = useState<WatchlistItem[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
@@ -90,6 +103,11 @@ export function WatchlistClient() {
   const [addNotes, setAddNotes] = useState("");
   const [adding, setAdding] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
+  const [geographyLink, setGeographyLink] = useState<{
+    geographyId: string;
+    geographyCode: string;
+    geographyType: "SAL" | "POA";
+  } | null>(null);
 
   useEffect(() => {
     if (!user) {
@@ -115,6 +133,9 @@ export function WatchlistClient() {
       suburb: addSuburb.trim(),
       state: addState,
       notes: addNotes.trim() || null,
+      geographyId: geographyLink?.geographyId ?? null,
+      geographyCode: geographyLink?.geographyCode ?? null,
+      geographyType: geographyLink?.geographyType ?? null,
     });
     setAdding(false);
     if (!res.ok) { setAddError(res.message); return; }
@@ -123,6 +144,7 @@ export function WatchlistClient() {
     if (listRes.ok) setItems(listRes.items);
     setAddSuburb("");
     setAddNotes("");
+    setGeographyLink(null);
   }
 
   function handleRemove(id: string) {
@@ -180,17 +202,36 @@ export function WatchlistClient() {
           <h2 className="mb-4 text-xs font-semibold uppercase tracking-wider text-zinc-400">
             Add a suburb to watch
           </h2>
+          {geographySearchEnabled ? (
+            <div className="mb-3">
+              <label className="mb-1 block text-xs font-medium text-zinc-400">
+                Search research data (NSW/VIC) — links this entry to its market profile
+              </label>
+              <GeographySearchBox
+                placeholder="Type a suburb or postcode…"
+                onSelect={(r) => {
+                  setAddSuburb(r.geography_name);
+                  setAddState(r.jurisdiction ?? addState);
+                  setGeographyLink({ geographyId: r.geography_id, geographyCode: r.geography_code, geographyType: r.geography_type });
+                }}
+              />
+              <p className="mt-1 text-[11px] text-zinc-600">
+                Or type a suburb name manually below for any state — only NSW/VIC search results link to a research
+                profile.
+              </p>
+            </div>
+          ) : null}
           <form onSubmit={handleAddSuburb} className="space-y-3">
             <div className="flex gap-3">
               <div className="flex-1">
                 <label className="mb-1 block text-xs font-medium text-zinc-400" htmlFor="wl-suburb">
-                  Suburb
+                  Suburb {geographyLink ? <span className="text-violet-400">(linked to research profile)</span> : null}
                 </label>
                 <input
                   id="wl-suburb"
                   type="text"
                   value={addSuburb}
-                  onChange={(e) => { setAddError(null); setAddSuburb(e.target.value); }}
+                  onChange={(e) => { setAddError(null); setAddSuburb(e.target.value); setGeographyLink(null); }}
                   placeholder="e.g. Fitzroy"
                   className="w-full rounded-xl border border-zinc-700/80 bg-zinc-950/60 px-3 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:border-violet-500/60 focus:outline-none focus:ring-4 focus:ring-violet-500/15"
                 />

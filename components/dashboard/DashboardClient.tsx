@@ -105,6 +105,26 @@ function WatchlistCard({ item }: { item: WatchlistItem }) {
   );
 }
 
+function SavedResearchCard({ item }: { item: WatchlistItem }) {
+  const href = item.geography_type === "SAL" ? `/research/suburb/${item.geography_code}` : `/research/postcode/${item.geography_code}`;
+  return (
+    <Link
+      href={href}
+      className="group flex flex-col gap-1 rounded-xl border border-zinc-700/70 bg-zinc-950/45 p-4 transition hover:border-violet-500/45 hover:bg-zinc-900/80"
+    >
+      <span className="w-fit rounded-full border border-violet-500/30 bg-violet-950/25 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-violet-300">
+        {item.geography_type === "SAL" ? "Suburb" : "Postcode"}
+      </span>
+      <p className="text-sm font-medium text-zinc-200 group-hover:text-violet-200 line-clamp-1">
+        {[item.suburb, item.state].filter(Boolean).join(", ")}
+      </p>
+      {item.tags.length > 0 && (
+        <p className="text-[11px] text-zinc-500 line-clamp-1">{item.tags.join(", ")}</p>
+      )}
+    </Link>
+  );
+}
+
 function EmptyCard({
   title,
   body,
@@ -212,6 +232,9 @@ export function DashboardClient() {
     0
   );
   const netAnnualCashflow = annualRent - annualExpenses;
+  // Sprint 13 WS8a — watchlist suburb entries that are linked to a real
+  // research geography (added via the warehouse search, not free-text).
+  const savedResearch = watchlist.filter((item) => item.geography_code && item.geography_type);
 
   return (
     <div className="min-h-full bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100">
@@ -364,6 +387,24 @@ export function DashboardClient() {
                 </div>
               )}
             </SectionCard>
+
+            {savedResearch.length > 0 ? (
+              <SectionCard
+                title="Saved research"
+                description="Suburbs and postcodes you're tracking, linked to their live market profile."
+                actions={
+                  <Link href="/watchlist" className="text-xs text-violet-300 transition hover:text-violet-200">
+                    View all
+                  </Link>
+                }
+              >
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {savedResearch.slice(0, 6).map((item) => (
+                    <SavedResearchCard key={item.id} item={item} />
+                  ))}
+                </div>
+              </SectionCard>
+            ) : null}
 
             <SectionCard
               title="Portfolio snapshot"
