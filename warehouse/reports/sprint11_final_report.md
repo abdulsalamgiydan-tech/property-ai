@@ -91,13 +91,28 @@ passing:
   (17), `lib/warehouse/env.test.ts` (14, +8 this sprint for WS18's flags),
   `lib/tax/budget2026.test.ts` (13, pre-existing, unrelated to this sprint).
 
-`npm run warehouse:check`, `npm run build` both pass clean. `npm run lint`:
-8 errors / 7 warnings remain, all in `components/analyse`,
-`components/compare`, `components/reports`, `components/strategy` —
-pre-existing, last touched by `ebc6552` (Budget 2026 tax modelling, an
-ancestor commit predating this sprint), unrelated to and unchanged by any
-Sprint 11 work. One genuinely new warning (`localOnly` unused in
-`refresh_engine_v2.mjs`) was found and fixed in WS22.
+`npm run warehouse:check`, `npm run build` both pass clean. One genuinely
+new warning (`localOnly` unused in `refresh_engine_v2.mjs`) was found and
+fixed in WS22.
+
+**Correction, added after this report was first written**: this report
+originally described `npm run lint`'s 8 pre-existing errors (in
+`components/analyse`, `components/compare`, `components/reports`,
+`components/strategy` — last touched by `ebc6552`, an ancestor commit
+predating this sprint) as "acceptable" on the reasoning that they were
+unrelated to and unchanged by Sprint 11 work. **That reasoning was wrong
+for CI purposes.** GitHub Actions checks exit code, not commit
+provenance — `npm run lint` exited 1 with no `continue-on-error`, so
+every CI run on this branch from WS15 (when the workflow was first added)
+through this report's own commit (`a713931`) actually **failed**,
+contradicting this report's implicit "all checks pass" framing. The user
+caught this contradiction directly from the GitHub Actions UI. All 8
+errors were properly fixed (not suppressed) and CI is now green — full
+details, evidence, and the fix in
+`github_actions_failure_diagnosis.{md,json}` and
+`github_actions_ci_reconciliation.{md,json}`. Sprint 11 should be
+considered fully complete only as of the green run referenced in the
+reconciliation report, not as of this report's original commit.
 
 ## Migrations
 

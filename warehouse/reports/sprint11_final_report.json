@@ -44,7 +44,16 @@
     "all_passing": true,
     "npm_run_warehouse_check": "pass",
     "npm_run_build": "pass",
-    "npm_run_lint": { "errors": 8, "warnings": 7, "pre_existing_unrelated": true, "unrelated_source_commit": "ebc6552", "new_findings_fixed_this_sprint": 1 }
+    "npm_run_lint": {
+      "correction_note": "This report originally recorded 8 lint errors as 'acceptable' because they were pre-existing/unrelated. That was wrong for CI purposes: GitHub Actions checks exit code, not provenance, so npm run lint exiting 1 failed every CI run on this branch from WS15 through this report's own commit (a713931). All 8 errors were subsequently fixed properly (not suppressed) — see github_actions_ci_reconciliation.json for the full record.",
+      "errors_at_report_time": 8,
+      "errors_after_fix": 0,
+      "warnings_remaining": 6,
+      "warnings_remaining_are_pre_existing_unrelated": true,
+      "fix_commit": "158ff85",
+      "ci_conclusion_after_fix": "success",
+      "ci_run_id_after_fix": "29887704890"
+    }
   },
   "migrations": {
     "new_this_sprint": ["018_lga_rent_quarterly.sql", "019_sa2_lga_dwelling_stock.sql", "020_market_map_markers.sql", "021_compare_up_to_10.sql", "022_data_operations_console.sql", "023_revoke_excess_view_grants.sql", "024_rent_mart_performance_indexes.sql"],
