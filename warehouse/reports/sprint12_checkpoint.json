@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-07-22T15:44:00+10:00",
+  "branch": "feature/national-residential-research-platform-v1",
+  "latest_commit": "d7fc2fd",
+  "base_commit": "b3913e1",
+  "github_actions": [
+    { "commit": "cebec8d", "run_id": "29889104730", "conclusion": "success" },
+    { "commit": "d7fc2fd", "run_id": "29894488429", "conclusion": "success" }
+  ],
+  "sprint11_pr": { "number": 4, "state": "OPEN", "is_draft": true, "merged": false },
+  "workstreams_completed": ["Phase 0: branch, PR, capacity plan, baseline", "WS1: national coverage audit"],
+  "workstreams_remaining": [
+    "WS2: TAS/ACT/NT onboarding",
+    "WS3: national demand/supply context expansion",
+    "WS4: 2016-2021 boundary reconciliation (partially done in Sprint 11 -- see findings)",
+    "WS5: research evidence catalogue",
+    "WS6: national canonical market marts refactor",
+    "WS7: Scenario Lab",
+    "WS8: data lineage and provenance system",
+    "WS9: automated data-quality monitoring",
+    "WS10: refresh engine v3",
+    "WS11: versioned public API v1",
+    "WS12: research interface rebuild",
+    "WS13: export and reproducibility",
+    "WS14: security, RLS and access model",
+    "WS15: performance and storage hardening",
+    "WS16: testing and clean-clone reproduction",
+    "WS17: documentation and operations",
+    "WS18: final validation and delivery"
+  ],
+  "ws1_findings": [
+    { "id": "stale_population_growth_docs", "status": "fixed_this_session" },
+    { "id": "confidence_conflates_direct_and_derived", "status": "flagged_for_ws4_ws8" },
+    { "id": "future_reference_period_nsw_sales", "status": "flagged_for_ws9" },
+    { "id": "poa_geography_has_no_state_code", "status": "worked_around_in_audit_script_flagged_for_ws6" },
+    { "id": "vic_rent_bypasses_shared_fact_table", "status": "fixed_doc_this_session_flagged_for_ws6_backfill" }
+  ],
+  "meta_jurisdiction_gaps": ["TAS", "ACT", "NT"],
+  "validation_status": {
+    "npm_run_warehouse_check": "pass",
+    "npm_test": { "result": "pass", "tests": 72 },
+    "npm_run_lint": { "result": "pass", "errors": 0, "warnings": 6 },
+    "npm_run_build": "pass",
+    "github_actions": "green on both commits",
+    "production_touched": false,
+    "raw_data_committed": false,
+    "secrets_committed": false,
+    "branch_storage_mb": 2634.1,
+    "branch_storage_unchanged_this_session": true
+  },
+  "active_process_status": "none -- no running processes, no open transactions, no lock files held",
+  "unfinished_files": [],
+  "database_changes_this_session": "none -- Phase 0 and WS1 were entirely read-only against warehouse-validation",
+  "exact_next_command": "node warehouse/scripts/audit/build_national_coverage_registry.mjs  # re-run to refresh ground truth, then start WS2",
+  "exact_resume_prompt": "Continue Sprint 12 from the checkpoint in warehouse/reports/sprint12_checkpoint.md. Read it and sprint12_delivery_plan.md first. Resume with Workstream 2 (TAS/ACT/NT onboarding) using the concrete next actions listed in the checkpoint. Continue autonomously through the remaining workstreams per the original Sprint 12 mission, checkpointing again if context runs low.",
+  "ws2_concrete_next_actions": [
+    "Register TAS/ACT/NT in meta.jurisdiction (currently missing, one-line migration)",
+    "TAS rent: Sprint 11 WS2's finding was explicitly flagged 'search-only, not final' -- check Consumer, Building and Occupational Services Tasmania directly, not just WebSearch",
+    "ACT/NT sales and rent: both live-verified as zero results on official open-data portals -- check remaining WS2-mission channels before concluding unavailable, e.g. ABS Residential Property Price Indexes (publishes per-capital-city index including Canberra and Darwin)",
+    "Build/extend the state-adapter contract; load genuinely available sources local-first, promote curated marts only"
+  ],
+  "known_blockers": "none identified -- WS1 findings are either already fixed or flagged as concrete future work, not blockers to WS2"
+}
