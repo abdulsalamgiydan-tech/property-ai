@@ -1,0 +1,129 @@
+name: Warehouse Manual Refresh
+
+# Sprint 11, Workstream 15. The ONLY workflow in this project that can
+# write to the Supabase validation branch, and only via an explicit,
+# human-triggered workflow_dispatch — never on a schedule, never on push.
+#
+# Defense in depth: the `target` input must literally equal "validation"
+# or the job fails before checkout even runs. refresh_engine_v2.mjs then
+# independently re-checks the actual connection string against the
+# production ref before opening any database connection — so even a
+# misconfigured secret pointing at production would still be refused by
+# the script itself, not just by this workflow's input gate.
+#
+# This workflow requires a `WAREHOUSE_VALIDATION_DB_URL` repository secret
+# to be configured (server-side only, never exposed to any build output or
+# log — refresh_engine_v2.mjs never prints it). No secret is required for
+# local-only dispatch runs.
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Must be exactly "validation" — any other value fails immediately, before checkout'
+        required: true
+        type: string
+      mode:
+        description: "Refresh mode"
+        required: true
+        type: choice
+        options:
+          - plan
+          - dry-run
+          - local-only
+          - branch-load
+        default: dry-run
+      jurisdiction:
+        description: "Optional jurisdiction filter (leave blank for ALL)"
+        required: false
+        type: string
+      dataset:
+        description: "Optional dataset_id filter, comma-separated (leave blank for all in scope)"
+        required: false
+        type: string
+      changed_only:
+        description: "Skip datasets unchanged since the last recorded run"
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: warehouse-manual-refresh
+  cancel-in-progress: false # never cancel an in-progress branch write mid-transaction
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: Validate dispatch target before anything else runs
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Refuse anything other than the exact string "validation"
+        run: |
+          if [ "${{ github.event.inputs.target }}" != "validation" ]; then
+            echo "::error::target input must be exactly 'validation' — got '${{ github.event.inputs.target }}'. Refusing (hard stop)."
+            exit 1
+          fi
+          echo "target=validation confirmed"
+
+  refresh:
+    name: Run refresh_engine_v2
+    needs: guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build refresh_engine_v2 arguments
+        id: args
+        run: |
+          ARGS="--${{ github.event.inputs.mode }}"
+          if [ "${{ github.event.inputs.mode }}" = "branch-load" ]; then
+            ARGS="--execute --branch-load"
+          elif [ "${{ github.event.inputs.mode }}" = "local-only" ]; then
+            ARGS="--execute --local-only"
+          fi
+          if [ -n "${{ github.event.inputs.jurisdiction }}" ]; then
+            ARGS="$ARGS --jurisdiction=${{ github.event.inputs.jurisdiction }}"
+          fi
+          if [ -n "${{ github.event.inputs.dataset }}" ]; then
+            ARGS="$ARGS --dataset=${{ github.event.inputs.dataset }}"
+          fi
+          if [ "${{ github.event.inputs.changed_only }}" = "true" ]; then
+            ARGS="$ARGS --changed-only"
+          fi
+          echo "args=$ARGS" >> "$GITHUB_OUTPUT"
+          echo "Resolved arguments: $ARGS"
+
+      - name: Run refresh (local modes never need the DB secret)
+        if: github.event.inputs.mode != 'branch-load'
+        run: node warehouse/scripts/orchestration/refresh_engine_v2.mjs ${{ steps.args.outputs.args }}
+
+      - name: Run refresh (branch-load — requires WAREHOUSE_VALIDATION_DB_URL secret)
+        if: github.event.inputs.mode == 'branch-load'
+        env:
+          WAREHOUSE_VALIDATION_DB_URL: ${{ secrets.WAREHOUSE_VALIDATION_DB_URL }}
+        run: |
+          if [ -z "$WAREHOUSE_VALIDATION_DB_URL" ]; then
+            echo "::error::WAREHOUSE_VALIDATION_DB_URL secret is not configured — cannot run a branch-load. Configure the repository secret first (never commit it)."
+            exit 1
+          fi
+          node warehouse/scripts/orchestration/refresh_engine_v2.mjs ${{ steps.args.outputs.args }}
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Warehouse manual refresh" >> "$GITHUB_STEP_SUMMARY"
+          echo "- mode: ${{ github.event.inputs.mode }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- jurisdiction: ${{ github.event.inputs.jurisdiction || 'ALL' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- dataset: ${{ github.event.inputs.dataset || '(all in scope)' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- triggered by: ${{ github.actor }}" >> "$GITHUB_STEP_SUMMARY"

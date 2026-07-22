@@ -1,0 +1,83 @@
+name: Warehouse Source Monitor
+
+# Sprint 11, Workstream 15. Lightweight, read-only checks only — no
+# multi-gigabyte downloads, no Supabase writes of any kind. Runs daily
+# (availability) and weekly (metadata/drift) per warehouse/config/refresh_schedule.yml.
+
+on:
+  schedule:
+    - cron: "0 20 * * *" # 06:00 AEST daily (20:00 UTC previous day) — availability checks
+    - cron: "0 20 * * 1" # additionally on Mondays — weekly metadata/drift checks
+  workflow_dispatch: {}
+
+concurrency:
+  group: warehouse-source-monitor
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  availability-check:
+    name: Source availability (daily)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: HTTP status check — a small, representative set of source domains
+        # HEAD/status only, never a full file download. Any single source
+        # being down is reported, not treated as a workflow failure — a
+        # source-specific blocker must not fail the whole check.
+        run: |
+          set +e
+          FAILURES=0
+          for url in \
+            "https://www.abs.gov.au" \
+            "https://data.sa.gov.au" \
+            "https://www.rta.qld.gov.au" \
+            "https://www.valuergeneral.nsw.gov.au" \
+            "https://www.land.vic.gov.au" \
+            "https://housing-data-exchange.ahdap.org" \
+            "https://www.rba.gov.au"; do
+            status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$url")
+            echo "$url -> HTTP $status"
+            if [ "$status" -ge 500 ] || [ "$status" = "000" ]; then
+              FAILURES=$((FAILURES+1))
+              echo "::warning::$url returned $status (source-specific, not blocking the workflow)"
+            fi
+          done
+          echo "total_failures=$FAILURES" >> "$GITHUB_STEP_SUMMARY"
+          exit 0
+
+  research_ui_smoke_test:
+    name: Public research interface health
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event.schedule == '0 20 * * *' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # Build only — this job never starts a live server or connects to
+      # Supabase (no WAREHOUSE_SUPABASE_* secrets are available to this
+      # workflow at all). A clean build is the safe, no-credential proxy
+      # for "the research routes are not broken by a recent change."
+      - run: npm run build
+
+  weekly-metadata-check:
+    name: Metadata discovery + licence-page drift (Mondays only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event.schedule == '0 20 * * 1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Report which discovery scripts exist (informational only — not run against live sources in CI)
+        run: |
+          echo "## Weekly source-discovery script inventory" >> "$GITHUB_STEP_SUMMARY"
+          find warehouse/scripts -iname "discover_*.mjs" | sort >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Full live discovery runs (with real HTTP calls to government sources) remain a manual, human-triggered operation — see warehouse/config/refresh_schedule.yml. This job only confirms the discovery scripts are present in the repo." >> "$GITHUB_STEP_SUMMARY"

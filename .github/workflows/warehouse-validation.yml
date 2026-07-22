@@ -1,0 +1,58 @@
+name: Warehouse Validation
+
+# Sprint 11, Workstream 15. Standard CI on push/PR — build/lint/test only,
+# no network calls to external data sources, no Supabase credentials used
+# or required. This is deliberately just "does the repo still work",
+# not a data-freshness or refresh check (that's warehouse-source-monitor.yml).
+
+on:
+  push:
+    branches: [main, "feature/**"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: warehouse-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Build, lint, test, warehouse file checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: warehouse:check (required warehouse files present, no raw data committed)
+        run: npm run warehouse:check
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Refresh registry integrity + no-large-file scan
+        run: |
+          echo "## Large-file scan" >> "$GITHUB_STEP_SUMMARY"
+          git ls-files -- "*.zip" "*.shp" "*.gpkg" "*.parquet" "*.duckdb" "*.dbf" "warehouse/data" > /tmp/tracked_raw.txt || true
+          if [ -s /tmp/tracked_raw.txt ]; then
+            echo "::error::Raw/large data files are tracked by git:"
+            cat /tmp/tracked_raw.txt
+            exit 1
+          fi
+          echo "No raw/large data files tracked." >> "$GITHUB_STEP_SUMMARY"
