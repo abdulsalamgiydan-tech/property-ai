@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-22T18:10:00+10:00",
+  "generated_at": "2026-07-22T18:30:00+10:00",
   "branch": "feature/national-residential-research-platform-v1",
-  "latest_commit": "1ef0dcf",
+  "latest_commit": "6942d79",
   "base_commit": "b3913e1",
   "github_actions": [
     { "commit": "cebec8d", "conclusion": "success" },
@@ -11,8 +11,10 @@
     { "commit": "515c19b", "conclusion": "success" },
     { "commit": "83db10e", "conclusion": "success" },
     { "commit": "6d6e17e", "conclusion": "success" },
-    { "commit": "50e04e6", "run_id": "29900984343", "conclusion": "success" },
-    { "commit": "1ef0dcf", "run_id": "29902750018", "conclusion": "success" }
+    { "commit": "50e04e6", "conclusion": "success" },
+    { "commit": "1ef0dcf", "run_id": "29902750018", "conclusion": "success" },
+    { "commit": "985e3a5", "conclusion": "success" },
+    { "commit": "6942d79", "run_id": "29904157581", "conclusion": "success" }
   ],
   "sprint11_pr": { "number": 4, "state": "OPEN", "is_draft": true, "merged": false },
   "foundation_block_workstreams_completed": [
@@ -20,15 +22,15 @@
     "WS2: TAS/ACT/NT onboarding",
     "WS4: 2016-2021 boundary reconciliation (fixed WS1's lineage defect)",
     "WS3: national demand/supply context (dwelling commencements/completions)",
-    "WS6: national canonical market mart rollup (jurisdiction backfill, population_growth_2016_2021_pct backfill, QLD/SA/WA rent rollup)"
+    "WS6: national canonical market mart rollup (jurisdiction backfill, population_growth_2016_2021_pct backfill, QLD/SA/WA rent rollup)",
+    "WS8: field-level data lineage (meta.metric_lineage_registry, completeness validator, About-this-metric lineage_service.mjs)"
   ],
   "foundation_block_workstreams_remaining": [
-    "WS8: field-level data lineage -- should build on the real lineage columns WS4 added as a proof of pattern",
-    "WS9: automated data-quality monitoring -- should incorporate the future-reference-period rule WS1 already justified",
+    "WS9: automated data-quality monitoring -- should incorporate the future-reference-period rule WS1 justified, AND the cross-border postcode attribution anomaly WS8 found (QLD/ACT-heuristic postcodes carrying nsw_vg_sales data)",
     "WS10: national refresh engine v3 -- should come last, depends on WS6/WS8/WS9 structures existing first"
   ],
   "session_totals": {
-    "new_migrations": ["025", "026", "027", "028", "029"],
+    "new_migrations": ["025", "026", "027", "028", "029", "030", "031"],
     "new_fact_rows": {
       "core.fact_residential_sales_summary_tas_act_nt": 928,
       "core.dim_geography_2016_editions": 17974,
@@ -41,29 +43,29 @@
       "mart_postcode_snapshot_population_growth_backfilled": 2596,
       "mart_suburb_snapshot_rent_rollup": 2540,
       "mart_postcode_snapshot_rent_rollup": 1119,
-      "mart_suburb_timeseries_rent_rollup": 22515
+      "mart_suburb_timeseries_rent_rollup": 22515,
+      "meta.metric_lineage_registry": 35
     },
-    "new_tests": 17,
-    "total_tests": 89
+    "new_tests": 26,
+    "total_tests": 98
   },
   "validation_status": {
     "npm_run_warehouse_check": "pass",
-    "npm_test": { "result": "pass", "tests": 89 },
+    "npm_test": { "result": "pass", "tests": 98 },
     "npm_run_lint": { "result": "pass", "errors": 0, "warnings": 6 },
     "npm_run_build": "pass",
-    "github_actions": "green on all 9 commits pushed this session",
+    "github_actions": "green on all 11 commits pushed this session",
     "production_touched": false,
     "raw_data_committed": false,
     "secrets_committed": false,
     "branch_storage_mb_phase0": 2634.1,
-    "branch_storage_mb_now": 2672,
-    "branch_storage_delta_mb": 37.9,
+    "branch_storage_mb_now_approx": 2672,
     "branch_budget_mb": 3375,
-    "branch_budget_fraction_used": 0.792
+    "branch_budget_fraction_used_approx": 0.792
   },
   "active_process_status": "none -- no running processes, no open database transactions, no lock files held",
   "unfinished_files": [],
-  "exact_next_command": "Read warehouse/reports/sprint12_ws6_national_market_marts_report.md for WS6's full findings, then begin Workstream 8 (field-level data lineage).",
-  "exact_resume_prompt": "Continue Sprint 12 from the checkpoint in warehouse/reports/sprint12_checkpoint.md. Read it first. Resume with Workstream 8 (field-level data lineage) -- WS3, WS4, and WS6 are all complete. Build machine-queryable lineage entities (source/dataset/file/retrieval-event/checksum/load-run/transformation/correspondence/observation/derived-metric/mart-row/quality-result), a lineage query/service suitable for a future 'About this metric' panel, and completeness-percentage validation. Build on the real lineage columns WS4 already added to the demographic profile marts (population_growth_method/confidence/correspondence_version/source_dataset_id) as a proof of pattern -- WS6 confirmed those columns exist only on the demographic marts, not yet on the wide snapshot marts, which is a real design question WS8 should resolve (per-metric lineage columns vs a separate lineage table joined by mart-row-id). 'No mart metric may be considered publishable if mandatory lineage is absent' is a blocking requirement. Commit WS8 independently, then continue autonomously through WS9 and WS10 per the original Foundation Block mission, checkpointing again if context runs low.",
-  "known_blockers": "none blocking further work -- TAS rent (Cloudflare-blocked, live-reconfirmed), ABS internal migration (stale latest-release, not confirmed current), TAS/ACT/NT sales grain mismatch with SAL/POA-grain marts (GCCSA vs SAL/POA, documented in the WS6 report as a real architecture gap for a future GCCSA-grain snapshot mart), and QLD postcode-grain rent (source appears SAL-only, no POA geocoding found) are all genuine, documented gaps -- none block WS8/WS9/WS10"
+  "exact_next_command": "Read warehouse/reports/sprint12_ws8_data_lineage_report.md for WS8's full findings, then begin Workstream 9 (automated data-quality monitoring).",
+  "exact_resume_prompt": "Continue Sprint 12 from the checkpoint in warehouse/reports/sprint12_checkpoint.md. Read it first. Resume with Workstream 9 (automated data-quality monitoring) -- WS3, WS4, WS6, and WS8 are all complete. Build meta.data_quality_rule/run/result (data_quality_result already exists from earlier sprints -- extend, don't duplicate), meta.data_freshness_status (also check if this already exists under a different name -- meta.dataset_freshness_status was found during WS8's schema inspection and may already cover this), meta.data_incident, meta.data_quarantine_summary, and the ~20 specific rule types from the original Foundation Block mission (duplicate keys, missing periods, schema drift, negative values, impossible percentages, invalid geometries, orphan geographies, weight reconciliation, source-total reconciliation, row-count collapse/explosion, extreme metric changes, stale data, broken URLs, HTML-instead-of-data, checksum changes, missing confidence/lineage, unregistered formula, observation/projection ambiguity, future-dated observations, freshness SLA breach). Incorporate two already-justified real findings: (1) the 2 rows with reference_period=2032-01-01 in core.fact_residential_sales_summary (nsw_psi_2001_current_full_state, Lindfield NSW, flagged by WS1), and (2) the cross-border postcode attribution anomaly WS8 found and registered but did not resolve (QLD/ACT-range postcodes in mart.postcode_market_snapshot carrying nsw_vg_sales data at 1-5 transaction volumes -- e.g. 4380, 2611/2612/2618 -- investigate whether this is a genuine border-catchment phenomenon or a geography-join bug in the NSW sales pipeline). Quality failures must block promotion, preserve the prior valid mart version, and quarantine rather than silently publish partial replacement data. Commit WS9 independently, then continue autonomously through WS10 per the original Foundation Block mission, checkpointing again if context runs low.",
+  "known_blockers": "none blocking further work -- TAS rent (Cloudflare-blocked), ABS internal migration (stale latest-release), TAS/ACT/NT sales grain mismatch with SAL/POA-grain marts, QLD postcode-grain rent (source appears SAL-only), and the unresolved QLD/ACT cross-border postcode sales anomaly (documented in meta.metric_lineage_registry, not yet root-caused) are all genuine, documented gaps -- none block WS9/WS10"
 }
