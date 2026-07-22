@@ -94,7 +94,6 @@ if (DB_URL.includes(PROD_REF)) fail(`connection string references PRODUCTION (${
 const isPlan = has("plan");
 const isDryRun = has("dry-run") || (!has("execute") && !isPlan);
 const isExecute = has("execute");
-const localOnly = has("local-only") || (isExecute && !has("branch-load"));
 const branchLoad = has("branch-load");
 if (branchLoad && !isExecute) fail("--branch-load requires --execute (hard stop: refusing to infer execute from branch-load alone)");
 
