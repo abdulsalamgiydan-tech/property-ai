@@ -50,3 +50,57 @@ export function calculateGrossYieldPct(medianWeeklyRent: number, medianSalePrice
   if (!medianSalePrice || medianSalePrice <= 0) return null;
   return ((medianWeeklyRent * 52) / medianSalePrice) * 100;
 }
+
+/**
+ * Remaining principal on a standard amortising P&I loan after a given
+ * number of elapsed months — used to show a debt-paydown ("debt path")
+ * over a holding period. Sprint 13 WS6 (Scenario Lab v2).
+ */
+export function calculateLoanBalanceAfterMonths(
+  principal: number,
+  annualRatePercent: number,
+  termYears: number,
+  monthsElapsed: number
+): number {
+  const totalMonths = termYears * 12;
+  const elapsed = Math.min(Math.max(monthsElapsed, 0), totalMonths);
+  const monthlyRate = annualRatePercent / 100 / 12;
+  if (monthlyRate === 0) {
+    return principal * (1 - elapsed / totalMonths);
+  }
+  const factor = Math.pow(1 + monthlyRate, totalMonths);
+  const factorElapsed = Math.pow(1 + monthlyRate, elapsed);
+  return principal * ((factor - factorElapsed) / (factor - 1));
+}
+
+/**
+ * Simple net pre-tax annual cashflow: rent actually received (after an
+ * assumed vacancy rate) minus loan repayments and operating expenses.
+ * Descriptive scenario math only — no tax, depreciation or growth
+ * assumption folded in here; those stay explicit, separate inputs.
+ */
+export function calculateAnnualCashflow(
+  weeklyRent: number,
+  vacancyPercent: number,
+  monthlyRepayment: number,
+  annualExpenses: number
+): number {
+  const grossAnnualRent = weeklyRent * 52 * (1 - vacancyPercent / 100);
+  return grossAnnualRent - monthlyRepayment * 12 - annualExpenses;
+}
+
+/**
+ * The weekly rent (before the same vacancy assumption) needed for annual
+ * cashflow to reach exactly zero — a break-even point, not a target or a
+ * recommendation. Returns null if vacancy is 100% (rent could never cover
+ * costs at any price) rather than dividing by zero.
+ */
+export function calculateBreakEvenWeeklyRent(
+  monthlyRepayment: number,
+  annualExpenses: number,
+  vacancyPercent: number
+): number | null {
+  const occupiedFraction = 1 - vacancyPercent / 100;
+  if (occupiedFraction <= 0) return null;
+  return (monthlyRepayment * 12 + annualExpenses) / (52 * occupiedFraction);
+}

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SectionCard } from "@/components/design/SectionCard";
 import { EmptyState } from "@/components/design/EmptyState";
-import { ScenarioLabClient } from "@/components/research/ScenarioLabClient";
+import { ScenarioLabClientV2 } from "@/components/research/ScenarioLabClientV2";
 import { getMarketSnapshotV2, resolveGeographyByCode } from "@/lib/warehouse/queries";
 import { stateLabel } from "@/lib/warehouse/stateCode";
 import { isScenarioLabEnabled, isWarehousePreviewEnabled } from "@/lib/warehouse/env";
@@ -37,14 +37,17 @@ export default async function ScenarioLabPage({ params }: { params: Promise<{ ge
       <div>
         <h1 className="text-2xl font-semibold text-zinc-100">Scenario Lab — {geographyLabel}</h1>
         <p className="mt-1 text-sm text-zinc-400">
-          Adjust deposit, loan term and interest rate to see how estimated repayments change against
-          this suburb&apos;s real recorded median sale price.
+          Compare base, conservative and stress-case scenarios — deposit, loan term, interest rate,
+          vacancy and expenses — against this suburb&apos;s real recorded median sale price.
         </p>
       </div>
       <SectionCard>
-        <ScenarioLabClient
+        <ScenarioLabClientV2
+          geographyId={geo.geography_id}
+          geographyCode={geographyCode}
           geographyLabel={geographyLabel}
           medianSalePrice={snapshot.median_sale_price_12m}
+          medianWeeklyRentLatest={snapshot.median_weekly_rent_latest}
           medianWeeklyHouseholdIncome={snapshot.median_weekly_household_income}
           baselineRatePercent={snapshot.rba_rate_used}
           baselineRatePeriod={snapshot.rba_rate_period}
