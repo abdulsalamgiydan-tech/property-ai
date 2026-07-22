@@ -4,7 +4,7 @@ import { SectionCard } from "@/components/design/SectionCard";
 import { EmptyState } from "@/components/design/EmptyState";
 import { StateBadge } from "@/components/research/StateBadge";
 import { getDatasetFreshness, getOperationsSummary, getRefreshRunHistory } from "@/lib/warehouse/queries";
-import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
+import { isDataOperationsEnabled, isWarehousePreviewEnabled } from "@/lib/warehouse/env";
 
 export const metadata: Metadata = { title: "Data Status (Research Preview) | Propellect", robots: { index: false, follow: false } };
 
@@ -34,11 +34,11 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default async function DataStatusPage() {
-  // Gated by the base warehouse preview flag only (this is an
-  // observability page for the whole warehouse, not multi-state-specific
-  // functionality) — the parent layout already enforces this, this check
-  // is redundant defence-in-depth matching the pattern used elsewhere.
-  if (!isWarehousePreviewEnabled()) notFound();
+  // Gated by both the base warehouse preview flag (parent layout already
+  // enforces this; redundant defence-in-depth) and DATA_OPERATIONS_ENABLED
+  // (WS18) so this operationally-sensitive console can be toggled
+  // independently of the rest of /research.
+  if (!isWarehousePreviewEnabled() || !isDataOperationsEnabled()) notFound();
 
   const [rows, summary, runHistory] = await Promise.all([getDatasetFreshness(), getOperationsSummary(), getRefreshRunHistory()]);
 

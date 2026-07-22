@@ -1,5 +1,11 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { isMultiStateResearchEnabled, isWarehouseConfigured, isWarehousePreviewEnabled } from "./env";
+import {
+  isDataOperationsEnabled,
+  isMultiStateResearchEnabled,
+  isScenarioLabEnabled,
+  isWarehouseConfigured,
+  isWarehousePreviewEnabled,
+} from "./env";
 
 describe("isWarehousePreviewEnabled", () => {
   afterEach(() => {
@@ -44,6 +50,50 @@ describe("isMultiStateResearchEnabled", () => {
     vi.stubEnv("WAREHOUSE_PREVIEW_ENABLED", undefined as unknown as string);
     expect(isMultiStateResearchEnabled()).toBe(true);
     expect(isWarehousePreviewEnabled()).toBe(false);
+  });
+});
+
+describe("isDataOperationsEnabled", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("is disabled when the env var is absent (production-safe default)", () => {
+    vi.stubEnv("DATA_OPERATIONS_ENABLED", undefined as unknown as string);
+    expect(isDataOperationsEnabled()).toBe(false);
+  });
+
+  it("is disabled for any value other than the exact string 'true'", () => {
+    vi.stubEnv("DATA_OPERATIONS_ENABLED", "1");
+    expect(isDataOperationsEnabled()).toBe(false);
+  });
+
+  it("is enabled only when explicitly set to 'true', independent of the other flags", () => {
+    vi.stubEnv("DATA_OPERATIONS_ENABLED", "true");
+    vi.stubEnv("WAREHOUSE_PREVIEW_ENABLED", undefined as unknown as string);
+    expect(isDataOperationsEnabled()).toBe(true);
+    expect(isWarehousePreviewEnabled()).toBe(false);
+  });
+});
+
+describe("isScenarioLabEnabled", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("is disabled when the env var is absent (production-safe default)", () => {
+    vi.stubEnv("SCENARIO_LAB_ENABLED", undefined as unknown as string);
+    expect(isScenarioLabEnabled()).toBe(false);
+  });
+
+  it("is disabled for any value other than the exact string 'true'", () => {
+    vi.stubEnv("SCENARIO_LAB_ENABLED", "yes");
+    expect(isScenarioLabEnabled()).toBe(false);
+  });
+
+  it("is enabled only when explicitly set to 'true'", () => {
+    vi.stubEnv("SCENARIO_LAB_ENABLED", "true");
+    expect(isScenarioLabEnabled()).toBe(true);
   });
 });
 
