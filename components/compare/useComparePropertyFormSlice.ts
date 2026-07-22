@@ -172,22 +172,33 @@ export function useComparePropertyFormSlice() {
     setSuburbSuggestionActive(false);
   }, []);
 
-  const applySuburbSuggestedAssumptions = useCallback(() => {
+  const applySuburbSuggestedAssumptions = useCallback(async () => {
     const t = suburb.trim();
     if (!t) {
       setSuburbSuggestionActive(false);
       return;
     }
-    const sug = getSuggestedAssumptionsForSuburb(t);
-    if (!sug) {
+    const outcome = await getSuggestedAssumptionsForSuburb(t, state);
+    if (!outcome.available) {
       setSuburbSuggestionActive(false);
       return;
     }
-    setSuburbGrowthPercent(formatInputNumber(String(sug.suburbGrowthPercent)));
-    setVacancyPercent(formatInputNumber(String(sug.vacancyPercent)));
-    setRentalGrowthRate(formatInputNumber(String(sug.rentalGrowthPercent)));
-    setSuburbSuggestionActive(true);
-  }, [suburb]);
+    const { suggestions } = outcome;
+    let appliedAny = false;
+    if (suggestions.suburbGrowthPercent != null) {
+      setSuburbGrowthPercent(formatInputNumber(String(suggestions.suburbGrowthPercent)));
+      appliedAny = true;
+    }
+    if (suggestions.vacancyPercent != null) {
+      setVacancyPercent(formatInputNumber(String(suggestions.vacancyPercent)));
+      appliedAny = true;
+    }
+    if (suggestions.rentalGrowthPercent != null) {
+      setRentalGrowthRate(formatInputNumber(String(suggestions.rentalGrowthPercent)));
+      appliedAny = true;
+    }
+    setSuburbSuggestionActive(appliedAny);
+  }, [suburb, state]);
 
   return {
     suburb,

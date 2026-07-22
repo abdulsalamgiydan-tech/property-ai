@@ -60,7 +60,9 @@ import {
 import {
   getSuggestedAssumptionsForSuburb,
   SUBURB_SUGGESTION_BANNER,
+  SUBURB_SUGGESTION_NOT_COVERED_MESSAGE,
 } from "@/lib/suburbAssumptions";
+import { AboutThisMetric } from "@/components/research/AboutThisMetric";
 import { loadAnalyseDraft, saveAnalyseDraft } from "@/lib/auth/toolDraftStorage";
 import { SaveReportButton } from "@/components/analyse/SaveReportButton";
 import Link from "next/link";
@@ -164,6 +166,9 @@ export function AnalysePropertyClient() {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   /** True when growth / vacancy / rental growth were filled from suburb-based suggestions. */
   const [suburbSuggestionActive, setSuburbSuggestionActive] = useState(false);
+  const [suburbSuggestionLoading, setSuburbSuggestionLoading] = useState(false);
+  const [suburbSuggestionNotCovered, setSuburbSuggestionNotCovered] = useState(false);
+  const [suburbSuggestionGeographyId, setSuburbSuggestionGeographyId] = useState<string | null>(null);
 
   const { showFullToolAccess, openEarlyAccessModal } = useAuth();
   const lastSavedInputsRef = useRef<PropertyAnalysisInputs | null>(null);
@@ -376,21 +381,45 @@ export function AnalysePropertyClient() {
     setSuburbSuggestionActive(false);
   }
 
-  function applySuburbSuggestedAssumptions() {
+  async function applySuburbSuggestedAssumptions() {
     const t = suburb.trim();
     if (!t) {
       setSuburbSuggestionActive(false);
+      setSuburbSuggestionNotCovered(false);
+      setSuburbSuggestionGeographyId(null);
       return;
     }
-    const s = getSuggestedAssumptionsForSuburb(t);
-    if (!s) {
+    setSuburbSuggestionLoading(true);
+    setSuburbSuggestionNotCovered(false);
+    const outcome = await getSuggestedAssumptionsForSuburb(t, state);
+    setSuburbSuggestionLoading(false);
+
+    if (!outcome.available) {
       setSuburbSuggestionActive(false);
+      setSuburbSuggestionGeographyId(null);
+      // "not covered" gets its own message; every other outcome (no match,
+      // feature disabled, request failed) just clears silently — the
+      // user's own manual entry is never blocked either way.
+      setSuburbSuggestionNotCovered(outcome.reason === "state_not_covered");
       return;
     }
-    setSuburbGrowthPercent(formatInputNumber(String(s.suburbGrowthPercent)));
-    setVacancyPercent(formatInputNumber(String(s.vacancyPercent)));
-    setRentalGrowthRate(formatInputNumber(String(s.rentalGrowthPercent)));
-    setSuburbSuggestionActive(true);
+
+    const { suggestions } = outcome;
+    let appliedAny = false;
+    if (suggestions.suburbGrowthPercent != null) {
+      setSuburbGrowthPercent(formatInputNumber(String(suggestions.suburbGrowthPercent)));
+      appliedAny = true;
+    }
+    if (suggestions.vacancyPercent != null) {
+      setVacancyPercent(formatInputNumber(String(suggestions.vacancyPercent)));
+      appliedAny = true;
+    }
+    if (suggestions.rentalGrowthPercent != null) {
+      setRentalGrowthRate(formatInputNumber(String(suggestions.rentalGrowthPercent)));
+      appliedAny = true;
+    }
+    setSuburbSuggestionGeographyId(outcome.geographyId);
+    setSuburbSuggestionActive(appliedAny);
   }
 
   function cashflowDisplay(annual: number): string {
@@ -1030,6 +1059,11 @@ export function AnalysePropertyClient() {
                     Used for labels and context. Optional suburb-based hints may appear under Advanced
                     Assumptions when available — you can always override them.
                   </span>
+                  {suburbSuggestionLoading ? (
+                    <span className="mt-1 block text-[11px] text-zinc-500">Checking suburb data…</span>
+                  ) : suburbSuggestionNotCovered ? (
+                    <span className="mt-1 block text-[11px] text-zinc-500">{SUBURB_SUGGESTION_NOT_COVERED_MESSAGE}</span>
+                  ) : null}
                 </label>
 
                 <label className="block text-left" htmlFor="fld-address">
@@ -1672,9 +1706,12 @@ export function AnalysePropertyClient() {
                     only — edit freely. Nothing here is a forecast of future returns.
                   </p>
                   {suburbSuggestionActive ? (
-                    <p className="rounded-lg border border-violet-500/30 bg-violet-950/30 px-3 py-2 text-xs leading-relaxed text-violet-100/90">
-                      {SUBURB_SUGGESTION_BANNER}
-                    </p>
+                    <div className="rounded-lg border border-violet-500/30 bg-violet-950/30 px-3 py-2 text-xs leading-relaxed text-violet-100/90">
+                      <p>{SUBURB_SUGGESTION_BANNER}</p>
+                      {suburbSuggestionGeographyId ? (
+                        <AboutThisMetric geographyId={suburbSuggestionGeographyId} geographyType="suburb" metricFamily="sales" />
+                      ) : null}
+                    </div>
                   ) : null}
                   <div className="block text-left">
                     <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
