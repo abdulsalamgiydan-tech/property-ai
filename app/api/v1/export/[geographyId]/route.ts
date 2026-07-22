@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getExportBundle, exportBundleToCsv } from "@/lib/warehouse/queries";
-import { apiV1Ok, apiV1Error, apiV1GateOrNotFound } from "@/lib/warehouse/apiV1";
+import { apiV1Ok, apiV1Error, apiV1GateOrNotFound, CORS_HEADERS } from "@/lib/warehouse/apiV1";
 
 // GET /api/v1/export/:geographyId?format=json|csv
 //
@@ -26,6 +26,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ geog
       headers: {
         "Content-Type": "text/csv; charset=utf-8",
         "Content-Disposition": `attachment; filename="${geographyId}_export.csv"`,
+        ...CORS_HEADERS,
       },
     });
   }

@@ -12,6 +12,17 @@ describe("apiV1Ok / apiV1Error — response envelope", () => {
     expect(body.error).toBeUndefined();
   });
 
+  it("sets a permissive CORS origin header (Sprint 12 WS14) -- this is a public, read-only, unauthenticated API meant for external callers", () => {
+    const res = apiV1Ok({ foo: "bar" });
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBe("*");
+    expect(res.headers.get("Access-Control-Allow-Methods")).toContain("GET");
+  });
+
+  it("sets the same CORS header on error responses, not just success", () => {
+    const res = apiV1Error("not found", 404);
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBe("*");
+  });
+
   it("supports a custom status code for success (e.g. no non-2xx-only assumption)", async () => {
     const res = apiV1Ok({ created: true }, 201);
     expect(res.status).toBe(201);

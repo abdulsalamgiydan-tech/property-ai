@@ -94,6 +94,18 @@ bounded to 2-10 (matching the underlying RPC's own enforced range), and
 lists before ever reaching a query — an unrecognised value returns `400`,
 never a raw database error.
 
+## CORS
+
+Every `/api/v1/*` response carries `Access-Control-Allow-Origin: *`
+(added Sprint 12 WS14, `lib/warehouse/apiV1.ts`'s `CORS_HEADERS`) — a
+deliberate, permissive choice appropriate for this specific API's shape:
+read-only (GET only), unauthenticated, no cookies/credentials involved,
+serving the same anon-key-gated public research data a browser could
+already read directly via the Supabase REST API with the same key.
+Restricting the origin here would not add real security (the data is
+already public via the anon key), only break legitimate external callers
+— the documented use case for this API.
+
 ## Rate limiting
 
 Not implemented in this workstream. This API sits behind Supabase's own
