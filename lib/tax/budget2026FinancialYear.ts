@@ -19,7 +19,6 @@ export function fyEndingJuneYearForProjectionRow(
 /** e.g. fyEndingJuneYear 2027 → "2026-27" */
 export function formatFinancialYearLabel(fyEndingJuneYear: number): string {
   const startYear = fyEndingJuneYear - 1;
-  const s = String(startYear).slice(-2);
   const e = String(fyEndingJuneYear).slice(-2);
   return `${startYear}-${e}`;
 }

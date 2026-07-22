@@ -75,7 +75,8 @@ describe("Test 1 — Grandfathered NSW baseline", () => {
   });
 
   it("default purchase date matches explicit pre-budget purchase date numerically", () => {
-    const { purchaseDate: _p, ...rest } = NSW_BASELINE_INPUT;
+    const rest = { ...NSW_BASELINE_INPUT };
+    delete rest.purchaseDate;
     const implicit = analyzeProperty({
       ...rest,
     });

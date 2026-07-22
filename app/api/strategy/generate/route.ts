@@ -19,7 +19,8 @@ function buildLlmInput(
   primaryConcern: string,
   additionalContext: string
 ): StrategyInputForLlm {
-  const { firstName: _omit, ...rest } = input;
+  const rest = { ...input };
+  delete rest.firstName;
   return {
     ...rest,
     successVision,
