@@ -1,23 +1,28 @@
 {
-  "generated_at": "2026-07-22T15:44:00+10:00",
+  "generated_at": "2026-07-22T16:13:00+10:00",
   "branch": "feature/national-residential-research-platform-v1",
-  "latest_commit": "d7fc2fd",
+  "latest_commit": "1862981",
   "base_commit": "b3913e1",
   "github_actions": [
     { "commit": "cebec8d", "run_id": "29889104730", "conclusion": "success" },
-    { "commit": "d7fc2fd", "run_id": "29894488429", "conclusion": "success" }
+    { "commit": "d7fc2fd", "run_id": "29894488429", "conclusion": "success" },
+    { "commit": "fcec63d", "run_id": "29894639172", "conclusion": "success" },
+    { "commit": "1862981", "run_id": "29895923069", "conclusion": "success" }
   ],
   "sprint11_pr": { "number": 4, "state": "OPEN", "is_draft": true, "merged": false },
-  "workstreams_completed": ["Phase 0: branch, PR, capacity plan, baseline", "WS1: national coverage audit"],
+  "workstreams_completed": [
+    "Phase 0: branch, PR, capacity plan, baseline",
+    "WS1: national coverage audit",
+    "WS2: TAS/ACT/NT onboarding"
+  ],
   "workstreams_remaining": [
-    "WS2: TAS/ACT/NT onboarding",
-    "WS3: national demand/supply context expansion",
-    "WS4: 2016-2021 boundary reconciliation (partially done in Sprint 11 -- see findings)",
+    "WS3: national demand/supply context expansion (identified gaps: internal migration, dwelling commencements/completions)",
+    "WS4: 2016-2021 boundary reconciliation (mostly done in Sprint 11 WS4 -- remaining: fix direct/derived confidence-labeling gap, optionally extend to SA2/LGA grain using already-downloaded correspondence files)",
     "WS5: research evidence catalogue",
-    "WS6: national canonical market marts refactor",
+    "WS6: national canonical market marts refactor (has 2 concrete inherited gaps: POA jurisdiction attribution, VIC rent backfill)",
     "WS7: Scenario Lab",
     "WS8: data lineage and provenance system",
-    "WS9: automated data-quality monitoring",
+    "WS9: automated data-quality monitoring (has a concrete inherited gap: future-reference-period rule)",
     "WS10: refresh engine v3",
     "WS11: versioned public API v1",
     "WS12: research interface rebuild",
@@ -29,35 +34,51 @@
     "WS18: final validation and delivery"
   ],
   "ws1_findings": [
-    { "id": "stale_population_growth_docs", "status": "fixed_this_session" },
+    { "id": "stale_population_growth_docs", "status": "fixed_ws1" },
     { "id": "confidence_conflates_direct_and_derived", "status": "flagged_for_ws4_ws8" },
     { "id": "future_reference_period_nsw_sales", "status": "flagged_for_ws9" },
     { "id": "poa_geography_has_no_state_code", "status": "worked_around_in_audit_script_flagged_for_ws6" },
-    { "id": "vic_rent_bypasses_shared_fact_table", "status": "fixed_doc_this_session_flagged_for_ws6_backfill" }
+    { "id": "vic_rent_bypasses_shared_fact_table", "status": "fixed_doc_ws1_flagged_for_ws6_backfill" }
   ],
-  "meta_jurisdiction_gaps": ["TAS", "ACT", "NT"],
+  "ws2_outcomes": {
+    "meta_jurisdiction_gaps_closed": ["TAS", "ACT", "NT"],
+    "new_source": {
+      "id": "abs_total_value_dwellings",
+      "dataset_id": "abs_tvd_tas_act_nt_gccsa",
+      "publisher": "Australian Bureau of Statistics",
+      "catalogue_number": "6432.0",
+      "geography_grain": "GCCSA (capital city / rest of state)",
+      "rows_loaded": 928,
+      "jurisdictions": ["TAS", "NT", "ACT"],
+      "note": "successor to the discontinued 'Residential Property Price Indexes: Eight Capital Cities' (ceased Dec 2021 issue)"
+    },
+    "tas_rent_status": "blocked_access, live-reconfirmed via real browser navigation to CBOS Tasmania (Cloudflare challenge, HTTP 403)",
+    "act_nt_rent_status": "unavailable, unchanged from Sprint 11 WS2 (zero results on official open-data portals)",
+    "all_8_jurisdictions_now_have_real_market_data": true
+  },
   "validation_status": {
     "npm_run_warehouse_check": "pass",
     "npm_test": { "result": "pass", "tests": 72 },
     "npm_run_lint": { "result": "pass", "errors": 0, "warnings": 6 },
     "npm_run_build": "pass",
-    "github_actions": "green on both commits",
+    "github_actions": "green on all 4 pushed commits",
     "production_touched": false,
     "raw_data_committed": false,
     "secrets_committed": false,
-    "branch_storage_mb": 2634.1,
-    "branch_storage_unchanged_this_session": true
+    "branch_storage_mb_before": 2634.1,
+    "branch_storage_change": "negligible (928 rows, kilobytes)",
+    "branch_budget_mb": 3375,
+    "branch_budget_fraction_used": "well under 75%"
   },
   "active_process_status": "none -- no running processes, no open transactions, no lock files held",
   "unfinished_files": [],
-  "database_changes_this_session": "none -- Phase 0 and WS1 were entirely read-only against warehouse-validation",
-  "exact_next_command": "node warehouse/scripts/audit/build_national_coverage_registry.mjs  # re-run to refresh ground truth, then start WS2",
-  "exact_resume_prompt": "Continue Sprint 12 from the checkpoint in warehouse/reports/sprint12_checkpoint.md. Read it and sprint12_delivery_plan.md first. Resume with Workstream 2 (TAS/ACT/NT onboarding) using the concrete next actions listed in the checkpoint. Continue autonomously through the remaining workstreams per the original Sprint 12 mission, checkpointing again if context runs low.",
-  "ws2_concrete_next_actions": [
-    "Register TAS/ACT/NT in meta.jurisdiction (currently missing, one-line migration)",
-    "TAS rent: Sprint 11 WS2's finding was explicitly flagged 'search-only, not final' -- check Consumer, Building and Occupational Services Tasmania directly, not just WebSearch",
-    "ACT/NT sales and rent: both live-verified as zero results on official open-data portals -- check remaining WS2-mission channels before concluding unavailable, e.g. ABS Residential Property Price Indexes (publishes per-capital-city index including Canberra and Darwin)",
-    "Build/extend the state-adapter contract; load genuinely available sources local-first, promote curated marts only"
+  "database_changes_this_session": [
+    "migration 025: registered TAS/NT/ACT in meta.jurisdiction",
+    "migration 026: set their status to sales_only",
+    "928 rows inserted into core.fact_residential_sales_summary (dataset_id=abs_tvd_tas_act_nt_gccsa)",
+    "all additive, all on warehouse-validation only, all independently re-verified live after commit"
   ],
-  "known_blockers": "none identified -- WS1 findings are either already fixed or flagged as concrete future work, not blockers to WS2"
+  "exact_next_command": "node warehouse/scripts/audit/build_national_coverage_registry.mjs  # re-run to refresh ground truth before starting the next workstream",
+  "exact_resume_prompt": "Continue Sprint 12 from the checkpoint in warehouse/reports/sprint12_checkpoint.md. Read it and sprint12_delivery_plan.md first. Resume with Workstream 4 (2016-2021 boundary reconciliation -- note much of this may already be done, see the checkpoint's 'exact_next_command' guidance) or Workstream 3 (national demand/supply expansion -- internal migration and dwelling commencements/completions are the identified gaps), whichever fits better once you've re-read the current state. Continue autonomously through the remaining workstreams per the original Sprint 12 mission, checkpointing again if context runs low.",
+  "known_blockers": "none blocking further work -- TAS rent is a confirmed, live-reconfirmed genuine source-access blocker per this project's no-bypass rule, documented not worked around, and does not block any other workstream"
 }
