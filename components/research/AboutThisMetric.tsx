@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-type MetricFamily = "sales" | "rent" | "yield" | "approvals" | "dwelling_stock" | "demographics" | "population_growth" | "affordability";
+import { METRIC_GLOSSARY, type MetricFamily } from "@/lib/warehouse/metricGlossary";
 
 type LineageData = {
   found: boolean;
@@ -40,6 +39,7 @@ export function AboutThisMetric({
   const [error, setError] = useState<string | null>(null);
 
   const martTable = geographyType === "suburb" ? "suburb_market_snapshot" : "postcode_market_snapshot";
+  const glossary = METRIC_GLOSSARY[metricFamily];
 
   async function handleToggle() {
     if (open) {
@@ -76,11 +76,24 @@ export function AboutThisMetric({
         About this metric
       </button>
       {open && (
-        <div className="mt-1.5 max-w-xs rounded-lg border border-zinc-800 bg-zinc-950/60 p-2.5 text-[11px] leading-relaxed text-zinc-400">
-          {loading && <p>Loading…</p>}
-          {error && <p className="text-red-300">{error}</p>}
-          {data && !data.found && <p>No data recorded for this metric at this geography.</p>}
-          {data && data.found && (
+        <div className="mt-1.5 max-w-sm rounded-lg border border-zinc-800 bg-zinc-950/60 p-2.5 text-[11px] leading-relaxed text-zinc-400">
+          <div className="space-y-1 border-b border-zinc-800/70 pb-2">
+            <p className="text-zinc-300">{glossary.definition}</p>
+            {glossary.formula && (
+              <p>
+                <span className="text-zinc-300">Formula:</span> {glossary.formula}
+              </p>
+            )}
+            <p>
+              <span className="text-zinc-300">Confidence:</span> {glossary.confidenceMeaning}
+            </p>
+            <p className="text-zinc-500">{glossary.knownLimitations}</p>
+          </div>
+          <div className="pt-2">
+            {loading && <p>Loading source details…</p>}
+            {error && <p className="text-red-300">{error}</p>}
+            {data && !data.found && <p>No source lineage recorded yet for this metric at this geography.</p>}
+            {data && data.found && (
             <div className="space-y-1">
               {data.source_name && (
                 <p>
@@ -112,7 +125,8 @@ export function AboutThisMetric({
               )}
               {!data.lineage_complete && <p className="text-amber-400">Lineage not yet fully registered for this metric.</p>}
             </div>
-          )}
+            )}
+          </div>
         </div>
       )}
     </div>

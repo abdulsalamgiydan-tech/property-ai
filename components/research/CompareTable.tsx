@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { StateBadge } from "@/components/research/StateBadge";
 import { ConfidenceBadge } from "@/components/research/ConfidenceBadge";
+import { AboutThisMetric } from "@/components/research/AboutThisMetric";
 import { moveGeographyId } from "@/lib/research/compareOrder";
 import {
   formatMoneyOrUnavailable as money,
@@ -95,6 +96,24 @@ export function CompareTable({ rows, orderedIds }: { rows: CompareRow[]; ordered
           ))}
         </tbody>
       </table>
+
+      {/* One lineage fetch per metric family, not per geography x metric —
+          avoids an N-geography x M-metric fetch storm. Definition/formula
+          are universal (see lib/warehouse/metricGlossary.ts); the live
+          source/confidence lookup below uses the first compared geography
+          as a representative example. */}
+      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-zinc-800/60 pt-3 print:hidden">
+        <span className="text-[10px] font-semibold uppercase tracking-wide text-zinc-600">About these metrics:</span>
+        {rows[0] ? (
+          <>
+            <AboutThisMetric geographyId={rows[0].geography_id} geographyType={rows[0].geography_type === "SAL" ? "suburb" : "postcode"} metricFamily="sales" />
+            <AboutThisMetric geographyId={rows[0].geography_id} geographyType={rows[0].geography_type === "SAL" ? "suburb" : "postcode"} metricFamily="rent" />
+            <AboutThisMetric geographyId={rows[0].geography_id} geographyType={rows[0].geography_type === "SAL" ? "suburb" : "postcode"} metricFamily="yield" />
+            <AboutThisMetric geographyId={rows[0].geography_id} geographyType={rows[0].geography_type === "SAL" ? "suburb" : "postcode"} metricFamily="dwelling_stock" />
+            <AboutThisMetric geographyId={rows[0].geography_id} geographyType={rows[0].geography_type === "SAL" ? "suburb" : "postcode"} metricFamily="demographics" />
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }

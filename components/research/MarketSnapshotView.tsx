@@ -107,7 +107,10 @@ export function MarketSnapshotView({
               <MetricCard label="Price-to-income ratio" value={snapshot.price_to_income_ratio?.toFixed(1) ?? "Unavailable"} />
               <MetricCard label="Est. monthly repayment (owner-occupier)" value={money(snapshot.est_monthly_repayment_owner_occupier)} />
               <MetricCard label="Est. monthly repayment (investor)" value={money(snapshot.est_monthly_repayment_investor)} />
-              <MetricCard label="Repayment-to-income" value={pct(snapshot.repayment_to_income_pct)} subtext={<ConfidenceBadge level={snapshot.affordability_confidence} />} />
+              <div>
+                <MetricCard label="Repayment-to-income" value={pct(snapshot.repayment_to_income_pct)} subtext={<ConfidenceBadge level={snapshot.affordability_confidence} />} />
+                <AboutThisMetric geographyId={geographyId} geographyType={geographyType} metricFamily="affordability" />
+              </div>
             </div>
             <p className="mt-4 text-xs leading-relaxed text-zinc-500">
               Assumptions ({snapshot.assumption_scenario_code}):{" "}

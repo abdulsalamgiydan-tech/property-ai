@@ -138,6 +138,9 @@ export function ScenarioLabClientV2({
         for in future. Property price is held constant in every case below — the debt/equity path reflects loan
         paydown only, not an assumed growth rate. Excludes stamp duty, LMI, purchase costs and tax/depreciation.
         <AboutThisMetric geographyId={geographyId} geographyType="suburb" metricFamily="sales" />
+        {medianWeeklyRentLatest != null ? (
+          <AboutThisMetric geographyId={geographyId} geographyType="suburb" metricFamily="rent" />
+        ) : null}
       </div>
 
       <div className="flex items-center justify-between">
