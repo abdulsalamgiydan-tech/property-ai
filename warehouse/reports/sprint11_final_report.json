@@ -1,0 +1,88 @@
+{
+  "generated_at": "2026-07-22T12:35:00+10:00",
+  "branch": "feature/australia-property-intelligence-v3",
+  "head_commit": "70b1711",
+  "commits_this_sprint": 35,
+  "diff_stat": { "files_changed": 128, "insertions": 38310, "deletions": 41, "base_commit": "599beae" },
+  "workstreams_completed": [
+    "WS0: Sprint 10 handover, new branch",
+    "WS1: national capacity, cost and architecture audit",
+    "WS2: national source discovery (QLD/SA/WA/TAS/ACT/NT)",
+    "WS3: national coverage contract",
+    "WS4: cross-Census 2016-2021 harmonisation",
+    "WS5: national population-demand layer (SA2 ERP)",
+    "WS6: QLD/SA/WA rent adapters, TAS verification",
+    "WS7: local-first national data lake catalogue",
+    "WS8: NSW sales historical backfill (1990-2000)",
+    "WS9: canonical marts (QLD/SA/WA rent promoted, SA2/LGA dwelling stock)",
+    "WS10: transparent research indicators",
+    "WS11: national map explorer (/research/map)",
+    "WS12: advanced comparison workspace (2-10 geographies)",
+    "WS13: research report export",
+    "WS14: incremental national refresh engine v2",
+    "WS15: refresh schedule design (no paid automation)",
+    "WS16: data operations console expansion",
+    "WS17: DB security audit and performance hardening",
+    "WS18: feature flags and preview readiness",
+    "WS19: comprehensive testing (19 new tests)",
+    "WS20: migration audit (found and fixed a real bug)",
+    "WS21: operations runbook",
+    "WS22: final review and this report"
+  ],
+  "real_bugs_found_and_fixed": [
+    { "id": "migration_020_replay_bug", "found_in": "WS20", "description": "020_market_map_markers.sql missing 'with' keyword before first CTE — would fail SQL syntax error on clean-database replay", "fixed": true, "verified_live": true },
+    { "id": "excess_view_grants", "found_in": "WS17", "description": "public.v_* views carried unintended INSERT/UPDATE/DELETE/TRUNCATE grants from a Supabase platform default", "fixed": true, "migration": "023_revoke_excess_view_grants.sql", "verified_live": true },
+    { "id": "map_viewport_slow_query", "found_in": "WS17", "description": "national map viewport query was the slowest of 7 measured public interfaces (1059.8ms)", "fixed": true, "migration": "024_rent_mart_performance_indexes.sql", "before_ms": 1059.8, "after_ms": 180.8, "speedup_factor": 5.86 },
+    { "id": "has_full_snapshot_null_bug", "found_in": "WS11 (prior session)", "description": "has_full_snapshot wrongly true for geographies with zero real data", "fixed": true },
+    { "id": "rent_fallback_null_quarter_bug", "found_in": "WS11 (prior session)", "description": "rent fallback picked latest existing quarter regardless of NULL rent value", "fixed": true }
+  ],
+  "testing": {
+    "total_tests": 72,
+    "total_test_files": 6,
+    "new_this_sprint": 19,
+    "starting_count": 53,
+    "all_passing": true,
+    "npm_run_warehouse_check": "pass",
+    "npm_run_build": "pass",
+    "npm_run_lint": { "errors": 8, "warnings": 7, "pre_existing_unrelated": true, "unrelated_source_commit": "ebc6552", "new_findings_fixed_this_sprint": 1 }
+  },
+  "migrations": {
+    "new_this_sprint": ["018_lga_rent_quarterly.sql", "019_sa2_lga_dwelling_stock.sql", "020_market_map_markers.sql", "021_compare_up_to_10.sql", "022_data_operations_console.sql", "023_revoke_excess_view_grants.sql", "024_rent_mart_performance_indexes.sql"],
+    "all_applied_live": true,
+    "all_confirmed_via_list_migrations": true,
+    "020_had_a_bug_now_fixed": true
+  },
+  "coverage": {
+    "full_snapshot": ["NSW", "VIC"],
+    "rent_only_promoted": ["QLD", "SA", "WA"],
+    "dwelling_stock_marts": { "sa2_rows": 2454, "lga_rows": 547 },
+    "population_layer": "SA2 ERP, cross-Census 2016-2021 harmonised",
+    "historical_sales": "NSW back to 1990",
+    "not_yet_loaded": ["TAS", "ACT", "NT"]
+  },
+  "confirmations": {
+    "production_touched": false,
+    "production_schemas_present": false,
+    "production_deployed_to": false,
+    "production_merged_into": false,
+    "raw_files_committed": false,
+    "paid_infrastructure_added": false,
+    "branch_size_mb": 2634.1,
+    "branch_capacity_ceiling_mb": 4500,
+    "branch_capacity_used_fraction": 0.5854
+  },
+  "known_limitations": [
+    "DB-level behaviour (response limits, grants, NULL semantics, export correctness) verified via live audit, not CI-repeatable tests — no DB credentials in CI by design",
+    "TAS/ACT/NT have zero loaded market data",
+    "get_market_timeseries_v1/v2 have no enforced row cap (self-limiting in practice, recommendation only)",
+    "46 unindexed-FK / 26 unused-index advisor findings on internal zero-grant tables reviewed, not acted on"
+  ],
+  "pr_status": {
+    "opened": false,
+    "reason": "gh CLI not installed/available in this environment",
+    "branch_pushed": true,
+    "branch_up_to_date": true,
+    "manual_pr_command_provided": true
+  },
+  "recommended_next_human_decision": "Open the draft PR for human review, or proceed directly into Sprint 12 (substantially larger scope) on a new branch — Sprint 11 is functionally complete and internally consistent either way."
+}
