@@ -68,24 +68,6 @@ export function ComparePropertiesClient() {
   const [savingComparison, setSavingComparison] = useState(false);
   const [saveComparisonError, setSaveComparisonError] = useState<string | null>(null);
 
-  async function handleSaveComparison() {
-    if (!user) { openEarlyAccessModal(); return; }
-    if (!resultA || !resultB || !comparedInputsA || !comparedInputsB) return;
-    setSavingComparison(true);
-    setSaveComparisonError(null);
-    const res = await saveComparison({
-      label: `${comparedInputsA.suburb || "Property A"} vs ${comparedInputsB.suburb || "Property B"}`,
-      comparisonData: {
-        inputsA: comparedInputsA,
-        inputsB: comparedInputsB,
-        resultsA: resultA,
-        resultsB: resultB,
-      },
-    });
-    setSavingComparison(false);
-    if (res.ok) setSavedComparisonId(res.id);
-    else setSaveComparisonError(res.message);
-  }
   const lastComparedRef = useRef<{
     a: PropertyAnalysisInputs;
     b: PropertyAnalysisInputs;
@@ -108,6 +90,25 @@ export function ComparePropertiesClient() {
         : null,
     [comparedInputsB, investmentStrategy]
   );
+
+  async function handleSaveComparison() {
+    if (!user) { openEarlyAccessModal(); return; }
+    if (!resultA || !resultB || !comparedInputsA || !comparedInputsB) return;
+    setSavingComparison(true);
+    setSaveComparisonError(null);
+    const res = await saveComparison({
+      label: `${comparedInputsA.suburb || "Property A"} vs ${comparedInputsB.suburb || "Property B"}`,
+      comparisonData: {
+        inputsA: comparedInputsA,
+        inputsB: comparedInputsB,
+        resultsA: resultA,
+        resultsB: resultB,
+      },
+    });
+    setSavingComparison(false);
+    if (res.ok) setSavedComparisonId(res.id);
+    else setSaveComparisonError(res.message);
+  }
 
   const statusStyles: Record<
     PropertyAnalysisResult["status"],
