@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Providers } from "./providers";
 import { Navbar } from "@/components/nav/Navbar";
+import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,7 +34,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Providers>
-          <Navbar />
+          <Navbar warehousePreviewEnabled={isWarehousePreviewEnabled()} />
           <main className="flex-1">{children}</main>
         </Providers>
         <Analytics />

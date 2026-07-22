@@ -5,22 +5,14 @@ import { MetricCard } from "@/components/design/MetricCard";
 import { EmptyState } from "@/components/design/EmptyState";
 import { ConfidenceBadge } from "@/components/research/ConfidenceBadge";
 import { AboutThisMetric } from "@/components/research/AboutThisMetric";
-import { formatAud, formatPercent } from "@/lib/formatCurrency";
+import { formatPercent } from "@/lib/formatCurrency";
+import {
+  formatMoneyOrUnavailable as money,
+  formatPercentOrUnavailable as pct,
+  formatCountOrUnavailable as num,
+  formatPeriodOrUnavailable as periodLabel,
+} from "@/lib/warehouse/formatMetric";
 import type { DemographicProfile, MarketSnapshot, MetricAssumption, TimeseriesRow } from "@/lib/warehouse/queries";
-
-function money(v: number | null | undefined): string {
-  return v === null || v === undefined ? "Unavailable" : formatAud(v, 0);
-}
-function pct(v: number | null | undefined, digits = 1): string {
-  return v === null || v === undefined ? "Unavailable" : formatPercent(v, digits);
-}
-function num(v: number | null | undefined): string {
-  return v === null || v === undefined ? "Unavailable" : v.toLocaleString("en-AU");
-}
-function periodLabel(v: string | number | null | undefined): string {
-  if (v === null || v === undefined) return "n/a";
-  return String(v);
-}
 
 export function MarketSnapshotView({
   geographyId,
@@ -209,8 +201,14 @@ export function MarketSnapshotView({
       {/* 5. Housing supply */}
       <SectionCard title="Housing supply">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <MetricCard label="Dwelling stock" value={num(snapshot?.dwelling_stock_total)} />
-          <MetricCard label="Approvals (12m)" value={num(snapshot?.approvals_12m)} subtext={<ConfidenceBadge level={snapshot?.supply_confidence} />} />
+          <div>
+            <MetricCard label="Dwelling stock" value={num(snapshot?.dwelling_stock_total)} />
+            <AboutThisMetric geographyId={geographyId} geographyType={geographyType} metricFamily="dwelling_stock" />
+          </div>
+          <div>
+            <MetricCard label="Approvals (12m)" value={num(snapshot?.approvals_12m)} subtext={<ConfidenceBadge level={snapshot?.supply_confidence} />} />
+            <AboutThisMetric geographyId={geographyId} geographyType={geographyType} metricFamily="approvals" />
+          </div>
           <MetricCard label="Approvals per 1,000 dwellings" value={snapshot?.approvals_per_1000_dwellings?.toFixed(1) ?? "Unavailable"} />
           <MetricCard label="Sales turnover" value={pct(snapshot?.sales_turnover_pct)} subtext="rolling-12m sales / dwelling stock" />
         </div>
@@ -222,7 +220,10 @@ export function MarketSnapshotView({
           <p className="text-sm text-zinc-500">No Census demographic match for this geography.</p>
         ) : (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <MetricCard label="Population" value={num(demographics.total_population)} />
+            <div>
+              <MetricCard label="Population" value={num(demographics.total_population)} />
+              <AboutThisMetric geographyId={geographyId} geographyType={geographyType} metricFamily="demographics" />
+            </div>
             <MetricCard label="Median age" value={demographics.median_age?.toString() ?? "Unavailable"} />
             <MetricCard label="Households" value={num(demographics.total_households)} />
             <MetricCard label="Avg. household size" value={demographics.average_household_size?.toFixed(1) ?? "Unavailable"} />

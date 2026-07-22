@@ -48,7 +48,7 @@ function parseNumber(value: string): number {
   return Number.isFinite(n) ? n : NaN;
 }
 
-export function ComparePropertiesClient() {
+export function ComparePropertiesClient({ warehousePreviewEnabled = false }: { warehousePreviewEnabled?: boolean } = {}) {
   const formA = useComparePropertyFormSlice();
   const formB = useComparePropertyFormSlice();
   const [investmentStrategy, setInvestmentStrategy] = useState<InvestmentStrategyId>(
@@ -396,6 +396,17 @@ export function ComparePropertiesClient() {
             long-term projections.
           </p>
           <p className="mt-2 text-xs text-zinc-500">Built for Australian residential property investors.</p>
+          <p className="mt-2 text-xs text-zinc-500">
+            This compares two of your own entered deals. Looking to compare suburbs or
+            postcodes by market data instead?{" "}
+            {warehousePreviewEnabled ? (
+              <Link href="/research/compare" className="text-violet-400 hover:underline">
+                Try Research → Compare
+              </Link>
+            ) : (
+              "Research → Compare is available in the research preview."
+            )}
+          </p>
         </header>
 
         <section
