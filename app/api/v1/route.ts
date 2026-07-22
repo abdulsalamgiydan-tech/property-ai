@@ -18,6 +18,7 @@ export async function GET() {
       { path: "/api/v1/metrics/:geographyId/:martTable/:metricFamily", method: "GET", description: "'About this metric': source, publisher, licence, transformation method, and this geography's own confidence/provenance." },
       { path: "/api/v1/quality", method: "GET", description: "Aggregate data-quality rule and incident summary." },
       { path: "/api/v1/freshness", method: "GET", description: "Per-dataset freshness status." },
+      { path: "/api/v1/export/:geographyId", method: "GET", description: "Reproducible export bundle (?format=json|csv) -- snapshot + timeseries + per-metric lineage, downloadable." },
     ],
   });
 }

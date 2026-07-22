@@ -54,12 +54,28 @@ export function MarketSnapshotView({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-zinc-100">{geographyLabel}</h1>
-        <p className="mt-1 text-xs text-zinc-500">
-          {geographyType === "suburb" ? "Suburb" : "Postcode"} research snapshot ·
-          generated {snapshot?.snapshot_generated_at ? new Date(snapshot.snapshot_generated_at).toLocaleDateString("en-AU") : "n/a"}
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold text-zinc-100">{geographyLabel}</h1>
+          <p className="mt-1 text-xs text-zinc-500">
+            {geographyType === "suburb" ? "Suburb" : "Postcode"} research snapshot ·
+            generated {snapshot?.snapshot_generated_at ? new Date(snapshot.snapshot_generated_at).toLocaleDateString("en-AU") : "n/a"}
+          </p>
+        </div>
+        <div className="flex gap-2 text-xs">
+          <a
+            href={`/api/v1/export/${encodeURIComponent(geographyId)}?format=csv`}
+            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-zinc-300 transition hover:border-zinc-500 hover:text-zinc-100"
+          >
+            Export CSV
+          </a>
+          <a
+            href={`/api/v1/export/${encodeURIComponent(geographyId)}?format=json`}
+            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-zinc-300 transition hover:border-zinc-500 hover:text-zinc-100"
+          >
+            Export JSON
+          </a>
+        </div>
       </div>
 
       {/* 1. Market overview */}

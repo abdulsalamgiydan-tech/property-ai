@@ -481,3 +481,66 @@ export async function getQualitySummary(): Promise<QualitySummary | null> {
   if (error) return null;
   return (data as QualitySummary) ?? null;
 }
+
+// ── Sprint 12 WS13 — export and reproducibility ─────────────────────────
+// Bundles a geography's snapshot + timeseries + per-metric-family lineage
+// into one self-contained, independently-checkable export. "Reproducible"
+// here means every number in the export carries enough of its own
+// methodology (source, publisher, licence, transformation, confidence)
+// that a reader could go re-derive it from the same public source without
+// needing this application at all -- not just a raw numbers dump.
+
+export type ExportBundle = {
+  geography_id: string;
+  mart_table: "suburb_market_snapshot" | "postcode_market_snapshot";
+  exported_at: string;
+  snapshot: MarketSnapshotV2 | null;
+  timeseries: TimeseriesRowV2[];
+  lineage: Partial<Record<MetricFamily, MetricLineage>>;
+};
+
+function inferMartTable(geographyId: string): "suburb_market_snapshot" | "postcode_market_snapshot" {
+  return geographyId.startsWith("POA_") ? "postcode_market_snapshot" : "suburb_market_snapshot";
+}
+
+// Which METRIC_FAMILIES are worth fetching lineage for, based on which
+// snapshot fields are actually populated -- avoids firing 8 lineage
+// lookups when only 2-3 metric families have any data for this geography.
+function populatedMetricFamilies(snapshot: MarketSnapshotV2 | null): MetricFamily[] {
+  if (!snapshot) return [];
+  const present: MetricFamily[] = [];
+  if (snapshot.median_sale_price_12m != null) present.push("sales");
+  if (snapshot.median_weekly_rent_latest != null) present.push("rent");
+  if (snapshot.gross_yield_pct != null) present.push("yield");
+  if (snapshot.approvals_12m != null) present.push("approvals");
+  if (snapshot.dwelling_stock_total != null) present.push("dwelling_stock");
+  if (snapshot.total_population != null) present.push("demographics");
+  if (snapshot.population_growth_2016_2021_pct != null) present.push("population_growth");
+  if (snapshot.est_monthly_repayment_owner_occupier != null) present.push("affordability");
+  return present;
+}
+
+export async function getExportBundle(geographyId: string): Promise<ExportBundle> {
+  const martTable = inferMartTable(geographyId);
+  const [snapshot, timeseries] = await Promise.all([getMarketSnapshotV2(geographyId), getTimeseriesV2(geographyId)]);
+  const families = populatedMetricFamilies(snapshot);
+  const lineageResults = await Promise.all(families.map((f) => getMetricLineage(geographyId, martTable, f)));
+  const lineage: Partial<Record<MetricFamily, MetricLineage>> = {};
+  families.forEach((f, i) => {
+    if (lineageResults[i]) lineage[f] = lineageResults[i]!;
+  });
+  return { geography_id: geographyId, mart_table: martTable, exported_at: new Date().toISOString(), snapshot, timeseries, lineage };
+}
+
+export function exportBundleToCsv(bundle: ExportBundle): string {
+  const header = ["reference_period", "period_type", "dwelling_type", "metric_family", "transaction_count", "median_sale_price", "median_weekly_rent", "gross_yield_percentage", "approvals_count", "confidence_label", "source_dataset"];
+  const rows = bundle.timeseries.map((r) =>
+    [r.reference_period, r.period_type, r.dwelling_type ?? "", r.metric_family, r.transaction_count ?? "", r.median_sale_price ?? "", r.median_weekly_rent ?? "", r.gross_yield_percentage ?? "", r.approvals_count ?? "", r.confidence_label ?? "", r.source_dataset ?? ""]
+      .map((v) => (typeof v === "string" && (v.includes(",") || v.includes('"')) ? `"${v.replace(/"/g, '""')}"` : v))
+      .join(",")
+  );
+  const methodologyLines = Object.entries(bundle.lineage).map(
+    ([family, l]) => `# ${family}: ${l.source_name ?? "unknown source"}${l.publisher ? ` (${l.publisher})` : ""} -- ${l.transformation_method ?? "unknown method"} -- ${l.licence ?? "licence not recorded"}`
+  );
+  return [`# Export: ${bundle.geography_id} (${bundle.mart_table})`, `# Exported at: ${bundle.exported_at}`, ...methodologyLines, header.join(","), ...rows].join("\n");
+}
