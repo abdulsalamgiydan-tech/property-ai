@@ -3,48 +3,16 @@ import { notFound } from "next/navigation";
 import { SectionCard } from "@/components/design/SectionCard";
 import { EmptyState } from "@/components/design/EmptyState";
 import { StateBadge } from "@/components/research/StateBadge";
-import { ConfidenceBadge } from "@/components/research/ConfidenceBadge";
+import { CompareTable } from "@/components/research/CompareTable";
 import { ExportButtons, type ExportColumnDef, type ExportRow } from "@/components/research/ExportButtons";
 import { compareMarketGeographies, type CompareRow } from "@/lib/warehouse/queries";
 import { isMultiStateResearchEnabled } from "@/lib/warehouse/env";
-import { formatAud, formatPercent } from "@/lib/formatCurrency";
+import { sortByIdOrder } from "@/lib/research/compareOrder";
 
 export const metadata: Metadata = {
   title: "Compare Suburbs & Postcodes (Research Preview) | Propellect",
   robots: { index: false, follow: false },
 };
-
-function money(v: number | null | undefined): string {
-  return v === null || v === undefined ? "Unavailable" : formatAud(v, 0);
-}
-function pct(v: number | null | undefined, digits = 1): string {
-  return v === null || v === undefined ? "Unavailable" : formatPercent(v, digits);
-}
-function num(v: number | null | undefined): string {
-  return v === null || v === undefined ? "Unavailable" : v.toLocaleString("en-AU");
-}
-
-const METRIC_ROWS: {
-  label: string;
-  render: (r: Awaited<ReturnType<typeof compareMarketGeographies>>[number]) => React.ReactNode;
-}[] = [
-  { label: "Median sale price (latest)", render: (r) => money(r.median_sale_price_12m) },
-  { label: "Annual price change", render: (r) => pct(r.annual_price_change_pct) },
-  { label: "Sales confidence", render: (r) => <ConfidenceBadge level={r.sales_sample_confidence} /> },
-  { label: "Median weekly rent", render: (r) => money(r.median_weekly_rent_latest) },
-  { label: "Annual rent change", render: (r) => pct(r.annual_rent_change_pct) },
-  { label: "Rent confidence", render: (r) => <ConfidenceBadge level={r.rent_confidence} /> },
-  { label: "Gross yield", render: (r) => pct(r.gross_yield_pct, 2) },
-  { label: "Yield confidence", render: (r) => <ConfidenceBadge level={r.yield_confidence} /> },
-  { label: "Dwelling stock", render: (r) => num(r.dwelling_stock_total) },
-  { label: "Approvals per 1,000 dwellings", render: (r) => (r.approvals_per_1000_dwellings != null ? r.approvals_per_1000_dwellings.toFixed(1) : "Unavailable") },
-  { label: "Population", render: (r) => num(r.total_population) },
-  { label: "Median weekly household income", render: (r) => money(r.median_weekly_household_income) },
-  { label: "Price-to-income ratio", render: (r) => (r.price_to_income_ratio != null ? `${r.price_to_income_ratio.toFixed(1)}x` : "Unavailable") },
-  { label: "Est. monthly repayment (owner-occupier)", render: (r) => money(r.est_monthly_repayment_owner_occupier) },
-  { label: "Sales period", render: (r) => r.latest_sales_period ?? "n/a" },
-  { label: "Rent period", render: (r) => r.latest_rent_period ?? "n/a" },
-];
 
 export default async function ComparePage({ searchParams }: { searchParams: Promise<{ ids?: string }> }) {
   if (!isMultiStateResearchEnabled()) notFound();
@@ -71,11 +39,18 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     );
   }
 
-  const rows = await compareMarketGeographies(geographyIds);
+  const rawRows = await compareMarketGeographies(geographyIds);
 
-  if (rows.length === 0) {
+  if (rawRows.length === 0) {
     return <EmptyState title="No comparison data" body="None of the selected geographies had market data to compare." />;
   }
+
+  // The RPC's own row order isn't a contract — sort to match the ?ids=
+  // order so reordering (Workstream 7) has a stable, shareable source of
+  // truth, and so removing/re-adding a geography via Explore behaves
+  // predictably.
+  const rows = sortByIdOrder(rawRows, geographyIds);
+  const orderedIds = rows.map((r) => r.geography_id);
 
   // One export row per geography (long format), all raw values — not a
   // transpose of the on-screen table, which is easier to reopen in a
@@ -143,36 +118,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
       </div>
 
       <SectionCard>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b border-zinc-800">
-                <th className="py-2 pr-4 text-xs font-medium uppercase tracking-wide text-zinc-500">Metric</th>
-                {rows.map((r) => (
-                  <th key={r.geography_id} className="py-2 pr-4">
-                    <div className="text-zinc-100">{r.geography_name}</div>
-                    <div className="mt-1 flex items-center gap-1.5">
-                      <StateBadge jurisdiction={r.jurisdiction} />
-                      <span className="text-[11px] text-zinc-500">{r.geography_type === "SAL" ? "Suburb" : "Postcode"}</span>
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="text-zinc-300">
-              {METRIC_ROWS.map((metric) => (
-                <tr key={metric.label} className="border-t border-zinc-800/60">
-                  <td className="py-2 pr-4 text-xs text-zinc-500">{metric.label}</td>
-                  {rows.map((r) => (
-                    <td key={r.geography_id} className="py-2 pr-4">
-                      {metric.render(r)}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <CompareTable rows={rows} orderedIds={orderedIds} />
       </SectionCard>
 
       <SectionCard title="Missing data" description="Reasons a metric is unavailable for a specific geography">
