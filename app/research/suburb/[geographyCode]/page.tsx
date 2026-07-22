@@ -30,6 +30,7 @@ export default async function SuburbResearchPage({
 
   return (
     <MarketSnapshotView
+      geographyId={geo.geography_id}
       geographyLabel={`${geo.geography_name}${stateLabel(geo.state_code) ? `, ${stateLabel(geo.state_code)}` : ""}`}
       geographyType="suburb"
       snapshot={snapshot}

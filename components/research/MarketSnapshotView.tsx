@@ -3,6 +3,7 @@ import { SectionCard } from "@/components/design/SectionCard";
 import { MetricCard } from "@/components/design/MetricCard";
 import { EmptyState } from "@/components/design/EmptyState";
 import { ConfidenceBadge } from "@/components/research/ConfidenceBadge";
+import { AboutThisMetric } from "@/components/research/AboutThisMetric";
 import { formatAud, formatPercent } from "@/lib/formatCurrency";
 import type { DemographicProfile, MarketSnapshot, MetricAssumption, TimeseriesRow } from "@/lib/warehouse/queries";
 
@@ -21,6 +22,7 @@ function periodLabel(v: string | number | null | undefined): string {
 }
 
 export function MarketSnapshotView({
+  geographyId,
   geographyLabel,
   geographyType,
   snapshot,
@@ -28,6 +30,7 @@ export function MarketSnapshotView({
   timeseries,
   assumptions,
 }: {
+  geographyId: string;
   geographyLabel: string;
   geographyType: "suburb" | "postcode";
   snapshot: MarketSnapshot | null;
@@ -62,9 +65,18 @@ export function MarketSnapshotView({
       {/* 1. Market overview */}
       <SectionCard title="Market overview" description={`Data period: ${periodLabel(snapshot?.latest_sales_period)}`}>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <MetricCard label="Median sale price" value={money(snapshot?.median_sale_price_12m)} subtext={<ConfidenceBadge level={snapshot?.sales_sample_confidence} />} />
-          <MetricCard label="Median weekly rent" value={money(snapshot?.median_weekly_rent_latest)} subtext={<ConfidenceBadge level={snapshot?.rent_confidence} />} />
-          <MetricCard label="Gross yield" value={pct(snapshot?.gross_yield_pct)} subtext={<ConfidenceBadge level={snapshot?.yield_confidence} />} />
+          <div>
+            <MetricCard label="Median sale price" value={money(snapshot?.median_sale_price_12m)} subtext={<ConfidenceBadge level={snapshot?.sales_sample_confidence} />} />
+            <AboutThisMetric geographyId={geographyId} geographyType={geographyType} metricFamily="sales" />
+          </div>
+          <div>
+            <MetricCard label="Median weekly rent" value={money(snapshot?.median_weekly_rent_latest)} subtext={<ConfidenceBadge level={snapshot?.rent_confidence} />} />
+            <AboutThisMetric geographyId={geographyId} geographyType={geographyType} metricFamily="rent" />
+          </div>
+          <div>
+            <MetricCard label="Gross yield" value={pct(snapshot?.gross_yield_pct)} subtext={<ConfidenceBadge level={snapshot?.yield_confidence} />} />
+            <AboutThisMetric geographyId={geographyId} geographyType={geographyType} metricFamily="yield" />
+          </div>
           <MetricCard label="Sales volume (12m)" value={num(snapshot?.sales_volume_12m)} subtext={<ConfidenceBadge level={snapshot?.sales_sample_confidence} />} />
         </div>
       </SectionCard>
@@ -189,6 +201,12 @@ export function MarketSnapshotView({
             <MetricCard label="Households" value={num(demographics.total_households)} />
             <MetricCard label="Avg. household size" value={demographics.average_household_size?.toFixed(1) ?? "Unavailable"} />
             <MetricCard label="Median household income (weekly)" value={money(demographics.median_weekly_household_income)} />
+            <div>
+              <MetricCard label="Population growth (2016→2021)" value={pct(snapshot?.population_growth_2016_2021_pct)} subtext="via ABS boundary correspondence" />
+              {snapshot?.population_growth_2016_2021_pct != null && (
+                <AboutThisMetric geographyId={geographyId} geographyType={geographyType} metricFamily="population_growth" />
+              )}
+            </div>
             <MetricCard label="Renter households" value={pct(demographics.renter_household_pct)} />
             <MetricCard label="Owner (with mortgage)" value={pct(demographics.owner_with_mortgage_pct)} />
             <MetricCard label="Owner (outright)" value={pct(demographics.owner_outright_pct)} />
@@ -196,12 +214,20 @@ export function MarketSnapshotView({
             <MetricCard label="Apartments/units" value={pct(demographics.apartment_unit_pct)} />
           </div>
         )}
-        <p className="mt-3 text-[11px] text-zinc-600">
-          Population growth 2016→2021 is not available — 2016 and 2021 Census
-          suburb/postcode boundaries do not align cleanly for direct
-          comparison; publishing an estimate across mismatched boundaries
-          would be misleading.
-        </p>
+        {snapshot?.population_growth_2016_2021_pct != null ? (
+          <p className="mt-3 text-[11px] text-zinc-600">
+            Population growth 2016→2021 is reconciled across the ABS 2016/2021
+            boundary change via a population-weighted geographic correspondence
+            (national accuracy 99.80%, within a documented ±0.5% tolerance) —
+            it is a derived estimate, not a direct Census figure.
+          </p>
+        ) : (
+          <p className="mt-3 text-[11px] text-zinc-600">
+            Population growth 2016→2021 is unavailable for this specific
+            geography — its 2016 boundary equivalent could not be reconciled
+            with sufficient confidence.
+          </p>
+        )}
       </SectionCard>
 
       {/* 7. Data confidence */}
