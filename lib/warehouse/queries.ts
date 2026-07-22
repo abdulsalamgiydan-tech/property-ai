@@ -223,6 +223,50 @@ export async function getDatasetFreshness(): Promise<DatasetFreshness[]> {
   return (data ?? []) as DatasetFreshness[];
 }
 
+// ── Sprint 11 Workstream 16 — data operations console expansion ────────────
+
+export type OperationsSummary = {
+  total_datasets: number;
+  branch_published_count: number;
+  local_only_count: number;
+  blocked_or_unsupported_count: number;
+  branch_db_size_mb: number;
+  last_run_started_at: string | null;
+  last_run_status: string | null;
+  runs_last_30_days: number;
+  runs_failed_last_30_days: number;
+};
+
+export async function getOperationsSummary(): Promise<OperationsSummary | null> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase.rpc("get_warehouse_operations_summary_v1").maybeSingle();
+  if (error) return null;
+  return (data as OperationsSummary) ?? null;
+}
+
+export type RefreshRunHistoryRow = {
+  refresh_run_id: string;
+  dataset_id: string;
+  dataset_name: string | null;
+  mode: string;
+  status: string;
+  target: string;
+  started_at: string;
+  completed_at: string | null;
+  rows_affected: number | null;
+  error_summary: string | null;
+  duration_seconds: number | null;
+};
+
+export async function getRefreshRunHistory(): Promise<RefreshRunHistoryRow[]> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.from("v_refresh_run_history_v1").select("*");
+  if (error) return [];
+  return (data ?? []) as RefreshRunHistoryRow[];
+}
+
 export async function getMetricAssumptions(): Promise<MetricAssumption[]> {
   const supabase = createWarehouseClient();
   if (!supabase) return [];
