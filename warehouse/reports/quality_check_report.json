@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-22T09:09:35.694Z",
+  "generated_at": "2026-07-22T10:35:48.732Z",
   "branch_ref": "lzonauinzatmtytyoems",
   "production_touched": false,
-  "persisted": true,
-  "quality_run_id": "4e153f16-46ff-45fb-a479-c2a432b48268",
+  "persisted": false,
+  "quality_run_id": null,
   "scope": {
     "dataset": null,
     "domain": null,
@@ -395,10 +395,10 @@
       "severity": "advisory",
       "blocking": false,
       "status": "failed",
-      "affectedRowCount": 4,
+      "affectedRowCount": 2,
       "actualResult": {
         "sources_checked": 13,
-        "failures": 4
+        "failures": 2
       }
     },
     {
