@@ -1,5 +1,12 @@
 # Refresh Operating Model (Sprint 10, Phase 13)
 
+> **Superseded by `WAREHOUSE_OPERATIONS_RUNBOOK.md` (Sprint 11 WS21).**
+> This document describes the original single-jurisdiction `run_refresh.mjs`
+> orchestrator. Sprint 11 WS14 replaced it with `refresh_engine_v2.mjs`,
+> which spans all ~20 datasets with dependency-tier ordering, run locking,
+> resumability and changed-only detection. Kept here for history; use the
+> runbook for current day-to-day operation.
+
 ## No schedule enabled
 
 Every refresh this sprint is manual, on demand. No cron job, no Supabase
