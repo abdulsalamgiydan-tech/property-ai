@@ -6,7 +6,7 @@
 # Qualitative fields (paid/restricted/blocked findings) are carried from
 # Sprint 11 WS2's live-verified source discovery
 # (national_jurisdiction_source_manifest.json), not re-invented here.
-generated_at: 2026-07-22T05:40:21.794Z
+generated_at: 2026-07-22T06:06:22.310Z
 jurisdictions:
   NSW:
     asgs_state_code: 1
@@ -473,14 +473,16 @@ jurisdictions:
       GCCSA: 2
       STATE: 1
       SA1: 1477
-    meta_jurisdiction_registered: false
-    meta_jurisdiction_status: null
-    finding_meta_jurisdiction_gap: "TAS has ASGS geography loaded (2518 geographies across 9 levels) but is NOT registered in meta.jurisdiction — a real gap for Sprint 12 WS2 to close."
+    meta_jurisdiction_registered: true
+    meta_jurisdiction_status: sales_only
+    finding_meta_jurisdiction_gap: null
     domains:
       residential_sales:
-        status: official_source_paid_or_restricted
-        row_count: 0
-        finding: "Office of the Valuer-General publishes 'Property Sales Reports' via the LIST (Land Information System Tasmania) at listdata.thelist.tas.gov.au — fees are payable per the Service Tasmania land-value lookup page. No free bulk aggregate confirmed."
+        status: available
+        row_count: 370
+        earliest_period: 2002-03-01
+        latest_period: 2026-03-01
+        source: null
       residential_rents:
         status: blocked_access
         row_count: 0
@@ -534,10 +536,11 @@ jurisdictions:
         row_count: 664
         note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction"
       affordability:
-        status: unavailable
-        finding: "requires a sales price input, not available for this jurisdiction"
+        status: derived
+        note: "computed at query time from sales + shared national assumption scenario, requires a sales source"
       sales_volume:
-        status: unavailable
+        status: available
+        note: "sale_count column within the sales fact/mart, same source as residential_sales"
       rental_observations:
         status: unavailable
       supply_per_1000_dwellings:
@@ -559,14 +562,16 @@ jurisdictions:
       SA4: 2
       STATE: 1
       SA1: 645
-    meta_jurisdiction_registered: false
-    meta_jurisdiction_status: null
-    finding_meta_jurisdiction_gap: "NT has ASGS geography loaded (1083 geographies across 9 levels) but is NOT registered in meta.jurisdiction — a real gap for Sprint 12 WS2 to close."
+    meta_jurisdiction_registered: true
+    meta_jurisdiction_status: sales_only
+    finding_meta_jurisdiction_gap: null
     domains:
       residential_sales:
-        status: unavailable
-        row_count: 0
-        finding: "NT's open data portal (data.nt.gov.au) 'Housing, property and land' group (12 datasets, live-verified) contains only infrastructure planning and public-housing-waitlist data — no sales dataset. NT market statistics are commonly sourced from REINT (Real Estate Institute of the Northern Territory), an industry association, which is excluded per this project's 'official government/statutory authority only' rule (same reasoning as VIC's REIV rejection, Sprint 10)."
+        status: available
+        row_count: 370
+        earliest_period: 2002-03-01
+        latest_period: 2026-03-01
+        source: null
       residential_rents:
         status: blocked_access
         row_count: 0
@@ -620,10 +625,11 @@ jurisdictions:
         row_count: 664
         note: "RBA national series (F6 Housing Lending Rates), not jurisdiction-specific — applies identically to every jurisdiction"
       affordability:
-        status: unavailable
-        finding: "requires a sales price input, not available for this jurisdiction"
+        status: derived
+        note: "computed at query time from sales + shared national assumption scenario, requires a sales source"
       sales_volume:
-        status: unavailable
+        status: available
+        note: "sale_count column within the sales fact/mart, same source as residential_sales"
       rental_observations:
         status: unavailable
       supply_per_1000_dwellings:
@@ -645,13 +651,13 @@ jurisdictions:
       LGA: 1
       STATE: 1
       SA1: 1227
-    meta_jurisdiction_registered: false
-    meta_jurisdiction_status: null
-    finding_meta_jurisdiction_gap: "ACT has ASGS geography loaded (1536 geographies across 9 levels) but is NOT registered in meta.jurisdiction — a real gap for Sprint 12 WS2 to close."
+    meta_jurisdiction_registered: true
+    meta_jurisdiction_status: sales_only
+    finding_meta_jurisdiction_gap: null
     domains:
       residential_sales:
         status: available
-        row_count: 86
+        row_count: 274
         earliest_period: 1992-01-01
         latest_period: 2026-06-01
         source: null

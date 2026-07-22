@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-07-22T05:59:01.732Z",
+  "local_store": "warehouse/data/local/abs_tvd_tas_act_nt.json (gitignored)",
+  "total_points": 928,
+  "points_with_both_price_and_count": 928,
+  "points_with_price_only": 0,
+  "points_with_count_only": 0,
+  "summary_by_geography": {
+    "Greater Hobart": {
+      "geography_id": "GCCSA_6GHOB_ASGS3_2021",
+      "row_count": 188,
+      "earliest_period": "2002-03-01",
+      "latest_period": "2026-03-01"
+    },
+    "Rest of Tas.": {
+      "geography_id": "GCCSA_6RTAS_ASGS3_2021",
+      "row_count": 182,
+      "earliest_period": "2003-09-01",
+      "latest_period": "2026-03-01"
+    },
+    "Greater Darwin": {
+      "geography_id": "GCCSA_7GDAR_ASGS3_2021",
+      "row_count": 188,
+      "earliest_period": "2002-03-01",
+      "latest_period": "2026-03-01"
+    },
+    "Rest of NT": {
+      "geography_id": "GCCSA_7RNTE_ASGS3_2021",
+      "row_count": 182,
+      "earliest_period": "2003-09-01",
+      "latest_period": "2026-03-01"
+    },
+    "Australian Capital Territory": {
+      "geography_id": "GCCSA_8ACTE_ASGS3_2021",
+      "row_count": 188,
+      "earliest_period": "2002-03-01",
+      "latest_period": "2026-03-01"
+    }
+  }
+}

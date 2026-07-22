@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22T05:40:21.794Z",
+  "generated_at": "2026-07-22T06:06:22.310Z",
   "method": "Quantitative fields live-queried against warehouse-validation (read-only); qualitative access-status fields carried from Sprint 11 WS2's national_jurisdiction_source_manifest.json",
   "jurisdictions_covered": [
     "NSW",
@@ -211,8 +211,9 @@
         "STATE",
         "SA1"
       ],
-      "meta_jurisdiction_registered": false,
+      "meta_jurisdiction_registered": true,
       "domains_available": [
+        "residential_sales",
         "dwelling_stock",
         "tenure",
         "population",
@@ -220,9 +221,11 @@
         "household_composition",
         "household_income",
         "building_approvals",
-        "housing_lending_rates"
+        "housing_lending_rates",
+        "sales_volume"
       ],
       "domains_derived": [
+        "affordability",
         "supply_per_1000_dwellings"
       ],
       "domains_unavailable": [
@@ -230,8 +233,6 @@
         "internal_migration",
         "dwelling_commencements",
         "dwelling_completions",
-        "affordability",
-        "sales_volume",
         "rental_observations"
       ]
     },
@@ -247,8 +248,9 @@
         "STATE",
         "SA1"
       ],
-      "meta_jurisdiction_registered": false,
+      "meta_jurisdiction_registered": true,
       "domains_available": [
+        "residential_sales",
         "dwelling_stock",
         "tenure",
         "population",
@@ -256,19 +258,18 @@
         "household_composition",
         "household_income",
         "building_approvals",
-        "housing_lending_rates"
+        "housing_lending_rates",
+        "sales_volume"
       ],
       "domains_derived": [
+        "affordability",
         "supply_per_1000_dwellings"
       ],
       "domains_unavailable": [
-        "residential_sales",
         "gross_yield",
         "internal_migration",
         "dwelling_commencements",
         "dwelling_completions",
-        "affordability",
-        "sales_volume",
         "rental_observations"
       ]
     },
@@ -284,7 +285,7 @@
         "STATE",
         "SA1"
       ],
-      "meta_jurisdiction_registered": false,
+      "meta_jurisdiction_registered": true,
       "domains_available": [
         "residential_sales",
         "residential_rents",
@@ -315,11 +316,7 @@
     "warehouse/config/jurisdiction_coverage.yml: population_growth listed as 'partially_available pending Workstream 4' for every jurisdiction — WS4 completed later in Sprint 11, this field is now genuinely 'available' with derived/correspondence-based values. Needs correcting.",
     "warehouse/docs/JURISDICTION_COVERAGE_CONTRACT.md: same population_growth staleness; also its coverage table doesn't reflect QLD/SA/WA rent promotion (WS9) despite being dated 2026-07-21."
   ],
-  "meta_jurisdiction_gaps": [
-    "TAS",
-    "NT",
-    "ACT"
-  ],
+  "meta_jurisdiction_gaps": [],
   "findings": [
     {
       "id": "stale_population_growth_docs",

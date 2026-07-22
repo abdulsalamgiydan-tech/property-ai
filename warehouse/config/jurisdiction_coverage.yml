@@ -118,16 +118,16 @@ jurisdictions:
     asgs_state_code: "6"
     onboard_status: rent_blocked_sales_verification_incomplete
     metric_families:
-      sales: { status: official_source_restricted, notes: "Valuer-General via LIST appears fee-based; not fully verified. See tasmania_source_manifest.json." }
-      rents: { status: unavailable, notes: "Workstream 6: live-verified as blocked. Both identified official candidates (CBOS Rental Bond Statistics, DOJ Rental Bonds Output Data) return HTTP 403 behind Cloudflare bot protection, which this project's guardrails forbid bypassing. Finalised as blocked_access, no adapter will be built. See tasmania_source_manifest.json." }
-      yields: { status: unavailable }
+      sales: { status: partially_available, earliest_period: "2002-Q1", latest_period: current, geography_levels: [GCCSA], dwelling_type_detail: "detached_house, attached_dwelling (ABS-bundled: units+townhouses+semis)", direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: high, notes: "Sprint 12 WS2: ABS Total Value of Dwellings (cat. 6432.0), Table 2, Greater Hobart + Rest of Tas. GCCSA split — official aggregate fallback, no SAL/POA grain available for TAS. Valuer-General LIST sales reports remain fee-based/unverified for suburb-grain data. See abs_tvd_local_store_report.json." }
+      rents: { status: unavailable, notes: "Workstream 6 (Sprint 11): live-verified as blocked. Both identified official candidates (CBOS Rental Bond Statistics, DOJ Rental Bonds Output Data) return HTTP 403 behind Cloudflare bot protection, which this project's guardrails forbid bypassing. That finding was explicitly flagged 'search-only, not final' pending direct CBOS Tasmania follow-up (Sprint 12 WS2) — see national_coverage_audit.md." }
+      yields: { status: unavailable, notes: "requires both sales and rent for the same jurisdiction; rent remains unavailable" }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
-      affordability: { status: unavailable }
+      affordability: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 12 WS2: now computable at GCCSA grain using the shared national assumption scenario, same as every other jurisdiction — not state-specific" }
       land_values: { status: unavailable }
       vacancy: { status: unavailable }
       planning_pipeline: { status: unavailable }
@@ -136,16 +136,16 @@ jurisdictions:
     asgs_state_code: "8"
     onboard_status: national_context_only
     metric_families:
-      sales: { status: unavailable, notes: "official open data portal live-searched, zero results. See act_source_manifest.json." }
-      rents: { status: unavailable, notes: "same — zero results" }
-      yields: { status: unavailable }
+      sales: { status: partially_available, earliest_period: "2002-Q1", latest_period: current, geography_levels: [GCCSA], dwelling_type_detail: "detached_house, attached_dwelling (ABS-bundled: units+townhouses+semis)", direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: high, notes: "Sprint 12 WS2: ABS Total Value of Dwellings (cat. 6432.0), Table 2, single GCCSA covering the whole ACT (no 'rest of ACT' split published — ACT has no meaningful area outside the Canberra GCCSA). Official aggregate fallback, no SAL/POA grain available. data.act.gov.au open data portal remains zero-result for property sales. See abs_tvd_local_store_report.json." }
+      rents: { status: unavailable, notes: "data.act.gov.au returned 0 results for 'rent'/'rental bond' (Sprint 11 WS6, live-verified). No ABS-published aggregate rent series identified for ACT this pass — Total Value of Dwellings covers sales only, not rents." }
+      yields: { status: unavailable, notes: "requires both sales and rent for the same jurisdiction; rent remains unavailable" }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
-      affordability: { status: unavailable }
+      affordability: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 12 WS2: now computable at GCCSA grain using the shared national assumption scenario, same as every other jurisdiction" }
       land_values: { status: unavailable }
       vacancy: { status: unavailable }
       planning_pipeline: { status: unavailable }
@@ -154,16 +154,16 @@ jurisdictions:
     asgs_state_code: "7"
     onboard_status: national_context_only
     metric_families:
-      sales: { status: unavailable, notes: "official open data portal's property group live-reviewed (12/12 datasets), no sales data. REINT rejected as non-official. See northern_territory_source_manifest.json." }
-      rents: { status: unavailable, notes: "same portal group — no rent data" }
-      yields: { status: unavailable }
+      sales: { status: partially_available, earliest_period: "2002-Q1", latest_period: current, geography_levels: [GCCSA], dwelling_type_detail: "detached_house, attached_dwelling (ABS-bundled: units+townhouses+semis)", direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: high, notes: "Sprint 12 WS2: ABS Total Value of Dwellings (cat. 6432.0), Table 2, Greater Darwin + Rest of NT GCCSA split. Official aggregate fallback, no SAL/POA grain available. NT's own open data portal's property group (12/12 datasets live-reviewed, Sprint 11 WS2) has no sales dataset; REINT rejected as non-official. See abs_tvd_local_store_report.json." }
+      rents: { status: unavailable, notes: "NT open data portal's property group (12/12 datasets) has no rental dataset (Sprint 11 WS2, live-verified). No ABS-published aggregate rent series identified for NT this pass." }
+      yields: { status: unavailable, notes: "requires both sales and rent for the same jurisdiction; rent remains unavailable" }
       dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
       population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
-      affordability: { status: unavailable }
+      affordability: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 12 WS2: now computable at GCCSA grain using the shared national assumption scenario, same as every other jurisdiction" }
       land_values: { status: unavailable }
       vacancy: { status: unavailable }
       planning_pipeline: { status: unavailable }

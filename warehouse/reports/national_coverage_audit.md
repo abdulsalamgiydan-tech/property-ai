@@ -1,6 +1,6 @@
 # National Coverage Audit (Sprint 12, Workstream 1)
 
-Generated 2026-07-22T05:40:21.794Z by `warehouse/scripts/audit/build_national_coverage_registry.mjs`.
+Generated 2026-07-22T06:06:22.310Z by `warehouse/scripts/audit/build_national_coverage_registry.mjs`.
 Quantitative fields (row counts, reference periods, coverage fractions) are
 live-queried against `warehouse-validation` at generation time — not
 hand-narrated. Qualitative access-status findings (paid/restricted/blocked)
@@ -157,11 +157,11 @@ Geography backbone: 8,882 geographies across 9 levels (POA: 386, SA2: 265, SAL: 
 
 ### TAS
 
-Geography backbone: 2,518 geographies across 9 levels (SAL: 776, SA2: 99, SA4: 4, SA3: 15, POA: 115, LGA: 29, GCCSA: 2, STATE: 1, SA1: 1,477). **Not registered in `meta.jurisdiction`.**
+Geography backbone: 2,518 geographies across 9 levels (SAL: 776, SA2: 99, SA4: 4, SA3: 15, POA: 115, LGA: 29, GCCSA: 2, STATE: 1, SA1: 1,477). Registered in `meta.jurisdiction` (status: sales_only).
 
 | domain | status | detail | period |
 |---|---|---|---|
-| residential sales | official_source_paid_or_restricted | 0 rows | - |
+| residential sales | available | 370 rows | 2002-03-01 to 2026-03-01 |
 | residential rents | blocked_access | 0 rows | - |
 | gross yield | unavailable | requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored | - |
 | dwelling stock | available | 19,968 rows | - |
@@ -175,8 +175,8 @@ Geography backbone: 2,518 geographies across 9 levels (SAL: 776, SA2: 99, SA4: 4
 | dwelling commencements | unavailable | ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3) | - |
 | dwelling completions | unavailable | ABS Building Activity (completions) not loaded — same gap as commencements | - |
 | housing lending rates | available | 664 rows | - |
-| affordability | unavailable | requires a sales price input, not available for this jurisdiction | - |
-| sales volume | unavailable | - | - |
+| affordability | derived | computed at query time from sales + shared national assumption scenario, requires a sales source | - |
+| sales volume | available | sale_count column within the sales fact/mart, same source as residential_sales | - |
 | rental observations | unavailable | - | - |
 | supply per 1000 dwellings | derived | approvals_per_1000_dwellings, computed at query time in compare_market_geographies_v1 and similar | - |
 | source freshness | meta.dataset_freshness_status tracks this per dataset_id (Sprint 11 WS16), not per jurisdiction directly | - | - |
@@ -184,11 +184,11 @@ Geography backbone: 2,518 geographies across 9 levels (SAL: 776, SA2: 99, SA4: 4
 
 ### NT
 
-Geography backbone: 1,083 geographies across 9 levels (SAL: 303, GCCSA: 2, SA2: 68, LGA: 19, POA: 34, SA3: 9, SA4: 2, STATE: 1, SA1: 645). **Not registered in `meta.jurisdiction`.**
+Geography backbone: 1,083 geographies across 9 levels (SAL: 303, GCCSA: 2, SA2: 68, LGA: 19, POA: 34, SA3: 9, SA4: 2, STATE: 1, SA1: 645). Registered in `meta.jurisdiction` (status: sales_only).
 
 | domain | status | detail | period |
 |---|---|---|---|
-| residential sales | unavailable | 0 rows | - |
+| residential sales | available | 370 rows | 2002-03-01 to 2026-03-01 |
 | residential rents | blocked_access | 0 rows | - |
 | gross yield | unavailable | requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored | - |
 | dwelling stock | available | 8,552 rows | - |
@@ -202,8 +202,8 @@ Geography backbone: 1,083 geographies across 9 levels (SAL: 303, GCCSA: 2, SA2: 
 | dwelling commencements | unavailable | ABS Building Activity (commencements) not loaded — distinct dataset from Building Approvals, a genuine national gap (candidate for Sprint 12 WS3) | - |
 | dwelling completions | unavailable | ABS Building Activity (completions) not loaded — same gap as commencements | - |
 | housing lending rates | available | 664 rows | - |
-| affordability | unavailable | requires a sales price input, not available for this jurisdiction | - |
-| sales volume | unavailable | - | - |
+| affordability | derived | computed at query time from sales + shared national assumption scenario, requires a sales source | - |
+| sales volume | available | sale_count column within the sales fact/mart, same source as residential_sales | - |
 | rental observations | unavailable | - | - |
 | supply per 1000 dwellings | derived | approvals_per_1000_dwellings, computed at query time in compare_market_geographies_v1 and similar | - |
 | source freshness | meta.dataset_freshness_status tracks this per dataset_id (Sprint 11 WS16), not per jurisdiction directly | - | - |
@@ -211,11 +211,11 @@ Geography backbone: 1,083 geographies across 9 levels (SAL: 303, GCCSA: 2, SA2: 
 
 ### ACT
 
-Geography backbone: 1,536 geographies across 9 levels (SA2: 134, SAL: 136, POA: 25, SA4: 1, SA3: 10, GCCSA: 1, LGA: 1, STATE: 1, SA1: 1,227). **Not registered in `meta.jurisdiction`.**
+Geography backbone: 1,536 geographies across 9 levels (SA2: 134, SAL: 136, POA: 25, SA4: 1, SA3: 10, GCCSA: 1, LGA: 1, STATE: 1, SA1: 1,227). Registered in `meta.jurisdiction` (status: sales_only).
 
 | domain | status | detail | period |
 |---|---|---|---|
-| residential sales | available | 86 rows | 1992-01-01 to 2026-06-01 |
+| residential sales | available | 274 rows | 1992-01-01 to 2026-06-01 |
 | residential rents | available | 689 rows | 2021-01-01 to 2026-01-01 |
 | gross yield | derived | requires both a sales and a rent source for the same jurisdiction; computed at query time, not stored | - |
 | dwelling stock | available | 12,184 rows | - |
