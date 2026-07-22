@@ -1,50 +1,10 @@
 {
-  "generated_at": "2026-07-22T20:52:00+10:00",
+  "generated_at": "2026-07-22T22:32:00+10:00",
+  "sprint_status": "COMPLETE",
   "branch": "feature/national-residential-research-platform-v1",
-  "latest_commit": "8b2ebac",
-  "base_commit": "b3913e1",
-  "foundation_block_status": "COMPLETE",
-  "foundation_block_workstreams_completed": [
-    "WS4: 2016-2021 boundary reconciliation",
-    "WS3: national demand/supply context",
-    "WS6: national canonical market mart rollup",
-    "WS8: field-level data lineage",
-    "WS9: automated data-quality and freshness monitoring",
-    "WS10: national refresh engine v3"
-  ],
-  "foundation_block_workstreams_remaining": [],
-  "github_actions_final": { "commit": "8b2ebac", "run_id": "29912780903", "conclusion": "success" },
-  "validation_status": {
-    "npm_test_local": { "result": "pass", "tests": 148 },
-    "npm_test_clean_clone": { "result": "pass", "tests_passed": 140, "tests_skipped": 8 },
-    "npm_run_warehouse_check": "pass",
-    "npm_run_lint": { "result": "pass", "errors": 0, "warnings": 6 },
-    "npm_run_build": "pass",
-    "warehouse_quality_check": "pass_0_blocking",
-    "warehouse_lineage_check": "pass_100pct",
-    "warehouse_freshness": "pass_all_populated",
-    "warehouse_refresh_dry_run": "pass_no_writes",
-    "clean_clone_validation": "pass",
-    "migrations_sequential_no_gaps": true,
-    "production_touched": false,
-    "raw_data_committed": false,
-    "secrets_committed": false,
-    "branch_storage_mb": 2673.0,
-    "branch_budget_mb": 3375,
-    "branch_budget_fraction_used": 0.792
-  },
-  "active_process_status": "none -- no running processes, no open database transactions, no lock files held",
-  "unfinished_files": [],
-  "final_reports": [
-    "warehouse/reports/sprint12_foundation_block_report.md",
-    "warehouse/reports/sprint12_foundation_block_report.json",
-    "warehouse/reports/sprint12_foundation_known_gaps.md",
-    "warehouse/reports/sprint12_foundation_capacity_report.md",
-    "warehouse/reports/sprint12_quality_summary.md",
-    "warehouse/reports/sprint12_refresh_engine_report.md",
-    "warehouse/reports/sprint12_cross_border_anomaly_report.md"
-  ],
-  "exact_next_command": "Read warehouse/reports/sprint12_foundation_block_report.md, then begin Workstream 11 (versioned public API v1) if continuing Sprint 12.",
-  "exact_resume_prompt": "The Sprint 12 Foundation Block (WS3/WS4/WS6/WS8/WS9/WS10) is complete -- see warehouse/reports/sprint12_foundation_block_report.md for the full final report. If continuing Sprint 12, the recommended next workstream is WS11 (versioned public API v1): design and build a versioned public API surface (e.g. /api/v1/...) over the existing public views/RPCs, exposing WS8's per-metric lineage and WS9's quality/freshness status alongside each metric value -- not just the raw numbers. Read the master report's 'exact recommended next workstream' section first for the full reasoning before starting.",
-  "known_blockers": "none blocking further Sprint 12 work -- see warehouse/reports/sprint12_foundation_known_gaps.md for the complete, honest gap list (external data-availability limits, deferred architecture questions, tracked-but-advisory anomalies)"
+  "final_commit": "f05a0bc",
+  "all_18_workstreams_complete": true,
+  "authoritative_final_report": "warehouse/reports/sprint12_final_delivery_report.md",
+  "resume_needed": false,
+  "note": "Sprint 12's full mission is delivered. See sprint12_final_delivery_report.md for the complete record, final metrics, and recommended next steps for a human to consider (this checkpoint is a pointer, not a resume-from-here document)."
 }
