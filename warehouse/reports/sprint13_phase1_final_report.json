@@ -1,0 +1,73 @@
+{
+  "sprint": 13,
+  "phase": 1,
+  "phase_name": "Unified private-beta core (Workstreams 2-8)",
+  "branch": "feature/sprint13-private-beta",
+  "base_branch": "feature/national-residential-research-platform-v1",
+  "merged_to_main": false,
+  "reconciliation_commit": "ca32cb9",
+  "checkpoint_commits": [
+    { "n": 1, "sha": "c2004b7", "title": "Reuse map and architecture" },
+    { "n": 2, "sha": "3e83ab3", "title": "Unified navigation, explainability gaps, shared formatters" },
+    { "n": 3, "sha": "8026761", "title": "Unified search component" },
+    { "n": 4, "sha": "747d27f", "title": "Static RLS policy checker" },
+    { "n": 5, "sha": "13a720f", "title": "Warehouse-backed suburb suggestions" },
+    { "n": 6, "sha": "3b60af4", "title": "Scenario Lab v2 (multi-scenario)" },
+    { "n": 7, "sha": "da2332c", "title": "Comparison reorder and print layout" },
+    { "n": 8, "sha": "98119f3", "title": "Geography-linked watchlist and saved research on dashboard" }
+  ],
+  "workstreams": {
+    "WS2_unified_navigation": "complete",
+    "WS3_national_search": "complete",
+    "WS4_explainability": "complete",
+    "WS5_analyse_property_integration": "complete_trimmed",
+    "WS6_scenario_lab_v2": "complete_trimmed",
+    "WS7_comparison_v2": "complete_trimmed_historical_view_deferred",
+    "WS8a_saved_research_workspace": "complete_trimmed",
+    "WS8b_rls_static_checker": "complete"
+  },
+  "validation": {
+    "lint_errors": 0,
+    "lint_warnings": 6,
+    "lint_warnings_baseline_unchanged": true,
+    "build_status": "pass",
+    "routes_before": 29,
+    "routes_after": 31,
+    "tests_before": 163,
+    "tests_after": 227,
+    "tests_added": 64,
+    "tests_removed_or_weakened": 0,
+    "warehouse_check": "pass",
+    "warehouse_rls_check": "pass",
+    "rls_tables_verified": 7,
+    "browser_smoke_test": "pass_with_documented_gaps",
+    "secret_scan": "clean",
+    "large_file_scan": "clean"
+  },
+  "database_changes": {
+    "new_migrations": ["037_scenario_lab_cases.sql", "038_watchlist_geography_linking.sql"],
+    "all_additive": true,
+    "destructive_ddl_found": false,
+    "new_tables": ["public.scenario_lab_cases"],
+    "altered_tables": ["public.watchlist_items"]
+  },
+  "guardrails": {
+    "production_touched": false,
+    "production_vercel_deploy": false,
+    "merged_to_main": false,
+    "paid_infrastructure_added": false,
+    "billing_or_payment_code_added": false,
+    "raw_data_committed": false,
+    "credentials_committed": false,
+    "financial_advice_language_added": false,
+    "forecasts_presented_as_expected_outcomes": false
+  },
+  "known_limitations": [
+    "Live cross-user RLS integration testing out of scope this phase (static policy verification only)",
+    "Comparison historical/trend-over-time view deferred",
+    "Analyse-Property suggestion-applied banner not re-verified in live browser this pass (covered by automated tests)",
+    "No rate limiting added to the two new API routes (pre-existing gap, not introduced or fixed this phase)",
+    "Authenticated flows (watchlist geography-linked add, Scenario Lab save) not exercised as a signed-in user in this session's browser pass"
+  ],
+  "remaining_scope": "Workstreams 9-21 of the original Sprint 13 brief are not started"
+}
