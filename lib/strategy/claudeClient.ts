@@ -53,19 +53,10 @@ function extractJsonObjectText(raw: string): string {
   return t;
 }
 
-function logRawClaudeResponse(responseText: string): void {
-  console.log("[claude] === RAW RESPONSE START ===");
-  console.log("[claude] First 2000 chars of response:", responseText.substring(0, 2000));
-  console.log("[claude] Length:", responseText.length);
-  console.log("[claude] === RAW RESPONSE END ===");
-}
-
 function parseValidateStrategyOutput(responseText: string): StrategyOutput {
   const jsonStr = extractJsonObjectText(responseText);
   try {
     const parsed = JSON.parse(jsonStr);
-    console.log("[claude] Parsed object keys:", Object.keys(parsed));
-    console.log("[claude] First 1000 chars of stringified parsed:", JSON.stringify(parsed).substring(0, 1000));
     const validated = strategyOutputSchema.parse(parsed);
     return validated;
   } catch (err) {
@@ -125,7 +116,6 @@ export async function generateStrategy(
   };
 
   let text = await callMessagesApi(baseBody);
-  logRawClaudeResponse(text);
 
   try {
     return parseValidateStrategyOutput(text);
@@ -154,7 +144,6 @@ export async function generateStrategy(
   };
 
   text = await callMessagesApi(retryBody);
-  logRawClaudeResponse(text);
 
   try {
     return parseValidateStrategyOutput(text);
