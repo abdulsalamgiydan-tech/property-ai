@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-07-22T13:38:00+10:00",
+  "sprint": 12,
+  "phase": "0 — milestone control and new branch",
+  "sprint11_branch": "feature/australia-property-intelligence-v3",
+  "sprint11_final_commit": "b3913e1",
+  "sprint11_ci_run": { "run_id": "29887974106", "conclusion": "success" },
+  "sprint11_pr": { "number": 4, "url": "https://github.com/abdulsalamgiydan-tech/property-ai/pull/4", "is_draft": true, "state": "OPEN", "base": "main", "head": "feature/australia-property-intelligence-v3" },
+  "new_branch": "feature/national-residential-research-platform-v1",
+  "new_branch_base_commit": "b3913e1",
+  "preflight_checks": {
+    "working_tree_clean": true,
+    "raw_or_secret_files_tracked": 0,
+    "production_warehouse_schemas": 0,
+    "production_ref": "oshquaxsloolqucwvigc",
+    "validation_ref": "lzonauinzatmtytyoems"
+  },
+  "baseline_commands": {
+    "npm_ci": "pass",
+    "npm_run_warehouse_check": "pass",
+    "npm_run_lint": { "result": "pass", "exit_code": 0, "errors": 0, "warnings": 6, "warnings_detail": "pre-existing, unrelated @typescript-eslint/no-unused-vars, confirmed in Sprint 11's CI reconciliation" },
+    "npm_test": { "result": "pass", "exit_code": 0, "test_files": 6, "tests": 72 },
+    "npm_run_build": "pass",
+    "git_diff_check": "pass",
+    "git_status_short": "clean"
+  },
+  "validation_branch_storage": {
+    "total_mb": 2634.1,
+    "by_schema": [
+      { "schema": "core", "mb": 2120.8, "tables": 10 },
+      { "schema": "mart", "mb": 492.0, "tables": 22 },
+      { "schema": "meta", "mb": 0.7, "tables": 12 },
+      { "schema": "public", "mb": 0.1, "tables": 7 },
+      { "schema": "staging", "mb": 0.1, "tables": 3 }
+    ],
+    "top_tables_mb": [
+      { "table": "core.dim_geography", "mb": 698.4 },
+      { "table": "core.fact_dwelling_stock", "mb": 402.5 },
+      { "table": "core.fact_rental_market_summary", "mb": 396.1 },
+      { "table": "core.fact_household_tenure", "mb": 228.0 },
+      { "table": "core.fact_residential_sales_summary", "mb": 218.7 },
+      { "table": "mart.suburb_sales_annual", "mb": 129.9 },
+      { "table": "core.bridge_geography_correspondence", "mb": 114.6 },
+      { "table": "mart.suburb_market_timeseries", "mb": 46.9 },
+      { "table": "core.fact_building_approvals", "mb": 44.3 },
+      { "table": "mart.suburb_sales_monthly", "mb": 41.1 }
+    ],
+    "internal_working_ceiling_mb": 4500,
+    "actual_supabase_pro_allocation_mb": 8192,
+    "current_fraction_of_ceiling": 0.5854
+  },
+  "capacity_budget_sprint12": {
+    "target_max_fraction_of_ceiling": 0.75,
+    "target_max_mb": 3375,
+    "remaining_budget_mb": 740.9,
+    "note": "Sprint 12 must promote curated marts and necessary dimensions only; large historical/detailed facts (TAS/ACT/NT raw records, additional Census tables, 2016 boundary geometries) stay local in DuckDB/Parquet."
+  }
+}
