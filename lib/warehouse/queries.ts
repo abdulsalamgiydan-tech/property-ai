@@ -309,10 +309,13 @@ export type CompareRow = {
   missing_metric_reasons: Record<string, string> | null;
 };
 
+// Widened from 2-5 to 2-10 geographies in Sprint 11 Workstream 12 —
+// matches the compare_market_geographies_v1 RPC's own enforced range
+// (migration 021), which is the actual source of truth for this limit.
 export async function compareMarketGeographies(geographyIds: string[]): Promise<CompareRow[]> {
   const supabase = createWarehouseClient();
   if (!supabase) return [];
-  if (geographyIds.length < 2 || geographyIds.length > 5) return [];
+  if (geographyIds.length < 2 || geographyIds.length > 10) return [];
   const { data, error } = await supabase.rpc("compare_market_geographies_v1", { p_geography_ids: geographyIds });
   if (error) return [];
   return (data ?? []) as CompareRow[];

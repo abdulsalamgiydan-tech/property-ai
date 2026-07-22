@@ -12,7 +12,7 @@ export function ExploreResultsList({ results }: { results: GeographySearchResult
     setSelected((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
-      else if (next.size < 5) next.add(id);
+      else if (next.size < 10) next.add(id);
       return next;
     });
   }
@@ -23,13 +23,13 @@ export function ExploreResultsList({ results }: { results: GeographySearchResult
     <div className="space-y-3">
       {selected.size >= 2 ? (
         <div className="rounded-xl border border-violet-500/30 bg-violet-950/20 px-4 py-3 text-sm text-violet-200">
-          {selected.size} selected —{" "}
+          {selected.size} selected (up to 10) —{" "}
           <Link href={compareHref} className="font-medium underline underline-offset-2">
             compare now →
           </Link>
         </div>
       ) : (
-        <p className="text-xs text-zinc-500">Select 2-5 geographies below to compare them side by side.</p>
+        <p className="text-xs text-zinc-500">Select 2-10 geographies below to compare them side by side.</p>
       )}
       <ul className="divide-y divide-zinc-800/70">
         {results.map((r) => {
@@ -41,7 +41,7 @@ export function ExploreResultsList({ results }: { results: GeographySearchResult
                 type="checkbox"
                 checked={checked}
                 onChange={() => toggle(r.geography_id)}
-                disabled={!checked && selected.size >= 5}
+                disabled={!checked && selected.size >= 10}
                 aria-label={`Select ${r.geography_name} for comparison`}
                 className="h-4 w-4 shrink-0 rounded border-zinc-600 bg-zinc-900 accent-violet-500"
               />

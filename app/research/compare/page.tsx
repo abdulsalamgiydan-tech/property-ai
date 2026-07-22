@@ -56,16 +56,16 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-semibold text-zinc-100">Compare</h1>
-          <p className="mt-1 text-sm text-zinc-400">Select 2-5 geographies from Explore to compare them side by side.</p>
+          <p className="mt-1 text-sm text-zinc-400">Select 2-10 geographies from Explore to compare them side by side.</p>
         </div>
-        <EmptyState title="Nothing to compare yet" body="Go to Explore, select 2-5 suburbs or postcodes, then click 'compare now'." />
+        <EmptyState title="Nothing to compare yet" body="Go to Explore, select 2-10 suburbs or postcodes, then click 'compare now'." />
       </div>
     );
   }
-  if (geographyIds.length > 5) {
+  if (geographyIds.length > 10) {
     return (
       <div className="space-y-6">
-        <EmptyState title="Too many selected" body="Comparison supports 2-5 geographies at a time. Go back to Explore and select fewer." />
+        <EmptyState title="Too many selected" body="Comparison supports 2-10 geographies at a time. Go back to Explore and select fewer." />
       </div>
     );
   }
