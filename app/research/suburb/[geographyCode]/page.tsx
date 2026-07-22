@@ -9,6 +9,7 @@ import {
   resolveGeographyByCode,
 } from "@/lib/warehouse/queries";
 import { stateLabel } from "@/lib/warehouse/stateCode";
+import { isScenarioLabEnabled } from "@/lib/warehouse/env";
 
 export const metadata: Metadata = { title: "Suburb Research Preview | Propellect", robots: { index: false, follow: false } };
 
@@ -31,12 +32,14 @@ export default async function SuburbResearchPage({
   return (
     <MarketSnapshotView
       geographyId={geo.geography_id}
+      geographyCode={geo.geography_code}
       geographyLabel={`${geo.geography_name}${stateLabel(geo.state_code) ? `, ${stateLabel(geo.state_code)}` : ""}`}
       geographyType="suburb"
       snapshot={snapshot}
       demographics={demographics}
       timeseries={timeseries}
       assumptions={assumptions}
+      scenarioLabEnabled={isScenarioLabEnabled()}
     />
   );
 }

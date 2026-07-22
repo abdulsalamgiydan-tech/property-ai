@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { SectionCard } from "@/components/design/SectionCard";
 import { MetricCard } from "@/components/design/MetricCard";
 import { EmptyState } from "@/components/design/EmptyState";
@@ -23,20 +24,24 @@ function periodLabel(v: string | number | null | undefined): string {
 
 export function MarketSnapshotView({
   geographyId,
+  geographyCode,
   geographyLabel,
   geographyType,
   snapshot,
   demographics,
   timeseries,
   assumptions,
+  scenarioLabEnabled = false,
 }: {
   geographyId: string;
+  geographyCode?: string;
   geographyLabel: string;
   geographyType: "suburb" | "postcode";
   snapshot: MarketSnapshot | null;
   demographics: DemographicProfile | null;
   timeseries: TimeseriesRow[];
   assumptions: MetricAssumption[];
+  scenarioLabEnabled?: boolean;
 }) {
   if (!snapshot && !demographics) {
     return (
@@ -119,6 +124,11 @@ export function MarketSnapshotView({
               RBA housing lending rate {snapshot.rba_rate_used != null ? formatPercent(snapshot.rba_rate_used, 2) : "unavailable"}
               {snapshot.rba_rate_period ? ` (as at ${snapshot.rba_rate_period})` : ""}. LMI, stamp duty and fees excluded.
             </p>
+            {scenarioLabEnabled && geographyType === "suburb" && geographyCode ? (
+              <Link href={`/research/scenario/${geographyCode}`} className="mt-3 inline-block text-xs text-violet-300 hover:underline">
+                Try different deposit/term/rate assumptions in Scenario Lab →
+              </Link>
+            ) : null}
           </>
         )}
       </SectionCard>
