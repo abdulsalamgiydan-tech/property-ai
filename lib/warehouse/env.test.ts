@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   isDataOperationsEnabled,
   isMultiStateResearchEnabled,
+  isPublicApiV1Enabled,
   isScenarioLabEnabled,
   isWarehouseConfigured,
   isWarehousePreviewEnabled,
@@ -94,6 +95,29 @@ describe("isScenarioLabEnabled", () => {
   it("is enabled only when explicitly set to 'true'", () => {
     vi.stubEnv("SCENARIO_LAB_ENABLED", "true");
     expect(isScenarioLabEnabled()).toBe(true);
+  });
+});
+
+describe("isPublicApiV1Enabled", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("is disabled when the env var is absent (production-safe default)", () => {
+    vi.stubEnv("PUBLIC_API_V1_ENABLED", undefined as unknown as string);
+    expect(isPublicApiV1Enabled()).toBe(false);
+  });
+
+  it("is disabled for any value other than the exact string 'true'", () => {
+    vi.stubEnv("PUBLIC_API_V1_ENABLED", "1");
+    expect(isPublicApiV1Enabled()).toBe(false);
+  });
+
+  it("is enabled only when explicitly set to 'true', independent of the internal research preview flag", () => {
+    vi.stubEnv("PUBLIC_API_V1_ENABLED", "true");
+    vi.stubEnv("WAREHOUSE_PREVIEW_ENABLED", undefined as unknown as string);
+    expect(isPublicApiV1Enabled()).toBe(true);
+    expect(isWarehousePreviewEnabled()).toBe(false);
   });
 });
 

@@ -422,3 +422,62 @@ export async function getTimeseriesV2(geographyId: string): Promise<TimeseriesRo
     return true;
   });
 }
+
+// ── Sprint 12 WS11 — versioned public API v1: exposes WS8's per-metric
+// lineage and WS9's quality summary, previously only queryable via a
+// service-role warehouse script. ────────────────────────────────────────
+
+export type MetricLineage = {
+  found: boolean;
+  jurisdiction: string | null;
+  row_confidence: string | null;
+  row_provenance: Record<string, string | null> | null;
+  is_derived: boolean | null;
+  transformation_method: string | null;
+  correspondence_version: string | null;
+  source_name: string | null;
+  publisher: string | null;
+  source_url: string | null;
+  licence: string | null;
+  dataset_name: string | null;
+  lineage_complete: boolean;
+};
+
+export const METRIC_FAMILIES = ["sales", "rent", "yield", "approvals", "dwelling_stock", "demographics", "population_growth", "affordability"] as const;
+export type MetricFamily = (typeof METRIC_FAMILIES)[number];
+
+export async function getMetricLineage(
+  geographyId: string,
+  martTable: "suburb_market_snapshot" | "postcode_market_snapshot",
+  metricFamily: MetricFamily
+): Promise<MetricLineage | null> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .rpc("get_metric_lineage_v1", { p_geography_id: geographyId, p_mart_table: martTable, p_metric_family: metricFamily })
+    .maybeSingle();
+  if (error) return null;
+  return (data as MetricLineage) ?? null;
+}
+
+export type QualitySummary = {
+  active_rules: number;
+  blocking_rules: number;
+  advisory_rules: number;
+  rules_run: number | null;
+  rules_passed: number | null;
+  rules_failed_blocking: number | null;
+  rules_failed_advisory: number | null;
+  latest_run_at: string | null;
+  open_incidents: number;
+  open_blocking_incidents: number;
+  quarantined_rows_total: number;
+};
+
+export async function getQualitySummary(): Promise<QualitySummary | null> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase.from("v_quality_summary_v1").select("*").maybeSingle();
+  if (error) return null;
+  return (data as QualitySummary) ?? null;
+}

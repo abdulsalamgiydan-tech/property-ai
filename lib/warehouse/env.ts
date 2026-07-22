@@ -33,3 +33,12 @@ export function isDataOperationsEnabled(): boolean {
 export function isScenarioLabEnabled(): boolean {
   return process.env.SCENARIO_LAB_ENABLED === "true";
 }
+
+// Sprint 12 WS11 — gates /api/v1/* independently of the internal
+// /research routes' WAREHOUSE_PREVIEW_ENABLED gate. This is deliberately
+// a SEPARATE flag: /api/v1 is meant to be consumed by external callers
+// (not just this app's own UI), so its rollout should be controllable
+// independently of whether the internal research UI preview is on.
+export function isPublicApiV1Enabled(): boolean {
+  return process.env.PUBLIC_API_V1_ENABLED === "true";
+}
