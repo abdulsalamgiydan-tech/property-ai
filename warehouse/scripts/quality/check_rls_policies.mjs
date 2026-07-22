@@ -47,6 +47,11 @@ export const KNOWN_EXCEPTIONS = {
       "Append-only rate-limit event log (one row per generation, used to count recent activity) — rows are never updated or deleted by design, so no update/delete policy exists.",
     requiredOps: ["select", "insert"],
   },
+  user_entitlements: {
+    reason:
+      "Entitlement/tier table (Sprint 13 WS11, schema only — no billing activation) — users may read their own tier but must NEVER be able to write it themselves (self-elevation to a paid tier), so there is deliberately no insert/update/delete policy for the authenticated/anon role, only a service_role-only 'for all' policy.",
+    requiredOps: ["select"],
+  },
 };
 
 /** Extract every `public.<table>` created via `create table if not exists`. */

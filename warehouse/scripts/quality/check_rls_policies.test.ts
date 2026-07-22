@@ -124,6 +124,10 @@ describe("checkTableRlsCoverage — real repository migrations", () => {
     "strategy_reports",
     "strategy_generations",
     "waitlist",
+    "scenario_lab_cases",
+    "watchlist_change_events",
+    "notification_preferences",
+    "user_entitlements",
   ];
 
   it.each(expectedTables)("passes for %s against the real migration corpus", (table) => {
