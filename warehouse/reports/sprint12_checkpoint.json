@@ -1,84 +1,60 @@
 {
-  "generated_at": "2026-07-22T16:13:00+10:00",
+  "generated_at": "2026-07-22T17:40:00+10:00",
   "branch": "feature/national-residential-research-platform-v1",
-  "latest_commit": "1862981",
+  "latest_commit": "6d6e17e",
   "base_commit": "b3913e1",
   "github_actions": [
-    { "commit": "cebec8d", "run_id": "29889104730", "conclusion": "success" },
-    { "commit": "d7fc2fd", "run_id": "29894488429", "conclusion": "success" },
-    { "commit": "fcec63d", "run_id": "29894639172", "conclusion": "success" },
-    { "commit": "1862981", "run_id": "29895923069", "conclusion": "success" }
+    { "commit": "cebec8d", "conclusion": "success" },
+    { "commit": "d7fc2fd", "conclusion": "success" },
+    { "commit": "fcec63d", "conclusion": "success" },
+    { "commit": "1862981", "conclusion": "success" },
+    { "commit": "515c19b", "conclusion": "success" },
+    { "commit": "83db10e", "conclusion": "success" },
+    { "commit": "6d6e17e", "run_id": "29900781865", "conclusion": "success" }
   ],
   "sprint11_pr": { "number": 4, "state": "OPEN", "is_draft": true, "merged": false },
-  "workstreams_completed": [
-    "Phase 0: branch, PR, capacity plan, baseline",
+  "foundation_block_workstreams_completed": [
     "WS1: national coverage audit",
-    "WS2: TAS/ACT/NT onboarding"
+    "WS2: TAS/ACT/NT onboarding",
+    "WS4: 2016-2021 boundary reconciliation (fixed WS1's lineage defect)",
+    "WS3: national demand/supply context (dwelling commencements/completions)"
   ],
-  "workstreams_remaining": [
-    "WS3: national demand/supply context expansion (identified gaps: internal migration, dwelling commencements/completions)",
-    "WS4: 2016-2021 boundary reconciliation (mostly done in Sprint 11 WS4 -- remaining: fix direct/derived confidence-labeling gap, optionally extend to SA2/LGA grain using already-downloaded correspondence files)",
-    "WS5: research evidence catalogue",
-    "WS6: national canonical market marts refactor (has 2 concrete inherited gaps: POA jurisdiction attribution, VIC rent backfill)",
-    "WS7: Scenario Lab",
-    "WS8: data lineage and provenance system",
-    "WS9: automated data-quality monitoring (has a concrete inherited gap: future-reference-period rule)",
-    "WS10: refresh engine v3",
-    "WS11: versioned public API v1",
-    "WS12: research interface rebuild",
-    "WS13: export and reproducibility",
-    "WS14: security, RLS and access model",
-    "WS15: performance and storage hardening",
-    "WS16: testing and clean-clone reproduction",
-    "WS17: documentation and operations",
-    "WS18: final validation and delivery"
+  "foundation_block_workstreams_remaining": [
+    "WS6: national canonical market marts refactor -- should incorporate the POA jurisdiction-attribution gap and VIC rent architecture gap identified in WS1",
+    "WS8: field-level data lineage -- should build on the real lineage columns WS4 added as a proof of pattern",
+    "WS9: automated data-quality monitoring -- should incorporate the future-reference-period rule WS1 already justified",
+    "WS10: national refresh engine v3 -- should come last, depends on WS6/WS8/WS9 structures existing first"
   ],
-  "ws1_findings": [
-    { "id": "stale_population_growth_docs", "status": "fixed_ws1" },
-    { "id": "confidence_conflates_direct_and_derived", "status": "flagged_for_ws4_ws8" },
-    { "id": "future_reference_period_nsw_sales", "status": "flagged_for_ws9" },
-    { "id": "poa_geography_has_no_state_code", "status": "worked_around_in_audit_script_flagged_for_ws6" },
-    { "id": "vic_rent_bypasses_shared_fact_table", "status": "fixed_doc_ws1_flagged_for_ws6_backfill" }
-  ],
-  "ws2_outcomes": {
-    "meta_jurisdiction_gaps_closed": ["TAS", "ACT", "NT"],
-    "new_source": {
-      "id": "abs_total_value_dwellings",
-      "dataset_id": "abs_tvd_tas_act_nt_gccsa",
-      "publisher": "Australian Bureau of Statistics",
-      "catalogue_number": "6432.0",
-      "geography_grain": "GCCSA (capital city / rest of state)",
-      "rows_loaded": 928,
-      "jurisdictions": ["TAS", "NT", "ACT"],
-      "note": "successor to the discontinued 'Residential Property Price Indexes: Eight Capital Cities' (ceased Dec 2021 issue)"
+  "session_totals": {
+    "new_migrations": ["025", "026", "027", "028", "029"],
+    "new_fact_rows": {
+      "core.fact_residential_sales_summary_tas_act_nt": 928,
+      "core.dim_geography_2016_editions": 17974,
+      "core.bridge_geography_correspondence_2016_2021": 18616,
+      "mart_demographic_profile_rows_updated": 17974,
+      "core.fact_dwelling_construction_activity": 6390
     },
-    "tas_rent_status": "blocked_access, live-reconfirmed via real browser navigation to CBOS Tasmania (Cloudflare challenge, HTTP 403)",
-    "act_nt_rent_status": "unavailable, unchanged from Sprint 11 WS2 (zero results on official open-data portals)",
-    "all_8_jurisdictions_now_have_real_market_data": true
+    "new_tests": 13,
+    "total_tests": 85
   },
   "validation_status": {
     "npm_run_warehouse_check": "pass",
-    "npm_test": { "result": "pass", "tests": 72 },
+    "npm_test": { "result": "pass", "tests": 85 },
     "npm_run_lint": { "result": "pass", "errors": 0, "warnings": 6 },
     "npm_run_build": "pass",
-    "github_actions": "green on all 4 pushed commits",
+    "github_actions": "green on all 7 commits pushed this session",
     "production_touched": false,
     "raw_data_committed": false,
     "secrets_committed": false,
-    "branch_storage_mb_before": 2634.1,
-    "branch_storage_change": "negligible (928 rows, kilobytes)",
+    "branch_storage_mb_phase0": 2634.1,
+    "branch_storage_mb_now": 2663.8,
+    "branch_storage_delta_mb": 29.7,
     "branch_budget_mb": 3375,
-    "branch_budget_fraction_used": "well under 75%"
+    "branch_budget_fraction_used": 0.789
   },
   "active_process_status": "none -- no running processes, no open transactions, no lock files held",
   "unfinished_files": [],
-  "database_changes_this_session": [
-    "migration 025: registered TAS/NT/ACT in meta.jurisdiction",
-    "migration 026: set their status to sales_only",
-    "928 rows inserted into core.fact_residential_sales_summary (dataset_id=abs_tvd_tas_act_nt_gccsa)",
-    "all additive, all on warehouse-validation only, all independently re-verified live after commit"
-  ],
-  "exact_next_command": "node warehouse/scripts/audit/build_national_coverage_registry.mjs  # re-run to refresh ground truth before starting the next workstream",
-  "exact_resume_prompt": "Continue Sprint 12 from the checkpoint in warehouse/reports/sprint12_checkpoint.md. Read it and sprint12_delivery_plan.md first. Resume with Workstream 4 (2016-2021 boundary reconciliation -- note much of this may already be done, see the checkpoint's 'exact_next_command' guidance) or Workstream 3 (national demand/supply expansion -- internal migration and dwelling commencements/completions are the identified gaps), whichever fits better once you've re-read the current state. Continue autonomously through the remaining workstreams per the original Sprint 12 mission, checkpointing again if context runs low.",
-  "known_blockers": "none blocking further work -- TAS rent is a confirmed, live-reconfirmed genuine source-access blocker per this project's no-bypass rule, documented not worked around, and does not block any other workstream"
+  "exact_next_command": "node warehouse/scripts/audit/build_national_coverage_registry.mjs  # re-run to refresh ground truth before starting WS6",
+  "exact_resume_prompt": "Continue Sprint 12 from the checkpoint in warehouse/reports/sprint12_checkpoint.md. Read it first. Resume with Workstream 6 (national canonical market marts) -- WS3 and WS4 are both complete. Incorporate the 2 concrete fixes already identified (POA jurisdiction-attribution gap from WS1, VIC rent architecture gap from WS1) as part of the mart refactor. Continue autonomously through WS8, WS9, WS10 per the original Foundation Block mission, checkpointing again if context runs low.",
+  "known_blockers": "none blocking further work -- TAS rent (Cloudflare-blocked, live-reconfirmed) and ABS internal migration (stale latest-release, not confirmed current) are both genuine documented gaps, neither blocks WS6/WS8/WS9/WS10"
 }
