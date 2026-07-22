@@ -9,6 +9,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "warehouse:check": "node warehouse/scripts/quality/check_warehouse_files.mjs",
+    "warehouse:rls:check": "node warehouse/scripts/quality/check_rls_policies.mjs",
     "warehouse:refresh": "node warehouse/scripts/orchestration/refresh_engine_v2.mjs",
     "warehouse:refresh:plan": "node warehouse/scripts/orchestration/refresh_engine_v3.mjs --plan",
     "warehouse:refresh:dry-run": "node warehouse/scripts/orchestration/refresh_engine_v3.mjs --dry-run",
