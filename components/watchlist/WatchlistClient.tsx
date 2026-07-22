@@ -8,6 +8,12 @@ import {
   type WatchlistItem,
 } from "@/lib/supabase/watchlist";
 import { GeographySearchBox } from "@/components/research/GeographySearchBox";
+import {
+  listChangeEvents,
+  markChangeEventRead,
+  refreshWatchlistChanges,
+  type WatchlistChangeEvent,
+} from "@/lib/supabase/watchlistChangeEvents";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -108,6 +114,8 @@ export function WatchlistClient({ geographySearchEnabled = false }: { geographyS
     geographyCode: string;
     geographyType: "SAL" | "POA";
   } | null>(null);
+  const [changeEvents, setChangeEvents] = useState<WatchlistChangeEvent[]>([]);
+  const [changesLoading, setChangesLoading] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -121,6 +129,25 @@ export function WatchlistClient({ geographySearchEnabled = false }: { geographyS
     }
     void load();
   }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    async function loadChanges() {
+      setChangesLoading(true);
+      // On-demand check, triggered by visiting the watchlist — no cron/
+      // scheduled function involved (see refresh-changes route comment).
+      await refreshWatchlistChanges();
+      const res = await listChangeEvents();
+      if (res.ok) setChangeEvents(res.events);
+      setChangesLoading(false);
+    }
+    void loadChanges();
+  }, [user]);
+
+  async function handleMarkRead(id: string) {
+    setChangeEvents((prev) => prev.map((e) => (e.id === id ? { ...e, read: true } : e)));
+    await markChangeEventRead(id);
+  }
 
   async function handleAddSuburb(e: React.FormEvent) {
     e.preventDefault();
@@ -196,6 +223,46 @@ export function WatchlistClient({ geographySearchEnabled = false }: { geographyS
             Track properties and suburbs you are watching.
           </p>
         </header>
+
+        {/* What changed? */}
+        {changesLoading ? (
+          <div className="mb-8 flex items-center gap-2 text-xs text-zinc-500">
+            <span className="size-3 animate-spin rounded-full border-2 border-violet-800 border-t-violet-400" aria-hidden />
+            Checking for updates…
+          </div>
+        ) : changeEvents.length > 0 ? (
+          <section className="mb-8 rounded-xl border border-violet-500/30 bg-violet-950/15 p-5">
+            <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-violet-300">
+              What changed? ({changeEvents.filter((e) => !e.read).length} unread)
+            </h2>
+            <ul className="space-y-2">
+              {changeEvents.slice(0, 10).map((event) => (
+                <li
+                  key={event.id}
+                  className={`flex items-start justify-between gap-3 rounded-lg border px-3 py-2 text-xs ${
+                    event.read ? "border-zinc-800 bg-zinc-900/30 text-zinc-500" : "border-violet-500/25 bg-zinc-900/60 text-zinc-200"
+                  }`}
+                >
+                  <div>
+                    <p>{event.description}</p>
+                    <p className="mt-0.5 text-[10px] text-zinc-600">
+                      {new Date(event.created_at).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}
+                    </p>
+                  </div>
+                  {!event.read && (
+                    <button
+                      type="button"
+                      onClick={() => handleMarkRead(event.id)}
+                      className="shrink-0 text-[10px] text-violet-400 hover:text-violet-300"
+                    >
+                      Mark read
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         {/* Add suburb form */}
         <section className="mb-8 rounded-xl border border-zinc-700/60 bg-zinc-900/60 p-5">
