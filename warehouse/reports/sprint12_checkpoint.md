@@ -1,19 +1,16 @@
-# Sprint 12 Checkpoint — Foundation Block COMPLETE
+# Sprint 12 Checkpoint — Foundation Block + WS11-13 COMPLETE
 
-All 6 Foundation Block workstreams (WS3, WS4, WS6, WS8, WS9, WS10) are
-done, committed, pushed, CI-green, and independently re-verified —
-including a full validation pass from a clean disposable clone. See
-`warehouse/reports/sprint12_foundation_block_report.md` for the full
-final report.
+Foundation Block (WS3/WS4/WS6/WS8/WS9/WS10) plus WS11 (public API v1),
+WS12 (research interface), and WS13 (export/reproducibility) are all
+done, committed, pushed, CI-green, and independently re-verified.
 
 ## Branch and commit
 
 - Branch: `feature/national-residential-research-platform-v1`
-- Latest commit: `8b2ebac`
-- GitHub Actions: green on every pushed commit this session, most
-  recently `8b2ebac` (run `29912780903`, watched to completion)
+- Latest commit: `9556e18`
+- GitHub Actions: green on every pushed commit this session
 
-## Foundation Block: all 6 workstreams complete
+## Completed this extended session
 
 1. WS4 — 2016-2021 boundary reconciliation (`83db10e`)
 2. WS3 — national demand/supply context (`6d6e17e`)
@@ -21,60 +18,62 @@ final report.
 4. WS8 — field-level data lineage (`6942d79`)
 5. WS9 — automated data-quality/freshness monitoring (`45077ce`)
 6. WS10 — national refresh engine v3 (`8b2ebac`)
+7. WS11 — versioned public API v1 (`42b3816`)
+8. WS12 — research interface rebuild (`27df613`)
+9. WS13 — export and reproducibility (`9556e18`)
+
+## What WS11-13 added (beyond the Foundation Block)
+
+- `/api/v1/*` — 10 route handlers (search, snapshot, timeseries, compare,
+  map-markers, metrics/.../lineage, quality, freshness, export, discovery
+  root), gated behind a new `PUBLIC_API_V1_ENABLED` flag, consistent
+  `{data,meta}`/`{error,meta}` envelope.
+- 2 new public views + 2 new/modified RPCs
+  (`v_metric_lineage_v1`, `v_quality_summary_v1`, `get_metric_lineage_v1`,
+  `get_market_snapshot_v2` extended with `population_growth_2016_2021_pct`).
+- UI: "About this metric" lineage panels + a newly-visible population
+  growth metric card (a real gap found and fixed — the data existed since
+  WS4/WS6 but was never selected by the RPC the UI actually calls) +
+  "Export CSV"/"Export JSON" links, all live-verified via a real browser
+  session and live curl tests, not just build-time checks.
 
 ## Final validation
 
-- 148/148 tests pass locally; 140/148 + 8 correctly-skipped from a clean
-  disposable clone.
-- `npm ci`/`warehouse:check`/`lint`/`build`: all pass, both locally and in
-  the clean clone.
-- `warehouse:quality:check`: 0 blocking failures (3 documented advisory).
-- `warehouse:lineage:check`: 100% (88/88).
-- `warehouse:freshness`: all 7 tracked datasets have a populated status.
-- `warehouse:refresh:dry-run` / `--validate`: both live-verified, zero
-  writes, zero blocking quality failures on current branch state.
-- All 36 tracked migrations apply sequentially with no gaps.
-- Production (`oshquaxsloolqucwvigc`): zero warehouse schema tables,
-  re-confirmed as the very last action before this checkpoint.
-- No raw data or secrets tracked (confirmed via a completely fresh clone).
+- 161/161 tests pass locally (37 new across WS9-WS13).
+- `npm run build`/`lint`/`warehouse:check`: all pass, 0 lint errors, 6
+  pre-existing warnings (unchanged).
+- Live-verified via real dev-server sessions: quality/freshness/lineage/
+  export API endpoints all curled for real; the Lindfield suburb page
+  browser-tested end-to-end (About-this-metric panel, population growth
+  card, no console errors).
+- Production (`oshquaxsloolqucwvigc`): zero warehouse schema objects,
+  re-confirmed as the final action of this session.
+- No raw data or secrets tracked.
 
-## Branch storage
+## Real defects found and fixed this extended session (not just detected)
 
-2,673.0 MB — 59.4% of the 4,500 MB ceiling, 79.2% of Sprint 12's own 75%
-budget. See `sprint12_foundation_capacity_report.md` for the full
-breakdown.
-
-## Final reports (all written this session)
-
-- `sprint12_foundation_block_report.{md,json}` — the master report
-- `sprint12_foundation_known_gaps.md`
-- `sprint12_foundation_capacity_report.md`
-- `sprint12_quality_summary.md`
-- `sprint12_refresh_engine_report.md`
-- `sprint12_cross_border_anomaly_report.md`
-- Per-workstream reports: `sprint12_ws{3,4,6,8,9,10}_*.md`
+- WS9: the exact 2032-future-date bug WS1 flagged was actively corrupting
+  2 published wide-snapshot rows — quarantined and recomputed from real data.
+- WS9: an overly-tight population-growth threshold was corrected after
+  verifying flagged suburbs were genuine growth-corridor developments.
+- WS9: a Postgres `NULL <> NULL` uniqueness gap in the lineage registry.
+- WS10: a silent id-namespace mismatch that would have made `--stale`
+  selection permanently return zero results.
+- WS10: 5 real Sprint-12 datasets had zero orchestrator awareness.
+- WS12: population growth data existed in the mart since WS4/WS6 but was
+  invisible in the UI because the RPC never selected the column.
 
 ## What's next
 
-Per the original Sprint 12 mission, the Foundation Block (WS3/4/6/8/9/10)
-is explicitly scoped as complete. Remaining Sprint 12 workstreams (WS5
-research evidence catalogue, WS7 Scenario Lab, WS11 versioned public API,
-WS12 UI rebuild, WS13 exports, WS14-18 security/performance/testing/docs/
-final delivery) were out of scope for the Foundation Block mission and
-were not started. Recommended next: **WS11 (versioned public API v1)** —
-see the master report's "exact recommended next workstream" section for
-the reasoning.
-
-## Active process status
-
-None. No running background processes, no open database transactions, no
-lock files held (the WS10 orchestrator's lock file was never acquired
-this session — only `--plan`/`--dry-run`/`--validate` modes were run live).
+Remaining Sprint 12 workstreams not covered this session: WS5 (research
+evidence catalogue), WS7 (Scenario Lab), WS14 (security/RLS/access model),
+WS15 (performance/storage hardening), WS16 (testing/clean-clone
+reproduction — partially covered ad hoc by WS9/WS10/WS11's clean-clone
+and live verification, but not a dedicated workstream pass), WS17
+(documentation/operations), WS18 (final validation/delivery).
 
 ## Known blockers
 
-None blocking further Sprint 12 work. See
-`sprint12_foundation_known_gaps.md` for the complete, honest list of
-external data-availability limits, deferred architecture questions, and
-tracked-but-advisory anomalies — none of them block starting WS11 or any
-other subsequent workstream.
+None. See `sprint12_foundation_known_gaps.md` for the full, still-current
+list of external data-availability limits and tracked-but-advisory
+anomalies.
