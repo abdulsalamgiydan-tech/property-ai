@@ -16,6 +16,8 @@ export type YearlyAmortisationPoint = {
   closingBalance: number;
   annualInterest: number;
   annualPrincipal: number;
+  /** Interest due in the 12 months after this balance point. */
+  nextYearAnnualInterest: number;
 };
 
 export function monthlyPiRepayment(
@@ -44,10 +46,12 @@ export function buildAmortisationScheduleYearly(
     ? 0
     : monthlyPiRepayment(loan, interestRatePercent, totalMonths);
 
-  const points: YearlyAmortisationPoint[] = [];
+  const points: Omit<YearlyAmortisationPoint, "nextYearAnnualInterest">[] = [];
   let balance = Math.max(0, loan);
 
-  for (let y = 0; y <= years; y++) {
+  // Cashflow at projection year N uses the finance cost from schedule year N + 1.
+  // Calculate one internal look-ahead year without exposing an extra chart point.
+  for (let y = 0; y <= years + 1; y++) {
     const opening = balance;
     let annualInterest = 0;
     let annualPrincipal = 0;
@@ -78,7 +82,10 @@ export function buildAmortisationScheduleYearly(
     });
   }
 
-  return points;
+  return points.slice(0, years + 1).map((point, index) => ({
+    ...point,
+    nextYearAnnualInterest: points[index + 1]?.annualInterest ?? 0,
+  }));
 }
 
 /**
@@ -227,9 +234,9 @@ export function buildCashflowProjectionSeries(params: {
     const pmFeeYear = annualRent * (pmFeePercent / 100);
     const annualExpensesYear = annualExpenses * Math.pow(1 + eg, p.year) + pmFeeYear;
 
-    const next = p.year + 1;
     const annualInterest =
-      next <= lastIdx ? amortisation[next].annualInterest : 0;
+      p.nextYearAnnualInterest ??
+      (p.year + 1 <= lastIdx ? amortisation[p.year + 1].annualInterest : 0);
 
     const preTaxCashflow = annualRent - annualInterest - annualExpensesYear;
 
@@ -300,9 +307,9 @@ export function buildCashflowProjectionSeriesBudget2026(params: {
     const pmFeeYear = annualRent * (pmFeePercent / 100);
     const annualExpensesYear = annualExpenses * Math.pow(1 + eg, p.year) + pmFeeYear;
 
-    const next = p.year + 1;
     const annualInterest =
-      next <= lastIdx ? amortisation[next].annualInterest : 0;
+      p.nextYearAnnualInterest ??
+      (p.year + 1 <= lastIdx ? amortisation[p.year + 1].annualInterest : 0);
 
     const preTaxCashflow = annualRent - annualInterest - annualExpensesYear;
 
