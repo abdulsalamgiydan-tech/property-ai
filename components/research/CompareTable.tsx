@@ -1,10 +1,12 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { StateBadge } from "@/components/research/StateBadge";
 import { ConfidenceBadge } from "@/components/research/ConfidenceBadge";
 import { AboutThisMetric } from "@/components/research/AboutThisMetric";
 import { moveGeographyId } from "@/lib/research/compareOrder";
+import { trackEvent } from "@/lib/analytics/events";
 import {
   formatMoneyOrUnavailable as money,
   formatPercentOrUnavailable as pct,
@@ -40,6 +42,13 @@ const METRIC_ROWS: { label: string; render: (r: CompareRow) => React.ReactNode }
  */
 export function CompareTable({ rows, orderedIds }: { rows: CompareRow[]; orderedIds: string[] }) {
   const router = useRouter();
+  const trackedRef = useRef(false);
+
+  useEffect(() => {
+    if (trackedRef.current) return; // fire once per mount, not on every reorder re-render
+    trackedRef.current = true;
+    trackEvent({ name: "comparison_created", geographyCount: rows.length });
+  }, [rows.length]);
 
   function reorder(index: number, direction: -1 | 1) {
     const next = moveGeographyId(orderedIds, index, direction);

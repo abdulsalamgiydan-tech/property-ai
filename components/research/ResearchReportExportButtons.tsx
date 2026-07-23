@@ -2,6 +2,7 @@
 
 import { downloadBlob } from "@/lib/export/downloadBlob";
 import { reportBundleToCsv, reportBundleToJson, type ResearchReportBundle } from "@/lib/export/researchReport";
+import { trackEvent } from "@/lib/analytics/events";
 
 /**
  * Sprint 13 WS16 — combined investment-research report export (area
@@ -17,21 +18,30 @@ export function ResearchReportExportButtons({ bundle, filenameBase }: { bundle: 
     <div className="flex flex-wrap items-center gap-2 print:hidden">
       <button
         type="button"
-        onClick={() => downloadBlob(reportBundleToCsv(bundle), `${filenameBase}-report-${timestamp}.csv`, "text/csv;charset=utf-8")}
+        onClick={() => {
+          downloadBlob(reportBundleToCsv(bundle), `${filenameBase}-report-${timestamp}.csv`, "text/csv;charset=utf-8");
+          trackEvent({ name: "export_generated", exportType: "csv", surface: filenameBase });
+        }}
         className="rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-1.5 text-xs font-medium text-zinc-300 transition hover:border-zinc-600 hover:text-zinc-100"
       >
         Download report (CSV)
       </button>
       <button
         type="button"
-        onClick={() => downloadBlob(reportBundleToJson(bundle), `${filenameBase}-report-${timestamp}.json`, "application/json")}
+        onClick={() => {
+          downloadBlob(reportBundleToJson(bundle), `${filenameBase}-report-${timestamp}.json`, "application/json");
+          trackEvent({ name: "export_generated", exportType: "json", surface: filenameBase });
+        }}
         className="rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-1.5 text-xs font-medium text-zinc-300 transition hover:border-zinc-600 hover:text-zinc-100"
       >
         Download report (JSON)
       </button>
       <button
         type="button"
-        onClick={() => window.print()}
+        onClick={() => {
+          trackEvent({ name: "export_generated", exportType: "print", surface: filenameBase });
+          window.print();
+        }}
         className="rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-1.5 text-xs font-medium text-zinc-300 transition hover:border-zinc-600 hover:text-zinc-100"
       >
         Print / Save as PDF

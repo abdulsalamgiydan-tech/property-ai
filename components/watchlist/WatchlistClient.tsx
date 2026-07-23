@@ -8,6 +8,7 @@ import {
   type WatchlistItem,
 } from "@/lib/supabase/watchlist";
 import { GeographySearchBox } from "@/components/research/GeographySearchBox";
+import { trackEvent } from "@/lib/analytics/events";
 import {
   listChangeEvents,
   markChangeEventRead,
@@ -166,6 +167,10 @@ export function WatchlistClient({ geographySearchEnabled = false }: { geographyS
     });
     setAdding(false);
     if (!res.ok) { setAddError(res.message); return; }
+    trackEvent({
+      name: "area_saved",
+      geographyType: geographyLink?.geographyType === "SAL" ? "suburb" : geographyLink?.geographyType === "POA" ? "postcode" : null,
+    });
     // Refresh list
     const listRes = await listWatchlistItems();
     if (listRes.ok) setItems(listRes.items);

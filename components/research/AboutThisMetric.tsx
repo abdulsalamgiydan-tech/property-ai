@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { METRIC_GLOSSARY, type MetricFamily } from "@/lib/warehouse/metricGlossary";
+import { trackEvent } from "@/lib/analytics/events";
 
 type LineageData = {
   found: boolean;
@@ -47,6 +48,7 @@ export function AboutThisMetric({
       return;
     }
     setOpen(true);
+    trackEvent({ name: "metric_explanation_opened", metricFamily });
     if (data || loading) return;
     setLoading(true);
     setError(null);

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { StateBadge } from "@/components/research/StateBadge";
 import { addRecentSearch, getRecentSearches, type RecentSearchEntry } from "@/lib/research/recentSearches";
+import { trackEvent } from "@/lib/analytics/events";
 import type { GeographySearchResultV2 } from "@/lib/warehouse/queries";
 
 const DEBOUNCE_MS = 300;
@@ -84,9 +85,11 @@ export function GeographySearchBox({
         const data = (await res.json()) as { results: GeographySearchResultV2[] };
         setResults(data.results ?? []);
         setActiveIndex(-1);
+        trackEvent({ name: "search_performed", query: query.trim(), resultCount: data.results?.length ?? 0 });
       } catch {
         setError(true);
         setResults([]);
+        trackEvent({ name: "error_encountered", surface: "geography_search", errorKind: "fetch_failed" });
       } finally {
         setLoading(false);
       }

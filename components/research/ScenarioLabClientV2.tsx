@@ -18,6 +18,7 @@ import { saveScenarioCase } from "@/lib/supabase/scenarioLabCases";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { ResearchReportExportButtons } from "@/components/research/ResearchReportExportButtons";
 import { buildResearchReportBundle } from "@/lib/export/researchReport";
+import { trackEvent } from "@/lib/analytics/events";
 
 type ScenarioCase = {
   id: string;
@@ -122,6 +123,7 @@ export function ScenarioLabClientV2({
       scenarioJson: computeOutputs(c),
     });
     setSaveStatus((prev) => ({ ...prev, [c.id]: result.ok ? "saved" : "error" }));
+    if (result.ok) trackEvent({ name: "scenario_calculated", geographyCode, caseCount: cases.length });
   }
 
   function computeOutputs(c: ScenarioCase) {

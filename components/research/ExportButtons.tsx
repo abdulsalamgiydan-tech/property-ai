@@ -3,6 +3,7 @@
 import React from "react";
 import { csvCell } from "@/lib/export/csvSafety";
 import { downloadBlob } from "@/lib/export/downloadBlob";
+import { trackEvent } from "@/lib/analytics/events";
 
 export type ExportColumnDef = { key: string; label: string };
 export type ExportRow = Record<string, string | number | null>;
@@ -37,6 +38,7 @@ export function ExportButtons({ rows, columns, filenameBase, generatedAt, proven
     const lines = rows.map((r) => columns.map((c) => csvCell(r[c.key] ?? null)).join(","));
     const provenance = provenanceNote ? `# ${provenanceNote}\n` : "";
     downloadBlob(`${provenance}${header}\n${lines.join("\n")}\n`, `${filenameBase}-${timestamp}.csv`, "text/csv;charset=utf-8");
+    trackEvent({ name: "export_generated", exportType: "csv", surface: filenameBase });
   }
 
   function exportJson() {
@@ -47,6 +49,7 @@ export function ExportButtons({ rows, columns, filenameBase, generatedAt, proven
       rows,
     };
     downloadBlob(JSON.stringify(payload, null, 2), `${filenameBase}-${timestamp}.json`, "application/json");
+    trackEvent({ name: "export_generated", exportType: "json", surface: filenameBase });
   }
 
   return (
@@ -67,7 +70,10 @@ export function ExportButtons({ rows, columns, filenameBase, generatedAt, proven
       </button>
       <button
         type="button"
-        onClick={() => window.print()}
+        onClick={() => {
+          trackEvent({ name: "export_generated", exportType: "print", surface: filenameBase });
+          window.print();
+        }}
         className="rounded-lg border border-zinc-700 bg-zinc-900/60 px-3 py-1.5 text-xs font-medium text-zinc-300 transition hover:border-zinc-600 hover:text-zinc-100"
       >
         Print / Save as PDF
