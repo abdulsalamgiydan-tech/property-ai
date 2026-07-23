@@ -51,6 +51,16 @@ export default async function ScenarioLabPage({ params }: { params: Promise<{ ge
           medianWeeklyHouseholdIncome={snapshot.median_weekly_household_income}
           baselineRatePercent={snapshot.rba_rate_used}
           baselineRatePeriod={snapshot.rba_rate_period}
+          salesConfidence={snapshot.sales_sample_confidence}
+          rentConfidence={snapshot.rent_confidence}
+          yieldConfidence={snapshot.yield_confidence}
+          affordabilityConfidence={snapshot.affordability_confidence}
+          dwellingStockTotal={snapshot.dwelling_stock_total}
+          approvals12m={snapshot.approvals_12m}
+          totalPopulation={snapshot.total_population}
+          priceToIncomeRatio={snapshot.price_to_income_ratio}
+          latestSalesPeriod={snapshot.latest_sales_period}
+          latestRentPeriod={snapshot.latest_rent_period}
         />
       </SectionCard>
     </div>

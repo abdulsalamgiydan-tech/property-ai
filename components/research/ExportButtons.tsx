@@ -2,6 +2,7 @@
 
 import React from "react";
 import { csvCell } from "@/lib/export/csvSafety";
+import { downloadBlob } from "@/lib/export/downloadBlob";
 
 export type ExportColumnDef = { key: string; label: string };
 export type ExportRow = Record<string, string | number | null>;
@@ -13,18 +14,6 @@ type ExportButtonsProps = {
   generatedAt?: string;
   provenanceNote?: string;
 };
-
-function downloadBlob(content: string, filename: string, mimeType: string) {
-  const blob = new Blob([content], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
 
 /**
  * Client-side CSV/JSON export + print trigger for a research table. No

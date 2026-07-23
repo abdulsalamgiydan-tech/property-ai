@@ -16,6 +16,8 @@ import { formatMoneyOrUnavailable, formatPercentOrUnavailable } from "@/lib/ware
 import { AboutThisMetric } from "@/components/research/AboutThisMetric";
 import { saveScenarioCase } from "@/lib/supabase/scenarioLabCases";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { ResearchReportExportButtons } from "@/components/research/ResearchReportExportButtons";
+import { buildResearchReportBundle } from "@/lib/export/researchReport";
 
 type ScenarioCase = {
   id: string;
@@ -57,6 +59,16 @@ export function ScenarioLabClientV2({
   medianWeeklyHouseholdIncome,
   baselineRatePercent,
   baselineRatePeriod,
+  salesConfidence = null,
+  rentConfidence = null,
+  yieldConfidence = null,
+  affordabilityConfidence = null,
+  dwellingStockTotal = null,
+  approvals12m = null,
+  totalPopulation = null,
+  priceToIncomeRatio = null,
+  latestSalesPeriod = null,
+  latestRentPeriod = null,
 }: {
   geographyId: string;
   geographyCode: string;
@@ -66,6 +78,16 @@ export function ScenarioLabClientV2({
   medianWeeklyHouseholdIncome: number | null;
   baselineRatePercent: number | null;
   baselineRatePeriod: string | null;
+  salesConfidence?: string | null;
+  rentConfidence?: string | null;
+  yieldConfidence?: string | null;
+  affordabilityConfidence?: string | null;
+  dwellingStockTotal?: number | null;
+  approvals12m?: number | null;
+  totalPopulation?: number | null;
+  priceToIncomeRatio?: number | null;
+  latestSalesPeriod?: string | null;
+  latestRentPeriod?: string | null;
 }) {
   const { user } = useAuth();
   const [cases, setCases] = useState<ScenarioCase[]>(() => defaultCases(baselineRatePercent ?? 6.0));
@@ -325,6 +347,45 @@ export function ScenarioLabClientV2({
           );
         })}
       </div>
+
+      <ResearchReportExportButtons
+        filenameBase={`propellect-scenario-${geographyCode}`}
+        bundle={buildResearchReportBundle({
+          area: {
+            geographyLabel,
+            geographyCode,
+            medianSalePrice12m: medianSalePrice,
+            salesConfidence,
+            medianWeeklyRent: medianWeeklyRentLatest,
+            rentConfidence,
+            grossYieldPct: medianWeeklyRentLatest != null ? calculateGrossYieldPct(medianWeeklyRentLatest, medianSalePrice) : null,
+            yieldConfidence,
+            dwellingStockTotal,
+            approvals12m,
+            totalPopulation,
+            medianWeeklyHouseholdIncome,
+            priceToIncomeRatio,
+            affordabilityConfidence,
+            latestSalesPeriod,
+            latestRentPeriod,
+          },
+          scenarios: cases.map((c) => {
+            const out = computeOutputs(c);
+            return {
+              label: c.label,
+              depositPercent: c.depositPercent,
+              loanTermYears: c.termYears,
+              interestRatePercent: c.ratePercent,
+              vacancyPercent: c.vacancyPercent,
+              annualExpenses: c.annualExpenses,
+              loanAmount: out.principal,
+              monthlyRepayment: out.monthlyRepayment,
+              netAnnualCashflow: out.netAnnualCashflow,
+              breakEvenWeeklyRent: out.breakEvenWeeklyRent,
+            };
+          }),
+        })}
+      />
 
       <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-3 text-[11px] leading-relaxed text-zinc-500">
         <p className="mb-1 font-semibold text-zinc-400">Sourced vs. assumed</p>
