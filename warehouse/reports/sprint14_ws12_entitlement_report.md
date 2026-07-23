@@ -84,10 +84,14 @@ more" instead of a raw Postgres error or a generic "Save failed."
 `npm run warehouse:rls:check` — all pass. Migration 041 is additive
 only (verified: no `DROP`/`TRUNCATE`/`DELETE`, asserted by its own test).
 
-## Production migration — requires your explicit approval before I apply it
+## Production migration — applied, with your explicit approval
 
-Migration 041 has NOT been applied to production yet. Per this
-project's established pattern (Sprint 13 WS21), applying it requires
-your explicit approval, since Production is the only live instance of
-the main-app schema `scenario_lab_cases` belongs to (no safe non-prod
-branch exists for this schema, documented since Sprint 13 WS8).
+Migration 041 was applied to production after your explicit approval.
+Independently re-verified via live queries (not trusting the tool's own
+success message):
+- `pg_trigger`: `enforce_scenario_lab_case_limit` exists on
+  `scenario_lab_cases`, enabled (`tgenabled = 'O'`).
+- `pg_proc`: `prosecdef = false` — confirmed running as SECURITY
+  INVOKER, not DEFINER, matching the design.
+- Security advisor (`get_advisors`, type=security): identical warning
+  set to before applying the migration — zero new issues introduced.
