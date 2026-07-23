@@ -33,6 +33,25 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
+/** Short, safe (no internals) guidance per status — never a raw error or a connection detail. */
+const MANUAL_ACTION_HINTS: Record<string, string> = {
+  failed: "Investigate last failure, then re-run the build/validate step.",
+  blocked: "Source access blocked at origin — requires a manual, documented workaround decision.",
+  source_unavailable: "Check if the official source has returned; no action possible until then.",
+  validation_failed: "Data was retrieved but failed a quality gate — review before promoting.",
+  stale: "Overdue for refresh — schedule a run when convenient.",
+  due: "Due for refresh on its normal cadence.",
+}; // "current", "branch_published", "local_only", "unsupported", "manual_review",
+// "partially_covered" intentionally omitted — no action needed.
+
+function manualActionFor(status: string): string | null {
+  return MANUAL_ACTION_HINTS[status] ?? null;
+}
+
+function formatTimestamp(value: string | null): string {
+  return value ? new Date(value).toLocaleString("en-AU") : "n/a";
+}
+
 export default async function DataStatusPage() {
   // Gated by both the base warehouse preview flag (parent layout already
   // enforces this; redundant defence-in-depth) and DATA_OPERATIONS_ENABLED
@@ -41,6 +60,7 @@ export default async function DataStatusPage() {
   if (!isWarehousePreviewEnabled() || !isDataOperationsEnabled()) notFound();
 
   const [rows, summary, runHistory] = await Promise.all([getDatasetFreshness(), getOperationsSummary(), getRefreshRunHistory()]);
+  const datasetsWithRuns = new Set(runHistory.map((r) => r.dataset_id));
 
   return (
     <div className="space-y-6">
@@ -48,8 +68,9 @@ export default async function DataStatusPage() {
         <h1 className="text-2xl font-semibold text-zinc-100">Data operations console</h1>
         <p className="mt-1 text-sm text-zinc-400">
           Per-dataset freshness, refresh-run history and storage consumption for the
-          datasets feeding this research preview. No local file paths, credentials, or
-          internal identifiers are shown here.
+          datasets feeding this research preview. Run IDs shown here are non-secret
+          identifiers for cross-referencing a run; no local file paths, credentials or
+          connection details are shown here or ever will be.
         </p>
       </div>
 
@@ -106,9 +127,13 @@ export default async function DataStatusPage() {
                   <th className="py-2 pr-4">Dataset</th>
                   <th className="py-2 pr-4">Publisher</th>
                   <th className="py-2 pr-4">Status</th>
+                  <th className="py-2 pr-4">Latest source period</th>
+                  <th className="py-2 pr-4">Last retrieved</th>
+                  <th className="py-2 pr-4">Last validated</th>
                   <th className="py-2 pr-4">Expected cadence</th>
                   <th className="py-2 pr-4">Branch rows</th>
                   <th className="py-2 pr-4">Coverage</th>
+                  <th className="py-2 pr-4">Manual action</th>
                   <th className="py-2 pr-4">Source</th>
                 </tr>
               </thead>
@@ -124,15 +149,30 @@ export default async function DataStatusPage() {
                             last failure recorded
                           </span>
                         ) : null}
+                        {datasetsWithRuns.has(r.dataset_id) ? (
+                          <a href="#run-history" className="text-[11px] text-violet-300 hover:underline">
+                            view runs ↓
+                          </a>
+                        ) : null}
                       </div>
                     </td>
                     <td className="py-2 pr-4 text-xs text-zinc-400">{r.publisher ?? "n/a"}</td>
                     <td className="py-2 pr-4">
                       <StatusBadge status={r.freshness_status} />
                     </td>
+                    <td className="py-2 pr-4 text-xs">{r.latest_source_period ?? "n/a"}</td>
+                    <td className="py-2 pr-4 text-xs">{formatTimestamp(r.last_retrieved_at)}</td>
+                    <td className="py-2 pr-4 text-xs">{formatTimestamp(r.last_successful_validation_at)}</td>
                     <td className="py-2 pr-4 text-xs">{r.expected_cadence_days != null ? `${r.expected_cadence_days} days` : "n/a"}</td>
                     <td className="py-2 pr-4 text-xs">{r.current_branch_row_count?.toLocaleString("en-AU") ?? "n/a"}</td>
                     <td className="py-2 pr-4 text-xs">{r.local_only_or_branch_published === "branch_published" ? "Branch-published" : "Local only"}</td>
+                    <td className="py-2 pr-4 text-xs">
+                      {manualActionFor(r.freshness_status) ? (
+                        <span className="text-amber-300">{manualActionFor(r.freshness_status)}</span>
+                      ) : (
+                        <span className="text-zinc-600">None</span>
+                      )}
+                    </td>
                     <td className="py-2 pr-4 text-xs">
                       {r.source_url ? (
                         <a href={r.source_url} target="_blank" rel="noopener noreferrer" className="text-violet-300 hover:underline">
@@ -152,10 +192,11 @@ export default async function DataStatusPage() {
 
       {runHistory.length > 0 ? (
         <SectionCard title="Refresh run history" description={`Most recent ${runHistory.length} run(s), newest first`}>
-          <div className="overflow-x-auto">
+          <div id="run-history" className="overflow-x-auto scroll-mt-20">
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="border-b border-zinc-800 text-xs uppercase tracking-wide text-zinc-500">
+                  <th className="py-2 pr-4">Run ID</th>
                   <th className="py-2 pr-4">Dataset</th>
                   <th className="py-2 pr-4">Mode</th>
                   <th className="py-2 pr-4">Target</th>
@@ -168,7 +209,10 @@ export default async function DataStatusPage() {
               </thead>
               <tbody className="text-zinc-300">
                 {runHistory.slice(0, 30).map((r) => (
-                  <tr key={r.refresh_run_id} className="border-t border-zinc-800/60 align-top">
+                  <tr key={r.refresh_run_id} id={`run-${r.refresh_run_id}`} className="border-t border-zinc-800/60 align-top">
+                    <td className="py-2 pr-4 font-mono text-[10px] text-zinc-500" title={r.refresh_run_id}>
+                      {r.refresh_run_id.slice(0, 8)}
+                    </td>
                     <td className="py-2 pr-4 text-zinc-100">{r.dataset_name ?? r.dataset_id}</td>
                     <td className="py-2 pr-4 text-xs">{r.mode}</td>
                     <td className="py-2 pr-4 text-xs">{r.target}</td>
