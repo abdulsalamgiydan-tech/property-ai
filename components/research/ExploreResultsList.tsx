@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import { StateBadge } from "@/components/research/StateBadge";
 import type { GeographySearchResultV2 } from "@/lib/warehouse/queries";
+import { EXPLORE_SORT_OPTIONS, sortExploreResults, type ExploreSortOption } from "@/lib/research/exploreSort";
 
 export function ExploreResultsList({ results }: { results: GeographySearchResultV2[] }) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [sortBy, setSortBy] = useState<ExploreSortOption>("data_first");
+  const sortedResults = useMemo(() => sortExploreResults(results, sortBy), [results, sortBy]);
 
   function toggle(id: string) {
     setSelected((prev) => {
@@ -31,8 +34,25 @@ export function ExploreResultsList({ results }: { results: GeographySearchResult
       ) : (
         <p className="text-xs text-zinc-500">Select 2-10 geographies below to compare them side by side.</p>
       )}
+      <div className="flex items-center justify-end gap-2 text-xs">
+        <label htmlFor="explore-sort" className="text-zinc-500">
+          Sort
+        </label>
+        <select
+          id="explore-sort"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as ExploreSortOption)}
+          className="rounded-lg border border-zinc-700/70 bg-zinc-950/60 px-2.5 py-1.5 text-zinc-200 focus:border-violet-500/60 focus:outline-none"
+        >
+          {EXPLORE_SORT_OPTIONS.map((opt) => (
+            <option key={opt.id} value={opt.id}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      </div>
       <ul className="divide-y divide-zinc-800/70">
-        {results.map((r) => {
+        {sortedResults.map((r) => {
           const detailHref = r.geography_type === "SAL" ? `/research/suburb/${r.geography_code}` : `/research/postcode/${r.geography_code}`;
           const checked = selected.has(r.geography_id);
           return (

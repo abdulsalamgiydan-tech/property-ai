@@ -51,6 +51,8 @@ export default async function ExplorePage({
         <EmptyState
           title="No matches"
           body="Try a different search term, or clear the state/type filters to see all available geographies."
+          linkHref={q || jurisdiction || geographyType ? "/research/explore" : undefined}
+          linkLabel={q || jurisdiction || geographyType ? "Clear all filters →" : undefined}
         />
       ) : (
         <SectionCard title="Results" description={`${results.length} match(es), up to 50 shown`}>
