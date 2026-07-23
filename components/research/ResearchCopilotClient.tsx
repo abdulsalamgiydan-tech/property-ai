@@ -103,7 +103,7 @@ export function ResearchCopilotClient({ geographyCode, geographyLabel }: { geogr
       ) : null}
 
       {status === "answered" && response ? (
-        <div className="space-y-3 rounded-xl border border-zinc-700/60 bg-zinc-950/40 p-4">
+        <div className="space-y-3 rounded-xl border border-zinc-700/60 bg-zinc-950/40 p-4" aria-live="polite">
           <p className="text-sm leading-relaxed text-zinc-100">{response.answerText}</p>
 
           {!response.grounded ? (

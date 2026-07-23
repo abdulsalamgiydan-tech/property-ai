@@ -271,41 +271,43 @@ export function WatchlistClient({ geographySearchEnabled = false }: { geographyS
                 {changesLoading ? "Checking…" : "Check now"}
               </button>
             </div>
-            {changesLoading ? (
-              <div className="flex items-center gap-2 text-xs text-zinc-500">
-                <span className="size-3 animate-spin rounded-full border-2 border-violet-800 border-t-violet-400" aria-hidden />
-                Checking for updates…
-              </div>
-            ) : changeEvents.length > 0 ? (
-              <ul className="space-y-2">
-                {changeEvents.slice(0, 10).map((event) => (
-                  <li
-                    key={event.id}
-                    className={`flex items-start justify-between gap-3 rounded-lg border px-3 py-2 text-xs ${
-                      event.read ? "border-zinc-800 bg-zinc-900/30 text-zinc-500" : "border-violet-500/25 bg-zinc-900/60 text-zinc-200"
-                    }`}
-                  >
-                    <div>
-                      <p>{event.description}</p>
-                      <p className="mt-0.5 text-[10px] text-zinc-600">
-                        {new Date(event.created_at).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}
-                      </p>
-                    </div>
-                    {!event.read && (
-                      <button
-                        type="button"
-                        onClick={() => handleMarkRead(event.id)}
-                        className="shrink-0 text-[10px] text-violet-400 hover:text-violet-300"
-                      >
-                        Mark read
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-xs text-zinc-500">No changes detected yet for your geography-linked watchlist items.</p>
-            )}
+            <div aria-live="polite">
+              {changesLoading ? (
+                <div className="flex items-center gap-2 text-xs text-zinc-500">
+                  <span className="size-3 animate-spin rounded-full border-2 border-violet-800 border-t-violet-400" aria-hidden />
+                  Checking for updates…
+                </div>
+              ) : changeEvents.length > 0 ? (
+                <ul className="space-y-2">
+                  {changeEvents.slice(0, 10).map((event) => (
+                    <li
+                      key={event.id}
+                      className={`flex items-start justify-between gap-3 rounded-lg border px-3 py-2 text-xs ${
+                        event.read ? "border-zinc-800 bg-zinc-900/30 text-zinc-500" : "border-violet-500/25 bg-zinc-900/60 text-zinc-200"
+                      }`}
+                    >
+                      <div>
+                        <p>{event.description}</p>
+                        <p className="mt-0.5 text-[10px] text-zinc-600">
+                          {new Date(event.created_at).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}
+                        </p>
+                      </div>
+                      {!event.read && (
+                        <button
+                          type="button"
+                          onClick={() => handleMarkRead(event.id)}
+                          className="shrink-0 text-[10px] text-violet-400 hover:text-violet-300"
+                        >
+                          Mark read
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-xs text-zinc-500">No changes detected yet for your geography-linked watchlist items.</p>
+              )}
+            </div>
 
             {/* Digest preview — dry-run only, never sent anywhere. See
                 lib/notifications/digestPreview.ts. */}

@@ -2333,9 +2333,15 @@ export function AnalysePropertyClient() {
                   </div>
                 </section>
 
-                <div className="flex flex-wrap gap-2 rounded-xl border border-zinc-700/60 bg-zinc-950/40 p-1">
+                <div
+                  className="flex flex-wrap gap-2 rounded-xl border border-zinc-700/60 bg-zinc-950/40 p-1"
+                  role="tablist"
+                  aria-label="Results view"
+                >
                   <button
                     type="button"
+                    role="tab"
+                    aria-selected={resultsTab === "analysis"}
                     onClick={() => setResultsTab("analysis")}
                     className={`flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:flex-none sm:px-4 ${
                       resultsTab === "analysis"
@@ -2347,6 +2353,8 @@ export function AnalysePropertyClient() {
                   </button>
                   <button
                     type="button"
+                    role="tab"
+                    aria-selected={resultsTab === "compare"}
                     onClick={() => setResultsTab("compare")}
                     className={`flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:flex-none sm:px-4 ${
                       resultsTab === "compare"
@@ -2358,6 +2366,8 @@ export function AnalysePropertyClient() {
                   </button>
                   <button
                     type="button"
+                    role="tab"
+                    aria-selected={resultsTab === "stress"}
                     onClick={() => setResultsTab("stress")}
                     className={`flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:flex-none sm:px-4 ${
                       resultsTab === "stress"

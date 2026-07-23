@@ -40,7 +40,10 @@ export function EmptyState({
       ) : null}
       {linkHref && linkLabel ? (
         <div className="mt-4">
-          <Link href={linkHref} className="text-sm text-violet-300 hover:underline">
+          <Link
+            href={linkHref}
+            className="rounded text-sm text-violet-300 hover:underline focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/35"
+          >
             {linkLabel}
           </Link>
         </div>

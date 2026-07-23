@@ -66,13 +66,18 @@ export function OnboardingClient({ nextPathRaw }: { nextPathRaw: string | null }
                   type="button"
                   onClick={() => setGoal(g.id)}
                   aria-pressed={goal === g.id}
-                  className={`w-full rounded-xl border px-4 py-2.5 text-left text-sm transition ${
+                  className={`flex w-full items-center justify-between gap-2 rounded-xl border px-4 py-2.5 text-left text-sm transition ${
                     goal === g.id
                       ? "border-violet-500 bg-violet-950/30 text-violet-100"
                       : "border-zinc-700 bg-zinc-950/40 text-zinc-300 hover:border-zinc-600"
                   }`}
                 >
                   {g.label}
+                  {goal === g.id ? (
+                    <span aria-hidden className="shrink-0 text-violet-300">
+                      ✓
+                    </span>
+                  ) : null}
                 </button>
               ))}
             </div>
@@ -95,6 +100,7 @@ export function OnboardingClient({ nextPathRaw }: { nextPathRaw: string | null }
                       : "border-zinc-700 bg-zinc-950/40 text-zinc-300 hover:border-zinc-600"
                   }`}
                 >
+                  {states.includes(s) ? <span aria-hidden>✓ </span> : null}
                   {s}
                 </button>
               ))}
