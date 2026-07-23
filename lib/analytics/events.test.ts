@@ -33,6 +33,7 @@ describe("trackEvent", () => {
       trackEvent({ name: "area_saved", geographyType: null });
       trackEvent({ name: "export_generated", exportType: "csv", surface: "scenario_lab" });
       trackEvent({ name: "error_encountered", surface: "search", errorKind: "network" });
+      trackEvent({ name: "research_copilot_answered", geographyCode: "21640", grounded: true });
     }).not.toThrow();
   });
 });

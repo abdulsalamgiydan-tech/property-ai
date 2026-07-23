@@ -42,3 +42,13 @@ export function isScenarioLabEnabled(): boolean {
 export function isPublicApiV1Enabled(): boolean {
   return process.env.PUBLIC_API_V1_ENABLED === "true";
 }
+
+// Sprint 14 WS5 — gates the grounded AI research copilot
+// (/research/copilot, app/api/research/copilot). Defaults to disabled:
+// this is the only feature in the app that makes a paid LLM call outside
+// the pre-existing /strategy generator, so it stays off until both this
+// flag AND migration 042 (research_copilot_queries, for rate limiting)
+// are explicitly applied — see the WS5 workstream report.
+export function isResearchCopilotEnabled(): boolean {
+  return process.env.RESEARCH_COPILOT_ENABLED === "true";
+}

@@ -3,6 +3,7 @@ import {
   isDataOperationsEnabled,
   isMultiStateResearchEnabled,
   isPublicApiV1Enabled,
+  isResearchCopilotEnabled,
   isScenarioLabEnabled,
   isWarehouseConfigured,
   isWarehousePreviewEnabled,
@@ -117,6 +118,29 @@ describe("isPublicApiV1Enabled", () => {
     vi.stubEnv("PUBLIC_API_V1_ENABLED", "true");
     vi.stubEnv("WAREHOUSE_PREVIEW_ENABLED", undefined as unknown as string);
     expect(isPublicApiV1Enabled()).toBe(true);
+    expect(isWarehousePreviewEnabled()).toBe(false);
+  });
+});
+
+describe("isResearchCopilotEnabled", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("is disabled when the env var is absent (production-safe default)", () => {
+    vi.stubEnv("RESEARCH_COPILOT_ENABLED", undefined as unknown as string);
+    expect(isResearchCopilotEnabled()).toBe(false);
+  });
+
+  it("is disabled for any value other than the exact string 'true'", () => {
+    vi.stubEnv("RESEARCH_COPILOT_ENABLED", "1");
+    expect(isResearchCopilotEnabled()).toBe(false);
+  });
+
+  it("is enabled only when explicitly set to 'true', independent of the other flags", () => {
+    vi.stubEnv("RESEARCH_COPILOT_ENABLED", "true");
+    vi.stubEnv("WAREHOUSE_PREVIEW_ENABLED", undefined as unknown as string);
+    expect(isResearchCopilotEnabled()).toBe(true);
     expect(isWarehousePreviewEnabled()).toBe(false);
   });
 });

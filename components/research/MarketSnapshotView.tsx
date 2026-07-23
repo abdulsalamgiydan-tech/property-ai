@@ -24,6 +24,7 @@ export function MarketSnapshotView({
   timeseries,
   assumptions,
   scenarioLabEnabled = false,
+  researchCopilotEnabled = false,
 }: {
   geographyId: string;
   geographyCode?: string;
@@ -34,6 +35,7 @@ export function MarketSnapshotView({
   timeseries: TimeseriesRow[];
   assumptions: MetricAssumption[];
   scenarioLabEnabled?: boolean;
+  researchCopilotEnabled?: boolean;
 }) {
   if (!snapshot && !demographics) {
     return (
@@ -92,6 +94,11 @@ export function MarketSnapshotView({
           </div>
           <MetricCard label="Sales volume (12m)" value={num(snapshot?.sales_volume_12m)} subtext={<ConfidenceBadge level={snapshot?.sales_sample_confidence} />} />
         </div>
+        {researchCopilotEnabled && geographyType === "suburb" && geographyCode ? (
+          <Link href={`/research/copilot/${geographyCode}`} className="mt-3 inline-block text-xs text-violet-300 hover:underline">
+            Ask the research copilot about {geographyLabel} →
+          </Link>
+        ) : null}
       </SectionCard>
 
       {/* 2. Affordability context */}

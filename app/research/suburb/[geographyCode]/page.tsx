@@ -9,7 +9,7 @@ import {
   resolveGeographyByCode,
 } from "@/lib/warehouse/queries";
 import { stateLabel } from "@/lib/warehouse/stateCode";
-import { isScenarioLabEnabled } from "@/lib/warehouse/env";
+import { isResearchCopilotEnabled, isScenarioLabEnabled } from "@/lib/warehouse/env";
 
 export const metadata: Metadata = { title: "Suburb Research Preview | Propellect", robots: { index: false, follow: false } };
 
@@ -40,6 +40,7 @@ export default async function SuburbResearchPage({
       timeseries={timeseries}
       assumptions={assumptions}
       scenarioLabEnabled={isScenarioLabEnabled()}
+      researchCopilotEnabled={isResearchCopilotEnabled()}
     />
   );
 }
