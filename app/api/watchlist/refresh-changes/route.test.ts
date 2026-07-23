@@ -52,8 +52,11 @@ function makeSupabaseMock(watchlistItems: unknown[]) {
   };
 }
 
-vi.mock("@/lib/supabase/env", () => ({ isSupabaseConfigured: () => true }));
-vi.mock("@/lib/warehouse/env", () => ({ isWarehousePreviewEnabled: () => true }));
+const isSupabaseConfigured = vi.fn(() => true);
+const isWarehousePreviewEnabled = vi.fn(() => true);
+
+vi.mock("@/lib/supabase/env", () => ({ isSupabaseConfigured: () => isSupabaseConfigured() }));
+vi.mock("@/lib/warehouse/env", () => ({ isWarehousePreviewEnabled: () => isWarehousePreviewEnabled() }));
 vi.mock("@/lib/warehouse/queries", () => ({
   getMarketSnapshotV2: (...args: unknown[]) => getMarketSnapshotV2(...args),
 }));
@@ -68,6 +71,26 @@ describe("POST /api/watchlist/refresh-changes", () => {
     vi.resetModules();
     getUser.mockReset();
     getMarketSnapshotV2.mockReset();
+    isSupabaseConfigured.mockReset().mockReturnValue(true);
+    isWarehousePreviewEnabled.mockReset().mockReturnValue(true);
+  });
+
+  it("returns 404 when WAREHOUSE_PREVIEW_ENABLED is off — the flag cannot be bypassed via a direct API call", async () => {
+    isWarehousePreviewEnabled.mockReturnValue(false);
+    mockSupabase = makeSupabaseMock([]);
+    const { POST } = await import("./route");
+    const res = await POST();
+    expect(res.status).toBe(404);
+    // The route must gate before touching auth/DB at all.
+    expect(getUser).not.toHaveBeenCalled();
+  });
+
+  it("returns 503 when Supabase isn't configured", async () => {
+    isSupabaseConfigured.mockReturnValue(false);
+    mockSupabase = makeSupabaseMock([]);
+    const { POST } = await import("./route");
+    const res = await POST();
+    expect(res.status).toBe(503);
   });
 
   it("returns 401 when there is no authenticated user", async () => {

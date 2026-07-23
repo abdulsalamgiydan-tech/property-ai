@@ -3,8 +3,9 @@ import { NextRequest } from "next/server";
 
 const getUser = vi.fn();
 const maybeSingle = vi.fn();
+const isSupabaseConfigured = vi.fn(() => true);
 
-vi.mock("@/lib/supabase/env", () => ({ isSupabaseConfigured: () => true }));
+vi.mock("@/lib/supabase/env", () => ({ isSupabaseConfigured: () => isSupabaseConfigured() }));
 vi.mock("@/lib/supabase/server", () => ({
   createServerSupabaseClient: async () => ({
     auth: { getUser: (...args: unknown[]) => getUser(...args) },
@@ -23,6 +24,15 @@ describe("GET /api/account/entitlements", () => {
     vi.resetModules();
     getUser.mockReset();
     maybeSingle.mockReset();
+    isSupabaseConfigured.mockReset().mockReturnValue(true);
+  });
+
+  it("returns 503 when Supabase isn't configured, without ever calling auth", async () => {
+    isSupabaseConfigured.mockReturnValue(false);
+    const { GET } = await import("./route");
+    const res = await GET(new NextRequest("http://localhost/api/account/entitlements"));
+    expect(res.status).toBe(503);
+    expect(getUser).not.toHaveBeenCalled();
   });
 
   it("returns 401 when there is no authenticated user", async () => {
