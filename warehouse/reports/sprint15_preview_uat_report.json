@@ -1,14 +1,14 @@
 {
   "generated_at": "2026-07-24T09:35:00+10:00",
   "branch": "feature/sprint14-production-readiness",
-  "commit": "5072ccce231285229c20e428417ba02f416a66c9",
+  "commit": "34eacc7e177aa47a8930de35f96bee9cf0f1a004",
   "preview": {
     "stable_alias": "https://property-ai-sprint15-uat-zeebusiness93-2304s-projects.vercel.app",
-    "deployment_url": "https://property-9baya5k4z-zeebusiness93-2304s-projects.vercel.app",
-    "deployment_id": "dpl_5Zo8Nf3rTq3QDFntF5VwTVZ86Dw2",
+    "deployment_url": "https://property-e060fqmec-zeebusiness93-2304s-projects.vercel.app",
+    "deployment_id": "dpl_G3N8iLRX9ohy82JfGZ2D68gq4Xed",
     "target": "preview",
     "status": "ready",
-    "created_at_aest": "2026-07-24T09:15:03+10:00",
+    "created_at_aest": "2026-07-24T09:33:52+10:00",
     "deployment_protection_active": true,
     "automation_bypass_enabled": true
   },
@@ -36,4 +36,3 @@
     }
   ]
 }
-

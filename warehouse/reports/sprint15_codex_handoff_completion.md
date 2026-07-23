@@ -5,10 +5,10 @@ Generated: 2026-07-24 09:35 AEST.
 ## Current checkpoint
 
 - Branch: `feature/sprint14-production-readiness`
-- Current commit before this report commit: `5072ccce231285229c20e428417ba02f416a66c9`
+- Current commit before this report commit: `34eacc7e177aa47a8930de35f96bee9cf0f1a004`
 - PR: #23, open, draft, unmerged
 - Stable Preview alias: `https://property-ai-sprint15-uat-zeebusiness93-2304s-projects.vercel.app`
-- Current Preview deployment: `dpl_5Zo8Nf3rTq3QDFntF5VwTVZ86Dw2`
+- Current Preview deployment: `dpl_G3N8iLRX9ohy82JfGZ2D68gq4Xed`
 - Production deploys performed: none
 - Production DB changes performed: none
 
@@ -36,4 +36,3 @@ git status --short --branch
 gh pr view 23 --json number,state,isDraft,mergedAt,headRefName,headRefOid,baseRefName,url,statusCheckRollup
 vercel inspect property-ai-sprint15-uat-zeebusiness93-2304s-projects.vercel.app
 ```
-

@@ -42,11 +42,10 @@ Generated: 2026-07-24 09:35 AEST.
 
 ## GO evidence
 
-- Preview alias resolves to `dpl_5Zo8Nf3rTq3QDFntF5VwTVZ86Dw2`.
+- Preview alias resolves to `dpl_G3N8iLRX9ohy82JfGZ2D68gq4Xed`.
 - Preview target is `preview`, Ready.
 - Branch-scoped Preview env now points to the non-production `warehouse-validation` Supabase branch.
 - Production custom domain remains reachable and was not promoted.
 - PR #23 remains open, draft, and unmerged.
 - Latest GitHub Actions for `5072ccc` are green.
 - Local checks passed: `npm run lint`, `npm run test`, `npm run build`, `npm run warehouse:check`, `npm run warehouse:rls:check`.
-

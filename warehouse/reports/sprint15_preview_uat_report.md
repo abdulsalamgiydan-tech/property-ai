@@ -9,11 +9,11 @@ Generated: 2026-07-24 09:35 AEST.
 The stable Preview alias now resolves to a Ready Preview deployment:
 
 - Stable alias: `https://property-ai-sprint15-uat-zeebusiness93-2304s-projects.vercel.app`
-- Deployment URL: `https://property-9baya5k4z-zeebusiness93-2304s-projects.vercel.app`
-- Deployment ID: `dpl_5Zo8Nf3rTq3QDFntF5VwTVZ86Dw2`
+- Deployment URL: `https://property-e060fqmec-zeebusiness93-2304s-projects.vercel.app`
+- Deployment ID: `dpl_G3N8iLRX9ohy82JfGZ2D68gq4Xed`
 - Target: Preview
-- Created: 2026-07-24 09:15:03 AEST
-- Branch/commit under test: `feature/sprint14-production-readiness` / `5072ccce231285229c20e428417ba02f416a66c9`
+- Created: 2026-07-24 09:33:52 AEST
+- Branch/commit under test: `feature/sprint14-production-readiness` / `34eacc7e177aa47a8930de35f96bee9cf0f1a004`
 
 ## What was completed
 
