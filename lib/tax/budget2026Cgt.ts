@@ -6,6 +6,7 @@ const COMMENCEMENT = new Date(CGT_REGIME_CHANGE_DATE);
 
 export type CgtRegimeApplied =
   | "OLD_50_DISCOUNT"
+  | "OLD_NO_DISCOUNT"
   | "APPORTIONMENT"
   | "FULL_NEW_REGIME"
   | "NEW_BUILD_ELECTION_OLD"
@@ -69,16 +70,40 @@ function taxAtMinimumMarginal(residualGain: number, marginalRate: number): {
   };
 }
 
-/** Case A — sale before commencement: losses applied to nominal gain, then 50% discount on residual. */
+/**
+ * The ATO excludes both the acquisition date and CGT event date when testing
+ * 12 months of ownership, so the first eligible event date is one day after
+ * the acquisition anniversary.
+ */
+function isOldRegimeDiscountEligible(purchaseDate: Date, saleDate: Date): boolean {
+  const anniversary = new Date(purchaseDate.getTime());
+  const originalMonth = anniversary.getMonth();
+  anniversary.setFullYear(anniversary.getFullYear() + 1);
+
+  // Keep a leap-day acquisition's anniversary in February.
+  if (anniversary.getMonth() !== originalMonth) {
+    anniversary.setDate(0);
+  }
+
+  anniversary.setDate(anniversary.getDate() + 1);
+  anniversary.setHours(0, 0, 0, 0);
+
+  const eventDate = new Date(saleDate.getTime());
+  eventDate.setHours(0, 0, 0, 0);
+  return eventDate >= anniversary;
+}
+
+/** Old regime: losses are applied before any available 50% discount. */
 function cgtOldDiscountFull(params: {
   nominalGain: number;
   carryForwardLossesAtSale: number;
   marginalRate: number;
+  discountEligible: boolean;
 }): { taxableGainAfterDiscount: number; cgtPayable: number; cfApplied: number } {
-  const { nominalGain, carryForwardLossesAtSale, marginalRate } = params;
+  const { nominalGain, carryForwardLossesAtSale, marginalRate, discountEligible } = params;
   const cfApplied = Math.min(Math.max(0, carryForwardLossesAtSale), Math.max(0, nominalGain));
   const residual = Math.max(0, nominalGain - cfApplied);
-  const taxableGainAfterDiscount = residual * 0.5;
+  const taxableGainAfterDiscount = residual * (discountEligible ? 0.5 : 1);
   const cgtPayable = taxableGainAfterDiscount * marginalRate;
   return { taxableGainAfterDiscount, cgtPayable, cfApplied };
 }
@@ -103,6 +128,7 @@ export function calculateCGT(p: CalculateCgtParams): CalculateCgtResult {
   const nominalGain = Math.max(0, salePrice - costBase);
 
   const saleBeforeCommencement = saleDate < COMMENCEMENT;
+  const oldRegimeDiscountEligible = isOldRegimeDiscountEligible(purchaseDate, saleDate);
 
   // Pre-CGT asset — full exemption if sold before commencement
   if (isPreCGTAsset && saleBeforeCommencement) {
@@ -131,6 +157,7 @@ export function calculateCGT(p: CalculateCgtParams): CalculateCgtResult {
       nominalGain,
       carryForwardLossesAtSale,
       marginalRate,
+      discountEligible: oldRegimeDiscountEligible,
     });
     return {
       saleGrossProceeds: salePrice,
@@ -141,7 +168,7 @@ export function calculateCGT(p: CalculateCgtParams): CalculateCgtResult {
       carryForwardLossesApplied: old.cfApplied,
       taxableGainAfterDiscount: old.taxableGainAfterDiscount,
       cgtPayable: old.cgtPayable,
-      regimeApplied: "OLD_50_DISCOUNT",
+      regimeApplied: oldRegimeDiscountEligible ? "OLD_50_DISCOUNT" : "OLD_NO_DISCOUNT",
       netSaleProceedsAfterCGT: salePrice - old.cgtPayable,
       indexationAmountApplied: 0,
       effectiveMarginalRateUsed: marginalRate,
@@ -207,6 +234,7 @@ export function calculateCGT(p: CalculateCgtParams): CalculateCgtResult {
       nominalGain,
       carryForwardLossesAtSale,
       marginalRate,
+      discountEligible: oldRegimeDiscountEligible,
     });
 
     const newStyle = acquiredOnOrAfterCommencement
@@ -228,6 +256,7 @@ export function calculateCGT(p: CalculateCgtParams): CalculateCgtResult {
           marginalRate,
           cpiAnnualPercent,
           valueAtCommencementOverride,
+          oldRegimeDiscountEligible,
         });
 
     const pickOld = oldStyle.cgtPayable <= newStyle.cgtPayable;
@@ -273,14 +302,20 @@ export function calculateCGT(p: CalculateCgtParams): CalculateCgtResult {
       marginalRate,
       cpiAnnualPercent,
       valueAtCommencementOverride,
+      oldRegimeDiscountEligible,
     });
   }
 
   // Fallback
-  const old = cgtOldDiscountFull({ nominalGain, carryForwardLossesAtSale, marginalRate });
+  const old = cgtOldDiscountFull({
+    nominalGain,
+    carryForwardLossesAtSale,
+    marginalRate,
+    discountEligible: oldRegimeDiscountEligible,
+  });
   return {
     ...buildOldResult(old),
-    regimeApplied: "OLD_50_DISCOUNT",
+    regimeApplied: oldRegimeDiscountEligible ? "OLD_50_DISCOUNT" : "OLD_NO_DISCOUNT",
   };
 }
 
@@ -337,6 +372,7 @@ function cgtApportionment(params: {
   marginalRate: number;
   cpiAnnualPercent: number;
   valueAtCommencementOverride?: number;
+  oldRegimeDiscountEligible: boolean;
 }): CalculateCgtResult {
   const {
     purchaseDate,
@@ -347,6 +383,7 @@ function cgtApportionment(params: {
     marginalRate,
     cpiAnnualPercent,
     valueAtCommencementOverride,
+    oldRegimeDiscountEligible,
   } = params;
 
   const totalYears = Math.max(1e-9, yearsBetween(purchaseDate, saleDate));
@@ -372,7 +409,7 @@ function cgtApportionment(params: {
     marginalRate
   );
 
-  const taxablePre = preGain * 0.5;
+  const taxablePre = preGain * (oldRegimeDiscountEligible ? 0.5 : 1);
   const taxPre = taxablePre * marginalRate;
 
   const nominalGain = Math.max(0, salePrice - purchasePrice);
