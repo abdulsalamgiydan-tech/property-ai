@@ -26,10 +26,15 @@ const TIER_ORDER: Tier[] = ["free", "research", "investor_pro", "professional"];
 
 /**
  * Which tier first unlocks a feature — every higher tier also includes
- * everything a lower tier has (see hasEntitlement). This is a proposed
- * structure, not an enforced one: today, every feature listed here is
- * actually available to every signed-in user regardless of tier, gated
- * only by the existing WAREHOUSE_PREVIEW_ENABLED-style environment flags.
+ * everything a lower tier has (see hasEntitlement). Sprint 14 WS12
+ * correction: `saved_scenarios` was previously listed as "research" here,
+ * but the actual live Scenario Lab save feature (built in Sprint 13) has
+ * always been available to every signed-in user — that line was
+ * aspirational, never enforced, and contradicted live behaviour. Fixed to
+ * "free" to match reality; the tier-aware control for saved scenarios is
+ * now a *volume* limit (see FEATURE_LIMITS below), not an on/off gate —
+ * "every existing feature stays available at free tier" per this sprint's
+ * guardrail, just with a real, generous cap once actually enforced.
  */
 const FEATURE_MIN_TIER: Record<Feature, Tier> = {
   deal_analysis: "free",
@@ -38,7 +43,7 @@ const FEATURE_MIN_TIER: Record<Feature, Tier> = {
   research_preview: "free",
   multi_state_research: "research",
   scenario_lab: "research",
-  saved_scenarios: "research",
+  saved_scenarios: "free",
   public_api_v1: "investor_pro",
   export_reports: "investor_pro",
 };
@@ -47,6 +52,44 @@ export function hasEntitlement(tier: Tier, feature: Feature): boolean {
   const tierRank = TIER_ORDER.indexOf(tier);
   const requiredRank = TIER_ORDER.indexOf(FEATURE_MIN_TIER[feature]);
   return tierRank >= requiredRank;
+}
+
+/**
+ * Volume caps (Sprint 14 WS12) — the actual enforcement mechanism for
+ * "subscription-ready" limits on features every tier can use. `null`
+ * means unlimited. Mirrored exactly in migration 041's
+ * enforce_scenario_lab_case_limit() trigger function (the source of
+ * truth for actual enforcement, since that runs at the database level
+ * and can't be bypassed by any client) — this TypeScript copy exists so
+ * the UI can show "8/10 saved" and a clear upgrade prompt *before* a
+ * user hits the database's hard limit, not to duplicate the enforcement
+ * itself. If these two ever drift, the database trigger wins.
+ */
+export type LimitedFeature = "saved_scenarios";
+
+export const FEATURE_LIMITS: Record<LimitedFeature, Record<Tier, number | null>> = {
+  saved_scenarios: { free: 10, research: 25, investor_pro: 100, professional: null },
+};
+
+export function getFeatureLimit(tier: Tier, feature: LimitedFeature): number | null {
+  return FEATURE_LIMITS[feature][tier];
+}
+
+export function hasReachedLimit(tier: Tier, feature: LimitedFeature, currentCount: number): boolean {
+  const limit = getFeatureLimit(tier, feature);
+  if (limit === null) return false;
+  return currentCount >= limit;
+}
+
+/**
+ * Recognises the database trigger's custom exception message (see
+ * migration 041) so the UI can show a friendly "you've reached your
+ * limit, upgrade to save more" prompt instead of a raw Postgres error.
+ * The trigger is the real enforcement; this is purely a UX translation
+ * layer on top of it.
+ */
+export function isScenarioLabLimitExceededError(message: string | null | undefined): boolean {
+  return !!message && message.includes("scenario_lab_case_limit_exceeded");
 }
 
 /**

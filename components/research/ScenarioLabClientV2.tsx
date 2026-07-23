@@ -19,6 +19,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { ResearchReportExportButtons } from "@/components/research/ResearchReportExportButtons";
 import { buildResearchReportBundle } from "@/lib/export/researchReport";
 import { trackEvent } from "@/lib/analytics/events";
+import { isScenarioLabLimitExceededError } from "@/lib/auth/entitlements";
 
 type ScenarioCase = {
   id: string;
@@ -92,7 +93,7 @@ export function ScenarioLabClientV2({
 }) {
   const { user } = useAuth();
   const [cases, setCases] = useState<ScenarioCase[]>(() => defaultCases(baselineRatePercent ?? 6.0));
-  const [saveStatus, setSaveStatus] = useState<Record<string, "idle" | "saving" | "saved" | "error">>({});
+  const [saveStatus, setSaveStatus] = useState<Record<string, "idle" | "saving" | "saved" | "error" | "limit_reached">>({});
 
   function updateCase(id: string, patch: Partial<ScenarioCase>) {
     setCases((prev) => prev.map((c) => (c.id === id ? { ...c, ...patch } : c)));
@@ -122,8 +123,18 @@ export function ScenarioLabClientV2({
       annualExpenses: c.annualExpenses,
       scenarioJson: computeOutputs(c),
     });
-    setSaveStatus((prev) => ({ ...prev, [c.id]: result.ok ? "saved" : "error" }));
-    if (result.ok) trackEvent({ name: "scenario_calculated", geographyCode, caseCount: cases.length });
+    if (result.ok) {
+      setSaveStatus((prev) => ({ ...prev, [c.id]: "saved" }));
+      trackEvent({ name: "scenario_calculated", geographyCode, caseCount: cases.length });
+    } else {
+      // The database trigger (migration 041) is the real enforcement —
+      // this just translates its custom exception into a friendly
+      // upgrade prompt instead of a raw Postgres error message.
+      setSaveStatus((prev) => ({
+        ...prev,
+        [c.id]: isScenarioLabLimitExceededError(result.message) ? "limit_reached" : "error",
+      }));
+    }
   }
 
   function computeOutputs(c: ScenarioCase) {
@@ -334,14 +345,29 @@ export function ScenarioLabClientV2({
               </div>
 
               {user ? (
-                <button
-                  type="button"
-                  onClick={() => handleSave(c)}
-                  disabled={status === "saving"}
-                  className="mt-3 w-full rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-300 transition hover:border-violet-500/50 hover:text-violet-200 disabled:opacity-50"
-                >
-                  {status === "saving" ? "Saving…" : status === "saved" ? "Saved ✓" : status === "error" ? "Save failed — try again" : "Save this scenario"}
-                </button>
+                <>
+                  <button
+                    type="button"
+                    onClick={() => handleSave(c)}
+                    disabled={status === "saving" || status === "limit_reached"}
+                    className="mt-3 w-full rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-300 transition hover:border-violet-500/50 hover:text-violet-200 disabled:opacity-50"
+                  >
+                    {status === "saving"
+                      ? "Saving…"
+                      : status === "saved"
+                        ? "Saved ✓"
+                        : status === "limit_reached"
+                          ? "Saved scenario limit reached"
+                          : status === "error"
+                            ? "Save failed — try again"
+                            : "Save this scenario"}
+                  </button>
+                  {status === "limit_reached" ? (
+                    <p className="mt-1 text-center text-[11px] text-amber-300">
+                      You&apos;ve reached your tier&apos;s saved scenario limit. Delete an old one, or upgrade for more.
+                    </p>
+                  ) : null}
+                </>
               ) : (
                 <p className="mt-3 text-center text-[11px] text-zinc-600">Sign in to save this scenario.</p>
               )}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getUserTier, hasEntitlement } from "./entitlements";
+import { getFeatureLimit, getUserTier, hasEntitlement, hasReachedLimit, isScenarioLabLimitExceededError } from "./entitlements";
 
 describe("hasEntitlement", () => {
   it("every tier can use free-tier features", () => {
@@ -37,6 +37,39 @@ describe("hasEntitlement", () => {
       expect(hasEntitlement("professional", feature)).toBe(true);
     }
   });
+
+  it("free tier CAN use saved_scenarios (Sprint 14 WS12 fix — this was previously miscategorised as research-tier-only, contradicting the live feature every signed-in user already has)", () => {
+    expect(hasEntitlement("free", "saved_scenarios")).toBe(true);
+  });
+});
+
+describe("getFeatureLimit / hasReachedLimit (Sprint 14 WS12 — volume caps, not on/off gates)", () => {
+  it("returns the documented numeric cap per tier for saved_scenarios", () => {
+    expect(getFeatureLimit("free", "saved_scenarios")).toBe(10);
+    expect(getFeatureLimit("research", "saved_scenarios")).toBe(25);
+    expect(getFeatureLimit("investor_pro", "saved_scenarios")).toBe(100);
+  });
+
+  it("professional tier has no limit (null = unlimited)", () => {
+    expect(getFeatureLimit("professional", "saved_scenarios")).toBeNull();
+    expect(hasReachedLimit("professional", "saved_scenarios", 1_000_000)).toBe(false);
+  });
+
+  it("flags the limit as reached at exactly the cap, not one past it (off-by-one safety)", () => {
+    expect(hasReachedLimit("free", "saved_scenarios", 9)).toBe(false);
+    expect(hasReachedLimit("free", "saved_scenarios", 10)).toBe(true);
+    expect(hasReachedLimit("free", "saved_scenarios", 11)).toBe(true);
+  });
+
+  it("higher tiers have monotonically non-decreasing limits", () => {
+    const tiers = ["free", "research", "investor_pro"] as const;
+    let prev = 0;
+    for (const tier of tiers) {
+      const limit = getFeatureLimit(tier, "saved_scenarios")!;
+      expect(limit).toBeGreaterThanOrEqual(prev);
+      prev = limit;
+    }
+  });
 });
 
 describe("getUserTier", () => {
@@ -71,5 +104,23 @@ describe("getUserTier", () => {
   it("falls back to 'free' for an unrecognised tier value rather than trusting it blindly", async () => {
     const tier = await getUserTier(mockSupabase({ tier: "super-admin-hack" }), "user-1");
     expect(tier).toBe("free");
+  });
+});
+
+describe("isScenarioLabLimitExceededError", () => {
+  it("recognises the database trigger's exact exception message", () => {
+    expect(
+      isScenarioLabLimitExceededError("scenario_lab_case_limit_exceeded: tier free allows at most 10 saved scenarios")
+    ).toBe(true);
+  });
+
+  it("does not misfire on an unrelated error message", () => {
+    expect(isScenarioLabLimitExceededError("new row violates row-level security policy")).toBe(false);
+    expect(isScenarioLabLimitExceededError("network error")).toBe(false);
+  });
+
+  it("handles null/undefined without throwing", () => {
+    expect(isScenarioLabLimitExceededError(null)).toBe(false);
+    expect(isScenarioLabLimitExceededError(undefined)).toBe(false);
   });
 });
