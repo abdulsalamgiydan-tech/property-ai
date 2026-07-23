@@ -20,7 +20,8 @@ export type AnalyticsEvent =
   | { name: "area_saved"; geographyType: "suburb" | "postcode" | null }
   | { name: "export_generated"; exportType: "csv" | "json" | "print"; surface: string }
   | { name: "error_encountered"; surface: string; errorKind: string }
-  | { name: "research_copilot_answered"; geographyCode: string; grounded: boolean };
+  | { name: "research_copilot_answered"; geographyCode: string; grounded: boolean }
+  | { name: "feedback_submitted"; category: string };
 
 /**
  * Development-mode logger only. In production this is intentionally a

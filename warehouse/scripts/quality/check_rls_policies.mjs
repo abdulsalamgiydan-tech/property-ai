@@ -52,6 +52,11 @@ export const KNOWN_EXCEPTIONS = {
       "Sprint 14 WS5 — append-only rate-limit/audit log for the research copilot (one row per question asked), same shape as strategy_generations — rows are never updated or deleted by design, so no update/delete policy exists.",
     requiredOps: ["select", "insert"],
   },
+  user_feedback: {
+    reason:
+      "Sprint 14 WS21 — append-only in-app feedback submissions, same shape as strategy_generations/research_copilot_queries — feedback is meant to be an honest, unaltered record, so no update/delete policy exists.",
+    requiredOps: ["select", "insert"],
+  },
   user_entitlements: {
     reason:
       "Entitlement/tier table (Sprint 13 WS11, schema only — no billing activation) — users may read their own tier but must NEVER be able to write it themselves (self-elevation to a paid tier), so there is deliberately no insert/update/delete policy for the authenticated/anon role, only a service_role-only 'for all' policy.",

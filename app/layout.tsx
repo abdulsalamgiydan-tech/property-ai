@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Providers } from "./providers";
 import { Navbar } from "@/components/nav/Navbar";
+import { FeedbackWidget } from "@/components/feedback/FeedbackWidget";
 import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
 import "./globals.css";
 
@@ -36,6 +37,7 @@ export default function RootLayout({
         <Providers>
           <Navbar warehousePreviewEnabled={isWarehousePreviewEnabled()} />
           <main className="flex-1">{children}</main>
+          <FeedbackWidget />
         </Providers>
         <Analytics />
       </body>
