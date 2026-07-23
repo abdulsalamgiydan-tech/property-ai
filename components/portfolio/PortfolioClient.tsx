@@ -9,6 +9,10 @@ import {
 } from "@/lib/supabase/portfolio";
 import { listPropertyReports, type SavedPropertyReport } from "@/lib/supabase/reports";
 import { formatAud, formatPercent } from "@/lib/formatCurrency";
+import {
+  calculatePortfolioPropertyMetrics,
+  calculatePortfolioTotals,
+} from "@/lib/portfolioMetrics";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -25,9 +29,8 @@ function PortfolioPropertyRow({
   onRemove: (id: string) => void;
 }) {
   const [removing, setRemoving] = useState(false);
-  const equity = (prop.current_value ?? 0) - (prop.loan_balance ?? 0);
-  const annualRent = (prop.weekly_rent ?? 0) * 52;
-  const annualCashflow = annualRent - (prop.annual_expenses ?? 0);
+  const metrics = calculatePortfolioPropertyMetrics(prop);
+  const isPartiallyOwned = metrics.ownershipShare < 1;
 
   async function handleRemove() {
     if (!confirm("Remove this property from your portfolio?")) return;
@@ -62,23 +65,31 @@ function PortfolioPropertyRow({
       </div>
       <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">Value</p>
-          <p className="mt-0.5 text-sm font-semibold tabular-nums text-white">{formatAud(prop.current_value ?? 0)}</p>
+          <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">
+            {isPartiallyOwned ? "Your value share" : "Value"}
+          </p>
+          <p className="mt-0.5 text-sm font-semibold tabular-nums text-white">{formatAud(metrics.value)}</p>
         </div>
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">Loan balance</p>
-          <p className="mt-0.5 text-sm font-semibold tabular-nums text-zinc-300">{formatAud(prop.loan_balance ?? 0)}</p>
+          <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">
+            {isPartiallyOwned ? "Your debt share" : "Loan balance"}
+          </p>
+          <p className="mt-0.5 text-sm font-semibold tabular-nums text-zinc-300">{formatAud(metrics.debt)}</p>
         </div>
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">Equity</p>
-          <p className={`mt-0.5 text-sm font-semibold tabular-nums ${equity >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-            {formatAud(equity)}
+          <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">
+            {isPartiallyOwned ? "Your equity" : "Equity"}
+          </p>
+          <p className={`mt-0.5 text-sm font-semibold tabular-nums ${metrics.equity >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+            {formatAud(metrics.equity)}
           </p>
         </div>
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">Annual cashflow</p>
-          <p className={`mt-0.5 text-sm font-semibold tabular-nums ${annualCashflow >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-            {formatAud(annualCashflow)}/yr
+          <p className="text-[10px] font-medium uppercase tracking-wide text-zinc-500">
+            {isPartiallyOwned ? "Your annual cashflow" : "Annual cashflow"}
+          </p>
+          <p className={`mt-0.5 text-sm font-semibold tabular-nums ${metrics.annualCashflow >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+            {formatAud(metrics.annualCashflow)}/yr
           </p>
         </div>
       </div>
@@ -172,13 +183,7 @@ export function PortfolioClient() {
   }
 
   // Portfolio totals
-  const totalValue = properties.reduce((s, p) => s + (p.current_value ?? 0), 0);
-  const totalLoan = properties.reduce((s, p) => s + (p.loan_balance ?? 0), 0);
-  const totalEquity = totalValue - totalLoan;
-  const totalAnnualRent = properties.reduce((s, p) => s + (p.weekly_rent ?? 0) * 52, 0);
-  const totalAnnualExpenses = properties.reduce((s, p) => s + (p.annual_expenses ?? 0), 0);
-  const totalCashflow = totalAnnualRent - totalAnnualExpenses;
-  const overallLvr = totalValue > 0 ? (totalLoan / totalValue) * 100 : 0;
+  const totals = calculatePortfolioTotals(properties);
 
   const inputClass = "w-full rounded-xl border border-zinc-700/80 bg-zinc-950/60 px-3 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 focus:border-violet-500/60 focus:outline-none focus:ring-4 focus:ring-violet-500/15";
   const labelClass = "mb-1 block text-xs font-medium text-zinc-400";
@@ -233,24 +238,24 @@ export function PortfolioClient() {
         {properties.length > 0 && (
           <section className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
             <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/50 px-4 py-3">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Total value</p>
-              <p className="mt-1 text-lg font-semibold tabular-nums text-white">{formatAud(totalValue)}</p>
+              <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Owned value</p>
+              <p className="mt-1 text-lg font-semibold tabular-nums text-white">{formatAud(totals.value)}</p>
             </div>
             <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/50 px-4 py-3">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Total equity</p>
-              <p className={`mt-1 text-lg font-semibold tabular-nums ${totalEquity >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-                {formatAud(totalEquity)}
+              <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Owned equity</p>
+              <p className={`mt-1 text-lg font-semibold tabular-nums ${totals.equity >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                {formatAud(totals.equity)}
               </p>
             </div>
             <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/50 px-4 py-3">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Total debt</p>
-              <p className="mt-1 text-lg font-semibold tabular-nums text-zinc-300">{formatAud(totalLoan)}</p>
-              <p className="mt-0.5 text-[10px] text-zinc-600">LVR {formatPercent(overallLvr, 1)}</p>
+              <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Owned debt</p>
+              <p className="mt-1 text-lg font-semibold tabular-nums text-zinc-300">{formatAud(totals.debt)}</p>
+              <p className="mt-0.5 text-[10px] text-zinc-600">LVR {formatPercent(totals.lvrPercent, 1)}</p>
             </div>
             <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/50 px-4 py-3">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Annual cashflow</p>
-              <p className={`mt-1 text-lg font-semibold tabular-nums ${totalCashflow >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-                {formatAud(totalCashflow)}/yr
+              <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">Owned annual cashflow</p>
+              <p className={`mt-1 text-lg font-semibold tabular-nums ${totals.annualCashflow >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                {formatAud(totals.annualCashflow)}/yr
               </p>
             </div>
           </section>

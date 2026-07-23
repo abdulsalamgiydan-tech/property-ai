@@ -12,6 +12,7 @@ import {
   listPortfolioProperties,
   type PortfolioProperty,
 } from "@/lib/supabase/portfolio";
+import { calculatePortfolioTotals } from "@/lib/portfolioMetrics";
 import { listWatchlistItems, type WatchlistItem } from "@/lib/supabase/watchlist";
 import { formatAud } from "@/lib/formatCurrency";
 import Link from "next/link";
@@ -194,24 +195,7 @@ export function DashboardClient() {
     );
   }
 
-  const totalValue = portfolio.reduce(
-    (sum, item) => sum + (item.current_value ?? 0),
-    0
-  );
-  const totalDebt = portfolio.reduce(
-    (sum, item) => sum + (item.loan_balance ?? 0),
-    0
-  );
-  const totalEquity = totalValue - totalDebt;
-  const annualRent = portfolio.reduce(
-    (sum, item) => sum + (item.weekly_rent ?? 0) * 52,
-    0
-  );
-  const annualExpenses = portfolio.reduce(
-    (sum, item) => sum + (item.annual_expenses ?? 0),
-    0
-  );
-  const netAnnualCashflow = annualRent - annualExpenses;
+  const totals = calculatePortfolioTotals(portfolio);
 
   return (
     <div className="min-h-full bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100">
@@ -249,10 +233,10 @@ export function DashboardClient() {
               subtext="Properties, notes, and suburbs"
             />
             <MetricCard
-              label="Portfolio equity"
-              value={portfolio.length > 0 ? formatAud(totalEquity) : "—"}
+              label="Owned portfolio equity"
+              value={portfolio.length > 0 ? formatAud(totals.equity) : "—"}
               subtext={portfolio.length > 0 ? `${portfolio.length} holdings tracked` : "Add holdings to track equity"}
-              accent={totalEquity >= 0 ? "emerald" : "red"}
+              accent={totals.equity >= 0 ? "emerald" : "red"}
             />
           </div>
         </header>
@@ -383,18 +367,18 @@ export function DashboardClient() {
                 />
               ) : (
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                  <MetricCard label="Portfolio value" value={formatAud(totalValue)} accent="violet" />
-                  <MetricCard label="Loan balance" value={formatAud(totalDebt)} />
+                  <MetricCard label="Owned value" value={formatAud(totals.value)} accent="violet" />
+                  <MetricCard label="Owned debt" value={formatAud(totals.debt)} />
                   <MetricCard
-                    label="Net equity"
-                    value={formatAud(totalEquity)}
-                    accent={totalEquity >= 0 ? "emerald" : "red"}
+                    label="Owned net equity"
+                    value={formatAud(totals.equity)}
+                    accent={totals.equity >= 0 ? "emerald" : "red"}
                   />
                   <MetricCard
-                    label="Net annual cashflow"
-                    value={formatAud(netAnnualCashflow)}
-                    subtext={`${formatAud(annualRent)} rent - ${formatAud(annualExpenses)} expenses`}
-                    accent={netAnnualCashflow >= 0 ? "emerald" : "amber"}
+                    label="Owned annual cashflow"
+                    value={formatAud(totals.annualCashflow)}
+                    subtext={`${formatAud(totals.annualRent)} rent - ${formatAud(totals.annualExpenses)} expenses`}
+                    accent={totals.annualCashflow >= 0 ? "emerald" : "amber"}
                   />
                 </div>
               )}
