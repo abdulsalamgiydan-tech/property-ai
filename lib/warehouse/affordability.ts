@@ -74,6 +74,40 @@ export function calculateLoanBalanceAfterMonths(
 }
 
 /**
+ * Remaining principal on a standard amortising P&I loan after a given
+ * number of elapsed months, with a constant extra monthly repayment
+ * applied on top of the standard repayment from month one. Extra
+ * repayments have no closed-form solution (each month's interest
+ * depends on the reduced balance from every prior month), so this
+ * iterates month by month rather than using the geometric-series
+ * formula in calculateLoanBalanceAfterMonths. Sprint 14 WS7 (Scenario
+ * Lab v2) — an "accelerated payoff" scenario type alongside the
+ * existing deposit/term/rate/vacancy/expenses dimensions.
+ */
+export function calculateLoanBalanceWithExtraRepayments(
+  principal: number,
+  annualRatePercent: number,
+  termYears: number,
+  monthsElapsed: number,
+  extraMonthlyRepayment: number
+): number {
+  const totalMonths = termYears * 12;
+  const elapsed = Math.min(Math.max(monthsElapsed, 0), totalMonths);
+  const monthlyRate = annualRatePercent / 100 / 12;
+  const baseMonthlyRepayment = calculateMonthlyRepayment(principal, annualRatePercent, termYears);
+  const extra = Math.max(0, extraMonthlyRepayment);
+
+  let balance = principal;
+  for (let m = 0; m < elapsed; m++) {
+    if (balance <= 0) return 0;
+    const interest = balance * monthlyRate;
+    const principalPortion = baseMonthlyRepayment + extra - interest;
+    balance = Math.max(0, balance - principalPortion);
+  }
+  return balance;
+}
+
+/**
  * Simple net pre-tax annual cashflow: rent actually received (after an
  * assumed vacancy rate) minus loan repayments and operating expenses.
  * Descriptive scenario math only — no tax, depreciation or growth

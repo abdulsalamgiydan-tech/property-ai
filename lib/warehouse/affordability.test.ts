@@ -5,6 +5,7 @@ import {
   calculateBreakEvenWeeklyRent,
   calculateGrossYieldPct,
   calculateLoanBalanceAfterMonths,
+  calculateLoanBalanceWithExtraRepayments,
   calculateLoanPrincipal,
   calculateMonthlyRepayment,
   calculatePriceToIncomeRatio,
@@ -119,6 +120,36 @@ describe("calculateLoanBalanceAfterMonths", () => {
 
   it("clamps months elapsed to the loan term rather than going negative", () => {
     expect(calculateLoanBalanceAfterMonths(400_000, 6, 30, 999)).toBeCloseTo(0, 0);
+  });
+});
+
+describe("calculateLoanBalanceWithExtraRepayments", () => {
+  it("matches the closed-form balance when extra repayment is zero", () => {
+    const withExtra = calculateLoanBalanceWithExtraRepayments(400_000, 6, 30, 120, 0);
+    const closedForm = calculateLoanBalanceAfterMonths(400_000, 6, 30, 120);
+    expect(withExtra).toBeCloseTo(closedForm, 0);
+  });
+
+  it("pays the loan down faster than the standard schedule with extra repayments", () => {
+    const standard = calculateLoanBalanceAfterMonths(400_000, 6, 30, 120);
+    const accelerated = calculateLoanBalanceWithExtraRepayments(400_000, 6, 30, 120, 500);
+    expect(accelerated).toBeLessThan(standard);
+  });
+
+  it("reaches zero and stays there rather than going negative once fully repaid", () => {
+    // A large extra repayment on a small loan should clear it well before the term ends.
+    const balance = calculateLoanBalanceWithExtraRepayments(50_000, 6, 30, 60, 5_000);
+    expect(balance).toBe(0);
+  });
+
+  it("returns the full principal at month 0 regardless of the extra repayment amount", () => {
+    expect(calculateLoanBalanceWithExtraRepayments(400_000, 6, 30, 0, 1_000)).toBeCloseTo(400_000, 0);
+  });
+
+  it("treats a negative extra repayment as zero rather than slowing paydown below standard", () => {
+    const standard = calculateLoanBalanceAfterMonths(400_000, 6, 30, 120);
+    const withNegative = calculateLoanBalanceWithExtraRepayments(400_000, 6, 30, 120, -500);
+    expect(withNegative).toBeCloseTo(standard, 0);
   });
 });
 

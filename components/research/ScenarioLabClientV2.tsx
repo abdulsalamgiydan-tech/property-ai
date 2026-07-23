@@ -6,6 +6,7 @@ import {
   calculateBreakEvenWeeklyRent,
   calculateGrossYieldPct,
   calculateLoanBalanceAfterMonths,
+  calculateLoanBalanceWithExtraRepayments,
   calculateLoanPrincipal,
   calculateMonthlyRepayment,
   calculatePriceToIncomeRatio,
@@ -29,6 +30,8 @@ type ScenarioCase = {
   ratePercent: number;
   vacancyPercent: number;
   annualExpenses: number;
+  /** Constant extra monthly repayment, on top of the standard schedule — Sprint 14 WS7. */
+  extraMonthlyRepayment: number;
 };
 
 const MAX_CASES = 4;
@@ -36,9 +39,9 @@ const DEBT_PATH_YEARS = [0, 5, 10];
 
 function defaultCases(baselineRatePercent: number): ScenarioCase[] {
   return [
-    { id: "base", label: "Base case", depositPercent: 20, termYears: 30, ratePercent: baselineRatePercent, vacancyPercent: 2, annualExpenses: 0 },
-    { id: "conservative", label: "Conservative", depositPercent: 25, termYears: 30, ratePercent: baselineRatePercent + 1, vacancyPercent: 4, annualExpenses: 0 },
-    { id: "stress", label: "Stress", depositPercent: 15, termYears: 30, ratePercent: baselineRatePercent + 2, vacancyPercent: 6, annualExpenses: 0 },
+    { id: "base", label: "Base case", depositPercent: 20, termYears: 30, ratePercent: baselineRatePercent, vacancyPercent: 2, annualExpenses: 0, extraMonthlyRepayment: 0 },
+    { id: "conservative", label: "Conservative", depositPercent: 25, termYears: 30, ratePercent: baselineRatePercent + 1, vacancyPercent: 4, annualExpenses: 0, extraMonthlyRepayment: 0 },
+    { id: "stress", label: "Stress", depositPercent: 15, termYears: 30, ratePercent: baselineRatePercent + 2, vacancyPercent: 6, annualExpenses: 0, extraMonthlyRepayment: 0 },
   ];
 }
 
@@ -147,9 +150,18 @@ export function ScenarioLabClientV2({
     const priceToIncomeRatio = medianWeeklyHouseholdIncome ? calculatePriceToIncomeRatio(medianSalePrice, medianWeeklyHouseholdIncome) : null;
     const repaymentToIncomePct = medianWeeklyHouseholdIncome ? calculateRepaymentToIncomePct(monthlyRepayment, medianWeeklyHouseholdIncome) : null;
     const debtPath = DEBT_PATH_YEARS.filter((y) => y <= c.termYears).map((years) => {
-      const balance = calculateLoanBalanceAfterMonths(principal, c.ratePercent, c.termYears, years * 12);
+      const balance =
+        c.extraMonthlyRepayment > 0
+          ? calculateLoanBalanceWithExtraRepayments(principal, c.ratePercent, c.termYears, years * 12, c.extraMonthlyRepayment)
+          : calculateLoanBalanceAfterMonths(principal, c.ratePercent, c.termYears, years * 12);
       return { years, balance, equity: medianSalePrice - balance };
     });
+    const longestDebtPathYears = debtPath.length > 0 ? debtPath[debtPath.length - 1].years : 0;
+    const extraEquityFromAcceleration =
+      c.extraMonthlyRepayment > 0 && longestDebtPathYears > 0
+        ? calculateLoanBalanceAfterMonths(principal, c.ratePercent, c.termYears, longestDebtPathYears * 12) -
+          calculateLoanBalanceWithExtraRepayments(principal, c.ratePercent, c.termYears, longestDebtPathYears * 12, c.extraMonthlyRepayment)
+        : null;
     return {
       principal,
       monthlyRepayment,
@@ -160,6 +172,8 @@ export function ScenarioLabClientV2({
       repaymentToIncomePct,
       debtPath,
       depositAmount: medianSalePrice * (c.depositPercent / 100),
+      extraEquityFromAcceleration,
+      longestDebtPathYears,
     };
   }
 
@@ -281,6 +295,20 @@ export function ScenarioLabClientV2({
                     className="mt-1 w-full accent-violet-500"
                   />
                 </label>
+                <label className="block">
+                  <span className="text-[11px] text-zinc-500">
+                    Extra repayments ({formatAud(c.extraMonthlyRepayment, 0)}/mo)
+                  </span>
+                  <input
+                    type="range"
+                    min={0}
+                    max={2000}
+                    step={50}
+                    value={c.extraMonthlyRepayment}
+                    onChange={(e) => updateCase(c.id, { extraMonthlyRepayment: Number(e.target.value) })}
+                    className="mt-1 w-full accent-violet-500"
+                  />
+                </label>
               </div>
 
               <div className="mt-4 grid grid-cols-2 gap-2 border-t border-zinc-800 pt-3 text-xs">
@@ -342,6 +370,12 @@ export function ScenarioLabClientV2({
                     ))}
                   </tbody>
                 </table>
+                {out.extraEquityFromAcceleration != null ? (
+                  <p className="mt-2 text-[11px] text-emerald-300">
+                    +{formatAud(out.extraEquityFromAcceleration, 0)} extra equity by year {out.longestDebtPathYears} from
+                    accelerated repayments, vs. the standard schedule.
+                  </p>
+                ) : null}
               </div>
 
               {user ? (
