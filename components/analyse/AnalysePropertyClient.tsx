@@ -57,6 +57,7 @@ import {
   snapshotPeriodToggleLabel,
   type SnapshotPeriod,
 } from "@/lib/keySnapshotDisplay";
+import { buildStressTestRows } from "@/lib/propertyAnalysisSensitivity";
 import {
   getSuggestedAssumptionsForSuburb,
   SUBURB_SUGGESTION_BANNER,
@@ -156,7 +157,7 @@ export function AnalysePropertyClient() {
   const [holdingCostsStr, setHoldingCostsStr] = useState("");
   const [isPreCGTAsset, setIsPreCGTAsset] = useState(false);
   const [marketValueAt2027Str, setMarketValueAt2027Str] = useState("");
-  const [resultsTab, setResultsTab] = useState<"analysis" | "compare">("analysis");
+  const [resultsTab, setResultsTab] = useState<"analysis" | "compare" | "stress">("analysis");
 
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isAnalysing, setIsAnalysing] = useState(false);
@@ -571,6 +572,11 @@ export function AnalysePropertyClient() {
       };
     });
   }, [expensesGrowthRate, otherRentalIncome, projectionSeries, result]);
+
+  const stressTestRows = useMemo(() => {
+    if (!lastSavedInputs) return null;
+    return buildStressTestRows(lastSavedInputs);
+  }, [lastSavedInputs]);
 
   const liveDetectedScenarioLabel = useMemo(() => {
     const pd = purchaseDateStr.trim()
@@ -2348,9 +2354,66 @@ export function AnalysePropertyClient() {
                   >
                     Compare scenarios
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => setResultsTab("stress")}
+                    className={`flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:flex-none sm:px-4 ${
+                      resultsTab === "stress"
+                        ? "bg-violet-600 text-white"
+                        : "text-zinc-400 hover:text-zinc-200"
+                    }`}
+                  >
+                    Stress test
+                  </button>
                 </div>
 
                 {resultsTab === "analysis" ? renderAnalyseProjections() : null}
+
+                {resultsTab === "stress" && stressTestRows ? (
+                  <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                      Rate &amp; vacancy stress test
+                    </h3>
+                    <p className="mt-2 text-[11px] leading-relaxed text-zinc-500">
+                      Same deal, re-run under higher interest rates and vacancy — a quick check on how much
+                      buffer this deal has before after-tax cashflow turns negative.
+                    </p>
+                    <div className="mt-4 overflow-x-auto rounded-lg border border-zinc-700/40">
+                      <table className="w-full min-w-[30rem] border-collapse text-xs text-zinc-300">
+                        <thead>
+                          <tr className="border-b border-zinc-600/80 bg-zinc-900/80 text-[10px] font-semibold uppercase tracking-wide text-zinc-400">
+                            <th className="whitespace-nowrap px-3 py-2 text-left">Scenario</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">Rate</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">Vacancy</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">After-tax cashflow</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">Score</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {stressTestRows.map((row) => (
+                            <tr key={row.label} className="border-b border-zinc-800/80 last:border-0">
+                              <td className="px-3 py-2 text-[11px] leading-snug text-zinc-200">{row.label}</td>
+                              <td className="px-3 py-2 text-right tabular-nums">{formatPercent(row.interestRatePercent)}</td>
+                              <td className="px-3 py-2 text-right tabular-nums">{formatPercent(row.vacancyPercent)}</td>
+                              <td
+                                className={`px-3 py-2 text-right tabular-nums ${
+                                  row.afterTaxCashflow >= 0 ? "text-emerald-400" : "text-red-400"
+                                }`}
+                              >
+                                {formatAud(row.afterTaxCashflow)}
+                              </td>
+                              <td className="px-3 py-2 text-right tabular-nums">{row.score}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <p className="mt-3 text-[10px] leading-relaxed text-zinc-600">
+                      Illustrative only — every row re-runs the same model with a shocked interest rate and/or
+                      vacancy assumption, all else held equal.
+                    </p>
+                  </section>
+                ) : null}
 
                 {resultsTab === "compare" && scenarioComparison ? (
                   <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
