@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-07-24T09:35:00+10:00",
+  "branch": "feature/sprint14-production-readiness",
+  "commit": "5072ccce231285229c20e428417ba02f416a66c9",
+  "preview": {
+    "stable_alias": "https://property-ai-sprint15-uat-zeebusiness93-2304s-projects.vercel.app",
+    "deployment_url": "https://property-9baya5k4z-zeebusiness93-2304s-projects.vercel.app",
+    "deployment_id": "dpl_5Zo8Nf3rTq3QDFntF5VwTVZ86Dw2",
+    "target": "preview",
+    "status": "ready",
+    "created_at_aest": "2026-07-24T09:15:03+10:00",
+    "deployment_protection_active": true,
+    "automation_bypass_enabled": true
+  },
+  "env": {
+    "preview_branch_scope_repaired": true,
+    "non_production_supabase_host": "lzonauinzatmtytyoems.supabase.co",
+    "copilot_enabled": false,
+    "admin_vars_present": false,
+    "production_env_modified": false
+  },
+  "checks": {
+    "unauthenticated_preview_protected": "pass",
+    "automation_http_access": "pass",
+    "privileged_client_secret_scan": "pass",
+    "live_http_smoke": "pass",
+    "full_browser_uat": "blocked",
+    "authenticated_browser_uat": "blocked"
+  },
+  "blockers": [
+    {
+      "id": "browser_uat_blocked_by_protection_tooling",
+      "severity": "high",
+      "blocks_core_release": true,
+      "summary": "A safe browser automation path through Vercel Deployment Protection was not completed; raw bypass secret injection into browser commands/files was not allowed."
+    }
+  ]
+}
+
