@@ -66,11 +66,18 @@ export async function POST() {
     );
   }
 
+  // Bounded fan-out: this route issues one warehouse query per matched
+  // item, so an unbounded watchlist would mean unbounded cost/load per
+  // call. 50 is generously above any realistic private-beta watchlist
+  // size while still protecting the warehouse from a pathological case.
+  const MAX_ITEMS_PER_REFRESH = 50;
   const { data: items, error: itemsError } = await supabase
     .from("watchlist_items")
     .select("id, geography_id, last_known_snapshot_json")
     .eq("user_id", user.id)
-    .not("geography_id", "is", null);
+    .not("geography_id", "is", null)
+    .order("last_checked_at", { ascending: true, nullsFirst: true })
+    .limit(MAX_ITEMS_PER_REFRESH);
 
   if (itemsError) {
     return NextResponse.json({ error: "load_failed" }, { status: 500 });

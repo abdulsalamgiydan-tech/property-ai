@@ -9,11 +9,17 @@ const getMarketSnapshotV2 = vi.fn();
 function makeSupabaseMock(watchlistItems: unknown[]) {
   const upsertCalls: unknown[] = [];
   const updateCalls: unknown[] = [];
+  const limitCalls: unknown[] = [];
 
   const watchlistItemsQuery = {
     select: () => watchlistItemsQuery,
     eq: () => watchlistItemsQuery,
-    not: async () => ({ data: watchlistItems, error: null }),
+    not: () => watchlistItemsQuery,
+    order: () => watchlistItemsQuery,
+    limit: async (n: number) => {
+      limitCalls.push(n);
+      return { data: watchlistItems, error: null };
+    },
   };
 
   return {
@@ -42,6 +48,7 @@ function makeSupabaseMock(watchlistItems: unknown[]) {
     },
     _upsertCalls: upsertCalls,
     _updateCalls: updateCalls,
+    _limitCalls: limitCalls,
   };
 }
 
@@ -139,5 +146,13 @@ describe("POST /api/watchlist/refresh-changes", () => {
 
     expect(body.itemsChecked).toBe(0);
     expect(getMarketSnapshotV2).not.toHaveBeenCalled();
+  });
+
+  it("bounds the per-call fan-out to protect the warehouse from a pathological watchlist size", async () => {
+    getUser.mockResolvedValue({ data: { user: { id: "user-1" } }, error: null });
+    mockSupabase = makeSupabaseMock([]);
+    const { POST } = await import("./route");
+    await POST();
+    expect(mockSupabase._limitCalls).toEqual([50]);
   });
 });
