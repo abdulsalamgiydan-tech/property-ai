@@ -31,6 +31,7 @@ export default async function PostcodeResearchPage({
   return (
     <MarketSnapshotView
       geographyId={geo.geography_id}
+      geographyCode={geo.geography_code}
       geographyLabel={`Postcode ${geo.geography_code}${stateLabel(geo.state_code) ? `, ${stateLabel(geo.state_code)}` : ""}`}
       geographyType="postcode"
       snapshot={snapshot}

@@ -5,6 +5,7 @@ import { MetricCard } from "@/components/design/MetricCard";
 import { EmptyState } from "@/components/design/EmptyState";
 import { ConfidenceBadge } from "@/components/research/ConfidenceBadge";
 import { AboutThisMetric } from "@/components/research/AboutThisMetric";
+import { ProfileViewTracker } from "@/components/research/ProfileViewTracker";
 import { formatPercent } from "@/lib/formatCurrency";
 import {
   formatMoneyOrUnavailable as money,
@@ -53,6 +54,7 @@ export function MarketSnapshotView({
 
   return (
     <div className="space-y-6">
+      {geographyCode ? <ProfileViewTracker geographyType={geographyType} geographyCode={geographyCode} /> : null}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-semibold text-zinc-100">{geographyLabel}</h1>
