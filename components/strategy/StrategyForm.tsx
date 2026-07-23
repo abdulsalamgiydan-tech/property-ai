@@ -234,6 +234,11 @@ export function StrategyForm({
     );
   }
 
+  function updatePrimaryGoal(goal: GoalRanking) {
+    setPrimaryGoal(goal);
+    setSecondaryGoal((current) => (current === goal ? "" : current));
+  }
+
   function addIpRow() {
     setIpRows((r) => [...r, { estimatedValue: "", loanBalance: "", weeklyRent: "" }]);
   }
@@ -586,7 +591,7 @@ export function StrategyForm({
           </span>
           <select
             value={primaryGoal}
-            onChange={(e) => setPrimaryGoal(e.target.value as GoalRanking)}
+            onChange={(e) => updatePrimaryGoal(e.target.value as GoalRanking)}
             className={inputClass}
           >
             {GOAL_OPTIONS.map((g) => (
@@ -606,7 +611,7 @@ export function StrategyForm({
           >
             <option value="">None</option>
             {GOAL_OPTIONS.map((g) => (
-              <option key={g.value} value={g.value}>
+              <option key={g.value} value={g.value} disabled={g.value === primaryGoal}>
                 {g.label}
               </option>
             ))}
