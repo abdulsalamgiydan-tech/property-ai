@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { buildResearchReportBundle, reportBundleToCsv, reportBundleToJson, type ReportAreaSnapshot, type ReportScenarioCase } from "./researchReport";
+import {
+  buildResearchReportBundle,
+  reportBundleToCsv,
+  reportBundleToJson,
+  type ReportAreaSnapshot,
+  type ReportPropertyAnalysis,
+  type ReportScenarioCase,
+} from "./researchReport";
 
 const fullArea: ReportAreaSnapshot = {
   geographyLabel: "Melbourne, VIC",
@@ -32,6 +39,43 @@ const scenario: ReportScenarioCase = {
   netAnnualCashflow: -22_620,
   breakEvenWeeklyRent: 858,
 };
+
+const propertyAnalysis: ReportPropertyAnalysis = {
+  propertyName: "12 Example St, Calderwood",
+  purchasePrice: 550_000,
+  weeklyRent: 520,
+  grossYieldPercent: 4.92,
+  loanAmount: 440_000,
+  lvrPercent: 80,
+  depositPercent: 20,
+  interestRatePercent: 6.2,
+  preTaxCashflowAnnual: -3_200,
+  afterTaxCashflowAnnual: 1_100,
+  score: 68,
+  status: "borderline",
+};
+
+describe("buildResearchReportBundle — Sprint 14 WS7 generalisation (area/scenarios/propertyAnalysis all independently optional)", () => {
+  it("builds a valid bundle from propertyAnalysis alone, with no area at all (Deal Analyser has no linked warehouse geography)", () => {
+    const bundle = buildResearchReportBundle({ propertyAnalysis });
+    expect(bundle.area).toBeNull();
+    expect(bundle.propertyAnalysis).toEqual(propertyAnalysis);
+    expect(bundle.limitations).toEqual([]); // no area limitations to report when there's no area section
+  });
+
+  it("omits the area-derived source line when there is no area, but still includes a propertyAnalysis source line", () => {
+    const bundle = buildResearchReportBundle({ propertyAnalysis });
+    expect(bundle.sources.join(" ")).not.toMatch(/research profile/);
+    expect(bundle.sources.join(" ")).toMatch(/your own entered assumptions/);
+  });
+
+  it("supports area + propertyAnalysis + scenarios all together", () => {
+    const bundle = buildResearchReportBundle({ area: fullArea, propertyAnalysis, scenarios: [scenario] });
+    expect(bundle.area).not.toBeNull();
+    expect(bundle.propertyAnalysis).not.toBeNull();
+    expect(bundle.scenarios).toHaveLength(1);
+  });
+});
 
 describe("buildResearchReportBundle", () => {
   it("includes the standard non-advice disclaimer", () => {
@@ -106,6 +150,23 @@ describe("reportBundleToCsv", () => {
     const bundle = buildResearchReportBundle({ area: { ...fullArea, grossYieldPct: null } });
     const csv = reportBundleToCsv(bundle);
     expect(csv).toMatch(/# - Gross yield unavailable/);
+  });
+
+  it("renders a property analysis section when provided, and omits it when not", () => {
+    const withPA = reportBundleToCsv(buildResearchReportBundle({ area: fullArea, propertyAnalysis }));
+    expect(withPA).toContain("# Property analysis");
+    expect(withPA).toContain("12 Example St, Calderwood");
+    expect(withPA).toContain("Deal score,68");
+
+    const withoutPA = reportBundleToCsv(buildResearchReportBundle({ area: fullArea }));
+    expect(withoutPA).not.toContain("# Property analysis");
+  });
+
+  it("produces a usable CSV from propertyAnalysis alone, with no area section at all", () => {
+    const csv = reportBundleToCsv(buildResearchReportBundle({ propertyAnalysis }));
+    expect(csv).not.toContain("# Area snapshot");
+    expect(csv).toContain("# Property analysis");
+    expect(csv).toContain('Investment research report — "12 Example St, Calderwood"');
   });
 });
 

@@ -66,6 +66,8 @@ import {
 import { AboutThisMetric } from "@/components/research/AboutThisMetric";
 import { loadAnalyseDraft, saveAnalyseDraft } from "@/lib/auth/toolDraftStorage";
 import { SaveReportButton } from "@/components/analyse/SaveReportButton";
+import { ResearchReportExportButtons } from "@/components/research/ResearchReportExportButtons";
+import { buildResearchReportBundle } from "@/lib/export/researchReport";
 import Link from "next/link";
 import {
   useEffect,
@@ -2467,6 +2469,27 @@ export function AnalysePropertyClient() {
                     >
                       Compare with another property
                     </a>
+                  </div>
+                  <div className="mt-3">
+                    <ResearchReportExportButtons
+                      filenameBase={`propellect-deal-analysis-${(propertyAddress || suburb || "property").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                      bundle={buildResearchReportBundle({
+                        propertyAnalysis: {
+                          propertyName: propertyAddress || suburb || null,
+                          purchasePrice: result.purchasePrice,
+                          weeklyRent: result.weeklyRent,
+                          grossYieldPercent: result.grossYieldPercent,
+                          loanAmount: result.loan,
+                          lvrPercent: result.lvr,
+                          depositPercent: depositPercent ? parseNumber(depositPercent) : 0,
+                          interestRatePercent: result.interestRatePercent,
+                          preTaxCashflowAnnual: result.preTaxCashflow,
+                          afterTaxCashflowAnnual: result.afterTaxCashflow,
+                          score: result.score,
+                          status: result.status,
+                        },
+                      })}
+                    />
                   </div>
                 </section>
 
