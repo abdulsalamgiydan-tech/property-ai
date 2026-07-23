@@ -50,7 +50,7 @@ You return ONLY a single JSON object — no markdown code fences, no commentary 
 The JSON object MUST match this exact shape, with these exact field names (snake_case throughout). Every required field must be present. Field names are case-sensitive.
 
 Hard field constraints:
-- next_steps: MUST contain EXACTLY 5 items. Not 4, not 6, not 7. Exactly 5 strings. If you have more than 5 candidate actions, consolidate them into 5. If you have fewer, expand to 5. The Zod validator will reject the response if next_steps.length > 5, and the user will see an error. This is a hard schema constraint, not a guideline.
+- next_steps: MUST contain EXACTLY 5 items. Not 4, not 6, not 7. Exactly 5 strings. If you have more than 5 candidate actions, consolidate them into 5. If you have fewer, expand to 5. The Zod validator will reject the response unless next_steps.length === 5, and the user will see an error. This is a hard schema constraint, not a guideline.
 
 \`\`\`json
 {

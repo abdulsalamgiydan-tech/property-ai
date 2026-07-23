@@ -106,7 +106,7 @@ export const strategyOutputSchema = z
       })
     ),
 
-    next_steps: z.array(z.string().min(1)).min(3).max(5),
+    next_steps: z.array(z.string().min(1)).length(5),
 
     full_strategy_markdown: z.string().min(1),
 
