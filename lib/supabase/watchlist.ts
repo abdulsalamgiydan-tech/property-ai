@@ -68,11 +68,19 @@ export async function removeFromWatchlist(id: string): Promise<{ ok: boolean; me
   const supabase = createBrowserSupabaseClient();
   if (!supabase) return { ok: false, message: "Supabase is not configured." };
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("watchlist_items")
     .delete()
-    .eq("id", id);
+    .eq("id", id)
+    .select("id")
+    .maybeSingle();
 
   if (error) return { ok: false, message: error.message };
+  if (!data) {
+    return {
+      ok: false,
+      message: "Watchlist item not found or you do not have permission to remove it.",
+    };
+  }
   return { ok: true };
 }
