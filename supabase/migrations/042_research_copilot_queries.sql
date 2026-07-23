@@ -33,12 +33,16 @@ create index if not exists research_copilot_queries_user_created_idx
 
 alter table public.research_copilot_queries enable row level security;
 
+-- auth.uid() is wrapped in (select ...) per Supabase's own performance
+-- advisor guidance (Sprint 15 baseline audit) — this lets Postgres
+-- evaluate it once per statement (an InitPlan) instead of once per row.
+-- No behavioural change from the unwrapped form, purely a performance fix.
 drop policy if exists "Users can view their own copilot queries" on public.research_copilot_queries;
 create policy "Users can view their own copilot queries"
   on public.research_copilot_queries for select
-  using (auth.uid() = user_id);
+  using ((select auth.uid()) = user_id);
 
 drop policy if exists "Users can insert their own copilot queries" on public.research_copilot_queries;
 create policy "Users can insert their own copilot queries"
   on public.research_copilot_queries for insert
-  with check (auth.uid() = user_id);
+  with check ((select auth.uid()) = user_id);

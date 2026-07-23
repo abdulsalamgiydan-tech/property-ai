@@ -35,6 +35,23 @@ describe("checkTableRlsCoverage — fixture SQL, well-formed table", () => {
   });
 });
 
+describe("checkTableRlsCoverage — (select auth.uid()) InitPlan-optimised form (Sprint 15)", () => {
+  const wellFormedWrapped = `
+    create table if not exists public.widgets (id uuid, user_id uuid);
+    alter table public.widgets enable row level security;
+    create policy "select own" on public.widgets for select using ((select auth.uid()) = user_id);
+    create policy "insert own" on public.widgets for insert with check ((select auth.uid()) = user_id);
+    create policy "update own" on public.widgets for update using ((select auth.uid()) = user_id);
+    create policy "delete own" on public.widgets for delete using ((select auth.uid()) = user_id);
+  `.toLowerCase();
+
+  it("accepts the (select auth.uid()) form as equally valid to the unwrapped form", () => {
+    const result = checkTableRlsCoverage(wellFormedWrapped, "widgets", {});
+    expect(result.hasRls).toBe(true);
+    expect(result.ops).toEqual({ select: true, insert: true, update: true, delete: true });
+  });
+});
+
 describe("checkTableRlsCoverage — fixture SQL, genuinely broken table", () => {
   it("fails when RLS is never enabled", () => {
     const sql = `

@@ -29,22 +29,26 @@ create table if not exists public.user_onboarding_preferences (
 
 alter table public.user_onboarding_preferences enable row level security;
 
+-- auth.uid() is wrapped in (select ...) per Supabase's own performance
+-- advisor guidance (Sprint 15 baseline audit) — this lets Postgres
+-- evaluate it once per statement (an InitPlan) instead of once per row.
+-- No behavioural change from the unwrapped form, purely a performance fix.
 drop policy if exists "Users can view their own onboarding preferences" on public.user_onboarding_preferences;
 create policy "Users can view their own onboarding preferences"
   on public.user_onboarding_preferences for select
-  using (auth.uid() = user_id);
+  using ((select auth.uid()) = user_id);
 
 drop policy if exists "Users can insert their own onboarding preferences" on public.user_onboarding_preferences;
 create policy "Users can insert their own onboarding preferences"
   on public.user_onboarding_preferences for insert
-  with check (auth.uid() = user_id);
+  with check ((select auth.uid()) = user_id);
 
 drop policy if exists "Users can update their own onboarding preferences" on public.user_onboarding_preferences;
 create policy "Users can update their own onboarding preferences"
   on public.user_onboarding_preferences for update
-  using (auth.uid() = user_id);
+  using ((select auth.uid()) = user_id);
 
 drop policy if exists "Users can delete their own onboarding preferences" on public.user_onboarding_preferences;
 create policy "Users can delete their own onboarding preferences"
   on public.user_onboarding_preferences for delete
-  using (auth.uid() = user_id);
+  using ((select auth.uid()) = user_id);

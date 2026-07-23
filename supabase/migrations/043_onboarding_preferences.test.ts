@@ -29,9 +29,14 @@ describe("043_onboarding_preferences.sql", () => {
 
   it("defines all four standard auth.uid() = user_id policies (select/insert/update/delete)", () => {
     for (const op of ["select", "insert", "update", "delete"]) {
-      const re = new RegExp(`on public\\.user_onboarding_preferences for ${op}\\s*\\n\\s*(using|with check) \\(auth\\.uid\\(\\) = user_id\\)`);
+      const re = new RegExp(`on public\\.user_onboarding_preferences for ${op}\\s*\\n\\s*(using|with check) \\(\\(select auth\\.uid\\(\\)\\) = user_id\\)`);
       expect(lower).toMatch(re);
     }
+  });
+
+  it("wraps auth.uid() as (select auth.uid()) — Supabase performance advisor guidance to avoid per-row re-evaluation (Sprint 15 finding)", () => {
+    expect(lower).not.toMatch(/using \(auth\.uid\(\) = user_id\)/);
+    expect(lower).not.toMatch(/with check \(auth\.uid\(\) = user_id\)/);
   });
 
   it("does not use SECURITY DEFINER", () => {

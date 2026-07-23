@@ -78,8 +78,9 @@ export function extractPublicTables(sqlLower) {
  * migration corpus. Returns { hasRls, ops: { select, insert, update, delete } }
  * where each op is true only if a `create policy ... on public.<table> for
  * <op> ...` statement exists AND its predicate matches the expected shape
- * for that table (standard `auth.uid() = user_id`, or the table's declared
- * exception check).
+ * for that table (standard `auth.uid() = user_id`, or its InitPlan-
+ * optimised form `(select auth.uid()) = user_id` — see Sprint 15's
+ * baseline audit — or the table's declared exception check).
  */
 export function checkTableRlsCoverage(sqlLower, table, exceptions = KNOWN_EXCEPTIONS) {
   const hasRls = sqlLower.includes(`alter table public.${table} enable row level security`);
@@ -97,9 +98,20 @@ export function checkTableRlsCoverage(sqlLower, table, exceptions = KNOWN_EXCEPT
       if (customCheck(body)) ops[op] = true;
       continue;
     }
+    // Accept both auth.uid() and the (select auth.uid()) InitPlan-optimised
+    // form recommended by Supabase's own performance advisor (Sprint 15
+    // baseline audit) — same predicate, same isolation guarantee, just
+    // evaluated once per statement instead of once per row.
     if (op === "insert") {
-      if (body.includes("with check (auth.uid() = user_id)")) ops.insert = true;
-    } else if (body.includes("using (auth.uid() = user_id)")) {
+      if (
+        body.includes("with check (auth.uid() = user_id)") ||
+        body.includes("with check ((select auth.uid()) = user_id)")
+      )
+        ops.insert = true;
+    } else if (
+      body.includes("using (auth.uid() = user_id)") ||
+      body.includes("using ((select auth.uid()) = user_id)")
+    ) {
       ops[op] = true;
     }
   }

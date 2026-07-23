@@ -32,10 +32,15 @@ describe("042_research_copilot_queries.sql", () => {
   });
 
   it("defines exactly a select-own and insert-own policy pair, no update/delete surface", () => {
-    expect(lower).toMatch(/for select\s*\n\s*using \(auth\.uid\(\) = user_id\)/);
-    expect(lower).toMatch(/for insert\s*\n\s*with check \(auth\.uid\(\) = user_id\)/);
+    expect(lower).toMatch(/for select\s*\n\s*using \(\(select auth\.uid\(\)\) = user_id\)/);
+    expect(lower).toMatch(/for insert\s*\n\s*with check \(\(select auth\.uid\(\)\) = user_id\)/);
     expect(lower).not.toMatch(/for update/);
     expect(lower).not.toMatch(/for delete/);
+  });
+
+  it("wraps auth.uid() as (select auth.uid()) — Supabase performance advisor guidance to avoid per-row re-evaluation (Sprint 15 finding)", () => {
+    expect(lower).not.toMatch(/using \(auth\.uid\(\) = user_id\)/);
+    expect(lower).not.toMatch(/with check \(auth\.uid\(\) = user_id\)/);
   });
 
   it("does not use SECURITY DEFINER", () => {
