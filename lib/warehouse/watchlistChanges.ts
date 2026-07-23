@@ -20,6 +20,8 @@ export type SnapshotDiffInput = {
   median_weekly_rent_latest: number | null;
   gross_yield_pct: number | null;
   approvals_12m: number | null;
+  /** Sprint 14 WS9 — transaction volume, previously untracked. */
+  sales_volume_12m: number | null;
   sales_sample_confidence: string | null;
   rent_confidence: string | null;
   yield_confidence: string | null;
@@ -32,6 +34,7 @@ export type ChangeEventType =
   | "median_rent_movement"
   | "yield_movement"
   | "approvals_movement"
+  | "sales_volume_movement"
   | "confidence_upgrade"
   | "confidence_downgrade"
   | "metric_newly_available"
@@ -162,6 +165,7 @@ export function detectWatchlistChanges(
     movementEvent("rent", "median_rent_movement", "Median weekly rent", previous.median_weekly_rent_latest, current.median_weekly_rent_latest, false),
     movementEvent("yield", "yield_movement", "Gross yield", previous.gross_yield_pct, current.gross_yield_pct, true),
     movementEvent("approvals", "approvals_movement", "Building approvals (12m)", previous.approvals_12m, current.approvals_12m, false),
+    movementEvent("sales", "sales_volume_movement", "Sales transaction volume (12m)", previous.sales_volume_12m, current.sales_volume_12m, false),
 
     confidenceEvent("sales", previous.sales_sample_confidence, current.sales_sample_confidence),
     confidenceEvent("rent", previous.rent_confidence, current.rent_confidence),

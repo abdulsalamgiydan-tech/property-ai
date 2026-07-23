@@ -23,6 +23,7 @@ function toDiffInput(snapshot: Awaited<ReturnType<typeof getMarketSnapshotV2>>):
     median_weekly_rent_latest: snapshot.median_weekly_rent_latest,
     gross_yield_pct: snapshot.gross_yield_pct,
     approvals_12m: snapshot.approvals_12m,
+    sales_volume_12m: snapshot.sales_volume_12m,
     sales_sample_confidence: snapshot.sales_sample_confidence,
     rent_confidence: snapshot.rent_confidence,
     yield_confidence: snapshot.yield_confidence,

@@ -10,6 +10,7 @@ const baseline: SnapshotDiffInput = {
   median_weekly_rent_latest: 600,
   gross_yield_pct: 3.12,
   approvals_12m: 50,
+  sales_volume_12m: 120,
   sales_sample_confidence: "medium",
   rent_confidence: "high",
   yield_confidence: "medium",
@@ -65,6 +66,21 @@ describe("detectWatchlistChanges", () => {
     const events = detectWatchlistChanges(baseline, current);
     const event = events.find((e) => e.event_type === "median_rent_movement");
     expect(event!.description).toContain("fell");
+  });
+
+  it("detects a meaningful sales transaction volume movement (Sprint 14 WS9 — previously untracked)", () => {
+    const current = { ...baseline, sales_volume_12m: 150 };
+    const events = detectWatchlistChanges(baseline, current);
+    const event = events.find((e) => e.event_type === "sales_volume_movement");
+    expect(event).toBeDefined();
+    expect(event!.description).toContain("rose 25.0%");
+    expect(event!.metric_family).toBe("sales");
+  });
+
+  it("does not flag a sub-threshold volume change as noise", () => {
+    const current = { ...baseline, sales_volume_12m: 121 };
+    const events = detectWatchlistChanges(baseline, current);
+    expect(events.some((e) => e.event_type === "sales_volume_movement")).toBe(false);
   });
 
   it("detects a confidence upgrade", () => {
