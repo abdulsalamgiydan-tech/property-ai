@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { SectionCard } from "@/components/design/SectionCard";
 import { EmptyState } from "@/components/design/EmptyState";
 import { StateBadge } from "@/components/research/StateBadge";
-import { getDatasetFreshness, getOperationsSummary, getRefreshRunHistory } from "@/lib/warehouse/queries";
+import { getDatasetFreshness, getOperationsSummary, getQualitySummary, getRefreshRunHistory } from "@/lib/warehouse/queries";
 import { isDataOperationsEnabled, isWarehousePreviewEnabled } from "@/lib/warehouse/env";
 
 export const metadata: Metadata = { title: "Data Status (Research Preview) | Propellect", robots: { index: false, follow: false } };
@@ -59,7 +59,12 @@ export default async function DataStatusPage() {
   // independently of the rest of /research.
   if (!isWarehousePreviewEnabled() || !isDataOperationsEnabled()) notFound();
 
-  const [rows, summary, runHistory] = await Promise.all([getDatasetFreshness(), getOperationsSummary(), getRefreshRunHistory()]);
+  const [rows, summary, runHistory, quality] = await Promise.all([
+    getDatasetFreshness(),
+    getOperationsSummary(),
+    getRefreshRunHistory(),
+    getQualitySummary(),
+  ]);
   const datasetsWithRuns = new Set(runHistory.map((r) => r.dataset_id));
 
   return (
@@ -110,6 +115,55 @@ export default async function DataStatusPage() {
               <div className="text-xs text-zinc-500">Last run status</div>
             </div>
           </div>
+        </SectionCard>
+      ) : null}
+
+      {quality ? (
+        <SectionCard
+          title="Data quality monitoring"
+          description={`Latest quality run: ${formatTimestamp(quality.latest_run_at)}`}
+        >
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div>
+              <div className="text-2xl font-semibold text-zinc-100">{quality.active_rules}</div>
+              <div className="text-xs text-zinc-500">Active rules ({quality.blocking_rules} blocking, {quality.advisory_rules} advisory)</div>
+            </div>
+            <div>
+              <div className={`text-2xl font-semibold ${quality.rules_failed_blocking ? "text-red-300" : "text-emerald-300"}`}>
+                {quality.rules_passed ?? "n/a"}
+                {quality.rules_run != null ? <span className="text-sm text-zinc-500"> / {quality.rules_run}</span> : null}
+              </div>
+              <div className="text-xs text-zinc-500">Rules passed (latest run)</div>
+            </div>
+            <div>
+              <div className={`text-2xl font-semibold ${quality.rules_failed_blocking ? "text-red-300" : "text-zinc-100"}`}>
+                {quality.rules_failed_blocking ?? 0}
+              </div>
+              <div className="text-xs text-zinc-500">Blocking failures</div>
+            </div>
+            <div>
+              <div className={`text-2xl font-semibold ${quality.rules_failed_advisory ? "text-amber-300" : "text-zinc-100"}`}>
+                {quality.rules_failed_advisory ?? 0}
+              </div>
+              <div className="text-xs text-zinc-500">Advisory failures</div>
+            </div>
+            <div>
+              <div className={`text-2xl font-semibold ${quality.open_blocking_incidents ? "text-red-300" : "text-zinc-100"}`}>
+                {quality.open_incidents}
+              </div>
+              <div className="text-xs text-zinc-500">Open incidents ({quality.open_blocking_incidents} blocking)</div>
+            </div>
+            <div>
+              <div className="text-2xl font-semibold text-zinc-100">{quality.quarantined_rows_total.toLocaleString("en-AU")}</div>
+              <div className="text-xs text-zinc-500">Quarantined rows (total)</div>
+            </div>
+          </div>
+          {quality.rules_failed_blocking ? (
+            <p className="mt-4 rounded-lg border border-red-500/30 bg-red-950/20 px-3 py-2 text-xs text-red-200">
+              At least one blocking quality rule is currently failing — the refresh orchestrator will not promote a
+              new run until this is resolved (see refresh_engine_v3/v4&apos;s quality gate).
+            </p>
+          ) : null}
         </SectionCard>
       ) : null}
 
