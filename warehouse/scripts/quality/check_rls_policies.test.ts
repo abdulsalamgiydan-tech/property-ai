@@ -129,6 +129,7 @@ describe("checkTableRlsCoverage — real repository migrations", () => {
     "notification_preferences",
     "user_entitlements",
     "research_copilot_queries",
+    "user_onboarding_preferences",
   ];
 
   it.each(expectedTables)("passes for %s against the real migration corpus", (table) => {
