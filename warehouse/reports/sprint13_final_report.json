@@ -1,0 +1,70 @@
+{
+  "sprint": 13,
+  "status": "all_workstreams_complete",
+  "branch": "feature/sprint13-private-beta",
+  "base_branch": "feature/national-residential-research-platform-v1",
+  "merged_to_main": false,
+  "commits_ahead_of_main": 117,
+  "workstreams": {
+    "WS0_reconciliation": "complete",
+    "WS1_vercel_diagnosis": "complete",
+    "WS2_unified_navigation": "complete",
+    "WS3_national_search": "complete",
+    "WS4_explainability": "complete",
+    "WS5_analyse_property_integration": "complete_trimmed",
+    "WS6_scenario_lab_v2": "complete_trimmed",
+    "WS7_comparison_v2": "complete_trimmed_historical_view_deferred",
+    "WS8a_saved_research_workspace": "complete_trimmed",
+    "WS8b_rls_static_checker": "complete",
+    "WS9_watchlist_change_detection": "complete",
+    "WS10_explainability_audit": "complete",
+    "WS11_entitlement_schema": "complete_schema_only_no_billing",
+    "WS12_operations_console_extension": "complete",
+    "WS13_security_hardening": "complete",
+    "WS14_performance_cost_model": "complete",
+    "WS15_accessibility_mobile_ux": "complete",
+    "WS16_report_export": "complete",
+    "WS17_analytics_event_contract": "complete",
+    "WS18_release_candidate_test_suite": "complete",
+    "WS19_preview_deployment": "complete_sso_gated_external_test_pending",
+    "WS20_operating_pack": "complete",
+    "WS21_final_audit": "complete"
+  },
+  "validation": {
+    "lint_errors": 0,
+    "lint_warnings": 6,
+    "build_status": "pass",
+    "tests_total": 297,
+    "tests_passing": 297,
+    "warehouse_check": "pass",
+    "warehouse_rls_check": "pass",
+    "rls_tables_verified": 10,
+    "ci_status": "green_on_final_commit"
+  },
+  "production_database_changes": {
+    "action": "applied_4_additive_migrations",
+    "migrations": ["037_scenario_lab_cases", "038_watchlist_geography_linking", "039_watchlist_change_events", "040_user_entitlements"],
+    "approval": "explicit_user_approval_obtained_before_applying",
+    "verification": "independently_confirmed_via_information_schema_queries_and_security_advisor_before_and_after",
+    "destructive_operations": false,
+    "new_security_issues_introduced": false
+  },
+  "guardrails": {
+    "production_app_deployed": false,
+    "production_database_migrated": true,
+    "production_database_migration_approved": true,
+    "merged_to_main": false,
+    "paid_infrastructure_added": false,
+    "raw_data_committed": false,
+    "credentials_committed": false,
+    "financial_advice_language_added": false
+  },
+  "preview_deployment": {
+    "deployment_id": "dpl_3wHUerP5UsbiJE3eA1yTD6seauxM",
+    "url": "https://property-66z1ujs87-zeebusiness93-2304s-projects.vercel.app",
+    "target": "preview",
+    "status": "ready",
+    "external_browser_test_status": "blocked_by_vercel_team_sso_deployment_protection_expected_behaviour_not_a_bug"
+  },
+  "next_steps": "See sprint13_resume_or_launch_decision.md for the three paths forward (launch, merge, continue engineering) — all require a human decision, not more autonomous code."
+}
