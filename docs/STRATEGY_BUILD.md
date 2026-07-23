@@ -188,7 +188,7 @@ export type HandsOnPreference = "hands_off" | "light_touch" | "hands_on";
 export type HousingSituation = "own_ppor" | "renting" | "with_family";
 
 export type StrategyInput = {
-  firstName?: string;  // UI only — NEVER sent to LLM
+  firstName?: string;  // UI only — NEVER sent to LLM or persisted
 
   annualGrossIncome: number;
   partnerAnnualGrossIncome?: number;
@@ -241,7 +241,7 @@ export type StrategyInput = {
 - `investmentHorizonYears` between 1 and 50
 - `dependentsCount` between 0 and 10
 - All free-text fields: max 500 chars after sanitisation
-- `firstName` is NEVER passed to the LLM
+- `firstName` is NEVER passed to the LLM or persisted in `strategy_reports`
 
 ## Output Schema
 
@@ -522,7 +522,7 @@ For each persona, evaluate:
 ## Hard DO-NOTs for the implementer
 
 - Do not let the LLM select the archetype.
-- Do not pass firstName, partner names, or any identifier to the LLM.
+- Do not pass firstName, partner names, or any identifier to the LLM or persist them in reports.
 - Do not skip the rate limit check.
 - Do not skip free-text sanitisation.
 - Do not accept LLM output that fails StrategyOutput validation. Retry once, then error.
