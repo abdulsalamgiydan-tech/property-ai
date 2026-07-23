@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { csvCell } from "@/lib/export/csvSafety";
 
 export type ExportColumnDef = { key: string; label: string };
 export type ExportRow = Record<string, string | number | null>;
@@ -12,12 +13,6 @@ type ExportButtonsProps = {
   generatedAt?: string;
   provenanceNote?: string;
 };
-
-function csvCell(v: string | number | null): string {
-  if (v === null || v === undefined) return "";
-  const s = String(v);
-  return /[",\n]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s;
-}
 
 function downloadBlob(content: string, filename: string, mimeType: string) {
   const blob = new Blob([content], { type: mimeType });

@@ -1,4 +1,5 @@
 import { createWarehouseClient } from "./client";
+import { csvCell } from "@/lib/export/csvSafety";
 
 export type GeographySearchResult = {
   geography_id: string;
@@ -562,7 +563,7 @@ export function exportBundleToCsv(bundle: ExportBundle): string {
   const header = ["reference_period", "period_type", "dwelling_type", "metric_family", "transaction_count", "median_sale_price", "median_weekly_rent", "gross_yield_percentage", "approvals_count", "confidence_label", "source_dataset"];
   const rows = bundle.timeseries.map((r) =>
     [r.reference_period, r.period_type, r.dwelling_type ?? "", r.metric_family, r.transaction_count ?? "", r.median_sale_price ?? "", r.median_weekly_rent ?? "", r.gross_yield_percentage ?? "", r.approvals_count ?? "", r.confidence_label ?? "", r.source_dataset ?? ""]
-      .map((v) => (typeof v === "string" && (v.includes(",") || v.includes('"')) ? `"${v.replace(/"/g, '""')}"` : v))
+      .map((v) => csvCell(v as string | number | null))
       .join(",")
   );
   const methodologyLines = Object.entries(bundle.lineage).map(

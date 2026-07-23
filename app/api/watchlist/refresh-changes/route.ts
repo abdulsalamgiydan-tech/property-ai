@@ -4,6 +4,13 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { getMarketSnapshotV2 } from "@/lib/warehouse/queries";
 import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
 import { detectWatchlistChanges, type SnapshotDiffInput } from "@/lib/warehouse/watchlistChanges";
+import { checkRateLimit } from "@/lib/security/rateLimiter";
+
+// This route fans out one warehouse query per geography-linked watchlist
+// item — bound how often one signed-in user can trigger that fan-out,
+// independent of the per-IP limiters on the unauthenticated routes.
+const RATE_LIMIT = 6; // requests
+const RATE_WINDOW_MS = 60_000; // per minute — well above the once-per-page-visit real usage pattern
 
 function toDiffInput(snapshot: Awaited<ReturnType<typeof getMarketSnapshotV2>>): SnapshotDiffInput | null {
   if (!snapshot) return null;
@@ -49,6 +56,14 @@ export async function POST() {
   } = await supabase.auth.getUser();
   if (authError || !user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  }
+
+  const rate = checkRateLimit(`refresh-changes:${user.id}`, RATE_LIMIT, RATE_WINDOW_MS);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      { error: "rate_limited" },
+      { status: 429, headers: { "Retry-After": String(Math.ceil(rate.retryAfterMs / 1000)) } }
+    );
   }
 
   const { data: items, error: itemsError } = await supabase

@@ -30,7 +30,7 @@ export type SuburbSuggestionOutcome =
     }
   | {
       available: false;
-      reason: "state_not_covered" | "no_match" | "insufficient_data" | "feature_disabled" | "request_failed";
+      reason: "state_not_covered" | "no_match" | "insufficient_data" | "feature_disabled" | "request_failed" | "rate_limited";
     };
 
 export async function getSuggestedAssumptionsForSuburb(

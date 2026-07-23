@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { searchGeographiesV2, getMarketSnapshotV2 } from "@/lib/warehouse/queries";
 import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
+import { checkRateLimit } from "@/lib/security/rateLimiter";
+import { clientIpKey } from "@/lib/security/requestKey";
+
+const RATE_LIMIT = 30; // requests
+const RATE_WINDOW_MS = 60_000; // per minute — a real user blurs this field rarely
 
 /**
  * Server-side resolution of "suburb-based suggestions" for the Analyse a
@@ -17,6 +22,14 @@ import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
 export async function GET(req: NextRequest) {
   if (!isWarehousePreviewEnabled()) {
     return NextResponse.json({ available: false, reason: "feature_disabled" }, { status: 404 });
+  }
+
+  const rate = checkRateLimit(`suburb-suggestions:${clientIpKey(req)}`, RATE_LIMIT, RATE_WINDOW_MS);
+  if (!rate.allowed) {
+    return NextResponse.json(
+      { available: false, reason: "rate_limited" },
+      { status: 429, headers: { "Retry-After": String(Math.ceil(rate.retryAfterMs / 1000)) } }
+    );
   }
 
   const { searchParams } = req.nextUrl;
