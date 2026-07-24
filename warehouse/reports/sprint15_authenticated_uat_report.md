@@ -1,5 +1,10 @@
 # Sprint 15 — Authenticated UAT Report
 
+> Superseded for live browser status on 2026-07-24 22:25 AEST:
+> full protected Preview browser UAT has now passed. This report remains
+> historical DB-layer RLS evidence; see
+> `sprint15_browser_uat_report.md` for the final browser UAT result.
+
 ## Method, and an honest scope statement
 
 Full browser-based UAT against a deployed Vercel preview was blocked

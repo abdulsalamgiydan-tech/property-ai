@@ -1,72 +1,51 @@
 # Sprint 15 Preview UAT Report
 
-Generated: 2026-07-24 09:35 AEST.
+Generated: 2026-07-24 22:25 AEST
 
 ## Result
 
-**Preview deployment: PASS. Full live browser UAT: NO-GO / blocked.**
-
-The stable Preview alias now resolves to a Ready Preview deployment:
+**Preview deployment: PASS. Full live browser UAT: PASS.**
 
 - Stable alias: `https://property-ai-sprint15-uat-zeebusiness93-2304s-projects.vercel.app`
-- Deployment URL: `https://property-e060fqmec-zeebusiness93-2304s-projects.vercel.app`
-- Deployment ID: `dpl_G3N8iLRX9ohy82JfGZ2D68gq4Xed`
+- Deployment URL: `https://property-cmtjd1ayc-zeebusiness93-2304s-projects.vercel.app`
+- Deployment ID: `dpl_4oRRX1QyDWFLFU4MxSRKdrkPFqZu`
 - Target: Preview
-- Created: 2026-07-24 09:33:52 AEST
-- Branch/commit under test: `feature/sprint14-production-readiness` / `34eacc7e177aa47a8930de35f96bee9cf0f1a004`
+- Branch/commit under test: `feature/sprint14-production-readiness` / `a22f8175fe90ab152fdf582b4a685c09f89e01e4`
+- Supabase branch: `warehouse-validation`
+- Supabase ref: `lzonauinzatmtytyoems`
 
-## What was completed
+## Completed
 
-- Verified PR #23 remains open, draft, and unmerged.
-- Verified latest GitHub Actions for commit `5072ccc` is green.
-- Verified all recent Vercel deployments created in this handoff were Preview deployments.
-- Verified unauthenticated Preview requests remain protected by Vercel SSO.
-- Enabled Vercel automation protection bypass while keeping SSO deployment protection active.
-- Found the inherited branch-scoped Preview env entries existed but had empty values.
-- Repaired only Sprint-branch Preview env values for:
-  - `WAREHOUSE_PREVIEW_ENABLED`
-  - `MULTI_STATE_RESEARCH_ENABLED`
-  - `SCENARIO_LAB_ENABLED`
-  - `DATA_OPERATIONS_ENABLED`
-  - `PUBLIC_API_V1_ENABLED`
-  - `WAREHOUSE_SUPABASE_URL`
-  - `WAREHOUSE_SUPABASE_ANON_KEY`
-  - `NEXT_PUBLIC_SUPABASE_URL`
-  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-  - `NEXT_PUBLIC_SITE_URL`
-- Confirmed `RESEARCH_COPILOT_ENABLED`, `ADMIN_EMAILS`, and `SUPABASE_SERVICE_ROLE_KEY` remain absent from Preview branch scope.
-- Confirmed Production env listing was not modified.
-- Verified live Preview HTTP responses and JS chunks for privileged credential leakage: zero matches.
+- Verified PR #23 remained open, draft and unmerged.
+- Verified the stable Preview alias reached a Ready Preview deployment.
+- Verified unauthenticated Preview requests remained protected by Vercel Deployment Protection.
+- Used Vercel Protection Bypass for Automation without disabling project-wide protection.
+- Verified the live Preview bundle points to the `warehouse-validation` Supabase branch and does not expose privileged secret markers.
+- Repaired only two dedicated branch UAT Auth rows where nullable token/change fields caused branch GoTrue Admin API scan failures.
+- Used Supabase Admin API to set temporary in-memory passwords for two dedicated non-production UAT users.
+- Verified real Supabase password sign-in for both UAT users.
+- Ran full authenticated browser UAT against the deployed Preview.
 
-## Live Preview smoke evidence
+## Browser UAT
 
-Using the Vercel automation bypass header without printing the secret:
+The live browser run passed 16 checks:
 
-- `/`, `/dashboard`: 200
-- `/research`, `/research/explore`, `/research/map`, `/research/sources`, `/research/data-status`: 200
-- `/research/postcode/0800`, `/research/postcode/2000`: 200
-- `/research/compare?ids=0800,0810`: 200
-- `/api/research/search-suggest?q=darwin`: 200
-- `/api/v1`, `/api/v1/search?q=darwin`, `/api/v1/compare?ids=0800,0810`: 200
-- `/api/v1/snapshot/SAL_70053_ASGS3_2021`: 200
-- `/api/v1/export/SAL_70053_ASGS3_2021?format=json`: 200
-- `/api/v1/export/SAL_70053_ASGS3_2021?format=csv`: 200
-- `/admin`: 404
-- `/research/copilot/0800`: 404
-- `/definitely-not-a-real-route`: 404
+- User A and User B authenticated dashboard access.
+- Branch UAT user cleanup through each user's own RLS session.
+- Browser-originated inserts for reports, comparisons, watchlist, portfolio and Scenario Lab.
+- Free-tier Scenario Lab limit enforcement.
+- Elevated-tier Scenario Lab allowance.
+- Dashboard, direct report URL, and direct REST cross-user isolation.
+- Self-elevation rejected.
+- Desktop product journeys.
+- Mobile viewport and keyboard focus smoke.
+- Public API v1 search, compare and export checks.
+- Disabled admin and copilot routes.
+- Sign-out state.
 
-Research pages included confidence labels, and data-status/postcode/detail/export paths visibly labelled unavailable/missing values rather than fabricating zeroes.
+Ignored redacted artifact: `uat-artifacts/sprint15-browser/sprint15-browser-uat-evidence.json`.
 
-## Full browser UAT blocker
+## Secret Handling
 
-Full desktop/mobile browser UAT could not be completed safely. The Playwright CLI session could open the protected alias only to the Vercel SSO page. A temporary Vercel storage-state approach did not grant browser access, and injecting the raw bypass secret into Playwright command arguments or source files would violate the secret-handling rules.
+No Vercel bypass secret, service-role key, generated password, access token, refresh token, cookie value, or credential was committed or written into reports.
 
-Therefore these remain **not passed** on the real live Preview:
-
-- sign-up/login/logout/session persistence in browser;
-- two-user browser isolation across dashboard, reports, comparisons, portfolio, watchlist, and saved scenarios;
-- keyboard/focus-order browser walkthrough;
-- mobile visual UAT;
-- authenticated direct browser mutation attempts.
-
-The prior `sprint15_authenticated_uat_report.md` still provides DB-layer RLS evidence, but it is not a substitute for live browser UAT.
