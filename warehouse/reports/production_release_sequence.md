@@ -1,6 +1,6 @@
 # Sprint 15 Production Release Sequence
 
-Generated: 2026-07-24 23:07 AEST
+Generated: 2026-07-24 23:55 AEST
 
 ## Current Position
 
@@ -9,17 +9,17 @@ This document is sequencing guidance only. No Production action was performed.
 Current verified state:
 
 - Branch: `feature/sprint14-production-readiness`
-- Commit: `cddc7ae3152d6ec1b5dd2079b6f6f6a46f9960c3`
+- Commit: `5f52efb1cf9de0dc9febb8e417fb18bf5fdfc3c2`
 - PR #23: open, draft, unmerged
-- Preview deployment: `dpl_7aPP8JxvA8hfWN9yGtMY7W7mZ3tA`, target `preview`
+- Preview deployment: `dpl_7ShCWjiUb2VcX4a97ZtLETcNva2M`, target `preview`
 - Production Supabase ref: `oshquaxsloolqucwvigc`
 - Production migrations: through 041 only
 - Disposable migration rehearsal branch was deleted after use
 
 ## Recommended Order
 
-1. Resolve the current live Preview UAT rerun/config-proof issue.
-2. Run or explicitly waive the blank clean-database replay from migration 001 through 044.
+1. Provide the current Vercel Protection Bypass for Automation secret securely to the local test process.
+2. Re-run final protected authenticated Preview UAT against deployment `dpl_7ShCWjiUb2VcX4a97ZtLETcNva2M`.
 3. Abdul decides whether PR #23 may leave draft status.
 4. Abdul decides whether migrations 042-044 may be applied to Production.
 5. Apply migrations 042-044 to Production in a dedicated DB-only window.
@@ -40,8 +40,8 @@ Sprint 15 app with schema 044:
 
 - Expected compatible.
 - Unit/build/RLS checks pass.
-- Prior live Preview UAT passed against `warehouse-validation`, which already has 042-044.
-- Current rerun did not pass because the harness could not prove the public Supabase URL from the live root chunks, so do not use this document to claim final Preview acceptance by itself.
+- Deterministic Preview configuration attestation passes and proves warehouse-validation config.
+- Current final UAT rerun did not pass because Playwright could not unlock Vercel Deployment Protection with any locally available bypass secret.
 
 ## PR Draft Status
 
@@ -49,7 +49,7 @@ Changing PR #23 from Draft to Ready for Review is a GitHub metadata action and i
 
 It is safe in the narrow sense that it does not merge code, does not deploy to Production, and does not apply database migrations. It may notify reviewers and may trigger any repository automation configured for `ready_for_review`; no such deployment action was observed in the checks reviewed here, but Abdul should verify GitHub/Vercel automation policy before toggling.
 
-Recommendation: keep PR #23 draft until the Preview UAT rerun/config-proof issue and the clean `001 -> 044` rebuild evidence are resolved or explicitly waived.
+Recommendation: keep PR #23 draft until the final protected authenticated Preview UAT rerun is completed successfully or explicitly waived.
 
 ## Stop Conditions
 

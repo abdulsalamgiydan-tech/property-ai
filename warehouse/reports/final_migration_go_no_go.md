@@ -1,16 +1,16 @@
 # Sprint 15 Final Migration Go/No-Go
 
-Generated: 2026-07-24 23:07 AEST
+Generated: 2026-07-24 23:55 AEST
 
 ## Recommendation
 
-**CONDITIONAL GO for migrations 042-044 as database changes. NO-GO for Production deployment today until the Preview UAT rerun/config-proof issue is resolved or explicitly waived.**
+**CONDITIONAL GO for migrations 042-044 as database changes. NO-GO for Production deployment today until the final protected authenticated Preview UAT rerun is completed successfully or explicitly waived.**
 
 ## Decision Matrix
 
 | Decision | Status | Evidence |
 |---|---:|---|
-| Apply migrations 042-044 to Production after explicit approval | CONDITIONAL GO | Rehearsed successfully on one disposable non-production Supabase branch created from Production baseline through 041. All three migrations are additive and RLS-covered. |
+| Apply migrations 042-044 to Production after explicit approval | CONDITIONAL GO | Rehearsed successfully on one disposable non-production Supabase branch created from Production baseline through 041, and clean `001 -> 044` replay passed in GitHub Actions run `30097008506`. |
 | Merge PR #23 | NO-GO now | PR remains draft/open/unmerged. User explicitly prohibited merge. |
 | Deploy app to Production | NO-GO now | User explicitly prohibited Production deploy. Current live Preview UAT rerun did not pass. |
 | Enable Admin | NO | `ADMIN_EMAILS` must remain unset unless separately approved. |
@@ -21,7 +21,8 @@ Generated: 2026-07-24 23:07 AEST
 
 - Repo clean at start on `feature/sprint14-production-readiness`.
 - PR #23 open, draft, unmerged.
-- GitHub Actions green for commit `cddc7ae3152d6ec1b5dd2079b6f6f6a46f9960c3`.
+- GitHub Actions green for commit `5f52efb1cf9de0dc9febb8e417fb18bf5fdfc3c2`.
+- Clean migration replay `001 -> 044` passed in GitHub Actions run `30097008506`; 44 migrations applied from blank local database, 46 public policies found, and no missing RLS on checked user-owned tables.
 - Production Supabase migration history still ends at 041 before and after rehearsal.
 - One disposable branch created after cost confirmation: `sprint15-migration-042-044-rehearsal`, ref `umdpjizroetwblwowcrx`.
 - Branch was non-default, non-persistent, schema-only, and parented to Production.
@@ -42,37 +43,20 @@ Generated: 2026-07-24 23:07 AEST
 
 ## Blockers And Conditions
 
-### Blocker 1: full clean `001 -> 044` replay not completed
-
-Severity: Medium for migration approval evidence.
-
-Evidence:
-
-- `psql`, Docker, and Supabase CLI are not installed locally.
-- The single approved paid resource was a Supabase branch created from Production baseline, which proves `041 -> 044` but not blank replay from repository migration `001`.
-
-Required action:
-
-- Run a blank migration replay in an environment with PostgreSQL/Supabase CLI/Docker, or explicitly waive this evidence requirement.
-
-Blocks:
-
-- Full evidence claim.
-- Does not by itself show a defect in migrations 042-044.
-
-### Blocker 2: live Preview UAT rerun did not pass
+### Blocker 1: live Preview UAT rerun did not pass
 
 Severity: High for Production application deployment, Low for DB-only migration approval.
 
 Evidence:
 
-- `node tests/uat/sprint15-preview-browser-uat.mjs` failed before authentication with: `Preview public Supabase URL is not warehouse-validation`.
-- Redacted root HTML/chunk scanning found no Production Supabase ref and no forbidden secret markers, but also found no Supabase ref at all in the root chunk set.
+- Deterministic Preview config attestation now passes for deployment `dpl_7ShCWjiUb2VcX4a97ZtLETcNva2M`.
+- `node tests/uat/sprint15-preview-browser-uat.mjs` failed before authentication because Playwright received protected HTML instead of the attestation JSON.
+- Clipboard candidates and the visible Vercel protection metadata did not provide a usable bypass secret for ordinary browser HTTP access.
 
 Required action:
 
-- Reconcile the UAT harness with current Turbopack chunking or otherwise prove the live Preview public Supabase config through the real app flow.
-- Re-run authenticated two-user Preview UAT after the proof path is fixed.
+- Copy the current Vercel Protection Bypass for Automation secret from the Vercel dashboard to the clipboard without pasting it into chat.
+- Re-run authenticated two-user Preview UAT after the bypass unlocks Playwright access.
 
 Blocks:
 
