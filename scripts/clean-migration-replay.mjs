@@ -65,7 +65,20 @@ async function bootstrapSupabasePrimitives(client) {
     create schema if not exists auth;
     create schema if not exists extensions;
     create extension if not exists pgcrypto with schema extensions;
-    create extension if not exists postgis with schema extensions;
+    create extension if not exists postgis;
+
+    do $$
+    begin
+      if exists (
+        select 1
+        from pg_extension e
+        join pg_namespace n on n.oid = e.extnamespace
+        where e.extname = 'postgis'
+          and n.nspname <> 'extensions'
+      ) then
+        alter extension postgis set schema extensions;
+      end if;
+    end $$;
 
     do $$
     begin
