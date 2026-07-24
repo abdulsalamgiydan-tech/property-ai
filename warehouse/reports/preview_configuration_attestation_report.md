@@ -17,12 +17,12 @@ The previous JavaScript-bundle inference check was replaced with a server-side P
 
 ## Final Deployment Attested
 
-- Deployment ID: `dpl_7ShCWjiUb2VcX4a97ZtLETcNva2M`
-- Deployment URL: `https://property-fbas0vrqs-zeebusiness93-2304s-projects.vercel.app`
+- Deployment ID: `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`
+- Deployment URL: `https://property-ittynqm4w-zeebusiness93-2304s-projects.vercel.app`
 - Stable alias: `https://property-ai-git-feature-spr-48904f-zeebusiness93-2304s-projects.vercel.app`
 - Target: Preview
 - Branch: `feature/sprint14-production-readiness`
-- Commit: `5f52efb1cf9de0dc9febb8e417fb18bf5fdfc3c2`
+- Commit: `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`
 - Build status: Ready
 
 ## Attestation Findings

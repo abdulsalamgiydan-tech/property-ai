@@ -21,8 +21,8 @@ Generated: 2026-07-24 23:55 AEST
 
 - Repo clean at start on `feature/sprint14-production-readiness`.
 - PR #23 open, draft, unmerged.
-- GitHub Actions green for commit `5f52efb1cf9de0dc9febb8e417fb18bf5fdfc3c2`.
-- Clean migration replay `001 -> 044` passed in GitHub Actions run `30097008506`; 44 migrations applied from blank local database, 46 public policies found, and no missing RLS on checked user-owned tables.
+- GitHub Actions green for commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`.
+- Clean migration replay `001 -> 044` passed in GitHub Actions run `30129753693`; 44 migrations applied from blank local database, 46 public policies found, and no missing RLS on checked user-owned tables.
 - Production Supabase migration history still ends at 041 before and after rehearsal.
 - One disposable branch created after cost confirmation: `sprint15-migration-042-044-rehearsal`, ref `umdpjizroetwblwowcrx`.
 - Branch was non-default, non-persistent, schema-only, and parented to Production.
@@ -49,7 +49,7 @@ Severity: High for Production application deployment, Low for DB-only migration 
 
 Evidence:
 
-- Deterministic Preview config attestation now passes for deployment `dpl_7ShCWjiUb2VcX4a97ZtLETcNva2M`.
+- Deterministic Preview config attestation now passes for deployment `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`.
 - `node tests/uat/sprint15-preview-browser-uat.mjs` failed before authentication because Playwright received protected HTML instead of the attestation JSON.
 - Clipboard candidates and the visible Vercel protection metadata did not provide a usable bypass secret for ordinary browser HTTP access.
 

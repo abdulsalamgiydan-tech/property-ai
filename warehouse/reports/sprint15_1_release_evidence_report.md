@@ -8,9 +8,9 @@ Sprint 15.1 closed the clean migration replay and Preview configuration proof ga
 
 ## Evidence Closed
 
-- Clean migration replay `001 -> 044`: PASS via GitHub Actions run `30097008506`.
-- Deterministic Preview configuration attestation: PASS on deployment `dpl_7ShCWjiUb2VcX4a97ZtLETcNva2M`.
-- Final commit CI: PASS for push and pull request runs on `5f52efb1cf9de0dc9febb8e417fb18bf5fdfc3c2`.
+- Clean migration replay `001 -> 044`: PASS via GitHub Actions run `30129753693`.
+- Deterministic Preview configuration attestation: PASS on deployment `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`.
+- Final commit CI: PASS for pull request run and manual replay run on `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`; the matching push run was superseded by the manual run and cancelled by workflow concurrency.
 - Deployment Protection: still active; unauthenticated Preview request returned Vercel SSO 302.
 - Production smoke: `https://app.propellect.com.au/` returned HTTP 200.
 

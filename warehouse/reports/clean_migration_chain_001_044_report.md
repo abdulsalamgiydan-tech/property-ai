@@ -11,8 +11,8 @@ The clean replay was run in an ephemeral GitHub Actions workflow from a blank lo
 ## Evidence
 
 - Workflow: `Warehouse Validation`
-- Run: `30097008506`
-- Commit: `b12c1454e2392c4f1bb4b7cd135aac429a2a5c9d`
+- Run: `30129753693`
+- Commit: `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`
 - Job: `Replay migrations 001-044 from blank database`
 - Result: success
 - Artifact: `clean-migration-chain-001-044-report`

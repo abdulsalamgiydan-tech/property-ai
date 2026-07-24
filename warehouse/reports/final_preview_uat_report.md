@@ -10,11 +10,11 @@ The final live authenticated browser UAT was not marked passed. The final Previe
 
 ## Final Preview Under Test
 
-- Deployment ID: `dpl_7ShCWjiUb2VcX4a97ZtLETcNva2M`
+- Deployment ID: `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`
 - Stable alias: `https://property-ai-git-feature-spr-48904f-zeebusiness93-2304s-projects.vercel.app`
 - Target: Preview
 - Branch: `feature/sprint14-production-readiness`
-- Commit: `5f52efb1cf9de0dc9febb8e417fb18bf5fdfc3c2`
+- Commit: `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`
 
 ## Passed Before Blocker
 

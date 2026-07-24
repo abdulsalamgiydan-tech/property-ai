@@ -9,9 +9,9 @@ This document is sequencing guidance only. No Production action was performed.
 Current verified state:
 
 - Branch: `feature/sprint14-production-readiness`
-- Commit: `5f52efb1cf9de0dc9febb8e417fb18bf5fdfc3c2`
+- Commit: `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`
 - PR #23: open, draft, unmerged
-- Preview deployment: `dpl_7ShCWjiUb2VcX4a97ZtLETcNva2M`, target `preview`
+- Preview deployment: `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`, target `preview`
 - Production Supabase ref: `oshquaxsloolqucwvigc`
 - Production migrations: through 041 only
 - Disposable migration rehearsal branch was deleted after use
@@ -19,7 +19,7 @@ Current verified state:
 ## Recommended Order
 
 1. Provide the current Vercel Protection Bypass for Automation secret securely to the local test process.
-2. Re-run final protected authenticated Preview UAT against deployment `dpl_7ShCWjiUb2VcX4a97ZtLETcNva2M`.
+2. Re-run final protected authenticated Preview UAT against deployment `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`.
 3. Abdul decides whether PR #23 may leave draft status.
 4. Abdul decides whether migrations 042-044 may be applied to Production.
 5. Apply migrations 042-044 to Production in a dedicated DB-only window.
