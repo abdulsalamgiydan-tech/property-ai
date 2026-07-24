@@ -259,7 +259,7 @@ async function rest(page, supabaseUrl, token, method, table, query, body) {
   );
 }
 
-async function cleanupUserData(page, supabaseUrl, anonKey, session, labelPrefix) {
+async function cleanupUserData(page, supabaseUrl, session, labelPrefix) {
   const token = session.access_token;
   const userId = session.user.id;
   const deletes = [
@@ -276,7 +276,7 @@ async function cleanupUserData(page, supabaseUrl, anonKey, session, labelPrefix)
   }
 }
 
-async function insertRows(page, supabaseUrl, anonKey, session, labelPrefix, options = {}) {
+async function insertRows(page, supabaseUrl, session, labelPrefix, options = {}) {
   const { expectScenarioLimit = true } = options;
   const token = session.access_token;
   const userId = session.user.id;
