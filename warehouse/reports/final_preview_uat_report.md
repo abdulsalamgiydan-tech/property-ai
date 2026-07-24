@@ -10,11 +10,11 @@ The final live protected authenticated browser UAT passed against the real Verce
 
 ## Final Preview Under Test
 
-- Deployment ID: `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`
+- Deployment ID: `dpl_9aUSnD2pKnhBHgqjTUbEq5psYAm1`
 - Stable alias: `https://property-ai-git-feature-spr-48904f-zeebusiness93-2304s-projects.vercel.app`
 - Target: Preview
 - Branch: `feature/sprint14-production-readiness`
-- Commit: `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`
+- Commit: `6e70d833ee69ccb94454f6ada9dbf875658e7821`
 
 ## Evidence
 
@@ -26,7 +26,7 @@ The final live protected authenticated browser UAT passed against the real Verce
 - `vercel curl /api/diagnostics/preview-config --deployment property-ai-git-feature-spr-48904f...` returned safe JSON and `configurationOk: true`.
 - Direct unauthenticated HTTP to the diagnostic route returned 302 to Vercel SSO, proving Deployment Protection remains active.
 - Production smoke check returned HTTP 200 for `https://app.propellect.com.au/`.
-- GitHub Actions passed for commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`; final docs-only commit `1ca233c32dbee47c6d8ad7ae0d033d004c9ecacd` also had green PR checks before the final harness/report update.
+- GitHub Actions passed for commit `6e70d833ee69ccb94454f6ada9dbf875658e7821`; final UAT evidence commit `6e70d833ee69ccb94454f6ada9dbf875658e7821` has green PR checks.
 
 ## Passed Checks
 

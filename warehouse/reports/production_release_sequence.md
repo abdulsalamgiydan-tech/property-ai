@@ -9,9 +9,9 @@ This document is sequencing guidance only. No Production action was performed.
 Current verified state:
 
 - Branch: `feature/sprint14-production-readiness`
-- App commit tested in Preview: `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`
+- App commit tested in Preview: `6e70d833ee69ccb94454f6ada9dbf875658e7821`
 - PR #23: open, draft, unmerged
-- Preview deployment: `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`, target `preview`
+- Preview deployment: `dpl_9aUSnD2pKnhBHgqjTUbEq5psYAm1`, target `preview`
 - Production Supabase ref: `oshquaxsloolqucwvigc`
 - Production migrations: through 041 only
 - Disposable migration rehearsal branch was deleted after use

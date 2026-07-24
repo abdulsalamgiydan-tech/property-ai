@@ -6,7 +6,7 @@ Generated: 2026-07-25 08:20 AEST
 
 **CONDITIONAL GO for PR review, code merge, migrations 042-044, and core Production deployment, each only after Abdul's explicit separate approval. NO-GO for Admin and Copilot enablement.**
 
-Sprint 15.1 closed the clean migration replay and Preview configuration proof gaps, then completed the final protected authenticated browser UAT against commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`.
+Sprint 15.1 closed the clean migration replay and Preview configuration proof gaps, then completed the final protected authenticated browser UAT against commit `6e70d833ee69ccb94454f6ada9dbf875658e7821`.
 
 ## Independent Decisions
 
@@ -14,7 +14,7 @@ Sprint 15.1 closed the clean migration replay and Preview configuration proof ga
 |---|---:|---|
 | Code merge readiness | CONDITIONAL GO | CI is green and final authenticated Preview UAT passed. PR #23 must remain draft until Abdul approves changing status or merge. |
 | Migrations 042/043/044 readiness | CONDITIONAL GO | Production-shaped `041 -> 044` rehearsal and clean `001 -> 044` replay pass; apply only after explicit Production DB approval. |
-| Preview acceptance | GO | Stable Preview alias reached deployment `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`, target `preview`, branch `feature/sprint14-production-readiness`, commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`; final authenticated UAT passed 16 checks. |
+| Preview acceptance | GO | Stable Preview alias reached deployment `dpl_9aUSnD2pKnhBHgqjTUbEq5psYAm1`, target `preview`, branch `feature/sprint14-production-readiness`, commit `6e70d833ee69ccb94454f6ada9dbf875658e7821`; final authenticated UAT passed 16 checks. |
 | Authenticated browser UAT | GO | `tests/uat/sprint15-preview-browser-uat.mjs` passed against the protected Preview with two warehouse-validation users. |
 | Production deployment | CONDITIONAL GO | Requires explicit human approval. No production deployment was performed. |
 | Admin enablement | NO | `ADMIN_EMAILS` remains unset; `/admin` failed safely during Preview UAT. |

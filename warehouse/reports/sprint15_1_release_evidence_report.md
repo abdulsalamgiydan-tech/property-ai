@@ -9,7 +9,7 @@ Sprint 15.1 closed the clean migration replay, deterministic Preview configurati
 ## Evidence Closed
 
 - Clean migration replay `001 -> 044`: PASS via GitHub Actions run `30129753693`.
-- Deterministic Preview configuration attestation: PASS on deployment `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`.
+- Deterministic Preview configuration attestation: PASS on deployment `dpl_9aUSnD2pKnhBHgqjTUbEq5psYAm1`.
 - Final protected authenticated browser UAT: PASS, 16 live checks.
 - Deployment Protection: still active; unauthenticated Preview request returned Vercel SSO 302.
 - Production smoke: `https://app.propellect.com.au/` returned HTTP 200.

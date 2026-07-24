@@ -21,9 +21,9 @@ Generated: 2026-07-25 08:20 AEST
 
 - Repo on `feature/sprint14-production-readiness`.
 - PR #23 open, draft, unmerged.
-- GitHub Actions green for commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`; final docs-only commit `1ca233c32dbee47c6d8ad7ae0d033d004c9ecacd` also had green PR checks before the final harness/report update.
+- GitHub Actions green for commit `6e70d833ee69ccb94454f6ada9dbf875658e7821`; final UAT evidence commit `6e70d833ee69ccb94454f6ada9dbf875658e7821` has green PR checks.
 - Clean migration replay `001 -> 044` passed in GitHub Actions run `30129753693`; 44 migrations applied from blank local database, 46 public policies found, and no missing RLS on checked user-owned tables.
-- Final protected authenticated Preview UAT passed 16 checks against deployment `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`.
+- Final protected authenticated Preview UAT passed 16 checks against deployment `dpl_9aUSnD2pKnhBHgqjTUbEq5psYAm1`.
 - Production Supabase migration history remained through 041 in the latest check.
 - One disposable branch created after cost confirmation: `sprint15-migration-042-044-rehearsal`, ref `umdpjizroetwblwowcrx`.
 - Branch was non-default, non-persistent, schema-only, and parented to Production.
