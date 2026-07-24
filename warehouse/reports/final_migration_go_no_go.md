@@ -1,29 +1,30 @@
-# Sprint 15 Final Migration Go/No-Go
+﻿# Sprint 15 Final Migration Go/No-Go
 
-Generated: 2026-07-24 23:55 AEST
+Generated: 2026-07-25 08:20 AEST
 
 ## Recommendation
 
-**CONDITIONAL GO for migrations 042-044 as database changes. NO-GO for Production deployment today until the final protected authenticated Preview UAT rerun is completed successfully or explicitly waived.**
+**CONDITIONAL GO for migrations 042-044 as database changes and core application release, each only after Abdul's explicit separate approval.**
 
 ## Decision Matrix
 
 | Decision | Status | Evidence |
 |---|---:|---|
-| Apply migrations 042-044 to Production after explicit approval | CONDITIONAL GO | Rehearsed successfully on one disposable non-production Supabase branch created from Production baseline through 041, and clean `001 -> 044` replay passed in GitHub Actions run `30097008506`. |
-| Merge PR #23 | NO-GO now | PR remains draft/open/unmerged. User explicitly prohibited merge. |
-| Deploy app to Production | NO-GO now | User explicitly prohibited Production deploy. Current live Preview UAT rerun did not pass. |
+| Apply migrations 042-044 to Production after explicit approval | CONDITIONAL GO | Rehearsed successfully on one disposable non-production Supabase branch created from Production baseline through 041, and clean `001 -> 044` replay passed in GitHub Actions run `30129753693`. |
+| Merge PR #23 | CONDITIONAL GO | Evidence gates passed, but PR remains draft/open/unmerged and merge requires Abdul's explicit approval. |
+| Deploy app to Production | CONDITIONAL GO | Evidence gates passed, but Production deploy requires Abdul's explicit approval. |
 | Enable Admin | NO | `ADMIN_EMAILS` must remain unset unless separately approved. |
 | Enable Copilot | NO | `RESEARCH_COPILOT_ENABLED` must remain unset unless separately approved. |
-| Mark PR #23 Ready for Review | CONDITIONAL | Non-deploying GitHub metadata action by itself, but keep draft until UAT/config-proof and clean-chain evidence gaps are resolved or waived. |
+| Mark PR #23 Ready for Review | CONDITIONAL GO | Non-deploying GitHub metadata action by itself; still requires Abdul's decision. |
 
 ## Passed Evidence
 
-- Repo clean at start on `feature/sprint14-production-readiness`.
+- Repo on `feature/sprint14-production-readiness`.
 - PR #23 open, draft, unmerged.
-- GitHub Actions green for commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`.
+- GitHub Actions green for commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`; final docs-only commit `1ca233c32dbee47c6d8ad7ae0d033d004c9ecacd` also had green PR checks before the final harness/report update.
 - Clean migration replay `001 -> 044` passed in GitHub Actions run `30129753693`; 44 migrations applied from blank local database, 46 public policies found, and no missing RLS on checked user-owned tables.
-- Production Supabase migration history still ends at 041 before and after rehearsal.
+- Final protected authenticated Preview UAT passed 16 checks against deployment `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`.
+- Production Supabase migration history remained through 041 in the latest check.
 - One disposable branch created after cost confirmation: `sprint15-migration-042-044-rehearsal`, ref `umdpjizroetwblwowcrx`.
 - Branch was non-default, non-persistent, schema-only, and parented to Production.
 - 042, 043, and 044 applied successfully to that branch in order.
@@ -31,37 +32,16 @@ Generated: 2026-07-24 23:55 AEST
 - Rollback SQL validated inside a transaction.
 - Supabase advisors produced no new findings attributable to the three new tables.
 - Disposable branch deleted successfully and no longer appears in branch list.
-- Local checks:
-  - `npm run lint`: passed, 0 errors, 6 warnings.
-  - `npm run test`: passed, 49 files, 442 tests.
-  - `npm run build`: passed.
-  - `npm run warehouse:check`: passed.
-  - `npm run warehouse:rls:check`: passed.
-  - `npm run warehouse:lineage:check`: passed.
-- Redacted repository secret scan found only fake test connection strings using `pw`/`pass`.
-- Built artifact secret-name scan found zero forbidden server-only secret names.
 
 ## Blockers And Conditions
 
-### Blocker 1: live Preview UAT rerun did not pass
+No migration or Preview UAT evidence blocker remains.
 
-Severity: High for Production application deployment, Low for DB-only migration approval.
+Conditions:
 
-Evidence:
-
-- Deterministic Preview config attestation now passes for deployment `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`.
-- `node tests/uat/sprint15-preview-browser-uat.mjs` failed before authentication because Playwright received protected HTML instead of the attestation JSON.
-- Clipboard candidates and the visible Vercel protection metadata did not provide a usable bypass secret for ordinary browser HTTP access.
-
-Required action:
-
-- Copy the current Vercel Protection Bypass for Automation secret from the Vercel dashboard to the clipboard without pasting it into chat.
-- Re-run authenticated two-user Preview UAT after the bypass unlocks Playwright access.
-
-Blocks:
-
-- Production app deployment.
-- Does not block DB-only additive migration approval if Abdul separates migration approval from application deployment approval.
+- Abdul must explicitly approve any Production database migration.
+- Abdul must explicitly approve any merge or Production deployment.
+- Admin and Copilot remain disabled unless separately approved.
 
 ## Production Safety
 
@@ -77,4 +57,4 @@ Blocks:
 
 Migration 042-044 Production DB approval: **CONDITIONAL GO**.
 
-Core Production application release: **NO-GO until live Preview UAT rerun passes or Abdul explicitly accepts the risk.**
+Core Production application release: **CONDITIONAL GO** after separate approval.

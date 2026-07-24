@@ -68,6 +68,14 @@ function requireWarehouseValidationAdminKey(supabaseUrl) {
   return serviceRoleKey;
 }
 
+function requireWarehouseValidationAnonKey(supabaseUrl) {
+  assert(supabaseUrl === WAREHOUSE_VALIDATION_SUPABASE_URL, "Refusing direct REST UAT outside warehouse-validation");
+  assert(!supabaseUrl.includes(PRODUCTION_SUPABASE_REF), "Refusing direct REST UAT against production Supabase ref");
+  const anonKey = process.env.WAREHOUSE_VALIDATION_SUPABASE_ANON_KEY;
+  assert(anonKey && anonKey.trim() === anonKey, "WAREHOUSE_VALIDATION_SUPABASE_ANON_KEY is missing or malformed");
+  return anonKey;
+}
+
 function temporaryPassword() {
   return `S15Uat!${randomUUID()}${randomUUID().slice(0, 16)}`;
 }
@@ -233,13 +241,13 @@ async function newAuthedPage(browser, baseURL, headers, supabaseStorage) {
   return { context, page };
 }
 
-async function rest(page, supabaseUrl, token, method, table, query, body) {
+async function rest(page, supabaseUrl, anonKey, token, method, table, query, body) {
   return page.evaluate(
-    async ({ supabaseUrl, token, method, table, query, body }) => {
+    async ({ supabaseUrl, anonKey, token, method, table, query, body }) => {
       const res = await fetch(`${supabaseUrl}/rest/v1/${table}${query || ""}`, {
         method,
         headers: {
-          apikey: token,
+          apikey: anonKey,
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
           Prefer: "return=representation",
@@ -255,11 +263,11 @@ async function rest(page, supabaseUrl, token, method, table, query, body) {
       }
       return { status: res.status, json };
     },
-    { supabaseUrl, token, method, table, query, body }
+    { supabaseUrl, anonKey, token, method, table, query, body }
   );
 }
 
-async function cleanupUserData(page, supabaseUrl, session, labelPrefix) {
+async function cleanupUserData(page, supabaseUrl, anonKey, session, labelPrefix) {
   const token = session.access_token;
   const userId = session.user.id;
   const deletes = [
@@ -271,17 +279,17 @@ async function cleanupUserData(page, supabaseUrl, session, labelPrefix) {
   ];
 
   for (const [table, query] of deletes) {
-    const result = await rest(page, supabaseUrl, token, "DELETE", table, query, null);
-    assert([200, 204, 404].includes(result.status), `${labelPrefix} cleanup failed for ${table}`);
+    const result = await rest(page, supabaseUrl, anonKey, token, "DELETE", table, query, null);
+    assert([200, 204, 404].includes(result.status), `${labelPrefix} cleanup failed for ${table}; status=${result.status}`);
   }
 }
 
-async function insertRows(page, supabaseUrl, session, labelPrefix, options = {}) {
+async function insertRows(page, supabaseUrl, anonKey, session, labelPrefix, options = {}) {
   const { expectScenarioLimit = true } = options;
   const token = session.access_token;
   const userId = session.user.id;
   const suffix = randomUUID().slice(0, 8);
-  const report = await rest(page, supabaseUrl, token, "POST", "property_reports", "", {
+  const report = await rest(page, supabaseUrl, anonKey, token, "POST", "property_reports", "", {
     user_id: userId,
     property_name: `${labelPrefix} report ${suffix}`,
     suburb: "Darwin City",
@@ -297,14 +305,14 @@ async function insertRows(page, supabaseUrl, session, labelPrefix, options = {})
   assert(report.status === 201, `${labelPrefix} report insert failed`);
   const reportId = report.json[0].id;
 
-  const comparison = await rest(page, supabaseUrl, token, "POST", "property_comparisons", "", {
+  const comparison = await rest(page, supabaseUrl, anonKey, token, "POST", "property_comparisons", "", {
     user_id: userId,
     label: `${labelPrefix} comparison ${suffix}`,
     comparison_json: { a: "Darwin City", b: "Charles Darwin", selected: suffix },
   });
   assert(comparison.status === 201, `${labelPrefix} comparison insert failed`);
 
-  const watchlist = await rest(page, supabaseUrl, token, "POST", "watchlist_items", "", {
+  const watchlist = await rest(page, supabaseUrl, anonKey, token, "POST", "watchlist_items", "", {
     user_id: userId,
     type: "suburb",
     suburb: "Darwin City",
@@ -317,7 +325,7 @@ async function insertRows(page, supabaseUrl, session, labelPrefix, options = {})
   });
   assert(watchlist.status === 201, `${labelPrefix} watchlist insert failed`);
 
-  const portfolio = await rest(page, supabaseUrl, token, "POST", "portfolio_properties", "", {
+  const portfolio = await rest(page, supabaseUrl, anonKey, token, "POST", "portfolio_properties", "", {
     user_id: userId,
     property_report_id: reportId,
     label: `${labelPrefix} portfolio ${suffix}`,
@@ -332,7 +340,7 @@ async function insertRows(page, supabaseUrl, session, labelPrefix, options = {})
   const scenarioCount = expectScenarioLimit ? 10 : 11;
   const scenarioIds = [];
   for (let i = 0; i < scenarioCount; i += 1) {
-    const scenario = await rest(page, supabaseUrl, token, "POST", "scenario_lab_cases", "", {
+    const scenario = await rest(page, supabaseUrl, anonKey, token, "POST", "scenario_lab_cases", "", {
       user_id: userId,
       geography_id: "SAL_70073_ASGS3_2021",
       geography_code: "70073",
@@ -349,7 +357,7 @@ async function insertRows(page, supabaseUrl, session, labelPrefix, options = {})
     scenarioIds.push(scenario.json[0].id);
   }
   if (expectScenarioLimit) {
-    const limit = await rest(page, supabaseUrl, token, "POST", "scenario_lab_cases", "", {
+    const limit = await rest(page, supabaseUrl, anonKey, token, "POST", "scenario_lab_cases", "", {
       user_id: userId,
       geography_id: "SAL_70073_ASGS3_2021",
       geography_code: "70073",
@@ -402,6 +410,7 @@ async function run() {
   await mkdir(OUT_DIR, { recursive: true });
 
   const { supabaseUrl, attestation } = await fetchPreviewAttestation(baseURL, headers);
+  const anonKey = requireWarehouseValidationAnonKey(supabaseUrl);
   const users = await prepareAdminManagedUatUsers(supabaseUrl);
   const userA = users.a;
   const userB = users.b;
@@ -451,12 +460,12 @@ async function run() {
     await expectText(userBPage.page, "Dashboard", "User B dashboard did not load");
     evidence.checks.push({ id: "auth_user_b_dashboard", status: "pass" });
 
-    await cleanupUserData(userAPage.page, supabaseUrl, userA.session, "User A");
-    await cleanupUserData(userBPage.page, supabaseUrl, userB.session, "User B");
+    await cleanupUserData(userAPage.page, supabaseUrl, anonKey, userA.session, "User A");
+    await cleanupUserData(userBPage.page, supabaseUrl, anonKey, userB.session, "User B");
     evidence.checks.push({ id: "branch_uat_user_data_cleanup", status: "pass" });
 
-    const aRows = await insertRows(userAPage.page, supabaseUrl, userA.session, "User A", { expectScenarioLimit: true });
-    const bRows = await insertRows(userBPage.page, supabaseUrl, userB.session, "User B", { expectScenarioLimit: false });
+    const aRows = await insertRows(userAPage.page, supabaseUrl, anonKey, userA.session, "User A", { expectScenarioLimit: true });
+    const bRows = await insertRows(userBPage.page, supabaseUrl, anonKey, userB.session, "User B", { expectScenarioLimit: false });
     evidence.checks.push({ id: "browser_direct_rls_inserts", status: "pass" });
     evidence.checks.push({ id: "free_user_scenario_limit", status: "pass" });
     evidence.checks.push({ id: "elevated_user_scenario_allowance", status: "pass" });
@@ -473,13 +482,13 @@ async function run() {
     await expectNoText(userBPage.page, aRows.labels.report, "User B could view User A report page");
     evidence.checks.push({ id: "report_direct_url_isolation", status: "pass" });
 
-    const bReadAReport = await rest(userBPage.page, supabaseUrl, userB.session.access_token, "GET", "property_reports", `?id=eq.${aRows.reportId}`, null);
+    const bReadAReport = await rest(userBPage.page, supabaseUrl, anonKey, userB.session.access_token, "GET", "property_reports", `?id=eq.${aRows.reportId}`, null);
     assert(bReadAReport.status === 200 && Array.isArray(bReadAReport.json) && bReadAReport.json.length === 0, "User B REST read exposed User A report");
-    const bPatchAReport = await rest(userBPage.page, supabaseUrl, userB.session.access_token, "PATCH", "property_reports", `?id=eq.${aRows.reportId}`, { property_name: "attempted overwrite" });
+    const bPatchAReport = await rest(userBPage.page, supabaseUrl, anonKey, userB.session.access_token, "PATCH", "property_reports", `?id=eq.${aRows.reportId}`, { property_name: "attempted overwrite" });
     assert([200, 204].includes(bPatchAReport.status) && (!Array.isArray(bPatchAReport.json) || bPatchAReport.json.length === 0), "User B REST patch altered User A report");
     evidence.checks.push({ id: "direct_api_cross_user_read_write_isolation", status: "pass" });
 
-    const selfElevate = await rest(userAPage.page, supabaseUrl, userA.session.access_token, "POST", "user_entitlements", "", {
+    const selfElevate = await rest(userAPage.page, supabaseUrl, anonKey, userA.session.access_token, "POST", "user_entitlements", "", {
       user_id: userA.session.user.id,
       tier: "professional",
       source: "uat_attack",

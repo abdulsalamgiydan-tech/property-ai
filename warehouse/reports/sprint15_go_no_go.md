@@ -1,33 +1,33 @@
-# Sprint 15 Go/No-Go
+﻿# Sprint 15 Go/No-Go
 
-Generated: 2026-07-24 23:55 AEST
+Generated: 2026-07-25 08:20 AEST
 
 ## Recommendation
 
-**NO-GO for Production deployment and NO-GO for moving PR #23 out of draft until final protected authenticated Preview UAT is rerun successfully.**
+**CONDITIONAL GO for PR review, code merge, migrations 042-044, and core Production deployment, each only after Abdul's explicit separate approval. NO-GO for Admin and Copilot enablement.**
 
-Sprint 15.1 closed the clean migration replay and Preview configuration proof gaps, but the final browser UAT run against commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be` is blocked by missing local access to a valid Vercel automation bypass secret.
+Sprint 15.1 closed the clean migration replay and Preview configuration proof gaps, then completed the final protected authenticated browser UAT against commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`.
 
 ## Independent Decisions
 
 | Decision | Status | Evidence |
 |---|---:|---|
-| Code merge readiness | NO-GO | CI is green, but final authenticated Preview UAT is blocked. PR #23 must remain draft. |
+| Code merge readiness | CONDITIONAL GO | CI is green and final authenticated Preview UAT passed. PR #23 must remain draft until Abdul approves changing status or merge. |
 | Migrations 042/043/044 readiness | CONDITIONAL GO | Production-shaped `041 -> 044` rehearsal and clean `001 -> 044` replay pass; apply only after explicit Production DB approval. |
-| Preview acceptance | NO-GO | Stable Preview alias reached deployment `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`, target `preview`, branch `feature/sprint14-production-readiness`, commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`; final authenticated UAT remains blocked. |
-| Authenticated browser UAT | NO-GO | Browser received protected HTML instead of diagnostic JSON because no valid local bypass secret was available. |
-| Production deployment | NO | Requires explicit human approval. No production deployment was performed. |
+| Preview acceptance | GO | Stable Preview alias reached deployment `dpl_nznUFhJs2NnjxoN861DGa9YKPxUg`, target `preview`, branch `feature/sprint14-production-readiness`, commit `6a9f2a0ee10542d7fb3d2be8f0e939937b3487be`; final authenticated UAT passed 16 checks. |
+| Authenticated browser UAT | GO | `tests/uat/sprint15-preview-browser-uat.mjs` passed against the protected Preview with two warehouse-validation users. |
+| Production deployment | CONDITIONAL GO | Requires explicit human approval. No production deployment was performed. |
 | Admin enablement | NO | `ADMIN_EMAILS` remains unset; `/admin` failed safely during Preview UAT. |
 | Copilot enablement | NO | `RESEARCH_COPILOT_ENABLED` remains unset; copilot route failed safely during Preview UAT. |
 
 ## Blockers
 
-Final protected authenticated browser UAT remains blocked.
+No evidence blocker remains for the core release candidate.
 
 Remaining human approvals:
 
-- provide the current Vercel Protection Bypass for Automation secret through clipboard only, without pasting it into chat;
-- approve or reject merging PR #23 out of draft after final UAT passes;
+- approve or reject changing PR #23 from draft to Ready for Review;
+- approve or reject merging PR #23;
 - approve or reject applying migrations 042/043/044 to Production;
 - approve or reject a separate Production Vercel deployment;
 - decide separately whether admin and copilot should ever be enabled.
