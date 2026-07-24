@@ -6,6 +6,7 @@ import path from "node:path";
 
 const EXACT_ALLOWED_BASE_URLS = new Set([
   "https://property-ai-sprint15-uat-zeebusiness93-2304s-projects.vercel.app",
+  "https://property-ai-git-feature-spr-48904f-zeebusiness93-2304s-projects.vercel.app",
   "https://property-cmtjd1ayc-zeebusiness93-2304s-projects.vercel.app",
 ]);
 
@@ -120,11 +121,7 @@ function redactText(text) {
     .replace(/eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/g, "[JWT]");
 }
 
-function scriptsFrom(html) {
-  return [...html.matchAll(/<script[^>]+src="([^"]+)"/g)].map((m) => m[1].replace(/&amp;/g, "&"));
-}
-
-async function extractPublicSupabaseConfig(baseURL, headers) {
+async function fetchPreviewAttestation(baseURL, headers) {
   const browser = await chromium.launch();
   const context = await browser.newContext({
     baseURL,
@@ -132,38 +129,30 @@ async function extractPublicSupabaseConfig(baseURL, headers) {
     viewport: { width: 1440, height: 980 },
   });
   const page = await context.newPage();
-  const homeResponse = await page.goto("/", { waitUntil: "domcontentloaded" });
-  assert(homeResponse?.status() === 200, "Preview home did not load through bypass");
-  const homeBody = await page.content();
-  const chunks = [];
-  for (const src of scriptsFrom(homeBody)) {
-    const chunk = await page.evaluate(async (scriptSrc) => {
-      try {
-        const response = await fetch(scriptSrc, { credentials: "include" });
-        if (!response.ok) return null;
-        return response.text();
-      } catch {
-        return null;
-      }
-    }, src);
-    if (chunk) chunks.push(chunk);
-  }
+  const response = await page.goto("/api/diagnostics/preview-config", { waitUntil: "domcontentloaded" });
+  assert(response?.status() === 200, `Preview config attestation failed with status ${response?.status()}`);
+  const attestation = await response.json();
   await context.close();
   await browser.close();
 
-  const all = [homeBody, ...chunks].join("\n");
-  const supabaseUrl = all.match(/https:\/\/lzonauinzatmtytyoems\.supabase\.co/)?.[0];
-  const anonKey = [...new Set(all.match(/eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/g) || [])].find((token) => token.length > 100);
-  assert(supabaseUrl === "https://lzonauinzatmtytyoems.supabase.co", "Preview public Supabase URL is not warehouse-validation");
-  assert(anonKey, "Could not locate public anon key in Preview bundle");
-  assert(!all.includes("oshquaxsloolqucwvigc"), "Production Supabase ref leaked into Preview bundle");
-  assert(!all.includes(process.env.VERCEL_AUTOMATION_BYPASS_SECRET), "Bypass secret leaked into Preview bundle");
-  assert(!/service_role|SUPABASE_SERVICE_ROLE_KEY|DATABASE_URL|POSTGRES_PASSWORD|ANTHROPIC_API_KEY/.test(all), "Privileged secret marker leaked into Preview bundle");
-  return { supabaseUrl, anonKey, scannedChunks: chunks.length };
+  assert(attestation.configurationOk === true, "Preview config attestation did not pass");
+  assert(attestation.target === "preview", "Preview config attestation target is not preview");
+  assert(attestation.gitBranch === "feature/sprint14-production-readiness", "Preview config attestation branch mismatch");
+  if (process.env.PREVIEW_UAT_EXPECTED_COMMIT_SHA) {
+    assert(attestation.commitSha === process.env.PREVIEW_UAT_EXPECTED_COMMIT_SHA, "Preview config attestation commit mismatch");
+  }
+  assert(attestation.supabase?.appUsesWarehouseValidation === true, "Preview app Supabase ref is not warehouse-validation");
+  assert(attestation.supabase?.warehouseUsesWarehouseValidation === true, "Preview warehouse Supabase ref is not warehouse-validation");
+  assert(attestation.supabase?.productionRefDetected === false, "Preview attestation detected production Supabase ref");
+  assert(attestation.featureFlags?.researchCopilot === false, "Research Copilot is enabled in Preview");
+  assert(attestation.featureFlags?.adminEmailsConfigured === false, "ADMIN_EMAILS is configured in Preview");
+  assert(attestation.featureFlags?.serviceRoleConfigured === false, "SUPABASE_SERVICE_ROLE_KEY is configured in Preview");
+  assert(!JSON.stringify(attestation).includes(WAREHOUSE_VALIDATION_SUPABASE_URL), "Preview attestation leaked full Supabase URL");
+  return { supabaseUrl: WAREHOUSE_VALIDATION_SUPABASE_URL, attestation };
 }
 
-async function signInApprovedUser(supabaseUrl, anonKey, email, password, label) {
-  const supabase = createClient(supabaseUrl, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
+async function signInApprovedUser(supabaseUrl, apiKey, email, password, label) {
+  const supabase = createClient(supabaseUrl, apiKey, { auth: { persistSession: false, autoRefreshToken: false } });
   const signedIn = await supabase.auth.signInWithPassword({ email, password });
   if (signedIn.error) throw new Error(`${label} password sign-in failed after admin repair: ${signedIn.error.message}`);
   const session = signedIn.data.session;
@@ -172,7 +161,7 @@ async function signInApprovedUser(supabaseUrl, anonKey, email, password, label) 
   return session;
 }
 
-async function prepareAdminManagedUatUsers(supabaseUrl, anonKey) {
+async function prepareAdminManagedUatUsers(supabaseUrl) {
   const serviceRoleKey = requireWarehouseValidationAdminKey(supabaseUrl);
   const admin = createClient(supabaseUrl, serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } });
   const prepared = {};
@@ -188,7 +177,7 @@ async function prepareAdminManagedUatUsers(supabaseUrl, anonKey) {
       `${user.label} admin password repair failed: ${updateError?.name || "unknown"} ${updateError?.status || ""} ${updateError?.message || ""}`.trim(),
     );
 
-    const session = await signInApprovedUser(supabaseUrl, anonKey, user.email, password, user.label);
+    const session = await signInApprovedUser(supabaseUrl, serviceRoleKey, user.email, password, user.label);
     assert(session.user.id === user.expectedId, `${user.label} signed in as unexpected user`);
     prepared[key] = { session, source: "admin_repaired_existing_uat_user", expectedTier: user.expectedTier };
   }
@@ -244,13 +233,13 @@ async function newAuthedPage(browser, baseURL, headers, supabaseStorage) {
   return { context, page };
 }
 
-async function rest(page, supabaseUrl, anonKey, token, method, table, query, body) {
+async function rest(page, supabaseUrl, token, method, table, query, body) {
   return page.evaluate(
-    async ({ supabaseUrl, anonKey, token, method, table, query, body }) => {
+    async ({ supabaseUrl, token, method, table, query, body }) => {
       const res = await fetch(`${supabaseUrl}/rest/v1/${table}${query || ""}`, {
         method,
         headers: {
-          apikey: anonKey,
+          apikey: token,
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
           Prefer: "return=representation",
@@ -266,7 +255,7 @@ async function rest(page, supabaseUrl, anonKey, token, method, table, query, bod
       }
       return { status: res.status, json };
     },
-    { supabaseUrl, anonKey, token, method, table, query, body }
+    { supabaseUrl, token, method, table, query, body }
   );
 }
 
@@ -282,7 +271,7 @@ async function cleanupUserData(page, supabaseUrl, anonKey, session, labelPrefix)
   ];
 
   for (const [table, query] of deletes) {
-    const result = await rest(page, supabaseUrl, anonKey, token, "DELETE", table, query, null);
+    const result = await rest(page, supabaseUrl, token, "DELETE", table, query, null);
     assert([200, 204, 404].includes(result.status), `${labelPrefix} cleanup failed for ${table}`);
   }
 }
@@ -292,7 +281,7 @@ async function insertRows(page, supabaseUrl, anonKey, session, labelPrefix, opti
   const token = session.access_token;
   const userId = session.user.id;
   const suffix = randomUUID().slice(0, 8);
-  const report = await rest(page, supabaseUrl, anonKey, token, "POST", "property_reports", "", {
+  const report = await rest(page, supabaseUrl, token, "POST", "property_reports", "", {
     user_id: userId,
     property_name: `${labelPrefix} report ${suffix}`,
     suburb: "Darwin City",
@@ -308,14 +297,14 @@ async function insertRows(page, supabaseUrl, anonKey, session, labelPrefix, opti
   assert(report.status === 201, `${labelPrefix} report insert failed`);
   const reportId = report.json[0].id;
 
-  const comparison = await rest(page, supabaseUrl, anonKey, token, "POST", "property_comparisons", "", {
+  const comparison = await rest(page, supabaseUrl, token, "POST", "property_comparisons", "", {
     user_id: userId,
     label: `${labelPrefix} comparison ${suffix}`,
     comparison_json: { a: "Darwin City", b: "Charles Darwin", selected: suffix },
   });
   assert(comparison.status === 201, `${labelPrefix} comparison insert failed`);
 
-  const watchlist = await rest(page, supabaseUrl, anonKey, token, "POST", "watchlist_items", "", {
+  const watchlist = await rest(page, supabaseUrl, token, "POST", "watchlist_items", "", {
     user_id: userId,
     type: "suburb",
     suburb: "Darwin City",
@@ -328,7 +317,7 @@ async function insertRows(page, supabaseUrl, anonKey, session, labelPrefix, opti
   });
   assert(watchlist.status === 201, `${labelPrefix} watchlist insert failed`);
 
-  const portfolio = await rest(page, supabaseUrl, anonKey, token, "POST", "portfolio_properties", "", {
+  const portfolio = await rest(page, supabaseUrl, token, "POST", "portfolio_properties", "", {
     user_id: userId,
     property_report_id: reportId,
     label: `${labelPrefix} portfolio ${suffix}`,
@@ -343,7 +332,7 @@ async function insertRows(page, supabaseUrl, anonKey, session, labelPrefix, opti
   const scenarioCount = expectScenarioLimit ? 10 : 11;
   const scenarioIds = [];
   for (let i = 0; i < scenarioCount; i += 1) {
-    const scenario = await rest(page, supabaseUrl, anonKey, token, "POST", "scenario_lab_cases", "", {
+    const scenario = await rest(page, supabaseUrl, token, "POST", "scenario_lab_cases", "", {
       user_id: userId,
       geography_id: "SAL_70073_ASGS3_2021",
       geography_code: "70073",
@@ -360,7 +349,7 @@ async function insertRows(page, supabaseUrl, anonKey, session, labelPrefix, opti
     scenarioIds.push(scenario.json[0].id);
   }
   if (expectScenarioLimit) {
-    const limit = await rest(page, supabaseUrl, anonKey, token, "POST", "scenario_lab_cases", "", {
+    const limit = await rest(page, supabaseUrl, token, "POST", "scenario_lab_cases", "", {
       user_id: userId,
       geography_id: "SAL_70073_ASGS3_2021",
       geography_code: "70073",
@@ -412,15 +401,23 @@ async function run() {
   const headers = bypassHeaders();
   await mkdir(OUT_DIR, { recursive: true });
 
-  const { supabaseUrl, anonKey, scannedChunks } = await extractPublicSupabaseConfig(baseURL, headers);
-  const users = await prepareAdminManagedUatUsers(supabaseUrl, anonKey);
+  const { supabaseUrl, attestation } = await fetchPreviewAttestation(baseURL, headers);
+  const users = await prepareAdminManagedUatUsers(supabaseUrl);
   const userA = users.a;
   const userB = users.b;
 
   const browser = await chromium.launch({ headless: true });
   const evidence = {
     baseURL,
-    deploymentExpected: "dpl_4oRRX1QyDWFLFU4MxSRKdrkPFqZu",
+    deploymentExpected: process.env.PREVIEW_UAT_DEPLOYMENT_ID || "unknown",
+    attestation: {
+      target: attestation.target,
+      commitSha: attestation.commitSha,
+      gitBranch: attestation.gitBranch,
+      environmentLabel: attestation.environmentLabel,
+      supabase: attestation.supabase,
+      featureFlags: attestation.featureFlags,
+    },
     supabaseBranch: "warehouse-validation",
     supabaseRef: "lzonauinzatmtytyoems",
     authMethod: "admin_repaired_existing_uat_users_password_sign_in",
@@ -428,7 +425,6 @@ async function run() {
       { label: "User A", expectedTier: userA.expectedTier, userId: userA.session.user.id },
       { label: "User B", expectedTier: userB.expectedTier, userId: userB.session.user.id },
     ],
-    scannedChunks,
     checks: [],
   };
   partialEvidence = evidence;
@@ -455,12 +451,12 @@ async function run() {
     await expectText(userBPage.page, "Dashboard", "User B dashboard did not load");
     evidence.checks.push({ id: "auth_user_b_dashboard", status: "pass" });
 
-    await cleanupUserData(userAPage.page, supabaseUrl, anonKey, userA.session, "User A");
-    await cleanupUserData(userBPage.page, supabaseUrl, anonKey, userB.session, "User B");
+    await cleanupUserData(userAPage.page, supabaseUrl, userA.session, "User A");
+    await cleanupUserData(userBPage.page, supabaseUrl, userB.session, "User B");
     evidence.checks.push({ id: "branch_uat_user_data_cleanup", status: "pass" });
 
-    const aRows = await insertRows(userAPage.page, supabaseUrl, anonKey, userA.session, "User A", { expectScenarioLimit: true });
-    const bRows = await insertRows(userBPage.page, supabaseUrl, anonKey, userB.session, "User B", { expectScenarioLimit: false });
+    const aRows = await insertRows(userAPage.page, supabaseUrl, userA.session, "User A", { expectScenarioLimit: true });
+    const bRows = await insertRows(userBPage.page, supabaseUrl, userB.session, "User B", { expectScenarioLimit: false });
     evidence.checks.push({ id: "browser_direct_rls_inserts", status: "pass" });
     evidence.checks.push({ id: "free_user_scenario_limit", status: "pass" });
     evidence.checks.push({ id: "elevated_user_scenario_allowance", status: "pass" });
@@ -477,13 +473,13 @@ async function run() {
     await expectNoText(userBPage.page, aRows.labels.report, "User B could view User A report page");
     evidence.checks.push({ id: "report_direct_url_isolation", status: "pass" });
 
-    const bReadAReport = await rest(userBPage.page, supabaseUrl, anonKey, userB.session.access_token, "GET", "property_reports", `?id=eq.${aRows.reportId}`, null);
+    const bReadAReport = await rest(userBPage.page, supabaseUrl, userB.session.access_token, "GET", "property_reports", `?id=eq.${aRows.reportId}`, null);
     assert(bReadAReport.status === 200 && Array.isArray(bReadAReport.json) && bReadAReport.json.length === 0, "User B REST read exposed User A report");
-    const bPatchAReport = await rest(userBPage.page, supabaseUrl, anonKey, userB.session.access_token, "PATCH", "property_reports", `?id=eq.${aRows.reportId}`, { property_name: "attempted overwrite" });
+    const bPatchAReport = await rest(userBPage.page, supabaseUrl, userB.session.access_token, "PATCH", "property_reports", `?id=eq.${aRows.reportId}`, { property_name: "attempted overwrite" });
     assert([200, 204].includes(bPatchAReport.status) && (!Array.isArray(bPatchAReport.json) || bPatchAReport.json.length === 0), "User B REST patch altered User A report");
     evidence.checks.push({ id: "direct_api_cross_user_read_write_isolation", status: "pass" });
 
-    const selfElevate = await rest(userAPage.page, supabaseUrl, anonKey, userA.session.access_token, "POST", "user_entitlements", "", {
+    const selfElevate = await rest(userAPage.page, supabaseUrl, userA.session.access_token, "POST", "user_entitlements", "", {
       user_id: userA.session.user.id,
       tier: "professional",
       source: "uat_attack",

@@ -15,6 +15,7 @@
 /test-results/
 /playwright-report/
 /uat-artifacts/
+/clean-replay-artifacts/
 
 # next.js
 /.next/
