@@ -34,6 +34,23 @@ function sessionStorage(session) {
   const encoded = Buffer.from(value).toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
   return { key, value, cookie: `base64-${encoded}` };
 }
+async function obtainSession(supabase, label, email, expectedId, emailEnv, passwordEnv) {
+  const adminKey = process.env.WAREHOUSE_VALIDATION_SUPABASE_SERVICE_ROLE_KEY;
+  let password = process.env[passwordEnv];
+  if (adminKey) {
+    assert(adminKey.trim() === adminKey, "Warehouse-validation admin credential is malformed");
+    assert(WAREHOUSE_URL === "https://lzonauinzatmtytyoems.supabase.co" && !WAREHOUSE_URL.includes(PRODUCTION_REF), "Refusing Auth mutation outside warehouse-validation");
+    password = `S17Uat!${randomUUID()}${randomUUID().slice(0, 16)}`;
+    const admin = createClient(WAREHOUSE_URL, adminKey, { auth: { persistSession: false, autoRefreshToken: false } });
+    const repaired = await admin.auth.admin.updateUserById(expectedId, { password, email_confirm: true });
+    assert(!repaired.error, `${label} non-Production admin repair failed`);
+  }
+  if (!password) password = process.env[passwordEnv];
+  const result = await supabase.auth.signInWithPassword({ email: email || process.env[emailEnv], password });
+  assert(!result.error && result.data.session?.user?.id === expectedId, `${label} password sign-in failed`);
+  await supabase.auth.signOut();
+  return result.data.session;
+}
 async function signIn(supabase, emailEnv, passwordEnv, label) {
   const email = process.env[emailEnv];
   const password = process.env[passwordEnv];
@@ -87,8 +104,8 @@ async function run() {
     await publicContext.close();
 
     const supabase = createClient(WAREHOUSE_URL, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
-    const userA = await signIn(supabase, "UAT_USER_A_EMAIL", "UAT_USER_A_PASSWORD", "User A");
-    const userB = await signIn(supabase, "UAT_USER_B_EMAIL", "UAT_USER_B_PASSWORD", "User B");
+    const userA = await obtainSession(supabase, "User A", "sprint15-uat-normal@example.com", "eaf666ed-0f3c-4ada-b10c-275cc9596505", "UAT_USER_A_EMAIL", "UAT_USER_A_PASSWORD");
+    const userB = await obtainSession(supabase, "User B", "sprint15-uat-elevated@example.com", "c460f3be-c7d1-4b14-9b85-bdeb773dc312", "UAT_USER_B_EMAIL", "UAT_USER_B_PASSWORD");
     checks.push({ id: "password_auth_user_a", status: "pass", userId: userA.user.id });
     checks.push({ id: "password_auth_user_b", status: "pass", userId: userB.user.id });
 
@@ -136,12 +153,16 @@ async function run() {
     assert(mapInvalid.status >= 400 && mapInvalid.status < 500, "Invalid map bounds were not rejected");
     checks.push({ id: "map_bounds_validation", status: "pass" });
 
-    const feedbackClientSubmissionId = randomUUID();`r`n    const feedback = await responseStatus(pageA, "/api/feedback", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ category: "general", message: `Sprint 17 Preview UAT ${randomUUID()}`, pagePath: "/research", satisfactionScore: 4, contactPermission: false, clientSubmissionId: feedbackClientSubmissionId }) });
+    const feedbackClientSubmissionId = randomUUID();
+    const feedback = await responseStatus(pageA, "/api/feedback", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ category: "general", message: `Sprint 17 Preview UAT ${randomUUID()}`, pagePath: "/research", satisfactionScore: 4, contactPermission: false, clientSubmissionId: feedbackClientSubmissionId }) });
     assert(feedback.status === 200, "Preview feedback submission failed");
     checks.push({ id: "feedback_submission", status: "pass" });
     const feedbackInvalid = await responseStatus(pageA, "/api/feedback", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ category: "invalid", message: "" }) });
     assert(feedbackInvalid.status === 400, "Invalid feedback was not rejected");
-    checks.push({ id: "feedback_validation", status: "pass" });`r`n    const feedbackCleanup = await supabase.from("user_feedback").delete().eq("user_id", userA.user.id).eq("client_submission_id", feedbackClientSubmissionId);`r`n    assert(!feedbackCleanup.error, "Preview feedback cleanup failed");`r`n    checks.push({ id: "preview_feedback_cleanup", status: "pass" });
+    checks.push({ id: "feedback_validation", status: "pass" });
+    const feedbackCleanup = await supabase.from("user_feedback").delete().eq("user_id", userA.user.id).eq("client_submission_id", feedbackClientSubmissionId);
+    assert(!feedbackCleanup.error, "Preview feedback cleanup failed");
+    checks.push({ id: "preview_feedback_cleanup", status: "pass" });
 
     const copilotInvalid = await responseStatus(pageA, "/api/research/copilot", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ geographyCode: "70073", question: "" }) });
     assert(copilotInvalid.status === 400, "Copilot invalid input was not rejected");
@@ -168,5 +189,7 @@ run().catch(async (error) => {
   console.error(`Sprint 17 Preview UAT failed: ${redact(error.message)}`);
   process.exit(1);
 });
+
+
 
 
