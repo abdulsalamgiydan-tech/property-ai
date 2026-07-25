@@ -10,8 +10,10 @@
   "adminConfigured": false,
   "serviceRoleConfigured": false,
   "publicSmoke": "pass",
+  "passwordAuth": "pass_for_both_non_production_fixtures",
   "authenticatedUat": "not_completed",
-  "blocker": "User A password sign-in failed against warehouse-validation and no approved branch service-role credential is available for safe admin repair",
+  "blocker": "Preview browser AuthProvider did not retain the seeded SSR cookie; Settings remained signed out, so full authenticated UAT was not passed",
   "productionTouched": false,
-  "nextHumanAction": "Place only the warehouse-validation branch service-role key on the clipboard and reply clipboard ready; do not paste it into chat"
+  "nextHumanAction": "Fix Preview SSR-session browser compatibility and rerun authenticated UAT; no additional credential action is required"
 }
+

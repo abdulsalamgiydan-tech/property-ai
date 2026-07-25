@@ -18,9 +18,9 @@ Preview URL: `https://property-b0prv0t02-zeebusiness93-2304s-projects.vercel.app
 
 ## Blocker
 
-Authenticated UAT could not start: genuine password sign-in for User A failed against warehouse-validation. The run stopped before dashboard access, browser journeys, API mutations, feedback submission, or any Preview data write.
+Direct password sign-in succeeded for both dedicated warehouse-validation UAT fixtures after process-scoped non-Production admin repair. The browser runner then failed to establish the SSR cookie session: the deployed client removed the seeded auth cookie and `/settings` remained signed out while the authenticated browser journey was in progress. Full authenticated UAT therefore did not pass.
 
-No approved warehouse-validation service-role credential is available in the process, environment, or `.env.local`, so no Auth repair was attempted. Production was not contacted or modified.
+The repair was limited to the named warehouse-validation fixtures and used generated passwords only in process memory. Production was not contacted or modified.
 
 ## Classification
 
@@ -33,4 +33,5 @@ No approved warehouse-validation service-role credential is available in the pro
 
 ## Required human action
 
-Place only the warehouse-validation branch service-role key on the clipboard and reply `clipboard ready`. Do not paste it into chat. It will be used only in a process-scoped admin repair of the two dedicated non-Production UAT identities, then removed from the process. No Production Auth or database action is required.
+No further credential action is required. The remaining action is to correct the Preview SSR-session browser harness/client compatibility, then rerun the complete authenticated UAT.
+

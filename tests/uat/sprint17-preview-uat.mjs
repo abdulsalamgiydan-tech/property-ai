@@ -3,6 +3,10 @@ import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+const { createChunks } = require("C:/Users/abdul/property-ai/node_modules/@supabase/ssr/dist/main/utils/chunker.js");
+const { stringToBase64URL } = require("C:/Users/abdul/property-ai/node_modules/@supabase/ssr/dist/main/utils/base64url.js");
 
 const BASE_URL = "https://property-b0prv0t02-zeebusiness93-2304s-projects.vercel.app";
 const EXPECTED_COMMIT = "65406f0db7dad3575fb1457368de7fa72fd47a9e";
@@ -27,12 +31,30 @@ function bypassHeaders() {
   assert(secret && secret.trim() === secret, "Missing or malformed Preview bypass secret");
   return { "x-vercel-protection-bypass": secret, "x-vercel-set-bypass-cookie": "true" };
 }
-function sessionStorage(session) {
+function createCookieChunks(key, value, chunkSize = 3180) {
+  const encoded = encodeURIComponent(value);
+  if (encoded.length <= chunkSize) return [{ name: key, value }];
+  const chunks = [];
+  let remaining = encoded;
+  while (remaining.length > 0) {
+    let head = remaining.slice(0, chunkSize);
+    const lastPercent = head.lastIndexOf("%");
+    if (lastPercent > chunkSize - 3) head = head.slice(0, lastPercent);
+    let decoded = "";
+    while (head.length > 0) {
+      try { decoded = decodeURIComponent(head); break; }
+      catch { head = head.slice(0, Math.max(0, head.length - 3)); }
+    }
+    chunks.push({ name: `${key}.${chunks.length}`, value: decoded });
+    remaining = remaining.slice(head.length);
+  }
+  return chunks;
+}function sessionStorage(session) {
   const ref = new URL(WAREHOUSE_URL).hostname.split(".")[0];
   const key = `sb-${ref}-auth-token`;
-  const value = JSON.stringify(session);
+  const value = JSON.stringify({ access_token: session.access_token, refresh_token: session.refresh_token, expires_in: session.expires_in, expires_at: session.expires_at, token_type: session.token_type, user: session.user });
   const encoded = Buffer.from(value).toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
-  return { key, value, cookie: `base64-${encoded}` };
+  return { key, value, cookies: createCookieChunks(key, `base64-${encoded}`) };
 }
 async function obtainSession(supabase, label, email, expectedId, emailEnv, passwordEnv) {
   const adminKey = process.env.WAREHOUSE_VALIDATION_SUPABASE_SERVICE_ROLE_KEY;
@@ -69,9 +91,22 @@ async function responseStatus(page, url, init) {
 }
 async function visit(page, route, expectedText, checks) {
   const response = await page.goto(route, { waitUntil: "domcontentloaded" });
-  const body = await page.locator("body").innerText();
+  let body = await page.locator("body").innerText();
   assert(response && response.status() < 500, `${route} returned server failure`);
-  if (expectedText) assert(body.includes(expectedText), `${route} missing expected content`);
+  if (expectedText) {
+    for (let attempt = 0; attempt < 2 && !body.includes(expectedText); attempt += 1) {
+      const deadline = Date.now() + 15000;
+      while (!body.includes(expectedText) && Date.now() < deadline) {
+        await page.waitForTimeout(300);
+        body = await page.locator("body").innerText();
+      }
+      if (!body.includes(expectedText) && attempt === 0) {
+        await page.reload({ waitUntil: "domcontentloaded" });
+        body = await page.locator("body").innerText();
+      }
+    }
+    assert(body.includes(expectedText), `${route} missing expected content; url=${page.url()}; storage=${JSON.stringify(await page.evaluate(() => ({ localStorageKeys: Object.keys(localStorage), cookieNames: document.cookie.split(";").map((x) => x.trim().split("=")[0]).filter(Boolean) })))}; body=${redact(body).slice(0, 900)}`);
+  }
   checks.push({ id: `route_${route.replace(/[^a-z0-9]+/gi, "_")}`, status: "pass", httpStatus: response?.status() });
 }
 async function run() {
@@ -112,11 +147,17 @@ async function run() {
     async function makeContext(session, viewport) {
       const ctx = await browser.newContext({ baseURL: BASE_URL, extraHTTPHeaders: headers, viewport });
       const storage = sessionStorage(session);
-      await ctx.addInitScript(({ key, value, cookie }) => {
+      await ctx.addInitScript(({ key, value, cookies }) => {
         localStorage.setItem(key, value);
-        document.cookie = `${key}=${cookie}; path=/; max-age=31536000; secure; samesite=lax`;
+        for (const cookie of cookies) document.cookie = `${cookie.name}=${cookie.value}; path=/; max-age=31536000; secure; samesite=lax`;
       }, storage);
-      await ctx.addCookies([{ name: storage.key, value: storage.cookie, domain: new URL(BASE_URL).hostname, path: "/", secure: true, sameSite: "Lax" }]);
+      const bootstrap = await ctx.newPage();
+      await bootstrap.goto("/", { waitUntil: "domcontentloaded" });
+      await ctx.addCookies(storage.cookies.map((cookie) => ({ ...cookie, url: BASE_URL, secure: true, sameSite: "Lax" })));
+      await bootstrap.reload({ waitUntil: "domcontentloaded" });
+      const seededCookies = await ctx.cookies(BASE_URL);
+      assert(seededCookies.some((cookie) => cookie.name === storage.key || cookie.name.startsWith(`${storage.key}.`)), `Supabase SSR auth cookie missing; prepared=${storage.cookies.map((cookie) => cookie.name).join(",")}; context=${seededCookies.map((cookie) => cookie.name).join(",")}`);
+      await bootstrap.close();
       return ctx;
     }
     const ctxA = await makeContext(userA, { width: 1440, height: 980 });
@@ -127,8 +168,11 @@ async function run() {
 
     await visit(pageA, "/dashboard", "Dashboard", checks);
     await visit(pageB, "/dashboard", "Dashboard", checks);
-    await visit(pageA, "/onboarding", "Investment", checks);
-    await visit(pageA, "/settings", "Settings", checks);
+    await visit(pageA, "/onboarding", "Set up your investment profile", checks);
+    const settingsContext = await makeContext(userA, { width: 1440, height: 980 });
+    const settingsPage = await settingsContext.newPage();
+    await visit(settingsPage, "/settings", "Settings", checks);
+    await settingsContext.close();
     await visit(pageA, "/analyse-property", "Analyse", checks);
     await visit(pageA, "/compare-properties", "Compare", checks);
     await visit(pageA, "/portfolio", "Portfolio", checks);
@@ -139,7 +183,7 @@ async function run() {
     await visit(pageA, "/research/map", "Map", checks);
     await visit(pageA, "/research/compare?ids=SAL_70073_ASGS3_2021,SAL_21640_ASGS3_2021", "Compare", checks);
     await visit(pageA, "/research/scenario/70073", "Scenario", checks);
-    await visit(pageA, "/research/copilot/70073", "copilot", checks);
+    await visit(pageA, "/research/copilot/70073", "Research Copilot", checks);
     await visit(pageA, "/operations", null, checks);
     await visit(pageA, "/admin", null, checks);
     await visit(pageA, "/definitely-not-a-real-route", "404", checks);
@@ -155,7 +199,7 @@ async function run() {
 
     const feedbackClientSubmissionId = randomUUID();
     const feedback = await responseStatus(pageA, "/api/feedback", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ category: "general", message: `Sprint 17 Preview UAT ${randomUUID()}`, pagePath: "/research", satisfactionScore: 4, contactPermission: false, clientSubmissionId: feedbackClientSubmissionId }) });
-    assert(feedback.status === 200, "Preview feedback submission failed");
+    assert(feedback.status === 200, `Preview feedback submission failed; status=${feedback.status}; body=${redact(feedback.body)}`);
     checks.push({ id: "feedback_submission", status: "pass" });
     const feedbackInvalid = await responseStatus(pageA, "/api/feedback", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ category: "invalid", message: "" }) });
     assert(feedbackInvalid.status === 400, "Invalid feedback was not rejected");
@@ -189,6 +233,26 @@ run().catch(async (error) => {
   console.error(`Sprint 17 Preview UAT failed: ${redact(error.message)}`);
   process.exit(1);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
