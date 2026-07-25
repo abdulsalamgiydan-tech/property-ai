@@ -52,3 +52,10 @@ export function isPublicApiV1Enabled(): boolean {
 export function isResearchCopilotEnabled(): boolean {
   return process.env.RESEARCH_COPILOT_ENABLED === "true";
 }
+
+// Sprint 17 -- Preview-only internal operations/admin foundation. Disabled
+// by default and intentionally separate from ADMIN_EMAILS so a mistaken
+// allowlist alone cannot expose the route in Production.
+export function isInternalOperationsEnabled(): boolean {
+  return process.env.INTERNAL_OPERATIONS_ENABLED === "true";
+}
