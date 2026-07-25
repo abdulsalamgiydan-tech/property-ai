@@ -54,3 +54,22 @@ See `warehouse/reports/sprint17_research_contract_matrix.json` for route/object/
 Rollback for `046` is to re-run the previous grants from migrations 014/016/017/022/033/035 if broader role grants are intentionally required. That is not recommended: the hardened state is lower privilege and the app only requires `SELECT` on views plus `EXECUTE` on RPCs.
 
 Rollback for `045` is not required for Preview; it is additive columns/indexes/check constraints on existing user-owned tables. If a future Production rollback is required before any data depends on these fields, drop the added constraints, indexes, and columns from `user_onboarding_preferences`/`user_feedback` in reverse order.
+## Clean Replay Evidence
+
+Manual GitHub Actions workflow dispatch passed on exact head `e6437ab5cb72cfae04703bbe90d827d1cc955bdb`.
+
+- Run: `30156081474`
+- Event: `workflow_dispatch`
+- Standard validation job: success
+- Blank database replay job: success
+- Migration count: 46
+- First migration: `001_propellect_schema.sql`
+- Last migration: `046_research_api_grant_hardening.sql`
+- Deterministic order: true
+- Missing required tables: none
+- User-owned RLS missing: none
+- Redacted artifact downloaded outside Git to `C:\tmp\sprint17-clean-replay-artifact\clean-migration-chain-report.json` for local inspection only.
+
+## Upgrade Replay Evidence
+
+Warehouse-validation was independently verified as non-Production (`lzonauinzatmtytyoems`) before applying Sprint 17 migrations. The branch already carried the Sprint 15 application tables and a branch-only RLS performance migration. Applying local `045_sprint17_preferences_feedback_controls` and `046_research_api_grant_hardening` completed successfully without Production access or data fabrication. This proves the 044-to-final application path for the current non-Production rehearsal branch; a final Production approval pack must still re-check the exact Production ledger before any Production migration.
