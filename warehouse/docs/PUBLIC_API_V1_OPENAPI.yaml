@@ -1,0 +1,86 @@
+openapi: 3.1.0
+info:
+  title: Propellect Research API
+  version: v1
+  description: Preview-gated, read-only research API. Production remains disabled until separately approved.
+servers:
+  - url: https://app.propellect.com.au
+    description: Production domain; API v1 currently disabled unless explicitly approved.
+paths:
+  /api/v1:
+    get:
+      summary: Discover available API v1 endpoints
+      responses:
+        "200": { description: Discovery response }
+        "404": { description: API disabled or warehouse not configured }
+        "429": { description: Rate limit exceeded }
+  /api/v1/search:
+    get:
+      summary: Search suburbs and postcodes
+      parameters:
+        - { name: q, in: query, schema: { type: string, maxLength: 100 } }
+        - { name: jurisdiction, in: query, schema: { enum: [NSW, VIC] } }
+        - { name: type, in: query, schema: { enum: [SAL, POA] } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100, default: 20 } }
+      responses:
+        "200": { description: Search results with confidence and geography identifiers }
+        "404": { description: API disabled or warehouse not configured }
+        "429": { description: Rate limit exceeded }
+  /api/v1/snapshot/{geographyId}:
+    get:
+      summary: Get a market snapshot for one geography
+      parameters:
+        - { name: geographyId, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Snapshot with source periods, nulls for unavailable metrics, confidence labels }
+        "404": { description: No data or API disabled }
+  /api/v1/timeseries/{geographyId}:
+    get:
+      summary: Get bounded recent trend series
+      parameters:
+        - { name: geographyId, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: Recent sales, rent, yield and approvals trend rows }
+  /api/v1/compare:
+    get:
+      summary: Compare two to ten geography identifiers
+      parameters:
+        - { name: ids, in: query, required: true, schema: { type: string }, description: Comma-separated geography ids, 2-10 items }
+      responses:
+        "200": { description: Like-for-like comparison rows }
+        "400": { description: Invalid ids parameter }
+  /api/v1/export/{geographyId}:
+    get:
+      summary: Export reproducible research bundle
+      parameters:
+        - { name: geographyId, in: path, required: true, schema: { type: string } }
+        - { name: format, in: query, schema: { enum: [json, csv], default: json } }
+      responses:
+        "200": { description: JSON or CSV bundle with lineage }
+        "404": { description: No data found }
+  /api/v1/freshness:
+    get:
+      summary: Dataset freshness statuses
+      responses:
+        "200": { description: Dataset freshness records }
+  /api/v1/quality:
+    get:
+      summary: Aggregate data quality summary
+      responses:
+        "200": { description: Aggregate quality and incident counts }
+components:
+  schemas:
+    EnvelopeMeta:
+      type: object
+      required: [version, generated_at, request_id]
+      properties:
+        version: { const: v1 }
+        generated_at: { type: string, format: date-time }
+        request_id: { type: string }
+    ErrorEnvelope:
+      type: object
+      required: [error, meta]
+      properties:
+        error: { type: string }
+        meta: { $ref: '#/components/schemas/EnvelopeMeta' }
+security: []
