@@ -58,7 +58,7 @@ jobs:
           echo "No raw/large data files tracked." >> "$GITHUB_STEP_SUMMARY"
 
   clean-migration-replay:
-    name: Replay migrations 001-044 from blank database
+    name: Replay migrations from blank database
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -99,6 +99,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: clean-migration-chain-001-044-report
+          name: clean-migration-chain-report
           path: clean-replay-artifacts/
           if-no-files-found: error
