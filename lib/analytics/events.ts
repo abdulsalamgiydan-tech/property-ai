@@ -21,7 +21,11 @@ export type AnalyticsEvent =
   | { name: "export_generated"; exportType: "csv" | "json" | "print"; surface: string }
   | { name: "error_encountered"; surface: string; errorKind: string }
   | { name: "research_copilot_answered"; geographyCode: string; grounded: boolean }
-  | { name: "feedback_submitted"; category: string };
+  | { name: "feedback_submitted"; category: string }
+  | { name: "feedback_rate_limited"; category: string }
+  | { name: "onboarding_started"; source: "onboarding" | "settings" }
+  | { name: "onboarding_completed"; source: "onboarding" | "settings"; completionStep: number }
+  | { name: "onboarding_skipped"; source: "onboarding" | "settings" };
 
 /**
  * Development-mode logger only. In production this is intentionally a
