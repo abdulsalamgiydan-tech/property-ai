@@ -1,0 +1,17 @@
+{
+  "status": "blocked",
+  "branch": "feature/sprint17-major-product-expansion",
+  "commit": "65406f0db7dad3575fb1457368de7fa72fd47a9e",
+  "previewDeploymentId": "dpl_joxz33NEBEXx76NFnNBV7ZmbwkBR",
+  "previewUrl": "https://property-b0prv0t02-zeebusiness93-2304s-projects.vercel.app",
+  "attestation": "pass",
+  "previewSupabase": "warehouse-validation",
+  "productionReferenceDetected": false,
+  "adminConfigured": false,
+  "serviceRoleConfigured": false,
+  "publicSmoke": "pass",
+  "authenticatedUat": "not_completed",
+  "blocker": "User A password sign-in failed against warehouse-validation and no approved branch service-role credential is available for safe admin repair",
+  "productionTouched": false,
+  "nextHumanAction": "Place only the warehouse-validation branch service-role key on the clipboard and reply clipboard ready; do not paste it into chat"
+}
