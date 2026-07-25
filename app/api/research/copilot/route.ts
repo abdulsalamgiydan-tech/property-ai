@@ -105,7 +105,7 @@ export async function POST(req: Request) {
     const result = await answerResearchQuestion(formatEvidenceForPrompt(facts), question);
     answerText = result.answerText;
   } catch (e) {
-    console.error("[research/copilot] generation failed:", e instanceof Error ? e.message : e);
+    console.error("[research/copilot] generation failed");
     return NextResponse.json({ error: "generation_failed" }, { status: 502 });
   }
 

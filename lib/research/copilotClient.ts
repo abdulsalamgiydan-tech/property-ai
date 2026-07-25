@@ -24,6 +24,7 @@ type AnthropicMessageResponse = {
 const MODEL = "claude-sonnet-4-5";
 const API_URL = "https://api.anthropic.com/v1/messages";
 const MAX_ANSWER_TOKENS = 500;
+const REQUEST_TIMEOUT_MS = 15_000;
 
 function getApiKey(): string {
   const key = process.env.ANTHROPIC_API_KEY;
@@ -54,21 +55,30 @@ export type CopilotAnswer = {
 };
 
 export async function answerResearchQuestion(evidenceText: string, question: string): Promise<CopilotAnswer> {
-  const res = await fetch(API_URL, {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+
+  let res: Response;
+  try {
+    res = await fetch(API_URL, {
     method: "POST",
     headers: {
       "x-api-key": getApiKey(),
       "anthropic-version": "2023-06-01",
       "content-type": "application/json",
     },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: MAX_ANSWER_TOKENS,
-      temperature: 0.2,
-      system: buildSystemPrompt(evidenceText),
-      messages: [{ role: "user", content: question }],
-    }),
-  });
+      signal: controller.signal,
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: MAX_ANSWER_TOKENS,
+        temperature: 0.2,
+        system: buildSystemPrompt(evidenceText),
+        messages: [{ role: "user", content: question }],
+      }),
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
 
   const data = (await res.json()) as AnthropicMessageResponse;
 
