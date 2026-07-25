@@ -1,0 +1,79 @@
+# npm audit report
+
+brace-expansion  <=5.0.7
+Severity: high
+brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash - https://github.com/advisories/GHSA-mh99-v99m-4gvg
+fix available via `npm audit fix --force`
+Will install eslint@10.8.0, which is a breaking change
+node_modules/@typescript-eslint/typescript-estree/node_modules/brace-expansion
+node_modules/brace-expansion
+node_modules/readdir-glob/node_modules/brace-expansion
+  minimatch  2.0.0 - 10.0.2
+  Depends on vulnerable versions of brace-expansion
+  node_modules/minimatch
+  node_modules/readdir-glob/node_modules/minimatch
+    @eslint/config-array  <=0.22.0
+    Depends on vulnerable versions of minimatch
+    node_modules/@eslint/config-array
+      eslint  0.12.0 - 2.0.0-rc.1 || 4.1.0 - 10.0.0-rc.2
+      Depends on vulnerable versions of @eslint/config-array
+      Depends on vulnerable versions of @eslint/eslintrc
+      Depends on vulnerable versions of minimatch
+      node_modules/eslint
+    @eslint/eslintrc  0.0.1 || >=0.1.1
+    Depends on vulnerable versions of minimatch
+    node_modules/@eslint/eslintrc
+    eslint-plugin-import  >=1.15.0
+    Depends on vulnerable versions of minimatch
+    node_modules/eslint-plugin-import
+      eslint-config-next  >=10.2.1-canary.2
+      Depends on vulnerable versions of eslint-plugin-import
+      Depends on vulnerable versions of eslint-plugin-jsx-a11y
+      Depends on vulnerable versions of eslint-plugin-react
+      node_modules/eslint-config-next
+    eslint-plugin-jsx-a11y  >=6.5.0
+    Depends on vulnerable versions of minimatch
+    node_modules/eslint-plugin-jsx-a11y
+    eslint-plugin-react  >=7.23.0
+    Depends on vulnerable versions of minimatch
+    node_modules/eslint-plugin-react
+    glob  4.3.0 - 10.5.0
+    Depends on vulnerable versions of minimatch
+    node_modules/glob
+      archiver-utils  >=0.2.0
+      Depends on vulnerable versions of glob
+      node_modules/archiver-utils
+      node_modules/zip-stream/node_modules/archiver-utils
+        archiver  0.20.0 - 7.0.1
+        Depends on vulnerable versions of archiver-utils
+        Depends on vulnerable versions of readdir-glob
+        Depends on vulnerable versions of zip-stream
+        node_modules/archiver
+          exceljs  >=3.5.0
+          Depends on vulnerable versions of archiver
+          Depends on vulnerable versions of uuid
+          node_modules/exceljs
+        zip-stream  0.8.0 - 6.0.1
+        Depends on vulnerable versions of archiver-utils
+        node_modules/zip-stream
+      rimraf  2.3.0 - 3.0.2 || 4.2.0 - 5.0.10
+      Depends on vulnerable versions of glob
+      node_modules/rimraf
+    readdir-glob  <=2.0.3
+    Depends on vulnerable versions of minimatch
+    node_modules/readdir-glob
+
+uuid  <11.1.1
+Severity: moderate
+uuid: Missing buffer bounds check in v3/v5/v6 when buf is provided - https://github.com/advisories/GHSA-w5hq-g745-h8pq
+fix available via `npm audit fix --force`
+Will install exceljs@3.4.0, which is a breaking change
+node_modules/uuid
+
+17 vulnerabilities (1 moderate, 16 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
