@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-07-22T05:58:15.389Z",
+  "source": {
+    "url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/total-value-dwellings/mar-quarter-2026/643202.xlsx",
+    "file": "643202_table2_median_price_transfers_mar_qtr_2026.xlsx",
+    "page_url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/total-value-dwellings/mar-quarter-2026",
+    "catalogue_number": "6432.0",
+    "reference_period": "March Quarter 2026",
+    "released": "2026-06-09",
+    "fetch_command_if_missing": "curl -sL -A \"Mozilla/5.0 (research tool)\" -o \"warehouse/data/raw/abs_total_value_dwellings/643202_table2_median_price_transfers_mar_qtr_2026.xlsx\" \"https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/total-value-dwellings/mar-quarter-2026/643202.xlsx\""
+  },
+  "file": "643202_table2_median_price_transfers_mar_qtr_2026.xlsx",
+  "raw_dir": "warehouse/data/raw/abs_total_value_dwellings (gitignored)",
+  "bytes": 106459,
+  "sha256": "fff0810d4bcf8e64e1e0bdd49ab13e4b83025e54eadc704a09a505e96a94dccf",
+  "validation": {
+    "file_signature_is_zip_xlsx": true,
+    "plausible_size": true
+  },
+  "status": "present_verified"
+}

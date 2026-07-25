@@ -1,0 +1,414 @@
+{
+  "generated_at": "2026-07-20T11:01:41.576Z",
+  "store": "local DuckDB/Parquet (no Supabase connection made)",
+  "verdict": "PASSED",
+  "scope": "full_state_nsw_2001_current",
+  "source_files": 54,
+  "all_files_hashed": true,
+  "raw_or_local_files_tracked_by_git": [],
+  "by_year": [
+    {
+      "year": 1903,
+      "n": 1
+    },
+    {
+      "year": 1910,
+      "n": 2
+    },
+    {
+      "year": 1911,
+      "n": 10
+    },
+    {
+      "year": 1912,
+      "n": 4
+    },
+    {
+      "year": 1913,
+      "n": 6
+    },
+    {
+      "year": 1914,
+      "n": 6
+    },
+    {
+      "year": 1915,
+      "n": 6
+    },
+    {
+      "year": 1916,
+      "n": 4
+    },
+    {
+      "year": 1951,
+      "n": 1
+    },
+    {
+      "year": 1953,
+      "n": 2
+    },
+    {
+      "year": 1955,
+      "n": 3
+    },
+    {
+      "year": 1956,
+      "n": 4
+    },
+    {
+      "year": 1957,
+      "n": 11
+    },
+    {
+      "year": 1958,
+      "n": 12
+    },
+    {
+      "year": 1959,
+      "n": 11
+    },
+    {
+      "year": 1960,
+      "n": 15
+    },
+    {
+      "year": 1961,
+      "n": 18
+    },
+    {
+      "year": 1962,
+      "n": 9
+    },
+    {
+      "year": 1963,
+      "n": 8
+    },
+    {
+      "year": 1964,
+      "n": 8
+    },
+    {
+      "year": 1965,
+      "n": 9
+    },
+    {
+      "year": 1966,
+      "n": 3
+    },
+    {
+      "year": 1967,
+      "n": 3
+    },
+    {
+      "year": 1968,
+      "n": 9
+    },
+    {
+      "year": 1969,
+      "n": 2
+    },
+    {
+      "year": 1970,
+      "n": 5
+    },
+    {
+      "year": 1971,
+      "n": 8
+    },
+    {
+      "year": 1972,
+      "n": 4
+    },
+    {
+      "year": 1973,
+      "n": 8
+    },
+    {
+      "year": 1974,
+      "n": 8
+    },
+    {
+      "year": 1975,
+      "n": 17
+    },
+    {
+      "year": 1976,
+      "n": 19
+    },
+    {
+      "year": 1977,
+      "n": 14
+    },
+    {
+      "year": 1978,
+      "n": 7
+    },
+    {
+      "year": 1979,
+      "n": 8
+    },
+    {
+      "year": 1980,
+      "n": 12
+    },
+    {
+      "year": 1981,
+      "n": 14
+    },
+    {
+      "year": 1982,
+      "n": 24
+    },
+    {
+      "year": 1983,
+      "n": 30
+    },
+    {
+      "year": 1984,
+      "n": 34
+    },
+    {
+      "year": 1985,
+      "n": 37
+    },
+    {
+      "year": 1986,
+      "n": 29
+    },
+    {
+      "year": 1987,
+      "n": 40
+    },
+    {
+      "year": 1988,
+      "n": 42
+    },
+    {
+      "year": 1989,
+      "n": 45
+    },
+    {
+      "year": 1990,
+      "n": 47
+    },
+    {
+      "year": 1991,
+      "n": 51
+    },
+    {
+      "year": 1992,
+      "n": 69
+    },
+    {
+      "year": 1993,
+      "n": 87
+    },
+    {
+      "year": 1994,
+      "n": 153
+    },
+    {
+      "year": 1995,
+      "n": 169
+    },
+    {
+      "year": 1996,
+      "n": 264
+    },
+    {
+      "year": 1997,
+      "n": 292
+    },
+    {
+      "year": 1998,
+      "n": 405
+    },
+    {
+      "year": 1999,
+      "n": 1013
+    },
+    {
+      "year": 2000,
+      "n": 3831
+    },
+    {
+      "year": 2001,
+      "n": 202058
+    },
+    {
+      "year": 2002,
+      "n": 236538
+    },
+    {
+      "year": 2003,
+      "n": 235608
+    },
+    {
+      "year": 2004,
+      "n": 187575
+    },
+    {
+      "year": 2005,
+      "n": 164422
+    },
+    {
+      "year": 2006,
+      "n": 165549
+    },
+    {
+      "year": 2007,
+      "n": 187138
+    },
+    {
+      "year": 2008,
+      "n": 170491
+    },
+    {
+      "year": 2009,
+      "n": 184703
+    },
+    {
+      "year": 2010,
+      "n": 164296
+    },
+    {
+      "year": 2011,
+      "n": 153960
+    },
+    {
+      "year": 2012,
+      "n": 151926
+    },
+    {
+      "year": 2013,
+      "n": 174228
+    },
+    {
+      "year": 2014,
+      "n": 197525
+    },
+    {
+      "year": 2015,
+      "n": 205794
+    },
+    {
+      "year": 2016,
+      "n": 218730
+    },
+    {
+      "year": 2017,
+      "n": 202404
+    },
+    {
+      "year": 2018,
+      "n": 183872
+    },
+    {
+      "year": 2019,
+      "n": 4171
+    },
+    {
+      "year": 2020,
+      "n": 179454
+    },
+    {
+      "year": 2021,
+      "n": 223372
+    },
+    {
+      "year": 2022,
+      "n": 183315
+    },
+    {
+      "year": 2023,
+      "n": 174046
+    },
+    {
+      "year": 2024,
+      "n": 200467
+    },
+    {
+      "year": 2025,
+      "n": 228707
+    },
+    {
+      "year": 2026,
+      "n": 91736
+    },
+    {
+      "year": 2029,
+      "n": 1
+    },
+    {
+      "year": 2032,
+      "n": 1
+    },
+    {
+      "year": null,
+      "n": 1089
+    }
+  ],
+  "by_dwelling_type": [
+    {
+      "dwelling_type": "apartment_unit",
+      "n": 1504413
+    },
+    {
+      "dwelling_type": "detached_house",
+      "n": 2556681
+    },
+    {
+      "dwelling_type": "other_residential",
+      "n": 45570
+    },
+    {
+      "dwelling_type": "residential_land",
+      "n": 573465
+    }
+  ],
+  "by_geo_match_method": [
+    {
+      "geo_match_method": "postcode_only",
+      "n": 24697
+    },
+    {
+      "geo_match_method": "suburb_and_postcode",
+      "n": 4650159
+    },
+    {
+      "geo_match_method": "suburb_name_only",
+      "n": 1345
+    },
+    {
+      "geo_match_method": "unmatched",
+      "n": 3928
+    }
+  ],
+  "checks": {
+    "residential_rows": 4680129,
+    "all_rows": 5134248,
+    "no_transaction_date": 20733,
+    "null_price": 1082,
+    "non_positive_price": 7597,
+    "duplicate_natural_keys": 0,
+    "missing_suburb": 2404,
+    "missing_postcode": 4068,
+    "classified": 4680129,
+    "unknown_classified": 0,
+    "flagged_nominal": 29381,
+    "flagged_invalid": 8679,
+    "flagged_outlier": 160330,
+    "ok_for_stats": 4481739,
+    "geo_unmatched": 3928,
+    "distinct_sals_covered": 4281,
+    "distinct_poas_covered": 633,
+    "summary_rows": 1359573,
+    "summary_duplicate_keys": 0
+  },
+  "notes": [
+    "Non-arm's-length/nominal-value transfers (price < $10,000) and IQR-based outliers per dwelling_type are flagged and excluded from median/mean/quartile statistics — never silently included, never dropped from the transaction table.",
+    "geo_unmatched rows have no suburb-name or postcode match against the full NSW ASGS backbone (e.g. a locality name variant or data-entry inconsistency) — excluded from marts, counted here for transparency.",
+    "unknown_residential rows are preserved with a 'low' confidence label rather than forced into a specific dwelling type, per the no-PDF field-mapping limitation documented in the source manifest.",
+    "LGA is not a field on the PSI sale record itself (only suburb name and postcode) — LGA-level coverage is reported via the distinct SAL/POA coverage counts instead."
+  ]
+}

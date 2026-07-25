@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-07-22T12:23:12.605Z",
+  "method": "ABS population-weighted correspondence (RATIO_FROM_TO), full quality range preserved in the bridge table, Good/Acceptable-only used for the derived population figure, Poor quarantined not discarded",
+  "documented_tolerance_pct": 0.5,
+  "quality_score_mapping": {
+    "Good": 1,
+    "Acceptable": 0.7,
+    "Poor": 0.3
+  },
+  "sal": {
+    "source_geographies_2016_ssc": 15304,
+    "correspondence_rows_all_quality": 15735,
+    "source_total_2016_ssc_population": 23401518,
+    "target_total_2021_sal_converted_population": 23355171,
+    "reconciliation_pct": 99.8,
+    "reconciled_within_tolerance": true,
+    "target_geographies_with_converted_value": 15333,
+    "source_residual_stats": {
+      "n": 15305,
+      "n_over_5pct": 0,
+      "max_residual": 0
+    }
+  },
+  "poa": {
+    "source_geographies_2016_poa": 2670,
+    "correspondence_rows_all_quality": 2881,
+    "source_total_2016_poa_population": 23401861,
+    "target_total_2021_poa_converted_population": 23355487,
+    "reconciliation_pct": 99.8,
+    "reconciled_within_tolerance": true,
+    "target_geographies_with_converted_value": 2641
+  },
+  "deferred": "SA2-grain 2016->2021 correspondence (CG_SA2_2016_SA2_2021.csv, already downloaded) not built this pass — SAL/POA are the primary residential research grains per the mission; SA2 remains available for a future validation cross-check but is not required for this workstream's completion."
+}

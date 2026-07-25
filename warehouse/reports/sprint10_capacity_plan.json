@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-07-21T07:05:00.000Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "current_branch_db_bytes": 2274790547,
+  "current_branch_db_pretty": "2169 MB",
+  "assumed_capacity_ceiling_mb": 4500,
+  "current_utilisation_pct": 48.2,
+  "stop_threshold_pct": 75,
+  "growth_budget_mb": 300,
+  "current_largest_tables": [
+    { "table": "core.dim_geography", "total_mb": 698 },
+    { "table": "core.fact_dwelling_stock", "total_mb": 402 },
+    { "table": "core.fact_household_tenure", "total_mb": 228 },
+    { "table": "core.fact_rental_market_summary", "total_mb": 163 },
+    { "table": "core.fact_residential_sales_summary", "total_mb": 151 },
+    { "table": "core.bridge_geography_correspondence", "total_mb": 115 }
+  ],
+  "current_largest_indexes_note": "index sizes are already itemised alongside table sizes above (e.g. core.fact_dwelling_stock: 144MB table + 258MB index — index-heavy due to per-geography/per-period/per-dwelling-type lookups). No index restructuring planned this sprint.",
+  "scope_narrowing_finding": "Victoria geography (ASGS) and Census demographics/dwelling-stock/building-approvals already exist nationally on the branch (see sprint10_existing_state_audit.json) — zero additional storage needed for those. Only VIC sales, VIC rent, VIC yield (derived), and jurisdiction-aware snapshot/timeseries rows are new growth.",
+  "planned_new_growth": [
+    {
+      "object": "core.fact_residential_sales_summary (VIC rows, jurisdiction-scoped, annual full history + trailing-12m monthly only — same curation policy as NSW)",
+      "rows_estimate": "150000-220000 (depends on VIC's available official history length, confirmed in Phase 3 discovery)",
+      "est_size_mb": "90-130"
+    },
+    {
+      "object": "core.fact_rental_market_summary (VIC rows)",
+      "rows_estimate": "100000-180000 (depends on VIC rental source grain — LGA vs suburb/postcode, confirmed in Phase 3/6)",
+      "est_size_mb": "65-115"
+    },
+    {
+      "object": "VIC sales/rent/yield marts (suburb+postcode x monthly/annual/quarterly)",
+      "rows_estimate": "80000-150000",
+      "est_size_mb": "60-110"
+    },
+    {
+      "object": "mart.suburb_market_snapshot / postcode_market_snapshot (VIC rows added, existing tables extended with jurisdiction dimension, no new columns needed)",
+      "rows_estimate": "2944 SAL + ~700 POA (VIC POA subset)",
+      "est_size_mb": "5-8"
+    },
+    {
+      "object": "mart.suburb_market_timeseries / postcode_market_timeseries (VIC rows)",
+      "rows_estimate": "similar order to NSW's ~84000 combined, but likely smaller given a tighter promoted history for VIC",
+      "est_size_mb": "10-15"
+    },
+    {
+      "object": "migrations 015-017 (schema only: jurisdiction columns/indexes, comparison views/RPCs, refresh metadata tables)",
+      "rows_estimate": "refresh metadata: tens of rows",
+      "est_size_mb": "<2"
+    }
+  ],
+  "total_estimated_growth_mb": "230-280 (midpoint ~255)",
+  "growth_budget_check": "230-280 MB estimated, within the 300 MB budget with limited margin — if Phase 3/5/6 discovery reveals a larger-than-expected VIC history, the fallback rules below apply BEFORE exceeding budget, not after.",
+  "safe_fallback_options": [
+    "Reduce VIC monthly sales promotion from trailing-12m to trailing-6m if the annual+trailing12m estimate alone approaches 200MB.",
+    "Promote VIC rent at LGA grain only (coarser, far fewer rows) if suburb/postcode-level VIC rent data proves large or unavailable — matches Phase 6's own explicit 'do not fabricate suburb figures, use direct LGA data only' fallback rule.",
+    "Cap VIC sales annual history to the most recent 10 years if VIC's official archive goes back further than NSW's and threatens budget, documenting the reduction exactly as Sprint 9 documented its own capacity reductions.",
+    "If migrations 015-017 or the comparison API somehow require more than trivial storage (should not, they are schema/view/RPC only), that is itself a signal to stop and re-plan rather than proceeding.",
+    "Keep 100% of VIC transaction-level and full-history rent data local-only (per this sprint's explicit rule) regardless of which fallback is used — no relaxation of local-first is ever a valid way to reduce branch growth."
+  ],
+  "recommended_retention_windows": {
+    "vic_sales_annual": "full available official history (same policy as NSW annual — annual grain is compact enough to keep in full)",
+    "vic_sales_monthly": "trailing 12 months (same policy as NSW monthly)",
+    "vic_rent_quarterly": "full available official history if suburb/postcode grain, since quarterly rent is compact (same policy as NSW)",
+    "vic_yield_quarterly": "derived, same grain as the rent side it is matched against"
+  },
+  "stop_conditions_checked": {
+    "branch_over_75pct_before_start": false,
+    "expected_growth_exceeds_300mb": false,
+    "decision": "PROCEED — capacity is safe under the documented assumptions above; re-validated live against actual figures at each Phase 9 branch-load step, with fallbacks ready if the estimate proves optimistic."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "generated_at": "2026-07-20T08:28:50.610Z",
+  "dataset_id": "building_approvals_sa2_2021",
+  "source_url": "https://data.api.abs.gov.au/rest/data/ABS,BA_SA2,2.0.0/1.9.1.110+150+100.SA2..M?startPeriod=2021-07&format=csv",
+  "api_key_used": "1.9.1.110+150+100.SA2..M",
+  "raw_storage_path": "warehouse/data/raw/building_approvals/ba_sa2_monthly.csv",
+  "size_bytes": 27449529,
+  "sha256": "7a375bf7c98e7bf0150c8f5f8b8b70faac3442c3c734f82ab5db243703ca35fd",
+  "retrieved_at": "2026-07-20T08:28:50.610Z"
+}

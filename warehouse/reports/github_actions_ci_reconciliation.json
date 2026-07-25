@@ -1,0 +1,96 @@
+{
+  "generated_at": "2026-07-22T13:15:00+10:00",
+  "original_failed_run": {
+    "run_id": "29886166152",
+    "commit": "a713931",
+    "workflow": "Warehouse Validation",
+    "failed_job": "Build, lint, test, warehouse file checks",
+    "failing_step": "Lint",
+    "exit_code": 1,
+    "annotations_count": 10
+  },
+  "original_annotations_summary": {
+    "errors": 8,
+    "warnings": 7,
+    "platform_notices": 1
+  },
+  "root_cause": "8 real ESLint/React-Compiler errors in 4 component files: react-hooks/static-components (StrategyForm.tsx CharCount declared inside render), react-hooks/rules-of-hooks (SavedReportClient.tsx two useMemo after 5 early returns), react-hooks/preserve-manual-memoization (ComparePropertiesClient.tsx resultA/resultB referenced via closure before their useMemo declarations), react-hooks/refs (AnalysePropertyClient.tsx ref read during render).",
+  "why_local_checks_were_misleading": "npm run lint correctly reported these 8 errors every time it was run locally throughout Sprint 11 -- the tool output was never wrong. The mistake was interpretation: because all 4 files were last touched by an ancestor commit (ebc6552) predating Sprint 11, prior reports treated the errors as pre-existing/unrelated and therefore acceptable. That is a true statement about origin but a false implication about CI outcome -- GitHub Actions checks exit code on the current tree with no continue-on-error, it has no concept of whose commit introduced a bug. Cross-checking gh run list showed CI had failed on every run since the workflow was created (20b248e, WS15) through a713931 -- 10 consecutive failing runs, never green, the entire time Sprint 11's reports described the codebase as passing.",
+  "reproduction": {
+    "method": "disposable git worktree (git worktree add --detach) at commit a713931, containing no node_modules/.env.local/warehouse-data, verified clean before running anything",
+    "node_version_used": "20.19.0 (portable download, matching CI's actions/setup-node node-version: 20 exactly; local dev machine runs Node 24)",
+    "results_before_fix": {
+      "npm_ci": "pass",
+      "warehouse_check": "pass",
+      "npm_test": "pass (72/72)",
+      "npm_run_lint": "fail -- same 8 errors, byte-identical to CI log",
+      "npm_run_build": "pass (proven independently; real CI never reached this step)",
+      "git_diff_check": "pass",
+      "git_status": "clean"
+    },
+    "ruled_out_causes": [
+      "Node version mismatch",
+      "gitignored/local-only file dependency",
+      "environment variables",
+      "package-lock.json inconsistency",
+      "Windows/Linux case-sensitivity or path issues",
+      "workflow YAML syntax",
+      "the previously-fixed migration 020 bug (separately reconfirmed present and correct)"
+    ]
+  },
+  "files_changed": [
+    "components/analyse/AnalysePropertyClient.tsx",
+    "components/compare/ComparePropertiesClient.tsx",
+    "components/reports/SavedReportClient.tsx",
+    "components/strategy/StrategyForm.tsx",
+    "warehouse/reports/github_actions_failure_diagnosis.md",
+    "warehouse/reports/github_actions_failure_diagnosis.json",
+    "warehouse/reports/github_actions_ci_reconciliation.md",
+    "warehouse/reports/github_actions_ci_reconciliation.json",
+    "warehouse/reports/sprint11_final_report.md",
+    "warehouse/reports/sprint11_final_report.json"
+  ],
+  "commands_run_in_clean_clone": [
+    "npm ci",
+    "npm run warehouse:check",
+    "npm test",
+    "npm run lint",
+    "npm run build",
+    "git diff --check",
+    "git status --short"
+  ],
+  "clean_clone_results_after_fix": {
+    "npm_run_lint": "pass, 0 errors, exit 0",
+    "npm_run_warehouse_check": "pass",
+    "npm_test": "pass (72/72)",
+    "npm_run_build": "pass",
+    "git_diff_check": "pass"
+  },
+  "live_smoke_test": {
+    "tool": "gstack /browse against a local dev server",
+    "pages_tested": ["/analyse-property (submitted form, exercises ref-to-state fix)", "/compare-properties (submitted both forms, exercises useMemo reordering fix)"],
+    "console_errors": "none (only a pre-existing, unrelated Recharts container-size warning)",
+    "functional_result": "both pages render correct results (deal score, projections, SaveReportButton; comparison scores 54 and 55)"
+  },
+  "fix_commit": "158ff85",
+  "new_ci_run_id": "29887704890",
+  "new_ci_conclusion": "success",
+  "new_ci_duration": "1m23s",
+  "remaining_annotations_after_fix": {
+    "errors": 0,
+    "warnings": 6,
+    "warnings_are_pre_existing_and_unrelated": true,
+    "platform_notices": 1
+  },
+  "lint_result": "pass (exit 0, 0 errors)",
+  "test_result": "pass (72/72)",
+  "build_result": "pass",
+  "warehouse_check_result": "pass",
+  "production_touched": false,
+  "raw_data_committed": false,
+  "ci_checks_weakened": false,
+  "ci_checks_weakened_detail": "no continue-on-error added, no ESLint rule disabled or narrowed, no file excluded from lint scope, no rule softened -- every error fixed at its actual React/hooks cause",
+  "sprint_12_started": false,
+  "environment_note": "gh CLI was not installed in this environment; installed via winget install --id GitHub.cli and authenticated interactively by the user (gh auth login) specifically to retrieve real failure annotations rather than guess, per the mission's instructions",
+  "sprint_11_completion_status": "Sprint 11 (WS0-22) is now genuinely complete, verified by a real green GitHub Actions run in addition to local checks. sprint11_final_report.{md,json} corrected to reflect this explicitly."
+}

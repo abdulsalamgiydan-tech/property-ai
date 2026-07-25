@@ -1,0 +1,33 @@
+{
+  "version": "0.1.0",
+  "name": "property-ai",
+  "dependencies": {
+    "@vercel/analytics": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/@vercel/analytics/-/analytics-2.0.1.tgz",
+      "overridden": false,
+      "dependencies": {
+        "next": {
+          "version": "16.2.11"
+        }
+      }
+    },
+    "next": {
+      "version": "16.2.11",
+      "resolved": "https://registry.npmjs.org/next/-/next-16.2.11.tgz",
+      "overridden": false,
+      "dependencies": {
+        "postcss": {
+          "version": "8.4.31",
+          "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz",
+          "overridden": false
+        },
+        "sharp": {
+          "version": "0.34.5",
+          "resolved": "https://registry.npmjs.org/sharp/-/sharp-0.34.5.tgz",
+          "overridden": false
+        }
+      }
+    }
+  }
+}

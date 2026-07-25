@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-07-20T19:13:45.762Z",
+  "store": "local DuckDB/Parquet (no Supabase connection made)",
+  "verdict": "PASSED",
+  "official_sources_verified": true,
+  "raw_or_local_files_tracked_by_git": [],
+  "by_geography_type": [
+    {
+      "geography_type": "POA",
+      "n": 2643,
+      "matched": 2641
+    },
+    {
+      "geography_type": "SAL",
+      "n": 15352,
+      "matched": 15334
+    }
+  ],
+  "checks": {
+    "duplicate_natural_keys": 0,
+    "negative_population": 0,
+    "negative_households": 0,
+    "negative_income": 0,
+    "null_geo_publishable_unexpected": 0,
+    "orphan_free_joined": 17975,
+    "invalid_census_year": 0,
+    "not_directly_labelled": 0,
+    "null_population_kept_null": 0,
+    "null_income_kept_null": 0
+  },
+  "unmatched_geography_count": 20,
+  "unmatched_tolerance": 30,
+  "nsw_sal_population_sanity": {
+    "nsw_sal_population_sum": 25370225,
+    "n_sal": 15334
+  },
+  "population_2016_and_growth_pct": "intentionally not populated this sprint — see census_demographics_source_manifest.json entry 'census_population_2016_comparison' (2016/2021 ASGS boundary mismatch, documented scope decision)",
+  "notes": [
+    "Every row is direct_or_derived='direct' — G01/G02/G35 are native SAL/POA GCP DataPack tables, no ASGS correspondence weighting used or needed.",
+    "Missing/unpublished cells stay NULL (never zero-filled) — see null_population_kept_null / null_income_kept_null counts for how many rows have a genuinely NULL measure (typically very small/zero-population localities where ABS suppresses or does not compute a cell).",
+    "Census self-reported median rent/mortgage (G02) are stored as census_median_weekly_rent / census_median_monthly_mortgage — kept distinct from the DCJ administrative rent series and the RBA-rate-based repayment estimate elsewhere in the warehouse; never blended into the same column."
+  ]
+}

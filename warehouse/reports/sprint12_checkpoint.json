@@ -1,0 +1,10 @@
+{
+  "generated_at": "2026-07-22T22:32:00+10:00",
+  "sprint_status": "COMPLETE",
+  "branch": "feature/national-residential-research-platform-v1",
+  "final_commit": "f05a0bc",
+  "all_18_workstreams_complete": true,
+  "authoritative_final_report": "warehouse/reports/sprint12_final_delivery_report.md",
+  "resume_needed": false,
+  "note": "Sprint 12's full mission is delivered. See sprint12_final_delivery_report.md for the complete record, final metrics, and recommended next steps for a human to consider (this checkpoint is a pointer, not a resume-from-here document)."
+}

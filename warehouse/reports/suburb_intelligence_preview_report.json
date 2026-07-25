@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-07-21T06:10:00.000Z",
+  "feature_flag": "WAREHOUSE_PREVIEW_ENABLED",
+  "default_state": "disabled (unset = false)",
+  "routes_created": [
+    "/research",
+    "/research/suburb/[geographyCode]",
+    "/research/postcode/[geographyCode]"
+  ],
+  "build_result": "success (npm run build, Next.js 16.2.3, Turbopack) — all 3 routes registered as dynamic (server-rendered)",
+  "test_suite_result": "35/35 vitest tests passed (17 affordability-formula tests, 5 feature-flag/config tests, plus the pre-existing 13 budget2026 tests unaffected)",
+  "live_ui_verification": {
+    "method": "gstack /browse (headless Chromium) against `npm run dev`, WAREHOUSE_PREVIEW_ENABLED=true",
+    "checks": [
+      { "check": "landing page renders (search form, disclaimer banner, no console errors)", "result": "pass" },
+      { "check": "search 'Parramatta' returns 4 disambiguated results (North Parramatta, Parramatta, Silverwater (Parramatta - NSW), Parramatta Park) with state label", "result": "pass" },
+      { "check": "suburb snapshot page (Parramatta, SAL 13167) renders all 7 required sections with real branch data", "result": "pass" },
+      { "check": "confidence badges render for every metric (high/medium/low/insufficient)", "result": "pass" },
+      { "check": "missing metrics show 'Unavailable' text, not zero or blank", "result": "pass" },
+      { "check": "affordability assumptions displayed in plain text (deposit %, loan term, RBA rate + period, LMI/fees excluded)", "result": "pass" },
+      { "check": "no buy/pass indicator, investment score, or forecast language anywhere on the page", "result": "pass" },
+      { "check": "population growth 2016-2021 explicitly labelled as unavailable with a stated reason, not hidden", "result": "pass" }
+    ]
+  },
+  "bugs_found_and_fixed_during_live_testing": [
+    {
+      "bug": "Page rendered near-white/illegible text on a white background",
+      "cause": "the /research layout did not apply a dark background wrapper (the app's global CSS only darkens on prefers-color-scheme:dark, which headless Chromium does not set by default)",
+      "fix": "wrapped the layout content in the same dark gradient background used by components/design/shell/AppShell.tsx"
+    },
+    {
+      "bug": "State code displayed as raw ASGS numeric code ('1') instead of 'NSW'",
+      "fix": "added lib/warehouse/stateCode.ts mapping ASGS numeric codes to abbreviations, applied on the search results list and snapshot page headings"
+    },
+    {
+      "bug": "Sales trend table showed 100+ rows spanning 2017-2026 instead of a compact 12-month trend",
+      "cause": "mart.suburb_sales_monthly on the branch holds full history (1996-2026), not the trailing-12-months this sprint's capacity plan assumed based on Sprint 7's documentation",
+      "fix": "added a client-side 12-month (sales) / 24-month (rent+yield) recency filter in lib/warehouse/queries.ts getTimeseries(), and added an explicit date-range filter to the branch loader's timeseries INSERT so any future re-run stays compact. Could not retroactively shrink rows already inserted by the run that predates this fix — this sprint's hard rules forbid DELETE. Documented as a known discrepancy."
+    }
+  ],
+  "secret_bundle_check": {
+    "method": "grep the built .next/static client bundle for ANTHROPIC_API_KEY, the literal DB password string, WAREHOUSE_VALIDATION_DB_URL, and the warehouse anon key/URL",
+    "result": "zero matches for all patterns — no secrets, and the warehouse anon key (non-secret but intentionally server-only) does not appear either, confirming it is only ever fetched in Server Components"
+  },
+  "design_reuse": [
+    "components/design/{SectionCard,MetricCard,EmptyState,DisclaimerFooter}.tsx reused as-is",
+    "A new neutral components/research/ConfidenceBadge.tsx was created instead of reusing components/design/StatusBadge.tsx, which encodes green/amber/red 'DealStatus' (buy/pass) semantics — reusing it would have risked implying an investment signal, which this sprint explicitly forbids"
+  ],
+  "production_safety": {
+    "flag_absent_behaviour": "notFound() — verified via lib/warehouse/env.test.ts (5 tests covering absent/invalid/valid flag values)",
+    "no_service_role_key_used": true,
+    "separate_client_from_production_app": "lib/warehouse/client.ts is a distinct client from lib/supabase/{client,server}.ts — the production app's Supabase wiring is never touched"
+  }
+}

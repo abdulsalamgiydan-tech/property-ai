@@ -1,0 +1,314 @@
+[
+ {
+  "geography_code": "30250",
+  "geography_name": "Aurukun"
+ },
+ {
+  "geography_code": "30300",
+  "geography_name": "Balonne"
+ },
+ {
+  "geography_code": "30370",
+  "geography_name": "Banana"
+ },
+ {
+  "geography_code": "30410",
+  "geography_name": "Barcaldine"
+ },
+ {
+  "geography_code": "30450",
+  "geography_name": "Barcoo"
+ },
+ {
+  "geography_code": "30760",
+  "geography_name": "Blackall Tambo"
+ },
+ {
+  "geography_code": "30900",
+  "geography_name": "Boulia"
+ },
+ {
+  "geography_code": "31000",
+  "geography_name": "Brisbane"
+ },
+ {
+  "geography_code": "31750",
+  "geography_name": "Bulloo"
+ },
+ {
+  "geography_code": "31820",
+  "geography_name": "Bundaberg"
+ },
+ {
+  "geography_code": "31900",
+  "geography_name": "Burdekin"
+ },
+ {
+  "geography_code": "31950",
+  "geography_name": "Burke"
+ },
+ {
+  "geography_code": "32080",
+  "geography_name": "Cairns"
+ },
+ {
+  "geography_code": "32250",
+  "geography_name": "Carpentaria"
+ },
+ {
+  "geography_code": "32260",
+  "geography_name": "Cassowary Coast"
+ },
+ {
+  "geography_code": "32270",
+  "geography_name": "Central Highlands (Qld)"
+ },
+ {
+  "geography_code": "32310",
+  "geography_name": "Charters Towers"
+ },
+ {
+  "geography_code": "32330",
+  "geography_name": "Cherbourg"
+ },
+ {
+  "geography_code": "32450",
+  "geography_name": "Cloncurry"
+ },
+ {
+  "geography_code": "32500",
+  "geography_name": "Cook"
+ },
+ {
+  "geography_code": "32600",
+  "geography_name": "Croydon"
+ },
+ {
+  "geography_code": "32750",
+  "geography_name": "Diamantina"
+ },
+ {
+  "geography_code": "32770",
+  "geography_name": "Doomadgee"
+ },
+ {
+  "geography_code": "32810",
+  "geography_name": "Douglas"
+ },
+ {
+  "geography_code": "33100",
+  "geography_name": "Etheridge"
+ },
+ {
+  "geography_code": "33200",
+  "geography_name": "Flinders (Qld)"
+ },
+ {
+  "geography_code": "33220",
+  "geography_name": "Fraser Coast"
+ },
+ {
+  "geography_code": "33360",
+  "geography_name": "Gladstone"
+ },
+ {
+  "geography_code": "33430",
+  "geography_name": "Gold Coast"
+ },
+ {
+  "geography_code": "33610",
+  "geography_name": "Goondiwindi"
+ },
+ {
+  "geography_code": "33620",
+  "geography_name": "Gympie"
+ },
+ {
+  "geography_code": "33800",
+  "geography_name": "Hinchinbrook"
+ },
+ {
+  "geography_code": "33830",
+  "geography_name": "Hope Vale"
+ },
+ {
+  "geography_code": "33960",
+  "geography_name": "Ipswich"
+ },
+ {
+  "geography_code": "33980",
+  "geography_name": "Isaac"
+ },
+ {
+  "geography_code": "34420",
+  "geography_name": "Kowanyama"
+ },
+ {
+  "geography_code": "34530",
+  "geography_name": "Livingstone"
+ },
+ {
+  "geography_code": "34570",
+  "geography_name": "Lockhart River"
+ },
+ {
+  "geography_code": "34580",
+  "geography_name": "Lockyer Valley"
+ },
+ {
+  "geography_code": "34590",
+  "geography_name": "Logan"
+ },
+ {
+  "geography_code": "34710",
+  "geography_name": "Longreach"
+ },
+ {
+  "geography_code": "34770",
+  "geography_name": "Mackay"
+ },
+ {
+  "geography_code": "34830",
+  "geography_name": "Mapoon"
+ },
+ {
+  "geography_code": "34860",
+  "geography_name": "Maranoa"
+ },
+ {
+  "geography_code": "34880",
+  "geography_name": "Mareeba"
+ },
+ {
+  "geography_code": "34800",
+  "geography_name": "McKinlay"
+ },
+ {
+  "geography_code": "35010",
+  "geography_name": "Moreton Bay"
+ },
+ {
+  "geography_code": "35250",
+  "geography_name": "Mornington"
+ },
+ {
+  "geography_code": "35300",
+  "geography_name": "Mount Isa"
+ },
+ {
+  "geography_code": "35600",
+  "geography_name": "Murweh"
+ },
+ {
+  "geography_code": "35670",
+  "geography_name": "Napranum"
+ },
+ {
+  "geography_code": "35740",
+  "geography_name": "Noosa"
+ },
+ {
+  "geography_code": "35760",
+  "geography_name": "North Burnett"
+ },
+ {
+  "geography_code": "35780",
+  "geography_name": "Northern Peninsula Area"
+ },
+ {
+  "geography_code": "35790",
+  "geography_name": "Palm Island"
+ },
+ {
+  "geography_code": "35800",
+  "geography_name": "Paroo"
+ },
+ {
+  "geography_code": "36070",
+  "geography_name": "Pormpuraaw"
+ },
+ {
+  "geography_code": "36150",
+  "geography_name": "Quilpie"
+ },
+ {
+  "geography_code": "36250",
+  "geography_name": "Redland"
+ },
+ {
+  "geography_code": "36300",
+  "geography_name": "Richmond"
+ },
+ {
+  "geography_code": "36370",
+  "geography_name": "Rockhampton"
+ },
+ {
+  "geography_code": "36510",
+  "geography_name": "Scenic Rim"
+ },
+ {
+  "geography_code": "36580",
+  "geography_name": "Somerset"
+ },
+ {
+  "geography_code": "36630",
+  "geography_name": "South Burnett"
+ },
+ {
+  "geography_code": "36660",
+  "geography_name": "Southern Downs"
+ },
+ {
+  "geography_code": "36720",
+  "geography_name": "Sunshine Coast"
+ },
+ {
+  "geography_code": "36820",
+  "geography_name": "Tablelands"
+ },
+ {
+  "geography_code": "36910",
+  "geography_name": "Toowoomba"
+ },
+ {
+  "geography_code": "36950",
+  "geography_name": "Torres"
+ },
+ {
+  "geography_code": "36960",
+  "geography_name": "Torres Strait Island"
+ },
+ {
+  "geography_code": "37010",
+  "geography_name": "Townsville"
+ },
+ {
+  "geography_code": "37300",
+  "geography_name": "Weipa"
+ },
+ {
+  "geography_code": "37310",
+  "geography_name": "Western Downs"
+ },
+ {
+  "geography_code": "37340",
+  "geography_name": "Whitsunday"
+ },
+ {
+  "geography_code": "37400",
+  "geography_name": "Winton"
+ },
+ {
+  "geography_code": "37550",
+  "geography_name": "Woorabinda"
+ },
+ {
+  "geography_code": "37570",
+  "geography_name": "Wujal Wujal"
+ },
+ {
+  "geography_code": "37600",
+  "geography_name": "Yarrabah"
+ }
+]

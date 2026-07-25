@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-07-22T06:54:42.126Z",
+  "mode": "EXECUTE",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "dim_geography_version_rows_added": 2,
+  "dim_geography_rows_inserted": {
+    "ssc_2016": 15304,
+    "poa_2016": 2670
+  },
+  "bridge_correspondence_rows_inserted": {
+    "ssc_to_sal": 15735,
+    "poa_to_poa": 2881
+  },
+  "mart_rows_updated": {
+    "suburb_demographic_profile_2021": 15333,
+    "postcode_demographic_profile_2021": 2641
+  },
+  "validation_gates": {
+    "sal_negative": 0,
+    "poa_negative": 0,
+    "sal_low_base_leak": 0,
+    "poa_low_base_leak": 0,
+    "sal_growth_missing_lineage": 0,
+    "poa_growth_missing_lineage": 0,
+    "duplicate_correspondence_keys": 0,
+    "orphan_target_geography": 0,
+    "invalid_weights": 0,
+    "db_bytes_now": "2791656595"
+  },
+  "db_size_before_mb": 2655.4,
+  "db_size_after_mb": 2661.4
+}

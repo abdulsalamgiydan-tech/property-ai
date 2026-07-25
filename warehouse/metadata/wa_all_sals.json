@@ -1,0 +1,6798 @@
+[
+ {
+  "geography_code": "50001",
+  "geography_name": "Abba River"
+ },
+ {
+  "geography_code": "50002",
+  "geography_name": "Abbey"
+ },
+ {
+  "geography_code": "50003",
+  "geography_name": "Acton Park (WA)"
+ },
+ {
+  "geography_code": "50004",
+  "geography_name": "Adamsvale"
+ },
+ {
+  "geography_code": "50005",
+  "geography_name": "Ajana"
+ },
+ {
+  "geography_code": "50006",
+  "geography_name": "Albany"
+ },
+ {
+  "geography_code": "50007",
+  "geography_name": "Aldersyde"
+ },
+ {
+  "geography_code": "50008",
+  "geography_name": "Alexander Heights"
+ },
+ {
+  "geography_code": "50009",
+  "geography_name": "Alexandra Bridge"
+ },
+ {
+  "geography_code": "50010",
+  "geography_name": "Alfred Cove"
+ },
+ {
+  "geography_code": "50011",
+  "geography_name": "Alkimos"
+ },
+ {
+  "geography_code": "50012",
+  "geography_name": "Allanooka"
+ },
+ {
+  "geography_code": "50013",
+  "geography_name": "Allanson"
+ },
+ {
+  "geography_code": "50014",
+  "geography_name": "Alma (WA)"
+ },
+ {
+  "geography_code": "50015",
+  "geography_name": "Ambania"
+ },
+ {
+  "geography_code": "50016",
+  "geography_name": "Ambergate"
+ },
+ {
+  "geography_code": "50017",
+  "geography_name": "Amelup"
+ },
+ {
+  "geography_code": "50018",
+  "geography_name": "Angelo River"
+ },
+ {
+  "geography_code": "50019",
+  "geography_name": "Anketell"
+ },
+ {
+  "geography_code": "50020",
+  "geography_name": "Anniebrook"
+ },
+ {
+  "geography_code": "50021",
+  "geography_name": "Antonymyre"
+ },
+ {
+  "geography_code": "50022",
+  "geography_name": "Applecross"
+ },
+ {
+  "geography_code": "50023",
+  "geography_name": "Ardath"
+ },
+ {
+  "geography_code": "50024",
+  "geography_name": "Ardross"
+ },
+ {
+  "geography_code": "50025",
+  "geography_name": "Argyle (WA)"
+ },
+ {
+  "geography_code": "50026",
+  "geography_name": "Armadale (WA)"
+ },
+ {
+  "geography_code": "50027",
+  "geography_name": "Arrino"
+ },
+ {
+  "geography_code": "50028",
+  "geography_name": "Arrowsmith"
+ },
+ {
+  "geography_code": "50029",
+  "geography_name": "Arrowsmith East"
+ },
+ {
+  "geography_code": "50030",
+  "geography_name": "Arthur River (WA)"
+ },
+ {
+  "geography_code": "50031",
+  "geography_name": "Ascot (WA)"
+ },
+ {
+  "geography_code": "50032",
+  "geography_name": "Ashby (WA)"
+ },
+ {
+  "geography_code": "50033",
+  "geography_name": "Ashendon"
+ },
+ {
+  "geography_code": "50034",
+  "geography_name": "Ashfield (WA)"
+ },
+ {
+  "geography_code": "50035",
+  "geography_name": "Attadale"
+ },
+ {
+  "geography_code": "50036",
+  "geography_name": "Atwell"
+ },
+ {
+  "geography_code": "50037",
+  "geography_name": "Aubin Grove"
+ },
+ {
+  "geography_code": "50038",
+  "geography_name": "Augusta"
+ },
+ {
+  "geography_code": "50039",
+  "geography_name": "Australind"
+ },
+ {
+  "geography_code": "50040",
+  "geography_name": "Aveley"
+ },
+ {
+  "geography_code": "50041",
+  "geography_name": "Avon Valley National Park"
+ },
+ {
+  "geography_code": "50042",
+  "geography_name": "Baandee"
+ },
+ {
+  "geography_code": "50043",
+  "geography_name": "Babakin"
+ },
+ {
+  "geography_code": "50044",
+  "geography_name": "Babbage Island"
+ },
+ {
+  "geography_code": "50045",
+  "geography_name": "Badgebup"
+ },
+ {
+  "geography_code": "50046",
+  "geography_name": "Badgerin Rock"
+ },
+ {
+  "geography_code": "50047",
+  "geography_name": "Badgin"
+ },
+ {
+  "geography_code": "50048",
+  "geography_name": "Badgingarra"
+ },
+ {
+  "geography_code": "50049",
+  "geography_name": "Badjaling"
+ },
+ {
+  "geography_code": "50050",
+  "geography_name": "Bailup"
+ },
+ {
+  "geography_code": "50051",
+  "geography_name": "Bakers Hill"
+ },
+ {
+  "geography_code": "50052",
+  "geography_name": "Balbarrup"
+ },
+ {
+  "geography_code": "50053",
+  "geography_name": "Balcatta"
+ },
+ {
+  "geography_code": "50054",
+  "geography_name": "Baldivis"
+ },
+ {
+  "geography_code": "50055",
+  "geography_name": "Balga"
+ },
+ {
+  "geography_code": "50056",
+  "geography_name": "Balingup"
+ },
+ {
+  "geography_code": "50057",
+  "geography_name": "Balkuling"
+ },
+ {
+  "geography_code": "50058",
+  "geography_name": "Balla Balla"
+ },
+ {
+  "geography_code": "50059",
+  "geography_name": "Balladong"
+ },
+ {
+  "geography_code": "50060",
+  "geography_name": "Balladonia"
+ },
+ {
+  "geography_code": "50061",
+  "geography_name": "Ballajura"
+ },
+ {
+  "geography_code": "50062",
+  "geography_name": "Ballaying"
+ },
+ {
+  "geography_code": "50063",
+  "geography_name": "Ballidu"
+ },
+ {
+  "geography_code": "50064",
+  "geography_name": "Bally Bally"
+ },
+ {
+  "geography_code": "50065",
+  "geography_name": "Bambun"
+ },
+ {
+  "geography_code": "50066",
+  "geography_name": "Bandy Creek"
+ },
+ {
+  "geography_code": "50067",
+  "geography_name": "Bandya"
+ },
+ {
+  "geography_code": "50068",
+  "geography_name": "Banjup"
+ },
+ {
+  "geography_code": "50069",
+  "geography_name": "Banksia Grove"
+ },
+ {
+  "geography_code": "50070",
+  "geography_name": "Banksiadale"
+ },
+ {
+  "geography_code": "50071",
+  "geography_name": "Bannister (WA)"
+ },
+ {
+  "geography_code": "50072",
+  "geography_name": "Barbalin"
+ },
+ {
+  "geography_code": "50073",
+  "geography_name": "Barberton"
+ },
+ {
+  "geography_code": "50074",
+  "geography_name": "Barrabup"
+ },
+ {
+  "geography_code": "50075",
+  "geography_name": "Barragup"
+ },
+ {
+  "geography_code": "50076",
+  "geography_name": "Barrow Island"
+ },
+ {
+  "geography_code": "50077",
+  "geography_name": "Baskerville"
+ },
+ {
+  "geography_code": "50078",
+  "geography_name": "Bassendean (WA)"
+ },
+ {
+  "geography_code": "50079",
+  "geography_name": "Bateman"
+ },
+ {
+  "geography_code": "50080",
+  "geography_name": "Baudin"
+ },
+ {
+  "geography_code": "50081",
+  "geography_name": "Baynton (WA)"
+ },
+ {
+  "geography_code": "50082",
+  "geography_name": "Bayonet Head"
+ },
+ {
+  "geography_code": "50083",
+  "geography_name": "Bayswater (WA)"
+ },
+ {
+  "geography_code": "50084",
+  "geography_name": "Beachlands"
+ },
+ {
+  "geography_code": "50085",
+  "geography_name": "Beacon"
+ },
+ {
+  "geography_code": "50086",
+  "geography_name": "Beaconsfield (WA)"
+ },
+ {
+  "geography_code": "50087",
+  "geography_name": "Beadell"
+ },
+ {
+  "geography_code": "50088",
+  "geography_name": "Beaufort River"
+ },
+ {
+  "geography_code": "50089",
+  "geography_name": "Beaumont (WA)"
+ },
+ {
+  "geography_code": "50090",
+  "geography_name": "Beckenham"
+ },
+ {
+  "geography_code": "50091",
+  "geography_name": "Bedford"
+ },
+ {
+  "geography_code": "50092",
+  "geography_name": "Bedfordale"
+ },
+ {
+  "geography_code": "50093",
+  "geography_name": "Beechboro"
+ },
+ {
+  "geography_code": "50094",
+  "geography_name": "Beechina"
+ },
+ {
+  "geography_code": "50095",
+  "geography_name": "Beedelup"
+ },
+ {
+  "geography_code": "50096",
+  "geography_name": "Beela"
+ },
+ {
+  "geography_code": "50097",
+  "geography_name": "Beelerup"
+ },
+ {
+  "geography_code": "50098",
+  "geography_name": "Beeliar"
+ },
+ {
+  "geography_code": "50099",
+  "geography_name": "Beenong"
+ },
+ {
+  "geography_code": "50100",
+  "geography_name": "Beermullah"
+ },
+ {
+  "geography_code": "50101",
+  "geography_name": "Bejoording"
+ },
+ {
+  "geography_code": "50102",
+  "geography_name": "Beldon"
+ },
+ {
+  "geography_code": "50103",
+  "geography_name": "Belhus"
+ },
+ {
+  "geography_code": "50104",
+  "geography_name": "Bellevue (WA)"
+ },
+ {
+  "geography_code": "50105",
+  "geography_name": "Belmont (WA)"
+ },
+ {
+  "geography_code": "50106",
+  "geography_name": "Bencubbin"
+ },
+ {
+  "geography_code": "50107",
+  "geography_name": "Benger"
+ },
+ {
+  "geography_code": "50108",
+  "geography_name": "Benjaberring"
+ },
+ {
+  "geography_code": "50109",
+  "geography_name": "Benjinup"
+ },
+ {
+  "geography_code": "50110",
+  "geography_name": "Bennett Springs"
+ },
+ {
+  "geography_code": "50111",
+  "geography_name": "Bentley (WA)"
+ },
+ {
+  "geography_code": "50112",
+  "geography_name": "Beresford"
+ },
+ {
+  "geography_code": "50113",
+  "geography_name": "Berkshire Valley"
+ },
+ {
+  "geography_code": "50114",
+  "geography_name": "Bernier Island"
+ },
+ {
+  "geography_code": "50115",
+  "geography_name": "Bertram"
+ },
+ {
+  "geography_code": "50116",
+  "geography_name": "Beverley (WA)"
+ },
+ {
+  "geography_code": "50117",
+  "geography_name": "Bibra Lake"
+ },
+ {
+  "geography_code": "50118",
+  "geography_name": "Bickley"
+ },
+ {
+  "geography_code": "50119",
+  "geography_name": "Bicton"
+ },
+ {
+  "geography_code": "50120",
+  "geography_name": "Biddelia"
+ },
+ {
+  "geography_code": "50121",
+  "geography_name": "Big Grove"
+ },
+ {
+  "geography_code": "50122",
+  "geography_name": "Bilbarin"
+ },
+ {
+  "geography_code": "50123",
+  "geography_name": "Bilingurr"
+ },
+ {
+  "geography_code": "50124",
+  "geography_name": "Bimbijy"
+ },
+ {
+  "geography_code": "50125",
+  "geography_name": "Bindi Bindi"
+ },
+ {
+  "geography_code": "50126",
+  "geography_name": "Bindoon"
+ },
+ {
+  "geography_code": "50127",
+  "geography_name": "Bindoon Training Area"
+ },
+ {
+  "geography_code": "50128",
+  "geography_name": "Binduli"
+ },
+ {
+  "geography_code": "50129",
+  "geography_name": "Binningup"
+ },
+ {
+  "geography_code": "50130",
+  "geography_name": "Binnu"
+ },
+ {
+  "geography_code": "50131",
+  "geography_name": "Birchmont"
+ },
+ {
+  "geography_code": "50132",
+  "geography_name": "Bluff Point"
+ },
+ {
+  "geography_code": "50133",
+  "geography_name": "Blythewood"
+ },
+ {
+  "geography_code": "50134",
+  "geography_name": "Boallia"
+ },
+ {
+  "geography_code": "50135",
+  "geography_name": "Bobalong"
+ },
+ {
+  "geography_code": "50136",
+  "geography_name": "Bodallin"
+ },
+ {
+  "geography_code": "50137",
+  "geography_name": "Boddington"
+ },
+ {
+  "geography_code": "50138",
+  "geography_name": "Boilup"
+ },
+ {
+  "geography_code": "50139",
+  "geography_name": "Bokal"
+ },
+ {
+  "geography_code": "50140",
+  "geography_name": "Bolgart"
+ },
+ {
+  "geography_code": "50141",
+  "geography_name": "Bonnie Rock"
+ },
+ {
+  "geography_code": "50142",
+  "geography_name": "Bonniefield"
+ },
+ {
+  "geography_code": "50143",
+  "geography_name": "Boodarie"
+ },
+ {
+  "geography_code": "50144",
+  "geography_name": "Boodarockin"
+ },
+ {
+  "geography_code": "50145",
+  "geography_name": "Bookara"
+ },
+ {
+  "geography_code": "50146",
+  "geography_name": "Boonanarring"
+ },
+ {
+  "geography_code": "50147",
+  "geography_name": "Boorabbin"
+ },
+ {
+  "geography_code": "50148",
+  "geography_name": "Booragoon"
+ },
+ {
+  "geography_code": "50149",
+  "geography_name": "Booralaming"
+ },
+ {
+  "geography_code": "50150",
+  "geography_name": "Boorara"
+ },
+ {
+  "geography_code": "50151",
+  "geography_name": "Boorara Brook"
+ },
+ {
+  "geography_code": "50152",
+  "geography_name": "Bootenal"
+ },
+ {
+  "geography_code": "50153",
+  "geography_name": "Boothendarra"
+ },
+ {
+  "geography_code": "50154",
+  "geography_name": "Boranup"
+ },
+ {
+  "geography_code": "50155",
+  "geography_name": "Borden"
+ },
+ {
+  "geography_code": "50156",
+  "geography_name": "Borderdale"
+ },
+ {
+  "geography_code": "50157",
+  "geography_name": "Bornholm"
+ },
+ {
+  "geography_code": "50158",
+  "geography_name": "Boscabel"
+ },
+ {
+  "geography_code": "50159",
+  "geography_name": "Boulder"
+ },
+ {
+  "geography_code": "50160",
+  "geography_name": "Boundain"
+ },
+ {
+  "geography_code": "50161",
+  "geography_name": "Bouvard"
+ },
+ {
+  "geography_code": "50162",
+  "geography_name": "Bovell"
+ },
+ {
+  "geography_code": "50163",
+  "geography_name": "Bow Bridge"
+ },
+ {
+  "geography_code": "50164",
+  "geography_name": "Bowelling"
+ },
+ {
+  "geography_code": "50165",
+  "geography_name": "Bowes"
+ },
+ {
+  "geography_code": "50166",
+  "geography_name": "Bowgada"
+ },
+ {
+  "geography_code": "50167",
+  "geography_name": "Boxwood Hill"
+ },
+ {
+  "geography_code": "50168",
+  "geography_name": "Boya"
+ },
+ {
+  "geography_code": "50169",
+  "geography_name": "Boyanup"
+ },
+ {
+  "geography_code": "50170",
+  "geography_name": "Boyatup"
+ },
+ {
+  "geography_code": "50171",
+  "geography_name": "Boyerine"
+ },
+ {
+  "geography_code": "50172",
+  "geography_name": "Boyup Brook"
+ },
+ {
+  "geography_code": "50173",
+  "geography_name": "Brabham"
+ },
+ {
+  "geography_code": "50174",
+  "geography_name": "Bramley"
+ },
+ {
+  "geography_code": "50175",
+  "geography_name": "Brazier"
+ },
+ {
+  "geography_code": "50176",
+  "geography_name": "Breera"
+ },
+ {
+  "geography_code": "50177",
+  "geography_name": "Bremer Bay"
+ },
+ {
+  "geography_code": "50178",
+  "geography_name": "Brentwood (WA)"
+ },
+ {
+  "geography_code": "50179",
+  "geography_name": "Breton Bay"
+ },
+ {
+  "geography_code": "50180",
+  "geography_name": "Bridgetown"
+ },
+ {
+  "geography_code": "50181",
+  "geography_name": "Brigadoon"
+ },
+ {
+  "geography_code": "50182",
+  "geography_name": "Bringo"
+ },
+ {
+  "geography_code": "50183",
+  "geography_name": "Broadwater (WA)"
+ },
+ {
+  "geography_code": "50184",
+  "geography_name": "Broadwood"
+ },
+ {
+  "geography_code": "50185",
+  "geography_name": "Brockman"
+ },
+ {
+  "geography_code": "50186",
+  "geography_name": "Broke (WA)"
+ },
+ {
+  "geography_code": "50187",
+  "geography_name": "Brookdale (WA)"
+ },
+ {
+  "geography_code": "50188",
+  "geography_name": "Brookhampton"
+ },
+ {
+  "geography_code": "50189",
+  "geography_name": "Brookton"
+ },
+ {
+  "geography_code": "50190",
+  "geography_name": "Broome"
+ },
+ {
+  "geography_code": "50191",
+  "geography_name": "Broomehill East"
+ },
+ {
+  "geography_code": "50192",
+  "geography_name": "Broomehill Village"
+ },
+ {
+  "geography_code": "50193",
+  "geography_name": "Broomehill West"
+ },
+ {
+  "geography_code": "50194",
+  "geography_name": "Brown Hill (WA)"
+ },
+ {
+  "geography_code": "50195",
+  "geography_name": "Brown Range"
+ },
+ {
+  "geography_code": "50196",
+  "geography_name": "Bruce Rock"
+ },
+ {
+  "geography_code": "50197",
+  "geography_name": "Brunswick (WA)"
+ },
+ {
+  "geography_code": "50198",
+  "geography_name": "Buckingham (WA)"
+ },
+ {
+  "geography_code": "50199",
+  "geography_name": "Buckland (WA)"
+ },
+ {
+  "geography_code": "50200",
+  "geography_name": "Bulgarra"
+ },
+ {
+  "geography_code": "50201",
+  "geography_name": "Bull Creek (WA)"
+ },
+ {
+  "geography_code": "50202",
+  "geography_name": "Bullabulling"
+ },
+ {
+  "geography_code": "50203",
+  "geography_name": "Bullaring"
+ },
+ {
+  "geography_code": "50204",
+  "geography_name": "Buller"
+ },
+ {
+  "geography_code": "50205",
+  "geography_name": "Bullfinch"
+ },
+ {
+  "geography_code": "50206",
+  "geography_name": "Bullock Hills"
+ },
+ {
+  "geography_code": "50207",
+  "geography_name": "Bullsbrook"
+ },
+ {
+  "geography_code": "50208",
+  "geography_name": "Bulong"
+ },
+ {
+  "geography_code": "50209",
+  "geography_name": "Bulyee"
+ },
+ {
+  "geography_code": "50210",
+  "geography_name": "Bunbury (WA)"
+ },
+ {
+  "geography_code": "50211",
+  "geography_name": "Bundanoon (WA)"
+ },
+ {
+  "geography_code": "50212",
+  "geography_name": "Buniche"
+ },
+ {
+  "geography_code": "50213",
+  "geography_name": "Bunjil"
+ },
+ {
+  "geography_code": "50214",
+  "geography_name": "Buntine"
+ },
+ {
+  "geography_code": "50215",
+  "geography_name": "Burakin"
+ },
+ {
+  "geography_code": "50216",
+  "geography_name": "Buraminya"
+ },
+ {
+  "geography_code": "50217",
+  "geography_name": "Burekup"
+ },
+ {
+  "geography_code": "50218",
+  "geography_name": "Burges"
+ },
+ {
+  "geography_code": "50219",
+  "geography_name": "Burlong"
+ },
+ {
+  "geography_code": "50220",
+  "geography_name": "Burma Road"
+ },
+ {
+  "geography_code": "50221",
+  "geography_name": "Burns Beach"
+ },
+ {
+  "geography_code": "50222",
+  "geography_name": "Burnside (WA)"
+ },
+ {
+  "geography_code": "50223",
+  "geography_name": "Burracoppin"
+ },
+ {
+  "geography_code": "50224",
+  "geography_name": "Burran Rock"
+ },
+ {
+  "geography_code": "50225",
+  "geography_name": "Burrup"
+ },
+ {
+  "geography_code": "50226",
+  "geography_name": "Burswood"
+ },
+ {
+  "geography_code": "50227",
+  "geography_name": "Bushmead"
+ },
+ {
+  "geography_code": "50228",
+  "geography_name": "Busselton"
+ },
+ {
+  "geography_code": "50229",
+  "geography_name": "Butler (WA)"
+ },
+ {
+  "geography_code": "50230",
+  "geography_name": "Byford"
+ },
+ {
+  "geography_code": "50231",
+  "geography_name": "Cable Beach"
+ },
+ {
+  "geography_code": "50232",
+  "geography_name": "Cadoux"
+ },
+ {
+  "geography_code": "50233",
+  "geography_name": "Caiguna"
+ },
+ {
+  "geography_code": "50234",
+  "geography_name": "Calingiri"
+ },
+ {
+  "geography_code": "50235",
+  "geography_name": "Calista"
+ },
+ {
+  "geography_code": "50236",
+  "geography_name": "Caljie"
+ },
+ {
+  "geography_code": "50237",
+  "geography_name": "Callcup"
+ },
+ {
+  "geography_code": "50238",
+  "geography_name": "Camballin"
+ },
+ {
+  "geography_code": "50239",
+  "geography_name": "Cambridge Gulf"
+ },
+ {
+  "geography_code": "50240",
+  "geography_name": "Camillo"
+ },
+ {
+  "geography_code": "50241",
+  "geography_name": "Cancanning"
+ },
+ {
+  "geography_code": "50242",
+  "geography_name": "Cane"
+ },
+ {
+  "geography_code": "50243",
+  "geography_name": "Canna"
+ },
+ {
+  "geography_code": "50244",
+  "geography_name": "Canning Mills"
+ },
+ {
+  "geography_code": "50245",
+  "geography_name": "Canning Vale"
+ },
+ {
+  "geography_code": "50246",
+  "geography_name": "Cannington"
+ },
+ {
+  "geography_code": "50247",
+  "geography_name": "Cape Arid"
+ },
+ {
+  "geography_code": "50248",
+  "geography_name": "Cape Burney"
+ },
+ {
+  "geography_code": "50249",
+  "geography_name": "Cape Le Grand"
+ },
+ {
+  "geography_code": "50250",
+  "geography_name": "Cape Range National Park"
+ },
+ {
+  "geography_code": "50251",
+  "geography_name": "Capel"
+ },
+ {
+  "geography_code": "50252",
+  "geography_name": "Capel River"
+ },
+ {
+  "geography_code": "50253",
+  "geography_name": "Capricorn"
+ },
+ {
+  "geography_code": "50254",
+  "geography_name": "Caraban"
+ },
+ {
+  "geography_code": "50255",
+  "geography_name": "Carabooda"
+ },
+ {
+  "geography_code": "50256",
+  "geography_name": "Carani"
+ },
+ {
+  "geography_code": "50257",
+  "geography_name": "Carbla"
+ },
+ {
+  "geography_code": "50258",
+  "geography_name": "Carbunup River"
+ },
+ {
+  "geography_code": "50259",
+  "geography_name": "Cardiff (WA)"
+ },
+ {
+  "geography_code": "50260",
+  "geography_name": "Cardup"
+ },
+ {
+  "geography_code": "50261",
+  "geography_name": "Carey Park"
+ },
+ {
+  "geography_code": "50262",
+  "geography_name": "Carine"
+ },
+ {
+  "geography_code": "50263",
+  "geography_name": "Carlisle"
+ },
+ {
+  "geography_code": "50264",
+  "geography_name": "Carlotta"
+ },
+ {
+  "geography_code": "50265",
+  "geography_name": "Carmel"
+ },
+ {
+  "geography_code": "50266",
+  "geography_name": "Carnamah"
+ },
+ {
+  "geography_code": "50267",
+  "geography_name": "Carnarvon"
+ },
+ {
+  "geography_code": "50268",
+  "geography_name": "Carrabin"
+ },
+ {
+  "geography_code": "50269",
+  "geography_name": "Carramar (WA)"
+ },
+ {
+  "geography_code": "50270",
+  "geography_name": "Carrolup"
+ },
+ {
+  "geography_code": "50271",
+  "geography_name": "Cartmeticup"
+ },
+ {
+  "geography_code": "50272",
+  "geography_name": "Cascade (WA)"
+ },
+ {
+  "geography_code": "50273",
+  "geography_name": "Castletown"
+ },
+ {
+  "geography_code": "50274",
+  "geography_name": "Casuarina (WA)"
+ },
+ {
+  "geography_code": "50275",
+  "geography_name": "Cataby"
+ },
+ {
+  "geography_code": "50276",
+  "geography_name": "Catterick"
+ },
+ {
+  "geography_code": "50277",
+  "geography_name": "Caversham"
+ },
+ {
+  "geography_code": "50278",
+  "geography_name": "Centennial Park (WA)"
+ },
+ {
+  "geography_code": "50279",
+  "geography_name": "Cervantes"
+ },
+ {
+  "geography_code": "50280",
+  "geography_name": "Chadwick"
+ },
+ {
+  "geography_code": "50281",
+  "geography_name": "Champion Lakes"
+ },
+ {
+  "geography_code": "50282",
+  "geography_name": "Chandler (WA)"
+ },
+ {
+  "geography_code": "50283",
+  "geography_name": "Changerup"
+ },
+ {
+  "geography_code": "50284",
+  "geography_name": "Channybearup"
+ },
+ {
+  "geography_code": "50285",
+  "geography_name": "Chapman Hill"
+ },
+ {
+  "geography_code": "50286",
+  "geography_name": "Charley Creek"
+ },
+ {
+  "geography_code": "50287",
+  "geography_name": "Cherry Tree Pool"
+ },
+ {
+  "geography_code": "50288",
+  "geography_name": "Cheynes"
+ },
+ {
+  "geography_code": "50289",
+  "geography_name": "Chichester (WA)"
+ },
+ {
+  "geography_code": "50290",
+  "geography_name": "Chidlow"
+ },
+ {
+  "geography_code": "50291",
+  "geography_name": "Chittering"
+ },
+ {
+  "geography_code": "50292",
+  "geography_name": "Chowerup"
+ },
+ {
+  "geography_code": "50293",
+  "geography_name": "Churchlands"
+ },
+ {
+  "geography_code": "50294",
+  "geography_name": "City Beach"
+ },
+ {
+  "geography_code": "50295",
+  "geography_name": "Clackline"
+ },
+ {
+  "geography_code": "50296",
+  "geography_name": "Claremont (WA)"
+ },
+ {
+  "geography_code": "50297",
+  "geography_name": "Clarkson"
+ },
+ {
+  "geography_code": "50298",
+  "geography_name": "Cleary"
+ },
+ {
+  "geography_code": "50299",
+  "geography_name": "Cleaverville"
+ },
+ {
+  "geography_code": "50300",
+  "geography_name": "Clifton (WA)"
+ },
+ {
+  "geography_code": "50301",
+  "geography_name": "Cloverdale"
+ },
+ {
+  "geography_code": "50302",
+  "geography_name": "Coblinine"
+ },
+ {
+  "geography_code": "50303",
+  "geography_name": "Coburn"
+ },
+ {
+  "geography_code": "50304",
+  "geography_name": "Cockburn Central"
+ },
+ {
+  "geography_code": "50305",
+  "geography_name": "Cocklebiddy"
+ },
+ {
+  "geography_code": "50306",
+  "geography_name": "Codjatotine"
+ },
+ {
+  "geography_code": "50307",
+  "geography_name": "Cold Harbour"
+ },
+ {
+  "geography_code": "50308",
+  "geography_name": "Collanilling"
+ },
+ {
+  "geography_code": "50309",
+  "geography_name": "College Grove"
+ },
+ {
+  "geography_code": "50310",
+  "geography_name": "Collie (WA)"
+ },
+ {
+  "geography_code": "50311",
+  "geography_name": "Collie Burn"
+ },
+ {
+  "geography_code": "50312",
+  "geography_name": "Collingwood Heights"
+ },
+ {
+  "geography_code": "50313",
+  "geography_name": "Collingwood Park (WA)"
+ },
+ {
+  "geography_code": "50314",
+  "geography_name": "Collins"
+ },
+ {
+  "geography_code": "50315",
+  "geography_name": "Commodine"
+ },
+ {
+  "geography_code": "50316",
+  "geography_name": "Como (WA)"
+ },
+ {
+  "geography_code": "50317",
+  "geography_name": "Condingup"
+ },
+ {
+  "geography_code": "50318",
+  "geography_name": "Connolly"
+ },
+ {
+  "geography_code": "50319",
+  "geography_name": "Contine"
+ },
+ {
+  "geography_code": "50320",
+  "geography_name": "Coodanup"
+ },
+ {
+  "geography_code": "50321",
+  "geography_name": "Coogee (WA)"
+ },
+ {
+  "geography_code": "50322",
+  "geography_name": "Cookernup"
+ },
+ {
+  "geography_code": "50323",
+  "geography_name": "Cooladar Hill"
+ },
+ {
+  "geography_code": "50324",
+  "geography_name": "Coolbellup"
+ },
+ {
+  "geography_code": "50325",
+  "geography_name": "Coolbinia"
+ },
+ {
+  "geography_code": "50326",
+  "geography_name": "Coolcalalaya"
+ },
+ {
+  "geography_code": "50327",
+  "geography_name": "Coolgardie (WA)"
+ },
+ {
+  "geography_code": "50328",
+  "geography_name": "Cooljarloo"
+ },
+ {
+  "geography_code": "50329",
+  "geography_name": "Cooloongup"
+ },
+ {
+  "geography_code": "50330",
+  "geography_name": "Coolup"
+ },
+ {
+  "geography_code": "50331",
+  "geography_name": "Coomalbidgup"
+ },
+ {
+  "geography_code": "50332",
+  "geography_name": "Coomberdale"
+ },
+ {
+  "geography_code": "50333",
+  "geography_name": "Coonabidgee"
+ },
+ {
+  "geography_code": "50334",
+  "geography_name": "Coondle"
+ },
+ {
+  "geography_code": "50335",
+  "geography_name": "Coorow"
+ },
+ {
+  "geography_code": "50336",
+  "geography_name": "Cooya Pooya"
+ },
+ {
+  "geography_code": "50337",
+  "geography_name": "Copley (WA)"
+ },
+ {
+  "geography_code": "50338",
+  "geography_name": "Coral Bay"
+ },
+ {
+  "geography_code": "50339",
+  "geography_name": "Corinthia"
+ },
+ {
+  "geography_code": "50340",
+  "geography_name": "Corrigin"
+ },
+ {
+  "geography_code": "50341",
+  "geography_name": "Cosmo Newbery"
+ },
+ {
+  "geography_code": "50342",
+  "geography_name": "Cossack (WA)"
+ },
+ {
+  "geography_code": "50343",
+  "geography_name": "Cottesloe"
+ },
+ {
+  "geography_code": "50344",
+  "geography_name": "Courtenay"
+ },
+ {
+  "geography_code": "50345",
+  "geography_name": "Cowalellup"
+ },
+ {
+  "geography_code": "50346",
+  "geography_name": "Cowalla"
+ },
+ {
+  "geography_code": "50347",
+  "geography_name": "Cowaramup"
+ },
+ {
+  "geography_code": "50348",
+  "geography_name": "Cowcowing"
+ },
+ {
+  "geography_code": "50349",
+  "geography_name": "Coyrecup"
+ },
+ {
+  "geography_code": "50350",
+  "geography_name": "Craigie (WA)"
+ },
+ {
+  "geography_code": "50351",
+  "geography_name": "Cramphorne"
+ },
+ {
+  "geography_code": "50352",
+  "geography_name": "Cranbrook (WA)"
+ },
+ {
+  "geography_code": "50353",
+  "geography_name": "Crawley"
+ },
+ {
+  "geography_code": "50354",
+  "geography_name": "Crooked Brook"
+ },
+ {
+  "geography_code": "50355",
+  "geography_name": "Crossman"
+ },
+ {
+  "geography_code": "50356",
+  "geography_name": "Crowea"
+ },
+ {
+  "geography_code": "50357",
+  "geography_name": "Cuballing"
+ },
+ {
+  "geography_code": "50358",
+  "geography_name": "Cubbine"
+ },
+ {
+  "geography_code": "50359",
+  "geography_name": "Cue"
+ },
+ {
+  "geography_code": "50360",
+  "geography_name": "Culham"
+ },
+ {
+  "geography_code": "50361",
+  "geography_name": "Cullacabardee"
+ },
+ {
+  "geography_code": "50362",
+  "geography_name": "Cullalla"
+ },
+ {
+  "geography_code": "50363",
+  "geography_name": "Cundeelee"
+ },
+ {
+  "geography_code": "50364",
+  "geography_name": "Cunderdin"
+ },
+ {
+  "geography_code": "50365",
+  "geography_name": "Cundinup"
+ },
+ {
+  "geography_code": "50366",
+  "geography_name": "Cunjardine"
+ },
+ {
+  "geography_code": "50367",
+  "geography_name": "Currambine"
+ },
+ {
+  "geography_code": "50368",
+  "geography_name": "Cuthbert"
+ },
+ {
+  "geography_code": "50369",
+  "geography_name": "Daadenning Creek"
+ },
+ {
+  "geography_code": "50370",
+  "geography_name": "Daggar Hills"
+ },
+ {
+  "geography_code": "50371",
+  "geography_name": "Daglish"
+ },
+ {
+  "geography_code": "50372",
+  "geography_name": "Dale"
+ },
+ {
+  "geography_code": "50373",
+  "geography_name": "Daliak"
+ },
+ {
+  "geography_code": "50374",
+  "geography_name": "Dalkeith"
+ },
+ {
+  "geography_code": "50375",
+  "geography_name": "Dalwallinu"
+ },
+ {
+  "geography_code": "50376",
+  "geography_name": "Dalyellup"
+ },
+ {
+  "geography_code": "50377",
+  "geography_name": "Dalyup"
+ },
+ {
+  "geography_code": "50378",
+  "geography_name": "Dampier"
+ },
+ {
+  "geography_code": "50379",
+  "geography_name": "Dampier Archipelago"
+ },
+ {
+  "geography_code": "50380",
+  "geography_name": "Dampier Peninsula"
+ },
+ {
+  "geography_code": "50381",
+  "geography_name": "Dandanning"
+ },
+ {
+  "geography_code": "50382",
+  "geography_name": "Dandaragan"
+ },
+ {
+  "geography_code": "50383",
+  "geography_name": "Dangin"
+ },
+ {
+  "geography_code": "50384",
+  "geography_name": "Darch"
+ },
+ {
+  "geography_code": "50385",
+  "geography_name": "Dardadine"
+ },
+ {
+  "geography_code": "50386",
+  "geography_name": "Dardanup"
+ },
+ {
+  "geography_code": "50387",
+  "geography_name": "Dardanup West"
+ },
+ {
+  "geography_code": "50388",
+  "geography_name": "Darkan"
+ },
+ {
+  "geography_code": "50389",
+  "geography_name": "Darling Downs"
+ },
+ {
+  "geography_code": "50390",
+  "geography_name": "Darlington (WA)"
+ },
+ {
+  "geography_code": "50391",
+  "geography_name": "Darradup"
+ },
+ {
+  "geography_code": "50392",
+  "geography_name": "Dartmoor (WA)"
+ },
+ {
+  "geography_code": "50393",
+  "geography_name": "Dartnall"
+ },
+ {
+  "geography_code": "50394",
+  "geography_name": "Datatine"
+ },
+ {
+  "geography_code": "50395",
+  "geography_name": "Davenport (WA)"
+ },
+ {
+  "geography_code": "50396",
+  "geography_name": "Dawesville"
+ },
+ {
+  "geography_code": "50397",
+  "geography_name": "Dayton"
+ },
+ {
+  "geography_code": "50398",
+  "geography_name": "De Grey"
+ },
+ {
+  "geography_code": "50399",
+  "geography_name": "Deanmill"
+ },
+ {
+  "geography_code": "50400",
+  "geography_name": "Deepdale"
+ },
+ {
+  "geography_code": "50401",
+  "geography_name": "Deepdene (WA)"
+ },
+ {
+  "geography_code": "50402",
+  "geography_name": "Denbarker"
+ },
+ {
+  "geography_code": "50403",
+  "geography_name": "Denham"
+ },
+ {
+  "geography_code": "50404",
+  "geography_name": "Denmark"
+ },
+ {
+  "geography_code": "50405",
+  "geography_name": "Derby (WA)"
+ },
+ {
+  "geography_code": "50406",
+  "geography_name": "Devils Creek"
+ },
+ {
+  "geography_code": "50407",
+  "geography_name": "Dewars Pool"
+ },
+ {
+  "geography_code": "50408",
+  "geography_name": "Diamond Tree"
+ },
+ {
+  "geography_code": "50409",
+  "geography_name": "Dianella"
+ },
+ {
+  "geography_code": "50410",
+  "geography_name": "Dindiloa"
+ },
+ {
+  "geography_code": "50411",
+  "geography_name": "Dingup"
+ },
+ {
+  "geography_code": "50412",
+  "geography_name": "Dinninup"
+ },
+ {
+  "geography_code": "50413",
+  "geography_name": "Dirk Hartog Island"
+ },
+ {
+  "geography_code": "50414",
+  "geography_name": "Dixvale"
+ },
+ {
+  "geography_code": "50415",
+  "geography_name": "Djugun"
+ },
+ {
+  "geography_code": "50416",
+  "geography_name": "Dongara"
+ },
+ {
+  "geography_code": "50417",
+  "geography_name": "Dongolocking"
+ },
+ {
+  "geography_code": "50418",
+  "geography_name": "Donnelly River"
+ },
+ {
+  "geography_code": "50419",
+  "geography_name": "Donnybrook (WA)"
+ },
+ {
+  "geography_code": "50420",
+  "geography_name": "Doodenanning"
+ },
+ {
+  "geography_code": "50421",
+  "geography_name": "Doodlakine"
+ },
+ {
+  "geography_code": "50422",
+  "geography_name": "Dorre Island"
+ },
+ {
+  "geography_code": "50423",
+  "geography_name": "Doubleview"
+ },
+ {
+  "geography_code": "50424",
+  "geography_name": "Dowerin"
+ },
+ {
+  "geography_code": "50425",
+  "geography_name": "Drome"
+ },
+ {
+  "geography_code": "50426",
+  "geography_name": "Drummond Cove"
+ },
+ {
+  "geography_code": "50427",
+  "geography_name": "Dryandra"
+ },
+ {
+  "geography_code": "50428",
+  "geography_name": "Drysdale River"
+ },
+ {
+  "geography_code": "50429",
+  "geography_name": "Dudawa"
+ },
+ {
+  "geography_code": "50430",
+  "geography_name": "Dudinin"
+ },
+ {
+  "geography_code": "50431",
+  "geography_name": "Dudley Park (WA)"
+ },
+ {
+  "geography_code": "50432",
+  "geography_name": "Dukin"
+ },
+ {
+  "geography_code": "50433",
+  "geography_name": "Dulbelling"
+ },
+ {
+  "geography_code": "50434",
+  "geography_name": "Dulyalbin"
+ },
+ {
+  "geography_code": "50435",
+  "geography_name": "Dumbarton"
+ },
+ {
+  "geography_code": "50436",
+  "geography_name": "Dumberning"
+ },
+ {
+  "geography_code": "50437",
+  "geography_name": "Dumbleyung"
+ },
+ {
+  "geography_code": "50438",
+  "geography_name": "Duncraig"
+ },
+ {
+  "geography_code": "50439",
+  "geography_name": "Dundas (WA)"
+ },
+ {
+  "geography_code": "50440",
+  "geography_name": "Dunn Rock"
+ },
+ {
+  "geography_code": "50441",
+  "geography_name": "Dunsborough"
+ },
+ {
+  "geography_code": "50442",
+  "geography_name": "Durack (WA)"
+ },
+ {
+  "geography_code": "50443",
+  "geography_name": "Duranillin"
+ },
+ {
+  "geography_code": "50444",
+  "geography_name": "Durawah"
+ },
+ {
+  "geography_code": "50445",
+  "geography_name": "Dwarda"
+ },
+ {
+  "geography_code": "50446",
+  "geography_name": "Dwellingup"
+ },
+ {
+  "geography_code": "50447",
+  "geography_name": "Eagle Bay"
+ },
+ {
+  "geography_code": "50448",
+  "geography_name": "East Augusta"
+ },
+ {
+  "geography_code": "50449",
+  "geography_name": "East Ballidu"
+ },
+ {
+  "geography_code": "50450",
+  "geography_name": "East Beverley"
+ },
+ {
+  "geography_code": "50451",
+  "geography_name": "East Bowes"
+ },
+ {
+  "geography_code": "50452",
+  "geography_name": "East Bunbury"
+ },
+ {
+  "geography_code": "50453",
+  "geography_name": "East Cannington"
+ },
+ {
+  "geography_code": "50454",
+  "geography_name": "East Carnarvon"
+ },
+ {
+  "geography_code": "50455",
+  "geography_name": "East Chapman"
+ },
+ {
+  "geography_code": "50456",
+  "geography_name": "East Damboring"
+ },
+ {
+  "geography_code": "50457",
+  "geography_name": "East Fremantle"
+ },
+ {
+  "geography_code": "50458",
+  "geography_name": "East Lyons River"
+ },
+ {
+  "geography_code": "50459",
+  "geography_name": "East Munglinup"
+ },
+ {
+  "geography_code": "50460",
+  "geography_name": "East Murchison"
+ },
+ {
+  "geography_code": "50461",
+  "geography_name": "East Nabawa"
+ },
+ {
+  "geography_code": "50462",
+  "geography_name": "East Nannup"
+ },
+ {
+  "geography_code": "50463",
+  "geography_name": "East Newdegate"
+ },
+ {
+  "geography_code": "50464",
+  "geography_name": "East Perth"
+ },
+ {
+  "geography_code": "50465",
+  "geography_name": "East Pingelly"
+ },
+ {
+  "geography_code": "50466",
+  "geography_name": "East Popanyinning"
+ },
+ {
+  "geography_code": "50467",
+  "geography_name": "East Rockingham"
+ },
+ {
+  "geography_code": "50468",
+  "geography_name": "East Victoria Park"
+ },
+ {
+  "geography_code": "50469",
+  "geography_name": "East Wickepin"
+ },
+ {
+  "geography_code": "50470",
+  "geography_name": "East Yuna"
+ },
+ {
+  "geography_code": "50471",
+  "geography_name": "Eastbrook"
+ },
+ {
+  "geography_code": "50472",
+  "geography_name": "Eaton (WA)"
+ },
+ {
+  "geography_code": "50473",
+  "geography_name": "Eden Hill"
+ },
+ {
+  "geography_code": "50474",
+  "geography_name": "Edgewater"
+ },
+ {
+  "geography_code": "50475",
+  "geography_name": "Eganu"
+ },
+ {
+  "geography_code": "50476",
+  "geography_name": "Eglinton (WA)"
+ },
+ {
+  "geography_code": "50477",
+  "geography_name": "Eighty Mile Beach"
+ },
+ {
+  "geography_code": "50478",
+  "geography_name": "Elabbin"
+ },
+ {
+  "geography_code": "50479",
+  "geography_name": "Elachbutting"
+ },
+ {
+  "geography_code": "50480",
+  "geography_name": "Elgin (WA)"
+ },
+ {
+  "geography_code": "50481",
+  "geography_name": "Elleker"
+ },
+ {
+  "geography_code": "50482",
+  "geography_name": "Ellenbrook"
+ },
+ {
+  "geography_code": "50483",
+  "geography_name": "Ellendale (WA)"
+ },
+ {
+  "geography_code": "50484",
+  "geography_name": "Embleton"
+ },
+ {
+  "geography_code": "50485",
+  "geography_name": "Emu Flat (WA)"
+ },
+ {
+  "geography_code": "50486",
+  "geography_name": "Emu Point"
+ },
+ {
+  "geography_code": "50487",
+  "geography_name": "Eneabba"
+ },
+ {
+  "geography_code": "50488",
+  "geography_name": "Ennuin"
+ },
+ {
+  "geography_code": "50489",
+  "geography_name": "Eradu"
+ },
+ {
+  "geography_code": "50490",
+  "geography_name": "Eradu South"
+ },
+ {
+  "geography_code": "50491",
+  "geography_name": "Erskine (WA)"
+ },
+ {
+  "geography_code": "50492",
+  "geography_name": "Esperance"
+ },
+ {
+  "geography_code": "50493",
+  "geography_name": "Etmilyn"
+ },
+ {
+  "geography_code": "50494",
+  "geography_name": "Eucla"
+ },
+ {
+  "geography_code": "50495",
+  "geography_name": "Eurardy"
+ },
+ {
+  "geography_code": "50496",
+  "geography_name": "Ewlyamartup"
+ },
+ {
+  "geography_code": "50497",
+  "geography_name": "Exmouth"
+ },
+ {
+  "geography_code": "50498",
+  "geography_name": "Exmouth Gulf"
+ },
+ {
+  "geography_code": "50499",
+  "geography_name": "Fairbridge"
+ },
+ {
+  "geography_code": "50500",
+  "geography_name": "Falcon"
+ },
+ {
+  "geography_code": "50501",
+  "geography_name": "Ferguson (WA)"
+ },
+ {
+  "geography_code": "50502",
+  "geography_name": "Ferndale (WA)"
+ },
+ {
+  "geography_code": "50503",
+  "geography_name": "Feysville"
+ },
+ {
+  "geography_code": "50504",
+  "geography_name": "Fimiston"
+ },
+ {
+  "geography_code": "50505",
+  "geography_name": "Finucane"
+ },
+ {
+  "geography_code": "50506",
+  "geography_name": "Fitzgerald (WA)"
+ },
+ {
+  "geography_code": "50507",
+  "geography_name": "Fitzgerald River National Park"
+ },
+ {
+  "geography_code": "50508",
+  "geography_name": "Fitzroy Crossing"
+ },
+ {
+  "geography_code": "50509",
+  "geography_name": "Flint"
+ },
+ {
+  "geography_code": "50510",
+  "geography_name": "Floreat"
+ },
+ {
+  "geography_code": "50511",
+  "geography_name": "Flynn (WA)"
+ },
+ {
+  "geography_code": "50512",
+  "geography_name": "Forest Grove (WA)"
+ },
+ {
+  "geography_code": "50513",
+  "geography_name": "Forest Hill (WA)"
+ },
+ {
+  "geography_code": "50514",
+  "geography_name": "Forrest (WA)"
+ },
+ {
+  "geography_code": "50515",
+  "geography_name": "Forrest Beach (WA)"
+ },
+ {
+  "geography_code": "50516",
+  "geography_name": "Forrestania"
+ },
+ {
+  "geography_code": "50517",
+  "geography_name": "Forrestdale"
+ },
+ {
+  "geography_code": "50518",
+  "geography_name": "Forrestfield"
+ },
+ {
+  "geography_code": "50519",
+  "geography_name": "Fortescue (WA)"
+ },
+ {
+  "geography_code": "50520",
+  "geography_name": "Frankland River"
+ },
+ {
+  "geography_code": "50521",
+  "geography_name": "Fraser Range"
+ },
+ {
+  "geography_code": "50522",
+  "geography_name": "Fremantle"
+ },
+ {
+  "geography_code": "50523",
+  "geography_name": "Furnissdale"
+ },
+ {
+  "geography_code": "50524",
+  "geography_name": "Gabalong"
+ },
+ {
+  "geography_code": "50525",
+  "geography_name": "Gabbadah"
+ },
+ {
+  "geography_code": "50526",
+  "geography_name": "Gabbin"
+ },
+ {
+  "geography_code": "50527",
+  "geography_name": "Gairdner"
+ },
+ {
+  "geography_code": "50528",
+  "geography_name": "Gap Ridge"
+ },
+ {
+  "geography_code": "50529",
+  "geography_name": "Garden Island (WA)"
+ },
+ {
+  "geography_code": "50530",
+  "geography_name": "Gascoyne Junction"
+ },
+ {
+  "geography_code": "50531",
+  "geography_name": "Gascoyne River"
+ },
+ {
+  "geography_code": "50532",
+  "geography_name": "Geegully Creek"
+ },
+ {
+  "geography_code": "50533",
+  "geography_name": "Gelorup"
+ },
+ {
+  "geography_code": "50534",
+  "geography_name": "Geographe"
+ },
+ {
+  "geography_code": "50535",
+  "geography_name": "Georgina (WA)"
+ },
+ {
+  "geography_code": "50536",
+  "geography_name": "Geraldton"
+ },
+ {
+  "geography_code": "50537",
+  "geography_name": "Ghooli"
+ },
+ {
+  "geography_code": "50538",
+  "geography_name": "Gibb"
+ },
+ {
+  "geography_code": "50539",
+  "geography_name": "Gibson"
+ },
+ {
+  "geography_code": "50540",
+  "geography_name": "Gibson Desert North"
+ },
+ {
+  "geography_code": "50541",
+  "geography_name": "Gibson Desert South"
+ },
+ {
+  "geography_code": "50542",
+  "geography_name": "Gidgegannup"
+ },
+ {
+  "geography_code": "50543",
+  "geography_name": "Gilgering"
+ },
+ {
+  "geography_code": "50544",
+  "geography_name": "Gillimanning"
+ },
+ {
+  "geography_code": "50545",
+  "geography_name": "Gillingarra"
+ },
+ {
+  "geography_code": "50546",
+  "geography_name": "Gilroyd"
+ },
+ {
+  "geography_code": "50547",
+  "geography_name": "Gingerah"
+ },
+ {
+  "geography_code": "50548",
+  "geography_name": "Gingin"
+ },
+ {
+  "geography_code": "50549",
+  "geography_name": "Ginginup"
+ },
+ {
+  "geography_code": "50550",
+  "geography_name": "Girrawheen"
+ },
+ {
+  "geography_code": "50551",
+  "geography_name": "Gledhow"
+ },
+ {
+  "geography_code": "50552",
+  "geography_name": "Glen Forrest"
+ },
+ {
+  "geography_code": "50553",
+  "geography_name": "Glen Iris (WA)"
+ },
+ {
+  "geography_code": "50554",
+  "geography_name": "Glen Mervyn"
+ },
+ {
+  "geography_code": "50555",
+  "geography_name": "Glencoe (WA)"
+ },
+ {
+  "geography_code": "50556",
+  "geography_name": "Glendalough"
+ },
+ {
+  "geography_code": "50557",
+  "geography_name": "Glenfield (WA)"
+ },
+ {
+  "geography_code": "50558",
+  "geography_name": "Glenlynn"
+ },
+ {
+  "geography_code": "50559",
+  "geography_name": "Glenoran"
+ },
+ {
+  "geography_code": "50560",
+  "geography_name": "Glentromie"
+ },
+ {
+  "geography_code": "50561",
+  "geography_name": "Gnangara"
+ },
+ {
+  "geography_code": "50562",
+  "geography_name": "Gnarabup"
+ },
+ {
+  "geography_code": "50563",
+  "geography_name": "Gnoorea"
+ },
+ {
+  "geography_code": "50564",
+  "geography_name": "Gnowangerup"
+ },
+ {
+  "geography_code": "50565",
+  "geography_name": "Gnowellen"
+ },
+ {
+  "geography_code": "50566",
+  "geography_name": "Golden Bay"
+ },
+ {
+  "geography_code": "50567",
+  "geography_name": "Goode Beach"
+ },
+ {
+  "geography_code": "50568",
+  "geography_name": "Goodlands"
+ },
+ {
+  "geography_code": "50569",
+  "geography_name": "Goomalling"
+ },
+ {
+  "geography_code": "50570",
+  "geography_name": "Goomarin"
+ },
+ {
+  "geography_code": "50571",
+  "geography_name": "Gooseberry Hill"
+ },
+ {
+  "geography_code": "50572",
+  "geography_name": "Gorge Rock"
+ },
+ {
+  "geography_code": "50573",
+  "geography_name": "Gorrie"
+ },
+ {
+  "geography_code": "50574",
+  "geography_name": "Gosnells"
+ },
+ {
+  "geography_code": "50575",
+  "geography_name": "Gracetown"
+ },
+ {
+  "geography_code": "50576",
+  "geography_name": "Granville (WA)"
+ },
+ {
+  "geography_code": "50577",
+  "geography_name": "Grass Patch"
+ },
+ {
+  "geography_code": "50578",
+  "geography_name": "Grass Valley"
+ },
+ {
+  "geography_code": "50579",
+  "geography_name": "Green Head"
+ },
+ {
+  "geography_code": "50580",
+  "geography_name": "Green Range"
+ },
+ {
+  "geography_code": "50581",
+  "geography_name": "Green Valley (WA)"
+ },
+ {
+  "geography_code": "50582",
+  "geography_name": "Greenbushes"
+ },
+ {
+  "geography_code": "50583",
+  "geography_name": "Greenfields"
+ },
+ {
+  "geography_code": "50584",
+  "geography_name": "Greenhills"
+ },
+ {
+  "geography_code": "50585",
+  "geography_name": "Greenmount (WA)"
+ },
+ {
+  "geography_code": "50586",
+  "geography_name": "Greenough"
+ },
+ {
+  "geography_code": "50587",
+  "geography_name": "Greenwood (WA)"
+ },
+ {
+  "geography_code": "50588",
+  "geography_name": "Greenwoods Valley"
+ },
+ {
+  "geography_code": "50589",
+  "geography_name": "Gregory (WA)"
+ },
+ {
+  "geography_code": "50590",
+  "geography_name": "Grey"
+ },
+ {
+  "geography_code": "50591",
+  "geography_name": "Greys Plain"
+ },
+ {
+  "geography_code": "50592",
+  "geography_name": "Grimwade"
+ },
+ {
+  "geography_code": "50593",
+  "geography_name": "Guilderton"
+ },
+ {
+  "geography_code": "50594",
+  "geography_name": "Guildford (WA)"
+ },
+ {
+  "geography_code": "50595",
+  "geography_name": "Gundaring"
+ },
+ {
+  "geography_code": "50596",
+  "geography_name": "Gunyidi"
+ },
+ {
+  "geography_code": "50597",
+  "geography_name": "Gutha"
+ },
+ {
+  "geography_code": "50598",
+  "geography_name": "Gwambygine"
+ },
+ {
+  "geography_code": "50599",
+  "geography_name": "Gwelup"
+ },
+ {
+  "geography_code": "50600",
+  "geography_name": "Gwindinup"
+ },
+ {
+  "geography_code": "50601",
+  "geography_name": "Hacketts Gully"
+ },
+ {
+  "geography_code": "50602",
+  "geography_name": "Halls Creek (WA)"
+ },
+ {
+  "geography_code": "50603",
+  "geography_name": "Halls Head"
+ },
+ {
+  "geography_code": "50604",
+  "geography_name": "Hamel"
+ },
+ {
+  "geography_code": "50605",
+  "geography_name": "Hamelin Bay"
+ },
+ {
+  "geography_code": "50606",
+  "geography_name": "Hamelin Pool"
+ },
+ {
+  "geography_code": "50607",
+  "geography_name": "Hamersley"
+ },
+ {
+  "geography_code": "50608",
+  "geography_name": "Hamersley Range"
+ },
+ {
+  "geography_code": "50609",
+  "geography_name": "Hamilton Hill"
+ },
+ {
+  "geography_code": "50610",
+  "geography_name": "Hammond Park"
+ },
+ {
+  "geography_code": "50611",
+  "geography_name": "Hannans"
+ },
+ {
+  "geography_code": "50612",
+  "geography_name": "Harris River"
+ },
+ {
+  "geography_code": "50613",
+  "geography_name": "Harrisdale"
+ },
+ {
+  "geography_code": "50614",
+  "geography_name": "Harrismith"
+ },
+ {
+  "geography_code": "50615",
+  "geography_name": "Harvey"
+ },
+ {
+  "geography_code": "50616",
+  "geography_name": "Hastings (WA)"
+ },
+ {
+  "geography_code": "50617",
+  "geography_name": "Hatter Hill"
+ },
+ {
+  "geography_code": "50618",
+  "geography_name": "Hay (WA)"
+ },
+ {
+  "geography_code": "50619",
+  "geography_name": "Haynes"
+ },
+ {
+  "geography_code": "50620",
+  "geography_name": "Hazelmere"
+ },
+ {
+  "geography_code": "50621",
+  "geography_name": "Hazelvale"
+ },
+ {
+  "geography_code": "50622",
+  "geography_name": "Heathridge"
+ },
+ {
+  "geography_code": "50623",
+  "geography_name": "Helena Valley"
+ },
+ {
+  "geography_code": "50624",
+  "geography_name": "Henderson"
+ },
+ {
+  "geography_code": "50625",
+  "geography_name": "Henley Brook"
+ },
+ {
+  "geography_code": "50626",
+  "geography_name": "Henty (WA)"
+ },
+ {
+  "geography_code": "50627",
+  "geography_name": "Herdsman"
+ },
+ {
+  "geography_code": "50628",
+  "geography_name": "Herne Hill (WA)"
+ },
+ {
+  "geography_code": "50629",
+  "geography_name": "Herron"
+ },
+ {
+  "geography_code": "50630",
+  "geography_name": "Hester"
+ },
+ {
+  "geography_code": "50631",
+  "geography_name": "Hester Brook"
+ },
+ {
+  "geography_code": "50632",
+  "geography_name": "Higginsville"
+ },
+ {
+  "geography_code": "50633",
+  "geography_name": "High Wycombe"
+ },
+ {
+  "geography_code": "50634",
+  "geography_name": "Highbury (WA)"
+ },
+ {
+  "geography_code": "50635",
+  "geography_name": "Highgate (WA)"
+ },
+ {
+  "geography_code": "50636",
+  "geography_name": "Hilbert"
+ },
+ {
+  "geography_code": "50637",
+  "geography_name": "Hill River (WA)"
+ },
+ {
+  "geography_code": "50638",
+  "geography_name": "Hillarys"
+ },
+ {
+  "geography_code": "50639",
+  "geography_name": "Hillman"
+ },
+ {
+  "geography_code": "50640",
+  "geography_name": "Hillside (WA)"
+ },
+ {
+  "geography_code": "50641",
+  "geography_name": "Hilton (WA)"
+ },
+ {
+  "geography_code": "50642",
+  "geography_name": "Hindmarsh (WA)"
+ },
+ {
+  "geography_code": "50643",
+  "geography_name": "Hines Hill"
+ },
+ {
+  "geography_code": "50644",
+  "geography_name": "Hithergreen"
+ },
+ {
+  "geography_code": "50645",
+  "geography_name": "Hocking"
+ },
+ {
+  "geography_code": "50646",
+  "geography_name": "Hoddys Well"
+ },
+ {
+  "geography_code": "50647",
+  "geography_name": "Hoffman"
+ },
+ {
+  "geography_code": "50648",
+  "geography_name": "Holleton"
+ },
+ {
+  "geography_code": "50649",
+  "geography_name": "Holmwood"
+ },
+ {
+  "geography_code": "50650",
+  "geography_name": "Holt Rock"
+ },
+ {
+  "geography_code": "50651",
+  "geography_name": "Holyoake"
+ },
+ {
+  "geography_code": "50652",
+  "geography_name": "Hope Valley (WA)"
+ },
+ {
+  "geography_code": "50653",
+  "geography_name": "Hopeland (WA)"
+ },
+ {
+  "geography_code": "50654",
+  "geography_name": "Hopetoun (WA)"
+ },
+ {
+  "geography_code": "50655",
+  "geography_name": "Horrocks"
+ },
+ {
+  "geography_code": "50656",
+  "geography_name": "Houtman Abrolhos"
+ },
+ {
+  "geography_code": "50657",
+  "geography_name": "Hovea"
+ },
+ {
+  "geography_code": "50658",
+  "geography_name": "Howatharra"
+ },
+ {
+  "geography_code": "50659",
+  "geography_name": "Howick (WA)"
+ },
+ {
+  "geography_code": "50660",
+  "geography_name": "Hulongine"
+ },
+ {
+  "geography_code": "50661",
+  "geography_name": "Huntingdale (WA)"
+ },
+ {
+  "geography_code": "50662",
+  "geography_name": "Hyden"
+ },
+ {
+  "geography_code": "50663",
+  "geography_name": "Ikewa"
+ },
+ {
+  "geography_code": "50664",
+  "geography_name": "Iluka (WA)"
+ },
+ {
+  "geography_code": "50665",
+  "geography_name": "Indee"
+ },
+ {
+  "geography_code": "50666",
+  "geography_name": "Inggarda"
+ },
+ {
+  "geography_code": "50667",
+  "geography_name": "Inglehope"
+ },
+ {
+  "geography_code": "50668",
+  "geography_name": "Inglewood (WA)"
+ },
+ {
+  "geography_code": "50669",
+  "geography_name": "Inkpen"
+ },
+ {
+  "geography_code": "50670",
+  "geography_name": "Innaloo"
+ },
+ {
+  "geography_code": "50671",
+  "geography_name": "Innawanga"
+ },
+ {
+  "geography_code": "50672",
+  "geography_name": "Irishtown (WA)"
+ },
+ {
+  "geography_code": "50673",
+  "geography_name": "Irrunytju"
+ },
+ {
+  "geography_code": "50674",
+  "geography_name": "Irwin"
+ },
+ {
+  "geography_code": "50675",
+  "geography_name": "Israelite Bay"
+ },
+ {
+  "geography_code": "50676",
+  "geography_name": "Isseka"
+ },
+ {
+  "geography_code": "50677",
+  "geography_name": "Jackitup"
+ },
+ {
+  "geography_code": "50678",
+  "geography_name": "Jacup"
+ },
+ {
+  "geography_code": "50679",
+  "geography_name": "Jalbarragup"
+ },
+ {
+  "geography_code": "50680",
+  "geography_name": "Jaloran"
+ },
+ {
+  "geography_code": "50681",
+  "geography_name": "Jandabup"
+ },
+ {
+  "geography_code": "50682",
+  "geography_name": "Jandakot"
+ },
+ {
+  "geography_code": "50683",
+  "geography_name": "Jane Brook"
+ },
+ {
+  "geography_code": "50684",
+  "geography_name": "Jardee"
+ },
+ {
+  "geography_code": "50685",
+  "geography_name": "Jarlmadangah Burru"
+ },
+ {
+  "geography_code": "50686",
+  "geography_name": "Jarrahdale"
+ },
+ {
+  "geography_code": "50687",
+  "geography_name": "Jarrahwood"
+ },
+ {
+  "geography_code": "50688",
+  "geography_name": "Jelcobine"
+ },
+ {
+  "geography_code": "50689",
+  "geography_name": "Jennacubbine"
+ },
+ {
+  "geography_code": "50690",
+  "geography_name": "Jennapullin"
+ },
+ {
+  "geography_code": "50691",
+  "geography_name": "Jerdacuttup"
+ },
+ {
+  "geography_code": "50692",
+  "geography_name": "Jerramungup"
+ },
+ {
+  "geography_code": "50693",
+  "geography_name": "Jibberding"
+ },
+ {
+  "geography_code": "50694",
+  "geography_name": "Jigalong"
+ },
+ {
+  "geography_code": "50695",
+  "geography_name": "Jilakin"
+ },
+ {
+  "geography_code": "50696",
+  "geography_name": "Jindalee (WA)"
+ },
+ {
+  "geography_code": "50697",
+  "geography_name": "Jindong"
+ },
+ {
+  "geography_code": "50698",
+  "geography_name": "Jingalup"
+ },
+ {
+  "geography_code": "50699",
+  "geography_name": "Jitarning"
+ },
+ {
+  "geography_code": "50700",
+  "geography_name": "Jolimont"
+ },
+ {
+  "geography_code": "50701",
+  "geography_name": "Joondalup"
+ },
+ {
+  "geography_code": "50702",
+  "geography_name": "Joondanna"
+ },
+ {
+  "geography_code": "50703",
+  "geography_name": "Julimar"
+ },
+ {
+  "geography_code": "50704",
+  "geography_name": "Juna Downs"
+ },
+ {
+  "geography_code": "50705",
+  "geography_name": "Jurien Bay"
+ },
+ {
+  "geography_code": "50706",
+  "geography_name": "Kadathinni"
+ },
+ {
+  "geography_code": "50707",
+  "geography_name": "Kalamunda"
+ },
+ {
+  "geography_code": "50708",
+  "geography_name": "Kalannie"
+ },
+ {
+  "geography_code": "50709",
+  "geography_name": "Kalbarri"
+ },
+ {
+  "geography_code": "50710",
+  "geography_name": "Kalbarri National Park"
+ },
+ {
+  "geography_code": "50711",
+  "geography_name": "Kalgan"
+ },
+ {
+  "geography_code": "50712",
+  "geography_name": "Kalgoorlie"
+ },
+ {
+  "geography_code": "50713",
+  "geography_name": "Kalgup"
+ },
+ {
+  "geography_code": "50714",
+  "geography_name": "Kallaroo"
+ },
+ {
+  "geography_code": "50715",
+  "geography_name": "Kaloorup"
+ },
+ {
+  "geography_code": "50716",
+  "geography_name": "Kalumburu"
+ },
+ {
+  "geography_code": "50717",
+  "geography_name": "Kambalda East"
+ },
+ {
+  "geography_code": "50718",
+  "geography_name": "Kambalda West"
+ },
+ {
+  "geography_code": "50719",
+  "geography_name": "Kangaroo Gully"
+ },
+ {
+  "geography_code": "50720",
+  "geography_name": "Kanowna"
+ },
+ {
+  "geography_code": "50721",
+  "geography_name": "Kanpa"
+ },
+ {
+  "geography_code": "50722",
+  "geography_name": "Karakin"
+ },
+ {
+  "geography_code": "50723",
+  "geography_name": "Karalundi"
+ },
+ {
+  "geography_code": "50724",
+  "geography_name": "Karawara"
+ },
+ {
+  "geography_code": "50725",
+  "geography_name": "Kardinya"
+ },
+ {
+  "geography_code": "50726",
+  "geography_name": "Karijini"
+ },
+ {
+  "geography_code": "50727",
+  "geography_name": "Karlgarin"
+ },
+ {
+  "geography_code": "50728",
+  "geography_name": "Karlkurla"
+ },
+ {
+  "geography_code": "50729",
+  "geography_name": "Karloning"
+ },
+ {
+  "geography_code": "50730",
+  "geography_name": "Karloo"
+ },
+ {
+  "geography_code": "50731",
+  "geography_name": "Karnup"
+ },
+ {
+  "geography_code": "50732",
+  "geography_name": "Karragullen"
+ },
+ {
+  "geography_code": "50733",
+  "geography_name": "Karrakatta"
+ },
+ {
+  "geography_code": "50734",
+  "geography_name": "Karrakup"
+ },
+ {
+  "geography_code": "50735",
+  "geography_name": "Karramindie"
+ },
+ {
+  "geography_code": "50736",
+  "geography_name": "Karranadgin"
+ },
+ {
+  "geography_code": "50737",
+  "geography_name": "Karratha"
+ },
+ {
+  "geography_code": "50738",
+  "geography_name": "Karratha Industrial Estate"
+ },
+ {
+  "geography_code": "50739",
+  "geography_name": "Karridale"
+ },
+ {
+  "geography_code": "50740",
+  "geography_name": "Karrinyup"
+ },
+ {
+  "geography_code": "50741",
+  "geography_name": "Karroun Hill"
+ },
+ {
+  "geography_code": "50742",
+  "geography_name": "Katanning"
+ },
+ {
+  "geography_code": "50743",
+  "geography_name": "Katrine"
+ },
+ {
+  "geography_code": "50744",
+  "geography_name": "Kauring"
+ },
+ {
+  "geography_code": "50745",
+  "geography_name": "Kealy"
+ },
+ {
+  "geography_code": "50746",
+  "geography_name": "Kebaringup"
+ },
+ {
+  "geography_code": "50747",
+  "geography_name": "Kellerberrin"
+ },
+ {
+  "geography_code": "50748",
+  "geography_name": "Kelmscott"
+ },
+ {
+  "geography_code": "50749",
+  "geography_name": "Kendenup"
+ },
+ {
+  "geography_code": "50750",
+  "geography_name": "Kenmare (WA)"
+ },
+ {
+  "geography_code": "50751",
+  "geography_name": "Kennedy Range"
+ },
+ {
+  "geography_code": "50752",
+  "geography_name": "Kensington (WA)"
+ },
+ {
+  "geography_code": "50753",
+  "geography_name": "Kentdale"
+ },
+ {
+  "geography_code": "50754",
+  "geography_name": "Kenwick"
+ },
+ {
+  "geography_code": "50755",
+  "geography_name": "Keralup"
+ },
+ {
+  "geography_code": "50756",
+  "geography_name": "Kewdale"
+ },
+ {
+  "geography_code": "50757",
+  "geography_name": "Keysbrook"
+ },
+ {
+  "geography_code": "50758",
+  "geography_name": "Kiara"
+ },
+ {
+  "geography_code": "50759",
+  "geography_name": "Kimbolton (WA)"
+ },
+ {
+  "geography_code": "50760",
+  "geography_name": "King Leopold Ranges"
+ },
+ {
+  "geography_code": "50761",
+  "geography_name": "King River"
+ },
+ {
+  "geography_code": "50762",
+  "geography_name": "Kings Park (WA)"
+ },
+ {
+  "geography_code": "50763",
+  "geography_name": "Kingsford (WA)"
+ },
+ {
+  "geography_code": "50764",
+  "geography_name": "Kingsley"
+ },
+ {
+  "geography_code": "50765",
+  "geography_name": "Kingston (WA)"
+ },
+ {
+  "geography_code": "50766",
+  "geography_name": "Kinross"
+ },
+ {
+  "geography_code": "50767",
+  "geography_name": "Kirk Rock"
+ },
+ {
+  "geography_code": "50768",
+  "geography_name": "Kirup"
+ },
+ {
+  "geography_code": "50769",
+  "geography_name": "Kojaneerup South"
+ },
+ {
+  "geography_code": "50770",
+  "geography_name": "Kojarena"
+ },
+ {
+  "geography_code": "50771",
+  "geography_name": "Kojonup"
+ },
+ {
+  "geography_code": "50772",
+  "geography_name": "Kokeby"
+ },
+ {
+  "geography_code": "50773",
+  "geography_name": "Kondinin"
+ },
+ {
+  "geography_code": "50774",
+  "geography_name": "Kondut"
+ },
+ {
+  "geography_code": "50775",
+  "geography_name": "Konnongorring"
+ },
+ {
+  "geography_code": "50776",
+  "geography_name": "Koojan"
+ },
+ {
+  "geography_code": "50777",
+  "geography_name": "Kookynie"
+ },
+ {
+  "geography_code": "50778",
+  "geography_name": "Koolanooka"
+ },
+ {
+  "geography_code": "50779",
+  "geography_name": "Koolyanobbing"
+ },
+ {
+  "geography_code": "50780",
+  "geography_name": "Koomberkine"
+ },
+ {
+  "geography_code": "50781",
+  "geography_name": "Koondoola"
+ },
+ {
+  "geography_code": "50782",
+  "geography_name": "Koongamia"
+ },
+ {
+  "geography_code": "50783",
+  "geography_name": "Koorda"
+ },
+ {
+  "geography_code": "50784",
+  "geography_name": "Korbel"
+ },
+ {
+  "geography_code": "50785",
+  "geography_name": "Kordabup"
+ },
+ {
+  "geography_code": "50786",
+  "geography_name": "Korrelocking"
+ },
+ {
+  "geography_code": "50787",
+  "geography_name": "Kronkup"
+ },
+ {
+  "geography_code": "50788",
+  "geography_name": "Kudardup"
+ },
+ {
+  "geography_code": "50789",
+  "geography_name": "Kuender"
+ },
+ {
+  "geography_code": "50790",
+  "geography_name": "Kukerin"
+ },
+ {
+  "geography_code": "50791",
+  "geography_name": "Kulikup"
+ },
+ {
+  "geography_code": "50792",
+  "geography_name": "Kulin"
+ },
+ {
+  "geography_code": "50793",
+  "geography_name": "Kulin West"
+ },
+ {
+  "geography_code": "50794",
+  "geography_name": "Kulja"
+ },
+ {
+  "geography_code": "50795",
+  "geography_name": "Kumarina"
+ },
+ {
+  "geography_code": "50796",
+  "geography_name": "Kundat Djaru"
+ },
+ {
+  "geography_code": "50797",
+  "geography_name": "Kunjin"
+ },
+ {
+  "geography_code": "50798",
+  "geography_name": "Kununoppin"
+ },
+ {
+  "geography_code": "50799",
+  "geography_name": "Kununurra"
+ },
+ {
+  "geography_code": "50800",
+  "geography_name": "Kupartiya"
+ },
+ {
+  "geography_code": "50801",
+  "geography_name": "Kurnalpi"
+ },
+ {
+  "geography_code": "50802",
+  "geography_name": "Kurrenkutten"
+ },
+ {
+  "geography_code": "50803",
+  "geography_name": "Kweda"
+ },
+ {
+  "geography_code": "50804",
+  "geography_name": "Kwelkan"
+ },
+ {
+  "geography_code": "50805",
+  "geography_name": "Kwinana Beach"
+ },
+ {
+  "geography_code": "50806",
+  "geography_name": "Kwinana Town Centre"
+ },
+ {
+  "geography_code": "50807",
+  "geography_name": "Kwolyin"
+ },
+ {
+  "geography_code": "50808",
+  "geography_name": "Lagrange"
+ },
+ {
+  "geography_code": "50809",
+  "geography_name": "Lake Argyle"
+ },
+ {
+  "geography_code": "50810",
+  "geography_name": "Lake Austin"
+ },
+ {
+  "geography_code": "50811",
+  "geography_name": "Lake Biddy"
+ },
+ {
+  "geography_code": "50812",
+  "geography_name": "Lake Brown"
+ },
+ {
+  "geography_code": "50813",
+  "geography_name": "Lake Camm"
+ },
+ {
+  "geography_code": "50814",
+  "geography_name": "Lake Carnegie"
+ },
+ {
+  "geography_code": "50815",
+  "geography_name": "Lake Clifton"
+ },
+ {
+  "geography_code": "50816",
+  "geography_name": "Lake Coogee"
+ },
+ {
+  "geography_code": "50817",
+  "geography_name": "Lake Darlot"
+ },
+ {
+  "geography_code": "50818",
+  "geography_name": "Lake Deborah"
+ },
+ {
+  "geography_code": "50819",
+  "geography_name": "Lake Grace"
+ },
+ {
+  "geography_code": "50820",
+  "geography_name": "Lake Hinds"
+ },
+ {
+  "geography_code": "50821",
+  "geography_name": "Lake Jasper"
+ },
+ {
+  "geography_code": "50822",
+  "geography_name": "Lake King"
+ },
+ {
+  "geography_code": "50823",
+  "geography_name": "Lake Margarette"
+ },
+ {
+  "geography_code": "50824",
+  "geography_name": "Lake Muir"
+ },
+ {
+  "geography_code": "50825",
+  "geography_name": "Lake Ninan"
+ },
+ {
+  "geography_code": "50826",
+  "geography_name": "Lake Toolbrunup"
+ },
+ {
+  "geography_code": "50827",
+  "geography_name": "Lake Wells"
+ },
+ {
+  "geography_code": "50828",
+  "geography_name": "Lakelands (WA)"
+ },
+ {
+  "geography_code": "50829",
+  "geography_name": "Lamington (WA)"
+ },
+ {
+  "geography_code": "50830",
+  "geography_name": "Lancelin"
+ },
+ {
+  "geography_code": "50831",
+  "geography_name": "Landsdale"
+ },
+ {
+  "geography_code": "50832",
+  "geography_name": "Lange"
+ },
+ {
+  "geography_code": "50833",
+  "geography_name": "Langford"
+ },
+ {
+  "geography_code": "50834",
+  "geography_name": "Latham (WA)"
+ },
+ {
+  "geography_code": "50835",
+  "geography_name": "Lathlain"
+ },
+ {
+  "geography_code": "50836",
+  "geography_name": "Laverton (WA)"
+ },
+ {
+  "geography_code": "50837",
+  "geography_name": "Learmonth (WA)"
+ },
+ {
+  "geography_code": "50838",
+  "geography_name": "Leda"
+ },
+ {
+  "geography_code": "50839",
+  "geography_name": "Ledge Point"
+ },
+ {
+  "geography_code": "50840",
+  "geography_name": "Leederville"
+ },
+ {
+  "geography_code": "50841",
+  "geography_name": "Leeman"
+ },
+ {
+  "geography_code": "50842",
+  "geography_name": "Leeming"
+ },
+ {
+  "geography_code": "50843",
+  "geography_name": "Leeuwin"
+ },
+ {
+  "geography_code": "50844",
+  "geography_name": "Leinster"
+ },
+ {
+  "geography_code": "50845",
+  "geography_name": "Lennard Brook"
+ },
+ {
+  "geography_code": "50846",
+  "geography_name": "Leonora"
+ },
+ {
+  "geography_code": "50847",
+  "geography_name": "Leschenault"
+ },
+ {
+  "geography_code": "50848",
+  "geography_name": "Lesley"
+ },
+ {
+  "geography_code": "50849",
+  "geography_name": "Lesmurdie"
+ },
+ {
+  "geography_code": "50850",
+  "geography_name": "Lexia"
+ },
+ {
+  "geography_code": "50851",
+  "geography_name": "Lime Lake"
+ },
+ {
+  "geography_code": "50852",
+  "geography_name": "Linfarne"
+ },
+ {
+  "geography_code": "50853",
+  "geography_name": "Little Grove"
+ },
+ {
+  "geography_code": "50854",
+  "geography_name": "Little Italy"
+ },
+ {
+  "geography_code": "50855",
+  "geography_name": "Little Sandy Desert"
+ },
+ {
+  "geography_code": "50856",
+  "geography_name": "Lockier"
+ },
+ {
+  "geography_code": "50857",
+  "geography_name": "Lockridge"
+ },
+ {
+  "geography_code": "50858",
+  "geography_name": "Lockyer (WA)"
+ },
+ {
+  "geography_code": "50859",
+  "geography_name": "Lol Gray"
+ },
+ {
+  "geography_code": "50860",
+  "geography_name": "Londonderry (WA)"
+ },
+ {
+  "geography_code": "50861",
+  "geography_name": "Lort River"
+ },
+ {
+  "geography_code": "50862",
+  "geography_name": "Lowden"
+ },
+ {
+  "geography_code": "50863",
+  "geography_name": "Lower Chittering"
+ },
+ {
+  "geography_code": "50864",
+  "geography_name": "Lower Hotham"
+ },
+ {
+  "geography_code": "50865",
+  "geography_name": "Lower King"
+ },
+ {
+  "geography_code": "50866",
+  "geography_name": "Lowlands"
+ },
+ {
+  "geography_code": "50867",
+  "geography_name": "Ludlow"
+ },
+ {
+  "geography_code": "50868",
+  "geography_name": "Lumeah (WA)"
+ },
+ {
+  "geography_code": "50869",
+  "geography_name": "Lyalls Mill"
+ },
+ {
+  "geography_code": "50870",
+  "geography_name": "Lyndon"
+ },
+ {
+  "geography_code": "50871",
+  "geography_name": "Lynwood (WA)"
+ },
+ {
+  "geography_code": "50872",
+  "geography_name": "Macleod (WA)"
+ },
+ {
+  "geography_code": "50873",
+  "geography_name": "Maddington"
+ },
+ {
+  "geography_code": "50874",
+  "geography_name": "Madeley"
+ },
+ {
+  "geography_code": "50875",
+  "geography_name": "Madora Bay"
+ },
+ {
+  "geography_code": "50876",
+  "geography_name": "Madura"
+ },
+ {
+  "geography_code": "50877",
+  "geography_name": "Magenta (WA)"
+ },
+ {
+  "geography_code": "50878",
+  "geography_name": "Magitup"
+ },
+ {
+  "geography_code": "50879",
+  "geography_name": "Mahogany Creek"
+ },
+ {
+  "geography_code": "50880",
+  "geography_name": "Mahomets Flats"
+ },
+ {
+  "geography_code": "50881",
+  "geography_name": "Maida Vale"
+ },
+ {
+  "geography_code": "50882",
+  "geography_name": "Maitland (WA)"
+ },
+ {
+  "geography_code": "50883",
+  "geography_name": "Malabaine"
+ },
+ {
+  "geography_code": "50884",
+  "geography_name": "Malaga"
+ },
+ {
+  "geography_code": "50885",
+  "geography_name": "Malebelling"
+ },
+ {
+  "geography_code": "50886",
+  "geography_name": "Mallee Hill"
+ },
+ {
+  "geography_code": "50887",
+  "geography_name": "Malmalling"
+ },
+ {
+  "geography_code": "50888",
+  "geography_name": "Malyalling"
+ },
+ {
+  "geography_code": "50889",
+  "geography_name": "Mandogalup"
+ },
+ {
+  "geography_code": "50890",
+  "geography_name": "Mandurah"
+ },
+ {
+  "geography_code": "50891",
+  "geography_name": "Manjimup"
+ },
+ {
+  "geography_code": "50892",
+  "geography_name": "Manmanning"
+ },
+ {
+  "geography_code": "50893",
+  "geography_name": "Manning"
+ },
+ {
+  "geography_code": "50894",
+  "geography_name": "Mantamaru"
+ },
+ {
+  "geography_code": "50895",
+  "geography_name": "Manypeaks"
+ },
+ {
+  "geography_code": "50896",
+  "geography_name": "Marangaroo"
+ },
+ {
+  "geography_code": "50897",
+  "geography_name": "Maranup"
+ },
+ {
+  "geography_code": "50898",
+  "geography_name": "Marbelup"
+ },
+ {
+  "geography_code": "50899",
+  "geography_name": "Marble Bar"
+ },
+ {
+  "geography_code": "50900",
+  "geography_name": "Marchagee"
+ },
+ {
+  "geography_code": "50901",
+  "geography_name": "Mardella"
+ },
+ {
+  "geography_code": "50902",
+  "geography_name": "Mardie"
+ },
+ {
+  "geography_code": "50903",
+  "geography_name": "Margaret River (WA)"
+ },
+ {
+  "geography_code": "50904",
+  "geography_name": "Mariginiup"
+ },
+ {
+  "geography_code": "50905",
+  "geography_name": "Marmion"
+ },
+ {
+  "geography_code": "50906",
+  "geography_name": "Marne"
+ },
+ {
+  "geography_code": "50907",
+  "geography_name": "Marracoonda"
+ },
+ {
+  "geography_code": "50908",
+  "geography_name": "Marradong"
+ },
+ {
+  "geography_code": "50909",
+  "geography_name": "Marrah"
+ },
+ {
+  "geography_code": "50910",
+  "geography_name": "Marrinup"
+ },
+ {
+  "geography_code": "50911",
+  "geography_name": "Martin"
+ },
+ {
+  "geography_code": "50912",
+  "geography_name": "Marvel Loch"
+ },
+ {
+  "geography_code": "50913",
+  "geography_name": "Marybrook"
+ },
+ {
+  "geography_code": "50914",
+  "geography_name": "Massey Bay"
+ },
+ {
+  "geography_code": "50915",
+  "geography_name": "Maya"
+ },
+ {
+  "geography_code": "50916",
+  "geography_name": "Mayanup"
+ },
+ {
+  "geography_code": "50917",
+  "geography_name": "Maylands (WA)"
+ },
+ {
+  "geography_code": "50918",
+  "geography_name": "McAlinden"
+ },
+ {
+  "geography_code": "50919",
+  "geography_name": "McBeath"
+ },
+ {
+  "geography_code": "50920",
+  "geography_name": "McKail"
+ },
+ {
+  "geography_code": "50921",
+  "geography_name": "Meadow"
+ },
+ {
+  "geography_code": "50922",
+  "geography_name": "Meadow Springs"
+ },
+ {
+  "geography_code": "50923",
+  "geography_name": "Meckering"
+ },
+ {
+  "geography_code": "50924",
+  "geography_name": "Meda"
+ },
+ {
+  "geography_code": "50925",
+  "geography_name": "Medina"
+ },
+ {
+  "geography_code": "50926",
+  "geography_name": "Meekatharra"
+ },
+ {
+  "geography_code": "50927",
+  "geography_name": "Meeking"
+ },
+ {
+  "geography_code": "50928",
+  "geography_name": "Meelon"
+ },
+ {
+  "geography_code": "50929",
+  "geography_name": "Meenaar"
+ },
+ {
+  "geography_code": "50930",
+  "geography_name": "Meerup"
+ },
+ {
+  "geography_code": "50931",
+  "geography_name": "Melaleuca"
+ },
+ {
+  "geography_code": "50932",
+  "geography_name": "Melville (WA)"
+ },
+ {
+  "geography_code": "50933",
+  "geography_name": "Menora"
+ },
+ {
+  "geography_code": "50934",
+  "geography_name": "Menzies (WA)"
+ },
+ {
+  "geography_code": "50935",
+  "geography_name": "Merilup"
+ },
+ {
+  "geography_code": "50936",
+  "geography_name": "Merivale"
+ },
+ {
+  "geography_code": "50937",
+  "geography_name": "Merkanooka"
+ },
+ {
+  "geography_code": "50938",
+  "geography_name": "Merredin"
+ },
+ {
+  "geography_code": "50939",
+  "geography_name": "Merriwa (WA)"
+ },
+ {
+  "geography_code": "50940",
+  "geography_name": "Meru"
+ },
+ {
+  "geography_code": "50941",
+  "geography_name": "Metricup"
+ },
+ {
+  "geography_code": "50942",
+  "geography_name": "Mettler"
+ },
+ {
+  "geography_code": "50943",
+  "geography_name": "Miamoon"
+ },
+ {
+  "geography_code": "50944",
+  "geography_name": "Middle Swan"
+ },
+ {
+  "geography_code": "50945",
+  "geography_name": "Middlesex (WA)"
+ },
+ {
+  "geography_code": "50946",
+  "geography_name": "Middleton Beach"
+ },
+ {
+  "geography_code": "50947",
+  "geography_name": "Midland"
+ },
+ {
+  "geography_code": "50948",
+  "geography_name": "Midvale"
+ },
+ {
+  "geography_code": "50949",
+  "geography_name": "Miling"
+ },
+ {
+  "geography_code": "50950",
+  "geography_name": "Millars Well"
+ },
+ {
+  "geography_code": "50951",
+  "geography_name": "Millbridge"
+ },
+ {
+  "geography_code": "50952",
+  "geography_name": "Millbrook (WA)"
+ },
+ {
+  "geography_code": "50953",
+  "geography_name": "Millendon"
+ },
+ {
+  "geography_code": "50954",
+  "geography_name": "Mills Lake"
+ },
+ {
+  "geography_code": "50955",
+  "geography_name": "Millstream (WA)"
+ },
+ {
+  "geography_code": "50956",
+  "geography_name": "Milo"
+ },
+ {
+  "geography_code": "50957",
+  "geography_name": "Milpara"
+ },
+ {
+  "geography_code": "50958",
+  "geography_name": "Mimegarra"
+ },
+ {
+  "geography_code": "50959",
+  "geography_name": "Mindarabin"
+ },
+ {
+  "geography_code": "50960",
+  "geography_name": "Mindarie (WA)"
+ },
+ {
+  "geography_code": "50961",
+  "geography_name": "Mindarra"
+ },
+ {
+  "geography_code": "50962",
+  "geography_name": "Minding"
+ },
+ {
+  "geography_code": "50963",
+  "geography_name": "Mingenew"
+ },
+ {
+  "geography_code": "50964",
+  "geography_name": "Minigin"
+ },
+ {
+  "geography_code": "50965",
+  "geography_name": "Minilya"
+ },
+ {
+  "geography_code": "50966",
+  "geography_name": "Minnenooka"
+ },
+ {
+  "geography_code": "50967",
+  "geography_name": "Minnivale"
+ },
+ {
+  "geography_code": "50968",
+  "geography_name": "Minyirr"
+ },
+ {
+  "geography_code": "50969",
+  "geography_name": "Mira Mar"
+ },
+ {
+  "geography_code": "50970",
+  "geography_name": "Mirrabooka (WA)"
+ },
+ {
+  "geography_code": "50971",
+  "geography_name": "Mitchell Plateau"
+ },
+ {
+  "geography_code": "50972",
+  "geography_name": "Mobrup"
+ },
+ {
+  "geography_code": "50973",
+  "geography_name": "Mocardy"
+ },
+ {
+  "geography_code": "50974",
+  "geography_name": "Mogumber"
+ },
+ {
+  "geography_code": "50975",
+  "geography_name": "Mokine"
+ },
+ {
+  "geography_code": "50976",
+  "geography_name": "Mokup"
+ },
+ {
+  "geography_code": "50977",
+  "geography_name": "Mollerin"
+ },
+ {
+  "geography_code": "50978",
+  "geography_name": "Molloy Island"
+ },
+ {
+  "geography_code": "50979",
+  "geography_name": "Monjebup"
+ },
+ {
+  "geography_code": "50980",
+  "geography_name": "Monjingup"
+ },
+ {
+  "geography_code": "50981",
+  "geography_name": "Moodiarrup"
+ },
+ {
+  "geography_code": "50982",
+  "geography_name": "Moojebing"
+ },
+ {
+  "geography_code": "50983",
+  "geography_name": "Mooliabeenee"
+ },
+ {
+  "geography_code": "50984",
+  "geography_name": "Moondah"
+ },
+ {
+  "geography_code": "50985",
+  "geography_name": "Moondyne"
+ },
+ {
+  "geography_code": "50986",
+  "geography_name": "Moonies Hill"
+ },
+ {
+  "geography_code": "50987",
+  "geography_name": "Moonyoonooka"
+ },
+ {
+  "geography_code": "50988",
+  "geography_name": "Moora (WA)"
+ },
+ {
+  "geography_code": "50989",
+  "geography_name": "Moore River National Park"
+ },
+ {
+  "geography_code": "50990",
+  "geography_name": "Mooriary"
+ },
+ {
+  "geography_code": "50991",
+  "geography_name": "Moorine Rock"
+ },
+ {
+  "geography_code": "50992",
+  "geography_name": "Morangup"
+ },
+ {
+  "geography_code": "50993",
+  "geography_name": "Morawa"
+ },
+ {
+  "geography_code": "50994",
+  "geography_name": "Morbinning"
+ },
+ {
+  "geography_code": "50995",
+  "geography_name": "Mordalup"
+ },
+ {
+  "geography_code": "50996",
+  "geography_name": "Moresby (WA)"
+ },
+ {
+  "geography_code": "50997",
+  "geography_name": "Morgantown"
+ },
+ {
+  "geography_code": "50998",
+  "geography_name": "Morley"
+ },
+ {
+  "geography_code": "50999",
+  "geography_name": "Mornington (WA)"
+ },
+ {
+  "geography_code": "51000",
+  "geography_name": "Mosman Park (WA)"
+ },
+ {
+  "geography_code": "51001",
+  "geography_name": "Moulyinning"
+ },
+ {
+  "geography_code": "51002",
+  "geography_name": "Mount Adams"
+ },
+ {
+  "geography_code": "51003",
+  "geography_name": "Mount Anketell"
+ },
+ {
+  "geography_code": "51004",
+  "geography_name": "Mount Barker (WA)"
+ },
+ {
+  "geography_code": "51005",
+  "geography_name": "Mount Budd"
+ },
+ {
+  "geography_code": "51006",
+  "geography_name": "Mount Burges"
+ },
+ {
+  "geography_code": "51007",
+  "geography_name": "Mount Caroline"
+ },
+ {
+  "geography_code": "51008",
+  "geography_name": "Mount Claremont"
+ },
+ {
+  "geography_code": "51009",
+  "geography_name": "Mount Clarence"
+ },
+ {
+  "geography_code": "51010",
+  "geography_name": "Mount Elphinstone"
+ },
+ {
+  "geography_code": "51011",
+  "geography_name": "Mount Erin"
+ },
+ {
+  "geography_code": "51012",
+  "geography_name": "Mount Hampton"
+ },
+ {
+  "geography_code": "51013",
+  "geography_name": "Mount Hardey"
+ },
+ {
+  "geography_code": "51014",
+  "geography_name": "Mount Hardman"
+ },
+ {
+  "geography_code": "51015",
+  "geography_name": "Mount Hawthorn"
+ },
+ {
+  "geography_code": "51016",
+  "geography_name": "Mount Helena"
+ },
+ {
+  "geography_code": "51017",
+  "geography_name": "Mount Hill"
+ },
+ {
+  "geography_code": "51018",
+  "geography_name": "Mount Holland"
+ },
+ {
+  "geography_code": "51019",
+  "geography_name": "Mount Horner"
+ },
+ {
+  "geography_code": "51020",
+  "geography_name": "Mount Jackson"
+ },
+ {
+  "geography_code": "51021",
+  "geography_name": "Mount Lawley"
+ },
+ {
+  "geography_code": "51022",
+  "geography_name": "Mount Lindesay (WA)"
+ },
+ {
+  "geography_code": "51023",
+  "geography_name": "Mount Madden"
+ },
+ {
+  "geography_code": "51024",
+  "geography_name": "Mount Magnet"
+ },
+ {
+  "geography_code": "51025",
+  "geography_name": "Mount Melville"
+ },
+ {
+  "geography_code": "51026",
+  "geography_name": "Mount Nasura"
+ },
+ {
+  "geography_code": "51027",
+  "geography_name": "Mount Ney"
+ },
+ {
+  "geography_code": "51028",
+  "geography_name": "Mount Observation (WA)"
+ },
+ {
+  "geography_code": "51029",
+  "geography_name": "Mount Palmer"
+ },
+ {
+  "geography_code": "51030",
+  "geography_name": "Mount Pleasant (WA)"
+ },
+ {
+  "geography_code": "51031",
+  "geography_name": "Mount Richon"
+ },
+ {
+  "geography_code": "51032",
+  "geography_name": "Mount Romance"
+ },
+ {
+  "geography_code": "51033",
+  "geography_name": "Mount Sheila"
+ },
+ {
+  "geography_code": "51034",
+  "geography_name": "Mount Sheridan (WA)"
+ },
+ {
+  "geography_code": "51035",
+  "geography_name": "Mount Stirling"
+ },
+ {
+  "geography_code": "51036",
+  "geography_name": "Mount Tarcoola"
+ },
+ {
+  "geography_code": "51037",
+  "geography_name": "Mount Walker (WA)"
+ },
+ {
+  "geography_code": "51038",
+  "geography_name": "Mount Wells"
+ },
+ {
+  "geography_code": "51039",
+  "geography_name": "Mouroubra"
+ },
+ {
+  "geography_code": "51040",
+  "geography_name": "Muchea"
+ },
+ {
+  "geography_code": "51041",
+  "geography_name": "Muckenburra"
+ },
+ {
+  "geography_code": "51042",
+  "geography_name": "Mueller Ranges"
+ },
+ {
+  "geography_code": "51043",
+  "geography_name": "Muja"
+ },
+ {
+  "geography_code": "51044",
+  "geography_name": "Mukinbudin"
+ },
+ {
+  "geography_code": "51045",
+  "geography_name": "Mulataga"
+ },
+ {
+  "geography_code": "51046",
+  "geography_name": "Mulga Downs"
+ },
+ {
+  "geography_code": "51047",
+  "geography_name": "Mullaloo"
+ },
+ {
+  "geography_code": "51048",
+  "geography_name": "Mullalyup"
+ },
+ {
+  "geography_code": "51049",
+  "geography_name": "Mullewa"
+ },
+ {
+  "geography_code": "51050",
+  "geography_name": "Mullingar"
+ },
+ {
+  "geography_code": "51051",
+  "geography_name": "Muluckine"
+ },
+ {
+  "geography_code": "51052",
+  "geography_name": "Mumballup"
+ },
+ {
+  "geography_code": "51053",
+  "geography_name": "Mumberkine"
+ },
+ {
+  "geography_code": "51054",
+  "geography_name": "Mundabullangana"
+ },
+ {
+  "geography_code": "51055",
+  "geography_name": "Mundaring"
+ },
+ {
+  "geography_code": "51056",
+  "geography_name": "Mundijong"
+ },
+ {
+  "geography_code": "51057",
+  "geography_name": "Mundrabilla"
+ },
+ {
+  "geography_code": "51058",
+  "geography_name": "Mungalup"
+ },
+ {
+  "geography_code": "51059",
+  "geography_name": "Munglinup"
+ },
+ {
+  "geography_code": "51060",
+  "geography_name": "Munster"
+ },
+ {
+  "geography_code": "51061",
+  "geography_name": "Muntadgin"
+ },
+ {
+  "geography_code": "51062",
+  "geography_name": "Muradup"
+ },
+ {
+  "geography_code": "51063",
+  "geography_name": "Murchison (WA)"
+ },
+ {
+  "geography_code": "51064",
+  "geography_name": "Murdoch"
+ },
+ {
+  "geography_code": "51065",
+  "geography_name": "Murdong"
+ },
+ {
+  "geography_code": "51066",
+  "geography_name": "Muresk"
+ },
+ {
+  "geography_code": "51067",
+  "geography_name": "Myalup"
+ },
+ {
+  "geography_code": "51068",
+  "geography_name": "Myara"
+ },
+ {
+  "geography_code": "51069",
+  "geography_name": "Myaree"
+ },
+ {
+  "geography_code": "51070",
+  "geography_name": "Myrup"
+ },
+ {
+  "geography_code": "51071",
+  "geography_name": "Nabawa"
+ },
+ {
+  "geography_code": "51072",
+  "geography_name": "Nairibin"
+ },
+ {
+  "geography_code": "51073",
+  "geography_name": "Nalkain"
+ },
+ {
+  "geography_code": "51074",
+  "geography_name": "Nalyerlup"
+ },
+ {
+  "geography_code": "51075",
+  "geography_name": "Namban"
+ },
+ {
+  "geography_code": "51076",
+  "geography_name": "Nambeelup"
+ },
+ {
+  "geography_code": "51077",
+  "geography_name": "Nambung"
+ },
+ {
+  "geography_code": "51078",
+  "geography_name": "Nanarup"
+ },
+ {
+  "geography_code": "51079",
+  "geography_name": "Nanga"
+ },
+ {
+  "geography_code": "51080",
+  "geography_name": "Nanga Brook"
+ },
+ {
+  "geography_code": "51081",
+  "geography_name": "Nangeenan"
+ },
+ {
+  "geography_code": "51082",
+  "geography_name": "Nangetty"
+ },
+ {
+  "geography_code": "51083",
+  "geography_name": "Nannup"
+ },
+ {
+  "geography_code": "51084",
+  "geography_name": "Nanson"
+ },
+ {
+  "geography_code": "51085",
+  "geography_name": "Nanutarra"
+ },
+ {
+  "geography_code": "51086",
+  "geography_name": "Napier"
+ },
+ {
+  "geography_code": "51087",
+  "geography_name": "Naraling"
+ },
+ {
+  "geography_code": "51088",
+  "geography_name": "Narembeen"
+ },
+ {
+  "geography_code": "51089",
+  "geography_name": "Narngulu"
+ },
+ {
+  "geography_code": "51090",
+  "geography_name": "Narra Tarra"
+ },
+ {
+  "geography_code": "51091",
+  "geography_name": "Narraloggan"
+ },
+ {
+  "geography_code": "51092",
+  "geography_name": "Narrikup"
+ },
+ {
+  "geography_code": "51093",
+  "geography_name": "Narrogin"
+ },
+ {
+  "geography_code": "51094",
+  "geography_name": "Narrogin Valley"
+ },
+ {
+  "geography_code": "51095",
+  "geography_name": "Naturaliste"
+ },
+ {
+  "geography_code": "51096",
+  "geography_name": "Naval Base"
+ },
+ {
+  "geography_code": "51097",
+  "geography_name": "Neale"
+ },
+ {
+  "geography_code": "51098",
+  "geography_name": "Nedlands"
+ },
+ {
+  "geography_code": "51099",
+  "geography_name": "Needilup"
+ },
+ {
+  "geography_code": "51100",
+  "geography_name": "Neendaling"
+ },
+ {
+  "geography_code": "51101",
+  "geography_name": "Neerabup"
+ },
+ {
+  "geography_code": "51102",
+  "geography_name": "Neergabby"
+ },
+ {
+  "geography_code": "51103",
+  "geography_name": "Nembudding"
+ },
+ {
+  "geography_code": "51104",
+  "geography_name": "Neridup"
+ },
+ {
+  "geography_code": "51105",
+  "geography_name": "Nerramyne"
+ },
+ {
+  "geography_code": "51106",
+  "geography_name": "Nerren Nerren"
+ },
+ {
+  "geography_code": "51107",
+  "geography_name": "New Norcia"
+ },
+ {
+  "geography_code": "51108",
+  "geography_name": "Newcarlbeon"
+ },
+ {
+  "geography_code": "51109",
+  "geography_name": "Newdegate"
+ },
+ {
+  "geography_code": "51110",
+  "geography_name": "Newlands (WA)"
+ },
+ {
+  "geography_code": "51111",
+  "geography_name": "Newman"
+ },
+ {
+  "geography_code": "51112",
+  "geography_name": "Ngaanyatjarra-Giles"
+ },
+ {
+  "geography_code": "51113",
+  "geography_name": "Nickol"
+ },
+ {
+  "geography_code": "51114",
+  "geography_name": "Nilgen"
+ },
+ {
+  "geography_code": "51115",
+  "geography_name": "Nillup"
+ },
+ {
+  "geography_code": "51116",
+  "geography_name": "Ningaloo"
+ },
+ {
+  "geography_code": "51117",
+  "geography_name": "Nippering"
+ },
+ {
+  "geography_code": "51118",
+  "geography_name": "Nirimba (WA)"
+ },
+ {
+  "geography_code": "51119",
+  "geography_name": "Noggerup"
+ },
+ {
+  "geography_code": "51120",
+  "geography_name": "Nokaning"
+ },
+ {
+  "geography_code": "51121",
+  "geography_name": "Nolba"
+ },
+ {
+  "geography_code": "51122",
+  "geography_name": "Nollamara"
+ },
+ {
+  "geography_code": "51123",
+  "geography_name": "Nomans Lake"
+ },
+ {
+  "geography_code": "51124",
+  "geography_name": "Noranda"
+ },
+ {
+  "geography_code": "51125",
+  "geography_name": "Nornalup"
+ },
+ {
+  "geography_code": "51126",
+  "geography_name": "Norpa"
+ },
+ {
+  "geography_code": "51127",
+  "geography_name": "Norseman"
+ },
+ {
+  "geography_code": "51128",
+  "geography_name": "North Baandee"
+ },
+ {
+  "geography_code": "51129",
+  "geography_name": "North Bannister"
+ },
+ {
+  "geography_code": "51130",
+  "geography_name": "North Beach (WA)"
+ },
+ {
+  "geography_code": "51131",
+  "geography_name": "North Bodallin"
+ },
+ {
+  "geography_code": "51132",
+  "geography_name": "North Boyanup"
+ },
+ {
+  "geography_code": "51133",
+  "geography_name": "North Burngup"
+ },
+ {
+  "geography_code": "51134",
+  "geography_name": "North Cascade"
+ },
+ {
+  "geography_code": "51135",
+  "geography_name": "North Coogee"
+ },
+ {
+  "geography_code": "51136",
+  "geography_name": "North Dandalup"
+ },
+ {
+  "geography_code": "51137",
+  "geography_name": "North Eradu"
+ },
+ {
+  "geography_code": "51138",
+  "geography_name": "North Fremantle"
+ },
+ {
+  "geography_code": "51139",
+  "geography_name": "North Greenbushes"
+ },
+ {
+  "geography_code": "51140",
+  "geography_name": "North Jindong"
+ },
+ {
+  "geography_code": "51141",
+  "geography_name": "North Kellerberrin"
+ },
+ {
+  "geography_code": "51142",
+  "geography_name": "North Kukerin"
+ },
+ {
+  "geography_code": "51143",
+  "geography_name": "North Kununoppin"
+ },
+ {
+  "geography_code": "51144",
+  "geography_name": "North Lake"
+ },
+ {
+  "geography_code": "51145",
+  "geography_name": "North Lake Grace"
+ },
+ {
+  "geography_code": "51146",
+  "geography_name": "North Moulyinning"
+ },
+ {
+  "geography_code": "51147",
+  "geography_name": "North Perth"
+ },
+ {
+  "geography_code": "51148",
+  "geography_name": "North Plantations"
+ },
+ {
+  "geography_code": "51149",
+  "geography_name": "North Stirlings"
+ },
+ {
+  "geography_code": "51150",
+  "geography_name": "North Tammin"
+ },
+ {
+  "geography_code": "51151",
+  "geography_name": "North Trayning"
+ },
+ {
+  "geography_code": "51152",
+  "geography_name": "North Walpole"
+ },
+ {
+  "geography_code": "51153",
+  "geography_name": "North West Cape"
+ },
+ {
+  "geography_code": "51154",
+  "geography_name": "North Wialki"
+ },
+ {
+  "geography_code": "51155",
+  "geography_name": "North Yelbeni"
+ },
+ {
+  "geography_code": "51156",
+  "geography_name": "North Yunderup"
+ },
+ {
+  "geography_code": "51157",
+  "geography_name": "Northam"
+ },
+ {
+  "geography_code": "51158",
+  "geography_name": "Northampton"
+ },
+ {
+  "geography_code": "51159",
+  "geography_name": "Northbridge (WA)"
+ },
+ {
+  "geography_code": "51160",
+  "geography_name": "Northcliffe"
+ },
+ {
+  "geography_code": "51161",
+  "geography_name": "Northern Gully"
+ },
+ {
+  "geography_code": "51162",
+  "geography_name": "Nowergup"
+ },
+ {
+  "geography_code": "51163",
+  "geography_name": "Nugadong"
+ },
+ {
+  "geography_code": "51164",
+  "geography_name": "Nukarni"
+ },
+ {
+  "geography_code": "51165",
+  "geography_name": "Nullagine"
+ },
+ {
+  "geography_code": "51166",
+  "geography_name": "Nullaki"
+ },
+ {
+  "geography_code": "51167",
+  "geography_name": "Nulsen"
+ },
+ {
+  "geography_code": "51168",
+  "geography_name": "Nungarin"
+ },
+ {
+  "geography_code": "51169",
+  "geography_name": "Nunierra"
+ },
+ {
+  "geography_code": "51170",
+  "geography_name": "Nunile"
+ },
+ {
+  "geography_code": "51171",
+  "geography_name": "Nyabing"
+ },
+ {
+  "geography_code": "51172",
+  "geography_name": "O'Connor (WA)"
+ },
+ {
+  "geography_code": "51173",
+  "geography_name": "Oakajee"
+ },
+ {
+  "geography_code": "51174",
+  "geography_name": "Oakford"
+ },
+ {
+  "geography_code": "51175",
+  "geography_name": "Ocean Beach"
+ },
+ {
+  "geography_code": "51176",
+  "geography_name": "Ocean Reef"
+ },
+ {
+  "geography_code": "51177",
+  "geography_name": "Ogilvie"
+ },
+ {
+  "geography_code": "51178",
+  "geography_name": "Old Plains"
+ },
+ {
+  "geography_code": "51179",
+  "geography_name": "Oldbury"
+ },
+ {
+  "geography_code": "51180",
+  "geography_name": "Ongerup"
+ },
+ {
+  "geography_code": "51181",
+  "geography_name": "Onslow"
+ },
+ {
+  "geography_code": "51182",
+  "geography_name": "Oombulgurri"
+ },
+ {
+  "geography_code": "51183",
+  "geography_name": "Ora Banda"
+ },
+ {
+  "geography_code": "51184",
+  "geography_name": "Orana"
+ },
+ {
+  "geography_code": "51185",
+  "geography_name": "Orange Grove (WA)"
+ },
+ {
+  "geography_code": "51186",
+  "geography_name": "Orange Springs"
+ },
+ {
+  "geography_code": "51187",
+  "geography_name": "Orchid Valley"
+ },
+ {
+  "geography_code": "51188",
+  "geography_name": "Ord River"
+ },
+ {
+  "geography_code": "51189",
+  "geography_name": "Orelia"
+ },
+ {
+  "geography_code": "51190",
+  "geography_name": "Osborne Park"
+ },
+ {
+  "geography_code": "51191",
+  "geography_name": "Osmington"
+ },
+ {
+  "geography_code": "51192",
+  "geography_name": "Padbury"
+ },
+ {
+  "geography_code": "51193",
+  "geography_name": "Palgarup"
+ },
+ {
+  "geography_code": "51194",
+  "geography_name": "Pallinup"
+ },
+ {
+  "geography_code": "51195",
+  "geography_name": "Palmdale (WA)"
+ },
+ {
+  "geography_code": "51196",
+  "geography_name": "Palmer (WA)"
+ },
+ {
+  "geography_code": "51197",
+  "geography_name": "Palmyra (WA)"
+ },
+ {
+  "geography_code": "51198",
+  "geography_name": "Pannawonica"
+ },
+ {
+  "geography_code": "51199",
+  "geography_name": "Pantapin"
+ },
+ {
+  "geography_code": "51200",
+  "geography_name": "Papulankutja"
+ },
+ {
+  "geography_code": "51201",
+  "geography_name": "Paraburdoo"
+ },
+ {
+  "geography_code": "51202",
+  "geography_name": "Paradise (WA)"
+ },
+ {
+  "geography_code": "51203",
+  "geography_name": "Pardoo"
+ },
+ {
+  "geography_code": "51204",
+  "geography_name": "Parker Range"
+ },
+ {
+  "geography_code": "51205",
+  "geography_name": "Parkerville"
+ },
+ {
+  "geography_code": "51206",
+  "geography_name": "Parkeston"
+ },
+ {
+  "geography_code": "51207",
+  "geography_name": "Parkfield"
+ },
+ {
+  "geography_code": "51208",
+  "geography_name": "Parklands (WA)"
+ },
+ {
+  "geography_code": "51209",
+  "geography_name": "Parkwood (WA)"
+ },
+ {
+  "geography_code": "51210",
+  "geography_name": "Parmelia"
+ },
+ {
+  "geography_code": "51211",
+  "geography_name": "Parryville"
+ },
+ {
+  "geography_code": "51212",
+  "geography_name": "Patjarr"
+ },
+ {
+  "geography_code": "51213",
+  "geography_name": "Paulls Valley"
+ },
+ {
+  "geography_code": "51214",
+  "geography_name": "Paynedale"
+ },
+ {
+  "geography_code": "51215",
+  "geography_name": "Paynes Find"
+ },
+ {
+  "geography_code": "51216",
+  "geography_name": "Paynesville (WA)"
+ },
+ {
+  "geography_code": "51217",
+  "geography_name": "Peaceful Bay"
+ },
+ {
+  "geography_code": "51218",
+  "geography_name": "Peak Hill (WA)"
+ },
+ {
+  "geography_code": "51219",
+  "geography_name": "Pearsall"
+ },
+ {
+  "geography_code": "51220",
+  "geography_name": "Peedamulla"
+ },
+ {
+  "geography_code": "51221",
+  "geography_name": "Peerabeelup"
+ },
+ {
+  "geography_code": "51222",
+  "geography_name": "Pegs Creek"
+ },
+ {
+  "geography_code": "51223",
+  "geography_name": "Pelican Point (WA)"
+ },
+ {
+  "geography_code": "51224",
+  "geography_name": "Pemberton"
+ },
+ {
+  "geography_code": "51225",
+  "geography_name": "Peppermint Grove"
+ },
+ {
+  "geography_code": "51226",
+  "geography_name": "Peppermint Grove Beach"
+ },
+ {
+  "geography_code": "51227",
+  "geography_name": "Perenjori"
+ },
+ {
+  "geography_code": "51228",
+  "geography_name": "Perillup"
+ },
+ {
+  "geography_code": "51229",
+  "geography_name": "Peron"
+ },
+ {
+  "geography_code": "51230",
+  "geography_name": "Perth (WA)"
+ },
+ {
+  "geography_code": "51231",
+  "geography_name": "Perth Airport"
+ },
+ {
+  "geography_code": "51232",
+  "geography_name": "Perup"
+ },
+ {
+  "geography_code": "51233",
+  "geography_name": "Petrudor"
+ },
+ {
+  "geography_code": "51234",
+  "geography_name": "Piara Waters"
+ },
+ {
+  "geography_code": "51235",
+  "geography_name": "Piawaning"
+ },
+ {
+  "geography_code": "51236",
+  "geography_name": "Piccadilly (WA)"
+ },
+ {
+  "geography_code": "51237",
+  "geography_name": "Pickering Brook"
+ },
+ {
+  "geography_code": "51238",
+  "geography_name": "Picton (WA)"
+ },
+ {
+  "geography_code": "51239",
+  "geography_name": "Picton East"
+ },
+ {
+  "geography_code": "51240",
+  "geography_name": "Piesse Brook"
+ },
+ {
+  "geography_code": "51241",
+  "geography_name": "Piesseville"
+ },
+ {
+  "geography_code": "51242",
+  "geography_name": "Pindar"
+ },
+ {
+  "geography_code": "51243",
+  "geography_name": "Pingaring"
+ },
+ {
+  "geography_code": "51244",
+  "geography_name": "Pingelly"
+ },
+ {
+  "geography_code": "51245",
+  "geography_name": "Pingrup"
+ },
+ {
+  "geography_code": "51246",
+  "geography_name": "Pinjar"
+ },
+ {
+  "geography_code": "51247",
+  "geography_name": "Pinjarra"
+ },
+ {
+  "geography_code": "51248",
+  "geography_name": "Pink Lake"
+ },
+ {
+  "geography_code": "51249",
+  "geography_name": "Pintharuka"
+ },
+ {
+  "geography_code": "51250",
+  "geography_name": "Pinwernying"
+ },
+ {
+  "geography_code": "51251",
+  "geography_name": "Pippingarra"
+ },
+ {
+  "geography_code": "51252",
+  "geography_name": "Pithara"
+ },
+ {
+  "geography_code": "51253",
+  "geography_name": "Plumridge Lakes"
+ },
+ {
+  "geography_code": "51254",
+  "geography_name": "Point Samson"
+ },
+ {
+  "geography_code": "51255",
+  "geography_name": "Popanyinning"
+ },
+ {
+  "geography_code": "51256",
+  "geography_name": "Porongurup"
+ },
+ {
+  "geography_code": "51257",
+  "geography_name": "Port Albany"
+ },
+ {
+  "geography_code": "51258",
+  "geography_name": "Port Denison"
+ },
+ {
+  "geography_code": "51259",
+  "geography_name": "Port Hedland"
+ },
+ {
+  "geography_code": "51260",
+  "geography_name": "Port Kennedy"
+ },
+ {
+  "geography_code": "51261",
+  "geography_name": "Postans"
+ },
+ {
+  "geography_code": "51262",
+  "geography_name": "Preston Beach"
+ },
+ {
+  "geography_code": "51263",
+  "geography_name": "Preston Settlement"
+ },
+ {
+  "geography_code": "51264",
+  "geography_name": "Prevelly"
+ },
+ {
+  "geography_code": "51265",
+  "geography_name": "Prince Regent River"
+ },
+ {
+  "geography_code": "51266",
+  "geography_name": "Pumphreys Bridge"
+ },
+ {
+  "geography_code": "51267",
+  "geography_name": "Purnululu"
+ },
+ {
+  "geography_code": "51268",
+  "geography_name": "Quairading"
+ },
+ {
+  "geography_code": "51269",
+  "geography_name": "Qualeup"
+ },
+ {
+  "geography_code": "51270",
+  "geography_name": "Quedjinup"
+ },
+ {
+  "geography_code": "51271",
+  "geography_name": "Queens Park (WA)"
+ },
+ {
+  "geography_code": "51272",
+  "geography_name": "Queenwood"
+ },
+ {
+  "geography_code": "51273",
+  "geography_name": "Quelagetting"
+ },
+ {
+  "geography_code": "51274",
+  "geography_name": "Quellington"
+ },
+ {
+  "geography_code": "51275",
+  "geography_name": "Quindalup"
+ },
+ {
+  "geography_code": "51276",
+  "geography_name": "Quindanning"
+ },
+ {
+  "geography_code": "51277",
+  "geography_name": "Quinninup"
+ },
+ {
+  "geography_code": "51278",
+  "geography_name": "Quinns Rocks"
+ },
+ {
+  "geography_code": "51279",
+  "geography_name": "Ranford"
+ },
+ {
+  "geography_code": "51280",
+  "geography_name": "Rangeway"
+ },
+ {
+  "geography_code": "51281",
+  "geography_name": "Ravensthorpe"
+ },
+ {
+  "geography_code": "51282",
+  "geography_name": "Ravenswood (WA)"
+ },
+ {
+  "geography_code": "51283",
+  "geography_name": "Rawlinna"
+ },
+ {
+  "geography_code": "51284",
+  "geography_name": "Red Gully"
+ },
+ {
+  "geography_code": "51285",
+  "geography_name": "Red Hill (WA)"
+ },
+ {
+  "geography_code": "51286",
+  "geography_name": "Redbank (WA)"
+ },
+ {
+  "geography_code": "51287",
+  "geography_name": "Redcliffe (WA)"
+ },
+ {
+  "geography_code": "51288",
+  "geography_name": "Redgate (WA)"
+ },
+ {
+  "geography_code": "51289",
+  "geography_name": "Redmond"
+ },
+ {
+  "geography_code": "51290",
+  "geography_name": "Redmond West"
+ },
+ {
+  "geography_code": "51291",
+  "geography_name": "Reedy"
+ },
+ {
+  "geography_code": "51292",
+  "geography_name": "Regans Ford"
+ },
+ {
+  "geography_code": "51293",
+  "geography_name": "Reinscourt"
+ },
+ {
+  "geography_code": "51294",
+  "geography_name": "Remlap"
+ },
+ {
+  "geography_code": "51295",
+  "geography_name": "Reservoir (WA)"
+ },
+ {
+  "geography_code": "51296",
+  "geography_name": "Ridgewood (WA)"
+ },
+ {
+  "geography_code": "51297",
+  "geography_name": "Ringbark"
+ },
+ {
+  "geography_code": "51298",
+  "geography_name": "Riverton (WA)"
+ },
+ {
+  "geography_code": "51299",
+  "geography_name": "Rivervale"
+ },
+ {
+  "geography_code": "51300",
+  "geography_name": "Robinson"
+ },
+ {
+  "geography_code": "51301",
+  "geography_name": "Rockingham (WA)"
+ },
+ {
+  "geography_code": "51302",
+  "geography_name": "Rocklea (WA)"
+ },
+ {
+  "geography_code": "51303",
+  "geography_name": "Rockwell"
+ },
+ {
+  "geography_code": "51304",
+  "geography_name": "Rocky Gully (WA)"
+ },
+ {
+  "geography_code": "51305",
+  "geography_name": "Roebourne"
+ },
+ {
+  "geography_code": "51306",
+  "geography_name": "Roebuck"
+ },
+ {
+  "geography_code": "51307",
+  "geography_name": "Roelands"
+ },
+ {
+  "geography_code": "51308",
+  "geography_name": "Roleystone"
+ },
+ {
+  "geography_code": "51309",
+  "geography_name": "Rosa Brook"
+ },
+ {
+  "geography_code": "51310",
+  "geography_name": "Rosa Glen"
+ },
+ {
+  "geography_code": "51311",
+  "geography_name": "Rossmore (WA)"
+ },
+ {
+  "geography_code": "51312",
+  "geography_name": "Rossmoyne"
+ },
+ {
+  "geography_code": "51313",
+  "geography_name": "Rothsay"
+ },
+ {
+  "geography_code": "51314",
+  "geography_name": "Rottnest Island"
+ },
+ {
+  "geography_code": "51315",
+  "geography_name": "Ruabon"
+ },
+ {
+  "geography_code": "51316",
+  "geography_name": "Rudds Gully"
+ },
+ {
+  "geography_code": "51317",
+  "geography_name": "Ryansbrook"
+ },
+ {
+  "geography_code": "51318",
+  "geography_name": "Sabina River"
+ },
+ {
+  "geography_code": "51319",
+  "geography_name": "Safety Bay"
+ },
+ {
+  "geography_code": "51320",
+  "geography_name": "Salmon Gums"
+ },
+ {
+  "geography_code": "51321",
+  "geography_name": "Salter Point"
+ },
+ {
+  "geography_code": "51322",
+  "geography_name": "Samson"
+ },
+ {
+  "geography_code": "51323",
+  "geography_name": "San Remo (WA)"
+ },
+ {
+  "geography_code": "51324",
+  "geography_name": "Sandpatch"
+ },
+ {
+  "geography_code": "51325",
+  "geography_name": "Sandsprings"
+ },
+ {
+  "geography_code": "51326",
+  "geography_name": "Sandstone"
+ },
+ {
+  "geography_code": "51327",
+  "geography_name": "Sandy Gully (WA)"
+ },
+ {
+  "geography_code": "51328",
+  "geography_name": "Sawyers Valley"
+ },
+ {
+  "geography_code": "51329",
+  "geography_name": "Scaddan"
+ },
+ {
+  "geography_code": "51330",
+  "geography_name": "Scarborough (WA)"
+ },
+ {
+  "geography_code": "51331",
+  "geography_name": "Schroeder"
+ },
+ {
+  "geography_code": "51332",
+  "geography_name": "Scotsdale"
+ },
+ {
+  "geography_code": "51333",
+  "geography_name": "Scott River"
+ },
+ {
+  "geography_code": "51334",
+  "geography_name": "Scott River East"
+ },
+ {
+  "geography_code": "51335",
+  "geography_name": "Scotts Brook"
+ },
+ {
+  "geography_code": "51336",
+  "geography_name": "Seabird"
+ },
+ {
+  "geography_code": "51337",
+  "geography_name": "Secret Harbour"
+ },
+ {
+  "geography_code": "51338",
+  "geography_name": "Seppings"
+ },
+ {
+  "geography_code": "51339",
+  "geography_name": "Serpentine (WA)"
+ },
+ {
+  "geography_code": "51340",
+  "geography_name": "Seville Grove"
+ },
+ {
+  "geography_code": "51341",
+  "geography_name": "Shackleton"
+ },
+ {
+  "geography_code": "51342",
+  "geography_name": "Shadforth (WA)"
+ },
+ {
+  "geography_code": "51343",
+  "geography_name": "Shannon (WA)"
+ },
+ {
+  "geography_code": "51344",
+  "geography_name": "Shark Bay"
+ },
+ {
+  "geography_code": "51345",
+  "geography_name": "Shelley (WA)"
+ },
+ {
+  "geography_code": "51346",
+  "geography_name": "Shenton Park"
+ },
+ {
+  "geography_code": "51347",
+  "geography_name": "Sherlock (WA)"
+ },
+ {
+  "geography_code": "51348",
+  "geography_name": "Shoalwater (WA)"
+ },
+ {
+  "geography_code": "51349",
+  "geography_name": "Shotts"
+ },
+ {
+  "geography_code": "51350",
+  "geography_name": "Siesta Park"
+ },
+ {
+  "geography_code": "51351",
+  "geography_name": "Silver Sands"
+ },
+ {
+  "geography_code": "51352",
+  "geography_name": "Sinagra"
+ },
+ {
+  "geography_code": "51353",
+  "geography_name": "Sinclair"
+ },
+ {
+  "geography_code": "51354",
+  "geography_name": "Singleton (WA)"
+ },
+ {
+  "geography_code": "51355",
+  "geography_name": "Sir Samuel"
+ },
+ {
+  "geography_code": "51356",
+  "geography_name": "Skeleton Rock"
+ },
+ {
+  "geography_code": "51357",
+  "geography_name": "Smith Brook"
+ },
+ {
+  "geography_code": "51358",
+  "geography_name": "Solus"
+ },
+ {
+  "geography_code": "51359",
+  "geography_name": "Somerville (WA)"
+ },
+ {
+  "geography_code": "51360",
+  "geography_name": "Sorrento (WA)"
+ },
+ {
+  "geography_code": "51361",
+  "geography_name": "South Bodallin"
+ },
+ {
+  "geography_code": "51362",
+  "geography_name": "South Boulder"
+ },
+ {
+  "geography_code": "51363",
+  "geography_name": "South Bunbury"
+ },
+ {
+  "geography_code": "51364",
+  "geography_name": "South Burracoppin"
+ },
+ {
+  "geography_code": "51365",
+  "geography_name": "South Carnarvon"
+ },
+ {
+  "geography_code": "51366",
+  "geography_name": "South Datatine"
+ },
+ {
+  "geography_code": "51367",
+  "geography_name": "South Doodlakine"
+ },
+ {
+  "geography_code": "51368",
+  "geography_name": "South Fremantle"
+ },
+ {
+  "geography_code": "51369",
+  "geography_name": "South Glencoe"
+ },
+ {
+  "geography_code": "51370",
+  "geography_name": "South Greenough"
+ },
+ {
+  "geography_code": "51371",
+  "geography_name": "South Guildford"
+ },
+ {
+  "geography_code": "51372",
+  "geography_name": "South Hedland"
+ },
+ {
+  "geography_code": "51373",
+  "geography_name": "South Kalgoorlie"
+ },
+ {
+  "geography_code": "51374",
+  "geography_name": "South Kukerin"
+ },
+ {
+  "geography_code": "51375",
+  "geography_name": "South Kumminin"
+ },
+ {
+  "geography_code": "51376",
+  "geography_name": "South Kununoppin"
+ },
+ {
+  "geography_code": "51377",
+  "geography_name": "South Lake"
+ },
+ {
+  "geography_code": "51378",
+  "geography_name": "South Lake Grace"
+ },
+ {
+  "geography_code": "51379",
+  "geography_name": "South Murchison"
+ },
+ {
+  "geography_code": "51380",
+  "geography_name": "South Newdegate"
+ },
+ {
+  "geography_code": "51381",
+  "geography_name": "South Perth"
+ },
+ {
+  "geography_code": "51382",
+  "geography_name": "South Plantations"
+ },
+ {
+  "geography_code": "51383",
+  "geography_name": "South Quairading"
+ },
+ {
+  "geography_code": "51384",
+  "geography_name": "South Stirling"
+ },
+ {
+  "geography_code": "51385",
+  "geography_name": "South Tammin"
+ },
+ {
+  "geography_code": "51386",
+  "geography_name": "South Trayning"
+ },
+ {
+  "geography_code": "51387",
+  "geography_name": "South Yelbeni"
+ },
+ {
+  "geography_code": "51388",
+  "geography_name": "South Yilgarn"
+ },
+ {
+  "geography_code": "51389",
+  "geography_name": "South Yuna"
+ },
+ {
+  "geography_code": "51390",
+  "geography_name": "South Yunderup"
+ },
+ {
+  "geography_code": "51391",
+  "geography_name": "Southampton (WA)"
+ },
+ {
+  "geography_code": "51392",
+  "geography_name": "Southern Brook"
+ },
+ {
+  "geography_code": "51393",
+  "geography_name": "Southern Cross (WA)"
+ },
+ {
+  "geography_code": "51394",
+  "geography_name": "Southern River"
+ },
+ {
+  "geography_code": "51395",
+  "geography_name": "Spalding (WA)"
+ },
+ {
+  "geography_code": "51396",
+  "geography_name": "Spearwood"
+ },
+ {
+  "geography_code": "51397",
+  "geography_name": "Spencer Park"
+ },
+ {
+  "geography_code": "51398",
+  "geography_name": "Spencers Brook"
+ },
+ {
+  "geography_code": "51399",
+  "geography_name": "Springfield (WA)"
+ },
+ {
+  "geography_code": "51400",
+  "geography_name": "Springs"
+ },
+ {
+  "geography_code": "51401",
+  "geography_name": "St George Ranges"
+ },
+ {
+  "geography_code": "51402",
+  "geography_name": "St James (WA)"
+ },
+ {
+  "geography_code": "51403",
+  "geography_name": "St Ronans"
+ },
+ {
+  "geography_code": "51404",
+  "geography_name": "Stake Hill"
+ },
+ {
+  "geography_code": "51405",
+  "geography_name": "Stirling (WA)"
+ },
+ {
+  "geography_code": "51406",
+  "geography_name": "Stirling Estate"
+ },
+ {
+  "geography_code": "51407",
+  "geography_name": "Stirling Range National Park"
+ },
+ {
+  "geography_code": "51408",
+  "geography_name": "Stoneville"
+ },
+ {
+  "geography_code": "51409",
+  "geography_name": "Stove Hill"
+ },
+ {
+  "geography_code": "51410",
+  "geography_name": "Strathalbyn (WA)"
+ },
+ {
+  "geography_code": "51411",
+  "geography_name": "Stratham"
+ },
+ {
+  "geography_code": "51412",
+  "geography_name": "Stratherne"
+ },
+ {
+  "geography_code": "51413",
+  "geography_name": "Stratton"
+ },
+ {
+  "geography_code": "51414",
+  "geography_name": "Strelley"
+ },
+ {
+  "geography_code": "51415",
+  "geography_name": "Sturt Creek"
+ },
+ {
+  "geography_code": "51416",
+  "geography_name": "Subiaco"
+ },
+ {
+  "geography_code": "51417",
+  "geography_name": "Success"
+ },
+ {
+  "geography_code": "51418",
+  "geography_name": "Sunnyside (WA)"
+ },
+ {
+  "geography_code": "51419",
+  "geography_name": "Sunset Beach"
+ },
+ {
+  "geography_code": "51420",
+  "geography_name": "Swan View"
+ },
+ {
+  "geography_code": "51421",
+  "geography_name": "Swanbourne"
+ },
+ {
+  "geography_code": "51422",
+  "geography_name": "Takalarup"
+ },
+ {
+  "geography_code": "51423",
+  "geography_name": "Talandji"
+ },
+ {
+  "geography_code": "51424",
+  "geography_name": "Talbot (WA)"
+ },
+ {
+  "geography_code": "51425",
+  "geography_name": "Talbot West"
+ },
+ {
+  "geography_code": "51426",
+  "geography_name": "Talgomine"
+ },
+ {
+  "geography_code": "51427",
+  "geography_name": "Talisker"
+ },
+ {
+  "geography_code": "51428",
+  "geography_name": "Tamala"
+ },
+ {
+  "geography_code": "51429",
+  "geography_name": "Tamala Park"
+ },
+ {
+  "geography_code": "51430",
+  "geography_name": "Tambellup"
+ },
+ {
+  "geography_code": "51431",
+  "geography_name": "Tammin"
+ },
+ {
+  "geography_code": "51432",
+  "geography_name": "Tampu"
+ },
+ {
+  "geography_code": "51433",
+  "geography_name": "Tanami (WA)"
+ },
+ {
+  "geography_code": "51434",
+  "geography_name": "Tandegin"
+ },
+ {
+  "geography_code": "51435",
+  "geography_name": "Tapping"
+ },
+ {
+  "geography_code": "51436",
+  "geography_name": "Tarcoola Beach"
+ },
+ {
+  "geography_code": "51437",
+  "geography_name": "Tardun"
+ },
+ {
+  "geography_code": "51438",
+  "geography_name": "Tarin Rock"
+ },
+ {
+  "geography_code": "51439",
+  "geography_name": "Teesdale (WA)"
+ },
+ {
+  "geography_code": "51440",
+  "geography_name": "Telfer"
+ },
+ {
+  "geography_code": "51441",
+  "geography_name": "Tenindewa"
+ },
+ {
+  "geography_code": "51442",
+  "geography_name": "Tenterden (WA)"
+ },
+ {
+  "geography_code": "51443",
+  "geography_name": "The Lakes"
+ },
+ {
+  "geography_code": "51444",
+  "geography_name": "The Plains"
+ },
+ {
+  "geography_code": "51445",
+  "geography_name": "The Spectacles"
+ },
+ {
+  "geography_code": "51446",
+  "geography_name": "The Vines"
+ },
+ {
+  "geography_code": "51447",
+  "geography_name": "Thomson Brook"
+ },
+ {
+  "geography_code": "51448",
+  "geography_name": "Thornlie"
+ },
+ {
+  "geography_code": "51449",
+  "geography_name": "Three Springs"
+ },
+ {
+  "geography_code": "51450",
+  "geography_name": "Throssell"
+ },
+ {
+  "geography_code": "51451",
+  "geography_name": "Tibradden"
+ },
+ {
+  "geography_code": "51452",
+  "geography_name": "Tincurrin"
+ },
+ {
+  "geography_code": "51453",
+  "geography_name": "Tingledale"
+ },
+ {
+  "geography_code": "51454",
+  "geography_name": "Tjirrkarli"
+ },
+ {
+  "geography_code": "51455",
+  "geography_name": "Tjukurla"
+ },
+ {
+  "geography_code": "51456",
+  "geography_name": "Tom Price"
+ },
+ {
+  "geography_code": "51457",
+  "geography_name": "Tonebridge"
+ },
+ {
+  "geography_code": "51458",
+  "geography_name": "Toodyay"
+ },
+ {
+  "geography_code": "51459",
+  "geography_name": "Toolibin"
+ },
+ {
+  "geography_code": "51460",
+  "geography_name": "Toolonga"
+ },
+ {
+  "geography_code": "51461",
+  "geography_name": "Toompup"
+ },
+ {
+  "geography_code": "51462",
+  "geography_name": "Torbay"
+ },
+ {
+  "geography_code": "51463",
+  "geography_name": "Torndirrup"
+ },
+ {
+  "geography_code": "51464",
+  "geography_name": "Townsendale"
+ },
+ {
+  "geography_code": "51465",
+  "geography_name": "Trafalgar (WA)"
+ },
+ {
+  "geography_code": "51466",
+  "geography_name": "Trayning"
+ },
+ {
+  "geography_code": "51467",
+  "geography_name": "Treeby"
+ },
+ {
+  "geography_code": "51468",
+  "geography_name": "Treeton"
+ },
+ {
+  "geography_code": "51469",
+  "geography_name": "Trent"
+ },
+ {
+  "geography_code": "51470",
+  "geography_name": "Trigg"
+ },
+ {
+  "geography_code": "51471",
+  "geography_name": "Trigwell"
+ },
+ {
+  "geography_code": "51472",
+  "geography_name": "Tuart Hill"
+ },
+ {
+  "geography_code": "51473",
+  "geography_name": "Turkey Hill"
+ },
+ {
+  "geography_code": "51474",
+  "geography_name": "Tutunup"
+ },
+ {
+  "geography_code": "51475",
+  "geography_name": "Two Rocks"
+ },
+ {
+  "geography_code": "51476",
+  "geography_name": "Ucarty"
+ },
+ {
+  "geography_code": "51477",
+  "geography_name": "Ucarty West"
+ },
+ {
+  "geography_code": "51478",
+  "geography_name": "Uduc"
+ },
+ {
+  "geography_code": "51479",
+  "geography_name": "Ularring"
+ },
+ {
+  "geography_code": "51480",
+  "geography_name": "Upper Capel"
+ },
+ {
+  "geography_code": "51481",
+  "geography_name": "Upper Murray"
+ },
+ {
+  "geography_code": "51482",
+  "geography_name": "Upper Swan"
+ },
+ {
+  "geography_code": "51483",
+  "geography_name": "Upper Warren"
+ },
+ {
+  "geography_code": "51484",
+  "geography_name": "Useless Loop"
+ },
+ {
+  "geography_code": "51485",
+  "geography_name": "Usher"
+ },
+ {
+  "geography_code": "51486",
+  "geography_name": "Utakarra"
+ },
+ {
+  "geography_code": "51487",
+  "geography_name": "Vancouver Peninsula"
+ },
+ {
+  "geography_code": "51488",
+  "geography_name": "Varley"
+ },
+ {
+  "geography_code": "51489",
+  "geography_name": "Vasse"
+ },
+ {
+  "geography_code": "51490",
+  "geography_name": "Victoria Park"
+ },
+ {
+  "geography_code": "51491",
+  "geography_name": "Victoria Rock"
+ },
+ {
+  "geography_code": "51492",
+  "geography_name": "Victory Heights (WA)"
+ },
+ {
+  "geography_code": "51493",
+  "geography_name": "Vittoria (WA)"
+ },
+ {
+  "geography_code": "51494",
+  "geography_name": "Viveash"
+ },
+ {
+  "geography_code": "51495",
+  "geography_name": "Wadderin"
+ },
+ {
+  "geography_code": "51496",
+  "geography_name": "Waddington"
+ },
+ {
+  "geography_code": "51497",
+  "geography_name": "Waddy Forest"
+ },
+ {
+  "geography_code": "51498",
+  "geography_name": "Waeel"
+ },
+ {
+  "geography_code": "51499",
+  "geography_name": "Wagerup"
+ },
+ {
+  "geography_code": "51500",
+  "geography_name": "Waggrakine"
+ },
+ {
+  "geography_code": "51501",
+  "geography_name": "Wagin"
+ },
+ {
+  "geography_code": "51502",
+  "geography_name": "Waikiki"
+ },
+ {
+  "geography_code": "51503",
+  "geography_name": "Walebing"
+ },
+ {
+  "geography_code": "51504",
+  "geography_name": "Walgoolan"
+ },
+ {
+  "geography_code": "51505",
+  "geography_name": "Walkaway"
+ },
+ {
+  "geography_code": "51506",
+  "geography_name": "Wallareenya"
+ },
+ {
+  "geography_code": "51507",
+  "geography_name": "Wallaroo (WA)"
+ },
+ {
+  "geography_code": "51508",
+  "geography_name": "Walliston"
+ },
+ {
+  "geography_code": "51509",
+  "geography_name": "Walmsley"
+ },
+ {
+  "geography_code": "51510",
+  "geography_name": "Walpole"
+ },
+ {
+  "geography_code": "51511",
+  "geography_name": "Walsall"
+ },
+ {
+  "geography_code": "51512",
+  "geography_name": "Walyormouring"
+ },
+ {
+  "geography_code": "51513",
+  "geography_name": "Walyunga National Park"
+ },
+ {
+  "geography_code": "51514",
+  "geography_name": "Walyurin"
+ },
+ {
+  "geography_code": "51515",
+  "geography_name": "Wamenusking"
+ },
+ {
+  "geography_code": "51516",
+  "geography_name": "Wanarn"
+ },
+ {
+  "geography_code": "51517",
+  "geography_name": "Wandana (WA)"
+ },
+ {
+  "geography_code": "51518",
+  "geography_name": "Wandering"
+ },
+ {
+  "geography_code": "51519",
+  "geography_name": "Wandi"
+ },
+ {
+  "geography_code": "51520",
+  "geography_name": "Wandillup"
+ },
+ {
+  "geography_code": "51521",
+  "geography_name": "Wandina"
+ },
+ {
+  "geography_code": "51522",
+  "geography_name": "Wanerie"
+ },
+ {
+  "geography_code": "51523",
+  "geography_name": "Wangara"
+ },
+ {
+  "geography_code": "51524",
+  "geography_name": "Wannamal"
+ },
+ {
+  "geography_code": "51525",
+  "geography_name": "Wannanup"
+ },
+ {
+  "geography_code": "51526",
+  "geography_name": "Wanneroo"
+ },
+ {
+  "geography_code": "51527",
+  "geography_name": "Wansbrough"
+ },
+ {
+  "geography_code": "51528",
+  "geography_name": "Warakurna"
+ },
+ {
+  "geography_code": "51529",
+  "geography_name": "Warawarrup"
+ },
+ {
+  "geography_code": "51530",
+  "geography_name": "Warburton (WA)"
+ },
+ {
+  "geography_code": "51531",
+  "geography_name": "Wardering"
+ },
+ {
+  "geography_code": "51532",
+  "geography_name": "Warding East"
+ },
+ {
+  "geography_code": "51533",
+  "geography_name": "Warmun"
+ },
+ {
+  "geography_code": "51534",
+  "geography_name": "Warnbro"
+ },
+ {
+  "geography_code": "51535",
+  "geography_name": "Warner Glen"
+ },
+ {
+  "geography_code": "51536",
+  "geography_name": "Waroona"
+ },
+ {
+  "geography_code": "51537",
+  "geography_name": "Warrachuppin"
+ },
+ {
+  "geography_code": "51538",
+  "geography_name": "Warradarge"
+ },
+ {
+  "geography_code": "51539",
+  "geography_name": "Warralakin"
+ },
+ {
+  "geography_code": "51540",
+  "geography_name": "Warrenup"
+ },
+ {
+  "geography_code": "51541",
+  "geography_name": "Warwick (WA)"
+ },
+ {
+  "geography_code": "51542",
+  "geography_name": "Waterbank"
+ },
+ {
+  "geography_code": "51543",
+  "geography_name": "Watercarrin"
+ },
+ {
+  "geography_code": "51544",
+  "geography_name": "Waterford (WA)"
+ },
+ {
+  "geography_code": "51545",
+  "geography_name": "Waterloo (WA)"
+ },
+ {
+  "geography_code": "51546",
+  "geography_name": "Watermans Bay"
+ },
+ {
+  "geography_code": "51547",
+  "geography_name": "Watheroo"
+ },
+ {
+  "geography_code": "51548",
+  "geography_name": "Wattening"
+ },
+ {
+  "geography_code": "51549",
+  "geography_name": "Wattle Grove (WA)"
+ },
+ {
+  "geography_code": "51550",
+  "geography_name": "Wattleup"
+ },
+ {
+  "geography_code": "51551",
+  "geography_name": "Wattoning"
+ },
+ {
+  "geography_code": "51552",
+  "geography_name": "Webberton"
+ },
+ {
+  "geography_code": "51553",
+  "geography_name": "Wedge Island (WA)"
+ },
+ {
+  "geography_code": "51554",
+  "geography_name": "Wedgecarrup"
+ },
+ {
+  "geography_code": "51555",
+  "geography_name": "Wedgefield"
+ },
+ {
+  "geography_code": "51556",
+  "geography_name": "Welbungin"
+ },
+ {
+  "geography_code": "51557",
+  "geography_name": "Weld Range"
+ },
+ {
+  "geography_code": "51558",
+  "geography_name": "Wellard"
+ },
+ {
+  "geography_code": "51559",
+  "geography_name": "Wellesley (WA)"
+ },
+ {
+  "geography_code": "51560",
+  "geography_name": "Wellington Forest"
+ },
+ {
+  "geography_code": "51561",
+  "geography_name": "Wellington Mill"
+ },
+ {
+  "geography_code": "51562",
+  "geography_name": "Wellstead"
+ },
+ {
+  "geography_code": "51563",
+  "geography_name": "Welshpool (WA)"
+ },
+ {
+  "geography_code": "51564",
+  "geography_name": "Wembley"
+ },
+ {
+  "geography_code": "51565",
+  "geography_name": "Wembley Downs"
+ },
+ {
+  "geography_code": "51566",
+  "geography_name": "West Ballidu"
+ },
+ {
+  "geography_code": "51567",
+  "geography_name": "West Beach (WA)"
+ },
+ {
+  "geography_code": "51568",
+  "geography_name": "West Binnu"
+ },
+ {
+  "geography_code": "51569",
+  "geography_name": "West Busselton"
+ },
+ {
+  "geography_code": "51570",
+  "geography_name": "West Cape Howe"
+ },
+ {
+  "geography_code": "51571",
+  "geography_name": "West Casuarinas"
+ },
+ {
+  "geography_code": "51572",
+  "geography_name": "West Coolup"
+ },
+ {
+  "geography_code": "51573",
+  "geography_name": "West End (WA)"
+ },
+ {
+  "geography_code": "51574",
+  "geography_name": "West Fitzgerald"
+ },
+ {
+  "geography_code": "51575",
+  "geography_name": "West Holleton"
+ },
+ {
+  "geography_code": "51576",
+  "geography_name": "West Kalgoorlie"
+ },
+ {
+  "geography_code": "51577",
+  "geography_name": "West Lamington"
+ },
+ {
+  "geography_code": "51578",
+  "geography_name": "West Leederville"
+ },
+ {
+  "geography_code": "51579",
+  "geography_name": "West Lyons River"
+ },
+ {
+  "geography_code": "51580",
+  "geography_name": "West Perth"
+ },
+ {
+  "geography_code": "51581",
+  "geography_name": "West Pingelly"
+ },
+ {
+  "geography_code": "51582",
+  "geography_name": "West Pinjarra"
+ },
+ {
+  "geography_code": "51583",
+  "geography_name": "West Popanyinning"
+ },
+ {
+  "geography_code": "51584",
+  "geography_name": "West River"
+ },
+ {
+  "geography_code": "51585",
+  "geography_name": "West Swan"
+ },
+ {
+  "geography_code": "51586",
+  "geography_name": "West Toodyay"
+ },
+ {
+  "geography_code": "51587",
+  "geography_name": "Westdale (WA)"
+ },
+ {
+  "geography_code": "51588",
+  "geography_name": "Westminster"
+ },
+ {
+  "geography_code": "51589",
+  "geography_name": "Westonia"
+ },
+ {
+  "geography_code": "51590",
+  "geography_name": "Westwood (WA)"
+ },
+ {
+  "geography_code": "51591",
+  "geography_name": "Whim Creek"
+ },
+ {
+  "geography_code": "51592",
+  "geography_name": "Whitby"
+ },
+ {
+  "geography_code": "51593",
+  "geography_name": "White Gum Valley"
+ },
+ {
+  "geography_code": "51594",
+  "geography_name": "White Peak"
+ },
+ {
+  "geography_code": "51595",
+  "geography_name": "Whiteman"
+ },
+ {
+  "geography_code": "51596",
+  "geography_name": "Whittaker"
+ },
+ {
+  "geography_code": "51597",
+  "geography_name": "Wialki"
+ },
+ {
+  "geography_code": "51598",
+  "geography_name": "Wicherina"
+ },
+ {
+  "geography_code": "51599",
+  "geography_name": "Wicherina South"
+ },
+ {
+  "geography_code": "51600",
+  "geography_name": "Wickepin"
+ },
+ {
+  "geography_code": "51601",
+  "geography_name": "Wickham (WA)"
+ },
+ {
+  "geography_code": "51602",
+  "geography_name": "Widgiemooltha"
+ },
+ {
+  "geography_code": "51603",
+  "geography_name": "Wijilawarrim"
+ },
+ {
+  "geography_code": "51604",
+  "geography_name": "Wilberforce (WA)"
+ },
+ {
+  "geography_code": "51605",
+  "geography_name": "Wilbinga"
+ },
+ {
+  "geography_code": "51606",
+  "geography_name": "Wilga"
+ },
+ {
+  "geography_code": "51607",
+  "geography_name": "Wilga West"
+ },
+ {
+  "geography_code": "51608",
+  "geography_name": "Wilgarrup"
+ },
+ {
+  "geography_code": "51609",
+  "geography_name": "Wilgoyne"
+ },
+ {
+  "geography_code": "51610",
+  "geography_name": "Willagee"
+ },
+ {
+  "geography_code": "51611",
+  "geography_name": "Willare"
+ },
+ {
+  "geography_code": "51612",
+  "geography_name": "Willetton"
+ },
+ {
+  "geography_code": "51613",
+  "geography_name": "William Bay"
+ },
+ {
+  "geography_code": "51614",
+  "geography_name": "Williams"
+ },
+ {
+  "geography_code": "51615",
+  "geography_name": "Williamstown (WA)"
+ },
+ {
+  "geography_code": "51616",
+  "geography_name": "Willyung"
+ },
+ {
+  "geography_code": "51617",
+  "geography_name": "Wilson"
+ },
+ {
+  "geography_code": "51618",
+  "geography_name": "Wiluna"
+ },
+ {
+  "geography_code": "51619",
+  "geography_name": "Wilyabrup"
+ },
+ {
+  "geography_code": "51620",
+  "geography_name": "Windabout"
+ },
+ {
+  "geography_code": "51621",
+  "geography_name": "Windy Harbour"
+ },
+ {
+  "geography_code": "51622",
+  "geography_name": "Winnejup"
+ },
+ {
+  "geography_code": "51623",
+  "geography_name": "Winthrop"
+ },
+ {
+  "geography_code": "51624",
+  "geography_name": "Witchcliffe"
+ },
+ {
+  "geography_code": "51625",
+  "geography_name": "Withers"
+ },
+ {
+  "geography_code": "51626",
+  "geography_name": "Wittenoom"
+ },
+ {
+  "geography_code": "51627",
+  "geography_name": "Wittenoom Hills"
+ },
+ {
+  "geography_code": "51628",
+  "geography_name": "Wogolin"
+ },
+ {
+  "geography_code": "51629",
+  "geography_name": "Wokalup"
+ },
+ {
+  "geography_code": "51630",
+  "geography_name": "Womarden"
+ },
+ {
+  "geography_code": "51631",
+  "geography_name": "Wongamine"
+ },
+ {
+  "geography_code": "51632",
+  "geography_name": "Wongan Hills"
+ },
+ {
+  "geography_code": "51633",
+  "geography_name": "Wongoondy"
+ },
+ {
+  "geography_code": "51634",
+  "geography_name": "Wonnerup"
+ },
+ {
+  "geography_code": "51635",
+  "geography_name": "Wonthella"
+ },
+ {
+  "geography_code": "51636",
+  "geography_name": "Woodanilling"
+ },
+ {
+  "geography_code": "51637",
+  "geography_name": "Woodbridge (WA)"
+ },
+ {
+  "geography_code": "51638",
+  "geography_name": "Woodlands (WA)"
+ },
+ {
+  "geography_code": "51639",
+  "geography_name": "Woodleigh (WA)"
+ },
+ {
+  "geography_code": "51640",
+  "geography_name": "Woodridge (WA)"
+ },
+ {
+  "geography_code": "51641",
+  "geography_name": "Woodvale (WA)"
+ },
+ {
+  "geography_code": "51642",
+  "geography_name": "Woogenellup"
+ },
+ {
+  "geography_code": "51643",
+  "geography_name": "Woolgorong"
+ },
+ {
+  "geography_code": "51644",
+  "geography_name": "Woolocutty"
+ },
+ {
+  "geography_code": "51645",
+  "geography_name": "Wooramel"
+ },
+ {
+  "geography_code": "51646",
+  "geography_name": "Wooroloo"
+ },
+ {
+  "geography_code": "51647",
+  "geography_name": "Woorree"
+ },
+ {
+  "geography_code": "51648",
+  "geography_name": "Woottating"
+ },
+ {
+  "geography_code": "51649",
+  "geography_name": "Worsley"
+ },
+ {
+  "geography_code": "51650",
+  "geography_name": "Wubin"
+ },
+ {
+  "geography_code": "51651",
+  "geography_name": "Wundowie"
+ },
+ {
+  "geography_code": "51652",
+  "geography_name": "Wungong"
+ },
+ {
+  "geography_code": "51653",
+  "geography_name": "Wuraming"
+ },
+ {
+  "geography_code": "51654",
+  "geography_name": "Wyalkatchem"
+ },
+ {
+  "geography_code": "51655",
+  "geography_name": "Wyening"
+ },
+ {
+  "geography_code": "51656",
+  "geography_name": "Wyndham (WA)"
+ },
+ {
+  "geography_code": "51657",
+  "geography_name": "Wyola West"
+ },
+ {
+  "geography_code": "51658",
+  "geography_name": "Xantippe"
+ },
+ {
+  "geography_code": "51659",
+  "geography_name": "Yabberup"
+ },
+ {
+  "geography_code": "51660",
+  "geography_name": "Yakamia"
+ },
+ {
+  "geography_code": "51661",
+  "geography_name": "Yalardy"
+ },
+ {
+  "geography_code": "51662",
+  "geography_name": "Yalgoo"
+ },
+ {
+  "geography_code": "51663",
+  "geography_name": "Yallabatharra"
+ },
+ {
+  "geography_code": "51664",
+  "geography_name": "Yallingup"
+ },
+ {
+  "geography_code": "51665",
+  "geography_name": "Yallingup Siding"
+ },
+ {
+  "geography_code": "51666",
+  "geography_name": "Yalyalup"
+ },
+ {
+  "geography_code": "51667",
+  "geography_name": "Yanchep"
+ },
+ {
+  "geography_code": "51668",
+  "geography_name": "Yandanooka"
+ },
+ {
+  "geography_code": "51669",
+  "geography_name": "Yandoo Creek"
+ },
+ {
+  "geography_code": "51670",
+  "geography_name": "Yangebup"
+ },
+ {
+  "geography_code": "51671",
+  "geography_name": "Yanmah"
+ },
+ {
+  "geography_code": "51672",
+  "geography_name": "Yannarie"
+ },
+ {
+  "geography_code": "51673",
+  "geography_name": "Yarawindah"
+ },
+ {
+  "geography_code": "51674",
+  "geography_name": "Yardarino"
+ },
+ {
+  "geography_code": "51675",
+  "geography_name": "Yarloop"
+ },
+ {
+  "geography_code": "51676",
+  "geography_name": "Yarragadee"
+ },
+ {
+  "geography_code": "51677",
+  "geography_name": "Yathroo"
+ },
+ {
+  "geography_code": "51678",
+  "geography_name": "Yeagarup"
+ },
+ {
+  "geography_code": "51679",
+  "geography_name": "Yeal"
+ },
+ {
+  "geography_code": "51680",
+  "geography_name": "Yealering"
+ },
+ {
+  "geography_code": "51681",
+  "geography_name": "Yelbeni"
+ },
+ {
+  "geography_code": "51682",
+  "geography_name": "Yellowdine"
+ },
+ {
+  "geography_code": "51683",
+  "geography_name": "Yelverton"
+ },
+ {
+  "geography_code": "51684",
+  "geography_name": "Yerecoin"
+ },
+ {
+  "geography_code": "51685",
+  "geography_name": "Yetna"
+ },
+ {
+  "geography_code": "51686",
+  "geography_name": "Yilliminning"
+ },
+ {
+  "geography_code": "51687",
+  "geography_name": "Yoganup"
+ },
+ {
+  "geography_code": "51688",
+  "geography_name": "Yokine"
+ },
+ {
+  "geography_code": "51689",
+  "geography_name": "Yoongarillup"
+ },
+ {
+  "geography_code": "51690",
+  "geography_name": "York"
+ },
+ {
+  "geography_code": "51691",
+  "geography_name": "Yornaning"
+ },
+ {
+  "geography_code": "51692",
+  "geography_name": "Yornup"
+ },
+ {
+  "geography_code": "51693",
+  "geography_name": "Yoting"
+ },
+ {
+  "geography_code": "51694",
+  "geography_name": "Youndegin"
+ },
+ {
+  "geography_code": "51695",
+  "geography_name": "Youngs Siding"
+ },
+ {
+  "geography_code": "51696",
+  "geography_name": "Yourdamung Lake"
+ },
+ {
+  "geography_code": "51697",
+  "geography_name": "Yuna"
+ },
+ {
+  "geography_code": "51698",
+  "geography_name": "Zanthus"
+ },
+ {
+  "geography_code": "51699",
+  "geography_name": "Zuytdorp"
+ }
+]

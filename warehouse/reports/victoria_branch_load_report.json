@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-07-21T10:23:42.296Z",
+  "mode": "EXECUTE",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "branch_merged": false,
+  "rows_loaded": {
+    "snapshot_vic_rows": 741,
+    "timeseries_sales": 6727,
+    "timeseries_rent": 8130,
+    "timeseries_yield": 706,
+    "timeseries_approvals": 2944
+  },
+  "validation_gates": {
+    "duplicate_snapshot": 0,
+    "duplicate_timeseries": 0,
+    "orphan_snapshot": 0,
+    "yield_missing_confidence_label": 0
+  },
+  "db_size_before": "2358 MB",
+  "db_size_after": "2359 MB",
+  "scope_notes": [
+    "SAL (suburb) grain only — VPSR has no postcode-level figures, unlike NSW PSI.",
+    "Only geography_confidence IN ('direct','alias') rows promoted — unresolved localities never written to Supabase.",
+    "No townhouse_villa_semidetached coverage — VPSR has no such product.",
+    "Demographics/dwelling-stock/approvals/RBA-rate data reused from already-national branch tables — no new download this phase."
+  ]
+}

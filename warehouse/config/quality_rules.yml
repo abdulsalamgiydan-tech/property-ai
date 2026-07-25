@@ -1,0 +1,72 @@
+# Data quality rules evaluated on every load run.
+# Results land in meta.data_quality_result; coverage in meta.coverage_result.
+# Core principle: missing data stays missing (NULL) — never imputed as zero.
+
+principles:
+  missing_stays_missing: true
+  no_silent_imputation: true
+  publication_requires_approval: true   # meta.publication_approval gate
+
+severities:
+  blocker: fail the load run; nothing promoted past staging
+  warning: promote but record; lowers confidence score
+  info: record only
+
+rules:
+  - rule_id: geo_code_valid
+    description: Every geography code must exist in core.dim_geography for the boundary version
+    applies_to: [staging, core]
+    severity: blocker
+
+  - rule_id: no_duplicate_grain
+    description: One row per (geography, reference period, dwelling type) at each grain
+    applies_to: [staging, core, mart]
+    severity: blocker
+
+  - rule_id: price_range_sanity
+    description: Median sale price must be between 10_000 and 50_000_000 AUD when present
+    applies_to: [staging]
+    severity: warning
+
+  - rule_id: rent_range_sanity
+    description: Median weekly rent must be between 50 and 20_000 AUD when present
+    applies_to: [staging]
+    severity: warning
+
+  - rule_id: min_volume_for_median
+    description: Medians require at least 10 underlying records; below threshold publish NULL
+    applies_to: [core, mart]
+    severity: blocker
+
+  - rule_id: nulls_not_zero
+    description: Metric columns must be NULL when unknown; a zero must mean a true zero
+    applies_to: [staging, core, mart]
+    severity: blocker
+
+  - rule_id: geometry_valid
+    description: Boundary geometries must pass ST_IsValid; failures are quarantined in staging, never fixed silently
+    applies_to: [staging]
+    severity: warning     # becomes a blocker at core promotion
+
+  - rule_id: weights_reconcile
+    description: Correspondence weights for each source area must sum to 1.0 (±0.001) per target type
+    applies_to: [staging, core]
+    severity: blocker
+
+  - rule_id: coverage_threshold
+    description: Geography coverage below 60 percent of expected areas flags the dataset for review
+    applies_to: [mart]
+    severity: warning
+
+  - rule_id: period_continuity
+    description: No unexplained gaps in reference periods per dataset
+    applies_to: [core]
+    severity: warning
+
+confidence_scoring:
+  inputs: [data_coverage_score, source_official_weight, recency, volume_threshold_met]
+  labels:
+    high: coverage >= 0.9 and all blockers passed and data within expected recency
+    medium: coverage >= 0.7
+    low: coverage >= 0.4
+    insufficient_data: below 0.4 — suppress metric display, never show as zero

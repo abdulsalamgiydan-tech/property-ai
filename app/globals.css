@@ -25,6 +25,32 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Sprint 11, Workstream 13 — research report export "Print / Save as PDF".
+   The app's dark theme (light text on a dark background) would print
+   unreadably (white-on-white, or wasteful all-black pages) without this —
+   forces a plain black-on-white printed page regardless of the on-screen
+   theme. Site chrome (nav, sign-in CTA, disclaimer banners already marked
+   print:hidden) is hidden via Tailwind's print: variant at the component
+   level; this block only handles colour, since Tailwind's print: variant
+   does not reset arbitrary inline/gradient backgrounds reliably. */
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  a {
+    color: black !important;
+    text-decoration: underline !important;
+  }
+  table,
+  th,
+  td {
+    border-color: #ccc !important;
+  }
+}
+
 @keyframes result-card-in {
   from {
     opacity: 0;

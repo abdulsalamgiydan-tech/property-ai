@@ -12,6 +12,10 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
+/uat-artifacts/
+/clean-replay-artifacts/
 
 # next.js
 /.next/
@@ -23,6 +27,22 @@
 # misc
 .DS_Store
 *.pem
+
+# archives
+*.zip
+
+# warehouse raw data — never commit datasets
+data/
+warehouse/data/
+*.parquet
+*.duckdb
+*.duckdb.wal
+*.shp
+*.dbf
+*.shx
+*.prj
+*.cpg
+*.gpkg
 
 # debug
 npm-debug.log*
@@ -42,3 +62,4 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+.gstack/

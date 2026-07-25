@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-07-21T13:26:44.751Z",
+  "method": "population-weighted ABS official correspondence (RATIO_FROM_TO), Good/Acceptable quality only, Poor excluded",
+  "sal": {
+    "source_total_2016_ssc_population": 23401518,
+    "target_total_2021_sal_converted_population": 23401518,
+    "reconciliation_pct": 100,
+    "target_geographies_with_converted_value": 15352
+  },
+  "poa": {
+    "source_total_2016_poa_population": 23401861,
+    "target_total_2021_poa_converted_population": 23401861,
+    "reconciliation_pct": 100,
+    "target_geographies_with_converted_value": 2644
+  },
+  "quality_distribution_ssc_to_sal_rows": [
+    {
+      "overall_quality": "Good",
+      "n": 15754
+    }
+  ]
+}

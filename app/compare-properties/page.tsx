@@ -1,4 +1,5 @@
 import { ComparePropertiesClient } from "@/components/compare/ComparePropertiesClient";
+import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function ComparePropertiesPage() {
-  return <ComparePropertiesClient />;
+  return <ComparePropertiesClient warehousePreviewEnabled={isWarehousePreviewEnabled()} />;
 }

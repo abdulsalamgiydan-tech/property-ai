@@ -1,0 +1,132 @@
+# NSW Valuer General PSI dwelling-type classification rules (Sprint 9, Phase 3)
+#
+# Deterministic, evidence-only rules. Never infers from sale price, suburb or
+# postcode. Every rule cites the exact raw PSI field(s) it reads and the
+# evidence for why that combination implies the given dwelling type. Applied
+# in order — first match wins. Implemented identically in
+# warehouse/scripts/sales/reclassify_nsw_dwelling_types.mjs (SQL CASE
+# expression) and warehouse/scripts/sales/build_nsw_sales_full_state_local_store.mjs
+# (same rules, applied at initial build time for any future full rebuild).
+#
+# Source fields available on every NSW VG PSI 'B' (sale) record used by these
+# rules: nature_of_property, zone_code, strata_lot, unit_number, house_number.
+
+version: 2
+effective_date: "2026-07-21"
+supersedes: 1  # v1 = the Sprint 5/7 rule set (still documented below for traceability)
+
+rules:
+  - order: 1
+    dwelling_type: residential_land
+    confidence: high
+    condition: "upper(nature_of_property) = 'VACANT LAND' OR upper(zone_code) = 'V'"
+    evidence: >
+      NSW VG's own explicit category. No ambiguity — the record has no
+      dwelling on it at time of sale.
+    changed_in_v2: false
+
+  - order: 2
+    dwelling_type: townhouse_villa_semidetached
+    confidence: high
+    condition: >
+      upper(nature_of_property) SIMILAR TO '%(UNIT|FLAT|VILLA|TOWNHOUSE|HOME UNIT)%'
+    evidence: >
+      Some NSW VG districts write an explicit descriptive word directly into
+      the free-text nature_of_property field. Direct textual evidence from
+      the source record itself — the strongest possible signal short of a
+      dedicated dwelling-type field (which PSI does not have).
+    changed_in_v2: false
+
+  - order: 3
+    dwelling_type: apartment_unit
+    confidence: medium
+    condition: "upper(nature_of_property) = 'RESIDENCE' AND strata_lot IS NOT NULL AND strata_lot <> ''"
+    evidence: >
+      A strata lot number is only assigned when the property is registered
+      under the Strata Schemes Management Act — this is a legal/administrative
+      fact recorded on the sale record, not an inference. Strata subdivision
+      overwhelmingly corresponds to a unit/apartment in NSW PSI data.
+    changed_in_v2: false
+
+  - order: 4
+    dwelling_type: townhouse_villa_semidetached
+    confidence: medium
+    condition: >
+      upper(nature_of_property) = 'RESIDENCE' AND (strata_lot IS NULL OR strata_lot = '')
+      AND (
+        (unit_number IS NOT NULL AND unit_number <> '')
+        OR house_number LIKE '%/%'
+      )
+    evidence: >
+      NEW IN v2. A non-strata RESIDENCE record carrying a unit_number, or a
+      house_number containing '/', is the standard NSW address-form signal
+      for a torrens-title villa/townhouse/duplex development that was never
+      strata-plan'd — multiple dwellings legally share one street address
+      without a strata scheme. Verified by direct sample inspection during
+      Sprint 9 Phase 0: e.g. "14 East Cres" has 6 distinct unit_number values
+      (1-6) all classified RESIDENCE/zone R with no strata_lot — clearly a
+      multi-dwelling torrens development, not a single detached house.
+      Confidence is 'medium' (not 'high') because a small share of these are
+      genuinely legitimate secondary-dwelling or granny-flat records rather
+      than a full townhouse/villa, and PSI provides no further field to
+      distinguish those cases — this is disclosed, not hidden.
+      Affects 18,712 of the 2,556,681 previously-blanket 'detached_house'
+      records statewide (0.73%) — see
+      warehouse/reports/nsw_dwelling_type_reclassification_report.json for
+      the exact before/after counts.
+    duplex_note: >
+      A distinct 'duplex' category was considered and explicitly REJECTED for
+      this rule (and for all others). NSW PSI has no field that separates a
+      2-dwelling duplex from a 3+-dwelling townhouse/villa row without
+      inferring from lot count or price, both forbidden by this sprint's
+      rules. Duplexes are covered by this same townhouse_villa_semidetached
+      bucket, documented here rather than invented as a falsely-precise split.
+    changed_in_v2: true
+
+  - order: 5
+    dwelling_type: detached_house
+    confidence: medium
+    condition: >
+      upper(nature_of_property) = 'RESIDENCE' AND (strata_lot IS NULL OR strata_lot = '')
+      AND (unit_number IS NULL OR unit_number = '') AND house_number NOT LIKE '%/%'
+    evidence: >
+      No strata registration, no unit_number, no slash-subdivided house
+      number — the single-address, single-dwelling default reading of a
+      NSW VG 'RESIDENCE' record. Confidence stays 'medium' (not 'high')
+      because PSI still cannot fully rule out an undetected secondary
+      dwelling on the same title without a unit_number or slash marker.
+    changed_in_v2: false
+
+  - order: 6
+    dwelling_type: other_residential
+    confidence: low
+    condition: >
+      is_residential (nature_of_property or zone_code matched a residential
+      pattern) AND none of rules 1-5 matched (e.g. nature_of_property is
+      NULL/blank but zone_code = 'R')
+    evidence: >
+      Genuinely residential by zoning but the free-text nature_of_property
+      field is missing or unrecognised — cannot be classified further without
+      guessing, so it is bucketed conservatively rather than defaulted to
+      detached_house.
+    changed_in_v2: false
+
+  - order: 7
+    dwelling_type: unknown_residential
+    confidence: low
+    condition: "is_residential AND dwelling_type still NULL after rules 1-6"
+    evidence: >
+      Catch-all safety net — should be rare/zero given rule 6 already covers
+      the "is_residential but no nature_of_property match" case; kept as an
+      explicit fallback so no residential record is ever silently dropped
+      from classification.
+    changed_in_v2: false
+
+not_classified:
+  description: >
+    Records where is_residential = false (nature_of_property indicates
+    commercial/industrial/farm/other non-residential use, or zone_code is
+    outside the residential/vacant-land set) are excluded entirely from
+    dwelling_type classification and from every downstream sales
+    summary/mart. dwelling_type stays NULL for these rows — never forced
+    into a residential bucket.

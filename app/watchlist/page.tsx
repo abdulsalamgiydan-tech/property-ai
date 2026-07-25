@@ -1,4 +1,5 @@
 import { WatchlistClient } from "@/components/watchlist/WatchlistClient";
+import { isWarehousePreviewEnabled, isMultiStateResearchEnabled } from "@/lib/warehouse/env";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,5 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function WatchlistPage() {
-  return <WatchlistClient />;
+  const geographySearchEnabled = isWarehousePreviewEnabled() && isMultiStateResearchEnabled();
+  return <WatchlistClient geographySearchEnabled={geographySearchEnabled} />;
 }

@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-07-21T20:25:46.051Z",
+  "scope": "Cleanup PLAN only — this script deletes nothing. Sprint 11 Workstream 7.",
+  "based_on_audit": "2026-07-21T20:25:18.941Z",
+  "safe_to_delete_candidates": [
+    {
+      "dataset": "census",
+      "processed_path": "warehouse/data/processed/census",
+      "size_mb": 3068.14,
+      "file_count": 645,
+      "matching_raw_dataset_present": true
+    },
+    {
+      "dataset": "nsw_sales",
+      "processed_path": "warehouse/data/processed/nsw_sales",
+      "size_mb": 1487.89,
+      "file_count": 148072,
+      "matching_raw_dataset_present": true
+    },
+    {
+      "dataset": "asgs",
+      "processed_path": "warehouse/data/processed/asgs",
+      "size_mb": 1197.09,
+      "file_count": 105,
+      "matching_raw_dataset_present": true
+    },
+    {
+      "dataset": "census_2016",
+      "processed_path": "warehouse/data/processed/census_2016",
+      "size_mb": 621.43,
+      "file_count": 240,
+      "matching_raw_dataset_present": true
+    }
+  ],
+  "needs_manual_review": [],
+  "total_reclaimable_mb": 6374.55,
+  "rm_commands": [
+    "rm -rf \"warehouse/data/processed/census\"",
+    "rm -rf \"warehouse/data/processed/nsw_sales\"",
+    "rm -rf \"warehouse/data/processed/asgs\"",
+    "rm -rf \"warehouse/data/processed/census_2016\""
+  ],
+  "caveats": [
+    "A dataset is only proposed for deletion if its raw/ source still exists on disk — re-extraction is then possible without re-downloading anything.",
+    "This plan does not verify that every processed file was actually consumed into a local/ build (e.g. an abandoned or half-finished build could leave processed/ as the only evidence of a problem) — review warehouse/reports/*_local_build.json or *_report.json for each dataset before running any rm command.",
+    "Nothing in this script is ever executed automatically. A human (or a future session with explicit instruction) must run the listed commands manually."
+  ]
+}

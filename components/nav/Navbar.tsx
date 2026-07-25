@@ -4,8 +4,11 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { CTAButton } from "@/components/design/CTAButton";
 import { GlassPill } from "@/components/design/GlassPill";
 import { LogoMark } from "@/components/design/LogoMark";
+import { shouldShowResearchNav } from "@/lib/nav/researchLinkVisible";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+const researchLink = { href: "/research", label: "Research" };
 
 const publicLinks: Array<{ href: string; label: string }> = [
   { href: "/", label: "Home" },
@@ -62,6 +65,16 @@ const mobileLinks = [
     ),
   },
   {
+    href: "/research",
+    label: "Research",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="size-5">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" />
+      </svg>
+    ),
+  },
+  {
     href: "/watchlist",
     label: "Watchlist",
     icon: (
@@ -82,7 +95,7 @@ const mobileLinks = [
   },
 ] as const;
 
-export function Navbar() {
+export function Navbar({ warehousePreviewEnabled = false }: { warehousePreviewEnabled?: boolean }) {
   const { user, loading, openEarlyAccessModal, signOut } = useAuth();
   const pathname = usePathname();
   const hidden = pathname.startsWith("/auth/");
@@ -96,11 +109,16 @@ export function Navbar() {
   const accountHref = "/dashboard";
 
   if (hidden) return null;
-  const allLinks = user ? [...publicLinks, ...signedInLinks] : publicLinks;
+  const showResearch = shouldShowResearchNav(warehousePreviewEnabled);
+  const desktopLinks = showResearch
+    ? [publicLinks[0], researchLink, ...publicLinks.slice(1)]
+    : publicLinks;
+  const allLinks = user ? [...desktopLinks, ...signedInLinks] : desktopLinks;
+  const visibleMobileLinks = showResearch ? mobileLinks : mobileLinks.filter((l) => l.href !== "/research");
 
   return (
     <>
-      <nav className="sticky top-0 z-40 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-xl">
+      <nav className="sticky top-0 z-40 border-b border-zinc-800/80 bg-zinc-950/90 backdrop-blur-xl print:hidden">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <Link href="/" className="shrink-0">
             <LogoMark size={28} />
@@ -144,8 +162,8 @@ export function Navbar() {
       </nav>
 
       <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-700/80 bg-zinc-900/95 px-2 pb-safe pt-2 backdrop-blur-xl lg:hidden">
-        <ul className="grid grid-cols-6 gap-1">
-          {mobileLinks.map((item) => (
+        <ul className={`grid gap-1 ${showResearch ? "grid-cols-7" : "grid-cols-6"}`}>
+          {visibleMobileLinks.map((item) => (
             <li key={item.href}>
               <Link
                 href={item.href}

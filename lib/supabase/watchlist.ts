@@ -12,6 +12,17 @@ export type WatchlistItem = {
   state: string | null;
   notes: string | null;
   created_at: string;
+  // Sprint 13 WS8a — populated when a suburb/postcode was added via the
+  // research warehouse search rather than typed in free-text. Older rows
+  // and any locality outside NSW/VIC coverage keep these null, which is
+  // valid: watchlist must stay usable nationally even where research
+  // data doesn't exist yet.
+  geography_id: string | null;
+  geography_code: string | null;
+  geography_type: "SAL" | "POA" | null;
+  postcode: string | null;
+  tags: string[];
+  updated_at: string;
 };
 
 export type AddWatchlistPayload = {
@@ -20,6 +31,11 @@ export type AddWatchlistPayload = {
   suburb?: string | null;
   state?: string | null;
   notes?: string | null;
+  geographyId?: string | null;
+  geographyCode?: string | null;
+  geographyType?: "SAL" | "POA" | null;
+  postcode?: string | null;
+  tags?: string[];
 };
 
 export async function addToWatchlist(
@@ -40,6 +56,11 @@ export async function addToWatchlist(
       suburb: payload.suburb || null,
       state: payload.state || null,
       notes: payload.notes || null,
+      geography_id: payload.geographyId || null,
+      geography_code: payload.geographyCode || null,
+      geography_type: payload.geographyType || null,
+      postcode: payload.postcode || null,
+      tags: payload.tags ?? [],
     })
     .select("id")
     .single();

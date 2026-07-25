@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-07-22T07:13:26.302Z",
+  "results": [
+    {
+      "table": "36",
+      "file": "table36.xlsx",
+      "title": "Number of Dwelling Unit Commencements by Sector, States and Territories: Original",
+      "stage": "commenced",
+      "url": "https://www.abs.gov.au/statistics/industry/building-and-construction/building-activity-australia/mar-2026/87520036.xlsx",
+      "status": "present_verified",
+      "bytes": 188378,
+      "sha256": "554cb4161f46808829b503594213fae514ccf1f663ab0c8a7712fcd0853daf38"
+    },
+    {
+      "table": "39",
+      "file": "table39.xlsx",
+      "title": "Number of Dwelling Unit Completions by Sector, States and Territories: Original",
+      "stage": "completed",
+      "url": "https://www.abs.gov.au/statistics/industry/building-and-construction/building-activity-australia/mar-2026/87520039.xlsx",
+      "status": "present_verified",
+      "bytes": 190547,
+      "sha256": "42eea27f8073ba447c1b4d7cb80fa0c6cbaa4d02f0f446bcb486148ddd31946d"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-07-20T19:47:57.575Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "frontend_changed": false,
+  "db_size_before": "2169 MB",
+  "scope_notes": {
+    "detached_house_medians_not_resynced": "Existing branch core.fact_residential_sales_summary detached_house rows (loaded Sprint 7) are NOT re-synced to reflect the Phase 3 reclassification this sprint — only 0.73% of records moved (18,712 of 2,556,681), see nsw_dwelling_type_reclassification_report.json. Only the NEW townhouse_villa_semidetached cells are added (purely additive).",
+    "latest_12m_sales_definition": "Snapshot 'latest 12-month' sales figures use the ANNUAL summary row for the most recent calendar year with data — a genuinely recomputed median, not a median-of-monthly-medians (which would be statistically invalid).",
+    "population_2016_deferred": "population_2016 / population_growth_2016_2021_pct intentionally NULL — see census_demographics_source_manifest.json."
+  },
+  "loaded": {
+    "townhouse_villa_sales_facts": 12543,
+    "suburb_sales_monthly_new": 0,
+    "suburb_sales_annual_new": 0,
+    "postcode_sales_monthly_new": 0,
+    "postcode_sales_annual_new": 0,
+    "suburb_yield_new": 0,
+    "postcode_yield_new": 0,
+    "suburb_demographic_profile": 15334,
+    "postcode_demographic_profile": 2641,
+    "suburb_market_snapshot": 15334,
+    "postcode_market_snapshot": 2641,
+    "suburb_market_timeseries": 0,
+    "postcode_market_timeseries": 0
+  },
+  "gates_after": {
+    "dup_suburb_snapshot": 0,
+    "dup_postcode_snapshot": 0,
+    "orphan_suburb_snapshot": 0,
+    "negative_suburb": 0,
+    "bad_pct_suburb": 0,
+    "yield_missing_label": 0,
+    "affordability_without_inputs": 0,
+    "price_without_sample_label": 0,
+    "future_dated_period": 0,
+    "dup_timeseries": 0,
+    "db_now": "2171 MB"
+  },
+  "core_state": {
+    "suburb_snapshot": 15334,
+    "postcode_snapshot": 2641,
+    "suburb_demog": 15334,
+    "postcode_demog": 2641,
+    "suburb_ts": 61603,
+    "postcode_ts": 22641,
+    "suburb_confidence_dist": {
+      "medium": 3584,
+      "high": 500,
+      "insufficient": 11250
+    },
+    "db_size": "2171 MB"
+  },
+  "db_size_after": "2171 MB"
+}

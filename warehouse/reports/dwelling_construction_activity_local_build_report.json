@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-07-22T12:23:12.821Z",
+  "local_store": "warehouse/data/local/dwelling_construction_activity.json (gitignored)",
+  "total_points": 6390,
+  "commenced_points": 2928,
+  "completed_points": 3462,
+  "summary_by_state": {
+    "1": {
+      "commenced": 366,
+      "completed": 410,
+      "earliest": "1969-09-01",
+      "latest": "2026-03-01"
+    },
+    "2": {
+      "commenced": 366,
+      "completed": 410,
+      "earliest": "1969-09-01",
+      "latest": "2026-03-01"
+    },
+    "3": {
+      "commenced": 366,
+      "completed": 410,
+      "earliest": "1969-09-01",
+      "latest": "2026-03-01"
+    },
+    "4": {
+      "commenced": 366,
+      "completed": 410,
+      "earliest": "1969-09-01",
+      "latest": "2026-03-01"
+    },
+    "5": {
+      "commenced": 366,
+      "completed": 504,
+      "earliest": "1957-03-01",
+      "latest": "2026-03-01"
+    },
+    "6": {
+      "commenced": 366,
+      "completed": 410,
+      "earliest": "1969-09-01",
+      "latest": "2026-03-01"
+    },
+    "7": {
+      "commenced": 366,
+      "completed": 454,
+      "earliest": "1969-09-01",
+      "latest": "2026-03-01"
+    },
+    "8": {
+      "commenced": 366,
+      "completed": 454,
+      "earliest": "1969-09-01",
+      "latest": "2026-03-01"
+    }
+  }
+}

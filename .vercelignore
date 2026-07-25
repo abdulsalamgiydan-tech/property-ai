@@ -1,0 +1,21 @@
+# Sprint 13 WS19 — `vercel deploy` from the CLI scans the working
+# directory itself and does not reliably honour .gitignore the same way
+# git does, which caused deploys to fail with "Request body too large"
+# once warehouse/data/ (local-only raw datasets, 11GB, never committed —
+# see .gitignore) existed on disk. Mirrors the relevant .gitignore
+# entries so local raw data never gets anywhere near a deployment.
+warehouse/data/
+data/
+*.parquet
+*.duckdb
+*.duckdb.wal
+*.shp
+*.dbf
+*.shx
+*.prj
+*.cpg
+
+# Standard excludes Vercel's build system regenerates anyway.
+node_modules/
+.next/
+coverage/

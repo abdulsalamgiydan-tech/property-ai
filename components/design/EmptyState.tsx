@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { CTAButton } from "@/components/design/CTAButton";
 
 type EmptyStateProps = {
@@ -7,6 +8,14 @@ type EmptyStateProps = {
   ctaLabel?: string;
   onCtaClick?: () => void;
   className?: string;
+  /**
+   * A plain navigational link (e.g. "Clear filters"), rendered as a
+   * next/link — safe to use from a server component, unlike
+   * ctaLabel/onCtaClick which require a client-component caller.
+   * Sprint 14 WS3/WS4.
+   */
+  linkHref?: string;
+  linkLabel?: string;
 };
 
 export function EmptyState({
@@ -15,6 +24,8 @@ export function EmptyState({
   ctaLabel,
   onCtaClick,
   className,
+  linkHref,
+  linkLabel,
 }: EmptyStateProps) {
   return (
     <div
@@ -25,6 +36,16 @@ export function EmptyState({
       {ctaLabel && onCtaClick ? (
         <div className="mt-5">
           <CTAButton onClick={onCtaClick}>{ctaLabel}</CTAButton>
+        </div>
+      ) : null}
+      {linkHref && linkLabel ? (
+        <div className="mt-4">
+          <Link
+            href={linkHref}
+            className="rounded text-sm text-violet-300 hover:underline focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/35"
+          >
+            {linkLabel}
+          </Link>
         </div>
       ) : null}
     </div>

@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-07-21T10:14:55.574Z",
+  "scope": "Victoria rental local store (warehouse/data/local/vic_rents.duckdb) — dual grain: suburb (SAL, resolved subset) + LGA (fallback, full-state)",
+  "total_summary_rows": 150709,
+  "by_grain_and_confidence": [
+    {
+      "geography_type": "LGA",
+      "geography_confidence": "alias",
+      "n": 2224,
+      "geographies": 3
+    },
+    {
+      "geography_type": "LGA",
+      "geography_confidence": "direct",
+      "n": 44934,
+      "geographies": 73
+    },
+    {
+      "geography_type": "LGA",
+      "geography_confidence": "unresolved",
+      "n": 2152,
+      "geographies": 0
+    },
+    {
+      "geography_type": "SAL",
+      "geography_confidence": "alias",
+      "n": 16826,
+      "geographies": 24
+    },
+    {
+      "geography_type": "SAL",
+      "geography_confidence": "direct",
+      "n": 37081,
+      "geographies": 55
+    },
+    {
+      "geography_type": "SAL",
+      "geography_confidence": "unresolved",
+      "n": 47492,
+      "geographies": 0
+    }
+  ],
+  "unresolved_suburb_localities": 67,
+  "unresolved_lga_localities": 3,
+  "validation_gates": {
+    "duplicate_rental_grain": 0,
+    "negative_rents": 0,
+    "invalid_period_values": 0,
+    "geography_mapping_confidence_present": true,
+    "direct_vs_derived_labelled": true,
+    "unsupported_metrics_remain_null": true
+  },
+  "all_gates_pass": true,
+  "notes": [
+    "Suburb-grain (SAL) rows come from Homes Victoria's 'Moving annual rent by suburb' — its custom town-group locality labels only map 1:1 to a single ASGS SAL for the direct+alias subset (see victoria_geography_mapping_report for the equivalent VPSR sales finding; rent-specific counts are in this report's by_grain_and_confidence breakdown).",
+    "LGA-grain rows come from Homes Victoria's 'Quarterly median rents by LGA' and provide full-state fallback coverage where suburb grain could not be established — matches this sprint's documented Phase 6 fallback rule.",
+    "Suppressed source cells (the literal '-' convention, confirmed live in Sprint 10 Phase 3 discovery) are mapped to NULL and never written as a row with a fabricated value — rows with both count and rent null are dropped entirely rather than stored as an empty observation.",
+    "confidence_label is derived from the published rental_count using this project's shared thresholds (high>=30, medium>=10, low>=5, insufficient<5) wherever a count is published, which is true for every retained row in this source (unlike VPSR sales, which only publishes a count for the latest quarter)."
+  ]
+}

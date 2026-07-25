@@ -1,0 +1,36 @@
+{
+  "jurisdiction": "TAS",
+  "generated_at": "2026-07-21T23:14:00+10:00",
+  "entries": [
+    {
+      "category": "sales",
+      "official_publisher": "Office of the Valuer-General, Department of Natural Resources and Environment Tasmania",
+      "official_product_name": "Property Sales Report",
+      "page_url": "https://nre.tas.gov.au/land-tasmania/office-of-the-valuer-general",
+      "direct_data_url": "https://listdata.thelist.tas.gov.au/public/outgoing/sif/Properties_and_Titles/property_sales_report_example.pdf (example only)",
+      "access_method": "LIST (Land Information System Tasmania), fees payable per Service Tasmania's land-value lookup page",
+      "authentication_required": "unclear — not fully verified this pass",
+      "licence": "not yet determined",
+      "reuse_rights": "not yet determined",
+      "commercial_use_implications": "not yet determined",
+      "available_years": "not yet determined",
+      "update_cadence": "not yet determined",
+      "source_geography": "not yet determined",
+      "source_grain": "appears to be per-property (report example is titled 'PROPERTY SALES REPORT')",
+      "status": "paid_or_restricted",
+      "reason": "Service Tasmania's land-value page states fees may be payable for LIST services; no free bulk aggregate found via WebSearch this pass",
+      "verification_note": "SEARCH-ONLY THIS PASS — the example PDF was not downloaded, and Consumer, Building and Occupational Services Tasmania (the tenancy regulator, not yet checked) may hold a separate free rent dataset. This entry should be re-verified with a live browse pass before being treated as final."
+    },
+    {
+      "category": "rent",
+      "official_publisher": "Consumer, Building and Occupational Services Tasmania / Department of Justice Tasmania (both identified, both inaccessible)",
+      "official_product_name": "CBOS Rental Bond Statistics; DOJ Rental Bonds Output Data",
+      "page_url": "https://www.cbos.tas.gov.au/topics/housing/renting/bonds/rental-bond-statistics ; https://www.justice.tas.gov.au/about-us/access-to-information/rental-bonds-output-data",
+      "direct_data_url": null,
+      "access_method": "blocked — both cbos.tas.gov.au and justice.tas.gov.au return HTTP 403 with a Cloudflare 'Enable JavaScript and cookies to continue' challenge page",
+      "status": "blocked_access",
+      "reason": "Live-verified in Workstream 6 (2026-07-22): both identified official Tasmanian government rental-bond data pages are behind Cloudflare bot protection. This project's guardrails explicitly forbid bypassing Cloudflare/CAPTCHA/anti-bot protection, so this source cannot be built even though the underlying data is genuinely free and official.",
+      "verification_note": "RESOLVED (was 'search-only' in Workstream 2, now live-verified as definitively blocked in Workstream 6). A third-party mirror (Tenants' Union of Tasmania quarterly rent statistics, tutas.org.au) republishes figures derived from the same underlying bond-lodgement data, but is an advocacy organisation, not an official government/statutory source, so it does not satisfy this project's 'official sources only' rule regardless of accessibility. TAS rent coverage is finalised as blocked_access; no adapter will be built."
+    }
+  ]
+}

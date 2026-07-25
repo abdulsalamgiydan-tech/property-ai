@@ -1,0 +1,172 @@
+{
+  "sprint_name": "Sprint 11 — Australian Residential Property Intelligence V3 (National Coverage, Historical Harmonisation, Research Indicators, Automated Operations and Production Candidate)",
+  "checkpoint_timestamp": "2026-07-22T10:40:00+10:00",
+  "supersedes_checkpoint_timestamp": "2026-07-22T05:00:00+10:00",
+  "checkpoint_timezone": "Australia/Sydney",
+  "git": {
+    "branch": "feature/australia-property-intelligence-v3",
+    "commit_hash": "d778478",
+    "working_tree_status": "clean",
+    "base_branch": "feature/deal-analyser-budget-2026 (Sprint 10, HEAD 599beae — preserved unmodified, no commits rewritten)",
+    "pushed_to_origin": true,
+    "last_push_commit": "d778478 — all commits through this one confirmed pushed via git push immediately after this checkpoint update"
+  },
+  "supabase": {
+    "target_branch_name": "warehouse-validation",
+    "target_branch_ref": "lzonauinzatmtytyoems",
+    "production_ref_that_must_remain_prohibited": "oshquaxsloolqucwvigc",
+    "production_status_at_checkpoint": "zero warehouse schema tables, re-confirmed live via list_tables at this checkpoint",
+    "branch_db_size_at_checkpoint_mb": 2630,
+    "verified_plan_included_capacity_mb": 8192,
+    "internal_working_safety_ceiling_mb": 4500,
+    "hard_stop_threshold_mb": 3375,
+    "migrations_applied_this_session": [
+      "018_lga_rent_quarterly.sql — mart.lga_rent_quarterly",
+      "019_sa2_lga_dwelling_stock.sql — mart.sa2_dwelling_stock_2021 + mart.lga_dwelling_stock_2021",
+      "020_market_map_markers.sql — get_market_map_markers_v1 RPC + QLD/SA/WA added to meta.jurisdiction",
+      "021_compare_up_to_10.sql — widened compare_market_geographies_v1 from 2-5 to 2-10"
+    ],
+    "known_good_post_commit_row_counts": {
+      "core.fact_rental_market_summary": 660911,
+      "mart.suburb_rent_quarterly": 99561,
+      "mart.postcode_rent_quarterly": 75578,
+      "mart.lga_rent_quarterly": 13931,
+      "mart.sa2_dwelling_stock_2021": 2454,
+      "mart.lga_dwelling_stock_2021": 547
+    }
+  },
+  "phase_completed": [
+    "Workstream 0 — Sprint 10 preserved, re-verified, pushed. Sprint 11 branch created.",
+    "Workstream 1 — National capacity/cost/architecture audit complete.",
+    "Workstream 2 — National source discovery for QLD/SA/WA/TAS/ACT/NT complete, live-verified.",
+    "Workstream 3 — jurisdiction_coverage.yml + JURISDICTION_COVERAGE_CONTRACT.md complete.",
+    "Workstream 4 — Cross-Census 2016-2021 population harmonisation COMPLETE, loaded to branch.",
+    "Workstream 5 — National population-demand layer COMPLETE (local only, deferred to WS9).",
+    "Workstream 6 — QLD/SA/WA rent adapters COMPLETE (local at the time, later promoted in WS9). TAS rent live-verified as blocked_access.",
+    "Workstream 7 — Local-first national data lake catalogue COMPLETE.",
+    "Workstream 8 — NSW historical sales backfill (1990-2000) COMPLETE, validated locally, branch promotion deferred.",
+    "Workstream 9 (sub-pass 1) — QLD/SA/WA rent promoted to core.fact_rental_market_summary + 3 rent marts (402,971 fact rows). Corrected a wrong assumption: pre-existing LGA facts were NSW's (dormant since Sprint 6), not VIC's.",
+    "Workstream 9 (sub-pass 2) — mart.sa2_dwelling_stock_2021 + mart.lga_dwelling_stock_2021 built as a direct pass-through of already-existing native SA2/LGA Census facts (2,454 + 547 rows), no new data load. Deferred: wide demographic profiles at SA2/LGA, NSW archive sales promotion, wide snapshot extension for QLD/SA/WA.",
+    "Workstream 10 — research_indicators.yml + RESEARCH_INDICATOR_DEFINITIONS.md complete. Documents every indicator already computed in the warehouse — no new computation, pure transparency. Explicitly excludes composite scores/rankings/recommendations/AVMs/forecasts.",
+    "Workstream 11 — /research/map national map explorer COMPLETE. Leaflet + OpenStreetMap (free, no API key). get_market_map_markers_v1 RPC (migration 020), bounding-box-limited, covers all 5 loaded jurisdictions. Fixed 2 real bugs found via live browser testing (snapshot placeholder rows, NULL-latest-quarter fallback). Verified live: 500 NSW markers + QLD rent-only markers render correctly.",
+    "Workstream 12 — Comparison workspace widened from 2-5 to 2-10 geographies (migration 021). Updated Explore/Compare UI. Verified live: 8-geography comparison renders, 11 correctly rejected.",
+    "Workstream 13 — Research report export COMPLETE. ExportButtons component (CSV/JSON/Print, no PDF library — browser print-to-PDF satisfies the 'no PDF unless free local tooling' rule), wired into /research/compare. Global print CSS added. Verified live by intercepting URL.createObjectURL to inspect actual generated CSV/JSON content."
+  ],
+  "phase_in_progress": "none — WS13 was cleanly completed and committed. This was the user's explicit stop point for this session ('go ahead till ws13 is finished'). WS9's remaining deferred items and WS14-22 have not been started.",
+  "exact_tasks_completed": [
+    "Task #42 (S11 WS0) through Task #55 (S11 WS13) — all completed"
+  ],
+  "exact_tasks_remaining_in_order": [
+    "Task #56 (S11 WS14) — incremental national refresh engine v2 — NOT STARTED",
+    "Task #57 (S11 WS15) — automated schedule designs / GitHub Actions — NOT STARTED",
+    "Task #58 (S11 WS16) — data operations console expansion — NOT STARTED",
+    "Task #59 (S11 WS17) — DB security and performance hardening — NOT STARTED",
+    "Task #60 (S11 WS18) — feature flags and preview readiness — NOT STARTED (note: WS11/12/13's new UI currently reuses the existing MULTI_STATE_RESEARCH_ENABLED flag rather than the 3 new named flags this workstream should formally add)",
+    "Task #61 (S11 WS19) — comprehensive testing — NOT STARTED",
+    "Task #62 (S11 WS20) — migrations 018-022 and branch load — PARTIALLY OVERLAPPING (018-021 were used ad hoc by WS9/11/12; 022 not yet used; treat WS20 as a consolidation/audit pass over what already exists, not a from-scratch task)",
+    "Task #63 (S11 WS21) — documentation and operational runbook — NOT STARTED",
+    "Task #64 (S11 WS22) — final review, sprint11_final_report, draft PR — NOT STARTED",
+    "DEFERRED FROM WS9: wide demographic profile marts at SA2/LGA (needs new local Census G01/G02/G35 build at those grains)",
+    "DEFERRED FROM WS9: NSW 1990-2000 sales archive promotion into core.fact_residential_sales_summary (touches already-live schema, needs its own careful pass)",
+    "DEFERRED FROM WS9: mart.suburb_market_snapshot / postcode_market_snapshot extension with QLD/SA/WA rows"
+  ],
+  "files_created_this_session": [
+    "supabase/migrations/018_lga_rent_quarterly.sql",
+    "warehouse/scripts/rents/load_qld_sa_wa_rents_to_branch.mjs",
+    "warehouse/reports/qld_sa_wa_rents_branch_load_report.json",
+    "warehouse/reports/sprint11_ws9_rent_promotion_report.md",
+    "supabase/migrations/019_sa2_lga_dwelling_stock.sql",
+    "warehouse/scripts/census/load_sa2_lga_dwelling_stock_to_branch.mjs",
+    "warehouse/reports/sa2_lga_dwelling_stock_branch_load_report.json",
+    "warehouse/config/research_indicators.yml",
+    "warehouse/docs/RESEARCH_INDICATOR_DEFINITIONS.md",
+    "supabase/migrations/020_market_map_markers.sql",
+    "app/api/research/map-markers/route.ts",
+    "app/research/map/page.tsx",
+    "components/research/MarketMapExplorer.tsx",
+    "supabase/migrations/021_compare_up_to_10.sql",
+    "components/research/ExportButtons.tsx"
+  ],
+  "files_modified_this_session": [
+    "warehouse/config/jurisdiction_coverage.yml — QLD/SA/WA rents status updated",
+    "lib/warehouse/queries.ts — added getMapMarkers, widened compareMarketGeographies to 2-10",
+    "components/research/ExploreResultsList.tsx — selection limit widened to 10",
+    "app/research/compare/page.tsx — widened limit, added ExportButtons",
+    "app/globals.css — print media query block",
+    "components/nav/Navbar.tsx — print:hidden",
+    "package.json / package-lock.json — added leaflet, react-leaflet, @types/leaflet"
+  ],
+  "branch_loads_completed_this_session": [
+    "load_qld_sa_wa_rents_to_branch.mjs --execute: COMMITTED, 402,971 new fact rows.",
+    "load_sa2_lga_dwelling_stock_to_branch.mjs --execute: COMMITTED, 2,454 + 547 mart rows, pure in-database SQL (no local file)."
+  ],
+  "validations_passed_this_session": [
+    "npm run build passed cleanly after WS11/12/13 (Leaflet map, widened compare, export buttons)",
+    "npm test 48/48 passed after every workstream this session",
+    "npm run warehouse:check passed after every workstream this session",
+    "Live browser verification (gstack /browse): map renders with correct markers/colours after 2 bug fixes; 8-geography compare table renders and 11 is correctly rejected; CSV/JSON export content verified byte-for-byte correct via URL.createObjectURL interception",
+    "git diff --check clean, no raw/large files staged, working tree clean at checkpoint time"
+  ],
+  "validations_failed_this_session": [
+    "WS9 sub-pass 1: first execute attempt hit a unique-constraint collision (fixed: matched migration 010's expression index in ON CONFLICT), rolled back cleanly with zero partial writes.",
+    "WS9 sub-pass 2: first execute attempt hit a Postgres parameter-type-inference error on jsonb_build_array($2) (fixed: explicit ::text cast).",
+    "WS11: initial map load showed 0 markers due to Leaflet's fitBounds() producing an out-of-Australia-range viewport that the RPC correctly refused (fixed: client-side bounds clamping). Also found has_full_snapshot was wrongly true for empty placeholder rows, and the rent fallback picked a NULL 'latest' quarter (both fixed before considering WS11 done)."
+  ],
+  "unresolved_blockers": [
+    {
+      "blocker": "Sprint 10 draft PR not created — gh CLI not installed, no GitHub token available",
+      "status": "documented, user approved skipping, not sprint-blocking",
+      "resolution_path": "manual gh pr create command recorded in warehouse/reports/sprint10_pr_handover.md"
+    },
+    {
+      "blocker": "TAS sales verification still search-only",
+      "status": "documented, low priority, not sprint-blocking"
+    },
+    {
+      "blocker": "WA sales licence unclear",
+      "status": "documented as official_source_restricted, needs human judgement"
+    },
+    {
+      "blocker": "WS7's 6.3GB local cleanup plan is written but not executed",
+      "status": "pending human approval, not sprint-blocking (disk space, not correctness)"
+    }
+  ],
+  "background_processes_still_running": "none — dev server and browse daemon both explicitly stopped before this checkpoint (verified via curl connection failure and taskkill)",
+  "commands_that_must_not_be_repeated": [
+    "Do NOT re-run Workstream 0's Sprint 10 re-verification suite as a first resume action.",
+    "Do NOT attempt gh pr create without confirming gh is installed and authenticated.",
+    "Do NOT re-run any WS4/5/6/8 local-store build scripts — all complete and committed.",
+    "Do NOT attempt a TAS rent adapter or re-check CBOS/DOJ Tasmania — confirmed Cloudflare-blocked.",
+    "Do NOT re-run load_qld_sa_wa_rents_to_branch.mjs --execute or load_sa2_lga_dwelling_stock_to_branch.mjs --execute — both already committed to the branch.",
+    "Do NOT run the WS7 cleanup plan's rm -rf commands without explicit human approval.",
+    "Do NOT assume core.fact_rental_market_summary's LGA rows are VIC's — they are NSW's.",
+    "Do NOT invent new feature flags for research UI routes — reuse MULTI_STATE_RESEARCH_ENABLED until Workstream 18 runs.",
+    "When testing in a browser, remember the gstack /browse daemon resets state between separate Bash tool calls — chain goto + follow-up commands within ONE call, and re-snapshot for fresh @refs after any 'Starting server...' restart message."
+  ],
+  "last_successful_command": "git push origin feature/australia-property-intelligence-v3 (pushed commits through d778478, this checkpoint update)",
+  "exact_next_command": "git status --short && git log --oneline -3 (confirm clean tree and current HEAD)",
+  "exact_next_task": "The user's explicit scope for this session ('go ahead till ws13 is finished') is now complete. On resume: check the actual conversation for whether the user wants autonomous continuation into Workstream 14 (incremental national refresh engine v2) or is waiting for new direction — the last two user messages this session were scoped requests, not an open-ended 'continue the whole sprint' instruction, so do not assume autonomous continuation without checking.",
+  "remaining_completion_checklist": [
+    "Every AU state/territory has verified source research (DONE), explicit coverage status (DONE), a functioning jurisdiction adapter (DONE for QLD/SA/WA rent — now genuinely queryable AND rendered in the map/compare/export UI), national ABS/RBA context (DONE), loaded sales/rental outputs wherever free official data supports them (MOSTLY DONE — QLD/SA/WA rent fully live; NSW archive sales still local-only)",
+    "NSW and VIC remain fully valid (TRUE)",
+    "Census period harmonisation for defensible 2016-2021 comparisons (DONE — Workstream 4)",
+    "National snapshots/timeseries use one canonical metric registry (TRUE for NSW/VIC/QLD/SA/WA rent + SA2/LGA dwelling stock now; wide demographic profiles and NSW archive not yet extended to new grains)",
+    "Transparent descriptive market indicators available (DONE — Workstream 10)",
+    "Research UI supports Australia-wide search, map exploration, comparison (DONE — explore/compare/map all live and tested; export now available too)",
+    "Refresh jobs incremental, resumable, safe (v1 exists; v2 upgrade NOT STARTED — Workstream 14)",
+    "Read-only security tests pass (TRUE for existing interfaces; new map/compare-v2/export interfaces reuse the same SECURITY DEFINER pattern already audited, not yet formally re-tested — Workstream 19)",
+    "Performance limits and DB capacity remain safe (TRUE — 2,630MB, well under the 4,500MB ceiling)",
+    "Production remains untouched (TRUE, reconfirmed live this session)",
+    "No raw/large file tracked by git (TRUE, reconfirmed this session)",
+    "No paid source or infrastructure introduced (TRUE — Leaflet/OpenStreetMap is free, no API key)",
+    "Final production-readiness report and draft PR exist (NOT STARTED — Workstream 22)",
+    "System documents rather than pretends completeness for inaccessible sources (TRUE — maintained throughout, including catching and correcting the wrong VIC/NSW LGA-data assumption)"
+  ],
+  "safe_commit_created_at_checkpoint": true,
+  "production_remains_untouched": true,
+  "scheduled_resume": {
+    "time": "next ScheduleWakeup call immediately following this checkpoint write",
+    "timezone": "Australia/Sydney",
+    "mechanism": "ScheduleWakeup tool call"
+  }
+}

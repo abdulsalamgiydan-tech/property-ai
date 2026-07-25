@@ -1,0 +1,51 @@
+# Victoria locality -> ASGS SAL alias rules (Sprint 10, Phase 4)
+#
+# Scope: Victorian Property Sales Report (VPSR) suburb-level locality names
+# (Valuer-General Victoria / Dept. of Transport and Planning), matched against
+# core.dim_geography (geography_type='SAL', state_code='2').
+#
+# This is NOT a fuzzy-matching config. Every rule below is a deterministic,
+# documented string transform verified against the live branch data (see
+# victoria_geography_mapping_report.json for exact counts). No locality is
+# ever silently mapped: unmatched localities are quarantined in
+# victoria_unresolved_geographies.csv, not guessed.
+
+rules:
+  - id: direct
+    description: >
+      Locality name matches an ASGS SAL geography_name exactly
+      (case-insensitive, trimmed). No transform applied.
+    match_count: 579
+
+  - id: asgs_state_disambiguation_suffix_stripped
+    description: >
+      ASGS appends a parenthetical state-disambiguation suffix, e.g.
+      "Abbotsford (Vic.)", to SAL names that collide with a same-named
+      suburb in another state. VPSR's source locality names do not carry
+      this suffix (VPSR is Victoria-only, so there's no ambiguity from its
+      own point of view). Rule: strip a trailing " (...)" from the ASGS SAL
+      name and compare against the raw VPSR locality; apply only when
+      exactly one ASGS SAL matches after stripping (0 ambiguous cases found
+      in this file set — if a future refresh produces more than one
+      candidate for the same stripped name, that locality is quarantined,
+      never guessed).
+    match_count: 167
+    example:
+      vpsr_locality: "ABBOTSFORD"
+      asgs_sal_name: "Abbotsford (Vic.)"
+
+# No further alias rules were needed or added this sprint. Suburb-group
+# aliases (combining multiple ASGS SALs under one VG/DFFH-published label,
+# e.g. Homes Victoria's "Albert Park-Middle Park-West St Kilda") are NOT
+# present in the VPSR sales files (confirmed: VPSR uses single, standard
+# suburb names) - that grouping problem is specific to the Homes Victoria
+# rental report and is handled separately in Phase 6 (LGA-grain fallback
+# where suburb-group correspondence cannot be established without fuzzy
+# matching).
+
+unmatched_policy: >
+  Any VPSR locality with zero ASGS SAL matches after applying the rules
+  above is written to victoria_unresolved_geographies.csv with
+  reason=no_asgs_sal_match, and its sales rows are held out of the local
+  store's suburb-grain summary (never assigned to a guessed geography, never
+  dropped silently - documented as a known coverage gap).

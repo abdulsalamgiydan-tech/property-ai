@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-07-20T18:47:00.180Z",
+  "store": "local DuckDB/Parquet (no Supabase connection made)",
+  "verdict": "PASSED",
+  "official_sources_verified": true,
+  "file_hashes_recorded": true,
+  "inventory_files": [
+    {
+      "dataset_id": "rba_cash_rate_target",
+      "sha256": "72288a85d70d68cb862ad0e1713f81d80659f0fbb8eadfecd98a1fbb456e9fc3",
+      "bytes": 19970
+    },
+    {
+      "dataset_id": "rba_housing_lending_rates",
+      "sha256": "319f78cbe904fe7d89ebf4bf067d9ce0ea20bdc0376eaf15c73bf0cdbb5e0831",
+      "bytes": 37270
+    },
+    {
+      "dataset_id": "rba_indicator_lending_rates_housing",
+      "sha256": "f522bdabf93519d735132dd3f262fefb941ba0d4e537d86d0818d588a8998066",
+      "bytes": 72009
+    }
+  ],
+  "raw_or_local_files_tracked_by_git": [],
+  "period_coverage": {
+    "min": "1959-01-31",
+    "max": "2026-06-30",
+    "distinct_periods": 907
+  },
+  "by_rate_type": [
+    {
+      "rate_type": "cash_rate_target",
+      "n": 98,
+      "null_n": 3
+    },
+    {
+      "rate_type": "housing_lending_rate",
+      "n": 664,
+      "null_n": 0
+    },
+    {
+      "rate_type": "indicator_lending_rate",
+      "n": 1502,
+      "null_n": 0
+    }
+  ],
+  "checks": {
+    "null_dates": 0,
+    "duplicate_natural_keys": 0,
+    "negative_rates": 0,
+    "passed_but_null_rate": 0,
+    "numeric_but_not_passed": 0,
+    "range_format_rows": 3,
+    "unpublished_cells": 0,
+    "missing_series_id": 0
+  },
+  "cash_rate_target_sanity_band_pct": {
+    "mn": 0.1,
+    "mx": 14,
+    "minp": "1990-08-02",
+    "maxp": "2026-05-06"
+  },
+  "notes": [
+    "3 range-format A2 rows (pre-Aug-1990) are stored with rate_percent = NULL and data_quality_status = 'range_not_numeric' — never estimated to a single value. passed_but_null_rate=0 confirms every NULL rate_percent row is explicitly labelled non-passed, not a silent gap.",
+    "F5 series that had not yet started in a given month (e.g. investor series before Aug 2015) are omitted from the store entirely for that month, never zero-filled.",
+    "F6 has no unpublished cells across the 8 curated series in the current pull (unpublished_cells counts across all rate_type, informational only)."
+  ]
+}

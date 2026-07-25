@@ -1,0 +1,11 @@
+{
+  "generated_at": "2026-07-24T12:13:24.117Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "total_combinations_checked": 88,
+  "covered": 88,
+  "completeness_pct": 100,
+  "gaps": [],
+  "mandatory_gap_count": 0,
+  "verdict": "PASSED"
+}

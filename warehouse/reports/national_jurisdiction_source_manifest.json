@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-07-21T23:10:00+10:00",
+  "scope": "Sprint 11 Workstream 2 — live-verified official source discovery for QLD, SA, WA, TAS, ACT, NT",
+  "method": "WebSearch to locate candidate official pages, then live verification via gstack /browse and/or direct curl/CKAN-API calls against the actual government portal — no source accepted on the strength of a search snippet alone. Verification depth varies by jurisdiction and is stated explicitly per entry (see 'verification_depth').",
+  "summary_by_jurisdiction": [
+    {
+      "jurisdiction": "QLD",
+      "sales_status": "paid_official",
+      "sales_finding": "Valuer-General property/sales data sold per-property via business centres and QVAS (Queensland Valuation And Sales) broker access — 'loading fee...per property sale'. No free bulk suburb-median aggregate found (unlike VIC's VPSR).",
+      "rent_status": "selected_free_automatable",
+      "rent_finding": "RTA (Residential Tenancies Authority) Quarterly Data — median rent + bond counts by suburb/postcode/LGA/state, quarterly since 2012, stable download URL (no per-quarter URL guessing needed, unlike VIC), no bot protection, verified live current to Jun 2026.",
+      "verification_depth": "live-verified: rent source downloaded and structurally inspected; sales source confirmed via official page text"
+    },
+    {
+      "jurisdiction": "SA",
+      "sales_status": "paid_or_restricted",
+      "sales_finding": "Land Services SA (exclusive statutory provider since 2017) sells sales/valuation data via SAILIS and the 'Property Edge' platform — described as a commercial research platform requiring purchase/account access. No free bulk aggregate found on data.sa.gov.au.",
+      "rent_status": "selected_free_automatable",
+      "rent_finding": "SA Housing Trust 'Private Rent Report' on data.sa.gov.au (CKAN portal) — 72 quarterly files back to 2008, current to Mar 2026, CC BY licence, no bot protection (plain curl succeeded), suburb/postcode/region/SLA grain, documented small-cell suppression ('*' for 1-5 dwellings) and rounding-to-5 convention.",
+      "verification_depth": "live-verified: rent source downloaded via CKAN API and structurally inspected; sales source confirmed via official product descriptions"
+    },
+    {
+      "jurisdiction": "WA",
+      "sales_status": "paid_official",
+      "sales_finding": "Landgate 'Property sales reports' (property/street/suburb/LGA grain) are all explicitly 'Order now' fee-based products via land-enquiry.app.landgate.wa.gov.au. The open-data-portal 'Sales Evidence data' entry only hosts a data dictionary and schema files, not the bulk data itself, and what data exists is licensed under a 'Personal Use License' — not clearly compatible with a research platform's intended use.",
+      "rent_status": "selected_free_automatable_with_caveat",
+      "rent_finding": "WA Rental Bonds Data (Dept. of Mines, Industry Regulation and Safety), mirrored on the National Housing Data Exchange, CC BY 4.0, monthly CSV files (postcode summary + individual lodgement/disposal records). Unlike QLD/SA/VIC, this is RAW bond-lodgement data, not pre-computed medians — the adapter must compute its own suburb/postcode medians from individual records (same pattern NSW originally considered and rejected in favour of DCJ's pre-aggregated report in Sprint 6, but here it is the only free option).",
+      "verification_depth": "live-verified: dataset page and licence text confirmed; file structure not yet downloaded/inspected (deferred to Workstream 6 adapter build)"
+    },
+    {
+      "jurisdiction": "TAS",
+      "sales_status": "paid_or_restricted",
+      "sales_finding": "Office of the Valuer-General publishes 'Property Sales Reports' via the LIST (Land Information System Tasmania) at listdata.thelist.tas.gov.au — fees are payable per the Service Tasmania land-value lookup page. No free bulk aggregate confirmed.",
+      "rent_status": "blocked_access",
+      "rent_finding": "No official Tasmanian government bulk rental-bond or median-rent dataset was found via WebSearch or the LIST/Service Tasmania pages checked this pass. Requires deeper investigation of Consumer, Building and Occupational Services Tasmania (the tenancy regulator) directly.",
+      "verification_depth": "search-only — WebSearch results checked and cross-referenced, but the LIST property-sales-report example PDF was not downloaded/inspected and CBOS Tasmania's own site was not directly checked this pass. Flagged for follow-up, not treated as final."
+    },
+    {
+      "jurisdiction": "ACT",
+      "sales_status": "blocked_access",
+      "sales_finding": "ACT's official open data portal (data.act.gov.au) returned 0 results for 'property sales' — live-verified via direct browse search. ACTLIS (ACT Land Information System, land titles) exists but is a title-search service, not a bulk sales dataset.",
+      "rent_status": "blocked_access",
+      "rent_finding": "data.act.gov.au returned 0 results for 'rent' and 'rental bond' — live-verified. The ACT Revenue Office administers rental bonds but does not appear to publish aggregate rent statistics on the open data portal.",
+      "verification_depth": "live-verified: both searches run directly against data.act.gov.au and returned zero results"
+    },
+    {
+      "jurisdiction": "NT",
+      "sales_status": "blocked_access",
+      "sales_finding": "NT's open data portal (data.nt.gov.au) 'Housing, property and land' group (12 datasets, live-verified) contains only infrastructure planning and public-housing-waitlist data — no sales dataset. NT market statistics are commonly sourced from REINT (Real Estate Institute of the Northern Territory), an industry association, which is excluded per this project's 'official government/statutory authority only' rule (same reasoning as VIC's REIV rejection, Sprint 10).",
+      "rent_status": "blocked_access",
+      "rent_finding": "Same portal group contains no rental dataset. No official NT government bulk rent source found this pass.",
+      "verification_depth": "live-verified: NT open data portal's property group dataset list checked directly, all 12 entries reviewed by name"
+    }
+  ],
+  "cross_jurisdiction_finding": "Bulk, free, automatable RESIDENTIAL SALES data beyond NSW (PSI, transaction-level) and VIC (VPSR, aggregate) is NOT available in any of the 6 remaining jurisdictions checked this pass — every one sells sales data as a paid per-property/per-report product, or has no public sales dataset at all. This is the core coverage gap this sprint documents rather than works around (per Mission Outcome 4: 'create a documented coverage position where official sales or rental information is unavailable, restricted or paid'). RENTAL data fares much better: QLD, SA, and WA all have genuine free official sources (3 of 6), leaving TAS/ACT/NT as the true rent gaps.",
+  "national_context_datasets_already_available": {
+    "note": "ASGS geography, Census demographics/dwelling-stock/tenure, ABS Building Approvals, and RBA rates were loaded as NATIONAL datasets in Sprints 2-4 and 8 — every jurisdiction already has this context with zero new work required, confirmed by the same live-query technique used to discover this for VIC in Sprint 10."
+  }
+}

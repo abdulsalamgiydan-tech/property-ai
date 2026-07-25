@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-07-21T05:10:00.000Z",
+  "git": {
+    "branch": "feature/deal-analyser-budget-2026",
+    "working_tree_clean": true,
+    "latest_commit": "f6fb393 feat(warehouse): Sprint 8 — RBA interest-rate national context layer"
+  },
+  "supabase_targets": {
+    "production_project_ref": "oshquaxsloolqucwvigc",
+    "production_warehouse_schemas": 0,
+    "production_public_tables": ["waitlist", "property_reports", "property_comparisons", "watchlist_items", "portfolio_properties", "strategy_generations", "strategy_reports"],
+    "production_confirmed_distinct_from_branch": true,
+    "warehouse_validation_branch_ref": "lzonauinzatmtytyoems",
+    "warehouse_validation_branch_name": "warehouse-validation",
+    "branch_db_size_bytes": 2151320723,
+    "branch_db_size_pretty": "2052 MB",
+    "migrations_applied_on_branch": [
+      "remote_schema", "003_warehouse_foundation", "004_postgis_geography", "005_asgs_staging",
+      "census_dwelling_stock_006", "building_approvals_007", "nsw_sales_marts_008",
+      "nsw_rental_bonds_yield_009", "fact_rental_market_summary_null_bedroom_fix_010", "rba_interest_rates_011"
+    ]
+  },
+  "existing_warehouse_tables_and_row_counts": {
+    "meta.source": 5, "meta.dataset": 14, "meta.load_run": 17, "meta.source_file": 228,
+    "meta.data_quality_result": 35, "meta.coverage_result": 0, "meta.publication_approval": 0,
+    "core.dim_geography": 83241, "core.dim_geography_version": 9,
+    "core.bridge_geography_relationship": 80591, "core.bridge_geography_correspondence": 227159,
+    "core.fact_dwelling_stock": 662296, "core.fact_household_tenure": 496722,
+    "core.fact_building_approvals": 95550, "core.fact_residential_sales_summary": 265528,
+    "core.fact_rental_market_summary": 257940, "core.fact_interest_rates": 2264,
+    "staging.asgs_geography": 0, "staging.asgs_correspondence": 0, "staging.census_dwelling_stock": 0,
+    "mart.suburb_dwelling_stock_2021": 15334, "mart.postcode_dwelling_stock_2021": 2641,
+    "mart.suburb_building_approvals": 15329, "mart.postcode_building_approvals": 2638,
+    "mart.suburb_sales_monthly": 49191, "mart.suburb_sales_annual": 154118,
+    "mart.postcode_sales_monthly": 20224, "mart.postcode_sales_annual": 41995,
+    "mart.suburb_rent_quarterly": 21359, "mart.postcode_rent_quarterly": 42152,
+    "mart.suburb_yield_quarterly": 21359, "mart.postcode_yield_quarterly": 20583,
+    "mart.national_interest_rate_context": 2264,
+    "mart.suburb_market_snapshot": 0,
+    "mart.postcode_market_snapshot": 0
+  },
+  "important_discovery": {
+    "finding": "mart.suburb_market_snapshot and mart.postcode_market_snapshot ALREADY EXIST on the branch, created by migration 003_warehouse_foundation (Sprint 1) as forward-looking placeholder tables. They have never been populated (0 rows) and are not referenced anywhere in the app codebase (grep confirmed zero references outside migration 003 itself).",
+    "existing_grain": "one row per geography x reference_month x dwelling_type (tall/narrow — dwelling_type is a row discriminator, not a column set)",
+    "existing_columns": ["snapshot_id", "geography_id", "geography_name", "state_code", "reference_month", "dwelling_type", "median_sale_price", "sales_volume", "median_rent", "gross_yield", "population_growth_1y", "dwelling_approvals_12m", "data_coverage_score", "confidence_label", "source_summary", "created_at", "updated_at"],
+    "existing_constraints": "no unique constraint exists yet — only two non-unique indexes (geography_id/reference_month/dwelling_type, state_code/reference_month)",
+    "sprint9_required_grain": "one WIDE row per geography (Phase 4 spec explicitly: 'Prefer one wide row per geography instead of a large tall fact table'), with dwelling-type-specific medians as separate COLUMNS (e.g. median_sale_price_detached, median_sale_price_apartment) rather than separate rows",
+    "decision": "Extend these existing tables additively in migration 013 (ALTER TABLE ADD COLUMN IF NOT EXISTS for every new field the Sprint 9 spec requires, plus a NEW expression-based unique index on geography_id for the wide-row grain). Do not create differently-named replacement tables — that would duplicate an already-declared, never-populated placeholder and add confusion. The legacy dwelling_type/median_sale_price/median_rent/gross_yield/population_growth_1y/dwelling_approvals_12m columns are kept for backward compatibility (documented as superseded by the new per-type columns) since dropping/renaming columns would be destructive and no code depends on them either way.",
+    "safety": "Confirmed via grep across the whole repo (excluding node_modules): zero references to either table name outside supabase/migrations/003_warehouse_foundation.sql. Safe to extend."
+  },
+  "rls_and_grants": {
+    "branch_rls_status": "RLS disabled on all 35 warehouse tables (meta/staging/core/mart) — flagged as a critical advisory by Supabase. These tables are on the warehouse-validation BRANCH ONLY, which has no client-facing anon key wired into the production app (the app's NEXT_PUBLIC_SUPABASE_URL/ANON_KEY point at the production project oshquaxsloolqucwvigc, which has zero warehouse schemas). The advisory is real but not currently reachable by any client — no app code points at the branch project. Sprint 9 Phase 9 explicitly requires resolving this via minimal read-only public views/RPCs rather than exposing core/mart schemas directly to PostgREST.",
+    "production_rls_status": "public.* tables (waitlist, property_reports, property_comparisons, watchlist_items, portfolio_properties, strategy_generations, strategy_reports) all have RLS enabled — consistent with an existing, already-secured app data model. No warehouse schemas exist on production to worry about.",
+    "decision_for_phase_9": "Design minimal public.* views/RPCs on the BRANCH ONLY, granted SELECT/EXECUTE to anon+authenticated, with security_invoker where supported, denying INSERT/UPDATE/DELETE. Do not blanket-enable RLS on all 35 existing core/staging/meta tables in this sprint (out of scope, would need per-table policies and is a broader security project) — instead keep them PostgREST-inaccessible by only exposing the new minimal public.* view layer built in migration 014, and separately note the RLS advisory in the read-only access design doc."
+  },
+  "app_architecture": {
+    "framework": "Next.js 16.2.3 (App Router, Turbopack), React 19.2.4",
+    "supabase_client_pattern": {
+      "browser": "lib/supabase/client.ts — createBrowserSupabaseClient() using @supabase/ssr createBrowserClient, reads NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY (production project), returns null if isSupabaseConfigured() is false",
+      "server": "lib/supabase/server.ts — createServerSupabaseClient() using @supabase/ssr createServerClient with Next cookies(), same production env vars, throws if not configured",
+      "middleware": "middleware.ts refreshes the Supabase auth session on every request (excluding static assets) and handles a PKCE-callback-landed-on-root edge case; does not gate any route by default"
+    },
+    "critical_architecture_decision": "The existing Supabase client wiring points ONLY at the production project. The new /research feature must NEVER reuse this client against the warehouse-validation branch project, and must never point the production client at branch data. A SEPARATE, dedicated warehouse Supabase client (new env vars, e.g. WAREHOUSE_SUPABASE_URL / WAREHOUSE_SUPABASE_ANON_KEY, server-side only) will be created for /research, so the feature can be wired to the branch in local/preview environments without ever touching the production client config. All data fetching for /research happens server-side (Server Components) — the warehouse anon key is not required in the client bundle at all.",
+    "existing_unrelated_route": "app/suburb-intelligence/page.tsx + components/suburb/SuburbIntelligenceClient.tsx is a PRE-EXISTING, SHIPPED, UNRELATED feature (deal-analyser suburb assumptions, static data via lib/suburbAssumptions.ts) — not connected to the warehouse. Must NOT be touched or redesigned. The new Sprint 9 feature uses a distinct route (/research) to avoid any collision.",
+    "design_system": {
+      "tokens": "components/design/tokens.ts — designTokens (bg/surface/elevated/text/muted colours), DealStatus type + statusLabel/statusClasses helpers (green/amber/red) — reusable pattern for confidence-label badges",
+      "reusable_components": ["MetricCard", "StatusBadge", "SectionCard", "EmptyState", "GlassPill", "DisclaimerFooter", "CTAButton", "LockedCard"],
+      "disclaimer_component": "components/design/DisclaimerFooter.tsx renders a fixed 'Illustrative modelling only - not financial, tax or legal advice.' footer — reusable as-is, satisfies the research-disclaimer requirement",
+      "shell": "components/design/shell/{AppShell,Navbar,MobileNav}.tsx — existing nav shell to reuse for consistent layout"
+    },
+    "test_setup": "vitest.config.ts, environment 'node', includes **/*.test.ts, @ alias to repo root. Existing test: lib/tax/budget2026.test.ts (13 tests, colocated *.test.ts pattern)."
+  },
+  "nsw_sales_dwelling_classification_audit": {
+    "local_store": "warehouse/data/local/nsw_sales.duckdb :: nsw_sales_transactions_raw (5.2M rows)",
+    "raw_evidence_fields_available": ["nature_of_property", "zone_code", "strata_lot", "unit_number", "house_number", "area_value", "area_unit"],
+    "current_classification_gap": "2,556,681 rows (the entire 'detached_house' bucket) are assigned purely from (nature_of_property='RESIDENCE', zone_code='R', strata_lot IS NULL) with no further distinction. Of these, 18,617 rows have a non-null unit_number and 95 rows have a '/' in house_number while still being non-strata — the standard NSW torrens-title signal for a subdivided villa/townhouse/duplex development that was never strata-titled (e.g. multiple sale records at the same street address with unit_number 1..6, confirmed by direct sample inspection: '14 East Cres' has 6 distinct unit_number values, clearly a multi-dwelling torrens development, not one detached house).",
+    "evidence_based_new_rule_identified": "RESIDENCE + zone R + strata_lot NULL + (unit_number NOT NULL OR house_number contains '/') => townhouse_villa_semidetached (medium confidence, deterministic, no price/suburb/postcode inference). Affects 18,712 of 2,556,681 currently-detached_house rows (0.73%) — a real but modest reclassification, exactly the kind of narrow evidence-supported improvement the sprint asks for rather than an invented broad heuristic.",
+    "duplex_scoping_decision": "PSI source data has no field that cleanly separates 'duplex' from other torrens-titled multi-dwelling forms (townhouse/villa/semi) — a duplex-specific rule would require inferring from lot-count or price, which is explicitly forbidden. Sprint 9 will NOT introduce a distinct duplex bucket; the villa/townhouse/semi evidence above covers duplexes too, documented explicitly in the classification doc rather than inventing an unsupported split."
+  },
+  "risks_and_implementation_decisions": [
+    "Branch already has two never-populated placeholder mart tables with a narrower grain than Sprint 9 needs — resolved by additive ALTER TABLE extension, not replacement (see important_discovery above).",
+    "RLS is disabled branch-wide but currently unreachable (no client points at the branch) — Sprint 9 Phase 9 adds a minimal, tested public view/RPC layer rather than retrofitting RLS across 35 existing tables (out of this sprint's scope; documented as a follow-up).",
+    "The app's existing Supabase client/env-var pattern is production-only — a new, separate server-only warehouse client with its own env vars is required so the branch is never reachable from the production app config.",
+    "An existing, unrelated /suburb-intelligence route exists — the new feature must use a different route (/research) to avoid collision or the appearance of replacing a shipped feature.",
+    "Do not proceed with production writes at any point — confirmed production has zero warehouse schemas; this must be re-verified after every branch load."
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "generated_at": "2026-07-20T10:46:04.652Z",
+  "raw_root": "warehouse/data/raw/nsw_rents (gitignored)",
+  "scope": "full_state",
+  "files": [
+    {
+      "quarter": "2021-03",
+      "dataset_id": "nsw_rent_tables_2021-03",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-135-rent-tables-march-2021.xlsx",
+      "file": "nsw_rents/2021-03.xlsx",
+      "size_bytes": 3764292,
+      "sha256": "bba59f24de0c53c9e16186668b321ae5d9a80ee9a62e1eac8f2814f1139c94c5"
+    },
+    {
+      "quarter": "2021-06",
+      "dataset_id": "nsw_rent_tables_2021-06",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-136-rent-tables-june-2021.xlsx",
+      "file": "nsw_rents/2021-06.xlsx",
+      "size_bytes": 3761874,
+      "sha256": "7a69b68af68bf805201962ee4ca9abb8dd0bda978294c99d157d309ba08c5469"
+    },
+    {
+      "quarter": "2021-09",
+      "dataset_id": "nsw_rent_tables_2021-09",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-137-rent-tables-september-2021.xlsx",
+      "file": "nsw_rents/2021-09.xlsx",
+      "size_bytes": 3685797,
+      "sha256": "527fb54d079e8b321e4b23bb6bebe5d12d716e888b95576d6fcff202f3921c5d"
+    },
+    {
+      "quarter": "2021-12",
+      "dataset_id": "nsw_rent_tables_2021-12",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-138-rent-tables-december-2021.xlsx",
+      "file": "nsw_rents/2021-12.xlsx",
+      "size_bytes": 3726668,
+      "sha256": "5b8822e8dc8d23e03f2ff83d82f245762254663c9da552c8ade48afc30394324"
+    },
+    {
+      "quarter": "2022-03",
+      "dataset_id": "nsw_rent_tables_2022-03",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-139-rent-tables-march-2022.xlsx",
+      "file": "nsw_rents/2022-03.xlsx",
+      "size_bytes": 3587346,
+      "sha256": "12901619e976eb37b9cea9446b5128abac07fcfa58318e282097675b7644788f"
+    },
+    {
+      "quarter": "2022-06",
+      "dataset_id": "nsw_rent_tables_2022-06",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-140-rent-tables-june-2022.xlsx",
+      "file": "nsw_rents/2022-06.xlsx",
+      "size_bytes": 3659844,
+      "sha256": "526c70fe61de94df9c252a5b49b15f5792002f8800d8b64fa4e57db1c330b11c"
+    },
+    {
+      "quarter": "2022-09",
+      "dataset_id": "nsw_rent_tables_2022-09",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-141-rent-tables-september-2022.xlsx",
+      "file": "nsw_rents/2022-09.xlsx",
+      "size_bytes": 3559749,
+      "sha256": "42d025fab48adebc101afb80763bd06acdc038480a1dd3d2a126c879ec841efe"
+    },
+    {
+      "quarter": "2022-12",
+      "dataset_id": "nsw_rent_tables_2022-12",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-142-rent-tables-december-2022.xlsx",
+      "file": "nsw_rents/2022-12.xlsx",
+      "size_bytes": 3585006,
+      "sha256": "fd0ab926164ffcdddf78e3481c46e0cc19bf6cf0636033c62cfcce616c0c7ed6"
+    },
+    {
+      "quarter": "2023-03",
+      "dataset_id": "nsw_rent_tables_2023-03",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-143-rent-tables-march-2023.xlsx",
+      "file": "nsw_rents/2023-03.xlsx",
+      "size_bytes": 3261045,
+      "sha256": "34095f7f699ff3500a4ca8eb6e1c67a4d0b671e1a7c285ae562e4c951c4903d8"
+    },
+    {
+      "quarter": "2023-06",
+      "dataset_id": "nsw_rent_tables_2023-06",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-144-rent-tables-june-2023.xlsx",
+      "file": "nsw_rents/2023-06.xlsx",
+      "size_bytes": 3259580,
+      "sha256": "a30c984f0ee8556d5c1dacbda984948d1be753df637e948b1b2d64c1711a08ac"
+    },
+    {
+      "quarter": "2023-09",
+      "dataset_id": "nsw_rent_tables_2023-09",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-145-rent-tables-september-2023.xlsx",
+      "file": "nsw_rents/2023-09.xlsx",
+      "size_bytes": 3556442,
+      "sha256": "769556f71ea81d35ea902ed0f7d8e187591b908fdffd4f91ebdef9dc8d9b5309"
+    },
+    {
+      "quarter": "2023-12",
+      "dataset_id": "nsw_rent_tables_2023-12",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-146-rent-tables-december-2023.xlsx",
+      "file": "nsw_rents/2023-12.xlsx",
+      "size_bytes": 3547069,
+      "sha256": "39a6b2884ed661e41fe9ce65a53733d7dc064158ef3e208f278ba21d94150bd2"
+    },
+    {
+      "quarter": "2024-03",
+      "dataset_id": "nsw_rent_tables_2024-03",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-147-rent-tables-march-2024-quarter.xlsx",
+      "file": "nsw_rents/2024-03.xlsx",
+      "size_bytes": 3553863,
+      "sha256": "ed076eff9bb511af8e1586fb8556e3f6c53a666693e9a1685b92165472b17e78"
+    },
+    {
+      "quarter": "2024-06",
+      "dataset_id": "nsw_rent_tables_2024-06",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/previous-rent-and-sales-reports/issue-148-rent-tables-june-2024-quarter.xlsx",
+      "file": "nsw_rents/2024-06.xlsx",
+      "size_bytes": 3539253,
+      "sha256": "6d88a85926542d732833d6c1d6437f3e68c547f388c87f6790ec830c3fb02bec"
+    },
+    {
+      "quarter": "2026-03",
+      "dataset_id": "nsw_rent_tables_2026-03",
+      "source_url": "https://dcj.nsw.gov.au/content/dam/dcj/dcj-website/documents/about-us/families-and-communities-statistics/housing-and-rent-sales/rent-tables-march-2026-quarter.xlsx",
+      "file": "nsw_rents/2026-03.xlsx",
+      "size_bytes": 3200177,
+      "sha256": "e8bd9eb6e33addfff67ff13f7120b652ea5d93bea971e8d7648d23fafaab5b79"
+    }
+  ]
+}

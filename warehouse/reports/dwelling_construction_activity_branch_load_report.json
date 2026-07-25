@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-07-22T07:27:04.393Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "rows_attempted": 6390,
+  "rows_newly_inserted": 6390,
+  "validation_gates": {
+    "negative_counts": 0,
+    "duplicate_keys": 0,
+    "orphan_geography": 0
+  },
+  "db_size_before_mb": 2661.5,
+  "db_size_after_mb": 2663.8
+}

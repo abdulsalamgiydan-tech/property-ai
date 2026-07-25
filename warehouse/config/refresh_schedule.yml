@@ -1,0 +1,78 @@
+# National refresh schedule design (Sprint 11, Workstream 15)
+#
+# Documentation of intended cadence, matched to each source's actual
+# publication frequency (not an arbitrary schedule) — mirrors
+# refresh_registry.mjs's dataset_id values so the two stay cross-referenced.
+# This file is NOT machine-parsed by the GitHub Actions workflows below
+# (same convention as jurisdiction_coverage.yml/research_indicators.yml —
+# documentation-first, matching this codebase's established pattern of no
+# runtime YAML parsing). The workflows encode their own cron schedules
+# directly, cross-checked against this file's cadence classification.
+#
+# HARD RULE: no workflow below downloads a multi-gigabyte source archive
+# in CI, and no workflow writes to Supabase automatically — branch writes
+# only happen via the manual-refresh workflow's explicit workflow_dispatch
+# input, and only ever target the validation branch (hard-coded refusal of
+# anything else, matching refresh_engine_v2.mjs's own guardrails).
+
+cadence:
+  daily:
+    description: "Lightweight checks only — no downloads, no branch writes."
+    checks:
+      - "Source URL availability (HTTP HEAD/status, not full download)"
+      - "Public research interface health (does /research return 200?)"
+      - "Freshness status computation (compare latest known period against expected cadence)"
+    workflow: .github/workflows/warehouse-source-monitor.yml (daily cron)
+    datasets: [] # applies to source URLs generally, not dataset-specific
+
+  weekly:
+    description: "Metadata discovery and drift checks — still no full downloads."
+    checks:
+      - "Re-run each jurisdiction's source-discovery script in --offline or metadata-only mode where supported"
+      - "Licence page change detection (hash comparison of licence page text, not full re-verification)"
+      - "Public /research preview interface smoke tests (search, snapshot, compare, map all return non-error responses)"
+    workflow: .github/workflows/warehouse-source-monitor.yml (weekly job within the same workflow)
+    datasets: [] # applies across all jurisdictions
+
+  monthly:
+    description: "Datasets that genuinely publish monthly — safe to attempt a real refresh."
+    datasets:
+      - building_approvals # ABS Building Approvals Data API, monthly release
+      - rba_interest_rates # RBA Tables A2/F5/F6, updated as rates change, checked monthly
+      - wa_rents # WA DMIRS rental bonds, monthly files
+    workflow: .github/workflows/warehouse-manual-refresh.yml (manual dispatch, monthly reminder via the source-monitor workflow's summary — NOT an automatic branch write)
+
+  quarterly:
+    description: "The majority of rent/sales sources in this project publish quarterly."
+    datasets:
+      - nsw_rents_pilot
+      - nsw_rents_full_state
+      - nsw_sales_pilot
+      - nsw_sales_full_state
+      - vic_sales
+      - vic_rents
+      - qld_rents
+      - sa_rents
+    workflow: .github/workflows/warehouse-manual-refresh.yml (manual dispatch)
+    also: "Broader national reconciliation review (compare newly-loaded totals against ABS/RBA published aggregates where available) — manual, documented in NATIONAL_REFRESH_SCHEDULE.md, not automated in this pass."
+
+  annual:
+    description: "Geography and Census reference data — genuinely static between ABS releases (years apart, not annual in practice, but reviewed annually for a new edition)."
+    datasets:
+      - asgs_geography_backbone
+      - cross_census_harmonisation
+      - census_dwelling_stock
+      - census_demographics
+      - national_population_layer
+    workflow: manual review only — no automated workflow, since a genuine new ASGS/Census edition is a multi-week onboarding effort (as this project's own Sprint 2-4 history shows), not a routine refresh.
+    also: "Source licence review (re-confirm CC BY / open-government licence terms haven't changed) — manual, annual."
+
+not_yet_supported:
+  - "nsw_sales_archive_1990_2000 — static historical archive, no refresh cadence applies (the 1990-2000 period will never publish new data)."
+  - "sa2_lga_dwelling_stock_marts / nsw_market_intelligence_snapshot / vic_market_intelligence_snapshot — derived from other datasets' cadence; refreshing them is triggered by their dependencies changing, not on an independent clock. refresh_engine_v2.mjs's dependency-tier ordering already handles this correctly when a full refresh runs."
+
+github_actions_constraints:
+  - "No workflow downloads a multi-gigabyte source archive (e.g. the NSW PSI weekly bundles or SA's 71-quarter rent history) inside CI — those remain a local, human-triggered operation via the existing build scripts, same as every prior sprint."
+  - "No workflow writes to Supabase automatically. warehouse-manual-refresh.yml requires an explicit workflow_dispatch input naming the target, and that input is validated against the validation branch ref inside the job — anything else fails the job before any command runs."
+  - "Concurrency: all three workflows use a concurrency group keyed by workflow name, cancelling any in-progress run of the same workflow before starting a new one — prevents two refreshes racing against the same branch."
+  - "Maximum execution time: 15 minutes for warehouse-source-monitor.yml (lightweight checks only), 10 minutes for warehouse-validation.yml (build/lint/test, no network-heavy work), 30 minutes for warehouse-manual-refresh.yml (allows time for a real but still-local-only or single-dataset branch-load run)."

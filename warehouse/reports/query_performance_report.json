@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-07-22T12:15:00+10:00",
+  "method": "Real EXPLAIN ANALYZE execution against warehouse-validation (lzonauinzatmtytyoems), single run per query except where a fix was applied (measured before and after independently)",
+  "results": [
+    { "interface": "geography_search", "target_ms": 500, "measured_ms": 121.1, "pass": true, "notes": "ILIKE pattern with leading wildcard, filtered from a bitmap index scan on geography_type" },
+    { "interface": "single_snapshot", "target_ms": 750, "measured_ms": 14.9, "pass": true },
+    { "interface": "compare_10_geographies", "target_ms": 2000, "measured_ms": 7.4, "pass": true },
+    { "interface": "suburb_history_timeseries", "target_ms": 1500, "measured_ms": 9.7, "pass": true },
+    { "interface": "national_map_viewport_1500_rows", "target_ms": 2000, "measured_ms_before_fix": 1059.8, "measured_ms_after_fix": 180.8, "pass": true, "fix_applied": "024_rent_mart_performance_indexes.sql — partial index on (geography_id, reference_quarter desc) WHERE median_weekly_rent IS NOT NULL for each rent mart table", "speedup_factor": 5.86 },
+    { "interface": "operations_console_summary", "target_ms": null, "measured_ms": 0.19, "pass": true },
+    { "interface": "refresh_run_history", "target_ms": null, "measured_ms": 0.19, "pass": true },
+    { "interface": "csv_json_export", "target_ms": null, "measured_ms": null, "notes": "client-side only (Blob/URL.createObjectURL), no server round-trip — verified functionally correct in WS13's live browser test instead of timed" },
+    { "interface": "sa2_lga_history", "target_ms": null, "measured_ms": null, "notes": "not measured — SA2/LGA only have dwelling-stock marts, no time-series data yet (deferred in WS9)" },
+    { "interface": "large_state_map_viewport", "target_ms": 2000, "measured_ms": null, "notes": "not separately measured — a subset of the already-measured national viewport test" }
+  ],
+  "not_covered_this_pass": [
+    "Repeat-execution averaging (p50/p95) — single or paired before/after runs only",
+    "Client-side render time (network, hydration, Leaflet tile rendering)",
+    "Load testing / concurrent request behaviour"
+  ],
+  "optimisations_applied": [
+    {
+      "migration": "024_rent_mart_performance_indexes.sql",
+      "description": "Partial index on 3 rent mart tables matching the exact filter+order shape used by get_market_map_markers_v1's rent fallback lookup",
+      "verified_live": true,
+      "before_ms": 1059.8,
+      "after_ms": 180.8
+    }
+  ]
+}

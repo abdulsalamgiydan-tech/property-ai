@@ -2,9 +2,10 @@
 
 import { useAuth } from "@/components/auth/AuthProvider";
 import { safeInternalNextPath } from "@/lib/auth/safeNextPath";
+import { getOnboardingStatus } from "@/lib/supabase/onboardingPreferences";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 
 const AUTO_REDIRECT_MS = 2200;
 const SESSION_WAIT_MS = 2800;
@@ -38,6 +39,12 @@ function AuthCompleteInner() {
   const searchParams = useSearchParams();
   const { loading, user, authConfigured } = useAuth();
   const redirectedRef = useRef(false);
+  // Sprint 14 WS2 — null while the one-time onboarding-completion check
+  // is in flight; resolves to either the original nextPath or a
+  // /onboarding redirect. Kept separate from nextPath itself so a slow
+  // or failed check can never block the existing auth-error/timeout
+  // paths above it.
+  const [resolvedNextPath, setResolvedNextPath] = useState<string | null>(null);
 
   const nextPath = useMemo(() => {
     const raw = searchParams.get("next");
@@ -46,6 +53,19 @@ function AuthCompleteInner() {
     if (!safe || safe === "/") return "/dashboard";
     return safe;
   }, [searchParams]);
+
+  useEffect(() => {
+    if (loading || !user) return;
+    let cancelled = false;
+    void (async () => {
+      const { completed } = await getOnboardingStatus();
+      if (cancelled) return;
+      setResolvedNextPath(completed ? nextPath : `/onboarding?next=${encodeURIComponent(nextPath)}`);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [loading, user, nextPath]);
 
   useEffect(() => {
     if (loading) return;
@@ -68,19 +88,21 @@ function AuthCompleteInner() {
       return () => window.clearTimeout(errTimer);
     }
 
+    if (resolvedNextPath == null) return; // still checking onboarding status
+
     const okTimer = window.setTimeout(() => {
       if (!redirectedRef.current) {
         redirectedRef.current = true;
-        router.replace(nextPath);
+        router.replace(resolvedNextPath);
       }
     }, AUTO_REDIRECT_MS);
     return () => window.clearTimeout(okTimer);
-  }, [authConfigured, loading, nextPath, router, user]);
+  }, [authConfigured, loading, nextPath, resolvedNextPath, router, user]);
 
   function continueNow() {
     if (!redirectedRef.current) {
       redirectedRef.current = true;
-      router.replace(nextPath);
+      router.replace(resolvedNextPath ?? nextPath);
     }
   }
 

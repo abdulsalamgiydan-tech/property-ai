@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-07-21T10:45:00.000Z",
+  "scope": "Sprint 10 Phase 7 — Victoria supply, demographics, affordability",
+  "method": "Verification against already-loaded national data (ABS ASGS/Census/Building Approvals, loaded Sprints 2-4 and 9 as national datasets, not NSW-scoped) rather than new ingestion. Confirmed via direct branch query, not assumption.",
+  "findings": {
+    "geography": {
+      "vic_sal_rows": 2944,
+      "table": "core.dim_geography (state_code='2')"
+    },
+    "dwelling_stock": {
+      "vic_fact_rows": 152192,
+      "table": "core.fact_dwelling_stock",
+      "marts_covering_vic": ["mart.suburb_dwelling_stock_2021", "mart.postcode_dwelling_stock_2021"]
+    },
+    "household_tenure": {
+      "vic_fact_rows": 114144,
+      "table": "core.fact_household_tenure",
+      "used_for": "owner_with_mortgage_share / renter_share metrics in mart.suburb_demographic_profile_2021"
+    },
+    "building_approvals": {
+      "vic_fact_rows": 20358,
+      "table": "core.fact_building_approvals",
+      "marts_covering_vic": ["mart.suburb_building_approvals", "mart.postcode_building_approvals"]
+    },
+    "demographics": {
+      "marts_covering_vic": ["mart.suburb_demographic_profile_2021", "mart.postcode_demographic_profile_2021"],
+      "note": "Same 2016/2021 ASGS boundary-mismatch limitation as NSW applies identically (population_2016 / population_growth_2016_2021_pct remain NULL where the boundary comparison isn't valid) — not a VIC-specific gap."
+    },
+    "rba_interest_rate_context": {
+      "table": "mart.national_interest_rate_context",
+      "note": "National by definition — no state-specific rate exists to source separately."
+    }
+  },
+  "affordability_methodology": {
+    "shared_scenario_table": "meta.metric_assumption",
+    "scenario_code": "standard_20pct_deposit_30yr_pi",
+    "jurisdiction_scoping": "none — the assumption table has no jurisdiction/state column, so NSW and VIC snapshots computed from it necessarily share the same deposit_percent (20%), loan_term_years (30), repayment_type (principal_and_interest), rate_source (mart.national_interest_rate_context), and lmi_included (false, excluded) — verified by direct query, not by re-implementing the formula per state.",
+    "conclusion": "No code change needed to guarantee identical methodology across NSW/VIC — this is a structural property of the existing schema, confirmed rather than assumed."
+  },
+  "no_new_local_store_required": true,
+  "no_new_download_required": true,
+  "no_supabase_write_made_this_phase": true
+}

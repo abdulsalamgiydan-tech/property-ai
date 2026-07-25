@@ -57,12 +57,17 @@ import {
   snapshotPeriodToggleLabel,
   type SnapshotPeriod,
 } from "@/lib/keySnapshotDisplay";
+import { buildStressTestRows } from "@/lib/propertyAnalysisSensitivity";
 import {
   getSuggestedAssumptionsForSuburb,
   SUBURB_SUGGESTION_BANNER,
+  SUBURB_SUGGESTION_NOT_COVERED_MESSAGE,
 } from "@/lib/suburbAssumptions";
+import { AboutThisMetric } from "@/components/research/AboutThisMetric";
 import { loadAnalyseDraft, saveAnalyseDraft } from "@/lib/auth/toolDraftStorage";
 import { SaveReportButton } from "@/components/analyse/SaveReportButton";
+import { ResearchReportExportButtons } from "@/components/research/ResearchReportExportButtons";
+import { buildResearchReportBundle } from "@/lib/export/researchReport";
 import Link from "next/link";
 import {
   useEffect,
@@ -154,7 +159,7 @@ export function AnalysePropertyClient() {
   const [holdingCostsStr, setHoldingCostsStr] = useState("");
   const [isPreCGTAsset, setIsPreCGTAsset] = useState(false);
   const [marketValueAt2027Str, setMarketValueAt2027Str] = useState("");
-  const [resultsTab, setResultsTab] = useState<"analysis" | "compare">("analysis");
+  const [resultsTab, setResultsTab] = useState<"analysis" | "compare" | "stress">("analysis");
 
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isAnalysing, setIsAnalysing] = useState(false);
@@ -164,9 +169,17 @@ export function AnalysePropertyClient() {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   /** True when growth / vacancy / rental growth were filled from suburb-based suggestions. */
   const [suburbSuggestionActive, setSuburbSuggestionActive] = useState(false);
+  const [suburbSuggestionLoading, setSuburbSuggestionLoading] = useState(false);
+  const [suburbSuggestionNotCovered, setSuburbSuggestionNotCovered] = useState(false);
+  const [suburbSuggestionGeographyId, setSuburbSuggestionGeographyId] = useState<string | null>(null);
 
   const { showFullToolAccess, openEarlyAccessModal } = useAuth();
   const lastSavedInputsRef = useRef<PropertyAnalysisInputs | null>(null);
+  // Mirrors lastSavedInputsRef.current for the one place (SaveReportButton's
+  // props below) that needs this value during render — refs can't be read
+  // during render (react-hooks/refs), only from effects/handlers, so this
+  // state is set alongside the ref at every assignment site.
+  const [lastSavedInputs, setLastSavedInputs] = useState<PropertyAnalysisInputs | null>(null);
   const draftHydratedRef = useRef(false);
 
   const inputClass =
@@ -223,6 +236,7 @@ export function AnalysePropertyClient() {
       if (!built.ok) return prev;
       const next = analyzeProperty(built.input);
       lastSavedInputsRef.current = built.input;
+      setLastSavedInputs(built.input);
       return next;
     });
   }, [investmentStrategy, currentYear]);
@@ -268,6 +282,7 @@ export function AnalysePropertyClient() {
     if (d.marketValueAt1July2027 !== undefined) setMarketValueAt2027Str(d.marketValueAt1July2027);
     if (d.savedInputs) {
       lastSavedInputsRef.current = d.savedInputs;
+      setLastSavedInputs(d.savedInputs);
       setResult(analyzeProperty(d.savedInputs));
       setResultAnimKey((k) => k + 1);
     }
@@ -369,21 +384,45 @@ export function AnalysePropertyClient() {
     setSuburbSuggestionActive(false);
   }
 
-  function applySuburbSuggestedAssumptions() {
+  async function applySuburbSuggestedAssumptions() {
     const t = suburb.trim();
     if (!t) {
       setSuburbSuggestionActive(false);
+      setSuburbSuggestionNotCovered(false);
+      setSuburbSuggestionGeographyId(null);
       return;
     }
-    const s = getSuggestedAssumptionsForSuburb(t);
-    if (!s) {
+    setSuburbSuggestionLoading(true);
+    setSuburbSuggestionNotCovered(false);
+    const outcome = await getSuggestedAssumptionsForSuburb(t, state);
+    setSuburbSuggestionLoading(false);
+
+    if (!outcome.available) {
       setSuburbSuggestionActive(false);
+      setSuburbSuggestionGeographyId(null);
+      // "not covered" gets its own message; every other outcome (no match,
+      // feature disabled, request failed) just clears silently — the
+      // user's own manual entry is never blocked either way.
+      setSuburbSuggestionNotCovered(outcome.reason === "state_not_covered");
       return;
     }
-    setSuburbGrowthPercent(formatInputNumber(String(s.suburbGrowthPercent)));
-    setVacancyPercent(formatInputNumber(String(s.vacancyPercent)));
-    setRentalGrowthRate(formatInputNumber(String(s.rentalGrowthPercent)));
-    setSuburbSuggestionActive(true);
+
+    const { suggestions } = outcome;
+    let appliedAny = false;
+    if (suggestions.suburbGrowthPercent != null) {
+      setSuburbGrowthPercent(formatInputNumber(String(suggestions.suburbGrowthPercent)));
+      appliedAny = true;
+    }
+    if (suggestions.vacancyPercent != null) {
+      setVacancyPercent(formatInputNumber(String(suggestions.vacancyPercent)));
+      appliedAny = true;
+    }
+    if (suggestions.rentalGrowthPercent != null) {
+      setRentalGrowthRate(formatInputNumber(String(suggestions.rentalGrowthPercent)));
+      appliedAny = true;
+    }
+    setSuburbSuggestionGeographyId(outcome.geographyId);
+    setSuburbSuggestionActive(appliedAny);
   }
 
   function cashflowDisplay(annual: number): string {
@@ -411,6 +450,7 @@ export function AnalysePropertyClient() {
     setResult(null);
     const builtInput = built.input;
     lastSavedInputsRef.current = builtInput;
+    setLastSavedInputs(builtInput);
     const started = performance.now();
     const waitThen = (next: AnalysisResult | null) => {
       const elapsed = performance.now() - started;
@@ -534,6 +574,11 @@ export function AnalysePropertyClient() {
       };
     });
   }, [expensesGrowthRate, otherRentalIncome, projectionSeries, result]);
+
+  const stressTestRows = useMemo(() => {
+    if (!lastSavedInputs) return null;
+    return buildStressTestRows(lastSavedInputs);
+  }, [lastSavedInputs]);
 
   const liveDetectedScenarioLabel = useMemo(() => {
     const pd = purchaseDateStr.trim()
@@ -1022,6 +1067,11 @@ export function AnalysePropertyClient() {
                     Used for labels and context. Optional suburb-based hints may appear under Advanced
                     Assumptions when available — you can always override them.
                   </span>
+                  {suburbSuggestionLoading ? (
+                    <span className="mt-1 block text-[11px] text-zinc-500">Checking suburb data…</span>
+                  ) : suburbSuggestionNotCovered ? (
+                    <span className="mt-1 block text-[11px] text-zinc-500">{SUBURB_SUGGESTION_NOT_COVERED_MESSAGE}</span>
+                  ) : null}
                 </label>
 
                 <label className="block text-left" htmlFor="fld-address">
@@ -1664,9 +1714,12 @@ export function AnalysePropertyClient() {
                     only — edit freely. Nothing here is a forecast of future returns.
                   </p>
                   {suburbSuggestionActive ? (
-                    <p className="rounded-lg border border-violet-500/30 bg-violet-950/30 px-3 py-2 text-xs leading-relaxed text-violet-100/90">
-                      {SUBURB_SUGGESTION_BANNER}
-                    </p>
+                    <div className="rounded-lg border border-violet-500/30 bg-violet-950/30 px-3 py-2 text-xs leading-relaxed text-violet-100/90">
+                      <p>{SUBURB_SUGGESTION_BANNER}</p>
+                      {suburbSuggestionGeographyId ? (
+                        <AboutThisMetric geographyId={suburbSuggestionGeographyId} geographyType="suburb" metricFamily="sales" />
+                      ) : null}
+                    </div>
                   ) : null}
                   <div className="block text-left">
                     <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
@@ -2280,9 +2333,15 @@ export function AnalysePropertyClient() {
                   </div>
                 </section>
 
-                <div className="flex flex-wrap gap-2 rounded-xl border border-zinc-700/60 bg-zinc-950/40 p-1">
+                <div
+                  className="flex flex-wrap gap-2 rounded-xl border border-zinc-700/60 bg-zinc-950/40 p-1"
+                  role="tablist"
+                  aria-label="Results view"
+                >
                   <button
                     type="button"
+                    role="tab"
+                    aria-selected={resultsTab === "analysis"}
                     onClick={() => setResultsTab("analysis")}
                     className={`flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:flex-none sm:px-4 ${
                       resultsTab === "analysis"
@@ -2294,6 +2353,8 @@ export function AnalysePropertyClient() {
                   </button>
                   <button
                     type="button"
+                    role="tab"
+                    aria-selected={resultsTab === "compare"}
                     onClick={() => setResultsTab("compare")}
                     className={`flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:flex-none sm:px-4 ${
                       resultsTab === "compare"
@@ -2303,9 +2364,68 @@ export function AnalysePropertyClient() {
                   >
                     Compare scenarios
                   </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={resultsTab === "stress"}
+                    onClick={() => setResultsTab("stress")}
+                    className={`flex-1 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wide transition sm:flex-none sm:px-4 ${
+                      resultsTab === "stress"
+                        ? "bg-violet-600 text-white"
+                        : "text-zinc-400 hover:text-zinc-200"
+                    }`}
+                  >
+                    Stress test
+                  </button>
                 </div>
 
                 {resultsTab === "analysis" ? renderAnalyseProjections() : null}
+
+                {resultsTab === "stress" && stressTestRows ? (
+                  <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                      Rate &amp; vacancy stress test
+                    </h3>
+                    <p className="mt-2 text-[11px] leading-relaxed text-zinc-500">
+                      Same deal, re-run under higher interest rates and vacancy — a quick check on how much
+                      buffer this deal has before after-tax cashflow turns negative.
+                    </p>
+                    <div className="mt-4 overflow-x-auto rounded-lg border border-zinc-700/40">
+                      <table className="w-full min-w-[30rem] border-collapse text-xs text-zinc-300">
+                        <thead>
+                          <tr className="border-b border-zinc-600/80 bg-zinc-900/80 text-[10px] font-semibold uppercase tracking-wide text-zinc-400">
+                            <th className="whitespace-nowrap px-3 py-2 text-left">Scenario</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">Rate</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">Vacancy</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">After-tax cashflow</th>
+                            <th className="whitespace-nowrap px-3 py-2 text-right">Score</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {stressTestRows.map((row) => (
+                            <tr key={row.label} className="border-b border-zinc-800/80 last:border-0">
+                              <td className="px-3 py-2 text-[11px] leading-snug text-zinc-200">{row.label}</td>
+                              <td className="px-3 py-2 text-right tabular-nums">{formatPercent(row.interestRatePercent)}</td>
+                              <td className="px-3 py-2 text-right tabular-nums">{formatPercent(row.vacancyPercent)}</td>
+                              <td
+                                className={`px-3 py-2 text-right tabular-nums ${
+                                  row.afterTaxCashflow >= 0 ? "text-emerald-400" : "text-red-400"
+                                }`}
+                              >
+                                {formatAud(row.afterTaxCashflow)}
+                              </td>
+                              <td className="px-3 py-2 text-right tabular-nums">{row.score}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <p className="mt-3 text-[10px] leading-relaxed text-zinc-600">
+                      Illustrative only — every row re-runs the same model with a shocked interest rate and/or
+                      vacancy assumption, all else held equal.
+                    </p>
+                  </section>
+                ) : null}
 
                 {resultsTab === "compare" && scenarioComparison ? (
                   <section className="rounded-xl border border-zinc-600/50 bg-zinc-950/40 p-4">
@@ -2348,7 +2468,7 @@ export function AnalysePropertyClient() {
                   </h3>
                   <div className="flex flex-wrap gap-3">
                     <SaveReportButton
-                      inputs={lastSavedInputsRef.current!}
+                      inputs={lastSavedInputs!}
                       results={result}
                       propertyName={propertyAddress || suburb || undefined}
                       address={propertyAddress || undefined}
@@ -2359,6 +2479,27 @@ export function AnalysePropertyClient() {
                     >
                       Compare with another property
                     </a>
+                  </div>
+                  <div className="mt-3">
+                    <ResearchReportExportButtons
+                      filenameBase={`propellect-deal-analysis-${(propertyAddress || suburb || "property").toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                      bundle={buildResearchReportBundle({
+                        propertyAnalysis: {
+                          propertyName: propertyAddress || suburb || null,
+                          purchasePrice: result.purchasePrice,
+                          weeklyRent: result.weeklyRent,
+                          grossYieldPercent: result.grossYieldPercent,
+                          loanAmount: result.loan,
+                          lvrPercent: result.lvr,
+                          depositPercent: depositPercent ? parseNumber(depositPercent) : 0,
+                          interestRatePercent: result.interestRatePercent,
+                          preTaxCashflowAnnual: result.preTaxCashflow,
+                          afterTaxCashflowAnnual: result.afterTaxCashflow,
+                          score: result.score,
+                          status: result.status,
+                        },
+                      })}
+                    />
                   </div>
                 </section>
 

@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-07-20T04:24:21.429Z",
+  "source": "warehouse/data/local/asgs_2021.duckdb",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "skipped_special_purpose": {
+    "geography": 152,
+    "correspondence": 159
+  },
+  "promoted": {
+    "dim_geography": 83241,
+    "relationship_hierarchy": 64710,
+    "relationship_lga_sal_state": 15881,
+    "correspondence": 227159
+  },
+  "skipped": {
+    "poa_to_state": "not derivable (postal areas cross state borders) — pending, not invented",
+    "sa4_to_state_direct": "available transitively via SA4->GCCSA->STATE",
+    "correspondence_endpoint_not_in_core": 0
+  },
+  "gates_after": {
+    "dup_codes": 0,
+    "invalid_geoms": 0,
+    "null_codes": 0,
+    "zero_area_geoms": 0,
+    "orphan_refs": 0,
+    "weight_violations": 0
+  },
+  "core_state": {
+    "dim_by_type": {
+      "GCCSA": 16,
+      "LGA": 547,
+      "POA": 2641,
+      "SA1": 61811,
+      "SA2": 2454,
+      "SA3": 340,
+      "SA4": 89,
+      "SAL": 15334,
+      "STATE": 9
+    },
+    "dim_total": 83241,
+    "versions": 9,
+    "rel_by_type": {
+      "contains": 80591
+    },
+    "rel_total": 80591,
+    "corr_by_pair": {
+      "SA1->POA": 65284,
+      "SA2->POA": 5885,
+      "SA1->SAL": 73097,
+      "SA2->SAL": 17477,
+      "SA1->LGA": 62338,
+      "SA2->LGA": 3078
+    },
+    "corr_total": 227159,
+    "srids": [
+      4326
+    ],
+    "db_size": "797 MB"
+  }
+}

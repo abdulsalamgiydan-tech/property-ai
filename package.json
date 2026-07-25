@@ -7,28 +7,63 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "warehouse:check": "node warehouse/scripts/quality/check_warehouse_files.mjs",
+    "warehouse:rls:check": "node warehouse/scripts/quality/check_rls_policies.mjs",
+    "warehouse:refresh": "node warehouse/scripts/orchestration/refresh_engine_v2.mjs",
+    "warehouse:refresh:plan": "node warehouse/scripts/orchestration/refresh_engine_v3.mjs --plan",
+    "warehouse:refresh:dry-run": "node warehouse/scripts/orchestration/refresh_engine_v3.mjs --dry-run",
+    "warehouse:refresh:dataset": "node warehouse/scripts/orchestration/refresh_engine_v3.mjs --execute",
+    "warehouse:refresh:domain": "node warehouse/scripts/orchestration/refresh_engine_v3.mjs --execute",
+    "warehouse:refresh:jurisdiction": "node warehouse/scripts/orchestration/refresh_engine_v3.mjs --execute",
+    "warehouse:refresh:stale": "node warehouse/scripts/orchestration/refresh_engine_v3.mjs --execute --stale",
+    "warehouse:refresh:resume": "node warehouse/scripts/orchestration/refresh_engine_v2.mjs",
+    "warehouse:refresh:status": "node warehouse/scripts/orchestration/refresh_engine_v3.mjs --status",
+    "warehouse:refresh:validate": "node warehouse/scripts/orchestration/refresh_engine_v3.mjs --validate",
+    "warehouse:quality:check": "node warehouse/scripts/quality/run_quality_check.mjs",
+    "warehouse:quality:dataset": "node warehouse/scripts/quality/run_quality_check.mjs --execute",
+    "warehouse:quality:jurisdiction": "node warehouse/scripts/quality/run_quality_check.mjs --execute",
+    "warehouse:quality:domain": "node warehouse/scripts/quality/run_quality_check.mjs --execute",
+    "warehouse:quality:report": "node warehouse/scripts/quality/quality_report.mjs",
+    "warehouse:freshness": "node warehouse/scripts/orchestration/check_freshness.mjs",
+    "warehouse:incidents": "node warehouse/scripts/quality/report_incidents.mjs",
+    "warehouse:lineage:check": "node warehouse/scripts/lineage/validate_metric_lineage_completeness.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.103.3",
     "@vercel/analytics": "^2.0.1",
-    "next": "16.2.3",
+    "leaflet": "^1.9.4",
+    "next": "^16.2.11",
+    "node-xlrd": "^0.3.10",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-leaflet": "^5.0.0",
     "react-markdown": "^10.1.0",
     "recharts": "^3.8.1",
     "zod": "^4.4.2"
   },
   "devDependencies": {
+    "@duckdb/node-api": "^1.5.4-r.1",
     "@tailwindcss/postcss": "^4",
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.3",
+    "eslint-config-next": "^16.2.11",
+    "exceljs": "^4.4.0",
+    "pg": "^8.22.0",
+    "playwright": "^1.61.1",
+    "shapefile": "^0.6.6",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^3.2.4"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.23",
+      "sharp": "0.35.3"
+    }
   }
 }

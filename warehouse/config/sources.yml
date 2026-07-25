@@ -1,0 +1,85 @@
+# Warehouse source configuration.
+# Free-data-first: every source here must be free, official/public, and licensed for reuse.
+# No commercial data providers and no scraping of protected property portals.
+# Secrets never live in this file — connection details come from environment variables.
+
+defaults:
+  licence_requirement: free_reuse_permitted
+  allow_scraping_protected_sites: false
+  allow_commercial_data: false
+
+sources:
+  abs_asgs:
+    enabled: true
+    priority: 1            # geography backbone — everything else depends on it
+    # Discovered artefacts + verified URLs: warehouse/reports/asgs_source_manifest.json
+    # (regenerate with warehouse/scripts/geography/discover_asgs_sources.mjs)
+    discovery:
+      landing: https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026
+      boundary_downloads: https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files
+      allocation_files: https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/allocation-files
+      correspondences: https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/correspondences
+    raw_storage: warehouse/data/raw/asgs/ASGS3_2021   # gitignored
+    extract:
+      method: file_download
+      formats: [shp_zip, csv]
+    datasets:
+      # one boundary dataset per level (GDA2020 shapefile zips)
+      - asgs_state_2021_boundaries    # STE zip URL still needs_review in manifest
+      - asgs_gccsa_2021_boundaries
+      - asgs_sa4_2021_boundaries
+      - asgs_sa3_2021_boundaries
+      - asgs_sa2_2021_boundaries
+      - asgs_sa1_2021_boundaries
+      - asgs_lga_2021_boundaries
+      - asgs_sal_2021_boundaries
+      - asgs_poa_2021_boundaries
+      # correspondences (SA1-based official allocations; SA2 versions derived)
+      - asgs_corr_sa1_to_sal_2021
+      - asgs_corr_sa1_to_poa_2021
+      - asgs_corr_sa1_to_lga_2021
+      - asgs_corr_sa2_to_sal_2021
+      - asgs_corr_sa2_to_poa_2021
+      - asgs_corr_sa2_to_lga_2021
+
+  abs_census:
+    enabled: false          # future sprint
+    priority: 2
+    extract:
+      method: file_download
+      formats: [csv]
+
+  abs_building_approvals:
+    enabled: false          # future sprint
+    priority: 3
+    extract:
+      method: file_download
+      formats: [xlsx, csv]
+
+  rba_rates:
+    enabled: false          # future sprint
+    priority: 4
+    extract:
+      method: file_download
+      formats: [xlsx, csv]
+
+  abs_lending_indicators:
+    enabled: false          # future sprint
+    priority: 5
+    extract:
+      method: file_download
+      formats: [xlsx, csv]
+
+  nsw_vg_sales:
+    enabled: false          # future sprint
+    priority: 6
+    extract:
+      method: file_download
+      formats: [dat, zip_extracted_locally]
+
+  nsw_rental_bonds:
+    enabled: false          # future sprint
+    priority: 7
+    extract:
+      method: file_download
+      formats: [xlsx, csv]

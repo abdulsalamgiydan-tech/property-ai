@@ -1,0 +1,52 @@
+{
+  "generated_at": "2026-07-22T09:02:08.225Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "open_incidents": [
+    {
+      "incident_id": "3a0e40da-150f-40aa-bf58-1fcaa25e7149",
+      "rule_id": "cross_border_postcode_sales",
+      "target_schema": "mart",
+      "target_table": "postcode_market_snapshot",
+      "jurisdiction_code": null,
+      "severity": "advisory",
+      "summary": "Flags postcodes whose Australia-Post-range-heuristic jurisdiction doesn't match their sales_source's expected jurisdiction (e.g. nsw_vg_sales data under a QLD/ACT-range postcode). Advisory, not blocking -- WS8 already investigated and documented this as a real, small-volume, unresolved case; this rule keeps it visible on every run rather than a one-time finding that gets forgotten. (16 affected)",
+      "occurrence_count": 2,
+      "opened_at": "2026-07-22T08:59:58.238Z"
+    },
+    {
+      "incident_id": "b4cd0dd8-07b5-4351-a9be-e0cfbed226f0",
+      "rule_id": "source_url_health",
+      "target_schema": null,
+      "target_table": null,
+      "jurisdiction_code": null,
+      "severity": "advisory",
+      "summary": "Every registered source URL should still resolve (2xx) and, for sources known to serve a direct data file, not silently redirect to an HTML page (a classic 'source moved, old link now serves a 200 OK landing page' failure). (1 affected)",
+      "occurrence_count": 2,
+      "opened_at": "2026-07-22T09:00:36.318Z"
+    },
+    {
+      "incident_id": "13ac876f-9abf-4123-85df-c4b5ac2d9b6e",
+      "rule_id": "weight_reconciliation_bridge",
+      "target_schema": "core",
+      "target_table": "bridge_geography_correspondence",
+      "jurisdiction_code": null,
+      "severity": "advisory",
+      "summary": "Each source geography's correspondence weights should sum to ~1.0 (documented ABS special-code exclusions mean this is advisory, not a hard blocker -- see WS4's methodology doc). (6 affected)",
+      "occurrence_count": 2,
+      "opened_at": "2026-07-22T09:00:37.178Z"
+    }
+  ],
+  "resolved_incident_count": 0,
+  "quarantine_total": 2,
+  "quarantine_summary": [
+    {
+      "rule_id": "future_dated_sales",
+      "target_schema": "core",
+      "target_table": "fact_residential_sales_summary",
+      "reason": "reference_period in the future — impossible observation date, corrupts \"latest year with data\" mart logic",
+      "quarantined_count": 2,
+      "created_at": "2026-07-22T08:53:58.969Z"
+    }
+  ]
+}

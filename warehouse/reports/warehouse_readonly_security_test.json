@@ -1,0 +1,92 @@
+{
+  "generated_at": "2026-07-20T20:14:01.433Z",
+  "verdict": "PASSED",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "auth_method": "anon key (public, non-secret) via supabase-js — no service-role key used anywhere",
+  "results": [
+    {
+      "name": "search suburb/postcode geography",
+      "expected": "success",
+      "outcome": "success",
+      "ok": true,
+      "detail": "4 row(s)"
+    },
+    {
+      "name": "suburb market snapshot select",
+      "expected": "success",
+      "outcome": "success",
+      "ok": true,
+      "detail": "5 row(s)"
+    },
+    {
+      "name": "postcode market snapshot select",
+      "expected": "success",
+      "outcome": "success",
+      "ok": true,
+      "detail": "5 row(s)"
+    },
+    {
+      "name": "suburb demographic profile select",
+      "expected": "success",
+      "outcome": "success",
+      "ok": true,
+      "detail": "5 row(s)"
+    },
+    {
+      "name": "metric assumptions select",
+      "expected": "success",
+      "outcome": "success",
+      "ok": true,
+      "detail": "7 row(s)"
+    },
+    {
+      "name": "time-series RPC",
+      "expected": "success",
+      "outcome": "success",
+      "ok": true,
+      "detail": "1 row(s)"
+    },
+    {
+      "name": "INSERT into snapshot view",
+      "expected": "error",
+      "outcome": "error",
+      "ok": true,
+      "detail": "permission denied for view v_suburb_market_snapshot_v1"
+    },
+    {
+      "name": "UPDATE snapshot view",
+      "expected": "error",
+      "outcome": "error",
+      "ok": true,
+      "detail": "permission denied for view v_suburb_market_snapshot_v1"
+    },
+    {
+      "name": "DELETE from snapshot view",
+      "expected": "error",
+      "outcome": "error",
+      "ok": true,
+      "detail": "permission denied for view v_suburb_market_snapshot_v1"
+    },
+    {
+      "name": "direct access to core.dim_geography",
+      "expected": "error",
+      "outcome": "error",
+      "ok": true,
+      "detail": "Invalid schema: core"
+    },
+    {
+      "name": "direct access to mart.suburb_market_snapshot",
+      "expected": "error",
+      "outcome": "error",
+      "ok": true,
+      "detail": "Invalid schema: mart"
+    },
+    {
+      "name": "direct access to meta.metric_assumption",
+      "expected": "error",
+      "outcome": "error",
+      "ok": true,
+      "detail": "Invalid schema: meta"
+    }
+  ]
+}

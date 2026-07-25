@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-07-22T00:25:00+10:00",
+  "scope": "Sprint 11 Workstream 5 — national population-demand layer",
+  "source": {
+    "publisher": "Australian Bureau of Statistics",
+    "product": "Regional population, 2024-25 financial year",
+    "table": "Table 1 — Estimated resident population, Statistical Areas Level 2, Australia",
+    "url": "https://www.abs.gov.au/statistics/people/population/regional-population/latest-release",
+    "download_url": "https://www.abs.gov.au/statistics/people/population/regional-population/2024-25/32180DS0003_2001-25.xlsx",
+    "access_method": "direct file_download, no bot protection (verified via plain curl)",
+    "licence": "Creative Commons Attribution 4.0 (standard ABS content licence)",
+    "data_type": "observed Estimated Resident Population (ERP) — NEVER a projection, per ABS's own definition on the product page",
+    "geography_level": "SA2 (Statistical Area Level 2) — the ABS's own recommended grain for this product, not suburb/postcode"
+  },
+  "local_build": {
+    "years_covered": "2001-2025 (25 annual observations per SA2)",
+    "distinct_sa2_geographies": 2454,
+    "total_observations": 61335,
+    "national_total_population_2025": 27613654,
+    "state_breakdown_2025": {
+      "New South Wales": 8592524,
+      "Victoria": 7073859,
+      "Queensland": 5669764,
+      "Western Australia": 3044382,
+      "South Australia": 1902665,
+      "Tasmania": 576261,
+      "Australian Capital Territory": 484630,
+      "Northern Territory": 264556,
+      "Other Territories": 5013
+    },
+    "derived_metrics": ["growth_1y_pct (2024->2025)", "growth_5y_annualised_pct (2020->2025, compound annual growth rate)"],
+    "local_storage": ["warehouse/data/local/national_population.duckdb", "warehouse/data/local/sa2_population_2001_2025.parquet", "warehouse/data/local/sa2_population_growth.parquet"]
+  },
+  "validation": {
+    "negative_population_rows": 0,
+    "national_total_plausibility": "27,613,654 matches Australia's known 2025 population within expected range",
+    "cross_validation_method": "top-5 fastest-growing SA2s (population > 5,000) computed independently from the parsed data were compared against the ABS product page's own published narrative highlights",
+    "cross_validation_result": "PASS — Fraser Rise-Plumpton, Box Hill-Nelson, Tarneit-North, Virginia-Waterloo Corner, and Austral-Greendale all appear verbatim in both the independently computed top-5 list AND the ABS page's own 'areas with the largest growth' narrative text, confirming genuine correctness rather than coincidental plausibility"
+  },
+  "additional_source_downloaded_not_yet_parsed": {
+    "file": "32180DS0001_2024-25.xlsx",
+    "description": "Population estimates AND COMPONENTS (natural increase, internal migration, overseas migration) by SA2, 2024-25 only",
+    "status": "downloaded and confirmed genuine (Microsoft Excel 2007+), structure not yet parsed into the local store — reserved for a future pass if per-component (migration vs natural increase) breakdown is needed beyond total population growth"
+  },
+  "branch_promotion_status": "NOT YET PROMOTED. This is SA2-grain data — no SA2-level mart table exists yet on the branch (SAL/POA are the only geography levels currently promoted). Promotion is deliberately deferred to Workstream 9, which owns the SA2/LGA canonical mart schema decisions, so this population layer becomes the SA2 mart's first real content rather than a one-off table built outside that workstream's scope.",
+  "not_used_this_pass": {
+    "household_projections": "explicitly not used — this sprint's hard rule forbids using projections in historical metrics; only observed ERP was sourced",
+    "internal_overseas_migration_detail": "the components file exists locally but detailed migration-vs-natural-increase attribution was not built this pass, only total population and its growth rate"
+  }
+}

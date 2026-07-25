@@ -1,0 +1,54 @@
+export function isWarehousePreviewEnabled(): boolean {
+  return process.env.WAREHOUSE_PREVIEW_ENABLED === "true";
+}
+
+// Sprint 10 — gates the multi-state (NSW + VIC) explore/compare routes and
+// the new v2 query functions. Disabled by default, independent of
+// WAREHOUSE_PREVIEW_ENABLED (both must be true for the new routes — see
+// app/research/explore and app/research/compare layouts).
+export function isMultiStateResearchEnabled(): boolean {
+  return process.env.MULTI_STATE_RESEARCH_ENABLED === "true";
+}
+
+export function isWarehouseConfigured(): boolean {
+  const url = process.env.WAREHOUSE_SUPABASE_URL;
+  const key = process.env.WAREHOUSE_SUPABASE_ANON_KEY;
+  return Boolean(url && key);
+}
+
+// Sprint 11 WS18 — gates /research/data-status independently of the general
+// WAREHOUSE_PREVIEW_ENABLED gate, since it exposes operational detail
+// (refresh history, storage consumption) that a reviewer may want to
+// preview separately from the research content itself. Both flags are
+// checked by the page (defence in depth, same pattern as
+// MULTI_STATE_RESEARCH_ENABLED alongside WAREHOUSE_PREVIEW_ENABLED).
+export function isDataOperationsEnabled(): boolean {
+  return process.env.DATA_OPERATIONS_ENABLED === "true";
+}
+
+// Sprint 11 WS18 — gates the National Property Scenario Lab (/research/scenario,
+// built in Sprint 12 Part C). Added ahead of the route's existence so
+// staging/preview config can be prepared without a later mid-sprint env
+// var addition. Unused until the route exists; defaults to disabled.
+export function isScenarioLabEnabled(): boolean {
+  return process.env.SCENARIO_LAB_ENABLED === "true";
+}
+
+// Sprint 12 WS11 — gates /api/v1/* independently of the internal
+// /research routes' WAREHOUSE_PREVIEW_ENABLED gate. This is deliberately
+// a SEPARATE flag: /api/v1 is meant to be consumed by external callers
+// (not just this app's own UI), so its rollout should be controllable
+// independently of whether the internal research UI preview is on.
+export function isPublicApiV1Enabled(): boolean {
+  return process.env.PUBLIC_API_V1_ENABLED === "true";
+}
+
+// Sprint 14 WS5 — gates the grounded AI research copilot
+// (/research/copilot, app/api/research/copilot). Defaults to disabled:
+// this is the only feature in the app that makes a paid LLM call outside
+// the pre-existing /strategy generator, so it stays off until both this
+// flag AND migration 042 (research_copilot_queries, for rate limiting)
+// are explicitly applied — see the WS5 workstream report.
+export function isResearchCopilotEnabled(): boolean {
+  return process.env.RESEARCH_COPILOT_ENABLED === "true";
+}

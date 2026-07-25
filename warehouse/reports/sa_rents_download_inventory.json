@@ -1,0 +1,576 @@
+{
+  "generated_at": "2026-07-21T19:59:38.235Z",
+  "total_resources": 71,
+  "downloaded": 71,
+  "skipped_existing": 0,
+  "files": [
+    {
+      "period": "2008-06",
+      "file": "private-rental-report-2008-06.xlsx",
+      "bytes": 633856,
+      "sha256": "47cc2b9d3741ae8c5c6108c7908aa8a6a2e6de6a53a9fad616a957765fa0102f",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/ebb84c7d-5909-4a6b-913c-2dec1b36369b/download/cuserscrahirdesktopprivate-rental-report-2008-06.xls",
+      "resource_created": "2019-11-29T00:36:20.403421"
+    },
+    {
+      "period": "2008-09",
+      "file": "private-rental-report-2008-09.xlsx",
+      "bytes": 636928,
+      "sha256": "25a1472b46f9545da3b0b2b6a08de2ee254a1b6153f1c19d998fd39c8715869f",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/eab4acc4-c310-421c-9354-dd5bac4830b8/download/cuserscrahirdesktopprivate-rental-report-2008-09.xls",
+      "resource_created": "2019-11-29T00:35:18.943916"
+    },
+    {
+      "period": "2008-12",
+      "file": "private-rental-report-2008-12.xlsx",
+      "bytes": 635392,
+      "sha256": "4f00b10314928fbe3cc77921e426274141d13d9e31986071a815644b984f88c0",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/cc3dbf13-8ab0-40db-abcd-3da0ded0ac47/download/cuserscrahirdesktopprivate-rental-report-2008-12.xls",
+      "resource_created": "2019-11-29T00:34:22.705990"
+    },
+    {
+      "period": "2009-03",
+      "file": "private-rental-report-2009-03.xlsx",
+      "bytes": 623104,
+      "sha256": "9e8d3683dffa58fb6678e1875db1b0c1321c4849022a547e0a5cc22f0913a37f",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/072a76ae-0439-4c9e-81f9-d0adce84da83/download/cuserscrahirdesktopprivate-rental-report-2009-03.xls",
+      "resource_created": "2019-11-29T00:33:49.916775"
+    },
+    {
+      "period": "2009-06",
+      "file": "private-rental-report-2009-06.xlsx",
+      "bytes": 637952,
+      "sha256": "feb88963470d82f73b68020905448e5f3842767e21408b61190b16e36cb8ea1c",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/49355027-dbf3-48e0-9090-8f596b308c01/download/cuserscrahirdesktopprivate-rental-report-2009-06.xls",
+      "resource_created": "2019-11-29T00:25:43.569564"
+    },
+    {
+      "period": "2009-09",
+      "file": "private-rental-report-2009-09.xlsx",
+      "bytes": 628736,
+      "sha256": "65b1fc7b12519fff8286e4314b16caffa15c643bdf0359791b9e1f1a9954120c",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/ce9ee44b-1478-42b3-a7fe-c92fd514fd5e/download/cuserscrahirdesktopprivate-rental-report-2009-09.xls",
+      "resource_created": "2019-11-29T00:23:14.564058"
+    },
+    {
+      "period": "2009-12",
+      "file": "private-rental-report-2009-12.xlsx",
+      "bytes": 619008,
+      "sha256": "940977d5d826e70c13126090d19edd1145ba7c194070be1ed6d1305860626518",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/8119a30e-b9ac-4ec8-9ca9-d439b324be43/download/cuserscrahirdesktopprivate-rental-report-2009-12.xls",
+      "resource_created": "2019-11-29T00:19:40.755320"
+    },
+    {
+      "period": "2010-03",
+      "file": "private-rental-report-2010-03.xlsx",
+      "bytes": 631808,
+      "sha256": "d75ef5e54874444490e734fe77bfdc177dcaa75e951f29edb10221c27b333f53",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/7165bfe9-b629-4482-82d2-95b9b8d64aa3/download/cuserscrahirdesktopprivate-rental-report-2010-03.xls",
+      "resource_created": "2019-11-29T00:19:07.311954"
+    },
+    {
+      "period": "2010-06",
+      "file": "private-rental-report-2010-06.xlsx",
+      "bytes": 637440,
+      "sha256": "d31feb57dd649a226cd7833bd309046322b24dfdc3df46c7957f2e3edd4b2187",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/7e21d0f4-7e58-4389-8a20-744a544120db/download/cuserscrahirdesktopprivate-rental-report-2010-06.xls",
+      "resource_created": "2019-11-29T00:15:13.302089"
+    },
+    {
+      "period": "2010-09",
+      "file": "private-rental-report-2010-09.xlsx",
+      "bytes": 637952,
+      "sha256": "c0e6108fe27eb229b890eeb51328c7ab4d6b3f9672562be276c5673ec9039012",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/daf86508-30a7-41cd-b9cd-4846f0d71f28/download/cuserscrahirdesktopprivate-rental-report-2010-09.xls",
+      "resource_created": "2019-11-29T00:05:49.732069"
+    },
+    {
+      "period": "2010-12",
+      "file": "private-rental-report-2010-12.xlsx",
+      "bytes": 627200,
+      "sha256": "92c43a5a5a6658e782bfd755e328af9888d37b31df05ebe4a047a2840b902635",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/f6fda8cd-9f28-4d1f-9033-00773b22d8c7/download/cuserscrahirdesktopprivate-rental-report-2010-12.xls",
+      "resource_created": "2019-11-29T00:05:13.616703"
+    },
+    {
+      "period": "2011-03",
+      "file": "private-rental-report-2011-03.xlsx",
+      "bytes": 633344,
+      "sha256": "f358709411aa328aa3a741de49d562a2d3b57825b1b48afb3152c30f4e21cb3a",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/2ae58d2c-1262-4ec0-b5f1-f3379b81e0db/download/cuserscrahirdesktopprivate-rental-report-2011-03.xls",
+      "resource_created": "2019-11-29T00:04:16.377961"
+    },
+    {
+      "period": "2011-06",
+      "file": "private-rental-report-2011-06.xlsx",
+      "bytes": 631808,
+      "sha256": "afa5add90a0858b6ff11569d74ef2ad64793cee74c2d2fa6f99778eadd9fb8c1",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/e2b31376-7be2-40f8-a604-29b11e7b7dfe/download/cuserscrahirdesktopprivate-rental-report-2011-06.xls",
+      "resource_created": "2019-11-29T00:03:45.862772"
+    },
+    {
+      "period": "2011-09",
+      "file": "private-rental-report-2011-09.xlsx",
+      "bytes": 647168,
+      "sha256": "7663294bd730a8e007b891aa9070088a0d800717724dc39e3a993d1bc4ad6b59",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/88f00b61-bb14-45d5-a9e3-e2c893fc05b2/download/cuserscrahirdesktopprivate-rental-report-2011-09.xls",
+      "resource_created": "2019-11-29T00:00:54.082303"
+    },
+    {
+      "period": "2011-12",
+      "file": "private-rental-report-2011-12.xlsx",
+      "bytes": 628224,
+      "sha256": "f776460cd7af276753567a3a7b0d0a2e29f0513f30e0d6da744b750c0220e30a",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/c4db7020-9b17-4d44-a87a-4611dc40e33d/download/cuserscrahirdesktopprivate-rental-report-2011-12.xls",
+      "resource_created": "2019-11-29T00:00:13.526939"
+    },
+    {
+      "period": "2012-03",
+      "file": "private-rental-report-2012-03.xlsx",
+      "bytes": 645120,
+      "sha256": "f2103d95b832332309b54204caf28fc62da40406f0e247ed0e39cead7fafd1e1",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/fa171280-86d4-4b28-801f-fcc60cb2614e/download/cuserscrahirdesktopprivate-rental-report-2012-03.xls",
+      "resource_created": "2019-11-28T23:59:26.848208"
+    },
+    {
+      "period": "2012-06",
+      "file": "private-rental-report-2012-06.xlsx",
+      "bytes": 656896,
+      "sha256": "31a9bf1d4f750739a89dadc5ce8f061feabbb8803629d84bac61f7d282ee02ac",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/c93fd36c-b378-448d-88bc-74d97d9c42e3/download/cuserscrahirdesktopprivate-rental-report-2012-06.xls",
+      "resource_created": "2019-11-28T23:58:34.221504"
+    },
+    {
+      "period": "2012-09",
+      "file": "private-rental-report-2012-09.xlsx",
+      "bytes": 316068,
+      "sha256": "cb7441842fa421e1387f417b8e742522e454a4c77eb9264ef3da65c66c9916ba",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/893218dc-73fa-47cc-9d02-d4940d8a80dd/download/private-rental-quarterly-report-2012-09.xlsx",
+      "resource_created": "2019-08-27T01:35:01.364694"
+    },
+    {
+      "period": "2012-12",
+      "file": "private-rental-report-2012-12.xlsx",
+      "bytes": 351014,
+      "sha256": "9fb2d95551e87b97c18ab6d33a612a8eb0afa9a674284c285269cf97549e98c8",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/79bb9e34-cb7a-4f69-a6ae-fd18e855db8d/download/private-rental-quarterly-report-2012-12.xlsx",
+      "resource_created": "2019-08-27T01:34:13.363277"
+    },
+    {
+      "period": "2013-03",
+      "file": "private-rental-report-2013-03.xlsx",
+      "bytes": 355134,
+      "sha256": "79b040097d76715b0c4181cbe4b1defbf9a34a398a019c71953111d34a4465a1",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/26a33e8d-2bdc-40da-aea8-83be4e40835f/download/private-rental-quarterly-report-2013-03.xlsx",
+      "resource_created": "2019-08-27T01:33:22.656882"
+    },
+    {
+      "period": "2013-06",
+      "file": "private-rental-report-2013-06.xlsx",
+      "bytes": 360313,
+      "sha256": "316396c8918213e6471eb6ab5b503cac6df59d0f0aaaf50e5ec8b70ea26f2140",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/d3031ef5-75d9-4ba2-9212-8acf0d9563eb/download/private-rental-quarterly-report-2013-06.xlsx",
+      "resource_created": "2019-08-27T01:32:07.013235"
+    },
+    {
+      "period": "2013-09",
+      "file": "private-rental-report-2013-09.xlsx",
+      "bytes": 353047,
+      "sha256": "4147c3be8e778c02980680ecbfc3826374e1a6035316c602eafbd5c7411c9af1",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/560a00ed-fa50-40c7-a03f-545dd1c30b2d/download/private-rental-quarterly-report-2013-09.xlsx",
+      "resource_created": "2019-08-27T01:21:46.458089"
+    },
+    {
+      "period": "2013-12",
+      "file": "private-rental-report-2013-12.xlsx",
+      "bytes": 352114,
+      "sha256": "f7a483028d8b984f98710949f1f52417f546ef5e86a60e7675e74c65fc74ddb4",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/3b347633-e2dd-4f78-8c2b-ebb6836a8ba6/download/private-rental-quarterly-report-2013-12.xlsx",
+      "resource_created": "2019-08-27T01:22:41.633722"
+    },
+    {
+      "period": "2014-03",
+      "file": "private-rental-report-2014-03.xlsx",
+      "bytes": 359053,
+      "sha256": "49ce4e9beea600569f0f146f26bd41b0cfcf6b49419cd2a6d6782203419f8771",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/e1117548-02ae-48af-a8c0-8e245c41a4c6/download/private-rental-quarterly-report-2014-03.xlsx",
+      "resource_created": "2019-08-27T01:23:29.008073"
+    },
+    {
+      "period": "2014-06",
+      "file": "private-rental-report-2014-06.xlsx",
+      "bytes": 364545,
+      "sha256": "e22013bc509e6fc028e3faf088d0115178ddfe9e06a4f33fa1c5287a006e9e6e",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/53cb5a17-2ba8-4424-ae98-2cad4ef3722c/download/private-rental-quarterly-report-2014-06.xlsx",
+      "resource_created": "2019-08-27T01:24:21.993884"
+    },
+    {
+      "period": "2014-09",
+      "file": "private-rental-report-2014-09.xlsx",
+      "bytes": 357536,
+      "sha256": "72592fdb57a455872d027a2baa72dacf0fefd05195b4687921aece4a3c827f31",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/08ec9c49-938c-44f9-aed1-3e1e5696e3f0/download/private-rental-quarterly-report-2014-09.xlsx",
+      "resource_created": "2019-08-27T01:17:41.222319"
+    },
+    {
+      "period": "2014-12",
+      "file": "private-rental-report-2014-12.xlsx",
+      "bytes": 359803,
+      "sha256": "a20bbb56d1567fd1681921932065f81fe40cb16a16784ff6e47c8bf5aa729764",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/d86aa63d-60f0-4d36-8b5b-e213c39fb8ae/download/cuserscrahirdesktopprivate-rental-quarterly-report-2014-12.xlsx",
+      "resource_created": "2019-08-27T01:13:36.237400"
+    },
+    {
+      "period": "2015-03",
+      "file": "private-rental-report-2015-03.xlsx",
+      "bytes": 364552,
+      "sha256": "132134553e2e20def55d1eac61405ab3137ec292ea4ee4fdae040b2c37b6eaec",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/bc50e0cb-aaca-4c5e-b149-13c1a645861a/download/cuserscrahirdesktopprivate-rental-quarterly-report-2015-03.xlsx",
+      "resource_created": "2019-08-27T01:12:47.416416"
+    },
+    {
+      "period": "2015-06",
+      "file": "private-rental-report-2015-06.xlsx",
+      "bytes": 366204,
+      "sha256": "d41256cec0c1e7a363e5dd6c9a4c7e421ac93ac41cc8d8b485aec6b7631c5983",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/44efde32-2637-4345-b3de-aa0309380e83/download/cuserscrahirdesktopprivate-rental-quarterly-report-2015-06.xlsx",
+      "resource_created": "2019-08-27T01:11:52.524808"
+    },
+    {
+      "period": "2015-09",
+      "file": "private-rental-report-2015-09.xlsx",
+      "bytes": 363976,
+      "sha256": "dafb80eb494c5aadf7e563b6e8dfb50aa024af34091641c3a726ba17f9f30edb",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/79717206-7da9-4ca4-b168-f9f52907a0e1/download/cuserscrahirdesktopquarterly-private-rental-report-2015-09.xlsx",
+      "resource_created": "2019-08-27T01:11:08.599275"
+    },
+    {
+      "period": "2015-12",
+      "file": "private-rental-report-2015-12.xlsx",
+      "bytes": 367712,
+      "sha256": "19b357369f3a451eecd7ac6bc6768d3fa779be5e0f772547bb84297fb87fbc09",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/4df5fd09-b09a-458c-a11b-a3adfa9e753a/download/cuserscrahirdesktopquarterly-private-rental-report-2015-12.xlsx",
+      "resource_created": "2019-08-27T01:03:04.713412"
+    },
+    {
+      "period": "2016-03",
+      "file": "private-rental-report-2016-03.xlsx",
+      "bytes": 364953,
+      "sha256": "c961e179f22b52aa1f68bf6e895aa37da4be3754b93d02db72fb27bbb135dd59",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/56c5c1e5-9dd1-43e5-aea6-44770648c00c/download/cuserscrahirdesktopquarterly-private-rental-report-2016-03.xlsx",
+      "resource_created": "2019-08-27T01:02:22.987779"
+    },
+    {
+      "period": "2016-06",
+      "file": "private-rental-report-2016-06.xlsx",
+      "bytes": 369916,
+      "sha256": "d124904db98c4ad6afe4827285b2719b040614230c84396fb51c74c5e32384a0",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/99b3ea64-2e7a-4403-8c67-ab9fed779ac1/download/cuserscrahirdesktopquarterly-private-rental-report-2016-06.xlsx",
+      "resource_created": "2019-08-27T01:01:28.869390"
+    },
+    {
+      "period": "2016-09",
+      "file": "private-rental-report-2016-09.xlsx",
+      "bytes": 361787,
+      "sha256": "b710048d41f671abc2d6d7e2d49cd06cbe962949e237f675d9342dcd8821b9b8",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/b4bd129f-614a-4a9c-97c3-8b8bbefefa9e/download/cuserscrahirdesktopquarterly-private-rental-report-2016-09.xlsx",
+      "resource_created": "2019-08-27T00:56:00.965993"
+    },
+    {
+      "period": "2016-12",
+      "file": "private-rental-report-2016-12.xlsx",
+      "bytes": 350592,
+      "sha256": "d50c9636ea0aff40c37c89dfbf8dafc0c1b850b9f223134fce092ca02a7bd7ca",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/f430ba25-6ef0-41aa-9290-27da24c22b29/download/cuserscrahirdesktopquarterly-private-rental-report-2016-12.xlsx",
+      "resource_created": "2019-08-27T00:55:08.649425"
+    },
+    {
+      "period": "2017-03",
+      "file": "private-rental-report-2017-03.xlsx",
+      "bytes": 367543,
+      "sha256": "389f3f51755a869828079889a7af99459a6351a2af18829c98276e0c569c6e57",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/ae427290-3b17-46e0-b2dd-000669bc45e4/download/cuserscrahirdesktopquarterly-private-rental-report-2017-03.xlsx",
+      "resource_created": "2019-08-27T00:54:37.787849"
+    },
+    {
+      "period": "2017-06",
+      "file": "private-rental-report-2017-06.xlsx",
+      "bytes": 275817,
+      "sha256": "867b392f80a754f1e9e04d9c4852bb2f91592975836db9f53f5391eb839b113e",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/7f7917c4-9df5-4220-8836-33e05933898f/download/quarterly-private-rental-report-2017-06.xlsx",
+      "resource_created": "2019-08-27T00:53:58.762341"
+    },
+    {
+      "period": "2017-09",
+      "file": "private-rental-report-2017-09.xlsx",
+      "bytes": 362326,
+      "sha256": "937ef89392aa99e640e646613cfd6b301cc9a6dadae518cfbe345b268b1585c2",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/4866f263-f4cc-4bb8-a734-bb66d550ca18/download/cuserscrahirdesktopquarterly-private-rental-report-2017-09.xlsx",
+      "resource_created": "2019-08-27T00:53:16.041851"
+    },
+    {
+      "period": "2017-12",
+      "file": "private-rental-report-2017-12.xlsx",
+      "bytes": 365331,
+      "sha256": "29f094aef360d38234b20cd772fddb6924df25763adf17b27a83408a0f92007f",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/b645f46b-49dd-4af1-9d7d-b8a87ab4df55/download/cuserscrahirdesktopquarterly-private-rental-report-2017-12.xlsx",
+      "resource_created": "2019-08-27T00:52:36.452406"
+    },
+    {
+      "period": "2018-03",
+      "file": "private-rental-report-2018-03.xlsx",
+      "bytes": 289630,
+      "sha256": "d26f748bdcb912a5e8bbc6b40b9bb868ad8e63f2b640a5600d6b61543f3a9ea1",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/e76f2ec9-f2dc-452d-8b7f-333a97406b09/download/cuserscrahirdesktopquarterly-private-rental-report-2018-03.xlsx",
+      "resource_created": "2019-08-27T00:51:46.789473"
+    },
+    {
+      "period": "2018-06",
+      "file": "private-rental-report-2018-06.xlsx",
+      "bytes": 269449,
+      "sha256": "d58ca20830b7f4fd88c35ec2f966e66ac959d94e08abc836864a8d6b802f0801",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/caaabd66-01a8-400a-ab54-a4d11ce1f4d9/download/cuserscrahirdesktopquarterly-private-rental-report-2018-06.xlsx",
+      "resource_created": "2019-08-27T00:50:14.184989"
+    },
+    {
+      "period": "2018-09",
+      "file": "private-rental-report-2018-09.xlsx",
+      "bytes": 269461,
+      "sha256": "b6ca819a521ccde466b55594d5481c88106654a91b30739a2511b54b4d31e53c",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/0d9aa02e-3672-4b2e-805b-174d95c5911a/download/cuserscrahirdesktopquarterly-private-rental-report-2018-09.xlsx",
+      "resource_created": "2019-08-27T00:45:25.931055"
+    },
+    {
+      "period": "2018-12",
+      "file": "private-rental-report-2018-12.xlsx",
+      "bytes": 269876,
+      "sha256": "aa6a93202b29e0bee74dda074b35a0c2c8b77c8194a254eaebe130127b5c2f77",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/95af9153-23b3-4089-8671-8de5933a407a/download/cuserscrahirdesktopquarterly-private-rental-report-2018-12.xlsx",
+      "resource_created": "2019-08-27T00:44:40.671714"
+    },
+    {
+      "period": "2019-03",
+      "file": "private-rental-report-2019-03.xlsx",
+      "bytes": 243914,
+      "sha256": "bd6f2976a7fcba6416a9cb03951724551cd4cede6b34b21b75e0552bac9bf36d",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/5150c199-1ce6-4f17-b726-ff5defeec098/download/cuserscrahirdesktopquarterly-private-rental-report-2019-03.xlsx",
+      "resource_created": "2019-08-27T00:42:39.029549"
+    },
+    {
+      "period": "2019-06",
+      "file": "private-rental-report-2019-06.xlsx",
+      "bytes": 240133,
+      "sha256": "eac2defb792fda44f0530bbb9b6874aee301639dbe5f7d3ccaab300101f76a59",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/027f1dd6-7308-4f6a-9018-15214bdd9807/download/cuserscrahirdesktopquarterly-private-rental-report-2019-06.xlsx",
+      "resource_created": "2019-08-27T00:41:44.482714"
+    },
+    {
+      "period": "2019-09",
+      "file": "private-rental-report-2019-09.xlsx",
+      "bytes": 235173,
+      "sha256": "fe7f56ccb1b39f8e9071bff8c4693ca0c5167f7346e145f62497c943452cd43a",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/8570a3c9-58a0-494a-9e3e-6969c25fb858/download/cuserscrahirdesktopprivate-rental-report-2019-09.xlsx",
+      "resource_created": "2019-11-28T23:53:14.143133"
+    },
+    {
+      "period": "2019-12",
+      "file": "private-rental-report-2019-12.xlsx",
+      "bytes": 237327,
+      "sha256": "636e15af90c58a24dc24ae760875dfa3e50d9517353580f35a49b315582447b5",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/77294e93-e823-4431-9eb9-11d3e251f647/download/cuserscrahirdesktopprivate-rental-report-2019-12.xlsx",
+      "resource_created": "2020-01-06T23:23:49.792061"
+    },
+    {
+      "period": "2020-03",
+      "file": "private-rental-report-2020-03.xlsx",
+      "bytes": 239705,
+      "sha256": "efea1491aa3d46e005707c12bc9b758714a2a70d1503f73ad54535ac723d6fbe",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/f877250f-71fa-4d4e-b442-547b631a41b6/download/private-rental-report-2020-03.xlsx",
+      "resource_created": "2020-04-08T04:23:22.794504"
+    },
+    {
+      "period": "2020-06",
+      "file": "private-rental-report-2020-06.xlsx",
+      "bytes": 263186,
+      "sha256": "deeef4215c53565685ae8512c96f239813f54ca1f6cac2acb539e80008a426f0",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/13f4c205-bfc8-44d7-811b-d85f9ea2a836/download/private-rental-report-2020-06.xlsx",
+      "resource_created": "2020-07-24T04:08:26.054868"
+    },
+    {
+      "period": "2020-12",
+      "file": "private-rental-report-2020-12.xlsx",
+      "bytes": 216266,
+      "sha256": "3cd27b1dc8bd90301b66f30055284d578f0f128fe2113dc44f6292e5bba5d636",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/56ac8d99-a185-4fc5-9739-5e822889165e/download/private-rental-report-2020-12.xlsx",
+      "resource_created": "2021-01-20T05:52:13.439783"
+    },
+    {
+      "period": "2021-03",
+      "file": "private-rental-report-2021-03.xlsx",
+      "bytes": 220464,
+      "sha256": "9582b1a6f7a14965df08b00b76014beb9af024e06d5b3486af92999ef4377314",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/73b74034-e8c0-49c0-8f83-d159dbb78afd/download/private-rental-report-2021-03.xlsx",
+      "resource_created": "2021-05-20T05:27:34.444633"
+    },
+    {
+      "period": "2021-06",
+      "file": "private-rental-report-2021-06.xlsx",
+      "bytes": 223623,
+      "sha256": "246c13c3886babc0fc018e09c27dd5fa27f1d46c612f77051316155de5e85f72",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/7698d8c7-b86e-4f29-ab9a-b63fec1e84d7/download/private-rental-report-2021-06.xlsx",
+      "resource_created": "2021-09-01T03:36:47.611551"
+    },
+    {
+      "period": "2021-09",
+      "file": "private-rental-report-2021-09.xlsx",
+      "bytes": 219781,
+      "sha256": "291ac156655159eff787296b0693a77d116df49fd23438493e8994821c81f5a0",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/1306ba1a-563b-440e-95be-22c122e38fd1/download/private-rental-report-2021-09.xlsx",
+      "resource_created": "2021-11-03T06:33:50.182050"
+    },
+    {
+      "period": "2021-12",
+      "file": "private-rental-report-2021-12.xlsx",
+      "bytes": 215632,
+      "sha256": "f82d8b8af4c5c3541078f16b05c5445012b43324536d5afafacecfb07fa0ce7d",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/aa525c09-01a8-4351-af17-f3d01535989c/download/private-rental-report-2021-12.xlsx",
+      "resource_created": "2022-02-18T00:59:27.811295"
+    },
+    {
+      "period": "2022-03",
+      "file": "private-rental-report-2022-03.xlsx",
+      "bytes": 213957,
+      "sha256": "dd142de55d093c5abd5f6f71e6af8a553ea1021a528d9c32cc9f7b2ff1c54feb",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/b88369c4-22d3-4c3a-a2c7-9263c3b392ea/download/private-rental-report-2022-03.xlsx",
+      "resource_created": "2022-06-09T07:20:07.533677"
+    },
+    {
+      "period": "2022-06",
+      "file": "private-rental-report-2022-06.xlsx",
+      "bytes": 219569,
+      "sha256": "2bf59b76c932a6108765ebd6cab1b7fa46b96fb0eb26431287daab3ef6f7db71",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/594e4eac-98db-4fa5-9101-372413d5b179/download/private-rental-report-2022-06.xlsx",
+      "resource_created": "2022-08-10T07:41:18.615268"
+    },
+    {
+      "period": "2022-09",
+      "file": "private-rental-report-2022-09.xlsx",
+      "bytes": 222802,
+      "sha256": "f28a7f6878b332a2b483e95fb8447209d9298829e475b6dde118c63f7f799a2c",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/cf82fe03-4a43-4aa3-8916-a3fff735f5d2/download/private-rental-report-2022-09-amended.xlsx",
+      "resource_created": "2022-11-07T23:34:52.937724"
+    },
+    {
+      "period": "2022-12",
+      "file": "private-rental-report-2022-12.xlsx",
+      "bytes": 219199,
+      "sha256": "c14cd788842f69a9d022aacf8bf03832908e55d95c198ce917fbfbb5f0ce4f14",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/f5c229b1-11b0-42e2-b547-c51baf55fd58/download/private-rental-report-2022-12.xlsx",
+      "resource_created": "2023-02-08T03:48:13.231476"
+    },
+    {
+      "period": "2023-03",
+      "file": "private-rental-report-2023-03.xlsx",
+      "bytes": 226478,
+      "sha256": "43b19ad5217ebe8c9653092c17a7dfd5f450c3c71fc46f6aadbb2bc8a64b10fd",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/f60f49c2-4082-47b6-bf64-5ae2c7f58f38/download/private-rental-report-2023-03.xlsx",
+      "resource_created": "2023-05-09T06:17:33.443082"
+    },
+    {
+      "period": "2023-06",
+      "file": "private-rental-report-2023-06.xlsx",
+      "bytes": 231209,
+      "sha256": "6859ff9ed2e8244ae6a846017ae50808e3f25a0b64ad1d3420306e7fcab065ec",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/2f8799c2-501e-4c67-abd0-70857e79f04e/download/private-rental-report-2023-06.xlsx",
+      "resource_created": "2023-08-17T03:48:51.715351"
+    },
+    {
+      "period": "2023-09",
+      "file": "private-rental-report-2023-09.xlsx",
+      "bytes": 229314,
+      "sha256": "6876846dde8f1e1269f9cbd7672a126b0791c7e77171e414575395ec7b04ded8",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/8f2a8bad-7919-4405-a5a4-4c5bb9e98581/download/private-rental-report-2023-09.xlsx",
+      "resource_created": "2023-11-08T02:00:42.379330"
+    },
+    {
+      "period": "2023-12",
+      "file": "private-rental-report-2023-12.xlsx",
+      "bytes": 226733,
+      "sha256": "94a91e3637e79660d5da75e3adbd860ab2418f637fbf75278b4120812765c573",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/dc8d87e2-18b7-43d1-969e-c3ac5f6ee4f2/download/private-rental-report-2023-12.xlsx",
+      "resource_created": "2024-02-23T05:49:29.933027"
+    },
+    {
+      "period": "2024-03",
+      "file": "private-rental-report-2024-03.xlsx",
+      "bytes": 226508,
+      "sha256": "5921a23129cf23cf54e4266bf83d4991b9cbeb2c0fd42a1a139fcde7a6f55a6d",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/21d553d5-b947-4055-9075-4e8e54384ec0/download/private-rental-report-2024-03.xlsx",
+      "resource_created": "2024-05-10T03:25:03.771659"
+    },
+    {
+      "period": "2024-06",
+      "file": "private-rental-report-2024-06.xlsx",
+      "bytes": 226701,
+      "sha256": "bddbb5b19c49a165e6d987083698aff2b698ad8fe019aebf5b84e33afe5c4447",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/5beb1cba-abcb-41a5-97ea-43eed257b2b9/download/private-rental-report-2024-06.xlsx",
+      "resource_created": "2024-09-17T07:56:16.706367"
+    },
+    {
+      "period": "2024-09",
+      "file": "private-rental-report-2024-09.xlsx",
+      "bytes": 209978,
+      "sha256": "6efac337b6dc81442e75e9a845726a367fc986e0cdfbccbb489016e99a914cd2",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/a7501323-2883-492e-be26-36c3855bff84/download/private-rental-report-2024-09.xlsx",
+      "resource_created": "2024-12-02T04:09:23.264886"
+    },
+    {
+      "period": "2024-12",
+      "file": "private-rental-report-2024-12.xlsx",
+      "bytes": 207338,
+      "sha256": "30343de2b5afb3c40a9c97e30a1a97e62ee095220071adfc7da659c035ee1643",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/91b12949-df88-4a0c-8db0-807db488245f/download/private-rental-report-2024-12.xlsx",
+      "resource_created": "2025-02-14T03:11:22.787114"
+    },
+    {
+      "period": "2025-03",
+      "file": "private-rental-report-2025-03.xlsx",
+      "bytes": 210737,
+      "sha256": "098be9dde08db274649404b165964c9d11d488586fe74326a9bb0faae6fa7449",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/2eba807c-0e67-4cc8-8bab-4fa0c840ed90/download/private-rental-report-2025-03.xlsx",
+      "resource_created": "2025-05-21T01:26:19.115889"
+    },
+    {
+      "period": "2025-06",
+      "file": "private-rental-report-2025-06.xlsx",
+      "bytes": 212442,
+      "sha256": "64d311a19def12384d5a798b2a5e7527f8fb6ea0c77db373e74401635e2a2173",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/9969ef0f-0454-4f4a-ba1d-528cb6afc737/download/private-rental-report-2025-06.xlsx",
+      "resource_created": "2025-08-25T06:52:09.569396"
+    },
+    {
+      "period": "2025-09",
+      "file": "private-rental-report-2025-09.xlsx",
+      "bytes": 212141,
+      "sha256": "bbf53da1ee373a5f6ab3473a398cf57f328c938aae4c7f86bd81f96ea2a6b15b",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/c141c64d-94d4-4276-9169-81e48352af8f/download/private-rental-report-2025-09.xlsx",
+      "resource_created": "2025-11-19T06:30:45.692321"
+    },
+    {
+      "period": "2025-12",
+      "file": "private-rental-report-2025-12.xlsx",
+      "bytes": 206987,
+      "sha256": "36dd017f004b4e19501029a3db70c7cfc02815bc176c4d94c62340646cde7ade",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/bc48cac3-bcc9-493c-ba89-8c5b7e038ab3/download/private-rental-report-2025-12.xlsx",
+      "resource_created": "2026-02-20T01:12:10.037674"
+    },
+    {
+      "period": "2026-03",
+      "file": "private-rental-report-2026-03.xlsx",
+      "bytes": 211694,
+      "sha256": "d0db486e96141577e540886db6923b586d57db852c2088ffca9cbe894fb92b0a",
+      "url": "https://data.sa.gov.au/data/dataset/8eb97a72-9919-448b-8de6-fc1530b3f7ec/resource/d4cd6144-c7e4-43b2-abb4-f0e4f35d00a9/download/private-rental-report-2026-03.xlsx",
+      "resource_created": "2026-05-22T04:46:53.639471"
+    }
+  ]
+}

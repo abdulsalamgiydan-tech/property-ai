@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-07-24T12:20:00.000Z",
+  "branch": "feature/sprint14-production-readiness",
+  "commit": "a22f8175fe90ab152fdf582b4a685c09f89e01e4",
+  "preview_url": "https://property-ai-sprint15-uat-zeebusiness93-2304s-projects.vercel.app",
+  "deployment_id": "dpl_4oRRX1QyDWFLFU4MxSRKdrkPFqZu",
+  "deployment_target": "preview",
+  "supabase_branch": "warehouse-validation",
+  "supabase_ref": "lzonauinzatmtytyoems",
+  "auth_method": "admin_repaired_existing_uat_users_password_sign_in",
+  "users": [
+    {
+      "label": "User A",
+      "account": "dedicated Sprint 15 UAT normal user",
+      "expected_tier": "free"
+    },
+    {
+      "label": "User B",
+      "account": "dedicated Sprint 15 UAT elevated user",
+      "expected_tier": "investor_pro"
+    }
+  ],
+  "result": "pass",
+  "checks_passed": 16,
+  "artifact": "uat-artifacts/sprint15-browser/sprint15-browser-uat-evidence.json",
+  "artifact_committed": false,
+  "secrets_captured": false,
+  "production_touched": false,
+  "notes": [
+    "Vercel Deployment Protection remained enabled.",
+    "No Production Auth users, Production database rows, or Production Vercel environment variables were modified.",
+    "Branch-only Auth data repair normalized empty token/change fields for two dedicated UAT users on warehouse-validation."
+  ]
+}
+

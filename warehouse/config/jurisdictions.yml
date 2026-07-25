@@ -1,0 +1,67 @@
+# Jurisdiction registry (Sprint 10, Phase 2)
+#
+# One entry per Australian state/territory this warehouse supports or plans
+# to support. Referenced by the state-adapter architecture
+# (warehouse/docs/STATE_ADAPTER_ARCHITECTURE.md) and the refresh
+# orchestrator (warehouse/config/refresh_policies.yml).
+
+jurisdictions:
+  - code: NSW
+    name: New South Wales
+    asgs_state_code: "1"
+    status: active
+    sales_source: "NSW Valuer General Property Sales Information (PSI)"
+    rent_source: "NSW DCJ Rent and Sales Report"
+    adapter_path: warehouse/adapters/nsw
+    since_sprint: 5
+
+  - code: VIC
+    name: Victoria
+    asgs_state_code: "2"
+    status: active
+    sales_source: "see warehouse/reports/victoria_source_manifest.json"
+    rent_source: "see warehouse/reports/victoria_source_manifest.json"
+    adapter_path: warehouse/adapters/vic
+    since_sprint: 10
+
+  - code: QLD
+    name: Queensland
+    asgs_state_code: "3"
+    status: planned
+    adapter_path: null
+    blueprint_ref: "warehouse/docs/AUSTRALIAN_MARKET_DATA_EXPANSION_BLUEPRINT.md#queensland-qld"
+
+  - code: SA
+    name: South Australia
+    asgs_state_code: "4"
+    status: planned
+    adapter_path: null
+    blueprint_ref: "warehouse/docs/AUSTRALIAN_MARKET_DATA_EXPANSION_BLUEPRINT.md#south-australia-sa"
+
+  - code: WA
+    name: Western Australia
+    asgs_state_code: "5"
+    status: planned
+    adapter_path: null
+    blueprint_ref: "warehouse/docs/AUSTRALIAN_MARKET_DATA_EXPANSION_BLUEPRINT.md#western-australia-wa"
+
+  - code: TAS
+    name: Tasmania
+    asgs_state_code: "6"
+    status: planned
+    adapter_path: null
+    blueprint_ref: "warehouse/docs/AUSTRALIAN_MARKET_DATA_EXPANSION_BLUEPRINT.md#tasmania-tas"
+
+  - code: NT
+    name: Northern Territory
+    asgs_state_code: "7"
+    status: planned
+    adapter_path: null
+    blueprint_ref: "warehouse/docs/AUSTRALIAN_MARKET_DATA_EXPANSION_BLUEPRINT.md#northern-territory-nt"
+
+  - code: ACT
+    name: Australian Capital Territory
+    asgs_state_code: "8"
+    status: planned
+    adapter_path: null
+    blueprint_ref: "warehouse/docs/AUSTRALIAN_MARKET_DATA_EXPANSION_BLUEPRINT.md#australian-capital-territory-act"

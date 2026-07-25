@@ -1,0 +1,175 @@
+{
+  "generated_at": "2026-07-21T21:05:23.498Z",
+  "scope": "NSW Valuer General PSI historical archive (1990-2000) local store — warehouse/data/local/nsw_sales_archive.duckdb",
+  "total_rows": 1917667,
+  "zero_price_rows": 41183,
+  "by_year": [
+    {
+      "source_year": 1990,
+      "n": 102176,
+      "districts": 177,
+      "null_zone_code_rows": 59600,
+      "null_zone_code_pct": 58.3
+    },
+    {
+      "source_year": 1991,
+      "n": 201813,
+      "districts": 178,
+      "null_zone_code_rows": 55062,
+      "null_zone_code_pct": 27.3
+    },
+    {
+      "source_year": 1992,
+      "n": 194137,
+      "districts": 177,
+      "null_zone_code_rows": 44326,
+      "null_zone_code_pct": 22.8
+    },
+    {
+      "source_year": 1993,
+      "n": 147074,
+      "districts": 177,
+      "null_zone_code_rows": 18377,
+      "null_zone_code_pct": 12.5
+    },
+    {
+      "source_year": 1994,
+      "n": 148465,
+      "districts": 177,
+      "null_zone_code_rows": 17823,
+      "null_zone_code_pct": 12
+    },
+    {
+      "source_year": 1995,
+      "n": 158694,
+      "districts": 177,
+      "null_zone_code_rows": 14792,
+      "null_zone_code_pct": 9.3
+    },
+    {
+      "source_year": 1996,
+      "n": 168340,
+      "districts": 177,
+      "null_zone_code_rows": 11054,
+      "null_zone_code_pct": 6.6
+    },
+    {
+      "source_year": 1997,
+      "n": 201807,
+      "districts": 177,
+      "null_zone_code_rows": 16473,
+      "null_zone_code_pct": 8.2
+    },
+    {
+      "source_year": 1998,
+      "n": 194779,
+      "districts": 178,
+      "null_zone_code_rows": 16306,
+      "null_zone_code_pct": 8.4
+    },
+    {
+      "source_year": 1999,
+      "n": 216534,
+      "districts": 177,
+      "null_zone_code_rows": 15874,
+      "null_zone_code_pct": 7.3
+    },
+    {
+      "source_year": 2000,
+      "n": 183848,
+      "districts": 177,
+      "null_zone_code_rows": 13525,
+      "null_zone_code_pct": 7.4
+    }
+  ],
+  "by_dwelling_type": [
+    {
+      "dwelling_type": "unknown_residential",
+      "dwelling_type_confidence": "low",
+      "n": 1222027
+    },
+    {
+      "dwelling_type": "apartment_unit",
+      "dwelling_type_confidence": "medium",
+      "n": 373551
+    },
+    {
+      "dwelling_type": "non_residential_or_other_zone",
+      "dwelling_type_confidence": "high",
+      "n": 322089
+    }
+  ],
+  "annual_median_price_residential_zone_a": [
+    {
+      "source_year": 1990,
+      "n": 29659,
+      "median_price": 109000
+    },
+    {
+      "source_year": 1991,
+      "n": 114761,
+      "median_price": 125000
+    },
+    {
+      "source_year": 1992,
+      "n": 118635,
+      "median_price": 130000
+    },
+    {
+      "source_year": 1993,
+      "n": 102370,
+      "median_price": 135000
+    },
+    {
+      "source_year": 1994,
+      "n": 104666,
+      "median_price": 144000
+    },
+    {
+      "source_year": 1995,
+      "n": 115157,
+      "median_price": 150000
+    },
+    {
+      "source_year": 1996,
+      "n": 126878,
+      "median_price": 157500
+    },
+    {
+      "source_year": 1997,
+      "n": 150175,
+      "median_price": 169000
+    },
+    {
+      "source_year": 1998,
+      "n": 144630,
+      "median_price": 179125
+    },
+    {
+      "source_year": 1999,
+      "n": 161401,
+      "median_price": 194500
+    },
+    {
+      "source_year": 2000,
+      "n": 137060,
+      "median_price": 205000
+    }
+  ],
+  "validation_gates": {
+    "negative_prices": 0,
+    "invalid_contract_dates": 0,
+    "contract_dates_out_of_archive_range": 0,
+    "dwelling_type_and_confidence_present_on_every_row": true,
+    "no_duplicate_natural_keys": true
+  },
+  "all_gates_pass": true,
+  "known_limitations": [
+    "No settlement_date field exists in this format — only contract_date. The 2001-current dataset has both.",
+    "No nature_of_property field exists — dwelling_type classification relies on zone_code (residential-zone filter only, not a house/unit signal) plus a strata-plan text-pattern match in the free-text land description (medium confidence for ~373k of the ~1.9M rows), with everything else in a zone-A residential area falling into 'unknown_residential' (low confidence) rather than being guessed.",
+    "No sale_counter or reference_number field exists to disambiguate multiple sale events of the same property beyond (district, property_id, valuation_num, contract_date, purchase_price) — the natural key used for exact-duplicate collapse. A small number of genuinely distinct same-day, same-price resales of the same property (if any exist) would be indistinguishable from a republished duplicate and collapsed to one row; this is a known, honest limitation of the source format, not fabricated resolution.",
+    "zero_price_rows are retained (not dropped) since a $0 recorded price can be a genuine non-arms-length transfer in the source data (same convention as the 2001-current pipeline) — excluded from the median-price cross-check but not deleted from the store.",
+    "The null zone_code rate declines sharply and monotonically from 58.3% in 1990 to ~7-9% by the late 1990s (see by_year). Since dwelling_type classification requires zone_code='A' to identify residential-zoned sales, 1990's residential sale counts are a more conservative undercount than later years — a genuine source data-quality characteristic of the archive's earliest year, not a parsing defect, and not corrected by guessing at the missing zone codes."
+  ],
+  "branch_promotion_status": "NOT YET PROMOTED. Extending core.fact_residential_sales_summary and its derived marts with pre-2001 data touches already-live schema that existing comparison APIs read from — deliberately deferred to a dedicated, careful pass rather than rushed alongside first-time discovery/parsing. The annual summary (nsw_sales_archive_annual_summary.parquet) is built in the same shape as the existing mart to make that future extension straightforward."
+}

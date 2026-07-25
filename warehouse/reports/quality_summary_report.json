@@ -1,0 +1,142 @@
+{
+  "generated_at": "2026-07-22T09:09:42.081Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "latest_quality_run": {
+    "quality_run_id": "4e153f16-46ff-45fb-a479-c2a432b48268",
+    "started_at": "2026-07-22T09:09:00.877Z",
+    "completed_at": "2026-07-22T09:09:35.854Z",
+    "status": "completed",
+    "rules_run": 35,
+    "rules_passed": 32,
+    "rules_failed_blocking": 0,
+    "rules_failed_advisory": 3
+  },
+  "latest_run_failed_rules": [
+    {
+      "rule_id": "cross_border_postcode_sales",
+      "severity": "advisory",
+      "status": "failed",
+      "failed_record_count": 16
+    },
+    {
+      "rule_id": "source_url_health",
+      "severity": "advisory",
+      "status": "failed",
+      "failed_record_count": 4
+    },
+    {
+      "rule_id": "weight_reconciliation_bridge",
+      "severity": "advisory",
+      "status": "failed",
+      "failed_record_count": 6
+    }
+  ],
+  "freshness_summary": {
+    "manual_review": 7
+  },
+  "freshness_detail": [
+    {
+      "dataset_id": "nsw_psi_2001_current_full_state",
+      "jurisdiction": "NSW",
+      "freshness_status": "manual_review",
+      "expected_cadence_days": 30,
+      "last_retrieved_at": null
+    },
+    {
+      "dataset_id": "nsw_rent_tables_full_state",
+      "jurisdiction": "NSW",
+      "freshness_status": "manual_review",
+      "expected_cadence_days": 95,
+      "last_retrieved_at": null
+    },
+    {
+      "dataset_id": "vic_moving_annual_rent_by_suburb",
+      "jurisdiction": "VIC",
+      "freshness_status": "manual_review",
+      "expected_cadence_days": 100,
+      "last_retrieved_at": null
+    },
+    {
+      "dataset_id": "vic_quarterly_median_rent_by_lga",
+      "jurisdiction": "VIC",
+      "freshness_status": "manual_review",
+      "expected_cadence_days": 100,
+      "last_retrieved_at": null
+    },
+    {
+      "dataset_id": "vic_vpsr_median_house",
+      "jurisdiction": "VIC",
+      "freshness_status": "manual_review",
+      "expected_cadence_days": 100,
+      "last_retrieved_at": null
+    },
+    {
+      "dataset_id": "vic_vpsr_median_land",
+      "jurisdiction": "VIC",
+      "freshness_status": "manual_review",
+      "expected_cadence_days": 100,
+      "last_retrieved_at": null
+    },
+    {
+      "dataset_id": "vic_vpsr_median_unit",
+      "jurisdiction": "VIC",
+      "freshness_status": "manual_review",
+      "expected_cadence_days": 100,
+      "last_retrieved_at": null
+    }
+  ],
+  "open_incident_count": 3,
+  "quarantined_row_total": 2,
+  "confidence_completeness": {
+    "sales_pct": 100,
+    "rent_pct": 100
+  },
+  "lineage_completeness_pct": 100,
+  "lineage_mandatory_gaps": 0,
+  "geography_coverage": [
+    {
+      "geography_type": "GCCSA",
+      "current_count": 16
+    },
+    {
+      "geography_type": "LGA",
+      "current_count": 547
+    },
+    {
+      "geography_type": "POA",
+      "current_count": 2641
+    },
+    {
+      "geography_type": "SA1",
+      "current_count": 61811
+    },
+    {
+      "geography_type": "SA2",
+      "current_count": 2454
+    },
+    {
+      "geography_type": "SA3",
+      "current_count": 340
+    },
+    {
+      "geography_type": "SA4",
+      "current_count": 89
+    },
+    {
+      "geography_type": "SAL",
+      "current_count": 15334
+    },
+    {
+      "geography_type": "SSC",
+      "current_count": 0
+    },
+    {
+      "geography_type": "STATE",
+      "current_count": 9
+    }
+  ],
+  "branch_storage_mb": 2673,
+  "branch_storage_pretty": "2673 MB",
+  "local_storage_mb": 2056.2
+}

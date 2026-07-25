@@ -1,0 +1,86 @@
+{
+  "generated_at": "2026-07-22T12:15:00+10:00",
+  "audited_project": "warehouse-validation (lzonauinzatmtytyoems)",
+  "public_surface": {
+    "views": [
+      "v_suburb_market_snapshot_v1",
+      "v_postcode_market_snapshot_v1",
+      "v_market_geography_search_v1",
+      "v_suburb_demographic_profile_v1",
+      "v_postcode_demographic_profile_v1",
+      "v_metric_assumptions_v1",
+      "v_dataset_freshness_v1",
+      "v_refresh_run_history_v1"
+    ],
+    "functions": [
+      "search_market_geographies_v2",
+      "get_market_snapshot_v2",
+      "get_market_timeseries_v1",
+      "get_market_timeseries_v2",
+      "compare_market_geographies_v1",
+      "get_market_map_markers_v1",
+      "get_warehouse_operations_summary_v1"
+    ]
+  },
+  "findings": [
+    {
+      "id": "SEC-001",
+      "title": "Excess INSERT/UPDATE/DELETE/TRUNCATE grants on every warehouse view",
+      "severity": "low_practical_medium_hygiene",
+      "status": "fixed",
+      "fix_migration": "023_revoke_excess_view_grants.sql",
+      "root_cause": "Supabase platform-level ALTER DEFAULT PRIVILEGES on the public schema, not any project migration",
+      "exploitability": "None in practice — every affected view is a JOIN without an INSTEAD OF trigger, so Postgres already rejects real writes. Fixed anyway for explicit policy over implementation-detail safety.",
+      "verified_after_fix": true
+    },
+    {
+      "id": "SEC-002",
+      "title": "Application tables (portfolio_properties, watchlist_items, etc.) carry full anon/authenticated CRUD grants",
+      "severity": "not_assessed_out_of_scope",
+      "status": "documented_not_fixed",
+      "reason": "Branch is a full structural clone of production; these tables are unrelated to and untouched by any warehouse migration. Changing their RLS/grants is a separate, production-facing decision requiring explicit human review, not something to change unilaterally inside a warehouse-focused audit."
+    },
+    {
+      "id": "SEC-003",
+      "title": "get_market_timeseries_v1/v2 have no explicit row cap",
+      "severity": "low",
+      "status": "recommendation_only",
+      "reason": "Self-limiting in practice (single geography_id scope tops out at a few hundred rows) but not an enforced cap the way every other function has."
+    }
+  ],
+  "non_findings_reviewed": [
+    "rls_auto_enable — Supabase platform event trigger, not project code, not directly exploitable",
+    "set_updated_at — standard trigger helper, PUBLIC execute is Postgres default and harmless outside actual trigger context",
+    "core/mart/meta schema direct access — confirmed zero grants to anon/authenticated",
+    "SQL injection resistance — all functions use typed parameter binding, no dynamic SQL from user input",
+    "bounded response sizes — every function with an unbounded-result risk has an enforced cap except SEC-003"
+  ],
+  "rls_decision": {
+    "decision": "RLS remains disabled on all 44 core/mart/meta/staging tables — deliberate, re-confirmed",
+    "rationale": "No natural per-row ownership concept for research facts; schema-level exposure hiding (zero grants to anon/authenticated on the underlying schemas, narrow public.* surface) achieves the same deny-by-default goal at the correct layer",
+    "tables_with_rls_disabled": 44,
+    "full_detail": "warehouse/docs/WAREHOUSE_SECURITY_DECISION.md"
+  },
+  "environment_variable_review": {
+    "WAREHOUSE_SUPABASE_ANON_KEY": "public by design, server-only usage confirmed by code review",
+    "WAREHOUSE_VALIDATION_DB_URL": "never printed by any script, confirmed by code review; not present in any client bundle",
+    "service_role_key_usage": "none found anywhere in warehouse code"
+  },
+  "summary_checklist": {
+    "anonymous_read_only_where_intended": true,
+    "no_anonymous_writes": true,
+    "core_schema_denied": true,
+    "mart_schema_denied": true,
+    "meta_schema_denied": true,
+    "bounded_response_rows": "true except SEC-003 (recommendation only)",
+    "bounded_geography_counts": true,
+    "bounded_geometry_payloads": true,
+    "validated_geography_codes": true,
+    "validated_jurisdiction_codes": true,
+    "sql_injection_resistant": true,
+    "no_credentials_in_browser_assets": true,
+    "no_internal_branch_identifiers_public": true,
+    "no_local_paths_public": true
+  },
+  "production_recommendation": "ready_for_controlled_staging"
+}

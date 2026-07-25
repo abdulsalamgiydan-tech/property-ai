@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-07-20T10:28:22.955Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "suburb_yield_rows": 3305,
+  "postcode_yield_rows": 3251,
+  "suburb_yield_confidence_distribution": {
+    "medium": 355,
+    "high": 728,
+    "insufficient": 2222
+  },
+  "postcode_yield_confidence_distribution": {
+    "medium": 9,
+    "high": 1124,
+    "insufficient": 2118
+  },
+  "suburb_avg_gross_yield_pct": "3.18",
+  "postcode_avg_gross_yield_pct": "3.30",
+  "postcode_gross_yield_range_pct": [
+    "1.42",
+    "7.53"
+  ],
+  "is_recommendation_score_avm_or_forecast": false,
+  "note": "Gross yield is a descriptive statistic combining independently-sourced quarterly rent and annual sales medians. Not investment advice."
+}

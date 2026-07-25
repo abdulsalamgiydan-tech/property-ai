@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-07-20T09:21:17.829Z",
+  "policy": {
+    "official_nsw_vg_only": true,
+    "no_commercial_scraping": true,
+    "raw_files_outside_git": "warehouse/data/raw/nsw_sales",
+    "unverified_sources_marked": "needs_review",
+    "scope": "NSW only. 2001-current PSI files (annual + current-year weekly bundles). 1990-2000 archive deferred to a later backfill.",
+    "download_method_note": "The __psi bulk-download path and the PDF documentation assets on valuergeneral.nsw.gov.au are behind a Cloudflare managed JS challenge that plain HTTP clients (curl, fetch) cannot pass. Files were retrieved via a real headed browser session (gstack /browse skill, per project CLAUDE.md instructions for all web browsing) navigating the official public listing page and using its own download links — the same access a human user has via their browser. This is not a commercial/protected portal: it is the official CC-licensed NSW Government bulk open-data distribution named explicitly in this task's scope."
+  },
+  "verification": {
+    "listing_page_plain_http_status": 200,
+    "bulk_endpoint_plain_http_status": 403,
+    "annual_bundles_on_disk": [
+      "2021.zip",
+      "2022.zip",
+      "2023.zip",
+      "2024.zip",
+      "2025.zip"
+    ],
+    "weekly_files_on_disk_count": 16
+  },
+  "entries": [
+    {
+      "source_id": "nsw_vg_sales",
+      "dataset_id": "nsw_psi_2001_current",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "NSW Valuer General Property Sales Information (PSI) — 2001 to current",
+      "publisher": "NSW Valuer General (Property NSW)",
+      "official_url": "https://valuation.property.nsw.gov.au/embed/propertySalesInformation",
+      "download_url_pattern_annual": "https://www.valuergeneral.nsw.gov.au/__psi/yearly/<YYYY>.zip",
+      "download_url_pattern_weekly": "https://www.valuergeneral.nsw.gov.au/__psi/weekly/<YYYYMMDD>.zip",
+      "user_guide_url": "https://www.valuergeneral.nsw.gov.au/__data/assets/pdf_file/0004/226885/Property_Sales_Information_Data_Files_User_guide.pdf",
+      "format_guide_url": "https://www.valuergeneral.nsw.gov.au/__data/assets/pdf_file/0015/216402/Current_Property_Sales_Data_File_Format_2001_to_Current.pdf",
+      "data_elements_url": "https://www.valuergeneral.nsw.gov.au/__data/assets/pdf_file/0016/216403/Property_Sales_Data_File_-_Data_Elements_V3.pdf",
+      "district_codes_url": "https://www.valuergeneral.nsw.gov.au/__data/assets/pdf_file/0018/216405/Property_Sales_Data_File_District_Codes_and_Names.pdf",
+      "geography_level": "district (VG numeric code) -> street/suburb/postcode as published per record",
+      "available_history": "2001-07 to current",
+      "refresh_frequency": "weekly",
+      "file_format": "zip-of-zips (annual bundle) containing per-week zips, each containing ';'-delimited fixed-structure .DAT text files, one per district per week",
+      "record_format": "Record types: A (file header), B (sale record: property id, address, sale price, contract/settlement dates, zoning, nature of property, area, unit type), C (legal description, multi-line), D (linked/related records), Z (file trailer). Validated directly against a real downloaded sample record (PDF documentation is also Cloudflare-protected and was not retrievable this session).",
+      "licence_notes": "CC BY 4.0 (NSW Government open data policy)",
+      "known_limitations": [
+        "Sale price includes non-arm's-length and nominal-value transfers that must be flagged/excluded from market price statistics",
+        "Settlement lag: a sale can appear in the weekly file weeks after its contract date",
+        "District code (not LGA name) is the geographic key on each record; this pipeline instead matches the record's own suburb-name/postcode text fields against a pilot allow-list derived spatially from the ASGS backbone",
+        "No lat/lon or SA1/SA2/SAL/POA code on the record — suburb/postcode text matching to core.dim_geography is inherently imperfect and carries lower correspondence confidence than the ABS SA1-allocation-based joins used in Sprints 2-4"
+      ],
+      "intended_raw_storage_path": "warehouse/data/raw/nsw_sales/<YYYY>.zip and warehouse/data/raw/nsw_sales/weekly/<YYYYMMDD>.zip",
+      "intended_local_table": "nsw_sales.duckdb :: nsw_sales_transactions, nsw_sales_summary",
+      "intended_core_table": "core.fact_residential_sales_summary (curated summary only — no raw transaction table promoted to Supabase)",
+      "intended_mart_tables": [
+        "mart.suburb_sales_monthly",
+        "mart.suburb_sales_annual",
+        "mart.postcode_sales_monthly",
+        "mart.postcode_sales_annual"
+      ],
+      "status": "discovered",
+      "notes": "Verified via a real browser session: listing page loaded, annual bundle pattern confirmed (files on disk: 2021.zip, 2022.zip, 2023.zip, 2024.zip, 2025.zip), weekly pattern confirmed (16 current-year files on disk). Plain-HTTP re-check this run: listing=200, bulk-endpoint=403 (403/challenge expected for the latter)."
+    },
+    {
+      "source_id": "nsw_vg_sales",
+      "dataset_id": "nsw_psi_1990_2000_archive",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "NSW Valuer General Property Sales Information — 1990 to 2001 archive",
+      "publisher": "NSW Valuer General (Property NSW)",
+      "official_url": "https://valuation.property.nsw.gov.au/embed/propertySalesInformation",
+      "official_url_note": "the interactive propertySalesInformation launch app itself returns 'currently unavailable' as of Sprint 11 Workstream 8 — the direct __psi/yearly/<YYYY>.zip download pattern (same domain, same as 2001-current) works regardless and was used directly.",
+      "format_guide_url": "https://www.nsw.gov.au/sites/default/files/noindex/2024-06/Archived_Property_Sales_Data_File_Format_1990_to_2001_V2.pdf",
+      "format_guide_url_note": "the original valuergeneral.nsw.gov.au PDF path now 404s after its Cloudflare redirect — NSW Government appears to have migrated documentation assets to the consolidated nsw.gov.au domain; found live via the nsw.gov.au resource-library page, not guessed.",
+      "zone_codes_guide_url": "https://www.nsw.gov.au/sites/default/files/noindex/2024-05/Property_Sales_Data_File_Zone_Codes_and_Descriptions_V2.pdf",
+      "download_url_pattern_annual": "https://www.valuergeneral.nsw.gov.au/__psi/yearly/<YYYY>.zip",
+      "geography_level": "district",
+      "available_history": "1990-01 to 2000-12 (annual files)",
+      "refresh_frequency": "static (historical archive)",
+      "file_format": "annual zip, single ARCHIVE_SALES_<YYYY>.DAT flat file per year — verified against the official format fact sheet, materially fewer fields than 2001-current (no settlement_date, no nature_of_property)",
+      "licence_notes": "CC BY 4.0 (ND variant)",
+      "status": "built_and_validated_local_store",
+      "notes": "Sprint 11 Workstream 8: all 11 years (1990-2000) downloaded via the gstack /browse skill in headed mode (plain curl still 403s on valuergeneral.nsw.gov.au — confirmed unchanged since Sprint 5), 1,917,667 transaction rows after exact-duplicate collapse, dwelling_type classified from zone_code + a strata-plan text pattern (no nature_of_property field exists in this format, so classification confidence is necessarily lower than 2001-current — see nsw_sales_archive_local_store_report.md). Branch promotion deliberately deferred — would touch the already-live core.fact_residential_sales_summary that existing comparison APIs read from."
+    }
+  ]
+}

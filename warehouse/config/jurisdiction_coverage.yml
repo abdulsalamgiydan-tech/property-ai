@@ -1,0 +1,176 @@
+# National jurisdiction coverage contract (Sprint 11, Workstream 3)
+#
+# Source of truth for what data actually exists per jurisdiction x metric
+# family. Prevents the product from implying uniform national coverage.
+# Feeds a safe read-only public view (Workstream 20) so every research
+# page can show an honest availability badge per metric.
+#
+# Status vocabulary (used consistently across every jurisdiction/metric):
+#   available          — direct official data loaded (or a confirmed free
+#                         source not yet loaded but ready to build)
+#   partially_available — available at a coarser geography or narrower
+#                         dwelling-type/date coverage than the ideal
+#   derived             — computed from other available inputs (e.g. yield
+#                         from separately-sourced sales+rent)
+#   stale                — was available, source has not refreshed within
+#                         its expected cadence
+#   unavailable           — no official source identified
+#   official_source_restricted — a source exists but its licence/access
+#                         terms are unclear or restrictive (e.g. WA sales
+#                         evidence's Personal Use License)
+#   official_source_paid  — a source exists but requires payment; not
+#                         purchased without explicit human approval
+
+jurisdictions:
+  NSW:
+    asgs_state_code: "1"
+    onboard_status: fully_onboarded
+    since_sprint: 5
+    metric_families:
+      sales: { status: available, earliest_period: "2001", latest_period: current, geography_levels: [SAL, POA], dwelling_type_detail: "detached_house, apartment_unit, townhouse_villa_semidetached, residential_land, other_residential", direct_or_derived: direct, refresh_frequency: weekly_plus_annual, confidence_ceiling: high, notes: "transaction-level, VG PSI" }
+      rents: { status: available, earliest_period: "2011", latest_period: current, geography_levels: [SAL, POA], direct_or_derived: "direct (POA), derived (SAL, via correspondence)", refresh_frequency: quarterly, confidence_ceiling: high }
+      yields: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "combines separately-sourced sales+rent, periods not forced to align" }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: monthly }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: five_yearly_census }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 population-weighted correspondence completed (see CROSS_CENSUS_HARMONISATION_METHOD.md); most SAL/POA geographies now carry a real growth figure, suppressed only below the 50-person small-cell threshold" }
+      affordability: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "shared national assumption scenario, not state-specific" }
+      land_values: { status: unavailable, notes: "no official bulk land-value source loaded" }
+      vacancy: { status: unavailable, notes: "no official vacancy-rate source identified" }
+      planning_pipeline: { status: unavailable }
+
+  VIC:
+    asgs_state_code: "2"
+    onboard_status: fully_onboarded
+    since_sprint: 10
+    metric_families:
+      sales: { status: partially_available, earliest_period: "2023-Q4", latest_period: current, geography_levels: [SAL], dwelling_type_detail: "detached_house, apartment_unit, residential_land — no townhouse/villa split, no postcode grain", direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: medium, notes: "VPSR is a pre-aggregated summary, not transaction-level like NSW" }
+      rents: { status: available_snapshot_only, geography_levels: [SAL], direct_or_derived: direct, refresh_frequency: not_currently_refreshed, confidence_ceiling: medium, notes: "Corrected 2026-07-22 (Sprint 12 WS1 audit): live-verified zero rows in core.fact_rental_market_summary and in every quarterly rent mart (suburb/lga/postcode_rent_quarterly) for VIC. Rent exists only as mart.suburb_market_snapshot.median_weekly_rent_latest (79 of 2,944 suburbs), loaded once via Sprint 10's market-intelligence pipeline (load_vic_market_intelligence_to_branch.mjs) directly into the wide snapshot table — VIC never went through the quarterly core-fact/mart pattern Sprint 11 WS9 established for QLD/SA/WA. No time series, no trend. See national_coverage_audit.md." }
+      yields: { status: derived, direct_or_derived: derived, confidence_ceiling: medium }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "same Sprint 11 WS4 correspondence method as NSW, see CROSS_CENSUS_HARMONISATION_METHOD.md" }
+      affordability: { status: derived, confidence_ceiling: medium }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  QLD:
+    asgs_state_code: "3"
+    onboard_status: fully_onboarded_rent_only
+    metric_families:
+      sales: { status: official_source_paid, notes: "Valuer-General sells per-property via business centres/QVAS — no free bulk aggregate. See queensland_source_manifest.json." }
+      rents: { status: available, earliest_period: "2017-Q3", latest_period: current, geography_levels: [SAL, LGA, POA], direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: high, notes: "Workstream 9: promoted to core.fact_rental_market_summary + mart.suburb/postcode/lga_rent_quarterly. 187,952 SAL + 23,345 LGA + 123,088 POA facts loaded." }
+      yields: { status: unavailable, notes: "cannot derive without a sales source" }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct, notes: "already national since Sprint 2-4" }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
+      affordability: { status: unavailable, notes: "requires a sales input, which is not yet available" }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  SA:
+    asgs_state_code: "4"
+    onboard_status: fully_onboarded_rent_only
+    metric_families:
+      sales: { status: official_source_paid, notes: "Land Services SA sells via SAILIS/Property Edge — no free bulk aggregate. See south_australia_source_manifest.json." }
+      rents: { status: partially_available, earliest_period: "2024-Q3", latest_period: current, geography_levels: [SAL, POA], direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: high, notes: "Workstream 9: promoted to core.fact_rental_market_summary + mart.suburb/postcode_rent_quarterly. Current-format era only (7 quarters) — 47 earlier quarterly files downloaded but not parsed (format drift across 3 incompatible eras). No LGA grain (source doesn't publish it)." }
+      yields: { status: unavailable }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
+      affordability: { status: unavailable }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  WA:
+    asgs_state_code: "5"
+    onboard_status: fully_onboarded_rent_only
+    metric_families:
+      sales: { status: official_source_restricted, notes: "Landgate sells per-report; free catalogue metadata carries a Personal Use License not clearly compatible with this platform. See western_australia_source_manifest.json." }
+      rents: { status: partially_available, earliest_period: "2023-03", latest_period: current, geography_levels: [SAL, POA], direct_or_derived: derived, refresh_frequency: monthly, confidence_ceiling: medium, notes: "Workstream 9: promoted to core.fact_rental_market_summary + mart.suburb/postcode_rent_quarterly. Medians computed in-house from raw bond lodgements (direct_or_derived=derived, the only jurisdiction where this is true) since no source-published aggregate exists. No LGA grain (source doesn't publish it)." }
+      yields: { status: unavailable }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
+      affordability: { status: unavailable }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  TAS:
+    asgs_state_code: "6"
+    onboard_status: rent_blocked_sales_verification_incomplete
+    metric_families:
+      sales: { status: partially_available, earliest_period: "2002-Q1", latest_period: current, geography_levels: [GCCSA], dwelling_type_detail: "detached_house, attached_dwelling (ABS-bundled: units+townhouses+semis)", direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: high, notes: "Sprint 12 WS2: ABS Total Value of Dwellings (cat. 6432.0), Table 2, Greater Hobart + Rest of Tas. GCCSA split — official aggregate fallback, no SAL/POA grain available for TAS. Valuer-General LIST sales reports remain fee-based/unverified for suburb-grain data. See abs_tvd_local_store_report.json." }
+      rents: { status: unavailable, notes: "Workstream 6 (Sprint 11): live-verified as blocked. Both identified official candidates (CBOS Rental Bond Statistics, DOJ Rental Bonds Output Data) return HTTP 403 behind Cloudflare bot protection, which this project's guardrails forbid bypassing. That finding was explicitly flagged 'search-only, not final' pending direct CBOS Tasmania follow-up (Sprint 12 WS2) — see national_coverage_audit.md." }
+      yields: { status: unavailable, notes: "requires both sales and rent for the same jurisdiction; rent remains unavailable" }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
+      affordability: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 12 WS2: now computable at GCCSA grain using the shared national assumption scenario, same as every other jurisdiction — not state-specific" }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  ACT:
+    asgs_state_code: "8"
+    onboard_status: national_context_only
+    metric_families:
+      sales: { status: partially_available, earliest_period: "2002-Q1", latest_period: current, geography_levels: [GCCSA], dwelling_type_detail: "detached_house, attached_dwelling (ABS-bundled: units+townhouses+semis)", direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: high, notes: "Sprint 12 WS2: ABS Total Value of Dwellings (cat. 6432.0), Table 2, single GCCSA covering the whole ACT (no 'rest of ACT' split published — ACT has no meaningful area outside the Canberra GCCSA). Official aggregate fallback, no SAL/POA grain available. data.act.gov.au open data portal remains zero-result for property sales. See abs_tvd_local_store_report.json." }
+      rents: { status: unavailable, notes: "data.act.gov.au returned 0 results for 'rent'/'rental bond' (Sprint 11 WS6, live-verified). No ABS-published aggregate rent series identified for ACT this pass — Total Value of Dwellings covers sales only, not rents." }
+      yields: { status: unavailable, notes: "requires both sales and rent for the same jurisdiction; rent remains unavailable" }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
+      affordability: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 12 WS2: now computable at GCCSA grain using the shared national assumption scenario, same as every other jurisdiction" }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+  NT:
+    asgs_state_code: "7"
+    onboard_status: national_context_only
+    metric_families:
+      sales: { status: partially_available, earliest_period: "2002-Q1", latest_period: current, geography_levels: [GCCSA], dwelling_type_detail: "detached_house, attached_dwelling (ABS-bundled: units+townhouses+semis)", direct_or_derived: direct, refresh_frequency: quarterly, confidence_ceiling: high, notes: "Sprint 12 WS2: ABS Total Value of Dwellings (cat. 6432.0), Table 2, Greater Darwin + Rest of NT GCCSA split. Official aggregate fallback, no SAL/POA grain available. NT's own open data portal's property group (12/12 datasets live-reviewed, Sprint 11 WS2) has no sales dataset; REINT rejected as non-official. See abs_tvd_local_store_report.json." }
+      rents: { status: unavailable, notes: "NT open data portal's property group (12/12 datasets) has no rental dataset (Sprint 11 WS2, live-verified). No ABS-published aggregate rent series identified for NT this pass." }
+      yields: { status: unavailable, notes: "requires both sales and rent for the same jurisdiction; rent remains unavailable" }
+      dwelling_stock: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      building_approvals: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      demographics: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      income: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      tenure: { status: available, geography_levels: [SAL, POA], direct_or_derived: direct }
+      population_growth: { status: available, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 11 WS4 cross-Census 2016-2021 correspondence, national — see CROSS_CENSUS_HARMONISATION_METHOD.md" }
+      affordability: { status: derived, direct_or_derived: derived, confidence_ceiling: medium, notes: "Sprint 12 WS2: now computable at GCCSA grain using the shared national assumption scenario, same as every other jurisdiction" }
+      land_values: { status: unavailable }
+      vacancy: { status: unavailable }
+      planning_pipeline: { status: unavailable }
+
+shared_notes:
+  - "dwelling_stock, building_approvals, demographics, income, tenure are 'available' for EVERY jurisdiction because ASGS geography and Census/Building-Approvals data were loaded nationally in Sprints 2-4 — this is not jurisdiction-specific work, confirmed by direct query for each state, not assumed."
+  - "population_growth is 'available' (derived) everywhere as of Sprint 11 Workstream 4 — 2016-2021 cross-Census population-weighted correspondence completed and validated (100.00% national reconciliation, see CROSS_CENSUS_HARMONISATION_METHOD.md). Corrected 2026-07-22 (Sprint 12 WS1 audit) — this line previously said 'partially_available... pending Workstream 4', which was accurate when first written but went stale once WS4 completed later in the same sprint."
+  - "VIC residential rent is genuinely narrower than its 'partially_available' status alone implies: core.fact_rental_market_summary has zero VIC rows and there is no VIC rent time series anywhere in the quarterly rent marts — VIC rent exists only as a single latest-value snapshot column (mart.suburb_market_snapshot.median_weekly_rent_latest, 79 of 2,944 suburbs). Found and documented 2026-07-22 (Sprint 12 WS1 audit, national_coverage_audit.md)."
+  - "land_values, vacancy, and planning_pipeline are unavailable for every jurisdiction — no official free bulk source for any of these three metric families was identified in this sprint for any state, including NSW/VIC. This is a genuine, honestly-documented national gap, not a jurisdiction-specific one."
+  - "affordability is 'unavailable' for QLD/SA/WA/TAS/ACT/NT because it requires a sales price input, which none of those jurisdictions have loaded yet — it will become 'derived' automatically once/if a sales source is onboarded for a state, using the exact same shared assumption scenario as NSW/VIC (no per-state redefinition)."

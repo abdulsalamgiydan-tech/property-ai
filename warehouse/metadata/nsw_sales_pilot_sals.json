@@ -1,0 +1,1418 @@
+[
+ {
+  "geography_code": "10014",
+  "geography_name": "Acacia Gardens",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "10016",
+  "geography_name": "Adamstown",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999997
+ },
+ {
+  "geography_code": "10017",
+  "geography_name": "Adamstown Heights",
+  "lga_code": "15900",
+  "overlap_frac": 0.783511525936948
+ },
+ {
+  "geography_code": "10025",
+  "geography_name": "Albion Park",
+  "lga_code": "16900",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "10026",
+  "geography_name": "Albion Park Rail",
+  "lga_code": "16900",
+  "overlap_frac": 0.9999999999999991
+ },
+ {
+  "geography_code": "10060",
+  "geography_name": "Angus",
+  "lga_code": "10750",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "10088",
+  "geography_name": "Arndell Park",
+  "lga_code": "10750",
+  "overlap_frac": 0.999999999999999
+ },
+ {
+  "geography_code": "10109",
+  "geography_name": "Austinmer",
+  "lga_code": "18450",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "10117",
+  "geography_name": "Avondale (NSW)",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999996
+ },
+ {
+  "geography_code": "10156",
+  "geography_name": "Balgownie",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999996
+ },
+ {
+  "geography_code": "10188",
+  "geography_name": "Bar Beach",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "10208",
+  "geography_name": "Barrack Heights",
+  "lga_code": "16900",
+  "overlap_frac": 0.9999999999999992
+ },
+ {
+  "geography_code": "10209",
+  "geography_name": "Barrack Point",
+  "lga_code": "16900",
+  "overlap_frac": 0.9999999999999997
+ },
+ {
+  "geography_code": "10264",
+  "geography_name": "Bellambi",
+  "lga_code": "18450",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "10301",
+  "geography_name": "Beresfield",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999991
+ },
+ {
+  "geography_code": "10303",
+  "geography_name": "Berkeley",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999988
+ },
+ {
+  "geography_code": "10339",
+  "geography_name": "Bidwill (NSW)",
+  "lga_code": "10750",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "10376",
+  "geography_name": "Birmingham Gardens",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "10390",
+  "geography_name": "Blackbutt (NSW)",
+  "lga_code": "16900",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "10391",
+  "geography_name": "Blackett",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "10396",
+  "geography_name": "Blacktown",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "10572",
+  "geography_name": "Bringelly",
+  "lga_code": "11450",
+  "overlap_frac": 0.5397721878798456
+ },
+ {
+  "geography_code": "10575",
+  "geography_name": "Broadmeadow",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999994
+ },
+ {
+  "geography_code": "10609",
+  "geography_name": "Brownsville",
+  "lga_code": "18450",
+  "overlap_frac": 0.999999999999999
+ },
+ {
+  "geography_code": "10659",
+  "geography_name": "Bulli",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999994
+ },
+ {
+  "geography_code": "10679",
+  "geography_name": "Bungarribee",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999999
+ },
+ {
+  "geography_code": "10749",
+  "geography_name": "Calderwood",
+  "lga_code": "16900",
+  "overlap_frac": 0.9999999999999986
+ },
+ {
+  "geography_code": "10754",
+  "geography_name": "Callaghan",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "10769",
+  "geography_name": "Camden",
+  "lga_code": "11450",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "10772",
+  "geography_name": "Camden South",
+  "lga_code": "11450",
+  "overlap_frac": 0.9999999999999996
+ },
+ {
+  "geography_code": "10773",
+  "geography_name": "Camellia",
+  "lga_code": "16260",
+  "overlap_frac": 0.9999999999999999
+ },
+ {
+  "geography_code": "10817",
+  "geography_name": "Carlingford",
+  "lga_code": "16260",
+  "overlap_frac": 0.9940311082859294
+ },
+ {
+  "geography_code": "10829",
+  "geography_name": "Carrington (Newcastle - NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999996
+ },
+ {
+  "geography_code": "10853",
+  "geography_name": "Cataract",
+  "lga_code": "18450",
+  "overlap_frac": 0.6037516064023185
+ },
+ {
+  "geography_code": "10855",
+  "geography_name": "Catherine Field",
+  "lga_code": "11450",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "10929",
+  "geography_name": "Cleveland (NSW)",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999994
+ },
+ {
+  "geography_code": "10932",
+  "geography_name": "Clifton (NSW)",
+  "lga_code": "18450",
+  "overlap_frac": 1.000000000000002
+ },
+ {
+  "geography_code": "10940",
+  "geography_name": "Clyde (NSW)",
+  "lga_code": "16260",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "10943",
+  "geography_name": "Coalcliff",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999986
+ },
+ {
+  "geography_code": "10953",
+  "geography_name": "Cobbitty",
+  "lga_code": "11450",
+  "overlap_frac": 0.9999999999999993
+ },
+ {
+  "geography_code": "10965",
+  "geography_name": "Colebee",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "10966",
+  "geography_name": "Coledale",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999992
+ },
+ {
+  "geography_code": "11010",
+  "geography_name": "Coniston",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "11014",
+  "geography_name": "Constitution Hill",
+  "lga_code": "16260",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "11019",
+  "geography_name": "Cooks Hill",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "11069",
+  "geography_name": "Cordeaux",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "11070",
+  "geography_name": "Cordeaux Heights",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "11082",
+  "geography_name": "Corrimal",
+  "lga_code": "18450",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "11117",
+  "geography_name": "Cringila",
+  "lga_code": "18450",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "11125",
+  "geography_name": "Croom",
+  "lga_code": "16900",
+  "overlap_frac": 0.8439072157232699
+ },
+ {
+  "geography_code": "11176",
+  "geography_name": "Currans Hill",
+  "lga_code": "11450",
+  "overlap_frac": 0.9999999999999992
+ },
+ {
+  "geography_code": "11203",
+  "geography_name": "Dapto",
+  "lga_code": "18450",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "11210",
+  "geography_name": "Darkes Forest",
+  "lga_code": "18450",
+  "overlap_frac": 0.6102899965364379
+ },
+ {
+  "geography_code": "11226",
+  "geography_name": "Dean Park",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999994
+ },
+ {
+  "geography_code": "11250",
+  "geography_name": "Dharruk",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999992
+ },
+ {
+  "geography_code": "11272",
+  "geography_name": "Dombarton",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999992
+ },
+ {
+  "geography_code": "11277",
+  "geography_name": "Doonside",
+  "lga_code": "10750",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "11315",
+  "geography_name": "Dundas (NSW)",
+  "lga_code": "16260",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "11316",
+  "geography_name": "Dundas Valley",
+  "lga_code": "16260",
+  "overlap_frac": 0.9999999999999989
+ },
+ {
+  "geography_code": "11326",
+  "geography_name": "Dunmore (NSW)",
+  "lga_code": "16900",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "11351",
+  "geography_name": "East Corrimal",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "11369",
+  "geography_name": "Eastern Creek",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "11394",
+  "geography_name": "Elderslie (Camden - NSW)",
+  "lga_code": "11450",
+  "overlap_frac": 0.9999999999999993
+ },
+ {
+  "geography_code": "11397",
+  "geography_name": "Elermore Vale",
+  "lga_code": "15900",
+  "overlap_frac": 0.9884776127071588
+ },
+ {
+  "geography_code": "11408",
+  "geography_name": "Ellis Lane",
+  "lga_code": "11450",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "11416",
+  "geography_name": "Emerton",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "11431",
+  "geography_name": "Epping (NSW)",
+  "lga_code": "16260",
+  "overlap_frac": 0.999999999999998
+ },
+ {
+  "geography_code": "11438",
+  "geography_name": "Ermington",
+  "lga_code": "16260",
+  "overlap_frac": 0.999999999999999
+ },
+ {
+  "geography_code": "11487",
+  "geography_name": "Fairy Meadow",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999999
+ },
+ {
+  "geography_code": "11494",
+  "geography_name": "Farmborough Heights",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "11510",
+  "geography_name": "Fernhill",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999997
+ },
+ {
+  "geography_code": "11518",
+  "geography_name": "Figtree",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999993
+ },
+ {
+  "geography_code": "11536",
+  "geography_name": "Fletcher (NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "11537",
+  "geography_name": "Flinders (NSW)",
+  "lga_code": "16900",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "11607",
+  "geography_name": "Georgetown (NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999999
+ },
+ {
+  "geography_code": "11646",
+  "geography_name": "Gledswood Hills",
+  "lga_code": "11450",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "11663",
+  "geography_name": "Glendenning",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "11686",
+  "geography_name": "Glenwood (NSW)",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "11743",
+  "geography_name": "Grantham Farm",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999993
+ },
+ {
+  "geography_code": "11746",
+  "geography_name": "Grasmere",
+  "lga_code": "11450",
+  "overlap_frac": 0.9999999999999993
+ },
+ {
+  "geography_code": "11780",
+  "geography_name": "Gregory Hills",
+  "lga_code": "11450",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "11832",
+  "geography_name": "Gwynneville",
+  "lga_code": "18450",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "11845",
+  "geography_name": "Hamilton (NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "11846",
+  "geography_name": "Hamilton East",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999997
+ },
+ {
+  "geography_code": "11847",
+  "geography_name": "Hamilton North",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999994
+ },
+ {
+  "geography_code": "11848",
+  "geography_name": "Hamilton South",
+  "lga_code": "15900",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "11866",
+  "geography_name": "Harrington Park",
+  "lga_code": "11450",
+  "overlap_frac": 0.9999999999999992
+ },
+ {
+  "geography_code": "11867",
+  "geography_name": "Harris Park",
+  "lga_code": "16260",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "11873",
+  "geography_name": "Hassall Grove",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "11887",
+  "geography_name": "Haywards Bay",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "11893",
+  "geography_name": "Hebersham",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "11897",
+  "geography_name": "Helensburgh",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "11905",
+  "geography_name": "Hexham (NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999999
+ },
+ {
+  "geography_code": "11949",
+  "geography_name": "Horsley",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999972
+ },
+ {
+  "geography_code": "11964",
+  "geography_name": "Huntingwood",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999996
+ },
+ {
+  "geography_code": "11966",
+  "geography_name": "Huntley (Wollongong - NSW)",
+  "lga_code": "18450",
+  "overlap_frac": 0.999999999999999
+ },
+ {
+  "geography_code": "11999",
+  "geography_name": "Islington",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "12032",
+  "geography_name": "Jesmond",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999996
+ },
+ {
+  "geography_code": "12063",
+  "geography_name": "Kanahooka",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999989
+ },
+ {
+  "geography_code": "12093",
+  "geography_name": "Keiraville",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "12097",
+  "geography_name": "Kellyville Ridge",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "12100",
+  "geography_name": "Kembla Grange",
+  "lga_code": "18450",
+  "overlap_frac": 1.000000000000001
+ },
+ {
+  "geography_code": "12101",
+  "geography_name": "Kembla Heights",
+  "lga_code": "18450",
+  "overlap_frac": 1.000000000000002
+ },
+ {
+  "geography_code": "12157",
+  "geography_name": "Kings Langley",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999992
+ },
+ {
+  "geography_code": "12158",
+  "geography_name": "Kings Park (NSW)",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "12180",
+  "geography_name": "Kirkham",
+  "lga_code": "11450",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "12196",
+  "geography_name": "Koonawarra",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "12199",
+  "geography_name": "Kooragang",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999997
+ },
+ {
+  "geography_code": "12208",
+  "geography_name": "Kotara",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999999
+ },
+ {
+  "geography_code": "12256",
+  "geography_name": "Lake Heights",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "12259",
+  "geography_name": "Lake Illawarra",
+  "lga_code": "16900",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "12270",
+  "geography_name": "Lalor Park",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "12273",
+  "geography_name": "Lambton",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999993
+ },
+ {
+  "geography_code": "12311",
+  "geography_name": "Lenaghan",
+  "lga_code": "15900",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "12314",
+  "geography_name": "Leppington",
+  "lga_code": "11450",
+  "overlap_frac": 0.9077407721525242
+ },
+ {
+  "geography_code": "12316",
+  "geography_name": "Lethbridge Park",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "12335",
+  "geography_name": "Lilyvale (NSW)",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999988
+ },
+ {
+  "geography_code": "12447",
+  "geography_name": "Macquarie Pass",
+  "lga_code": "16900",
+  "overlap_frac": 0.9999999999999988
+ },
+ {
+  "geography_code": "12448",
+  "geography_name": "Maddens Plains",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "12478",
+  "geography_name": "Mangerton",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999993
+ },
+ {
+  "geography_code": "12495",
+  "geography_name": "Marayong",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "12515",
+  "geography_name": "Marsden Park",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "12517",
+  "geography_name": "Marshall Mount",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000027
+ },
+ {
+  "geography_code": "12524",
+  "geography_name": "Maryland (Newcastle - NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "12528",
+  "geography_name": "Maryville",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "12540",
+  "geography_name": "Mayfield (Newcastle - NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999986
+ },
+ {
+  "geography_code": "12544",
+  "geography_name": "Mayfield East",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999997
+ },
+ {
+  "geography_code": "12545",
+  "geography_name": "Mayfield North",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "12546",
+  "geography_name": "Mayfield West",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "12573",
+  "geography_name": "Melonba",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999982
+ },
+ {
+  "geography_code": "12574",
+  "geography_name": "Melrose Park (NSW)",
+  "lga_code": "16260",
+  "overlap_frac": 0.5814039157994354
+ },
+ {
+  "geography_code": "12584",
+  "geography_name": "Merewether",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999994
+ },
+ {
+  "geography_code": "12585",
+  "geography_name": "Merewether Heights",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "12644",
+  "geography_name": "Minchinbury",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "12649",
+  "geography_name": "Minmi",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "12756",
+  "geography_name": "Mount Annan",
+  "lga_code": "11450",
+  "overlap_frac": 0.8127742899873311
+ },
+ {
+  "geography_code": "12767",
+  "geography_name": "Mount Druitt",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000013
+ },
+ {
+  "geography_code": "12779",
+  "geography_name": "Mount Keira",
+  "lga_code": "18450",
+  "overlap_frac": 1.000000000000001
+ },
+ {
+  "geography_code": "12780",
+  "geography_name": "Mount Kembla",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "12793",
+  "geography_name": "Mount Ousley",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "12795",
+  "geography_name": "Mount Pleasant (NSW)",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "12802",
+  "geography_name": "Mount Saint Thomas",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999997
+ },
+ {
+  "geography_code": "12812",
+  "geography_name": "Mount Warrigal",
+  "lga_code": "16900",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "12906",
+  "geography_name": "Narellan",
+  "lga_code": "11450",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "12907",
+  "geography_name": "Narellan Vale",
+  "lga_code": "11450",
+  "overlap_frac": 0.9999999999999993
+ },
+ {
+  "geography_code": "12951",
+  "geography_name": "New Lambton",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "12952",
+  "geography_name": "New Lambton Heights",
+  "lga_code": "15900",
+  "overlap_frac": 0.7265443815746147
+ },
+ {
+  "geography_code": "12958",
+  "geography_name": "Newcastle",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999992
+ },
+ {
+  "geography_code": "12959",
+  "geography_name": "Newcastle East",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "12960",
+  "geography_name": "Newcastle West",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "12962",
+  "geography_name": "Newington (NSW)",
+  "lga_code": "16260",
+  "overlap_frac": 0.9999999999999996
+ },
+ {
+  "geography_code": "12977",
+  "geography_name": "Nirimba Fields",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "13004",
+  "geography_name": "North Lambton",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "13011",
+  "geography_name": "North Parramatta",
+  "lga_code": "16260",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "13013",
+  "geography_name": "North Rocks",
+  "lga_code": "16260",
+  "overlap_frac": 0.8538344455480829
+ },
+ {
+  "geography_code": "13027",
+  "geography_name": "North Wollongong",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "13033",
+  "geography_name": "Northmead",
+  "lga_code": "16260",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "13064",
+  "geography_name": "Oak Flats",
+  "lga_code": "16900",
+  "overlap_frac": 1.000000000000001
+ },
+ {
+  "geography_code": "13069",
+  "geography_name": "Oakhurst (NSW)",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "13074",
+  "geography_name": "Oatlands (NSW)",
+  "lga_code": "16260",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "13092",
+  "geography_name": "Old Toongabbie",
+  "lga_code": "16260",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "13102",
+  "geography_name": "Oran Park",
+  "lga_code": "11450",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "13112",
+  "geography_name": "Otford",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "13164",
+  "geography_name": "Parklea",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "13167",
+  "geography_name": "Parramatta",
+  "lga_code": "16260",
+  "overlap_frac": 1.000000000000001
+ },
+ {
+  "geography_code": "13192",
+  "geography_name": "Pemulwuy",
+  "lga_code": "10750",
+  "overlap_frac": 0.6677320084871927
+ },
+ {
+  "geography_code": "13242",
+  "geography_name": "Plumpton (NSW)",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "13257",
+  "geography_name": "Port Kembla",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "13276",
+  "geography_name": "Primbee",
+  "lga_code": "18450",
+  "overlap_frac": 0.999999999999999
+ },
+ {
+  "geography_code": "13278",
+  "geography_name": "Prospect (NSW)",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "13299",
+  "geography_name": "Quakers Hill",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "13328",
+  "geography_name": "Rankin Park",
+  "lga_code": "15900",
+  "overlap_frac": 0.5350677988597536
+ },
+ {
+  "geography_code": "13373",
+  "geography_name": "Richards",
+  "lga_code": "10750",
+  "overlap_frac": 0.999999999999999
+ },
+ {
+  "geography_code": "13383",
+  "geography_name": "Riverstone",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "13410",
+  "geography_name": "Rooty Hill",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "13411",
+  "geography_name": "Ropes Crossing",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "13422",
+  "geography_name": "Rosehill (NSW)",
+  "lga_code": "16260",
+  "overlap_frac": 0.9999999999999999
+ },
+ {
+  "geography_code": "13444",
+  "geography_name": "Rouse Hill",
+  "lga_code": "10750",
+  "overlap_frac": 0.503823326740405
+ },
+ {
+  "geography_code": "13463",
+  "geography_name": "Russell Vale",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "13468",
+  "geography_name": "Rydalmere",
+  "lga_code": "16260",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "13489",
+  "geography_name": "Sandgate (NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "13515",
+  "geography_name": "Scarborough (NSW)",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000013
+ },
+ {
+  "geography_code": "13517",
+  "geography_name": "Schofields",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "13533",
+  "geography_name": "Seven Hills (NSW)",
+  "lga_code": "10750",
+  "overlap_frac": 0.9854887030457273
+ },
+ {
+  "geography_code": "13538",
+  "geography_name": "Shalvey",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "13539",
+  "geography_name": "Shanes Park",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "13547",
+  "geography_name": "Shell Cove",
+  "lga_code": "16900",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "13548",
+  "geography_name": "Shellharbour",
+  "lga_code": "16900",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "13549",
+  "geography_name": "Shellharbour City Centre",
+  "lga_code": "16900",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "13557",
+  "geography_name": "Shortland",
+  "lga_code": "15900",
+  "overlap_frac": 1.000000000000001
+ },
+ {
+  "geography_code": "13562",
+  "geography_name": "Silverwater (Parramatta - NSW)",
+  "lga_code": "16260",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "13573",
+  "geography_name": "Smeaton Grange",
+  "lga_code": "11450",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "13628",
+  "geography_name": "Spring Farm (NSW)",
+  "lga_code": "11450",
+  "overlap_frac": 0.9999999999999993
+ },
+ {
+  "geography_code": "13632",
+  "geography_name": "Spring Hill (Wollongong - NSW)",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999997
+ },
+ {
+  "geography_code": "13664",
+  "geography_name": "Stanhope Gardens",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "13668",
+  "geography_name": "Stanwell Park",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999991
+ },
+ {
+  "geography_code": "13669",
+  "geography_name": "Stanwell Tops",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "13677",
+  "geography_name": "Stockton (NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "13731",
+  "geography_name": "Sydney Olympic Park",
+  "lga_code": "16260",
+  "overlap_frac": 0.9569181309020053
+ },
+ {
+  "geography_code": "13747",
+  "geography_name": "Tallawong",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999996
+ },
+ {
+  "geography_code": "13784",
+  "geography_name": "Tarrawanna",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "13786",
+  "geography_name": "Tarro",
+  "lga_code": "15900",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "13797",
+  "geography_name": "Telopea",
+  "lga_code": "16260",
+  "overlap_frac": 0.9999999999999998
+ },
+ {
+  "geography_code": "13842",
+  "geography_name": "The Hill",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "13843",
+  "geography_name": "The Junction",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "13851",
+  "geography_name": "The Ponds",
+  "lga_code": "10750",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "13864",
+  "geography_name": "Thirroul",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999997
+ },
+ {
+  "geography_code": "13880",
+  "geography_name": "Tighes Hill",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "13918",
+  "geography_name": "Tongarra",
+  "lga_code": "16900",
+  "overlap_frac": 1.000000000000001
+ },
+ {
+  "geography_code": "13925",
+  "geography_name": "Toongabbie (NSW)",
+  "lga_code": "16260",
+  "overlap_frac": 0.5184080084797029
+ },
+ {
+  "geography_code": "13947",
+  "geography_name": "Towradgi",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999981
+ },
+ {
+  "geography_code": "13952",
+  "geography_name": "Tregear",
+  "lga_code": "10750",
+  "overlap_frac": 0.9999999999999994
+ },
+ {
+  "geography_code": "13976",
+  "geography_name": "Tullimbar",
+  "lga_code": "16900",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "14026",
+  "geography_name": "Unanderra",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999994
+ },
+ {
+  "geography_code": "14136",
+  "geography_name": "Wallsend",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999988
+ },
+ {
+  "geography_code": "14158",
+  "geography_name": "Warabrook",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999991
+ },
+ {
+  "geography_code": "14159",
+  "geography_name": "Waratah (NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 0.9999999999999994
+ },
+ {
+  "geography_code": "14160",
+  "geography_name": "Waratah West",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "14169",
+  "geography_name": "Warilla",
+  "lga_code": "16900",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "14185",
+  "geography_name": "Warrawong",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999993
+ },
+ {
+  "geography_code": "14244",
+  "geography_name": "Wentworth Point",
+  "lga_code": "16260",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "14272",
+  "geography_name": "West Wollongong",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000004
+ },
+ {
+  "geography_code": "14278",
+  "geography_name": "Westmead",
+  "lga_code": "16260",
+  "overlap_frac": 0.5205991386855147
+ },
+ {
+  "geography_code": "14283",
+  "geography_name": "Whalan",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "14302",
+  "geography_name": "Wickham (NSW)",
+  "lga_code": "15900",
+  "overlap_frac": 1.0000000000000002
+ },
+ {
+  "geography_code": "14319",
+  "geography_name": "Willmot",
+  "lga_code": "10750",
+  "overlap_frac": 1
+ },
+ {
+  "geography_code": "14334",
+  "geography_name": "Windang",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999999
+ },
+ {
+  "geography_code": "14353",
+  "geography_name": "Winston Hills",
+  "lga_code": "16260",
+  "overlap_frac": 0.9276621704061214
+ },
+ {
+  "geography_code": "14376",
+  "geography_name": "Wollongong",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "14381",
+  "geography_name": "Wombarra",
+  "lga_code": "18450",
+  "overlap_frac": 0.999999999999999
+ },
+ {
+  "geography_code": "14392",
+  "geography_name": "Wongawilli",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000013
+ },
+ {
+  "geography_code": "14399",
+  "geography_name": "Woodcroft (NSW)",
+  "lga_code": "10750",
+  "overlap_frac": 1.0000000000000007
+ },
+ {
+  "geography_code": "14434",
+  "geography_name": "Woonona",
+  "lga_code": "18450",
+  "overlap_frac": 1.0000000000000009
+ },
+ {
+  "geography_code": "14439",
+  "geography_name": "Woronora Dam",
+  "lga_code": "18450",
+  "overlap_frac": 0.7437213524027716
+ },
+ {
+  "geography_code": "14473",
+  "geography_name": "Yallah",
+  "lga_code": "18450",
+  "overlap_frac": 0.9999999999999999
+ },
+ {
+  "geography_code": "14521",
+  "geography_name": "Yellow Rock (Shellharbour - NSW)",
+  "lga_code": "16900",
+  "overlap_frac": 0.7217741114124211
+ }
+]

@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-07-20T08:29:40.663Z",
+  "store": "local DuckDB/Parquet (no Supabase connection made)",
+  "verdict": "PASSED",
+  "source": {
+    "generated_at": "2026-07-20T08:28:50.610Z",
+    "dataset_id": "building_approvals_sa2_2021",
+    "source_url": "https://data.api.abs.gov.au/rest/data/ABS,BA_SA2,2.0.0/1.9.1.110+150+100.SA2..M?startPeriod=2021-07&format=csv",
+    "api_key_used": "1.9.1.110+150+100.SA2..M",
+    "raw_storage_path": "warehouse/data/raw/building_approvals/ba_sa2_monthly.csv",
+    "size_bytes": 27449529,
+    "sha256": "7a375bf7c98e7bf0150c8f5f8b8b70faac3442c3c734f82ab5db243703ca35fd",
+    "retrieved_at": "2026-07-20T08:28:50.610Z",
+    "source_file_on_disk": true
+  },
+  "raw_or_local_files_tracked_by_git": [],
+  "period_coverage": {
+    "min": {
+      "days": 18809
+    },
+    "max": {
+      "days": 20574
+    },
+    "distinct_periods": 59
+  },
+  "by_dwelling_type": [
+    {
+      "dwelling_type": "houses",
+      "n": 145022,
+      "q": 0
+    },
+    {
+      "dwelling_type": "other_residential",
+      "n": 145022,
+      "q": 0
+    },
+    {
+      "dwelling_type": "total_dwellings",
+      "n": 145022,
+      "q": 0
+    }
+  ],
+  "checks": {
+    "null_codes": 0,
+    "duplicate_keys": 0,
+    "negative_quarantined": 0,
+    "quarantined_total": 0,
+    "null_values_kept_null": 0,
+    "joined_to_asgs": 2450,
+    "unjoined": 8,
+    "asgs_sa2_without_approvals": 4
+  },
+  "latest_12m_national_consistency": {
+    "houses": 118743,
+    "other": 82606,
+    "total": 201349
+  },
+  "notes": [
+    "ABS omits SA2-months with zero approvals rather than publishing explicit 0 rows; these are absent from the store, not quarantined — never backfilled as zero.",
+    "unjoined geographies are typically 'Migratory/Offshore/Shipping' or 'No usual address' style SA2 special codes with no ASGS boundary — expected, not a mapping defect.",
+    "asgs_sa2_without_approvals counts backbone SA2s that never had a recorded approval in the whole series (small regional/remote areas) — expected."
+  ]
+}

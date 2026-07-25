@@ -1,0 +1,136 @@
+{
+  "generated_at": "2026-07-21T07:20:00.000Z",
+  "policy": {
+    "official_vic_government_only": true,
+    "no_commercial_scraping": true,
+    "raw_files_outside_git": "warehouse/data/raw/vic_sales, warehouse/data/raw/vic_rents",
+    "unverified_sources_marked": "needs_review",
+    "bot_protection_note": "www.land.vic.gov.au (the VPSR sales file host) is behind a Cloudflare managed JS challenge, identical in kind to NSW's valuergeneral.nsw.gov.au (Sprint 5). Verified accessible via the same legitimate technique already established in this project: a real (headed) browser session that lets the challenge JS execute and redirect, via gstack /browse --headed. This is NOT a CAPTCHA-solving, stealth-fingerprint-spoofing, or proxy-rotation technique (all of which remain forbidden) — it is the browse tool's standard headed mode, the same mechanism a human's own browser uses, and was already the established solution for an equivalent official-government Cloudflare challenge in this project."
+  },
+  "entries": [
+    {
+      "source_id": "vic_vg_sales",
+      "dataset_id": "vic_vpsr_median_house",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "Victorian Property Sales Report (VPSR) — Median House by Suburb Quarterly",
+      "publisher": "Department of Transport and Planning (Valuer-General Victoria)",
+      "official_url": "https://discover.data.vic.gov.au/dataset/victorian-property-sales-report-median-house-by-suburb",
+      "download_url_latest": "https://www.land.vic.gov.au/__data/assets/excel_doc/0030/773742/median-house-q4-2025.xls",
+      "download_url_pattern": "https://www.land.vic.gov.au/__data/assets/excel_doc/<id>/<file_id>/median-house-q<N>-<YYYY>.xls (exact numeric path segments change per release — always resolve via the CKAN package_show API, never guess)",
+      "ckan_api": "https://discover.data.vic.gov.au/api/3/action/package_show?id=victorian-property-sales-report-median-house-by-suburb",
+      "geography_level": "suburb (VG Victoria's own locality grouping — NOT always 1:1 with ASGS SAL, see victoria_geography_mapping_report.json)",
+      "available_history": "metadata record published 01/08/2014; live catalog currently exposes 9 quarterly resources (Dec 2023 - Dec 2025); each individual file covers only its own quarter's median (not cumulative history like the rental report)",
+      "refresh_frequency": "quarterly",
+      "file_format": "legacy .xls (OLE2 Compound Document / BIFF binary format, Crystal Reports export) — NOT modern .xlsx (OOXML). This project's existing exceljs dependency cannot read this format; a different parsing approach is required (resolved in Phase 5 build script).",
+      "measures": ["median sale price by suburb", "quarterly percentage change", "12-month percentage change", "Melbourne metro and country Victoria summary rows"],
+      "dwelling_type_scope": "house only — separate parallel products exist for unit and vacant land (see vic_vpsr_median_unit / vic_vpsr_median_land below); no townhouse/villa-specific breakout, no strata/nature-of-property evidence fields comparable to NSW PSI",
+      "licence_notes": "Creative Commons Attribution 4.0 International",
+      "access_method": "bulk_file_download, requires a real (headed) browser session to pass www.land.vic.gov.au's Cloudflare JS challenge — plain HTTP (curl) and default headless browser navigation both return HTTP 403 / a challenge page",
+      "intended_raw_storage_path": "warehouse/data/raw/vic_sales/vpsr/median_house/",
+      "intended_local_table": "vic_sales.duckdb :: vic_sales_summary (dwelling_type='detached_house')",
+      "status": "discovered",
+      "notes": "Verified live: HTTP 200 via headed browser, downloaded 233KB genuine OLE2 Compound Document (confirmed via file-signature inspection, not an HTML challenge page). CKAN package_show API (no bot protection) is the reliable way to resolve the current-quarter file's exact download URL each refresh cycle."
+    },
+    {
+      "source_id": "vic_vg_sales",
+      "dataset_id": "vic_vpsr_median_unit",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "Victorian Property Sales Report — Median Unit by Suburb Quarterly",
+      "publisher": "Department of Transport and Planning (Valuer-General Victoria)",
+      "official_url": "https://discover.data.vic.gov.au/dataset/victorian-property-sales-report-median-unit-by-suburb",
+      "download_url_latest": "https://www.land.vic.gov.au/__data/assets/excel_doc/0025/752704/median-unit-q4-2024.xls",
+      "ckan_api": "https://discover.data.vic.gov.au/api/3/action/package_show?id=victorian-property-sales-report-median-unit-by-suburb",
+      "geography_level": "suburb (same grouping as median house)",
+      "file_format": "legacy .xls, same as median house",
+      "licence_notes": "Creative Commons Attribution 4.0 International",
+      "access_method": "same headed-browser requirement as median house",
+      "intended_local_table": "vic_sales.duckdb :: vic_sales_summary (dwelling_type='apartment_unit')",
+      "status": "discovered"
+    },
+    {
+      "source_id": "vic_vg_sales",
+      "dataset_id": "vic_vpsr_median_land",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "Victorian Property Sales Report — Median Vacant Land by Suburb Quarterly",
+      "publisher": "Department of Transport and Planning (Valuer-General Victoria)",
+      "official_url": "https://discover.data.vic.gov.au/dataset/victorian-property-sales-report-median-vacant-land-by-suburb",
+      "download_url_latest": "https://www.land.vic.gov.au/__data/assets/excel_doc/0032/773744/median-land-q4-2025.xls",
+      "ckan_api": "https://discover.data.vic.gov.au/api/3/action/package_show?id=victorian-property-sales-report-median-vacant-land-by-suburb",
+      "geography_level": "suburb",
+      "file_format": "legacy .xls, same as median house",
+      "licence_notes": "Creative Commons Attribution 4.0 International",
+      "access_method": "same headed-browser requirement",
+      "intended_local_table": "vic_sales.duckdb :: vic_sales_summary (dwelling_type='residential_land')",
+      "status": "discovered"
+    },
+    {
+      "source_id": "vic_vg_sales",
+      "dataset_id": "vic_vpsr_yearly_summary",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "Victorian Property Sales Report — Yearly Summary",
+      "publisher": "Department of Transport and Planning (Valuer-General Victoria)",
+      "official_url": "https://discover.data.vic.gov.au/dataset/victorian-property-sales-report-yearly-summary",
+      "download_url_latest": "https://www.land.vic.gov.au/__data/assets/excel_doc/0029/773741/yearly-summary-q4-2025.xls",
+      "geography_level": "LGA / metro-country / state summary — not suburb grain",
+      "file_format": "legacy .xls",
+      "status": "discovered",
+      "notes": "Broader-grain reference product; not the primary suburb-level ingestion target but useful for a statewide sanity check on final loaded medians (same role NSW's own published state-level figures played in Sprint 5-7 plausibility checks)."
+    },
+    {
+      "source_id": "vic_rent",
+      "dataset_id": "vic_moving_annual_rent_by_suburb",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "Homes Victoria Rental Report — Moving annual rent by suburb",
+      "publisher": "Homes Victoria (Department of Families, Fairness and Housing)",
+      "official_url": "https://www.dffh.vic.gov.au/publications/rental-report",
+      "download_url_latest": "https://www.dffh.vic.gov.au/moving-annual-rent-suburb-september-quarter-2025-excel",
+      "download_url_pattern": "https://www.dffh.vic.gov.au/moving-annual-rent-suburb-<month>-quarter-<YYYY>-excel (resolved per-quarter from the rental-report / past-rental-reports pages)",
+      "geography_level": "suburb (VG-style locality/town grouping, same mapping challenge as VPSR)",
+      "available_history": "one file per quarter, but EACH file contains the FULL historical time series back to March 2000 (confirmed live: 233 columns = ~103 quarters x count+median pairs, per dwelling-type/bedroom-count sheet) — only the LATEST quarterly file needs to be downloaded to get complete history, not every historical file",
+      "refresh_frequency": "quarterly",
+      "file_format": "modern .xlsx — 7 sheets (1/2/3 bedroom flat, 2/3/4 bedroom house, All properties), one row per suburb, one Count+Median column pair per quarter",
+      "measures": ["moving annual median weekly rent by suburb", "new bond lodgement count (sample size) by suburb and quarter"],
+      "dwelling_type_scope": "flat (1/2/3 bed) and house (2/3/4 bed) — maps to apartment_unit / detached_house canonically; no townhouse/villa-specific category (documented, not invented)",
+      "licence_notes": "to be confirmed exactly (Victorian Government content is CC BY 4.0 by default per whole-of-government policy; no dataset-specific licence page found on dffh.vic.gov.au — treated as CC BY 4.0 pending explicit confirmation)",
+      "access_method": "bulk_file_download, direct — NO bot protection observed (dffh.vic.gov.au is a plain HTTPS government site; the browse tool's normal `download ... --navigate` succeeded on the first attempt)",
+      "intended_raw_storage_path": "warehouse/data/raw/vic_rents/moving_annual_rent_by_suburb/",
+      "intended_local_table": "vic_rents.duckdb :: vic_rental_summary",
+      "status": "discovered",
+      "notes": "Missing/small-sample suburb-quarter cells are marked '-' in the source file (confirmed live: e.g. Docklands shows '-','-' for early quarters) — maps directly to NULL, never zero-filled, exactly matching this project's established convention."
+    },
+    {
+      "source_id": "vic_rent",
+      "dataset_id": "vic_quarterly_median_rent_by_lga",
+      "entry_type": "bulk_file_download",
+      "dataset_name": "Homes Victoria Rental Report — Quarterly median rents by Local Government Area",
+      "publisher": "Homes Victoria (Department of Families, Fairness and Housing)",
+      "official_url": "https://www.dffh.vic.gov.au/publications/rental-report",
+      "download_url_latest": "https://www.dffh.vic.gov.au/quarterly-median-rents-local-government-area-september-quarter-2025-excel",
+      "geography_level": "LGA",
+      "file_format": "modern .xlsx",
+      "licence_notes": "as above",
+      "access_method": "direct, no bot protection",
+      "status": "discovered",
+      "notes": "Coarser-grain fallback — not needed as the primary source since suburb-level data (vic_moving_annual_rent_by_suburb) is directly available, but retained as the documented LGA-grain fallback per this sprint's Phase 6 rule (never fabricate suburb figures if suburb data becomes unavailable in a future refresh)."
+    },
+    {
+      "source_id": "abs_census_asgs",
+      "dataset_id": "vic_geography_demographics_supply_already_national",
+      "entry_type": "already_present",
+      "dataset_name": "ASGS geography backbone, Census dwelling stock/tenure/demographics, ABS Building Approvals — Victoria rows",
+      "publisher": "Australian Bureau of Statistics",
+      "status": "already_loaded",
+      "notes": "Confirmed via direct branch query (sprint10_existing_state_audit.json): Victoria (state_code='2') already has 2,944 SAL / 522 SA2 / 80 LGA geography rows, 23,552 dwelling-stock fact rows, 17,664 tenure fact rows, and is already represented in every demographic/dwelling-stock/building-approvals mart with the full expected 2,944 SAL rows. No new download or discovery needed for this source family — see warehouse/adapters/vic/supply/adapter.md."
+    }
+  ],
+  "rejected_or_deferred_sources": [
+    {
+      "candidate": "Consumer Affairs Victoria RTBA raw bond lodgement microdata",
+      "reason_not_selected": "Homes Victoria's own published Rental Report (moving annual rent by suburb) already provides the same underlying RTBA bond data pre-aggregated to suburb/quarter/dwelling-type with sample counts — using the official published aggregate is preferred over re-deriving the same statistic from a rawer, less-documented microdata source, consistent with using the most authoritative published product rather than re-implementing a government agency's own methodology."
+    },
+    {
+      "candidate": "REIV (Real Estate Institute of Victoria) median price data",
+      "reason_not_selected": "REIV is an industry association, not an official government/statutory authority — excluded per this sprint's 'official government or official statutory authority sources only' rule, and per the standing 'no commercial property portal' rule (REIV data feeds several commercial portals)."
+    }
+  ]
+}

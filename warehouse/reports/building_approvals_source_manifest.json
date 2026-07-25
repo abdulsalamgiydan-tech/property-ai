@@ -1,0 +1,93 @@
+{
+  "generated_at": "2026-07-20T08:26:00.812Z",
+  "policy": {
+    "official_abs_only": true,
+    "api_only_no_bulk_scrape": "queries use the official ABS Data API with an explicit dimension key — never a wildcard bulk export",
+    "no_commercial_sources": true,
+    "raw_files_outside_git": "warehouse/data/raw/building_approvals",
+    "unverified_sources_marked": "needs_review",
+    "scope": "dwelling unit approvals (houses / other residential / total residential), New work, Total Sectors, SA2 grain"
+  },
+  "entries": [
+    {
+      "source_id": "abs_building_approvals",
+      "dataset_id": "building_approvals_sa2_2021",
+      "entry_type": "api_dataflow",
+      "dataset_name": "ABS Building Approvals by SA2 and above, from July 2021 onwards (BA_SA2 v2.0.0)",
+      "publisher": "Australian Bureau of Statistics",
+      "official_url": "https://data.api.abs.gov.au/rest/data/ABS,BA_SA2,2.0.0",
+      "access_method": "api",
+      "api_format": "SDMX-CSV (rest/data/ABS,BA_SA2,2.0.0/<key>?startPeriod=...&format=csv)",
+      "dataflow_id": "BA_SA2",
+      "dataflow_version": "2.0.0",
+      "dimension_key_order": [
+        "MEASURE",
+        "SECTOR",
+        "WORK_TYPE",
+        "BUILDING_TYPE",
+        "REGION_TYPE",
+        "REGION",
+        "FREQ"
+      ],
+      "filter_key": "1.9.1.110+150+100.SA2..M",
+      "geography_level": "SA2",
+      "boundary_alignment": "ASGS Edition 3 (2021) — confirmed: sample SA2 region codes match core.dim_geography SA2 codes directly",
+      "available_history": "July 2021 – latest published month (rolling; ABS updates monthly)",
+      "update_frequency": "monthly",
+      "variables_expected": [
+        "dwelling units approved — houses (BUILDING_TYPE=110)",
+        "dwelling units approved — other residential (BUILDING_TYPE=150)",
+        "dwelling units approved — total residential (BUILDING_TYPE=100)"
+      ],
+      "variables_deferred": [
+        "value of building jobs (MEASURE=2, AUD thousands) — catalogued, not loaded in this sprint"
+      ],
+      "licence_notes": "CC BY 4.0 (Creative Commons Attribution 4.0 International) — attribute the ABS",
+      "intended_raw_storage_path": "warehouse/data/raw/building_approvals/ba_sa2_monthly.csv",
+      "intended_local_table": "building_approvals.duckdb :: building_approvals_sa2",
+      "intended_core_table": "core.fact_building_approvals",
+      "intended_mart_tables": [
+        "mart.suburb_building_approvals",
+        "mart.postcode_building_approvals"
+      ],
+      "status": "discovered",
+      "notes": "SECTOR=9 (Total Sectors) and WORK_TYPE=1 (New) selected to match the ABS headline 'approvals' concept — excludes alterations/demolitions/relocations. BUILDING_TYPE=100 is ABS's own 'Total Residential' aggregate, used directly rather than summed from components. Verified 2026-07-20: dataflow listed, dimension order confirmed (MEASURE.SECTOR.WORK_TYPE.BUILDING_TYPE.REGION_TYPE.REGION.FREQ), and all required codes (CL_BA_MEASURE:1, CL_BA_OWNERSHIP:9, CL_BA_WORK:1, CL_BLD_TYPE:110/150/100, CL_REGION_TYPE:SA2) present in the live datastructure.",
+      "verification_evidence": {
+        "dimension_order_confirmed": [
+          "MEASURE",
+          "SECTOR",
+          "WORK_TYPE",
+          "BUILDING_TYPE",
+          "REGION_TYPE",
+          "REGION",
+          "FREQ"
+        ],
+        "required_codes_present": true
+      }
+    },
+    {
+      "source_id": "abs_building_approvals",
+      "dataset_id": "building_approvals_ba_lga2021",
+      "entry_type": "api_dataflow_alternative",
+      "dataset_name": "ABS Building Approvals — BA_LGA2021",
+      "publisher": "Australian Bureau of Statistics",
+      "official_url": "https://data.api.abs.gov.au/rest/dataflow/ABS/BA_LGA2021",
+      "geography_level": "LGA (2021 boundaries)",
+      "licence_notes": "CC BY 4.0 (Creative Commons Attribution 4.0 International) — attribute the ABS",
+      "status": "out_of_scope",
+      "notes": "alternative geography; SA2 preferred for correspondence to SAL/POA"
+    },
+    {
+      "source_id": "abs_building_approvals",
+      "dataset_id": "building_approvals_ba_sa2_2016-21",
+      "entry_type": "api_dataflow_alternative",
+      "dataset_name": "ABS Building Approvals — BA_SA2_2016-21",
+      "publisher": "Australian Bureau of Statistics",
+      "official_url": "https://data.api.abs.gov.au/rest/dataflow/ABS/BA_SA2_2016-21",
+      "geography_level": "SA2, 2016 boundaries, superseded by BA_SA2 v2.0.0",
+      "licence_notes": "CC BY 4.0 (Creative Commons Attribution 4.0 International) — attribute the ABS",
+      "status": "out_of_scope",
+      "notes": "out of scope — pre-ASGS3 edition"
+    }
+  ]
+}

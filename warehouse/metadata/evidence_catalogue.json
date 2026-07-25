@@ -1,0 +1,595 @@
+{
+  "generated_at": "2026-07-22T11:36:36.366Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "source_count": 13,
+  "dataset_count": 41,
+  "sources_by_category": {
+    "demographics": 1,
+    "geography": 1,
+    "macro": 1,
+    "rentals": 5,
+    "sales": 3,
+    "supply": 2
+  },
+  "sources_with_no_published_metric": [
+    "abs_asgs",
+    "abs_total_value_dwellings"
+  ],
+  "catalogue": [
+    {
+      "source_id": "abs_census",
+      "source_name": "ABS Census of Population and Housing",
+      "publisher": "Australian Bureau of Statistics",
+      "category": "demographics",
+      "official_or_independent": "official",
+      "source_url": "https://www.abs.gov.au/census",
+      "licence": "CC BY 4.0",
+      "access_method": "file_download",
+      "update_frequency": "five_yearly",
+      "implementation_status": "in_progress",
+      "known_limitations": null,
+      "datasets": [
+        {
+          "dataset_id": "abs_correspondence_2016_2021",
+          "dataset_name": "ABS official 2016-to-2021 geographic correspondence (population-weighted, SSC->SAL and POA->POA)",
+          "geography_available": "SSC(2016)->SAL(2021), POA(2016)->POA(2021)",
+          "earliest_period": "2016",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "census_gcp_lga_2021",
+          "dataset_name": "2021 Census GCP DataPack — LGA for AUS (short header)",
+          "geography_available": "LGA",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "census_gcp_poa_2021",
+          "dataset_name": "2021 Census GCP DataPack — POA for AUS (short header)",
+          "geography_available": "POA",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "census_gcp_sa1_2021",
+          "dataset_name": "2021 Census GCP DataPack — SA1 for AUS (short header)",
+          "geography_available": "SA1",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "census_gcp_sa2_2021",
+          "dataset_name": "2021 Census GCP DataPack — SA2 for AUS (short header)",
+          "geography_available": "SA2",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "census_gcp_sal_2021",
+          "dataset_name": "2021 Census GCP DataPack — SAL for AUS (short header)",
+          "geography_available": "SAL",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "census_mb_counts_2021",
+          "dataset_name": "Census of Population and Housing: Mesh Block Counts, 2021 (dwelling + person counts per Mesh Block)",
+          "geography_available": "MB",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        }
+      ],
+      "published_metric_families": [
+        "postcode_market_snapshot.demographics",
+        "postcode_market_snapshot.dwelling_stock",
+        "postcode_market_snapshot.population_growth",
+        "suburb_market_snapshot.demographics",
+        "suburb_market_snapshot.dwelling_stock",
+        "suburb_market_snapshot.population_growth"
+      ]
+    },
+    {
+      "source_id": "abs_asgs",
+      "source_name": "ABS Australian Statistical Geography Standard (ASGS) Edition 3",
+      "publisher": "Australian Bureau of Statistics",
+      "category": "geography",
+      "official_or_independent": "official",
+      "source_url": "https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026",
+      "licence": "CC BY 4.0",
+      "access_method": "file_download",
+      "update_frequency": "five_yearly",
+      "implementation_status": "in_progress",
+      "known_limitations": "Boundary editions change every 5 years; SAL/POA are approximations of gazetted suburbs and postcodes; artefact URLs verified in warehouse/reports/asgs_source_manifest.json",
+      "datasets": [
+        {
+          "dataset_id": "asgs_corr_sa1_to_lga_2021",
+          "dataset_name": "ASGS Ed.3 SA1 to LGA allocation (official ABS allocation/correspondence file)",
+          "geography_available": "SA1->LGA",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_corr_sa1_to_poa_2021",
+          "dataset_name": "ASGS Ed.3 SA1 to POA allocation (official ABS allocation/correspondence file)",
+          "geography_available": "SA1->POA",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_corr_sa1_to_sal_2021",
+          "dataset_name": "ASGS Ed.3 SA1 to SAL allocation (official ABS allocation/correspondence file)",
+          "geography_available": "SA1->SAL",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_corr_sa2_to_lga_2021",
+          "dataset_name": "ASGS Ed.3 SA2 to LGA correspondence (derived by aggregating SA1 allocations)",
+          "geography_available": "SA2->LGA",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_corr_sa2_to_poa_2021",
+          "dataset_name": "ASGS Ed.3 SA2 to POA correspondence (derived by aggregating SA1 allocations)",
+          "geography_available": "SA2->POA",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_corr_sa2_to_sal_2021",
+          "dataset_name": "ASGS Ed.3 SA2 to SAL correspondence (derived by aggregating SA1 allocations)",
+          "geography_available": "SA2->SAL",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_gccsa_2021_boundaries",
+          "dataset_name": "ASGS Ed.3 Greater Capital City Statistical Areas (GCCSA) digital boundaries, GDA2020 shapefile",
+          "geography_available": "GCCSA",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_lga_2021_boundaries",
+          "dataset_name": "ASGS Ed.3 Local Government Areas (LGA) digital boundaries, GDA2020 shapefile",
+          "geography_available": "LGA",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_mb_2021_allocation",
+          "dataset_name": "ASGS Ed.3 Mesh Block allocation file (MB -> SA1..STATE main structure, incl. Albers areas)",
+          "geography_available": "MB",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_poa_2021_boundaries",
+          "dataset_name": "ASGS Ed.3 Postal Areas (POA) digital boundaries, GDA2020 shapefile",
+          "geography_available": "POA",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_sa1_2021_boundaries",
+          "dataset_name": "ASGS Ed.3 Statistical Areas Level 1 (SA1) digital boundaries, GDA2020 shapefile",
+          "geography_available": "SA1",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_sa2_2021_boundaries",
+          "dataset_name": "ASGS Ed.3 Statistical Areas Level 2 (SA2) digital boundaries, GDA2020 shapefile",
+          "geography_available": "SA2",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_sa3_2021_boundaries",
+          "dataset_name": "ASGS Ed.3 Statistical Areas Level 3 (SA3) digital boundaries, GDA2020 shapefile",
+          "geography_available": "SA3",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_sa4_2021_boundaries",
+          "dataset_name": "ASGS Ed.3 Statistical Areas Level 4 (SA4) digital boundaries, GDA2020 shapefile",
+          "geography_available": "SA4",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_sal_2021_boundaries",
+          "dataset_name": "ASGS Ed.3 Suburbs and Localities (SAL) digital boundaries, GDA2020 shapefile",
+          "geography_available": "SAL",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "asgs_state_2021_boundaries",
+          "dataset_name": "ASGS Ed.3 States and Territories (STATE) digital boundaries, GDA2020 shapefile",
+          "geography_available": "STATE",
+          "earliest_period": "2021",
+          "latest_period": "2021",
+          "freshness_status": "not_tracked"
+        }
+      ],
+      "published_metric_families": []
+    },
+    {
+      "source_id": "rba_interest_rates",
+      "source_name": "Reserve Bank of Australia — Interest Rate Statistics",
+      "publisher": "Reserve Bank of Australia",
+      "category": "macro",
+      "official_or_independent": "official",
+      "source_url": "https://www.rba.gov.au/statistics/interest-rates/",
+      "licence": "CC BY 4.0 (Cash Rate Target has additional benchmark conditions — see Copyright Notice s.4)",
+      "access_method": "file_download",
+      "update_frequency": "as_announced_or_monthly",
+      "implementation_status": "in_progress",
+      "known_limitations": null,
+      "datasets": [
+        {
+          "dataset_id": "rba_cash_rate_target",
+          "dataset_name": "RBA Table A2 — Cash Rate Target (Changes in Monetary Policy and Administered Rates)",
+          "geography_available": "national",
+          "earliest_period": "1990-01-23",
+          "latest_period": "2026-05-06",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "rba_housing_lending_rates",
+          "dataset_name": "RBA Table F6 — Housing Lending Rates",
+          "geography_available": "national",
+          "earliest_period": "2019-07-31",
+          "latest_period": "2026-05-31",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "rba_indicator_lending_rates_housing",
+          "dataset_name": "RBA Table F5 — Indicator Lending Rates (housing subset)",
+          "geography_available": "national",
+          "earliest_period": "1959-01-31",
+          "latest_period": "2026-06-30",
+          "freshness_status": "not_tracked"
+        }
+      ],
+      "published_metric_families": [
+        "postcode_market_snapshot.affordability",
+        "suburb_market_snapshot.affordability"
+      ]
+    },
+    {
+      "source_id": "nsw_rent_and_sales_report",
+      "source_name": "NSW DCJ Rent and Sales Report",
+      "publisher": "NSW Department of Communities and Justice",
+      "category": "rentals",
+      "official_or_independent": "official",
+      "source_url": "https://dcj.nsw.gov.au/about-us/families-and-communities-statistics/housing-rent-and-sales/rent-and-sales-report.html",
+      "licence": "NSW Government open statistical report",
+      "access_method": "file_download",
+      "update_frequency": "quarterly",
+      "implementation_status": "live",
+      "known_limitations": null,
+      "datasets": [
+        {
+          "dataset_id": "nsw_rent_tables_full_state",
+          "dataset_name": "NSW DCJ Rent tables — full state",
+          "geography_available": "LGA,POA",
+          "earliest_period": "2021-Q1",
+          "latest_period": "2026-Q1",
+          "freshness_status": "manual_review"
+        },
+        {
+          "dataset_id": "nsw_rent_tables_pilot",
+          "dataset_name": "NSW DCJ Rent tables — pilot (6 LGAs)",
+          "geography_available": "LGA,POA",
+          "earliest_period": "2021-Q1",
+          "latest_period": "2026-Q1",
+          "freshness_status": "not_tracked"
+        }
+      ],
+      "published_metric_families": [
+        "postcode_market_snapshot.rent (NSW)",
+        "suburb_market_snapshot.rent (NSW)"
+      ]
+    },
+    {
+      "source_id": "qld_rent",
+      "source_name": "RTA Quarterly Data — Median Rents",
+      "publisher": "Residential Tenancies Authority (RTA), Queensland Government",
+      "category": "rentals",
+      "official_or_independent": "official",
+      "source_url": "https://www.rta.qld.gov.au/forms-resources/rta-quarterly-data/median-rents-quarterly-data",
+      "licence": "CC BY 4.0 (or equivalent open government licence, see source manifest)",
+      "access_method": "file_download",
+      "update_frequency": "quarterly",
+      "implementation_status": "in_progress",
+      "known_limitations": null,
+      "datasets": [
+        {
+          "dataset_id": "qld_rta_bond_statistics",
+          "dataset_name": "QLD RTA Bond Statistics — suburb/LGA/postcode",
+          "geography_available": "SAL,POA,LGA",
+          "earliest_period": "2017-Q3",
+          "latest_period": "2026-Q2",
+          "freshness_status": "not_tracked"
+        }
+      ],
+      "published_metric_families": [
+        "postcode_market_snapshot.rent (QLD)",
+        "suburb_market_snapshot.rent (QLD)"
+      ]
+    },
+    {
+      "source_id": "sa_rent",
+      "source_name": "SA Housing Trust Private Rent Report",
+      "publisher": "South Australian Housing Trust",
+      "category": "rentals",
+      "official_or_independent": "official",
+      "source_url": "https://data.sa.gov.au/data/dataset/private-rent-report",
+      "licence": "CC BY 4.0 (or equivalent open government licence, see source manifest)",
+      "access_method": "file_download",
+      "update_frequency": "quarterly",
+      "implementation_status": "in_progress",
+      "known_limitations": null,
+      "datasets": [
+        {
+          "dataset_id": "sa_private_rent_report",
+          "dataset_name": "SA Private Rent Report — suburb/postcode (current era)",
+          "geography_available": "SAL,POA,LGA",
+          "earliest_period": "2024-Q3",
+          "latest_period": "2026-Q1",
+          "freshness_status": "not_tracked"
+        }
+      ],
+      "published_metric_families": [
+        "postcode_market_snapshot.rent (SA)",
+        "suburb_market_snapshot.rent (SA)"
+      ]
+    },
+    {
+      "source_id": "vic_rent",
+      "source_name": "Homes Victoria Rental Report",
+      "publisher": "Homes Victoria (Department of Families, Fairness and Housing)",
+      "category": "rentals",
+      "official_or_independent": "official",
+      "source_url": "https://www.dffh.vic.gov.au/publications/rental-report",
+      "licence": "CC BY 4.0 (whole-of-government default, no dataset-specific licence page found)",
+      "access_method": "file_download",
+      "update_frequency": "quarterly",
+      "implementation_status": "live",
+      "known_limitations": "Suburb-grain file uses custom multi-suburb locality groupings for ~42% of rows that cannot be mapped to a single ASGS SAL; LGA-grain fallback used for those",
+      "datasets": [
+        {
+          "dataset_id": "vic_moving_annual_rent_by_suburb",
+          "dataset_name": "Homes Victoria — Moving annual rent by suburb",
+          "geography_available": "SAL",
+          "earliest_period": "2000-Q1",
+          "latest_period": "2025-Q3",
+          "freshness_status": "manual_review"
+        },
+        {
+          "dataset_id": "vic_quarterly_median_rent_by_lga",
+          "dataset_name": "Homes Victoria — Quarterly median rents by LGA",
+          "geography_available": "LGA",
+          "earliest_period": "1999-Q2",
+          "latest_period": "2025-Q3",
+          "freshness_status": "manual_review"
+        }
+      ],
+      "published_metric_families": [
+        "postcode_market_snapshot.rent (VIC)",
+        "suburb_market_snapshot.rent (VIC)"
+      ]
+    },
+    {
+      "source_id": "wa_rent",
+      "source_name": "WA Rental Bonds Data (DMIRS)",
+      "publisher": "Government of Western Australia (Department of Mines, Industry Regulation and Safety)",
+      "category": "rentals",
+      "official_or_independent": "official",
+      "source_url": "https://housing-data-exchange.ahdap.org/dataset/west-australia-rental-bonds-data-2023-current",
+      "licence": "CC BY 4.0 (or equivalent open government licence, see source manifest)",
+      "access_method": "file_download",
+      "update_frequency": "quarterly",
+      "implementation_status": "in_progress",
+      "known_limitations": null,
+      "datasets": [
+        {
+          "dataset_id": "wa_dmirs_bond_lodgements",
+          "dataset_name": "WA DMIRS Rental Bonds — suburb/postcode, medians derived in-house",
+          "geography_available": "SAL,POA,LGA",
+          "earliest_period": "2023-03",
+          "latest_period": "2026-05",
+          "freshness_status": "not_tracked"
+        }
+      ],
+      "published_metric_families": [
+        "postcode_market_snapshot.rent (WA)",
+        "suburb_market_snapshot.rent (WA)"
+      ]
+    },
+    {
+      "source_id": "abs_total_value_dwellings",
+      "source_name": "ABS Total Value of Dwellings (Table 2: Median Price and Number of Transfers)",
+      "publisher": "Australian Bureau of Statistics",
+      "category": "sales",
+      "official_or_independent": "official",
+      "source_url": "https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/total-value-dwellings",
+      "licence": "CC BY 4.0",
+      "access_method": "file_download",
+      "update_frequency": "quarterly",
+      "implementation_status": "live",
+      "known_limitations": "GCCSA grain only (capital city / rest of state) — no SAL/POA detail. Successor to the discontinued 'Residential Property Price Indexes: Eight Capital Cities' (cat. 6432.0, ceased Dec 2021 issue). Used here specifically as the official-aggregate fallback for TAS/NT/ACT, which have no free bulk transaction-level source.",
+      "datasets": [
+        {
+          "dataset_id": "abs_tvd_tas_act_nt_gccsa",
+          "dataset_name": "ABS TVD — TAS/NT/ACT median sale price and transfer count, GCCSA grain",
+          "geography_available": "GCCSA",
+          "earliest_period": "2002-03-01",
+          "latest_period": "March Quarter 2026",
+          "freshness_status": "not_tracked"
+        }
+      ],
+      "published_metric_families": []
+    },
+    {
+      "source_id": "nsw_vg_sales",
+      "source_name": "NSW Valuer General Property Sales Information",
+      "publisher": "NSW Valuer General",
+      "category": "sales",
+      "official_or_independent": "official",
+      "source_url": "https://valuation.property.nsw.gov.au/embed/propertySalesInformation",
+      "licence": "CC BY 4.0",
+      "access_method": "file_download",
+      "update_frequency": "weekly",
+      "implementation_status": "live",
+      "known_limitations": null,
+      "datasets": [
+        {
+          "dataset_id": "nsw_psi_2001_current",
+          "dataset_name": "NSW VG Property Sales Information — pilot (6 LGAs)",
+          "geography_available": "SAL,POA",
+          "earliest_period": "2021",
+          "latest_period": "2026",
+          "freshness_status": "not_tracked"
+        },
+        {
+          "dataset_id": "nsw_psi_2001_current_full_state",
+          "dataset_name": "NSW VG PSI — full state, 2001-current",
+          "geography_available": "SAL,POA",
+          "earliest_period": "2001",
+          "latest_period": "2026",
+          "freshness_status": "manual_review"
+        }
+      ],
+      "published_metric_families": [
+        "postcode_market_snapshot.sales (ACT)",
+        "postcode_market_snapshot.sales (NSW)",
+        "postcode_market_snapshot.sales (QLD)",
+        "suburb_market_snapshot.sales (NSW)"
+      ]
+    },
+    {
+      "source_id": "vic_vg_sales",
+      "source_name": "Victorian Property Sales Report (VPSR)",
+      "publisher": "Department of Transport and Planning (Valuer-General Victoria)",
+      "category": "sales",
+      "official_or_independent": "official",
+      "source_url": "https://discover.data.vic.gov.au/dataset/victorian-property-sales-report-median-house-by-suburb",
+      "licence": "Creative Commons Attribution 4.0 International",
+      "access_method": "file_download",
+      "update_frequency": "quarterly",
+      "implementation_status": "live",
+      "known_limitations": "Pre-aggregated suburb medians only, no transaction-level data; requires a headed browser session to pass a Cloudflare JS challenge; no townhouse/villa split, no postcode grain",
+      "datasets": [
+        {
+          "dataset_id": "vic_vpsr_median_house",
+          "dataset_name": "VPSR Median House by Suburb",
+          "geography_available": "SAL",
+          "earliest_period": "2023-Q4",
+          "latest_period": "2025-Q4",
+          "freshness_status": "manual_review"
+        },
+        {
+          "dataset_id": "vic_vpsr_median_land",
+          "dataset_name": "VPSR Median Vacant Land by Suburb",
+          "geography_available": "SAL",
+          "earliest_period": "2023-Q4",
+          "latest_period": "2025-Q4",
+          "freshness_status": "manual_review"
+        },
+        {
+          "dataset_id": "vic_vpsr_median_unit",
+          "dataset_name": "VPSR Median Unit by Suburb",
+          "geography_available": "SAL",
+          "earliest_period": "2023-Q4",
+          "latest_period": "2025-Q4",
+          "freshness_status": "manual_review"
+        }
+      ],
+      "published_metric_families": [
+        "postcode_market_snapshot.sales (VIC)",
+        "suburb_market_snapshot.sales (VIC)"
+      ]
+    },
+    {
+      "source_id": "abs_building_activity",
+      "source_name": "ABS Building Activity, Australia (Tables 36 & 39: dwelling unit commencements/completions, states and territories)",
+      "publisher": "Australian Bureau of Statistics",
+      "category": "supply",
+      "official_or_independent": "official",
+      "source_url": "https://www.abs.gov.au/statistics/industry/building-and-construction/building-activity-australia",
+      "licence": "CC BY 4.0",
+      "access_method": "file_download",
+      "update_frequency": "quarterly",
+      "implementation_status": "live",
+      "known_limitations": "STATE grain only -- no free SAL/POA breakdown exists for commencements/completions (select series exist at GCCSA in this ABS publication, but not the specific tables used here). Original (not seasonally adjusted) series. Total Sectors (private+public combined), new dwellings only (excludes alterations).",
+      "datasets": [
+        {
+          "dataset_id": "abs_dwelling_construction_activity_state",
+          "dataset_name": "Dwelling commencements and completions, state/territory grain",
+          "geography_available": "STATE",
+          "earliest_period": "1957-03-01",
+          "latest_period": "March 2026 quarter",
+          "freshness_status": "not_tracked"
+        }
+      ],
+      "published_metric_families": [
+        "fact_dwelling_construction_activity.dwelling_construction_activity"
+      ]
+    },
+    {
+      "source_id": "abs_building_approvals",
+      "source_name": "ABS Building Approvals",
+      "publisher": "Australian Bureau of Statistics",
+      "category": "supply",
+      "official_or_independent": "official",
+      "source_url": "https://www.abs.gov.au/statistics/industry/building-and-construction/building-approvals-australia",
+      "licence": "CC BY 4.0",
+      "access_method": "api",
+      "update_frequency": "monthly",
+      "implementation_status": "in_progress",
+      "known_limitations": null,
+      "datasets": [
+        {
+          "dataset_id": "building_approvals_sa2_2021",
+          "dataset_name": "ABS Building Approvals by SA2 and above, from July 2021 onwards (BA_SA2 v2.0.0)",
+          "geography_available": "SA2",
+          "earliest_period": "2021-07",
+          "latest_period": "2026-05-01",
+          "freshness_status": "not_tracked"
+        }
+      ],
+      "published_metric_families": [
+        "postcode_market_snapshot.approvals",
+        "suburb_market_snapshot.approvals"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,331 @@
+{
+  "generated_at": "2026-07-20T10:56:33.436Z",
+  "raw_root": "warehouse/data/raw/nsw_sales (gitignored)",
+  "scope": "full_state_2001_current",
+  "files": [
+    {
+      "file": "nsw_sales/2001.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 10833138,
+      "sha256": "fab186cee0ea4ce9be87cd2ccbff351e558535456b484854b18c26bd58e2b04f"
+    },
+    {
+      "file": "nsw_sales/2002.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 14889344,
+      "sha256": "1c6c2f8284f236d35a832ae2f0cd7bb5c0f0a253fcbc5192d61210348c70f547"
+    },
+    {
+      "file": "nsw_sales/2003.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 15347288,
+      "sha256": "7d2398d10392ec6ed5af12108a650d68cb055dddc923815e2708a8bfff029e2b"
+    },
+    {
+      "file": "nsw_sales/2004.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13782597,
+      "sha256": "45c01c5cb36f1b145427b8fc1eb6800c5d655158c4df1d35272cd0a3e66c00ad"
+    },
+    {
+      "file": "nsw_sales/2005.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 11055229,
+      "sha256": "2e3d0f146cef20578a2f1f7454f73dff6f206a39bc6145503a8d7d6c39f74643"
+    },
+    {
+      "file": "nsw_sales/2006.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 11305924,
+      "sha256": "99967eca9c4e20de8663d13d187dbfa8b12ed43da259a16e6223e73cc9624f47"
+    },
+    {
+      "file": "nsw_sales/2007.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12593052,
+      "sha256": "89cece86f2e06139f4f09c6e926a64ee797bd72e14d22478cda5a989485cf640"
+    },
+    {
+      "file": "nsw_sales/2008.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12846634,
+      "sha256": "0128ad7c0617cf472a11f51b514c341f832acd6e3f53a97261d883e052d80c6c"
+    },
+    {
+      "file": "nsw_sales/2009.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13483417,
+      "sha256": "8f0b5d548bc806dda5c75c58163750848981df3db660a769c746777f8c12a9e5"
+    },
+    {
+      "file": "nsw_sales/2010.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12861335,
+      "sha256": "16e6ed3d4710579266e6f6f1bcacae96f3e169a9bc0275c144d67c7ae46df359"
+    },
+    {
+      "file": "nsw_sales/2011.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12259550,
+      "sha256": "2b711153f9b19e3ca145bc3a5775d2431850c30960ae29e6562449750236d430"
+    },
+    {
+      "file": "nsw_sales/2012.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12468092,
+      "sha256": "361acaa7292aa2520fd10db2205cd7e5f64ecd80b4f57a532f59d41bbdc50ea3"
+    },
+    {
+      "file": "nsw_sales/2013.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13527803,
+      "sha256": "f36465ba352171d283f23a788e08852c27796046b36aca8bbfd730aeebc9ec53"
+    },
+    {
+      "file": "nsw_sales/2014.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 14627626,
+      "sha256": "f75647415f300ced79ad87039b308b7dc309144d3677fb33df0a9a593571dfb8"
+    },
+    {
+      "file": "nsw_sales/2015.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 16096307,
+      "sha256": "5714a30472e91cc434f6772ec701487bbcd0aed95e72a2a54b19df4a66d536fe"
+    },
+    {
+      "file": "nsw_sales/2016.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 14737662,
+      "sha256": "99f462a13e4ce107d4df99acb0319e955d29ccee91c7aa077b6834ef419ff0e6"
+    },
+    {
+      "file": "nsw_sales/2017.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 16278265,
+      "sha256": "45cbdabdca55832edccc09767dc2ffe5518841684f85645bdb6373a95fa56927"
+    },
+    {
+      "file": "nsw_sales/2018.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13880007,
+      "sha256": "2f64777966cc16612cfe6027371ad568e9c9284d5973d4d30c1f4ef343f0904f"
+    },
+    {
+      "file": "nsw_sales/2019.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12660302,
+      "sha256": "2184611a5fbeb78a095a9a2c3a08f7f993c62875b33b24f1c23be61d744efedd"
+    },
+    {
+      "file": "nsw_sales/2020.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13433078,
+      "sha256": "2b7a3e4e3e09ba7067da80ee0301090c3a0ec40c6262c90d2ba62124a1b1db23"
+    },
+    {
+      "file": "nsw_sales/2021.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 15715252,
+      "sha256": "ff9a682afc17670921be3867521d3a914896daca8f333d4f35ab9cbf4e9d5e04"
+    },
+    {
+      "file": "nsw_sales/2022.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13181369,
+      "sha256": "c083e3bb3beb4be22a4d151acbc3c859b4751a3b87b361ea3b5136975e0857bf"
+    },
+    {
+      "file": "nsw_sales/2023.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 12411260,
+      "sha256": "21be43fa3a79dd4662c37622fd924dcd0672431ca1004aa3a29f028389fe5550"
+    },
+    {
+      "file": "nsw_sales/2024.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 13989594,
+      "sha256": "f44c654e649801fff8e3350bdcbabbb261b4412a86fc388f1e1e6b2ef1f16308"
+    },
+    {
+      "file": "nsw_sales/2025.zip",
+      "kind": "annual_bundle",
+      "size_bytes": 15425614,
+      "sha256": "6368968e1a9d509b8224d747fb6c76d852d4da9a7ac8afd2bca0bbb8a4aaaa87"
+    },
+    {
+      "file": "nsw_sales/weekly/20260105.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 33850,
+      "sha256": "7fc3b25f49c2e35446cf384ffc2ff4afdf0ab081c405f1ca85be229d348bd1e6"
+    },
+    {
+      "file": "nsw_sales/weekly/20260112.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 66161,
+      "sha256": "2ea480862fed13e9ed671017fc4bf30fc1d1039e70973276cc20973dabba20f7"
+    },
+    {
+      "file": "nsw_sales/weekly/20260119.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 267682,
+      "sha256": "a2162b1b811212e172ecc812443d78881533b095a38bae16a09254ba17585d27"
+    },
+    {
+      "file": "nsw_sales/weekly/20260126.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 365232,
+      "sha256": "9c946a772ca1ed5388c268344962cadc6f39c3ed355829b548320e0ec8602172"
+    },
+    {
+      "file": "nsw_sales/weekly/20260202.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 253458,
+      "sha256": "d4643ed17061778155228990af3bd39e72b300f4b38fe409e0033b729d74e796"
+    },
+    {
+      "file": "nsw_sales/weekly/20260209.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 265833,
+      "sha256": "d294e19f1d77eb8d5b944c1fd04cccf3df70cff620d2cff90879d382785ae738"
+    },
+    {
+      "file": "nsw_sales/weekly/20260216.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 188724,
+      "sha256": "15351917f050625e5be326002d34692cd79d3d768d221d880daebf905b30e1b7"
+    },
+    {
+      "file": "nsw_sales/weekly/20260223.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 151153,
+      "sha256": "ea4a126e5e9190d5cc2177ab7a4a21c077e24209dfa0cf0cc95dcef5ed6ce331"
+    },
+    {
+      "file": "nsw_sales/weekly/20260302.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 201740,
+      "sha256": "01c894ce8247ba8054a4136aa777ec2655e70f6b20b10a7fbf7ab1fc1f629a32"
+    },
+    {
+      "file": "nsw_sales/weekly/20260309.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 251195,
+      "sha256": "42c4c227cade935096fa53cab8054526f758b87cc5eb5f885c91c9f52dd29656"
+    },
+    {
+      "file": "nsw_sales/weekly/20260316.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 174599,
+      "sha256": "307a7ca7d804307c0d89b0e977f7a2cc6d59ef4407271d920c6131d7c86ef816"
+    },
+    {
+      "file": "nsw_sales/weekly/20260323.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 256108,
+      "sha256": "32752c974d268e7f504523fd42598ef7b4ab0ffb86e63223df65a8707a516743"
+    },
+    {
+      "file": "nsw_sales/weekly/20260330.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 259956,
+      "sha256": "b5f9089a169868038351990b9cae99fb048d460608b38e2e65c98a000e7fc7ad"
+    },
+    {
+      "file": "nsw_sales/weekly/20260406.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 321540,
+      "sha256": "fcf6640cb74075513bac32ac12d495678349253b7ea907f199a7e722a6301179"
+    },
+    {
+      "file": "nsw_sales/weekly/20260413.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 198632,
+      "sha256": "6e2ba7c592393429a3a13665ef04e55fc81490e1b65b31133c2ce6657ab7feed"
+    },
+    {
+      "file": "nsw_sales/weekly/20260420.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 273069,
+      "sha256": "eabc3da88cab7cf5a18cc0ef13f2987e8fda3db414aae70a5efc77d6be0cd441"
+    },
+    {
+      "file": "nsw_sales/weekly/20260427.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 262888,
+      "sha256": "728dcf21656b170c30833abf146627dc6fb96b5139b6371023367e0ee9722c72"
+    },
+    {
+      "file": "nsw_sales/weekly/20260504.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 263660,
+      "sha256": "e0d8fb265ca6fdee5bca758b99286c489322315311602e2b476e0fe0a8278c45"
+    },
+    {
+      "file": "nsw_sales/weekly/20260511.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 222001,
+      "sha256": "a5be14e94c873963601111e5eea2e7770d43e9722e2ca67d9a401bbe4321886a"
+    },
+    {
+      "file": "nsw_sales/weekly/20260518.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 278022,
+      "sha256": "746fdd9b8d3ddcd6156f7c73db8c123e0a61e5060a27c58f543dc5903fc89fd1"
+    },
+    {
+      "file": "nsw_sales/weekly/20260525.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 230967,
+      "sha256": "2371ffcd36c7ecb6b6be5dfb804b2d1aaea1785960a1bb84e69bfbea282bd568"
+    },
+    {
+      "file": "nsw_sales/weekly/20260601.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 274911,
+      "sha256": "cc85abff1c4ab9225107b8b73398d919edc4707aa20e7309e34e4b5c2a4d9870"
+    },
+    {
+      "file": "nsw_sales/weekly/20260608.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 284353,
+      "sha256": "1e07f339e768fac6b49959207ad5ac66c0f5823a530d8779bc7a1e2fd195219a"
+    },
+    {
+      "file": "nsw_sales/weekly/20260615.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 271695,
+      "sha256": "552eac0d16d74d50c8072b04c90f2020e29598d69fed939d83e02e201f9d6309"
+    },
+    {
+      "file": "nsw_sales/weekly/20260622.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 303815,
+      "sha256": "458f9223a2d77f02daa138e21812f2d9a70704623d71af46fd36692976baa52b"
+    },
+    {
+      "file": "nsw_sales/weekly/20260629.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 345164,
+      "sha256": "01a68c5c1428b84a0bbbfe218e7b564c492c4f9a3ffea01fedfed979216a0efd"
+    },
+    {
+      "file": "nsw_sales/weekly/20260706.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 296142,
+      "sha256": "da8e734b9597dad14b21f00e6ddcd7de1525c3476e78a8d974fa6a8219a0028b"
+    },
+    {
+      "file": "nsw_sales/weekly/20260713.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 255146,
+      "sha256": "3a105e9aaadfad95c62f9f35512a7f98c7051d4064bfc82b3d5e21b3d9eb22d1"
+    },
+    {
+      "file": "nsw_sales/weekly/20260720.zip",
+      "kind": "current_year_weekly",
+      "size_bytes": 206647,
+      "sha256": "69a0f383114eafcea439e5d78c1631c9cf90ab46cf80e63edbb3f6b4562a62a9"
+    }
+  ]
+}

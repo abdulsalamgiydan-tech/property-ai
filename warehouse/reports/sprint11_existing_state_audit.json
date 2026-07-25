@@ -1,0 +1,75 @@
+{
+  "generated_at": "2026-07-21T22:20:00+10:00",
+  "scope": "Sprint 11 Workstream 1 — national capacity, cost and architecture audit, pre-implementation baseline",
+  "supabase": {
+    "organization_plan": "pro",
+    "production_project": { "ref": "oshquaxsloolqucwvigc", "region": "ap-southeast-1", "postgres_version": "17.6.1.104", "warehouse_schemas": 0 },
+    "validation_branch": { "name": "warehouse-validation", "ref": "lzonauinzatmtytyoems", "parent_project_ref": "oshquaxsloolqucwvigc" },
+    "branch_db_size_bytes": 2473651347,
+    "branch_db_size_mb": 2359,
+    "plan_included_storage_gb": 8,
+    "plan_included_storage_mb": 8192,
+    "note": "Pro plan includes 8GB database storage before per-GB overage billing begins. Prior sprints conservatively assumed a 4,500MB ceiling without verifying the actual plan-included allocation — this audit corrects that: the real 'increases paid infrastructure' threshold is 8,192MB, not 4,500MB. The 4,500MB figure remains a reasonable internal safety margin (55% of the real ceiling) and is kept as the working assumption for Sprint 11 planning rather than being loosened, since branches may not autoscale disk independently of the parent project in ways this audit fully verified."
+  },
+  "schema_sizes": [
+    { "schema": "core", "total_bytes": 1979727872, "total_pretty": "1888 MB", "pct_of_db": 80.1 },
+    { "schema": "mart", "total_bytes": 471703552, "total_pretty": "450 MB", "pct_of_db": 19.1 },
+    { "schema": "meta", "total_bytes": 778240, "total_pretty": "760 kB", "pct_of_db": 0.03 },
+    { "schema": "staging", "total_bytes": 131072, "total_pretty": "128 kB", "pct_of_db": 0.005 }
+  ],
+  "largest_tables": [
+    { "table": "core.dim_geography", "total": "698 MB", "table_only": "119 MB", "index": "27 MB", "note": "includes PostGIS geometry column, national ASGS backbone, already fully national since Sprint 2" },
+    { "table": "core.fact_dwelling_stock", "total": "402 MB", "table_only": "144 MB", "index": "258 MB", "note": "index larger than table — candidate for index review in WS17" },
+    { "table": "core.fact_household_tenure", "total": "228 MB", "table_only": "94 MB", "index": "134 MB", "note": "same index-heavy pattern as dwelling_stock" },
+    { "table": "core.fact_residential_sales_summary", "total": "219 MB" },
+    { "table": "core.fact_rental_market_summary", "total": "163 MB" },
+    { "table": "mart.suburb_sales_annual", "total": "130 MB" },
+    { "table": "core.bridge_geography_correspondence", "total": "115 MB" }
+  ],
+  "local_warehouse_storage": {
+    "total": "9.3 GB",
+    "breakdown": { "warehouse/data/local": "1.8 GB (DuckDB stores)", "warehouse/data/processed": "6.0 GB (extracted ASGS shapefiles, Sprint 2)", "warehouse/data/raw": "1.5 GB (original downloads)" },
+    "git_tracked": false,
+    "note": "All gitignored, confirmed via warehouse:check. This is disk usage on the developer's own machine, not a Supabase concern."
+  },
+  "git_repo_size": "6.2 MB — confirms no raw/large files have ever entered git history",
+  "build_output_size": ".next: 1.2 GB (gitignored, not a repo/branch concern)",
+  "migrations": {
+    "count": 17,
+    "latest": "017_data_refresh_operations.sql",
+    "next_expected": "018",
+    "all_additive_no_destructive_statements": true
+  },
+  "public_interfaces_inventory": {
+    "views": ["v_suburb_market_snapshot_v1", "v_postcode_market_snapshot_v1", "v_market_geography_search_v1", "v_suburb_demographic_profile_v1", "v_postcode_demographic_profile_v1", "v_metric_assumptions_v1", "v_dataset_freshness_v1"],
+    "functions": ["get_market_timeseries_v1", "search_market_geographies_v2", "get_market_snapshot_v2", "compare_market_geographies_v1", "get_market_timeseries_v2"],
+    "total": 12
+  },
+  "query_performance_baseline": {
+    "method": "EXPLAIN (ANALYZE, BUFFERS) run live against the branch",
+    "results": [
+      { "interface": "search_market_geographies_v2 (jurisdiction filter, no text query)", "execution_ms": 33.5, "target_ms": 500, "status": "PASS, wide margin" },
+      { "interface": "search_market_geographies_v2 (text query 'Melbourne' + jurisdiction filter)", "execution_ms": 101.1, "target_ms": 500, "status": "PASS, wide margin" },
+      { "interface": "get_market_snapshot_v2 (single geography)", "execution_ms": 6.8, "target_ms": 750, "status": "PASS, wide margin" },
+      { "interface": "compare_market_geographies_v1 (3 geographies)", "execution_ms": 7.9, "target_ms": 1500, "status": "PASS, wide margin" },
+      { "interface": "get_market_timeseries_v2 (single geography)", "execution_ms": 4.0, "target_ms": 1500, "status": "PASS, wide margin" }
+    ],
+    "inner_plan_finding": {
+      "query": "search_market_geographies_v2's ILIKE text-search branch",
+      "plan_shape": "Bitmap Heap Scan on core.dim_geography using dim_geography_type_code_idx (SAL/POA type filter), then a row-by-row ILIKE '%text%' recheck filter removing ~18k of ~18k candidate rows",
+      "finding": "No index accelerates the leading-wildcard ILIKE pattern search — currently fast enough (101ms, well under the 500ms target) only because national SAL+POA row count (~18k) is still small. This will not grow further from adding more jurisdictions' MARKET DATA (ASGS geography is already fully national since Sprint 2), so this is a stable, not worsening, cost — but is flagged as an optimisation candidate for WS17 (a pg_trgm GIN index on core.dim_geography.geography_name would convert this to an index scan)."
+    }
+  },
+  "duplicate_state_specific_code_review": {
+    "finding": "warehouse/scripts/sales/rebuild_nsw_snapshots_after_reconciliation.mjs and warehouse/scripts/market_intelligence/load_vic_market_intelligence_to_branch.mjs share substantial structural similarity (CTE-based snapshot builder joining sales/rent/yield/approvals/demographics/rate) but were deliberately NOT abstracted into a shared helper in Sprint 10, per the explicit 'do not rewrite working logic merely for aesthetics — refactor only where needed to support a second jurisdiction safely' instruction.",
+    "recommendation": "Revisit this decision in Workstream 6 once a THIRD jurisdiction's snapshot-builder is needed — three independent implementations of the same CTE shape is the point at which extracting a shared warehouse/scripts/market_intelligence/build_snapshot_common.mjs helper becomes justified by real duplication, not speculative refactoring.",
+    "action_taken_this_workstream": "none — documented only, per its own recommendation to wait for a third data point"
+  },
+  "data_retention_periods": {
+    "nsw_sales_monthly_mart": "full 1996-2026 history (documented over-retention from Sprint 9, not addressed — DELETE is forbidden by the project's hard rules, so this remains a client-side-filtered display concern, not a database cleanup)",
+    "nsw_rental_full_history": "full quarterly history promoted (compact enough)",
+    "vic_sales_summary": "full available VPSR quarterly history (5 quarters as of Sprint 10)",
+    "vic_rental_summary": "full available Homes Victoria history (103 quarters)",
+    "policy_note": "No automated retention/expiry policy exists yet — old mart versions do not currently 'accumulate' because every load is an UPSERT keyed on a stable natural key, not an append-only insert, so there is no growing duplicate-version problem to solve this sprint."
+  }
+}

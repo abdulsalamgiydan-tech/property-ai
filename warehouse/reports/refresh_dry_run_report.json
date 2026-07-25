@@ -1,0 +1,83 @@
+{
+  "generated_at": "2026-07-21T11:30:09.357Z",
+  "scope": "Sprint 10 Phase 13 — refresh orchestration dry-run report",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "recent_runs": [
+    {
+      "dataset_id": "vic_vpsr_median_house",
+      "mode": "dry-run",
+      "status": "succeeded",
+      "target": "local",
+      "started_at": "2026-07-21T11:24:18.250Z",
+      "completed_at": "2026-07-21T11:24:18.361Z",
+      "rows_affected": null,
+      "error_message": null
+    }
+  ],
+  "freshness_status": [
+    {
+      "dataset_id": "nsw_psi_2001_current_full_state",
+      "jurisdiction": "NSW",
+      "freshness_status": "manual_review",
+      "current_branch_row_count": 504,
+      "local_only_or_branch_published": "branch_published",
+      "computed_at": "2026-07-21T11:30:07.069Z"
+    },
+    {
+      "dataset_id": "nsw_rent_tables_full_state",
+      "jurisdiction": "NSW",
+      "freshness_status": "manual_review",
+      "current_branch_row_count": 504,
+      "local_only_or_branch_published": "branch_published",
+      "computed_at": "2026-07-21T11:30:07.172Z"
+    },
+    {
+      "dataset_id": "vic_moving_annual_rent_by_suburb",
+      "jurisdiction": "VIC",
+      "freshness_status": "manual_review",
+      "current_branch_row_count": 79,
+      "local_only_or_branch_published": "branch_published",
+      "computed_at": "2026-07-21T11:30:07.276Z"
+    },
+    {
+      "dataset_id": "vic_quarterly_median_rent_by_lga",
+      "jurisdiction": "VIC",
+      "freshness_status": "manual_review",
+      "current_branch_row_count": 79,
+      "local_only_or_branch_published": "branch_published",
+      "computed_at": "2026-07-21T11:30:07.379Z"
+    },
+    {
+      "dataset_id": "vic_vpsr_median_house",
+      "jurisdiction": "VIC",
+      "freshness_status": "manual_review",
+      "current_branch_row_count": 741,
+      "local_only_or_branch_published": "branch_published",
+      "computed_at": "2026-07-21T11:30:07.489Z"
+    },
+    {
+      "dataset_id": "vic_vpsr_median_land",
+      "jurisdiction": "VIC",
+      "freshness_status": "manual_review",
+      "current_branch_row_count": 741,
+      "local_only_or_branch_published": "branch_published",
+      "computed_at": "2026-07-21T11:30:07.593Z"
+    },
+    {
+      "dataset_id": "vic_vpsr_median_unit",
+      "jurisdiction": "VIC",
+      "freshness_status": "manual_review",
+      "current_branch_row_count": 741,
+      "local_only_or_branch_published": "branch_published",
+      "computed_at": "2026-07-21T11:30:07.695Z"
+    }
+  ],
+  "production_rejection_proof": "PASS — run_refresh.mjs --target=production was rejected before any write",
+  "default_mode_is_dry_run": true,
+  "no_schedule_enabled": true,
+  "notes": [
+    "plan_refresh.mjs and check_freshness.mjs are strictly read-only except check_freshness.mjs's own upsert into meta.dataset_freshness_status (never touches mart/core data).",
+    "run_refresh.mjs isolates each dataset's run to its own meta.dataset_refresh_run row — a failure in one dataset does not block or corrupt another.",
+    "No cron, Supabase Edge Function schedule, or any other automated trigger was created this sprint — every run is manual, on demand."
+  ]
+}

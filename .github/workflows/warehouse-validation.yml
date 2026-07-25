@@ -1,0 +1,104 @@
+name: Warehouse Validation
+
+# Sprint 11, Workstream 15. Standard CI on push/PR — build/lint/test only,
+# no network calls to external data sources, no Supabase credentials used
+# or required. This is deliberately just "does the repo still work",
+# not a data-freshness or refresh check (that's warehouse-source-monitor.yml).
+
+on:
+  push:
+    branches: [main, "feature/**"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: warehouse-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Build, lint, test, warehouse file checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: warehouse:check (required warehouse files present, no raw data committed)
+        run: npm run warehouse:check
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Refresh registry integrity + no-large-file scan
+        run: |
+          echo "## Large-file scan" >> "$GITHUB_STEP_SUMMARY"
+          git ls-files -- "*.zip" "*.shp" "*.gpkg" "*.parquet" "*.duckdb" "*.dbf" "warehouse/data" > /tmp/tracked_raw.txt || true
+          if [ -s /tmp/tracked_raw.txt ]; then
+            echo "::error::Raw/large data files are tracked by git:"
+            cat /tmp/tracked_raw.txt
+            exit 1
+          fi
+          echo "No raw/large data files tracked." >> "$GITHUB_STEP_SUMMARY"
+
+  clean-migration-replay:
+    name: Replay migrations 001-044 from blank database
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: clean_replay
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d clean_replay"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Replay committed migrations from blank local PostGIS database
+        env:
+          CLEAN_REPLAY_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/clean_replay
+        run: node scripts/clean-migration-replay.mjs
+
+      - name: Static RLS corpus check
+        run: npm run warehouse:rls:check
+
+      - name: Upload redacted replay report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: clean-migration-chain-001-044-report
+          path: clean-replay-artifacts/
+          if-no-files-found: error

@@ -1,0 +1,302 @@
+{
+  "generated_at": "2026-07-21T20:25:18.941Z",
+  "scope": "Read-only inventory of warehouse/data/{raw,processed,local} — Sprint 11 Workstream 7",
+  "grand_total_size_mb": 9865.89,
+  "by_zone": {
+    "raw": {
+      "total_files": 295,
+      "total_size_mb": 1680.4,
+      "by_dataset": [
+        {
+          "dataset": "census",
+          "file_count": 6,
+          "size_mb": 566.66
+        },
+        {
+          "dataset": "asgs",
+          "file_count": 13,
+          "size_mb": 529.71
+        },
+        {
+          "dataset": "nsw_sales",
+          "file_count": 54,
+          "size_mb": 330.65
+        },
+        {
+          "dataset": "census_2016",
+          "file_count": 2,
+          "size_mb": 117.16
+        },
+        {
+          "dataset": "nsw_rents",
+          "file_count": 15,
+          "size_mb": 50.78
+        },
+        {
+          "dataset": "building_approvals",
+          "file_count": 1,
+          "size_mb": 26.18
+        },
+        {
+          "dataset": "sa_rents",
+          "file_count": 71,
+          "size_mb": 24.77
+        },
+        {
+          "dataset": "wa_rents",
+          "file_count": 116,
+          "size_mb": 21.4
+        },
+        {
+          "dataset": "qld_rents",
+          "file_count": 1,
+          "size_mb": 5.96
+        },
+        {
+          "dataset": "abs_correspondence",
+          "file_count": 5,
+          "size_mb": 3.42
+        },
+        {
+          "dataset": "vic_rents",
+          "file_count": 2,
+          "size_mb": 1.73
+        },
+        {
+          "dataset": "abs_regional_population",
+          "file_count": 2,
+          "size_mb": 1.38
+        },
+        {
+          "dataset": "vic_sales",
+          "file_count": 4,
+          "size_mb": 0.48
+        },
+        {
+          "dataset": "rba_rates",
+          "file_count": 3,
+          "size_mb": 0.12
+        }
+      ]
+    },
+    "processed": {
+      "total_files": 149062,
+      "total_size_mb": 6374.55,
+      "by_dataset": [
+        {
+          "dataset": "census",
+          "file_count": 645,
+          "size_mb": 3068.14
+        },
+        {
+          "dataset": "nsw_sales",
+          "file_count": 148072,
+          "size_mb": 1487.89
+        },
+        {
+          "dataset": "asgs",
+          "file_count": 105,
+          "size_mb": 1197.09
+        },
+        {
+          "dataset": "census_2016",
+          "file_count": 240,
+          "size_mb": 621.43
+        }
+      ]
+    },
+    "local": {
+      "total_files": 32,
+      "total_size_mb": 1810.89,
+      "by_dataset": [
+        {
+          "dataset": "asgs_2021.duckdb",
+          "file_count": 1,
+          "size_mb": 667.26
+        },
+        {
+          "dataset": "asgs_geography.parquet",
+          "file_count": 1,
+          "size_mb": 492.9
+        },
+        {
+          "dataset": "nsw_sales.duckdb",
+          "file_count": 1,
+          "size_mb": 410.51
+        },
+        {
+          "dataset": "nsw_sales_transactions.parquet",
+          "file_count": 1,
+          "size_mb": 134.73
+        },
+        {
+          "dataset": "census_2021.duckdb",
+          "file_count": 1,
+          "size_mb": 37.51
+        },
+        {
+          "dataset": "nsw_sales_summary.parquet",
+          "file_count": 1,
+          "size_mb": 25.74
+        },
+        {
+          "dataset": "nsw_rents.duckdb",
+          "file_count": 1,
+          "size_mb": 10.26
+        },
+        {
+          "dataset": "qld_rents.duckdb",
+          "file_count": 1,
+          "size_mb": 5.01
+        },
+        {
+          "dataset": "building_approvals.duckdb",
+          "file_count": 1,
+          "size_mb": 4.51
+        },
+        {
+          "dataset": "wa_rents.duckdb",
+          "file_count": 1,
+          "size_mb": 3.01
+        },
+        {
+          "dataset": "asgs_correspondence.parquet",
+          "file_count": 1,
+          "size_mb": 2.8
+        },
+        {
+          "dataset": "vic_rents.duckdb",
+          "file_count": 1,
+          "size_mb": 2.51
+        },
+        {
+          "dataset": "cross_census_harmonisation.duckdb",
+          "file_count": 1,
+          "size_mb": 2.01
+        },
+        {
+          "dataset": "correspondence_dwelling_weights.parquet",
+          "file_count": 1,
+          "size_mb": 1.88
+        },
+        {
+          "dataset": "census_dwelling_stock.parquet",
+          "file_count": 1,
+          "size_mb": 1.64
+        },
+        {
+          "dataset": "census_household_tenure.parquet",
+          "file_count": 1,
+          "size_mb": 1.29
+        },
+        {
+          "dataset": "census_demographics.duckdb",
+          "file_count": 1,
+          "size_mb": 1.01
+        },
+        {
+          "dataset": "national_population.duckdb",
+          "file_count": 1,
+          "size_mb": 1.01
+        },
+        {
+          "dataset": "sa_rents.duckdb",
+          "file_count": 1,
+          "size_mb": 1.01
+        },
+        {
+          "dataset": "nsw_rental_summary.parquet",
+          "file_count": 1,
+          "size_mb": 0.84
+        },
+        {
+          "dataset": "qld_rental_summary.parquet",
+          "file_count": 1,
+          "size_mb": 0.68
+        },
+        {
+          "dataset": "rba_rates.duckdb",
+          "file_count": 1,
+          "size_mb": 0.51
+        },
+        {
+          "dataset": "vic_sales.duckdb",
+          "file_count": 1,
+          "size_mb": 0.51
+        },
+        {
+          "dataset": "vic_rental_summary.parquet",
+          "file_count": 1,
+          "size_mb": 0.37
+        },
+        {
+          "dataset": "census_demographics.parquet",
+          "file_count": 1,
+          "size_mb": 0.33
+        },
+        {
+          "dataset": "wa_rental_summary.parquet",
+          "file_count": 1,
+          "size_mb": 0.28
+        },
+        {
+          "dataset": "building_approvals.parquet",
+          "file_count": 1,
+          "size_mb": 0.27
+        },
+        {
+          "dataset": "sa_rental_summary.parquet",
+          "file_count": 1,
+          "size_mb": 0.21
+        },
+        {
+          "dataset": "sa2_population_2001_2025.parquet",
+          "file_count": 1,
+          "size_mb": 0.17
+        },
+        {
+          "dataset": "vic_sales_summary.parquet",
+          "file_count": 1,
+          "size_mb": 0.06
+        },
+        {
+          "dataset": "sa2_population_growth.parquet",
+          "file_count": 1,
+          "size_mb": 0.05
+        },
+        {
+          "dataset": "rba_interest_rates.parquet",
+          "file_count": 1,
+          "size_mb": 0.01
+        }
+      ]
+    }
+  },
+  "gitignore_check": {
+    "blanket_warehouse_data_rule_present": true,
+    "extensions_found_on_disk": [
+      "cpg",
+      "csv",
+      "dat",
+      "dbf",
+      "duckdb",
+      "parquet",
+      "prj",
+      "sbn",
+      "sbx",
+      "shp",
+      "shx",
+      "txt",
+      "xls",
+      "xlsx",
+      "xml",
+      "zip"
+    ],
+    "extensions_not_explicitly_covered": [],
+    "effectively_covered": true,
+    "git_tracked_file_count_under_warehouse_data": 0,
+    "git_check_passed": true
+  },
+  "reclaimable_processed_data_mb": 6374.55,
+  "reclaimable_note": "warehouse/data/processed/ (extraction scratch space) can be safely deleted and re-derived from warehouse/data/raw/ if ever needed again, since every processed dataset already has a corresponding built output in warehouse/data/local/. See plan_local_cleanup.mjs for the actual cleanup plan — this script only identifies the candidate, it does not delete anything."
+}

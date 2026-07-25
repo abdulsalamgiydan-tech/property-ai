@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-07-20T18:49:03.172Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "frontend_changed": false,
+  "db_size_before": "2049 MB",
+  "loaded": {
+    "fact_interest_rates_attempted": 2264,
+    "mart_national_interest_rate_context": 2264
+  },
+  "gates_after": {
+    "dup_fact_grain": 0,
+    "negative_rates": 0,
+    "missing_confidence_label": 0,
+    "null_period": 0,
+    "dup_mart_grain": 0,
+    "db_now": "2052 MB"
+  },
+  "core_state": {
+    "fact_total": 2264,
+    "facts_by_rate_type": {
+      "housing_lending_rate": 664,
+      "cash_rate_target": 98,
+      "indicator_lending_rate": 1502
+    },
+    "mart_total": 2264,
+    "confidence_dist": {
+      "official": 2261,
+      "range_not_numeric": 3
+    },
+    "min_cash_rate": "0.1",
+    "max_cash_rate": "14",
+    "db_size": "2052 MB"
+  },
+  "db_size_after": "2052 MB"
+}

@@ -1,0 +1,428 @@
+{
+  "generated_at": "2026-07-22T12:21:50.469Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "persisted": true,
+  "quality_run_id": "7b6aa8ff-aa55-4129-a61f-606d3f9cbe63",
+  "scope": {
+    "dataset": null,
+    "domain": null,
+    "jurisdiction": null
+  },
+  "rules_run": 35,
+  "rules_passed": 32,
+  "rules_failed_blocking": 0,
+  "rules_failed_advisory": 3,
+  "results": [
+    {
+      "ruleId": "checksum_change_tracking",
+      "ruleFamily": "checksum_change",
+      "severity": "advisory",
+      "blocking": false,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "changed_count": 6
+      }
+    },
+    {
+      "ruleId": "confidence_rent_snapshot",
+      "ruleFamily": "missing_confidence_label",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "missing_confidence_count": 0
+      }
+    },
+    {
+      "ruleId": "confidence_sales_snapshot",
+      "ruleFamily": "missing_confidence_label",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "missing_confidence_count": 0
+      }
+    },
+    {
+      "ruleId": "confidence_yield_snapshot",
+      "ruleFamily": "missing_confidence_label",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "missing_confidence_count": 0
+      }
+    },
+    {
+      "ruleId": "cross_border_postcode_sales",
+      "ruleFamily": "cross_border_geography_join",
+      "severity": "advisory",
+      "blocking": false,
+      "status": "failed",
+      "affectedRowCount": 16,
+      "actualResult": {
+        "anomaly_count": 16
+      }
+    },
+    {
+      "ruleId": "dup_key_construction_activity",
+      "ruleFamily": "duplicate_natural_key",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "duplicate_key_count": 0
+      }
+    },
+    {
+      "ruleId": "dup_key_postcode_snapshot",
+      "ruleFamily": "duplicate_natural_key",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "duplicate_key_count": 0
+      }
+    },
+    {
+      "ruleId": "dup_key_suburb_snapshot",
+      "ruleFamily": "duplicate_natural_key",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "duplicate_key_count": 0
+      }
+    },
+    {
+      "ruleId": "dup_key_suburb_timeseries",
+      "ruleFamily": "duplicate_natural_key",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "duplicate_key_count": 0
+      }
+    },
+    {
+      "ruleId": "future_dated_construction_activity",
+      "ruleFamily": "future_dated_observation",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "future_dated_count": 0
+      }
+    },
+    {
+      "ruleId": "future_dated_rent",
+      "ruleFamily": "future_dated_observation",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "future_dated_count": 0
+      }
+    },
+    {
+      "ruleId": "future_dated_sales",
+      "ruleFamily": "future_dated_observation",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "future_dated_count": 0
+      }
+    },
+    {
+      "ruleId": "invalid_geometry_dim_geography",
+      "ruleFamily": "invalid_geometry",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "invalid_geometry_count": 0
+      }
+    },
+    {
+      "ruleId": "lineage_completeness_check",
+      "ruleFamily": "missing_lineage",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "total_checked": 88,
+        "covered": 88,
+        "completeness_pct": 100
+      }
+    },
+    {
+      "ruleId": "negative_construction_units",
+      "ruleFamily": "negative_value",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "negative_count": 0
+      }
+    },
+    {
+      "ruleId": "negative_population",
+      "ruleFamily": "negative_value",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "negative_count": 0
+      }
+    },
+    {
+      "ruleId": "negative_rent",
+      "ruleFamily": "negative_value",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "negative_count": 0
+      }
+    },
+    {
+      "ruleId": "negative_sale_price",
+      "ruleFamily": "negative_value",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "negative_count": 0
+      }
+    },
+    {
+      "ruleId": "null_construction_activity_unit_count",
+      "ruleFamily": "null_required_field",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "null_count": 0
+      }
+    },
+    {
+      "ruleId": "null_snapshot_geography_id",
+      "ruleFamily": "null_required_field",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "null_count": 0
+      }
+    },
+    {
+      "ruleId": "orphan_geo_postcode_snapshot",
+      "ruleFamily": "orphan_geography",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "orphan_count": 0
+      }
+    },
+    {
+      "ruleId": "orphan_geo_rent_fact",
+      "ruleFamily": "orphan_geography",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "orphan_count": 0
+      }
+    },
+    {
+      "ruleId": "orphan_geo_suburb_snapshot",
+      "ruleFamily": "orphan_geography",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "orphan_count": 0
+      }
+    },
+    {
+      "ruleId": "range_boundary_reconciliation_residual",
+      "ruleFamily": "range_check",
+      "severity": "advisory",
+      "blocking": false,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "out_of_range_count": 0,
+        "min": -1,
+        "max": 1
+      }
+    },
+    {
+      "ruleId": "range_gross_yield_pct",
+      "ruleFamily": "range_check",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "out_of_range_count": 0,
+        "min": 0,
+        "max": 30
+      }
+    },
+    {
+      "ruleId": "range_owner_occupier_pct",
+      "ruleFamily": "range_check",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "out_of_range_count": 0,
+        "min": 0,
+        "max": 100
+      }
+    },
+    {
+      "ruleId": "range_population_growth_pct",
+      "ruleFamily": "range_check",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "out_of_range_count": 0,
+        "min": -100,
+        "max": 20000
+      }
+    },
+    {
+      "ruleId": "range_renter_household_pct",
+      "ruleFamily": "range_check",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "out_of_range_count": 0,
+        "min": 0,
+        "max": 100
+      }
+    },
+    {
+      "ruleId": "rowcount_construction_activity",
+      "ruleFamily": "row_count_anomaly",
+      "severity": "advisory",
+      "blocking": false,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "row_count": 6390,
+        "baseline": 6390,
+        "pct_change": 0,
+        "max_pct_change": 10
+      }
+    },
+    {
+      "ruleId": "rowcount_postcode_snapshot",
+      "ruleFamily": "row_count_anomaly",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "row_count": 2641,
+        "baseline": 2641,
+        "pct_change": 0,
+        "max_pct_change": 20
+      }
+    },
+    {
+      "ruleId": "rowcount_suburb_snapshot",
+      "ruleFamily": "row_count_anomaly",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "row_count": 15334,
+        "baseline": 15334,
+        "pct_change": 0,
+        "max_pct_change": 20
+      }
+    },
+    {
+      "ruleId": "schema_drift_suburb_snapshot",
+      "ruleFamily": "schema_drift",
+      "severity": "blocker",
+      "blocking": true,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "expected_count": 12,
+        "actual_count": 72,
+        "missing": []
+      }
+    },
+    {
+      "ruleId": "source_url_health",
+      "ruleFamily": "broken_source_url",
+      "severity": "advisory",
+      "blocking": false,
+      "status": "failed",
+      "affectedRowCount": 1,
+      "actualResult": {
+        "sources_checked": 13,
+        "failures": 1
+      }
+    },
+    {
+      "ruleId": "stale_source_check",
+      "ruleFamily": "stale_source",
+      "severity": "advisory",
+      "blocking": false,
+      "status": "passed",
+      "affectedRowCount": 0,
+      "actualResult": {
+        "stale_dataset_count": 0
+      }
+    },
+    {
+      "ruleId": "weight_reconciliation_bridge",
+      "ruleFamily": "weight_reconciliation",
+      "severity": "advisory",
+      "blocking": false,
+      "status": "failed",
+      "affectedRowCount": 6,
+      "actualResult": {
+        "out_of_tolerance_source_geographies": 6,
+        "tolerance_pct": 1
+      }
+    }
+  ]
+}

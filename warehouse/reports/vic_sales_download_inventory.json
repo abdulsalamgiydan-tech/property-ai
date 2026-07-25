@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-07-21T10:07:14.629Z",
+  "files": [
+    {
+      "dataset_id": "vic_vpsr_median_house",
+      "file": "median_house_q4_2025.xls",
+      "bytes": 238592,
+      "sha256": "ebfb384bc15b914afa4156dbafe349746706058d87bfbc114aaeb5787f035efb"
+    },
+    {
+      "dataset_id": "vic_vpsr_median_unit",
+      "file": "median_unit_q4_2025.xls",
+      "bytes": 150528,
+      "sha256": "9f1cdb31863f6ebe5bf02a9337c89b8830eadd6da503b0619928a22a5f57df5c"
+    },
+    {
+      "dataset_id": "vic_vpsr_median_land",
+      "file": "median_land_q4_2025.xls",
+      "bytes": 87552,
+      "sha256": "2cd1597e6e450d64862cf69ad6c6961c83e1087882e0b0b8e58467a96188d733"
+    }
+  ]
+}

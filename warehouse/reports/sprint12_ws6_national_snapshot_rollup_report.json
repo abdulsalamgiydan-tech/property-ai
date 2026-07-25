@@ -1,0 +1,44 @@
+{
+  "generated_at": "2026-07-22T08:00:20.990Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "frontend_changed": false,
+  "db_size_before": "2664 MB",
+  "scope_notes": {
+    "tas_act_nt_excluded": "TAS/ACT/NT sales data is GCCSA-grain only (core.fact_residential_sales_summary) — a coarser geography_type than SAL/POA. Not rolled into suburb/postcode_market_snapshot, which are strictly SAL/POA grain; would require a fabricated cross-grain mapping. Documented gap, not fixed here.",
+    "qld_sa_wa_yield_not_computed": "QLD/SA/WA have zero sales rows at any grain (confirmed live query) — gross_yield_pct cannot be computed for them (no price to pair with rent). Correctly matches their meta.jurisdiction status of 'rent_only'.",
+    "nsw_vic_rent_untouched": "Rent columns are only backfilled where currently NULL — NSW/VIC's existing pipeline-computed values (from load_market_intelligence_to_branch.mjs / load_vic_market_intelligence_to_branch.mjs) are never overwritten."
+  },
+  "updated": {
+    "suburb_snapshot_jurisdiction": 7843,
+    "postcode_snapshot_jurisdiction": 1334,
+    "suburb_snapshot_population_growth": 10935,
+    "postcode_snapshot_population_growth": 2596,
+    "suburb_snapshot_rent_rollup": 2540,
+    "postcode_snapshot_rent_rollup": 1119,
+    "suburb_timeseries_rent_rollup": 22515,
+    "postcode_timeseries_rent_rollup": 0
+  },
+  "gates_after": {
+    "dup_suburb_snapshot": 0,
+    "dup_postcode_snapshot": 0,
+    "rent_missing_label_suburb": 0,
+    "rent_missing_label_postcode": 0,
+    "negative_rent_suburb": 0,
+    "negative_rent_postcode": 0,
+    "impossible_growth_suburb": 0,
+    "dup_suburb_ts": 0,
+    "dup_postcode_ts": 0,
+    "orphan_suburb_snapshot": 0,
+    "db_now": "2672 MB"
+  },
+  "core_state_after": {
+    "suburb_snap_has_jur": 15329,
+    "postcode_snap_has_jur": 2641,
+    "suburb_snap_has_growth": 10935,
+    "postcode_snap_has_growth": 2596,
+    "suburb_snap_has_rent": 3089,
+    "postcode_snap_has_rent": 1070,
+    "db_size": "2672 MB"
+  }
+}

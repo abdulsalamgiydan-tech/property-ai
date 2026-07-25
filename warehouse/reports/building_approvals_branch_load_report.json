@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-07-20T08:33:09.175Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "frontend_changed": false,
+  "approvals_per_1000_dwellings_created": true,
+  "loaded": {
+    "fact_building_approvals": 95550,
+    "suburb_mart": 15329,
+    "postcode_mart": 2638
+  },
+  "skipped": {
+    "fact_building_approvals_orphans": 312
+  },
+  "gates_after": {
+    "dup_fact_grain": 0,
+    "null_geo_ids": 0,
+    "negative_counts": 0,
+    "orphan_facts": 0
+  },
+  "latest_month_in_local_store": "2026-05-01",
+  "core_state": {
+    "fact_total": 95550,
+    "facts_by_period_type": {
+      "month": 88200,
+      "rolling_12m": 7350
+    },
+    "suburb_mart": 15329,
+    "postcode_mart": 2638,
+    "suburb_avg_per_1000": "16.53",
+    "db_size": "1540 MB"
+  }
+}

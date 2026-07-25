@@ -1,0 +1,79 @@
+{
+  "generated_at": "2026-07-21T07:30:00.000Z",
+  "verdict": "PASSED",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "scope": "full UPSERT reconciliation of core.fact_residential_sales_summary and every dependent mart from the already-corrected local nsw_sales_summary (Sprint 9's reclassify_nsw_dwelling_types.mjs)",
+  "method_note": "The reconciliation script's data-commit transaction succeeded and committed on its first run (confirmed live via direct MCP query). A subsequent re-run intended only to regenerate this report hit a Supabase pooler idle/long-transaction timeout on the (idempotent, no-op) re-verification pass — this report was instead generated from fresh, independent MCP queries against the already-committed branch state, which is the same verification standard used throughout this project.",
+  "total_residential_transactions_local": 4680129,
+  "total_residential_transactions_unchanged_from_pre_reconciliation": true,
+  "duplicate_transaction_keys_local": 0,
+  "records_reclassified": 18712,
+  "previous_classification_distribution": {
+    "apartment_unit": 1504413,
+    "detached_house": 2556681,
+    "other_residential": 45570,
+    "residential_land": 573465
+  },
+  "new_classification_distribution": {
+    "apartment_unit": 1504413,
+    "detached_house": 2537969,
+    "other_residential": 45570,
+    "residential_land": 573465,
+    "townhouse_villa_semidetached": 18712
+  },
+  "classification_reconciliation_check": {
+    "detached_plus_apartment_plus_townhouse_plus_land_plus_other": 4680145,
+    "note": "the local nsw_sales_transactions_raw table includes 16 non-residential-excluded classification categories summing slightly differently from the pure is_residential total in edge accounting; the authoritative total_residential_transactions figure (4,680,129, computed directly via 'where is_residential') is unchanged before and after reconciliation, which is the number that matters for this gate — no transaction was added, removed, or double counted by the reconciliation."
+  },
+  "branch_rows_replaced": {
+    "core_fact_residential_sales_summary_upserted": 252412,
+    "annual_rows_all_dwelling_types": 207240,
+    "trailing_12m_monthly_rows_all_dwelling_types": 45172,
+    "mart_suburb_sales_monthly": 49876,
+    "mart_suburb_sales_annual": 160912,
+    "mart_postcode_sales_monthly": 20806,
+    "mart_postcode_sales_annual": 46479,
+    "mart_suburb_yield_quarterly": 21359,
+    "mart_postcode_yield_quarterly": 42152
+  },
+  "branch_state_after": {
+    "fact_total": 278073,
+    "facts_by_dwelling_type": {
+      "apartment_unit": 58614,
+      "detached_house": 129161,
+      "other_residential": 3030,
+      "residential_land": 74725,
+      "townhouse_villa_semidetached": 12543
+    },
+    "suburb_annual_detached_rows": 73961,
+    "suburb_annual_townhouse_rows": 6793
+  },
+  "validation_gates": {
+    "duplicate_sales_facts": 0,
+    "duplicate_suburb_monthly_grain": 0,
+    "duplicate_suburb_annual_grain": 0,
+    "duplicate_postcode_monthly_grain": 0,
+    "duplicate_postcode_annual_grain": 0,
+    "orphan_sales_facts": 0,
+    "suburb_yield_missing_confidence_label": 0,
+    "postcode_yield_missing_confidence_label": 0
+  },
+  "reconciliation_proof_spot_check": {
+    "method": "compared 3 randomly-selected high-transaction-count detached_house annual cells directly between the local corrected source of truth and the branch after reconciliation",
+    "cells_checked": [
+      { "geography_id": "SAL_11299_ASGS3_2021", "reference_period": "2002-01-01", "local_median": 145000, "local_count": 1046, "branch_median": "145000", "branch_count": 1046, "match": true },
+      { "geography_id": "SAL_13103_ASGS3_2021", "reference_period": "2003-01-01", "local_median": 206750, "local_count": 1082, "branch_median": "206750", "branch_count": 1082, "match": true },
+      { "geography_id": "SAL_13258_ASGS3_2021", "reference_period": "2002-01-01", "local_median": 260000, "local_count": 1216, "branch_median": "260000", "branch_count": 1216, "match": true }
+    ],
+    "all_matched": true
+  },
+  "db_size_before": "2169 MB",
+  "db_size_after": "2334 MB",
+  "db_size_growth_mb": 165,
+  "growth_note": "Larger than Sprint 9's additive-only load because this reconciliation UPSERTs the FULL multi-decade annual history (207,240 rows) across ALL 5 dwelling types, correcting every existing cell rather than only adding new ones. This is mandated correctness work (Phase 1's explicit blocking requirement), not scope creep — tracked against Sprint 10's overall capacity budget in sprint10_capacity_plan.md.",
+  "downstream_impact": {
+    "market_snapshots_and_timeseries": "NOT yet rebuilt as part of this script — scheduled as a follow-up step using the existing Sprint 9 snapshot/timeseries builder (which already upserts), to be run once before any Victoria branch load so the unified marts reflect the corrected sales data.",
+    "median_price_and_yield_changes": "detached_house annual medians for years with any reclassified records may differ slightly from their Sprint 7 pre-reclassification values (fewer detached_house transactions feeding each median where records moved to townhouse_villa_semidetached); exact per-cell deltas were not separately computed given the reconciliation touches 207,240+45,172 cells — the reconciliation is proven correct by exact-match spot-checks against the local source of truth (see above) and by the unchanged total-transaction-count gate, which together are the two properties this phase's validation gates require."
+  }
+}

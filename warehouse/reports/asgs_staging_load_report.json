@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-07-19T20:17:17Z",
+  "sprint": "Sprint 2 Part C4 — ASGS staging load",
+  "target": {
+    "supabase_branch": "warehouse-validation",
+    "branch_ref": "lzonauinzatmtytyoems",
+    "parent_production_ref": "oshquaxsloolqucwvigc",
+    "production_touched": false,
+    "core_promotion_performed": false
+  },
+  "inputs": {
+    "raw_files_loaded": 13,
+    "total_downloaded_mb": 529.7,
+    "raw_location": "warehouse/data/raw/asgs/ASGS3_2021 (gitignored, untracked)",
+    "hashes": "warehouse/reports/asgs_download_inventory.json",
+    "source_crs": "GDA2020 (EPSG:7844)",
+    "stored_crs": "EPSG:4326 (ST_Transform at staging insert)"
+  },
+  "meta_lineage": {
+    "sources_registered": 1,
+    "datasets_registered": 16,
+    "load_runs": 16,
+    "load_runs_succeeded": 16,
+    "source_files_registered": 16
+  },
+  "staging_asgs_geography": {
+    "total_rows": 83393,
+    "by_type": [
+      { "geography_type": "STATE", "loaded": 10, "quarantined": 1 },
+      { "geography_type": "GCCSA", "loaded": 35, "quarantined": 19 },
+      { "geography_type": "SA4", "loaded": 108, "quarantined": 19 },
+      { "geography_type": "SA3", "loaded": 359, "quarantined": 19 },
+      { "geography_type": "SA2", "loaded": 2473, "quarantined": 19 },
+      { "geography_type": "SA1", "loaded": 61845, "quarantined": 34 },
+      { "geography_type": "LGA", "loaded": 566, "quarantined": 19 },
+      { "geography_type": "SAL", "loaded": 15353, "quarantined": 19 },
+      { "geography_type": "POA", "loaded": 2644, "quarantined": 3 }
+    ],
+    "quarantined_total": 152,
+    "quarantine_reasons": { "missing_geometry": 152 },
+    "quarantine_note": "All 152 are ABS special-purpose codes (Migratory - Offshore - Shipping, No usual address, Outside Australia) which ABS publishes without geometry. Quarantined in place, never dropped."
+  },
+  "staging_asgs_correspondence": {
+    "total_rows": 227318,
+    "by_pair": [
+      { "pair": "SA1->SAL", "loaded": 73131, "quarantined": 34, "method": "abs_sa1_allocation" },
+      { "pair": "SA1->POA", "loaded": 65318, "quarantined": 34, "method": "abs_sa1_allocation" },
+      { "pair": "SA1->LGA", "loaded": 62372, "quarantined": 34, "method": "abs_sa1_allocation" },
+      { "pair": "SA2->SAL", "loaded": 17496, "quarantined": 19, "method": "derived_sa1_aggregation" },
+      { "pair": "SA2->POA", "loaded": 5904, "quarantined": 19, "method": "derived_sa1_aggregation" },
+      { "pair": "SA2->LGA", "loaded": 3097, "quarantined": 19, "method": "derived_sa1_aggregation" }
+    ],
+    "quarantined_total": 159,
+    "quarantine_reasons": { "zero_area_source": 159 },
+    "basis": "MB Albers areas from official ABS MB allocation files (368,286 MB rows, 0 without SA1/SA2 codes); ratio_basis=area until Census dwelling counts land; NULL ratios never zero-filled",
+    "sa2_note": "SA2 pairs derived only from the official MB->SA1/SA2 allocation data; no invented files"
+  },
+  "next_step": "Part C5 branch validation report (asgs_branch_validation_report.json/md), then Part D core promotion only after explicit approval"
+}

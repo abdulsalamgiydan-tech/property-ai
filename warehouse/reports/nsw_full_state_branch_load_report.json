@@ -1,0 +1,85 @@
+{
+  "generated_at": "2026-07-20T11:35:16.494Z",
+  "branch_ref": "lzonauinzatmtytyoems",
+  "production_touched": false,
+  "frontend_changed": false,
+  "raw_data_loaded_to_branch": false,
+  "kept_local": {
+    "sales_full_monthly_history": "all months outside the trailing 12 stay in warehouse/data/local/nsw_sales.duckdb only",
+    "sales_raw_transactions": "full transaction-level detail (all years, all NSW) stays local only",
+    "rent_full_sheet_detail": "raw quarterly sheet rows stay in warehouse/data/local/nsw_rents.duckdb only"
+  },
+  "promoted": {
+    "sales_annual_all_years": true,
+    "sales_monthly_trailing_12": true,
+    "rent_quarterly_all_quarters": true,
+    "yield_marts": true
+  },
+  "loaded": {
+    "sales_annual_attempted": 196019,
+    "sales_monthly_trailing12_attempted": 43941,
+    "rent_attempted": 257940,
+    "suburb_sales_monthly": 0,
+    "suburb_sales_annual": 0,
+    "postcode_sales_monthly": 0,
+    "postcode_sales_annual": 0,
+    "postcode_rent_quarterly": 0,
+    "suburb_rent_quarterly": 0,
+    "postcode_yield_quarterly": 0,
+    "suburb_yield_quarterly": 0
+  },
+  "skipped": {},
+  "gates_after": {
+    "dup_sales_fact": 0,
+    "dup_rent_fact": 0,
+    "null_geo_sales": 0,
+    "null_geo_rent": 0,
+    "negative_price": 0,
+    "negative_rent": 0,
+    "orphan_sales": 0,
+    "orphan_rent": 0,
+    "yield_bad1": 0,
+    "yield_bad2": 0,
+    "dup_yield_sal": 0,
+    "dup_yield_poa": 0,
+    "db_size_now": "2049 MB"
+  },
+  "db_size_before": "2049 MB",
+  "core_state": {
+    "sales_facts": 265528,
+    "rent_facts": 257940,
+    "ssm": 49191,
+    "ssa": 154118,
+    "psm": 20224,
+    "psa": 41995,
+    "srq": 21359,
+    "prq": 42152,
+    "syq": 21359,
+    "pyq": 20583,
+    "sales_confidence_dist": {
+      "high": 60661,
+      "insufficient": 121686,
+      "low": 38638,
+      "medium": 44543
+    },
+    "rent_confidence_dist": {
+      "high": 44061,
+      "insufficient": 213879
+    },
+    "suburb_yield_dist": {
+      "medium": 2273,
+      "high": 4933,
+      "insufficient": 14153
+    },
+    "postcode_yield_dist": {
+      "medium": 205,
+      "high": 6919,
+      "insufficient": 13459
+    },
+    "postcode_avg_yield": "3.41",
+    "postcode_min_yield": "1.19",
+    "postcode_max_yield": "10.25",
+    "db_size": "2049 MB"
+  },
+  "db_size_after": "2049 MB"
+}
