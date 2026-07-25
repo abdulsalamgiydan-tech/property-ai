@@ -59,6 +59,13 @@ describe("GET /api/v1/compare — unrestricted-warehouse-query protection (Sprin
     expect(body.data.count).toBe(10);
   });
 
+  it("rejects malformed geography ids before querying the warehouse", async () => {
+    const { GET } = await withApiV1Enabled();
+    const res = await GET(req("ids=SAL_1,not-a-geography"));
+    expect(res.status).toBe(400);
+    expect(compareMarketGeographies).not.toHaveBeenCalled();
+  });
+
   it("404s (not 400) when the public API flag is off, before validating anything else", async () => {
     vi.stubEnv("PUBLIC_API_V1_ENABLED", undefined as unknown as string);
     const { GET } = await import("./route");
