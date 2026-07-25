@@ -29,6 +29,7 @@ describe("045_sprint17_preferences_feedback_controls.sql", () => {
     expect(lower).toMatch(/alter table public\.user_feedback/);
     expect(lower).toMatch(/add column if not exists client_submission_id/);
     expect(lower).toMatch(/create unique index if not exists user_feedback_user_submission_id_idx/);
+    expect(lower).toMatch(/category in \('bug', 'feature_request', 'idea', 'general', 'other'\)/);
     expect(lower).toMatch(/user_feedback_status_check/);
   });
 

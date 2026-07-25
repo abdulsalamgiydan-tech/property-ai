@@ -79,7 +79,7 @@ alter table public.user_feedback
 alter table public.user_feedback
   drop constraint if exists user_feedback_category_check,
   add constraint user_feedback_category_check
-    check (category in ('bug', 'feature_request', 'general', 'other'));
+    check (category in ('bug', 'feature_request', 'idea', 'general', 'other'));
 
 alter table public.user_feedback
   drop constraint if exists user_feedback_satisfaction_score_check,
