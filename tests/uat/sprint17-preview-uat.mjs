@@ -8,8 +8,8 @@ const require = createRequire(import.meta.url);
 const { createChunks } = require("C:/Users/abdul/property-ai/node_modules/@supabase/ssr/dist/main/utils/chunker.js");
 const { stringToBase64URL } = require("C:/Users/abdul/property-ai/node_modules/@supabase/ssr/dist/main/utils/base64url.js");
 
-const BASE_URL = "https://property-b0prv0t02-zeebusiness93-2304s-projects.vercel.app";
-const EXPECTED_COMMIT = "65406f0db7dad3575fb1457368de7fa72fd47a9e";
+const BASE_URL = "https://property-cc3ba6aoz-zeebusiness93-2304s-projects.vercel.app";
+const EXPECTED_COMMIT = "dad951706eb10a530f3c0e84578a8ca8575cd852";
 const BRANCH = "feature/sprint17-major-product-expansion";
 const WAREHOUSE_URL = "https://lzonauinzatmtytyoems.supabase.co";
 const PRODUCTION_REF = "oshquaxsloolqucwvigc";
@@ -70,11 +70,15 @@ async function obtainSession(supabase, label, email, expectedId, emailEnv, passw
   if (!password) password = process.env[passwordEnv];
   const result = await supabase.auth.signInWithPassword({ email: email || process.env[emailEnv], password });
   assert(!result.error && result.data.session?.user?.id === expectedId, `${label} password sign-in failed`);
-  // scope: "local" only clears this client's in-memory state. A default/global signOut()
-  // revokes the refresh token server-side, so the session handed back would already be
-  // dead by the time it's seeded into a browser context (this is what was clearing the
-  // seeded SSR cookie and leaving /settings signed out).
-  await supabase.auth.signOut({ scope: "local" });
+  // In @supabase/auth-js, signOut() always calls the server regardless of scope --
+  // "global" revokes every session for the user, "local" revokes only the CURRENT
+  // session (verified against a live warehouse-validation session: scope "local"
+  // still returns session_not_found from /auth/v1/user afterwards). Only "others"
+  // revokes every *other* session while leaving this one alive, which is what we
+  // actually want: clean up stale sessions from prior runs without killing the
+  // session we're about to seed into the browser. Using "global" or "local" here
+  // is what was clearing the seeded SSR cookie and leaving /settings signed out.
+  await supabase.auth.signOut({ scope: "others" });
   return result.data.session;
 }
 async function responseStatus(page, url, init) {
@@ -199,9 +203,22 @@ async function run() {
     const feedbackInvalid = await responseStatus(pageA, "/api/feedback", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ category: "invalid", message: "" }) });
     assert(feedbackInvalid.status === 400, "Invalid feedback was not rejected");
     checks.push({ id: "feedback_validation", status: "pass" });
-    const feedbackCleanup = await supabase.from("user_feedback").delete().eq("user_id", userA.user.id).eq("client_submission_id", feedbackClientSubmissionId);
-    assert(!feedbackCleanup.error, "Preview feedback cleanup failed");
-    checks.push({ id: "preview_feedback_cleanup", status: "pass" });
+    // user_feedback deliberately has no delete policy for authenticated users
+    // (append-only/immutable by design -- see KNOWN_EXCEPTIONS in
+    // warehouse/scripts/quality/check_rls_policies.mjs), so a delete() call
+    // through the anon-key user client is silently filtered by RLS: it
+    // returns success with zero rows affected, not an error. Cleanup must go
+    // through the service-role admin client, and must verify the row is
+    // actually gone afterward rather than trusting a lack of error.
+    const adminKeyForCleanup = process.env.WAREHOUSE_VALIDATION_SUPABASE_SERVICE_ROLE_KEY;
+    assert(adminKeyForCleanup, "Cannot verify feedback cleanup without WAREHOUSE_VALIDATION_SUPABASE_SERVICE_ROLE_KEY");
+    const admin = createClient(WAREHOUSE_URL, adminKeyForCleanup, { auth: { persistSession: false, autoRefreshToken: false } });
+    const feedbackCleanup = await admin.from("user_feedback").delete({ count: "exact" }).eq("user_id", userA.user.id).eq("client_submission_id", feedbackClientSubmissionId);
+    assert(!feedbackCleanup.error, `Preview feedback cleanup failed: ${feedbackCleanup.error?.message}`);
+    assert(feedbackCleanup.count === 1, `Preview feedback cleanup deleted ${feedbackCleanup.count} rows, expected exactly 1`);
+    const feedbackCleanupVerify = await admin.from("user_feedback").select("id").eq("user_id", userA.user.id).eq("client_submission_id", feedbackClientSubmissionId);
+    assert(!feedbackCleanupVerify.error && feedbackCleanupVerify.data.length === 0, "Preview feedback row still present after cleanup");
+    checks.push({ id: "preview_feedback_cleanup", status: "pass", rowsDeleted: feedbackCleanup.count });
 
     const copilotInvalid = await responseStatus(pageA, "/api/research/copilot", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ geographyCode: "70073", question: "" }) });
     assert(copilotInvalid.status === 400, "Copilot invalid input was not rejected");
