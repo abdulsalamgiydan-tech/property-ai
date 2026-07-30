@@ -1,7 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { feedbackSubmissionSchema, safeFeedbackPath } from "./schema";
+import { feedbackCategories, feedbackSubmissionSchema, safeFeedbackPath } from "./schema";
 
 describe("feedback schema", () => {
+  it("includes idea as a valid category", () => {
+    expect(feedbackCategories).toContain("idea");
+    expect(feedbackSubmissionSchema.safeParse({ category: "idea", message: "Add a dark mode toggle." }).success).toBe(true);
+  });
+
+  it("rejects an unknown category", () => {
+    expect(feedbackSubmissionSchema.safeParse({ category: "suggestion", message: "Hello" }).success).toBe(false);
+  });
+
   it("accepts a valid submission", () => {
     const parsed = feedbackSubmissionSchema.parse({
       category: "bug",

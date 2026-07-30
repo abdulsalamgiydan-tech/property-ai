@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const feedbackCategories = ["bug", "feature_request", "general", "other"] as const;
+export const feedbackCategories = ["bug", "feature_request", "idea", "general", "other"] as const;
 
 export const feedbackSubmissionSchema = z.object({
   category: z.enum(feedbackCategories),

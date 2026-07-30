@@ -9,6 +9,7 @@ import { trackEvent } from "@/lib/analytics/events";
 const categories: { id: FeedbackCategory; label: string }[] = [
   { id: "bug", label: "Bug report" },
   { id: "feature_request", label: "Feature request" },
+  { id: "idea", label: "Idea" },
   { id: "general", label: "General feedback" },
   { id: "other", label: "Other" },
 ];
