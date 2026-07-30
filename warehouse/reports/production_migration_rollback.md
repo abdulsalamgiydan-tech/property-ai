@@ -1,5 +1,9 @@
 # Production Migration Rollback: 042-044
 
+> **Superseded** by `production_migration_rollback_042_046.md` (2026-07-30),
+> which extends this exact rollback SQL to also cover migrations 045 and
+> 046. Kept for history; use the superseding report for current guidance.
+
 Generated: 2026-07-24 23:07 AEST
 
 ## Scope
