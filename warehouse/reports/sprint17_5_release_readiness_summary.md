@@ -1,18 +1,28 @@
 # Sprint 17.5 Release Readiness Summary
 
-Date: 2026-07-30
+Date: 2026-07-30 / reconciled 2026-07-31
 Branch: `feature/sprint17-major-product-expansion`
-PR: [#24](https://github.com/abdulsalamgiydan-tech/property-ai/pull/24) (open, draft)
-Final commit (CI-verified, all workflows green): `30c7134`
-App code last changed at (live Preview UAT target): `22bf12861469ead81cd55f0fb4169a0576eb9494` —
-commits `de115b4` and `19ad2d3` only touch CI workflows, a new test script,
-and docs. Commit `30c7134` adds one additive, non-behavioral change to
-`app/admin/page.tsx` (a `console.warn` on the existing allowlist-rejection
-path, logged before the unchanged `notFound()` call) plus new test files —
-it does not change any gating logic, so the live UAT evidence below still
-applies to the current app code without needing a fresh Preview deployment.
-Preview deployment: `dpl_GkuzV4UW4ta2ENWGF3QpooVfKiE2`
-Preview URL: `https://property-77uznynty-zeebusiness93-2304s-projects.vercel.app`
+PR: [#24](https://github.com/abdulsalamgiydan-tech/property-ai/pull/24) (open, draft, unmerged)
+
+**FINAL RECONCILED HEAD (supersedes all earlier SHAs in this document):**
+`621d8bc5e760bd695b69bd839d4af8fba47cf00b`
+
+The following commit SHAs appear earlier in this document's history and are
+**stale** — none of them is the current PR head. They are kept in the
+narrative below only as a record of what happened at each step, not as a
+release target:
+- `ee33c67` — stale (4 commits behind final head).
+- `22bf12861469ead81cd55f0fb4169a0576eb9494` — stale (5 commits behind final
+  head). **Any prior approval sentence referencing this SHA is void and must
+  not be used.**
+- `c274438` — stale (1 commit behind final head).
+
+Preview deployment (rebuilt and re-verified against the final head during
+reconciliation): `dpl_HoG6HZDhxSPTxKW6RTWJBtNGN8RG`
+Preview URL: `https://property-p2e0q0c2y-zeebusiness93-2304s-projects.vercel.app`
+(The earlier-cited `dpl_GkuzV4UW4ta2ENWGF3QpooVfKiE2` /
+`property-77uznynty-...` was confirmed stale — built from `22bf128` — and is
+superseded by the deployment above.)
 Supabase (Preview/UAT): `warehouse-validation` (ref `lzonauinzatmtytyoems`) — confirmed distinct from Production (`oshquaxsloolqucwvigc`)
 
 This supersedes `sprint17_implementation_matrix.json` (generated 2026-07-25,
@@ -241,9 +251,17 @@ non-behavioral code change, confirmed with Abdul before making it: added
 immediately before the existing allowlist-rejection `notFound()` call,
 plus a new `lib/auth/logAdminAccessDenied.test.ts`.
 
-Verified: full suite green (60 files, 527 tests), lint clean (0 errors,
-same 8 pre-existing unrelated warnings), production build passes. Commit
-`30c7134`.
+Verified: full suite green, lint clean (0 errors, same 8 pre-existing
+unrelated warnings), production build passes. Commit `30c7134` at the time,
+superseded by `c274438` (fixed a self-inflicted secret-scan false positive
+in one of these new tests — see the reconciliation section below) and then
+`621d8bc` (final head).
+
+**Note on a prior miscount:** this section originally claimed "527 tests."
+A fresh, independent `npm ci && npm test` during final reconciliation
+found **506 tests across 60 files** — the 527 figure was wrong (an
+uncorrected estimate in a commit message, not a verified count). 506 is
+the correct, currently-verified number.
 
 **Classification: GO.**
 
@@ -261,20 +279,154 @@ same 8 pre-existing unrelated warnings), production build passes. Commit
   two migrations specifically; flagged here rather than silently assumed
   equivalent.
 
-## Overall Sprint 17.5 classification: GO for the Preview release candidate
+## Final Release Reconciliation (2026-07-31)
 
-All four closeout gaps are GO, and the previously-recorded blocker in
-`sprint17_preview_uat_checkpoint.md` ("Protected authenticated Preview UAT:
-NOT COMPLETED") is resolved and superseded by the live 30/30 pass recorded
-above.
+Performed against the exact final PR head after three prior SHAs
+(`ee33c67`, `22bf128`, `c274438`) were superseded by later commits within
+the same session. Full phase-by-phase detail (branch/PR agreement, Preview
+re-verification, re-run gates, diff classification, migration detail, UAT
+re-run, entitlement decision, credential housekeeping) is in the chat
+record for this reconciliation; the operative conclusions are:
 
-**Production remains untouched and requires Abdul's explicit approval before
-any of the following occurs:** merging PR #24, merging into `main`, applying
-migrations to Production, changing Production environment variables, or
-deploying to Production. Exact approval sentence for Abdul to send when
-ready:
+- Local HEAD, `origin/feature/sprint17-major-product-expansion`, and PR #24
+  headRefOid all agree on `621d8bc5e760bd695b69bd839d4af8fba47cf00b`.
+  Working tree clean. No unexplained commits, no force-push/rewrite (reflog
+  shows only ordinary `commit` entries).
+- The previously-cited Preview (`dpl_GkuzV4UW4ta2ENWGF3QpooVfKiE2`) was 4
+  commits stale. Vercel's normal auto-deploy had already built a correct
+  Preview for the final head (`dpl_HoG6HZDhxSPTxKW6RTWJBtNGN8RG`); its
+  attestation confirms exact commit match, warehouse-validation on both
+  sides, Production ref absent, admin/service-role absent. The live
+  authenticated UAT harness was re-run against this deployment (not reused
+  from the older one): 30/30 checks pass, feedback cleanup deleted exactly
+  1 row, 0 residual rows independently re-verified afterward.
+- All required quality gates re-run from a clean `npm ci` on the final
+  head: lint (0 errors), test (506 tests / 60 files), build, warehouse
+  file/RLS/lineage checks, `npm audit --omit=dev --audit-level=high` (0
+  vulnerabilities), full `npm audit` (2 advisories, both matching the
+  documented dev/tooling exception, no new advisories), secret scan (0
+  findings). GitHub Actions independently confirms Secret Scan and
+  Warehouse Validation green on both push and pull_request triggers for
+  the final head.
+- The one prior CI failure (Secret Scan, commit `30c71342f626ea613a361b5b80ddf1eda986ea97`,
+  both push and pull_request runs) was a self-inflicted false positive: a
+  test fixture in `app/api/research/copilot/route.test.ts` used a literal
+  `sk-ant-...`-shaped fake string. It was never a real credential, was
+  fixed in the very next commit (`c274438`), and no real secret ever
+  entered git history at any point.
+- Diff `origin/main...HEAD`: 26 commits, 66 files changed, 3,967
+  insertions, 323 deletions. No `.env` files, credentials, cookies, local
+  databases, browser profiles, or unexplained binaries found in the diff
+  or in git history for `.env.uat.local` specifically.
+- 2 migrations beyond Production's baseline of 044: `045` (additive
+  columns/constraints/indexes on the existing `user_onboarding_preferences`
+  and `user_feedback` tables — 19 added columns, 14 new constraints, 2 new
+  indexes, no new tables) and `046` (grant-only — 19 revokes / 18 grants on
+  pre-existing views/functions created in migrations 014/016/023, already
+  in Production; no schema objects added or removed). Both idempotent,
+  additive, RLS-preserving. Clean replay (001→046) and the 045 rollback
+  rehearsal (33 assertions) re-confirmed on the final head via manual
+  workflow dispatch. Upgrade-replay specifically (044-snapshot + only
+  045/046) was not separately executed — flagged as an open gap, not
+  silently assumed equivalent, though both migrations' idempotent/additive
+  design makes divergence from the clean replay unlikely.
+- Copilot: Production remains fully disabled — no `RESEARCH_COPILOT_ENABLED`,
+  `INTERNAL_OPERATIONS_ENABLED`, `ADMIN_EMAILS`, `SUPABASE_SERVICE_ROLE_KEY`,
+  or `PUBLIC_API_V1_ENABLED` exists in Vercel Production env (confirmed via
+  `vercel env ls production`; only pre-existing `ANTHROPIC_API_KEY`,
+  `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+  `NEXT_PUBLIC_SUPABASE_URL` are present, none of which activate Copilot,
+  Admin, or API v1 on their own). The `research_preview: "free"` entitlement
+  question from Gap 6 remains an open product decision, not resolved here.
+- `.env.uat.local`: gitignored (`.gitignore:54`), never tracked, never
+  appears anywhere in git history, absent from `.next/` build output,
+  mentioned only by filename (never by value) in this report. Recommended
+  disposition: safe to delete now that this reconciliation is complete, but
+  not deleted without Abdul's explicit approval. Safe deletion command:
+  `Remove-Item -Path .env.uat.local -Force` (run from the repo root; has no
+  effect on git history since the file was never tracked).
 
-> I approve merging PR #24 and deploying the current
-> `feature/sprint17-major-product-expansion` branch (commit
-> `22bf12861469ead81cd55f0fb4169a0576eb9494`) to Production, including its
-> Stage 1 migrations (authentication, onboarding, settings, feedback).
+## Final classifications (2026-07-31 reconciliation)
+
+| Area | Classification |
+| --- | --- |
+| Authentication/session persistence | GO |
+| Authenticated Preview UAT | GO |
+| Onboarding/settings | GO |
+| Feedback | GO |
+| Research | GO |
+| API v1 | GO |
+| Copilot Preview | GO |
+| Copilot Production | NO-GO (must remain disabled; entitlement-tier decision outstanding) |
+| Operations Preview | GO |
+| Admin Production | NO-GO (must remain disabled) |
+| Dependency security | GO |
+| Secret scanning | GO |
+| Migration readiness | CONDITIONAL GO (clean replay + 045 rollback rehearsal both pass on final head; upgrade-replay from a 044 snapshot specifically not separately executed) |
+| PR readiness | GO (draft, mergeable, CI green on exact final head) |
+| Production database readiness | NOT COMPLETED (no Production migration has been applied or rehearsed against a real Production-equivalent database this session; only disposable/warehouse-validation environments) |
+| Production deployment readiness | NOT COMPLETED — awaiting Abdul's explicit approval below |
+
+## Production remains untouched
+
+PR #24 is draft and unmerged. No Production database, deployment,
+environment variable, or Auth change has occurred. Two staged approval
+options follow; **no previous approval sentence from this document is
+valid — both reference the stale `22bf128` SHA and must not be reused.**
+
+### OPTION A — lowest-risk staged release
+
+> I approve merging PR #24 at commit
+> `621d8bc5e760bd695b69bd839d4af8fba47cf00b` and deploying
+> `feature/sprint17-major-product-expansion` to Production. I understand
+> merging this PR triggers a Production deployment. This approval covers
+> applying Production migrations `045_sprint17_preferences_feedback_controls.sql`
+> and `046_research_api_grant_hardening.sql` only, and enabling only:
+> authentication/session handling, onboarding, settings, and feedback.
+> Research Hub, API v1, Property Copilot, and the operations/admin console
+> must remain disabled in Production (no `PUBLIC_API_V1_ENABLED`,
+> `WAREHOUSE_PREVIEW_ENABLED`, `RESEARCH_COPILOT_ENABLED`,
+> `INTERNAL_OPERATIONS_ENABLED`, or `ADMIN_EMAILS` may be set). If any
+> required post-deployment check fails, stop immediately, do not proceed
+> further, and report back before taking any corrective action. Rollback
+> target if needed: Production deployment `dpl_7ZE6XAiaDBUc6NfzkWFrMwBuSf5x`
+> (commit `71d93c54a2dad8d2952ab6d7355efa3b5a6f16a0`). A full authenticated
+> post-deployment UAT pass against Production is required before this
+> release is considered complete.
+
+### OPTION B — broader approved release
+
+> I approve merging PR #24 at commit
+> `621d8bc5e760bd695b69bd839d4af8fba47cf00b` and deploying
+> `feature/sprint17-major-product-expansion` to Production. I understand
+> merging this PR triggers a Production deployment. This approval covers
+> applying Production migrations `045_sprint17_preferences_feedback_controls.sql`
+> and `046_research_api_grant_hardening.sql` only, and enabling:
+> authentication/session handling, onboarding, settings, feedback, the
+> research warehouse layer, the Research Hub, and API v1
+> (`PUBLIC_API_V1_ENABLED` and `WAREHOUSE_PREVIEW_ENABLED` may be set in
+> Production). Property Copilot and the operations/admin console must
+> remain disabled in Production (no `RESEARCH_COPILOT_ENABLED`,
+> `INTERNAL_OPERATIONS_ENABLED`, or `ADMIN_EMAILS` may be set). If any
+> required post-deployment check fails, stop immediately, do not proceed
+> further, and report back before taking any corrective action. Rollback
+> target if needed: Production deployment `dpl_7ZE6XAiaDBUc6NfzkWFrMwBuSf5x`
+> (commit `71d93c54a2dad8d2952ab6d7355efa3b5a6f16a0`). A full authenticated
+> post-deployment UAT pass against Production, including Research Hub and
+> API v1 smoke checks, is required before this release is considered
+> complete.
+
+### Recommendation: Option A
+
+Option A is the recommended choice. Both migrations are identical in
+either option, so migration risk is the same — the difference is purely
+how much *application surface* goes live at once. Research Hub and API v1
+are independently verified GO, but they are also new public-facing surface
+area with their own operational profile (external callers for API v1,
+warehouse read load for Research Hub) that has not yet been observed under
+real Production traffic. Option A lets authentication, onboarding,
+settings, and feedback — the highest-priority, most foundational pieces —
+ship and prove out in Production first, with Research Hub and API v1
+following as their own controlled, independently-approvable step once
+Option A is stable. This matches the sprint's own stated principle: "Do
+not combine all five stages into one uncontrolled Production release."
