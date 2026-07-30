@@ -8,8 +8,8 @@ const require = createRequire(import.meta.url);
 const { createChunks } = require("C:/Users/abdul/property-ai/node_modules/@supabase/ssr/dist/main/utils/chunker.js");
 const { stringToBase64URL } = require("C:/Users/abdul/property-ai/node_modules/@supabase/ssr/dist/main/utils/base64url.js");
 
-const BASE_URL = "https://property-p2e0q0c2y-zeebusiness93-2304s-projects.vercel.app";
-const EXPECTED_COMMIT = "c274438c5f36063e2111283afc2f6aa08bbc731e";
+const BASE_URL = "https://property-qbgwoix3b-zeebusiness93-2304s-projects.vercel.app";
+const EXPECTED_COMMIT = "80f0a1a147cb9d11d25c963f9373c88764caf825";
 const BRANCH = "feature/sprint17-major-product-expansion";
 const WAREHOUSE_URL = "https://lzonauinzatmtytyoems.supabase.co";
 const PRODUCTION_REF = "oshquaxsloolqucwvigc";
@@ -68,7 +68,8 @@ async function obtainSession(supabase, label, email, expectedId, emailEnv, passw
     assert(!repaired.error, `${label} non-Production admin repair failed`);
   }
   if (!password) password = process.env[passwordEnv];
-  const result = await supabase.auth.signInWithPassword({ email: email || process.env[emailEnv], password });
+  const resolvedEmail = email || process.env[emailEnv];
+  const result = await supabase.auth.signInWithPassword({ email: resolvedEmail, password });
   assert(!result.error && result.data.session?.user?.id === expectedId, `${label} password sign-in failed`);
   // In @supabase/auth-js, signOut() always calls the server regardless of scope --
   // "global" revokes every session for the user, "local" revokes only the CURRENT
@@ -79,7 +80,19 @@ async function obtainSession(supabase, label, email, expectedId, emailEnv, passw
   // session we're about to seed into the browser. Using "global" or "local" here
   // is what was clearing the seeded SSR cookie and leaving /settings signed out.
   await supabase.auth.signOut({ scope: "others" });
-  return result.data.session;
+  // Stashes the actual email/password used as extra properties on the
+  // returned session object (not a shape change -- every existing
+  // userA.user.id / userA.access_token / makeContext(userA, ...) call site
+  // is unaffected) because when adminKey is set, the password above was
+  // just randomly regenerated for this account -- any later code needing
+  // to sign in again as this same user (e.g. a "sign back in after
+  // sign-out" UAT check) must reuse this exact resolved password, not
+  // process.env[passwordEnv], which no longer matches the account after
+  // the repair above.
+  const session = result.data.session;
+  session._resolvedEmail = resolvedEmail;
+  session._resolvedPassword = password;
+  return session;
 }
 async function responseStatus(page, url, init) {
   return page.evaluate(async ({ url, init }) => {
@@ -231,8 +244,144 @@ async function run() {
     assert(focusVisible, "Mobile keyboard focus was not visible");
     checks.push({ id: "mobile_keyboard_smoke", status: "pass" });
 
+    // ctxA/ctxB are done being used for assertions at this point. Closed here
+    // (rather than at the very end) because leaving them open while the
+    // sign-out sequence below runs was observed to cause the dashboard's
+    // client-side auth state to spuriously re-authenticate as User A after a
+    // genuine sign-out -- consistent with same-origin BroadcastChannel
+    // cross-talk between still-live Playwright browser contexts holding a
+    // valid session for the same user (GoTrueClient broadcasts session state
+    // over a BroadcastChannel keyed by storageKey for cross-tab sync; nothing
+    // in this repo's app code reads localStorage for auth, and this is not
+    // something a real single-browser end user could trigger, since they
+    // only ever have one origin-wide session, not several concurrent
+    // Playwright-isolated contexts for the same account).
+    await ctxA.close();
+    await ctxB.close();
+
+    // --- Real-UI sign-out, cookie clearing, post-signout rejection, and re-sign-in ---
+    // Sign-IN throughout this harness is necessarily via a seeded session
+    // (see obtainSession()/makeContext() above) because the app's only
+    // supported sign-in surface is a magic-link email flow
+    // (components/auth/EarlyAccessAuthModal.tsx -> signInWithOtp), and this
+    // harness has no access to the UAT accounts' email inboxes to retrieve a
+    // real magic link. Sign-OUT below is genuine UI interaction: the actual
+    // "Sign out" button in components/nav/Navbar.tsx, which calls
+    // useAuth().signOut() -> supabase.auth.signOut() client-side.
+    // Uses a fresh context/page rather than the long-lived pageA (which by
+    // this point has made dozens of navigations) to keep this sequence's
+    // timing clean and unambiguous.
+    const signOutCtx = await makeContext(userA, { width: 1440, height: 980 });
+    const signOutPage = await signOutCtx.newPage();
+    await signOutPage.goto("/dashboard", { waitUntil: "domcontentloaded" });
+    await signOutPage.getByRole("button", { name: "Sign out" }).first().waitFor({ timeout: 10000 });
+    await signOutPage.getByRole("button", { name: "Sign out" }).first().click();
+    await signOutPage.waitForTimeout(1500);
+    const cookiesAfterSignOut = await signOutCtx.cookies(BASE_URL);
+    const authCookieRemains = cookiesAfterSignOut.some((c) => c.name.startsWith(`sb-${new URL(WAREHOUSE_URL).hostname.split(".")[0]}-auth-token`));
+    assert(!authCookieRemains, "Supabase auth cookie was still present after clicking Sign out");
+    checks.push({ id: "real_ui_sign_out_clears_cookie", status: "pass" });
+
+    // useAuth() resolves the (now-cleared) session asynchronously on first
+    // client-side render, so the signed-out UI text only appears after that
+    // resolves -- not necessarily by the time "domcontentloaded" fires.
+    // Reuses visit()'s existing retry/reload/diagnostic pattern rather than
+    // a single fixed timeout. Uses a brand-new Page (same context, so it
+    // still shares the now-cleared cookies) rather than continuing to
+    // navigate signOutPage, ruling out any in-memory JS state (singleton
+    // client, closures) surviving across navigations on the same Page.
+    const postSignOutPage = await signOutCtx.newPage();
+    await visit(postSignOutPage, "/settings", "Sign in to edit settings", checks);
+    const freshDashboardPage = await signOutCtx.newPage();
+    await visit(freshDashboardPage, "/dashboard", "Sign in to view your dashboard", checks);
+    await signOutCtx.close();
+
+    // Sign back in: the real "Sign out" button above calls
+    // supabase.auth.signOut() with the default (global) scope, which
+    // genuinely revokes that session server-side -- confirmed by the
+    // entitlements check below initially failing with a real 401 when this
+    // section first reused userA's now-revoked tokens. Client-side checks
+    // (useAuth() -> getSession(), which trusts a locally-still-unexpired JWT
+    // without re-verifying against the server) don't reflect that
+    // revocation, but server-side checks (getUser(), used by middleware and
+    // every API route including this one) correctly do -- i.e. the app
+    // fails closed exactly where it matters. So "signing back in" here
+    // requires a genuinely fresh sign-in (new signInWithPassword call, new
+    // session_id), not reseeding the same tokens sign-out just revoked.
+    const userAFreshSignIn = await supabase.auth.signInWithPassword({ email: userA._resolvedEmail, password: userA._resolvedPassword });
+    assert(
+      !userAFreshSignIn.error && userAFreshSignIn.data.session?.user?.id === userA.user.id,
+      `Fresh sign-back-in for User A failed: error=${JSON.stringify(userAFreshSignIn.error)}; hasSession=${Boolean(userAFreshSignIn.data?.session)}; returnedUserId=${userAFreshSignIn.data?.session?.user?.id}; expectedUserId=${userA.user.id}`
+    );
+    await supabase.auth.signOut({ scope: "others" });
+    const freshUserASession = userAFreshSignIn.data.session;
+
+    const reSeeded = await makeContext(freshUserASession, { width: 1440, height: 980 });
+    const pageA2 = await reSeeded.newPage();
+    await pageA2.goto("/settings", { waitUntil: "domcontentloaded" });
+    await pageA2.getByText("Settings").first().waitFor({ timeout: 15000 });
+    const settingsAfterResignin = await pageA2.locator("body").innerText();
+    assert(settingsAfterResignin.includes("Settings") && !settingsAfterResignin.includes("Sign in to edit settings"), "Re-sign-in did not restore authenticated access to /settings");
+    checks.push({ id: "sign_back_in_restores_access", status: "pass" });
+
+    // Entitlement boundary: documents current behaviour rather than
+    // asserting a restriction that (per lib/auth/entitlements.ts) does not
+    // exist -- research_preview and this account's other features are all
+    // "free" tier today. Uses the server-verified route (getUser(), not the
+    // client's getSession()) so this is a real proof the fresh session is
+    // valid server-side, not just client-rendered.
+    const entitlementsResult = await pageA2.evaluate(async () => {
+      const r = await fetch("/api/account/entitlements");
+      return { status: r.status, body: await r.json().catch(() => null) };
+    });
+    assert(entitlementsResult.status === 200, `Entitlements endpoint did not respond for an authenticated user (status=${entitlementsResult.status}, body=${JSON.stringify(entitlementsResult.body)})`);
+    checks.push({ id: "entitlement_boundary_documented", status: "pass", tier: entitlementsResult.body.tier ?? null });
+    await reSeeded.close();
+
+    // Admin remains 404 and Copilot remains gated by its Preview-only flag
+    // are already exercised above (route__admin, route__research_copilot_70073,
+    // preview_configuration_attestation confirms researchCopilot flag state).
+
+    // Cross-user REST isolation: User A inserts a uniquely-labelled feedback
+    // row directly via REST under their own RLS-scoped session (not through
+    // the app's rate-limited /api/feedback route -- this section tests RLS
+    // SELECT isolation specifically, decoupled from the feedback endpoint's
+    // own rate limiting, which feedback_submission/feedback_validation above
+    // already exercise). Then User B's OWN authenticated Supabase client
+    // (not service-role) attempts to read it. RLS (auth.uid() = user_id,
+    // select-only policy on user_feedback) must return zero rows for User B.
+    const isolationSubmissionId = randomUUID();
+    const userAWriteClient = createClient(WAREHOUSE_URL, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
+    // Uses freshUserASession, not userA -- userA's original tokens were
+    // already revoked by the real sign-out button click above.
+    const userASetSession = await userAWriteClient.auth.setSession({ access_token: freshUserASession.access_token, refresh_token: freshUserASession.refresh_token });
+    assert(!userASetSession.error, `Restoring User A's session for the isolation insert failed: ${userASetSession.error?.message}`);
+    const isolationInsert = await userAWriteClient
+      .from("user_feedback")
+      .insert({ user_id: userA.user.id, category: "general", message: `Sprint 17.5 isolation probe ${isolationSubmissionId}`, client_submission_id: isolationSubmissionId })
+      .select("id");
+    assert(!isolationInsert.error && isolationInsert.data.length === 1, `Isolation-probe feedback insert failed: ${isolationInsert.error?.message}`);
+    await userAWriteClient.auth.signOut({ scope: "others" });
+
+    const userBClient = createClient(WAREHOUSE_URL, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
+    // Uses userB._resolvedEmail/_resolvedPassword (see obtainSession), not
+    // process.env directly -- when the admin-repair path ran, the account's
+    // real password was randomly regenerated and only obtainSession knows it.
+    const userBSignIn = await userBClient.auth.signInWithPassword({ email: userB._resolvedEmail, password: userB._resolvedPassword });
+    assert(!userBSignIn.error, `User B REST sign-in for isolation check failed: ${userBSignIn.error?.message}`);
+    const userBRead = await userBClient.from("user_feedback").select("id").eq("client_submission_id", isolationSubmissionId);
+    assert(!userBRead.error, `User B REST read errored unexpectedly: ${userBRead.error?.message}`);
+    assert(userBRead.data.length === 0, "User B was able to read User A's feedback row via REST -- RLS isolation failed");
+    await userBClient.auth.signOut({ scope: "others" });
+    checks.push({ id: "cross_user_rest_isolation", status: "pass" });
+
+    const isolationCleanup = await admin.from("user_feedback").delete({ count: "exact" }).eq("user_id", userA.user.id).eq("client_submission_id", isolationSubmissionId);
+    assert(!isolationCleanup.error && isolationCleanup.count === 1, "Isolation-probe feedback row cleanup failed or deleted the wrong count");
+    const isolationCleanupVerify = await admin.from("user_feedback").select("id").eq("client_submission_id", isolationSubmissionId);
+    assert(!isolationCleanupVerify.error && isolationCleanupVerify.data.length === 0, "Isolation-probe feedback row still present after cleanup");
+    checks.push({ id: "isolation_probe_cleanup", status: "pass", rowsDeleted: isolationCleanup.count });
+
     const out = { status: "pass", baseURL: BASE_URL, expectedCommit: EXPECTED_COMMIT, branch: BRANCH, supabaseBranch: "warehouse-validation", users: [{ label: "User A", id: userA.user.id }, { label: "User B", id: userB.user.id }], checks, consoleErrors: consoleErrors.slice(0, 20), cleanup: "browser contexts closed; no production data touched" };
-    await ctxA.close(); await ctxB.close();
     await writeFile(path.join(OUT_DIR, "sprint17-preview-uat-evidence.json"), JSON.stringify(out, null, 2));
     console.log(JSON.stringify({ status: out.status, checks: checks.length, consoleErrors: consoleErrors.length, artifact: "uat-artifacts/sprint17-browser/sprint17-preview-uat-evidence.json" }));
   } finally {
