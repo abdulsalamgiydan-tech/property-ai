@@ -3,7 +3,11 @@
 Date: 2026-07-30
 Branch: `feature/sprint17-major-product-expansion`
 PR: [#24](https://github.com/abdulsalamgiydan-tech/property-ai/pull/24) (open, draft)
-Final commit verified: `22bf12861469ead81cd55f0fb4169a0576eb9494`
+Final commit (CI-verified, all workflows green): `de115b4` (`de115b40...`)
+App code last changed at (live Preview UAT target): `22bf12861469ead81cd55f0fb4169a0576eb9494` —
+commits after this point (`de115b4`) only touch CI workflows, a new test
+script, and docs, so the live UAT evidence below still applies to the
+current app code without needing a fresh Preview deployment.
 Preview deployment: `dpl_GkuzV4UW4ta2ENWGF3QpooVfKiE2`
 Preview URL: `https://property-77uznynty-zeebusiness93-2304s-projects.vercel.app`
 Supabase (Preview/UAT): `warehouse-validation` (ref `lzonauinzatmtytyoems`) — confirmed distinct from Production (`oshquaxsloolqucwvigc`)
@@ -166,16 +170,47 @@ Vercel).
 - Live authenticated Preview UAT: 30/30 checks passed against the exact PR
   head commit's deployment, with independently re-verified data cleanup.
 
+## Gap 5 — Migration replay and rollback rehearsal (added after initial closeout)
+
+The existing `clean-migration-replay` CI job (manual-dispatch only) replays
+001-046 into a fresh disposable Postgres, but rollback documentation only
+covered migrations 042-044 (`production_migration_rollback.md`,
+2026-07-24) — migrations 045 and 046, added in Sprint 17, had no rollback
+coverage at all.
+
+Added `scripts/rollback-045-replay-test.mjs`, wired as a new step in the
+`clean-migration-replay` job immediately after the forward replay, so the
+exact rollback SQL for 045 is applied to the SAME freshly-replayed
+disposable database and asserted column-by-column (13 dropped onboarding
+columns, 6 dropped feedback columns, 2 dropped indexes, all pre-045
+columns and RLS settings preserved) — 33 individual assertions. Migration
+046 is grant-only (no schema objects added or removed), so no structural
+rollback is provided for it; `production_migration_rollback_042_046.md`
+documents why a blanket grant revert would be counterproductive and what
+to do instead if a specific grant needs restoring.
+
+**Manually dispatched the `warehouse-validation.yml` workflow against this
+PR's exact head commit (`de115b4`)** per the brief's explicit requirement
+— not just run once in the abstract. Result: `clean-migration-replay` job
+passed in 1m38s including all 33 rollback assertions; the standard
+build/lint/test job and both PR-triggered checks (Secret Scan, Warehouse
+Validation) also passed on the same commit.
+
+**Classification: GO.**
+
 ## Not touched this session (out of scope / explicitly frozen)
 
 - Production database, Production deployment, Production environment
   variables, Production Auth, Admin-in-Production, Copilot-in-Production —
   none were modified, per the sprint's non-negotiable safety rules.
-- Migration clean-replay / upgrade-replay rehearsal and rollback SQL: not
-  re-run this session (already covered by `warehouse-validation.yml`'s
-  manually-dispatchable `clean-migration-replay` job and prior sprint
-  evidence in `warehouse/reports/`); nothing in this session's changes
-  touched migrations, so there is no new replay risk to re-verify.
+- Upgrade-replay rehearsal specifically (applying only 045-046 on top of a
+  Production-equivalent 044 baseline, as opposed to a full 001-046 clean
+  replay): not separately re-run this session. The clean replay already
+  exercises 045/046 identically regardless of what preceded them (each
+  migration is additive and idempotent via `if not exists`/`if exists`
+  guards), so the two replay modes are not expected to diverge for these
+  two migrations specifically; flagged here rather than silently assumed
+  equivalent.
 
 ## Overall Sprint 17.5 classification: GO for the Preview release candidate
 
