@@ -4,6 +4,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { createAdminSupabaseClient } from "@/lib/supabase/adminClient";
 import { isAdminEmail } from "@/lib/auth/isAdminEmail";
+import { logAdminAccessDenied } from "@/lib/auth/logAdminAccessDenied";
 import { isInternalOperationsEnabled } from "@/lib/warehouse/env";
 
 export const metadata: Metadata = { title: "Admin | Propellect", robots: { index: false, follow: false } };
@@ -19,6 +20,12 @@ type FeedbackRow = { id: string; category: string; message: string; page_path: s
  * for anyone who fails a gate, matching the "never reveal a gated route"
  * pattern used elsewhere. The service-role client is only instantiated
  * after every route-level gate passes.
+ *
+ * An allowlist rejection (gate 3) is logged via logAdminAccessDenied --
+ * outcome and internal user id only, never the email/PII -- so a rejected
+ * access attempt is visible in server logs. The flag/config gates (1, 2)
+ * are left unlogged since they reflect deployment state, not an access
+ * attempt by a person.
  */
 export default async function AdminPage() {
   if (!isInternalOperationsEnabled()) notFound();
@@ -29,7 +36,10 @@ export default async function AdminPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!isAdminEmail(user?.email, process.env.ADMIN_EMAILS)) notFound();
+  if (!isAdminEmail(user?.email, process.env.ADMIN_EMAILS)) {
+    logAdminAccessDenied(user);
+    notFound();
+  }
 
   const admin = createAdminSupabaseClient();
 
