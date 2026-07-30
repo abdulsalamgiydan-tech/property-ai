@@ -4,6 +4,7 @@ import path from "node:path";
 import { performance } from "node:perf_hooks";
 import process from "node:process";
 import { Client } from "pg";
+import { fileURLToPath } from "node:url";
 
 const repoRoot = process.cwd();
 const migrationsDir = path.join(repoRoot, "supabase", "migrations");
@@ -36,7 +37,7 @@ const userOwnedTables = [
   "user_feedback",
 ];
 
-function assertSafeLocalUrl(url) {
+export function assertSafeLocalUrl(url) {
   if (!url) throw new Error("CLEAN_REPLAY_DATABASE_URL is required");
   const parsed = new URL(url);
   const host = parsed.hostname;
@@ -48,7 +49,7 @@ function assertSafeLocalUrl(url) {
   }
 }
 
-async function migrationFiles() {
+export async function migrationFiles() {
   const files = (await fs.readdir(migrationsDir))
     .filter((file) => file.endsWith(".sql"))
     .sort();
@@ -65,7 +66,7 @@ async function migrationFiles() {
   return files;
 }
 
-async function bootstrapSupabasePrimitives(client) {
+export async function bootstrapSupabasePrimitives(client) {
   await client.query(`
     create schema if not exists auth;
     create schema if not exists extensions;
@@ -105,7 +106,7 @@ async function bootstrapSupabasePrimitives(client) {
   `);
 }
 
-async function applyMigrations(client, files) {
+export async function applyMigrations(client, files) {
   const applied = [];
   for (const file of files) {
     const sql = await fs.readFile(path.join(migrationsDir, file), "utf8");
@@ -116,7 +117,7 @@ async function applyMigrations(client, files) {
   return applied;
 }
 
-async function collectChecks(client, files) {
+export async function collectChecks(client, files) {
   const tables = await client.query(
     `
       select schemaname, tablename
@@ -241,7 +242,14 @@ async function main() {
   console.log(JSON.stringify({ status: report.status, migrationCount: report.migrationCount, artifact: "clean-replay-artifacts/clean-migration-chain-report.json" }));
 }
 
-main().catch((error) => {
-  console.error(`clean migration replay failed: ${error.message}`);
-  process.exit(1);
-});
+// Guarded so scripts/upgrade-migration-replay.mjs can import the helpers
+// above (bootstrapSupabasePrimitives, applyMigrations, collectChecks,
+// migrationFiles, assertSafeLocalUrl) without triggering a real replay run
+// as a side effect of the import.
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) {
+  main().catch((error) => {
+    console.error(`clean migration replay failed: ${error.message}`);
+    process.exit(1);
+  });
+}
