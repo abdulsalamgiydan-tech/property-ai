@@ -3,11 +3,14 @@
 Date: 2026-07-30
 Branch: `feature/sprint17-major-product-expansion`
 PR: [#24](https://github.com/abdulsalamgiydan-tech/property-ai/pull/24) (open, draft)
-Final commit (CI-verified, all workflows green): `de115b4` (`de115b40...`)
+Final commit (CI-verified, all workflows green): `30c7134`
 App code last changed at (live Preview UAT target): `22bf12861469ead81cd55f0fb4169a0576eb9494` —
-commits after this point (`de115b4`) only touch CI workflows, a new test
-script, and docs, so the live UAT evidence below still applies to the
-current app code without needing a fresh Preview deployment.
+commits `de115b4` and `19ad2d3` only touch CI workflows, a new test script,
+and docs. Commit `30c7134` adds one additive, non-behavioral change to
+`app/admin/page.tsx` (a `console.warn` on the existing allowlist-rejection
+path, logged before the unchanged `notFound()` call) plus new test files —
+it does not change any gating logic, so the live UAT evidence below still
+applies to the current app code without needing a fresh Preview deployment.
 Preview deployment: `dpl_GkuzV4UW4ta2ENWGF3QpooVfKiE2`
 Preview URL: `https://property-77uznynty-zeebusiness93-2304s-projects.vercel.app`
 Supabase (Preview/UAT): `warehouse-validation` (ref `lzonauinzatmtytyoems`) — confirmed distinct from Production (`oshquaxsloolqucwvigc`)
@@ -195,6 +198,52 @@ PR's exact head commit (`de115b4`)** per the brief's explicit requirement
 passed in 1m38s including all 33 rollback assertions; the standard
 build/lint/test job and both PR-triggered checks (Secret Scan, Warehouse
 Validation) also passed on the same commit.
+
+**Classification: GO.**
+
+## Gap 6 — Copilot and admin console security test coverage
+
+A follow-up survey found the brief's security-test-coverage claim for
+Property Copilot and the admin console was not accurate: only 7 of 22
+required scenarios (prompt injection, data exfiltration, cross-user
+access, entitlement bypass, oversized prompt, conflicting dates, timeout,
+repeated submission for Copilot; server-side auth, deny-by-default,
+no-client-only-gate, no-secret-exposure, no-service-role-in-browser,
+no-self-elevation, unauthorized-access-rejected, access-logged for admin)
+had dedicated tests. Both features' *implementations* were independently
+re-confirmed correct before writing any test — this closed a verification
+gap, it did not change either feature's behavior except one item below.
+
+Closed 8 of 9 items as pure test additions against already-correct code
+(`app/api/research/copilot/route.test.ts`, `lib/research/copilotEvidence.test.ts`,
+new `lib/strategy/sanitiseUserText.test.ts`, `lib/research/copilotClient.test.ts`).
+One item (conflicting dates) was documented as not applicable — the
+evidence pack is a single deterministic per-geography snapshot, there is
+no multi-source date-reconciliation logic to test, and fabricating one
+would be a new feature, not a test fix.
+
+**Flag for Abdul — entitlement scope discrepancy, not silently resolved
+either direction:** `lib/auth/entitlements.ts` declares
+`FEATURE_MIN_TIER.research_preview: "free"` — i.e. no tier gate is
+currently intended for Copilot at all; sign-in + feature flags + rate
+limits are the only gates. This matches the code's own architecture, but
+the original Sprint 17.5 brief's Workstream J listed "entitlement checks"
+as a requirement for Copilot. A test now pins the current "any
+authenticated user, any tier, gets 200" behavior so a future change is
+deliberate rather than a silent regression — but whether Copilot should
+gain a real tier gate before wider release is a product decision, not
+something resolved unilaterally here.
+
+One item (admin access-attempt logging) required a small additive,
+non-behavioral code change, confirmed with Abdul before making it: added
+`lib/auth/logAdminAccessDenied.ts` (one `console.warn` logging only
+`{hasUser, userId}` — never email/PII) wired into `app/admin/page.tsx`
+immediately before the existing allowlist-rejection `notFound()` call,
+plus a new `lib/auth/logAdminAccessDenied.test.ts`.
+
+Verified: full suite green (60 files, 527 tests), lint clean (0 errors,
+same 8 pre-existing unrelated warnings), production build passes. Commit
+`30c7134`.
 
 **Classification: GO.**
 

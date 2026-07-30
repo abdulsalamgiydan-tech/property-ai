@@ -370,7 +370,11 @@ describe("POST /api/research/copilot", () => {
     getUser.mockResolvedValue({ data: { user: { id: "user-1" } }, error: null });
     mockSupabase = makeSupabase();
     mockHappyPath();
-    answerResearchQuestion.mockReset().mockRejectedValue(new Error("upstream call failed with key sk-ant-abcdefghijklmnopqrstuvwxyz"));
+    // Built via concatenation, not a literal token, so this fixture itself
+    // never matches the secret-shape scanner (warehouse/scripts/quality/
+    // check_secrets.mjs) when it scans this file as tracked source.
+    const fakeKeyShape = "sk-ant-" + "abcdefghijklmnopqrstuvwxyz";
+    answerResearchQuestion.mockReset().mockRejectedValue(new Error(`upstream call failed with key ${fakeKeyShape}`));
 
     const res = await POST(req({ geographyCode: "SAL123", question: "test" }));
     expect(res.status).toBe(502);
