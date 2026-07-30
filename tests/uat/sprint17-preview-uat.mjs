@@ -70,16 +70,11 @@ async function obtainSession(supabase, label, email, expectedId, emailEnv, passw
   if (!password) password = process.env[passwordEnv];
   const result = await supabase.auth.signInWithPassword({ email: email || process.env[emailEnv], password });
   assert(!result.error && result.data.session?.user?.id === expectedId, `${label} password sign-in failed`);
-  await supabase.auth.signOut();
-  return result.data.session;
-}
-async function signIn(supabase, emailEnv, passwordEnv, label) {
-  const email = process.env[emailEnv];
-  const password = process.env[passwordEnv];
-  assert(email && password, `${label} credentials are missing from the process`);
-  const result = await supabase.auth.signInWithPassword({ email, password });
-  assert(!result.error && result.data.session?.user?.id, `${label} password sign-in failed`);
-  await supabase.auth.signOut();
+  // scope: "local" only clears this client's in-memory state. A default/global signOut()
+  // revokes the refresh token server-side, so the session handed back would already be
+  // dead by the time it's seeded into a browser context (this is what was clearing the
+  // seeded SSR cookie and leaving /settings signed out).
+  await supabase.auth.signOut({ scope: "local" });
   return result.data.session;
 }
 async function responseStatus(page, url, init) {

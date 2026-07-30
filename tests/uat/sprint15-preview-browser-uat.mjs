@@ -165,7 +165,9 @@ async function signInApprovedUser(supabaseUrl, apiKey, email, password, label) {
   if (signedIn.error) throw new Error(`${label} password sign-in failed after admin repair: ${signedIn.error.message}`);
   const session = signedIn.data.session;
   assert(session?.access_token && session?.refresh_token && session.user?.id, `No real Supabase session for ${label}`);
-  await supabase.auth.signOut();
+  // scope: "local" avoids revoking the refresh token server-side, which would
+  // invalidate this session before it gets seeded into a browser context.
+  await supabase.auth.signOut({ scope: "local" });
   return session;
 }
 
