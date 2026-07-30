@@ -1,5 +1,7 @@
 {
   "sprint": "17",
+  "superseded_by": "warehouse/reports/sprint17_5_release_readiness_summary.md",
+  "superseded_note": "Generated 2026-07-25, before Sprint 17.5's independent re-verification. Onboarding, feedback, Copilot, and admin below are recorded as pending/first-slice but were confirmed COMPLETE and test-covered on 2026-07-30 -- see the superseding report for current status.",
   "branch": "feature/sprint17-major-product-expansion",
   "generated_at": "2026-07-25",
   "features": [

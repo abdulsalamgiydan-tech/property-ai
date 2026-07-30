@@ -8,8 +8,8 @@ const require = createRequire(import.meta.url);
 const { createChunks } = require("C:/Users/abdul/property-ai/node_modules/@supabase/ssr/dist/main/utils/chunker.js");
 const { stringToBase64URL } = require("C:/Users/abdul/property-ai/node_modules/@supabase/ssr/dist/main/utils/base64url.js");
 
-const BASE_URL = "https://property-cc3ba6aoz-zeebusiness93-2304s-projects.vercel.app";
-const EXPECTED_COMMIT = "dad951706eb10a530f3c0e84578a8ca8575cd852";
+const BASE_URL = "https://property-77uznynty-zeebusiness93-2304s-projects.vercel.app";
+const EXPECTED_COMMIT = "22bf12861469ead81cd55f0fb4169a0576eb9494";
 const BRANCH = "feature/sprint17-major-product-expansion";
 const WAREHOUSE_URL = "https://lzonauinzatmtytyoems.supabase.co";
 const PRODUCTION_REF = "oshquaxsloolqucwvigc";

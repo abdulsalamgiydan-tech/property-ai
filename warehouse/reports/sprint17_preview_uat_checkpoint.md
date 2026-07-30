@@ -1,5 +1,11 @@
 # Sprint 17 Preview UAT Checkpoint
 
+> **Superseded** by `sprint17_5_release_readiness_summary.md` (2026-07-30):
+> the blocker recorded below is resolved -- root-caused as a UAT harness
+> defect (`signOut()` scope, and a silently no-op feedback cleanup), not an
+> application defect. A live 30/30 authenticated Preview UAT pass is
+> recorded in the superseding report.
+
 Date: 2026-07-25
 Branch: `feature/sprint17-major-product-expansion`
 Commit tested: `65406f0db7dad3575fb1457368de7fa72fd47a9e`
