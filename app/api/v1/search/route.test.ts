@@ -47,10 +47,18 @@ describe("GET /api/v1/search — unrestricted-warehouse-query protection (Sprint
     expect(searchGeographiesV2).toHaveBeenCalledWith(expect.objectContaining({ limit: 20 }));
   });
 
-  it("only accepts NSW/VIC as a jurisdiction filter, silently ignoring anything else rather than erroring or passing it through unvalidated", async () => {
+  it("rejects unsupported jurisdiction filters before querying the warehouse", async () => {
     const { GET } = await withApiV1Enabled();
-    await GET(req("q=x&jurisdiction=QLD"));
-    expect(searchGeographiesV2).toHaveBeenCalledWith(expect.objectContaining({ jurisdiction: undefined }));
+    const res = await GET(req("q=x&jurisdiction=QLD"));
+    expect(res.status).toBe(400);
+    expect(searchGeographiesV2).not.toHaveBeenCalled();
+  });
+
+  it("rejects unsupported geography type filters before querying the warehouse", async () => {
+    const { GET } = await withApiV1Enabled();
+    const res = await GET(req("q=x&type=LGA"));
+    expect(res.status).toBe(400);
+    expect(searchGeographiesV2).not.toHaveBeenCalled();
   });
 
   it("404s when the public API flag is off, before ever calling the warehouse", async () => {

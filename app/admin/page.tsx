@@ -4,6 +4,8 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { createAdminSupabaseClient } from "@/lib/supabase/adminClient";
 import { isAdminEmail } from "@/lib/auth/isAdminEmail";
+import { logAdminAccessDenied } from "@/lib/auth/logAdminAccessDenied";
+import { isInternalOperationsEnabled } from "@/lib/warehouse/env";
 
 export const metadata: Metadata = { title: "Admin | Propellect", robots: { index: false, follow: false } };
 
@@ -11,18 +13,22 @@ type EntitlementRow = { user_id: string; tier: string; updated_at: string };
 type FeedbackRow = { id: string; category: string; message: string; page_path: string | null; created_at: string };
 
 /**
- * Sprint 14 WS20 — read-only beta admin view. Gated in two independent
- * layers: (1) the visitor must be a real, authenticated Supabase user
- * (verified via the normal RLS-scoped session, not just a client-
- * supplied claim), and (2) their email must appear in the ADMIN_EMAILS
- * allowlist. Returns notFound() (never a 403/permission-denied page)
- * for anyone who fails either check, matching the "never reveal a
- * gated route's existence" pattern already used for every feature-flag-
- * gated page in this app. The service-role client
- * (createAdminSupabaseClient) is only ever instantiated AFTER both
- * checks pass.
+ * Sprint 17 internal operations foundation. Gated in three independent
+ * layers: (1) INTERNAL_OPERATIONS_ENABLED must be exactly "true", (2)
+ * the visitor must be a real authenticated Supabase user, and (3) their
+ * email must appear in the ADMIN_EMAILS allowlist. Returns notFound()
+ * for anyone who fails a gate, matching the "never reveal a gated route"
+ * pattern used elsewhere. The service-role client is only instantiated
+ * after every route-level gate passes.
+ *
+ * An allowlist rejection (gate 3) is logged via logAdminAccessDenied --
+ * outcome and internal user id only, never the email/PII -- so a rejected
+ * access attempt is visible in server logs. The flag/config gates (1, 2)
+ * are left unlogged since they reflect deployment state, not an access
+ * attempt by a person.
  */
 export default async function AdminPage() {
+  if (!isInternalOperationsEnabled()) notFound();
   if (!isSupabaseConfigured()) notFound();
 
   const supabase = await createServerSupabaseClient();
@@ -30,7 +36,10 @@ export default async function AdminPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!isAdminEmail(user?.email, process.env.ADMIN_EMAILS)) notFound();
+  if (!isAdminEmail(user?.email, process.env.ADMIN_EMAILS)) {
+    logAdminAccessDenied(user);
+    notFound();
+  }
 
   const admin = createAdminSupabaseClient();
 
@@ -61,8 +70,7 @@ export default async function AdminPage() {
 
         {!admin ? (
           <div className="mt-8 rounded-xl border border-amber-500/30 bg-amber-950/15 p-4 text-sm text-amber-200">
-            SUPABASE_SERVICE_ROLE_KEY is not configured in this environment, so no cross-user data can be shown here
-            yet. Add it to enable this page.
+            SUPABASE_SERVICE_ROLE_KEY is not configured in this environment, so cross-user operational data is hidden.
           </div>
         ) : (
           <>

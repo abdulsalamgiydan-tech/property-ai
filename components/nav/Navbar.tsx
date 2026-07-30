@@ -22,6 +22,7 @@ const signedInLinks: Array<{ href: string; label: string }> = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/watchlist", label: "Watchlist" },
   { href: "/portfolio", label: "Portfolio" },
+  { href: "/settings", label: "Settings" },
 ];
 
 const mobileLinks = [
@@ -106,7 +107,7 @@ export function Navbar({ warehousePreviewEnabled = false }: { warehousePreviewEn
         ? user.user_metadata.full_name.split(" ")[0]
         : "";
   const accountLabel = firstNameRaw.trim() || "Account";
-  const accountHref = "/dashboard";
+  const accountHref = "/settings";
 
   if (hidden) return null;
   const showResearch = shouldShowResearchNav(warehousePreviewEnabled);

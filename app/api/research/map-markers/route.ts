@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getMapMarkers } from "@/lib/warehouse/queries";
 import { isWarehousePreviewEnabled, isMultiStateResearchEnabled } from "@/lib/warehouse/env";
+import { validateMapMarkerParams } from "@/lib/warehouse/mapMarkerValidation";
 
 // Thin server-side wrapper around get_market_map_markers_v1, needed because
 // lib/warehouse/client.ts is server-only by convention (see its own
@@ -21,11 +22,11 @@ export async function GET(req: NextRequest) {
   const maxLon = Number(searchParams.get("maxLon"));
   const geographyType = searchParams.get("type");
 
-  if (![minLat, maxLat, minLon, maxLon].every(Number.isFinite)) {
-    return NextResponse.json({ error: "minLat, maxLat, minLon, maxLon are required numeric query params" }, { status: 400 });
+  const validation = validateMapMarkerParams({ minLat, maxLat, minLon, maxLon, type: geographyType });
+  if (!validation.ok) {
+    return NextResponse.json({ error: validation.error }, { status: 400 });
   }
 
-  const type = geographyType === "SAL" || geographyType === "POA" || geographyType === "LGA" ? geographyType : undefined;
-  const markers = await getMapMarkers({ minLat, maxLat, minLon, maxLon }, type, 500);
+  const markers = await getMapMarkers({ minLat, maxLat, minLon, maxLon }, validation.geographyType, 500);
   return NextResponse.json({ markers });
 }

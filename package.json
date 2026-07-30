@@ -27,7 +27,8 @@
     "warehouse:quality:report": "node warehouse/scripts/quality/quality_report.mjs",
     "warehouse:freshness": "node warehouse/scripts/orchestration/check_freshness.mjs",
     "warehouse:incidents": "node warehouse/scripts/quality/report_incidents.mjs",
-    "warehouse:lineage:check": "node warehouse/scripts/lineage/validate_metric_lineage_completeness.mjs"
+    "warehouse:lineage:check": "node warehouse/scripts/lineage/validate_metric_lineage_completeness.mjs",
+    "security:secrets:check": "node warehouse/scripts/quality/check_secrets.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",

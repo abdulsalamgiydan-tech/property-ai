@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   isDataOperationsEnabled,
+  isInternalOperationsEnabled,
   isMultiStateResearchEnabled,
   isPublicApiV1Enabled,
   isResearchCopilotEnabled,
@@ -75,6 +76,29 @@ describe("isDataOperationsEnabled", () => {
     vi.stubEnv("WAREHOUSE_PREVIEW_ENABLED", undefined as unknown as string);
     expect(isDataOperationsEnabled()).toBe(true);
     expect(isWarehousePreviewEnabled()).toBe(false);
+  });
+});
+
+
+describe("isInternalOperationsEnabled", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("is disabled when the env var is absent (production-safe default)", () => {
+    vi.stubEnv("INTERNAL_OPERATIONS_ENABLED", undefined as unknown as string);
+    expect(isInternalOperationsEnabled()).toBe(false);
+  });
+
+  it("is disabled for any value other than the exact string 'true'", () => {
+    vi.stubEnv("INTERNAL_OPERATIONS_ENABLED", "1");
+    expect(isInternalOperationsEnabled()).toBe(false);
+  });
+
+  it("is enabled only when explicitly set to 'true', independent of ADMIN_EMAILS", () => {
+    vi.stubEnv("INTERNAL_OPERATIONS_ENABLED", "true");
+    vi.stubEnv("ADMIN_EMAILS", undefined as unknown as string);
+    expect(isInternalOperationsEnabled()).toBe(true);
   });
 });
 

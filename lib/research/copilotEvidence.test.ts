@@ -59,6 +59,37 @@ describe("buildEvidencePack", () => {
     const idsSparse = buildEvidencePack({ ...fullSnapshot, medianWeeklyRent: null, totalPopulation: null }).map((f) => f.id);
     expect(idsSparse).toEqual(idsFull);
   });
+
+  it("returns exactly the fixed 8-fact allow-list -- never an extra field (data-exfiltration guard)", () => {
+    const facts = buildEvidencePack(fullSnapshot);
+    expect(facts.map((f) => f.id)).toEqual([
+      "median_sale_price",
+      "median_weekly_rent",
+      "gross_yield",
+      "dwelling_stock",
+      "approvals_12m",
+      "population",
+      "household_income",
+      "price_to_income",
+    ]);
+    // No fact carries anything beyond the four declared fields (id/label/value/confidence/sourcePeriod).
+    for (const fact of facts) {
+      expect(Object.keys(fact).sort()).toEqual(["confidence", "id", "label", "sourcePeriod", "value"]);
+    }
+  });
+
+  it("scopes every fact label to only the geography it was built for -- no cross-geography bleed", () => {
+    const geoA = buildEvidencePack({ ...fullSnapshot, geographyLabel: "Calderwood, NSW" });
+    const geoB = buildEvidencePack({ ...fullSnapshot, geographyLabel: "Fitzroy, VIC" });
+    for (const fact of geoA) {
+      expect(fact.label).toContain("Calderwood, NSW");
+      expect(fact.label).not.toContain("Fitzroy, VIC");
+    }
+    for (const fact of geoB) {
+      expect(fact.label).toContain("Fitzroy, VIC");
+      expect(fact.label).not.toContain("Calderwood, NSW");
+    }
+  });
 });
 
 describe("formatEvidenceForPrompt", () => {

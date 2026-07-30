@@ -58,7 +58,7 @@ jobs:
           echo "No raw/large data files tracked." >> "$GITHUB_STEP_SUMMARY"
 
   clean-migration-replay:
-    name: Replay migrations 001-044 from blank database
+    name: Replay migrations from blank database
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -92,6 +92,21 @@ jobs:
           CLEAN_REPLAY_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/clean_replay
         run: node scripts/clean-migration-replay.mjs
 
+      - name: Create a second disposable database for the upgrade-replay rehearsal
+        env:
+          PGPASSWORD: postgres
+        run: psql -h localhost -U postgres -c "CREATE DATABASE upgrade_replay;"
+
+      - name: Upgrade-replay rehearsal (Production-equivalent 044 baseline + only 045/046)
+        env:
+          UPGRADE_REPLAY_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/upgrade_replay
+        run: node scripts/upgrade-migration-replay.mjs
+
+      - name: Rollback rehearsal for migration 045 (same disposable database)
+        env:
+          CLEAN_REPLAY_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/clean_replay
+        run: node scripts/rollback-045-replay-test.mjs
+
       - name: Static RLS corpus check
         run: npm run warehouse:rls:check
 
@@ -99,6 +114,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: clean-migration-chain-001-044-report
+          name: clean-migration-chain-report
           path: clean-replay-artifacts/
           if-no-files-found: error

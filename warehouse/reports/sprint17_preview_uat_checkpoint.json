@@ -1,0 +1,19 @@
+{
+  "status": "blocked",
+  "branch": "feature/sprint17-major-product-expansion",
+  "commit": "65406f0db7dad3575fb1457368de7fa72fd47a9e",
+  "previewDeploymentId": "dpl_joxz33NEBEXx76NFnNBV7ZmbwkBR",
+  "previewUrl": "https://property-b0prv0t02-zeebusiness93-2304s-projects.vercel.app",
+  "attestation": "pass",
+  "previewSupabase": "warehouse-validation",
+  "productionReferenceDetected": false,
+  "adminConfigured": false,
+  "serviceRoleConfigured": false,
+  "publicSmoke": "pass",
+  "passwordAuth": "pass_for_both_non_production_fixtures",
+  "authenticatedUat": "not_completed",
+  "blocker": "Preview browser AuthProvider did not retain the seeded SSR cookie; Settings remained signed out, so full authenticated UAT was not passed",
+  "productionTouched": false,
+  "nextHumanAction": "Fix Preview SSR-session browser compatibility and rerun authenticated UAT; no additional credential action is required"
+}
+

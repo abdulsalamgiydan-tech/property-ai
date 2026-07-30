@@ -165,7 +165,12 @@ async function signInApprovedUser(supabaseUrl, apiKey, email, password, label) {
   if (signedIn.error) throw new Error(`${label} password sign-in failed after admin repair: ${signedIn.error.message}`);
   const session = signedIn.data.session;
   assert(session?.access_token && session?.refresh_token && session.user?.id, `No real Supabase session for ${label}`);
-  await supabase.auth.signOut();
+  // signOut() always hits the server regardless of scope in @supabase/auth-js:
+  // "global"/"local" both revoke the CURRENT session (verified live -- "local"
+  // still leaves /auth/v1/user returning session_not_found). Only "others"
+  // revokes every *other* session while leaving this one alive, which is what
+  // we want before seeding it into a browser context.
+  await supabase.auth.signOut({ scope: "others" });
   return session;
 }
 

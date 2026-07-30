@@ -4,11 +4,12 @@ import path from "node:path";
 import { performance } from "node:perf_hooks";
 import process from "node:process";
 import { Client } from "pg";
+import { fileURLToPath } from "node:url";
 
 const repoRoot = process.cwd();
 const migrationsDir = path.join(repoRoot, "supabase", "migrations");
 const outDir = path.join(repoRoot, "clean-replay-artifacts");
-const outFile = path.join(outDir, "clean-migration-chain-001-044-report.json");
+const outFile = path.join(outDir, "clean-migration-chain-report.json");
 
 const requiredTables = [
   "research_copilot_queries",
@@ -36,7 +37,7 @@ const userOwnedTables = [
   "user_feedback",
 ];
 
-function assertSafeLocalUrl(url) {
+export function assertSafeLocalUrl(url) {
   if (!url) throw new Error("CLEAN_REPLAY_DATABASE_URL is required");
   const parsed = new URL(url);
   const host = parsed.hostname;
@@ -48,19 +49,24 @@ function assertSafeLocalUrl(url) {
   }
 }
 
-async function migrationFiles() {
+export async function migrationFiles() {
   const files = (await fs.readdir(migrationsDir))
     .filter((file) => file.endsWith(".sql"))
     .sort();
   const first = files[0]?.slice(0, 3);
   const last = files.at(-1)?.slice(0, 3);
-  if (first !== "001" || last !== "044") {
-    throw new Error(`Expected migration span 001..044, got ${first}..${last}`);
+  if (first !== "001") {
+    throw new Error(`Expected migration span to start at 001, got ${first}..${last}`);
+  }
+  const expected = files.map((_, index) => String(index + 1).padStart(3, "0"));
+  const actual = files.map((file) => file.slice(0, 3));
+  if (!actual.every((n, index) => n === expected[index])) {
+    throw new Error(`Migration files are not contiguous from 001: got ${actual.join(",")}`);
   }
   return files;
 }
 
-async function bootstrapSupabasePrimitives(client) {
+export async function bootstrapSupabasePrimitives(client) {
   await client.query(`
     create schema if not exists auth;
     create schema if not exists extensions;
@@ -100,7 +106,7 @@ async function bootstrapSupabasePrimitives(client) {
   `);
 }
 
-async function applyMigrations(client, files) {
+export async function applyMigrations(client, files) {
   const applied = [];
   for (const file of files) {
     const sql = await fs.readFile(path.join(migrationsDir, file), "utf8");
@@ -111,7 +117,7 @@ async function applyMigrations(client, files) {
   return applied;
 }
 
-async function collectChecks(client, files) {
+export async function collectChecks(client, files) {
   const tables = await client.query(
     `
       select schemaname, tablename
@@ -174,9 +180,7 @@ async function collectChecks(client, files) {
   const missing = required.rows.filter((row) => !row.exists).map((row) => row.table_name);
   const rlsMissing = rls.rows.filter((row) => !row.rls_enabled).map((row) => row.table_name);
   const migrationNumbers = files.map((file) => file.slice(0, 3));
-  const deterministicOrder =
-    migrationNumbers.length === 44 &&
-    migrationNumbers.every((n, i) => n === String(i + 1).padStart(3, "0"));
+  const deterministicOrder = migrationNumbers.every((n, i) => n === String(i + 1).padStart(3, "0"));
 
   return {
     deterministicOrder,
@@ -221,7 +225,7 @@ async function main() {
     await bootstrapSupabasePrimitives(client);
     report.applied = await applyMigrations(client, files);
     report.checks = await collectChecks(client, files);
-    if (!report.checks.deterministicOrder) throw new Error("Migration files are not exactly ordered 001 through 044");
+    if (!report.checks.deterministicOrder) throw new Error(`Migration files are not exactly ordered 001 through ${files.at(-1).slice(0, 3)}`);
     if (report.checks.missingRequiredTables.length) throw new Error(`Missing required tables: ${report.checks.missingRequiredTables.join(", ")}`);
     if (report.checks.userOwnedRlsMissing.length) throw new Error(`Missing RLS on user-owned tables: ${report.checks.userOwnedRlsMissing.join(", ")}`);
     report.status = "pass";
@@ -235,10 +239,17 @@ async function main() {
     await client.end().catch(() => {});
   }
 
-  console.log(JSON.stringify({ status: report.status, migrationCount: report.migrationCount, artifact: "clean-replay-artifacts/clean-migration-chain-001-044-report.json" }));
+  console.log(JSON.stringify({ status: report.status, migrationCount: report.migrationCount, artifact: "clean-replay-artifacts/clean-migration-chain-report.json" }));
 }
 
-main().catch((error) => {
-  console.error(`clean migration replay failed: ${error.message}`);
-  process.exit(1);
-});
+// Guarded so scripts/upgrade-migration-replay.mjs can import the helpers
+// above (bootstrapSupabasePrimitives, applyMigrations, collectChecks,
+// migrationFiles, assertSafeLocalUrl) without triggering a real replay run
+// as a side effect of the import.
+const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isMain) {
+  main().catch((error) => {
+    console.error(`clean migration replay failed: ${error.message}`);
+    process.exit(1);
+  });
+}
