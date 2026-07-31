@@ -194,7 +194,7 @@ create table if not exists meta.data_incident (
   "opened_at" timestamp with time zone default now() not null,
   "resolved_at" timestamp with time zone,
   "resolution_notes" text,
-  "unique_signature" text default ((((((rule_id || '|'::text) || coalesce(target_schema, ''::text)) || '|'::text) || coalesce(target_table, ''::text)) || '|'::text) || coalesce(jurisdiction_code, ''::text)),
+  "unique_signature" text generated always as ((((((rule_id || '|'::text) || coalesce(target_schema, ''::text)) || '|'::text) || coalesce(target_table, ''::text)) || '|'::text) || coalesce(jurisdiction_code, ''::text)) stored,
   constraint data_incident_pkey primary key (incident_id),
   constraint data_incident_status_check check (status = any (array['open'::text, 'investigating'::text, 'resolved'::text, 'wont_fix'::text])),
   constraint data_incident_rule_id_fkey foreign key (rule_id) references meta.data_quality_rule (rule_id),
