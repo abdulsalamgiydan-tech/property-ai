@@ -4,18 +4,18 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { CTAButton } from "@/components/design/CTAButton";
 import { GlassPill } from "@/components/design/GlassPill";
 import { LogoMark } from "@/components/design/LogoMark";
-import { shouldShowResearchNav } from "@/lib/nav/researchLinkVisible";
+import { buildDesktopNavLinks, shouldShowResearchNav } from "@/lib/nav/researchLinkVisible";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const researchLink = { href: "/research", label: "Research" };
+const suburbIntelligenceLink = { href: "/suburb-intelligence", label: "Suburb intelligence" };
 
 const publicLinks: Array<{ href: string; label: string }> = [
   { href: "/", label: "Home" },
   { href: "/analyse-property", label: "Analyse" },
   { href: "/strategy", label: "Strategy" },
   { href: "/compare-properties", label: "Compare" },
-  { href: "/suburb-intelligence", label: "Suburb intelligence" },
 ];
 
 const signedInLinks: Array<{ href: string; label: string }> = [
@@ -111,9 +111,7 @@ export function Navbar({ warehousePreviewEnabled = false }: { warehousePreviewEn
 
   if (hidden) return null;
   const showResearch = shouldShowResearchNav(warehousePreviewEnabled);
-  const desktopLinks = showResearch
-    ? [publicLinks[0], researchLink, ...publicLinks.slice(1)]
-    : publicLinks;
+  const desktopLinks = buildDesktopNavLinks(warehousePreviewEnabled, publicLinks, researchLink, suburbIntelligenceLink);
   const allLinks = user ? [...desktopLinks, ...signedInLinks] : desktopLinks;
   const visibleMobileLinks = showResearch ? mobileLinks : mobileLinks.filter((l) => l.href !== "/research");
 
