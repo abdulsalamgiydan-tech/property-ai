@@ -97,3 +97,55 @@ watchlist, scenario, report, or any `public` schema table — this snapshot
 was captured exclusively via `core`/`mart`/`meta`-schema queries; the
 `public` schema was never touched during this capture. Full private-data
 exclusion proof is Phase 6, next.
+
+## Correction (2026-08-01, Phase 9 import rehearsal)
+
+The digests above were computed by hashing the whole row (`t::text`) on the
+source. Actually running the full export -> import -> verify cycle against a
+disposable Production-equivalent branch found two problems this static
+capture didn't catch:
+
+1. `core.dim_geography` exports the whole source row, but the source
+   (warehouse-validation) still carries a `geom` column that the Production
+   minimum-contract table (migration 049) deliberately never creates —
+   `import.mjs` correctly refused to load a column the target doesn't have.
+2. The `t::text` digest is therefore not comparable between source and
+   target for any table with an intentionally-excluded column — even with
+   byte-identical shared-column data, the digest could never match.
+
+Both are fixed in `warehouse/scripts/snapshot/lib.mjs` (`COLUMN_EXCLUDE_LIST`,
+now also excluding `meta.data_incident.unique_signature`, a generated
+column that can't be an explicit COPY target) and in `export.mjs`/`verify.mjs`
+(digest now hashes an explicit `row(...)` projection over the exported
+column set, not the whole row). Row counts are unchanged; the corrected
+per-table digests (same snapshot ID, regenerated) are:
+
+| Table | Rows | Corrected digest |
+|---|---|---|
+| core.dim_geography | 101,215 | `1b1e8e7b4e819491a7ce6d267b73fa92` |
+| meta.jurisdiction | 8 | `89d718d8ef6685602cfdb9dae43eec10` |
+| meta.source | 13 | `de21d27db4d7d25486eeb73cfccd4b92` |
+| meta.dataset | 41 | `93fb4364f77c28402e13cef2f2037210` |
+| meta.dataset_freshness_status | 7 | `81e2d5b94af30efb7554172bb6ff113a` |
+| meta.dataset_refresh_run | 2 | `c56257d66e0b1c56e321843a9944f4a9` |
+| meta.metric_assumption | 7 | `2dbec8b9d804bc33a206d7b884d3abf9` |
+| meta.metric_lineage_registry | 35 | `7b50e6e1d150d773c969776dc19717dd` |
+| meta.data_quality_rule | 44 | `f5300c8f47d9f58566e3ee247eeb5c4c` |
+| meta.data_quality_run | 5 | `b8533c14b3d6d208da037796dc406973` |
+| meta.data_incident | 3 | `a2edf5f7a82e54fbbb57f5d1b197feab` |
+| meta.data_quarantine_summary | 1 | `92ea137df8a1e0c64c40ef2e8f0889c9` |
+| mart.suburb_market_snapshot | 15,334 | `6f388dc753dc629021c504e6996d0ecb` |
+| mart.postcode_market_snapshot | 2,641 | `3bc95ba0ba0f42119f20b2b0c843204e` |
+| mart.suburb_demographic_profile_2021 | 15,334 | `3eb4cc9f2dbc054b863c701e4075ba65` |
+| mart.postcode_demographic_profile_2021 | 2,641 | `be61fcc0eddda6cd5091a3956bb7d0d3` |
+| mart.suburb_market_timeseries | 102,625 | `217b8754530ed889282d42a1de80c666` |
+| mart.postcode_market_timeseries | 23,150 | `7638ec00eae9b5abe62f98f0ab6d4189` |
+| mart.suburb_rent_quarterly | 99,561 | `32915b7d16ce8142dba54fb53378b026` |
+| mart.postcode_rent_quarterly | 75,578 | `ba5888270f7c9ec5230f87958c51246a` |
+| mart.lga_rent_quarterly | 13,931 | `263e09beaf5c42cc11f66d139da62982` |
+
+Verified: `warehouse:snapshot:export` -> `warehouse:snapshot:import` ->
+`warehouse:snapshot:verify` against a disposable branch forked from
+Production's actual state now passes end-to-end, 21/21 tables, row counts
+AND checksums matching, 452,176 rows total, ~114s import duration. Full
+detail in `sprint18_2_runbook_and_go_no_go.md`.

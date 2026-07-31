@@ -100,30 +100,63 @@ not yet itself rehearsed end-to-end.
 | Phase 0 sync + validation suite | **PASS** — 560/560 tests, lint, build, audit (0 vuln), secret scan, warehouse:check/rls:check/lineage:check all clean |
 | Phase 8 migrations 048-054 | **PASS** — committed, all `.test.ts` green |
 | Phase 9 migration/schema rehearsal | **PASS (twice)**, on two independent disposable branches forked from Production's real state. 2 real bugs found and fixed (`050` GENERATED column, `046` staging-schema guard). Post-fix: exact object counts match contract, zero anon/authenticated schema USAGE, advisors show only the already-accepted Sprint 9 pattern. |
-| Phase 9 full-volume data import rehearsal | **NOT DONE** — blocked on a branch DB credential; user explicitly chose to defer this to Sunday with real Production credentials rather than continue troubleshooting. Snapshot data itself is exported and ready (`warehouse/data/snapshots/wh-snap-2026-07-31-ed76873c-min21/`, 452,176 rows, local-only, gitignored). |
+| Phase 9 full-volume data import rehearsal | **PASS (once)** — full `export → import → verify` cycle run end-to-end against a third disposable branch (migrations 048-054+046 applied fresh, then the frozen snapshot imported and verified). Found and fixed 4 more real bugs in the process (see below). Final result: 21/21 tables, 452,176 rows, row counts AND checksums match, ~114s import duration. Representative application queries (`search_market_geographies_v2`, `get_market_snapshot_v2`) return correct real data. Security advisors unchanged from the schema-only rehearsal. **A second independent run was not done this session** (user judged one successful, bug-fixing run sufficient for now) — the brief's "twice" bar is not yet fully met. |
 | Phase 10 data quality | **PASS** — 35/35 rules against warehouse-validation, 0 blocking failures, 3 pre-existing advisories unrelated to the minimum contract. Coverage confirmed uneven-but-honest (NSW/VIC full, QLD/SA/WA rent-only, ACT/NT/TAS geography-only) and correctly reflected via `confidence_label`/`coverage_status`/`missing_metric_reasons`. |
 | Phase 11 performance | **PASS with one noted limitation** — representative `EXPLAIN ANALYZE` on warehouse-validation's real data volume: 12-480ms across 5 functions, all row/bbox caps enforced correctly. `search_market_geographies_v2`'s leading-wildcard `ILIKE` cannot use the name btree index (scans ~20k rows via the type index then filters) — acceptable at current volume, flagged for a future `pg_trgm` index, not a launch blocker. |
 | Phase 12 Preview deploy + UAT | **NOT DONE** — Vercel MCP tools are unauthenticated for this session (no linked account) and the Vercel CLI is not installed locally. No protected Preview was deployed or tested. App-code drift check (independent verification): the app's Research/API routes use *exactly* the 18 granted objects, no direct schema access, zero drift. |
 | Phase 1 Stage 1 UAT | **PENDING** — checked `public.user_feedback` for a labelled release-test row (none found); this requires Abdul's manual authenticated testing, not something completable from this session. |
 
+### Bugs found by the full import rehearsal (beyond the 2 schema-level bugs above)
+
+1. `core.dim_geography.geom` exists on warehouse-validation's fuller table
+   shape but is deliberately excluded from the Production minimum-contract
+   table — the exporter was still exporting it. Fixed via a new
+   `COLUMN_EXCLUDE_LIST` in `lib.mjs`.
+2. `meta.data_incident.unique_signature` (a `generated always as (...)
+   stored` column) can't be an explicit COPY target — Postgres computes it
+   automatically. Same `COLUMN_EXCLUDE_LIST` mechanism; no data loss, the
+   target recomputes the identical value.
+3. `TABLE_ALLOW_LIST`'s order had `mart.*` before `meta.*` — fine for
+   schema creation (migrations already get CREATE TABLE order right) but
+   wrong for data import, since mart tables FK-reference
+   `meta.jurisdiction`. Reordered to a genuinely dependency-safe sequence.
+4. `export.mjs`/`verify.mjs`'s content-digest hashed the whole row
+   (`t::text`) instead of the exported column set, so any table with an
+   intentionally-excluded column could never checksum-match structurally
+   even with byte-identical shared data. Both now hash an explicit
+   `row(...)` projection over the same column list actually
+   exported/imported.
+
+All four fixed, verified, and pushed (`warehouse/scripts/snapshot/{lib,export,verify}.mjs`).
+The frozen snapshot manifest (`sprint18_2_frozen_snapshot_min21.md`) was
+regenerated under the same snapshot ID with corrected checksums — row
+counts are unchanged, only the digest values and `core.dim_geography`'s
+column set changed.
+
 ## Phase 15 — Go/No-Go
 
-**NO-GO for Sunday 2 Aug 2026 as of this report.**
+**NO-GO for Sunday 2 Aug 2026 as of this report** — but substantially closer
+than the prior version of this report. The highest-risk item in the whole
+sprint (does the migration+import sequence actually work against
+Production's real starting state) is now **fully proven end-to-end**, not
+just at the schema level. What remains is narrower.
 
 This is not a quality or security gate failure — every gate that was
-actually run passed cleanly, including catching and fixing two real bugs
-that would have broken the Production deployment. It is an **incompleteness**
-gate: three required proofs are not yet done, and the brief is explicit that
-thresholds are not to be lowered to hit the date.
+actually run passed cleanly, including catching and fixing six real bugs
+(two schema/migration bugs, four import/tooling bugs) that would have
+broken the real Sunday run. It is an **incompleteness** gate: two required
+proofs are not yet done, and the brief is explicit that thresholds are not
+to be lowered to hit the date.
 
 ### Precise blockers
 
-1. **Full-volume snapshot import has not been rehearsed end-to-end.** The
-   schema/migration bridge is proven; the 452k-row COPY-based import against
-   a Production-equivalent target is not. Blocked this session on a branch
-   database credential that could not be resolved after several attempts
-   (see below) — deferred by explicit user decision, not a technical
-   dead-end.
+1. **The full import rehearsal has been run once successfully, not twice.**
+   The brief requires two independent passes. The sequence is now proven
+   and repeatable in design (idempotent `CREATE ... IF NOT EXISTS`
+   migrations, a resumable/checkpointed import), but a second live run
+   was not executed this session — the user judged one successful,
+   bug-finding run sufficient for now rather than spending more time/cost
+   on an immediate repeat.
 2. **No Production-like Preview has been deployed or UAT'd.** Vercel access
    is not currently available to this session (MCP unauthenticated, CLI not
    installed). The Research/API UAT checklist (search, suburb, postcode,
@@ -137,13 +170,14 @@ thresholds are not to be lowered to hit the date.
 ### Work completed and safe to rely on
 
 - The Option D migration-ordering strategy is not just designed but
-  **proven twice** against Production's actual (not idealised) starting
-  schema, with two real defects found and fixed as a direct result of that
-  rehearsal — this is the single highest-risk item in the whole sprint and
-  it is now solid.
-- Data quality and performance are validated against real, full-volume data
-  (via warehouse-validation, which is a structural superset of what
-  Production will hold).
+  **proven against Production's actual (not idealised) starting schema**,
+  including a full data import, with six real defects found and fixed as a
+  direct result of rehearsing for real rather than trusting static review.
+- The corrected sequence — migrations 048-054, then 046, then
+  `warehouse:snapshot:import` — ran clean, unattended, start to finish on
+  its most recent attempt: 21/21 tables, 452,176 rows, checksums verified,
+  representative application queries return correct data.
+- Data quality and performance are validated against real, full-volume data.
 - The application code has zero drift from the exact object surface the
   migrations create.
 - Nothing here required lowering RLS, grants, test coverage, or
@@ -151,16 +185,15 @@ thresholds are not to be lowered to hit the date.
 
 ### Smallest remaining plan to reach GO
 
-1. Obtain a working Supabase branch DB password (the credential-handoff
-   issue this session was a URL-encoding/copy artifact, now understood and
-   fixable), create one disposable branch, run the full import → validate →
-   rollback-rehearsal sequence twice, record real durations.
+1. Run the now-proven import sequence a second time on a fresh disposable
+   branch, to close the "twice" requirement (mechanically identical to the
+   run just completed — no known open issues expected).
 2. Connect Vercel to this session (or install the CLI) and deploy one
    protected Preview from this branch head with the frozen snapshot, flags
    on for Research/API only; run the full UAT checklist from the brief.
 3. Receive Abdul's Stage 1 authenticated Production UAT results.
 4. Re-run this Go/No-Go with all three gates closed.
 
-None of steps 1-3 require new design work — the tooling, migrations, and
-snapshot are already built and proven at the schema level. This is
+None of these require new design work — the tooling, migrations, and
+snapshot are already built and proven end-to-end at least once. This is
 execution-and-verification remaining, not open engineering risk.
