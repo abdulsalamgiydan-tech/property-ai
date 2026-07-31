@@ -28,6 +28,11 @@
     "warehouse:freshness": "node warehouse/scripts/orchestration/check_freshness.mjs",
     "warehouse:incidents": "node warehouse/scripts/quality/report_incidents.mjs",
     "warehouse:lineage:check": "node warehouse/scripts/lineage/validate_metric_lineage_completeness.mjs",
+    "warehouse:snapshot:export": "node warehouse/scripts/snapshot/export.mjs",
+    "warehouse:snapshot:inspect": "node warehouse/scripts/snapshot/inspect.mjs",
+    "warehouse:snapshot:import": "node warehouse/scripts/snapshot/import.mjs",
+    "warehouse:snapshot:verify": "node warehouse/scripts/snapshot/verify.mjs",
+    "warehouse:snapshot:cleanup": "node warehouse/scripts/snapshot/cleanup.mjs",
     "security:secrets:check": "node warehouse/scripts/quality/check_secrets.mjs"
   },
   "dependencies": {
@@ -55,6 +60,7 @@
     "eslint-config-next": "^16.2.11",
     "exceljs": "^4.4.0",
     "pg": "^8.22.0",
+    "pg-copy-streams": "^7.0.0",
     "playwright": "^1.61.1",
     "shapefile": "^0.6.6",
     "tailwindcss": "^4",
