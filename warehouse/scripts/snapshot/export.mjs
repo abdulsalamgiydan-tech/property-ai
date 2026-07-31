@@ -29,6 +29,7 @@ import {
   BRANCH_REF,
   PROD_REF,
   TABLE_ALLOW_LIST,
+  COLUMN_EXCLUDE_LIST,
   loadLocalEnv,
   parseArgs,
   snapshotDir,
@@ -50,6 +51,8 @@ async function tableColumnsAndKey(client, schema, table) {
   if (cols.rows.length === 0) {
     throw new Error(`Table ${schema}.${table} not found on source -- allow-list is stale`);
   }
+  const excluded = new Set(COLUMN_EXCLUDE_LIST[`${schema}.${table}`] ?? []);
+  cols.rows = cols.rows.filter((r) => !excluded.has(r.column_name));
   const pk = await client.query(
     `select kcu.column_name
      from information_schema.table_constraints tc
@@ -98,9 +101,16 @@ async function exportTable(client, snapshotId, outDir, fullName) {
     stream.pipe(dest);
   });
 
+  // Hash only the exported column set (via an explicit ROW(...) projection),
+  // not the whole row (`t::text`) -- a source table can carry columns
+  // deliberately excluded from the minimum contract (e.g. core.dim_geography
+  // .geom), and `t::text` would include them, making the digest permanently
+  // unmatchable against a target that never has them by design. Found as a
+  // real bug during the Sprint 18.2 Phase 9 import rehearsal (verify.mjs
+  // reported a false FAIL on core.dim_geography with matching row counts).
   const digestRes = await client.query(
-    `select md5(string_agg(md5(t::text), '' order by ${pkList})) as digest
-     from "${schema}"."${table}" t`
+    `select md5(string_agg(md5(row(${colList})::text), '' order by ${pkList})) as digest
+     from "${schema}"."${table}"`
   );
 
   return {

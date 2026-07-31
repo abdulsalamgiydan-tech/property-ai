@@ -22,9 +22,29 @@ export const PROD_REF = "oshquaxsloolqucwvigc";
 export const BRANCH_REF = "lzonauinzatmtytyoems";
 
 /** The exact 21-table minimum launch contract. Every script imports this
- * rather than re-declaring it -- one place the contract lives in code. */
+ * rather than re-declaring it -- one place the contract lives in code.
+ *
+ * Order is FK-dependency-safe (root tables first), not merely grouped by
+ * schema -- import.mjs loads tables in this exact order, and `mart.*` FKs
+ * to `meta.jurisdiction`, so meta must precede mart. Found as a real bug
+ * during the Sprint 18.2 Phase 9 import rehearsal: the migrations
+ * (049 core -> 050 meta -> 051 mart) already got CREATE TABLE order right,
+ * but this list had mart before meta, which only matters for import/data
+ * order, not schema creation, so the mismatch went unnoticed until data
+ * actually flowed through it. */
 export const TABLE_ALLOW_LIST = Object.freeze([
   "core.dim_geography",
+  "meta.jurisdiction",
+  "meta.source",
+  "meta.dataset",
+  "meta.dataset_freshness_status",
+  "meta.dataset_refresh_run",
+  "meta.metric_assumption",
+  "meta.metric_lineage_registry",
+  "meta.data_quality_rule",
+  "meta.data_quality_run",
+  "meta.data_incident",
+  "meta.data_quarantine_summary",
   "mart.suburb_market_snapshot",
   "mart.postcode_market_snapshot",
   "mart.suburb_demographic_profile_2021",
@@ -34,18 +54,25 @@ export const TABLE_ALLOW_LIST = Object.freeze([
   "mart.suburb_rent_quarterly",
   "mart.postcode_rent_quarterly",
   "mart.lga_rent_quarterly",
-  "meta.dataset",
-  "meta.source",
-  "meta.dataset_freshness_status",
-  "meta.dataset_refresh_run",
-  "meta.metric_lineage_registry",
-  "meta.metric_assumption",
-  "meta.jurisdiction",
-  "meta.data_incident",
-  "meta.data_quality_rule",
-  "meta.data_quality_run",
-  "meta.data_quarantine_summary",
 ]);
+
+/** Columns that exist on warehouse-validation's fuller table shape but are
+ * deliberately excluded from the minimum launch contract (traced via
+ * pg_depend/pg_get_functiondef -- confirmed unused by any of the 10 granted
+ * views or 8 granted functions -- see
+ * warehouse/reports/sprint18_2_minimum_launch_contract.md). The Production
+ * bootstrap migrations (048-054) never create these columns, so the
+ * snapshot must not export them either -- found as a real bug during the
+ * Sprint 18.2 Phase 9 import rehearsal (import.mjs correctly refused to
+ * import into a target "missing" a column the export had included). */
+export const COLUMN_EXCLUDE_LIST = Object.freeze({
+  "core.dim_geography": ["geom"],
+  // unique_signature is `generated always as (...) stored` -- Postgres
+  // computes it automatically from the other imported columns and refuses
+  // an explicit COPY target list that names a generated column. No data
+  // loss: the target recomputes the identical value from the same inputs.
+  "meta.data_incident": ["unique_signature"],
+});
 
 export function loadLocalEnv() {
   try {

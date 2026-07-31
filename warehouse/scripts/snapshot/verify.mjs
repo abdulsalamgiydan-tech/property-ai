@@ -32,11 +32,17 @@ import {
 
 async function verifyTable(client, entry) {
   const pkList = entry.primary_key.map((c) => `"${c}"`).join(", ");
+  // Hash only the manifest's exported column set, matching export.mjs's
+  // digest exactly -- `t::text` would include any column the target
+  // deliberately never has (e.g. core.dim_geography.geom), making the
+  // digest permanently unmatchable even when every exported column's data
+  // is byte-identical. Same real bug and fix as export.mjs's digest query.
+  const colList = entry.columns.map((c) => `"${c}"`).join(", ");
   const countRes = await client.query(`select count(*)::bigint as n from "${entry.schema}"."${entry.table}"`);
   const actualRows = Number(countRes.rows[0].n);
   const digestRes = await client.query(
-    `select md5(string_agg(md5(t::text), '' order by ${pkList})) as digest
-     from "${entry.schema}"."${entry.table}" t`
+    `select md5(string_agg(md5(row(${colList})::text), '' order by ${pkList})) as digest
+     from "${entry.schema}"."${entry.table}"`
   );
   const actualDigest = digestRes.rows[0].digest;
   return {
