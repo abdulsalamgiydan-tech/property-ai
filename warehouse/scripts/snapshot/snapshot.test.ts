@@ -1,10 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   TABLE_ALLOW_LIST,
+  COLUMN_EXCLUDE_LIST,
   PROD_REF,
   BRANCH_REF,
   assertNotProduction,
   describeTarget,
+  describeHost,
+  resolveTarget,
   resolveTables,
   parseArgs,
   targetKey,
@@ -107,6 +110,92 @@ describe("parseArgs", () => {
 
   it("collects positional args separately", () => {
     expect(parseArgs(["positional", "--flag"])._).toEqual(["positional"]);
+  });
+});
+
+describe("COLUMN_EXCLUDE_LIST", () => {
+  it("excludes exactly geom and unique_signature, both for a documented reason", () => {
+    expect(COLUMN_EXCLUDE_LIST["core.dim_geography"]).toEqual(["geom"]);
+    expect(COLUMN_EXCLUDE_LIST["meta.data_incident"]).toEqual(["unique_signature"]);
+    expect(Object.keys(COLUMN_EXCLUDE_LIST)).toHaveLength(2);
+  });
+});
+
+describe("describeHost", () => {
+  it("identifies a Production-referencing host without needing a full URL", () => {
+    expect(describeHost(`db.${PROD_REF}.supabase.co`).knownRef).toBe("PRODUCTION");
+  });
+
+  it("never includes a password in its output (there is none to leak)", () => {
+    const { maskedUrl } = describeHost("db.example.supabase.co");
+    expect(maskedUrl).toBe("postgresql://***@db.example.supabase.co/***");
+  });
+
+  it("labels an unrecognized host as unknown/local", () => {
+    expect(describeHost("localhost").knownRef).toBe("unknown/local");
+  });
+});
+
+describe("resolveTarget", () => {
+  const PG_VARS = ["PGHOST", "PGPORT", "PGUSER", "PGPASSWORD", "PGDATABASE"];
+  afterEach(() => {
+    for (const v of PG_VARS) delete process.env[v];
+  });
+
+  it("--target-pg-env requires PGHOST to be set", () => {
+    expect(() => resolveTarget({ "target-pg-env": true })).toThrow(/PGHOST/);
+  });
+
+  it("--target-pg-env requires PGPASSWORD to be set", () => {
+    process.env.PGHOST = "db.example.supabase.co";
+    expect(() => resolveTarget({ "target-pg-env": true })).toThrow(/PGPASSWORD/);
+  });
+
+  it("--target-pg-env refuses the Production host", () => {
+    process.env.PGHOST = `db.${PROD_REF}.supabase.co`;
+    process.env.PGPASSWORD = "irrelevant";
+    expect(() => resolveTarget({ "target-pg-env": true })).toThrow(/Refusing to target Production/);
+  });
+
+  it("--target-pg-env builds a config object, never a connection-string URL, from PG* env vars", () => {
+    process.env.PGHOST = "db.example.supabase.co";
+    process.env.PGPORT = "6543";
+    process.env.PGUSER = "myuser";
+    process.env.PGPASSWORD = "hunter2";
+    process.env.PGDATABASE = "mydb";
+    const { clientConfig, targetInfo } = resolveTarget({ "target-pg-env": true });
+    expect(clientConfig).toEqual({
+      host: "db.example.supabase.co",
+      port: 6543,
+      user: "myuser",
+      password: "hunter2",
+      database: "mydb",
+    });
+    expect(targetInfo.knownRef).toBe("unknown/local");
+  });
+
+  it("--target-pg-env defaults port/user/database when unset", () => {
+    process.env.PGHOST = "db.example.supabase.co";
+    process.env.PGPASSWORD = "hunter2";
+    const { clientConfig } = resolveTarget({ "target-pg-env": true });
+    expect(clientConfig.port).toBe(5432);
+    expect(clientConfig.user).toBe("postgres");
+    expect(clientConfig.database).toBe("postgres");
+  });
+
+  it("falls back to --target-url-env when --target-pg-env is not given", () => {
+    process.env.MY_TEST_URL = `postgres://u:p@localhost:5432/${BRANCH_REF}`;
+    try {
+      const { clientConfig, targetInfo } = resolveTarget({ "target-url-env": "MY_TEST_URL" });
+      expect(clientConfig).toEqual({ connectionString: process.env.MY_TEST_URL });
+      expect(targetInfo.knownRef).toBe("warehouse-validation");
+    } finally {
+      delete process.env.MY_TEST_URL;
+    }
+  });
+
+  it("throws when neither --target-pg-env nor --target-url-env is given", () => {
+    expect(() => resolveTarget({})).toThrow(/--target-url-env.*or --target-pg-env/);
   });
 });
 

@@ -117,6 +117,68 @@ export function describeTarget(url) {
   return { host: parsed.hostname, maskedUrl, knownRef };
 }
 
+/** Same safety classification as describeTarget(), but for a bare hostname
+ * rather than a full connection string (used by the PG*-env-var target
+ * mode, which never constructs a URL at all). */
+export function describeHost(host) {
+  const knownRef = host.includes(PROD_REF)
+    ? "PRODUCTION"
+    : host.includes(BRANCH_REF)
+      ? "warehouse-validation"
+      : "unknown/local";
+  return { host, maskedUrl: `postgresql://***@${host}/***`, knownRef };
+}
+
+/**
+ * Resolves the import/verify target from CLI args, supporting two modes:
+ *
+ * 1. `--target-url-env=<ENV_VAR_NAME>` (original): reads a full connection
+ *    string from that named env var.
+ * 2. `--target-pg-env` (Sprint 18.3): reads the standard libpq environment
+ *    variables (PGHOST, PGPORT, PGUSER, PGPASSWORD, PGDATABASE) that `pg`
+ *    itself understands -- lets a human-assisted secure runner (PowerShell
+ *    Read-Host -AsSecureString -> process-scoped PGPASSWORD) supply a
+ *    credential that never touches a file, a CLI argument, or a
+ *    constructed URL string. Returns a `pg.Client`-compatible config
+ *    object, never a URL, so there is no encoding step to get wrong.
+ *
+ * Both modes run through the same Production-deny and describe-target
+ * logic so neither path is a lesser-checked back door.
+ */
+export function resolveTarget(args) {
+  if (args["target-pg-env"]) {
+    const host = process.env.PGHOST;
+    if (!host) throw new Error("--target-pg-env requires PGHOST to be set");
+    if (!process.env.PGPASSWORD) throw new Error("--target-pg-env requires PGPASSWORD to be set");
+    assertNotProduction(host, { cliAcknowledged: Boolean(args["i-acknowledge-production-target"]) });
+    const targetInfo = describeHost(host);
+    const clientConfig = {
+      host,
+      port: Number(process.env.PGPORT || 5432),
+      user: process.env.PGUSER || "postgres",
+      password: process.env.PGPASSWORD,
+      database: process.env.PGDATABASE || "postgres",
+    };
+    // hostKey must be derivable without the password for checkpoint/report
+    // filenames -- reuse the same sha256(host) scheme as targetKey(url).
+    const hostKey = crypto.createHash("sha256").update(host).digest("hex").slice(0, 12);
+    return { clientConfig, targetInfo, hostKey };
+  }
+
+  const envName = args["target-url-env"];
+  if (!envName) {
+    throw new Error(
+      "Either --target-url-env=<ENV_VAR_NAME> or --target-pg-env is required (the connection string/password is never a CLI argument)"
+    );
+  }
+  const targetUrl = process.env[envName];
+  if (!targetUrl) throw new Error(`Environment variable ${envName} is not set`);
+  assertNotProduction(targetUrl, { cliAcknowledged: Boolean(args["i-acknowledge-production-target"]) });
+  const targetInfo = describeTarget(targetUrl);
+  const hostKey = targetKey(targetUrl);
+  return { clientConfig: { connectionString: targetUrl }, targetInfo, hostKey };
+}
+
 /** Validates a CLI-supplied table subset is contained in the allow-list;
  * defaults to the full allow-list when nothing is supplied. */
 export function resolveTables(explicitList) {

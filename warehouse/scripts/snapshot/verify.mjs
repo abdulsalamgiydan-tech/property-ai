@@ -12,6 +12,7 @@
  *
  * Usage:
  *   node warehouse/scripts/snapshot/verify.mjs --snapshot-id=<id> --target-url-env=<ENV_VAR_NAME>
+ *   node warehouse/scripts/snapshot/verify.mjs --snapshot-id=<id> --target-pg-env
  */
 
 import path from "node:path";
@@ -20,10 +21,8 @@ import { Client } from "pg";
 import {
   loadLocalEnv,
   parseArgs,
-  assertNotProduction,
-  describeTarget,
+  resolveTarget,
   manifestPath,
-  targetKey,
   readJson,
   rel,
   writeJsonAtomic,
@@ -62,18 +61,12 @@ async function main() {
 
   const snapshotId = args["snapshot-id"];
   if (!snapshotId) throw new Error("--snapshot-id is required");
-  const envName = args["target-url-env"];
-  if (!envName) throw new Error("--target-url-env=<ENV_VAR_NAME> is required");
-  const targetUrl = process.env[envName];
-  if (!targetUrl) throw new Error(`Environment variable ${envName} is not set`);
 
-  assertNotProduction(targetUrl, { cliAcknowledged: Boolean(args["i-acknowledge-production-target"]) });
-
-  const targetInfo = describeTarget(targetUrl);
+  const { clientConfig, targetInfo, hostKey } = resolveTarget(args);
   console.log(JSON.stringify({ status: "starting", snapshot_id: snapshotId, target_host: targetInfo.host }));
 
   const manifest = readJson(manifestPath(snapshotId));
-  const client = new Client({ connectionString: targetUrl });
+  const client = new Client(clientConfig);
   await client.connect();
   await applyStatementTimeout(client);
 
@@ -95,7 +88,6 @@ async function main() {
   }
 
   const allPass = results.every((r) => r.rows_match && r.digest_match);
-  const hostKey = targetKey(targetUrl);
   const reportPath = rel("warehouse", "reports", `snapshot_verify_${snapshotId}_${hostKey}.json`);
   await writeJsonAtomic(reportPath, { status: allPass ? "pass" : "fail", snapshot_id: snapshotId, target_host: targetInfo.host, tables: results });
 

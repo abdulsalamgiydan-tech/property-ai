@@ -7,14 +7,24 @@
  * kept as a separate concern: import.mjs hard-fails if a target table
  * doesn't already exist rather than attempting CREATE TABLE).
  *
- * The target connection string is read from a NAMED ENVIRONMENT VARIABLE
- * (never a literal CLI argument, so it can never appear in shell history or
- * `ps aux`). Targeting Production requires a double opt-in: the
+ * The target connection is resolved one of two ways -- never a literal CLI
+ * argument, so a credential can never appear in shell history or `ps aux`:
+ *
+ *   --target-url-env=<ENV_VAR_NAME>  reads a full connection string from
+ *                                     that named env var (original mode).
+ *   --target-pg-env                  reads the standard libpq PGHOST/PGPORT/
+ *                                     PGUSER/PGPASSWORD/PGDATABASE env vars
+ *                                     (Sprint 18.3 mode, for the secure
+ *                                     interactive rehearsal runner --
+ *                                     see warehouse/scripts/rehearsal/).
+ *
+ * Targeting Production requires a double opt-in: the
  * --i-acknowledge-production-target CLI flag AND SNAPSHOT_ALLOW_PRODUCTION_TARGET=true
  * set together -- neither alone is enough (see lib.mjs#assertNotProduction).
  *
  * Usage:
  *   node warehouse/scripts/snapshot/import.mjs --snapshot-id=<id> --target-url-env=<ENV_VAR_NAME> [--target-label=<text>]
+ *   node warehouse/scripts/snapshot/import.mjs --snapshot-id=<id> --target-pg-env [--target-label=<text>]
  */
 
 import fs from "node:fs";
@@ -26,11 +36,9 @@ import { from as copyFrom } from "pg-copy-streams";
 import {
   loadLocalEnv,
   parseArgs,
-  assertNotProduction,
-  describeTarget,
+  resolveTarget,
   tableFilePath,
   rel,
-  targetKey,
   writeJsonAtomic,
   ProgressCheckpoint,
   applyStatementTimeout,
@@ -98,15 +106,8 @@ async function main() {
   const snapshotId = args["snapshot-id"];
   if (!snapshotId) throw new Error("--snapshot-id is required");
 
-  const envName = args["target-url-env"];
-  if (!envName) throw new Error("--target-url-env=<ENV_VAR_NAME> is required (the connection string itself is never a CLI argument)");
+  const { clientConfig, targetInfo, hostKey } = resolveTarget(args);
 
-  const targetUrl = process.env[envName];
-  if (!targetUrl) throw new Error(`Environment variable ${envName} is not set`);
-
-  assertNotProduction(targetUrl, { cliAcknowledged: Boolean(args["i-acknowledge-production-target"]) });
-
-  const targetInfo = describeTarget(targetUrl);
   const targetLabel = args["target-label"] || targetInfo.knownRef;
   console.log(JSON.stringify({ status: "starting", snapshot_id: snapshotId, target_host: targetInfo.host, target_label: targetLabel }));
 
@@ -117,7 +118,6 @@ async function main() {
   }
   const manifest = inspection.manifest;
 
-  const hostKey = targetKey(targetUrl);
   const checkpoint = new ProgressCheckpoint(snapshotId, hostKey);
   if (checkpoint.isCompleted()) {
     console.log(JSON.stringify({ status: "already_completed", snapshot_id: snapshotId, target_host: targetInfo.host }));
@@ -137,7 +137,7 @@ async function main() {
   };
   await checkpoint.save(state);
 
-  const client = new Client({ connectionString: targetUrl });
+  const client = new Client(clientConfig);
   await client.connect();
   await applyStatementTimeout(client);
 
