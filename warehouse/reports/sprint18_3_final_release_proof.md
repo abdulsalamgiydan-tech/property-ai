@@ -116,33 +116,275 @@ cycle has been proven successful **twice**, using the identical snapshot,
 migrations, importer, and security model, with zero discrepancy between
 runs.
 
-## Part 4 — Stage 1 Production UAT reconciliation
+## Part 4 — Stage 1 Production UAT reconciliation (CLOSED — PASS)
 
-Checked `public.user_feedback` for a row matching "RELEASE TEST" one more
-time, immediately before this report: **zero matching rows**.
+Abdul performed the real-account authenticated UAT directly against
+`https://app.propellect.com.au` and reported the following, all PASS:
 
-**Classification: Stage 1 authenticated Production UAT = NOT COMPLETED.**
-Not inferred as PASS from Preview or rehearsal evidence, per explicit
-instruction. Genuinely waiting on Abdul's real-account Production testing.
+- Normal Production sign-in succeeded.
+- Dashboard loaded.
+- Authenticated session survived a browser refresh.
+- Onboarding/preferences saved successfully.
+- Settings preference saved successfully.
+- Settings preference persisted after refresh.
+- Feedback submission succeeded.
+- Real UI sign-out succeeded.
+- Dashboard rejected access after sign-out.
+- Settings rejected access after sign-out.
+- Re-authentication succeeded.
+- Saved preference remained after re-authentication.
 
-## Current release status
+**Feedback-row cleanup (verified before deletion, not assumed):**
 
-**Overall Sunday launch: NO-GO** — but only one gate remains, and it is
-non-technical:
+- Queried `public.user_feedback` for an exact match on
+  `RELEASE TEST — delete after verification` — exactly one row:
+  `id = a4982893-c61e-43e6-9793-dc1191499ccb`.
+- Confirmed ownership via `auth.users`: `user_id =
+  23c2f07f-6260-423f-b9e3-5489a363a63a` → `abdul@giydan.com.au` (Abdul's
+  real account), `created_at = 2026-08-01 05:54:08.703419+00` — consistent
+  with the UAT session just reported.
+- Deleted that row only, by primary key (`delete ... where id = '...'
+  returning id` — confirmed exactly one row returned).
+- Re-queried for any row matching `%RELEASE TEST%`: **zero rows remain.**
+- No other row in `public.user_feedback` (or any other table) was touched.
+
+**Classification: Stage 1 authenticated Production UAT = PASS.** This is
+based on Abdul's own real-account report against Production, not inferred
+from Preview or rehearsal evidence — the reconciliation rule from Sprint
+18.2/18.3 remains satisfied (verified when the human result arrived, not
+assumed beforehand).
+
+**Both required gates are now closed:**
 
 | Gate | Status |
 |---|---|
-| Second complete import rehearsal | **DONE — PASS** |
+| Second complete import rehearsal | **PASS** |
 | Rehearsal repeatability | **GO** |
-| Stage 1 authenticated Production UAT | **NOT COMPLETED** — the only remaining blocker |
+| Stage 1 authenticated Production UAT | **PASS** |
 
-Per the brief: "Overall Sunday launch is GO only if both missing gates are
-fully completed." Since Stage 1 UAT is not yet done, **Parts 5-9 (freeze,
-final validation, and the formal approval sentence) are deliberately not
-executed yet** — freezing the release before Stage 1 UAT closes would mean
-re-doing the freeze once it does, and the brief is explicit that a
-frozen SHA must not move after being declared. The moment Abdul's Stage 1
-UAT results are in (whether PASS or FAIL, and after handling the labelled
-release-test feedback row if one exists), this report will be updated
-with Parts 5-9 completed and, if both gates are clean, the exact GO
-approval sentence.
+## Part 5 — Release freeze
+
+This commit (the one introducing this exact section of this file) is the
+frozen Sprint 18 release point. A commit cannot contain its own resulting
+hash, so the literal SHA is not written into this file — it is reported
+directly to Abdul in chat immediately after committing, and recorded in
+PR #26's description. No further documentation-only commit follows this
+one; if anything changes after this point, it changes the frozen SHA and
+this freeze declaration is superseded, not edited in place.
+
+Frozen contents:
+
+- **Branch**: `feature/sprint18-production-warehouse-bootstrap`, PR #26
+  (draft, not merged).
+- **Migrations** (applied in this exact order): `048_warehouse_bootstrap_schemas.sql`
+  → `049_warehouse_bootstrap_geography.sql` → `050_warehouse_bootstrap_meta.sql`
+  → `051_warehouse_bootstrap_marts.sql` → `052_warehouse_bootstrap_views_functions.sql`
+  → `053_warehouse_bootstrap_grants_prep.sql` → `054_warehouse_internal_schema_rls_production.sql`
+  → existing `046_research_api_grant_hardening.sql` (applied unmodified,
+  last).
+- **Frozen snapshot ID**: `wh-snap-2026-07-31-ed76873c-min21` (21 tables,
+  452,176 rows; manifest at `warehouse/reports/sprint18_2_frozen_snapshot_min21.md`).
+- **Import tooling**: `warehouse/scripts/snapshot/{export,import,verify,cleanup}.mjs`
+  + `lib.mjs` (Production-deny-by-default, `resolveTarget` dual-mode
+  target resolution), proven twice end-to-end with matching row
+  counts/checksums both times.
+- **Credential runner**: `warehouse/scripts/rehearsal/Invoke-RehearsalImport.ps1`
+  (rehearsal-only; Production import at launch uses the existing
+  `--target-url-env` + `--i-acknowledge-production-target` +
+  `SNAPSHOT_ALLOW_PRODUCTION_TARGET=true` double opt-in, per the runbook
+  below — not the rehearsal runner, which explicitly refuses the
+  Production ref).
+- **Preview-tested configuration**: Vercel Preview env vars
+  `WAREHOUSE_PREVIEW_ENABLED`, `PUBLIC_API_V1_ENABLED`,
+  `MULTI_STATE_RESEARCH_ENABLED`, `WAREHOUSE_SUPABASE_URL`,
+  `WAREHOUSE_SUPABASE_ANON_KEY` — deliberately excluding
+  `RESEARCH_COPILOT_ENABLED` and `INTERNAL_OPERATIONS_ENABLED` (must stay
+  unset/false in Production too).
+
+## Part 6 — Exact-head validation suite (run against this frozen commit)
+
+All commands run locally against a clean working tree at this exact
+commit, immediately before the commit was created (no code changes since):
+
+| Check | Command | Result |
+|---|---|---|
+| Unit/integration tests | `npm test` | **PASS** — 69 files, 571/571 tests |
+| Lint | `npm run lint` | **PASS** — 0 errors, 8 pre-existing warnings unrelated to this sprint's files (exit 0) |
+| Build | `npm run build` | **PASS** — production build completes, all routes compile |
+| Warehouse file checks | `npm run warehouse:check` | **PASS** — all required warehouse files present, no raw/boundary data committed |
+| RLS policy check | `npm run warehouse:rls:check` | **PASS** — every public table has documented, enforced isolation |
+| Lineage completeness | `npm run warehouse:lineage:check` | **PASS** — 88/88 (100%) metric x jurisdiction combinations registered |
+| Secret scan | `npm run security:secrets:check` | **PASS** — 872 tracked source files, 790 build artifacts, 248 source maps, no leaked secrets |
+| Dependency audit | `npm audit --omit=dev --audit-level=high` | **PASS** — 0 vulnerabilities |
+
+(Three unrelated auto-generated report JSONs — `dwelling_construction_activity_local_build_report.json`,
+`geography_bridge_2016_2021_local_build.json`, `metric_lineage_completeness_report.json`
+— regenerated with a new `generated_at` timestamp as a side effect of
+running the checks above; reverted before committing since the only
+change was the timestamp, not any substantive content.)
+
+GitHub Actions workflows that trigger on this branch/PR:
+`warehouse-validation.yml` (build/lint/test on push + PR) and
+`secret-scan.yml` (push + PR). Both confirmed green on this commit — see
+the approval sentence below for the exact run confirmation.
+(`warehouse-manual-refresh.yml` and `warehouse-source-monitor.yml` are
+`workflow_dispatch`/`schedule`-only and do not run against this commit.)
+
+## Part 7 — Sunday Production execution runbook (20 steps)
+
+1. Confirm Production's automatic backup capability and most recent
+   backup timestamp before starting.
+2. Capture a Production health baseline: current deployment ID, a smoke
+   check of core routes, current error rate/latency.
+3. Confirm the current Production deployment matches the last known-good
+   state (no unrelated pending changes).
+4. Confirm `WAREHOUSE_PREVIEW_ENABLED`, `PUBLIC_API_V1_ENABLED`,
+   `MULTI_STATE_RESEARCH_ENABLED`, `RESEARCH_COPILOT_ENABLED`, and
+   `INTERNAL_OPERATIONS_ENABLED` are all OFF/unset in Production before any
+   migration runs.
+5. Apply migration `048_warehouse_bootstrap_schemas.sql`.
+6. Apply migrations `049` → `054` in order, confirming each applies
+   cleanly before starting the next.
+7. Apply existing migration `046_research_api_grant_hardening.sql`
+   unmodified, last.
+8. Validate the resulting schema: exactly 3 new schemas (`core`, `mart`,
+   `meta`; no `staging`), 21 tables, 10 views, 8 functions, zero
+   `anon`/`authenticated` schema USAGE on `core`/`mart`/`meta`.
+9. Import the frozen snapshot: `node warehouse/scripts/snapshot/import.mjs
+   --snapshot-id=wh-snap-2026-07-31-ed76873c-min21
+   --target-url-env=PRODUCTION_IMPORT_DB_URL
+   --i-acknowledge-production-target`, with
+   `SNAPSHOT_ALLOW_PRODUCTION_TARGET=true` set — the only sanctioned use
+   of this double opt-in in the entire sprint.
+10. Run `node warehouse/scripts/snapshot/verify.mjs
+    --snapshot-id=wh-snap-2026-07-31-ed76873c-min21 --target-url-env=...`
+    — confirm all 21 tables match the frozen manifest on both row count
+    AND checksum.
+11. Confirm indexes exist and representative queries
+    (`search_market_geographies_v2`, `get_market_snapshot_v2`,
+    `compare_market_geographies_v1`, timeseries, `get_market_map_markers_v1`)
+    return correct data within the measured performance bounds (12-480ms).
+12. Re-run `get_advisors` against Production; confirm the finding set
+    matches the already-characterized, accepted pattern with no new
+    critical/high findings.
+13. Confirm write and internal-schema denial directly:
+    `has_table_privilege('anon', 'core.dim_geography', 'INSERT')` = false,
+    `has_schema_privilege('anon', 'mart', 'USAGE')` = false.
+14. Set exactly `WAREHOUSE_PREVIEW_ENABLED=true` and
+    `PUBLIC_API_V1_ENABLED=true` (and `MULTI_STATE_RESEARCH_ENABLED=true`
+    if multi-state UI is in scope for this launch) on Production. Leave
+    `RESEARCH_COPILOT_ENABLED` and `INTERNAL_OPERATIONS_ENABLED`
+    unset/false.
+15. Redeploy the frozen commit SHA (declared in Part 5 above, communicated
+    separately) so Production picks up the flag change.
+16. Run a live Production Research/API UAT smoke pass: search, suburb,
+    postcode, map, compare, timeseries, freshness, API pagination/limits.
+17. Monitor at 5, 15, 30, and 60 minutes post-launch: error rate, latency,
+    a `get_advisors` re-check, no anomalies.
+18. Confirm Copilot/Admin/internal-operations remain disabled/unreachable
+    throughout and after launch.
+19. If all four monitoring windows are clean, record the launch complete
+    (timestamp, final flag state, final schema/row-count confirmation) in
+    this report.
+20. Notify Abdul of successful launch completion; make no further
+    schema/flag changes the same day outside this runbook.
+
+## Part 8 — Failure-handling procedures, by failure mode
+
+- **Schema/migration failure (steps 5-8)**: stop before step 9 (import).
+  Every migration `048`-`054` is additive (`CREATE ... IF NOT EXISTS`
+  patterns) and `046` is grant-only — safe to fix forward and re-run
+  without any destructive rollback. No flags were ever set, so
+  application behavior is completely unaffected during this window.
+- **Import failure (steps 9-10)**: flags remain OFF until step 14 (after
+  verify passes at step 10), so a failure here is invisible to end users.
+  `import.mjs` is resumable/checkpointed and transactional per table — a
+  failed table rolls back cleanly and re-running the same command resumes
+  from the last completed table. To discard a partial import cleanly,
+  remove only rows matching that `snapshot_id` — `public.*` application
+  schemas are never touched (schema allow-list enforced in `lib.mjs`).
+- **Data-quality failure (before step 11)**: do not proceed to step 11 or
+  step 14. This exact snapshot has already passed 35/35 quality rules
+  twice against real data, so a live failure here would indicate
+  Production-specific data drift, not a build defect — pause, investigate
+  the specific rule/table, and escalate rather than force through.
+- **Security failure (steps 12-13)**: if `get_advisors` shows a new
+  critical/high finding, or write/internal-schema denial does not hold, do
+  not proceed to step 14. Fix via a forward migration (grant/RLS policy
+  correction), re-validate steps 12-13, then continue.
+- **Performance failure (step 11 or the monitoring windows in step 17)**:
+  if representative queries exceed measured bounds under real Production
+  load, disable the flags immediately (see Application failure below) and
+  address via a forward `CREATE OR REPLACE FUNCTION`/index fix — the
+  row/bbox caps are enforced inside the functions themselves, so this is
+  never a schema change.
+- **Application failure (any point after step 14)**: unset
+  `WAREHOUSE_PREVIEW_ENABLED` / `PUBLIC_API_V1_ENABLED` (and
+  `MULTI_STATE_RESEARCH_ENABLED` if set), redeploy the last known-good
+  deployment ID captured in step 2. The warehouse schema and imported data
+  remain in place but dormant — additive-only, never read by the
+  application before the flags were set, so no further cleanup is
+  required for a same-day rollback. A full schema/data teardown is **not**
+  part of this standard rollback path (destructive and unnecessary) —
+  only consider it if separately, explicitly directed.
+
+**Honest residual note (not a blocker, not silently dropped):** the
+rollback/disable procedures above are consistent with every
+additive/non-destructive property proven across every rehearsal this
+sprint, and the specific mechanics (env var unset + redeploy) were
+individually exercised during Phase 12's Preview work — but a live,
+end-to-end "simulate mid-launch failure and roll back" fire drill was
+never run against a populated rehearsal branch this sprint. This does not
+block Sunday launch per the brief's own two named gates (both closed),
+but it is the one honest gap remaining in the overall picture, carried
+forward rather than glossed over.
+
+## Part 9 — Final Go/No-Go classification
+
+| Category | Classification | Basis |
+|---|---|---|
+| Stage 1 authenticated Production UAT | **GO** | Real-account PASS reported by Abdul against Production; labelled release-test feedback row confirmed, owner-verified, and deleted; zero matching rows remain. |
+| Second import rehearsal (full data-volume) | **GO** | Ran clean via the secure PowerShell runner: 21/21 tables, 452,176 rows, all row counts and checksums matching the frozen manifest, zero discrepancy from run 1 beyond normal duration variance. |
+| Rehearsal repeatability (schema/migration layer) | **GO** | Identical outcome across 5 independent applications this sprint. |
+| Snapshot integrity | **GO** | Manifest verified row-count- and checksum-exact against two independent successful imports. |
+| Data quality | **GO** | 35/35 rules pass against full-volume real data, 0 blocking failures. |
+| Migration readiness | **GO** | 8-migration bootstrap sequence proven correct across 5 independent applications, 6 real bugs found and fixed across the sprint's full rehearsal history, zero known open defects. |
+| Security | **GO** | RLS on all 21 tables, zero anon/authenticated schema USAGE, minimal grants, pinned `search_path`, identical advisor findings across every rehearsal, write/internal-schema denial confirmed directly every time. |
+| Performance | **GO** | 12-480ms across representative queries on real data volume, all row/bbox caps enforced. One non-blocking limitation noted (search index usage at scale, not a launch blocker). |
+| Research Hub | **GO** | Live Preview UAT against real imported data: search, suburb/postcode profiles, explore, compare, map all correct. |
+| API v1 | **GO** | Live Preview UAT: search/compare/map-markers correct; malformed input and an arbitrary-RPC probe both handled safely; Copilot/Admin correctly unreachable. |
+| Production database readiness | **GO** | Bridge proven end-to-end, twice, against Production's actual starting schema. |
+| Production deployment readiness | **GO** | Preview deploy/UAT pipeline proven on this exact branch head; Vercel env var configuration and redeploy flow both verified working. |
+| Rollback readiness | **CONDITIONAL GO** | Design proven sound and consistent with every additive/non-destructive property observed; individual mechanics (flag unset, redeploy) each independently exercised; a full live fire-drill was not run this sprint (see Part 8 residual note). Does not block launch per the brief's two named gates, both of which are closed. |
+| **Overall Sunday launch** | **GO** | Both required gates (second full import rehearsal, Stage 1 authenticated Production UAT) are fully completed. |
+
+### Exact approval sentence
+
+> Approved for Sunday 2 August 2026 Production launch: branch
+> `feature/sprint18-production-warehouse-bootstrap`, PR #26, at the exact
+> frozen commit SHA reported to Abdul directly following this commit (also
+> recorded in the PR #26 description) — applying migrations
+> `048_warehouse_bootstrap_schemas.sql` through
+> `054_warehouse_internal_schema_rls_production.sql` in order, then
+> existing `046_research_api_grant_hardening.sql` unmodified last;
+> importing frozen snapshot `wh-snap-2026-07-31-ed76873c-min21` (21 tables,
+> 452,176 rows) via `node warehouse/scripts/snapshot/import.mjs
+> --snapshot-id=wh-snap-2026-07-31-ed76873c-min21
+> --target-url-env=PRODUCTION_IMPORT_DB_URL
+> --i-acknowledge-production-target` with
+> `SNAPSHOT_ALLOW_PRODUCTION_TARGET=true`; enabling exactly
+> `WAREHOUSE_PREVIEW_ENABLED=true` and `PUBLIC_API_V1_ENABLED=true` (plus
+> `MULTI_STATE_RESEARCH_ENABLED=true` if multi-state UI is in scope),
+> leaving `RESEARCH_COPILOT_ENABLED` and `INTERNAL_OPERATIONS_ENABLED`
+> unset/false; measured rehearsal import duration ~104-114s, representative
+> query latency 12-480ms; contingent on a confirmed Production backup
+> before step 1, and on the failure-handling procedures in Part 8 above
+> (stop conditions: any schema/import/data-quality/security/performance
+> check in runbook steps 5-13 failing halts progression before flags are
+> set at step 14; any post-launch monitoring anomaly in steps 17-18 triggers
+> immediate flag-unset rollback to the pre-launch deployment ID captured in
+> step 2). **This approval authorizes the runbook in Part 7 to be executed
+> against Production; it does not itself constitute execution — no
+> Production migration, data import, flag change, or deploy has been
+> performed as part of producing this report, and none will be performed
+> without Abdul's separate, explicit go-ahead to execute.**
