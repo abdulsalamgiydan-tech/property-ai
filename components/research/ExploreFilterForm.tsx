@@ -60,7 +60,7 @@ export function ExploreFilterForm({
           aria-label="Filter by state"
           className="rounded-xl border border-zinc-700/70 bg-zinc-950/60 px-3 py-2.5 text-sm text-zinc-100 focus:border-violet-500/60 focus:outline-none"
         >
-          <option value="">All states</option>
+          <option value="">NSW + VIC</option>
           <option value="NSW">NSW</option>
           <option value="VIC">VIC</option>
         </select>

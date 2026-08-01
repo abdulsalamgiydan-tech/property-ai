@@ -9,7 +9,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const researchLink = { href: "/research", label: "Research" };
-const suburbIntelligenceLink = { href: "/suburb-intelligence", label: "Suburb intelligence" };
 
 const publicLinks: Array<{ href: string; label: string }> = [
   { href: "/", label: "Home" },
@@ -111,7 +110,7 @@ export function Navbar({ warehousePreviewEnabled = false }: { warehousePreviewEn
 
   if (hidden) return null;
   const showResearch = shouldShowResearchNav(warehousePreviewEnabled);
-  const desktopLinks = buildDesktopNavLinks(warehousePreviewEnabled, publicLinks, researchLink, suburbIntelligenceLink);
+  const desktopLinks = buildDesktopNavLinks(warehousePreviewEnabled, publicLinks, researchLink);
   const allLinks = user ? [...desktopLinks, ...signedInLinks] : desktopLinks;
   const visibleMobileLinks = showResearch ? mobileLinks : mobileLinks.filter((l) => l.href !== "/research");
 
