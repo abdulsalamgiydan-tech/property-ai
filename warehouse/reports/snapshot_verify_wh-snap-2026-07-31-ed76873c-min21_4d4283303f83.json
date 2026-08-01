@@ -1,0 +1,196 @@
+{
+  "status": "pass",
+  "snapshot_id": "wh-snap-2026-07-31-ed76873c-min21",
+  "target_host": "db.oshquaxsloolqucwvigc.supabase.co",
+  "tables": [
+    {
+      "table": "core.dim_geography",
+      "expected_rows": 101215,
+      "actual_rows": 101215,
+      "rows_match": true,
+      "expected_digest": "1b1e8e7b4e819491a7ce6d267b73fa92",
+      "actual_digest": "1b1e8e7b4e819491a7ce6d267b73fa92",
+      "digest_match": true
+    },
+    {
+      "table": "meta.jurisdiction",
+      "expected_rows": 8,
+      "actual_rows": 8,
+      "rows_match": true,
+      "expected_digest": "89d718d8ef6685602cfdb9dae43eec10",
+      "actual_digest": "89d718d8ef6685602cfdb9dae43eec10",
+      "digest_match": true
+    },
+    {
+      "table": "meta.source",
+      "expected_rows": 13,
+      "actual_rows": 13,
+      "rows_match": true,
+      "expected_digest": "de21d27db4d7d25486eeb73cfccd4b92",
+      "actual_digest": "de21d27db4d7d25486eeb73cfccd4b92",
+      "digest_match": true
+    },
+    {
+      "table": "meta.dataset",
+      "expected_rows": 41,
+      "actual_rows": 41,
+      "rows_match": true,
+      "expected_digest": "93fb4364f77c28402e13cef2f2037210",
+      "actual_digest": "93fb4364f77c28402e13cef2f2037210",
+      "digest_match": true
+    },
+    {
+      "table": "meta.dataset_freshness_status",
+      "expected_rows": 7,
+      "actual_rows": 7,
+      "rows_match": true,
+      "expected_digest": "81e2d5b94af30efb7554172bb6ff113a",
+      "actual_digest": "81e2d5b94af30efb7554172bb6ff113a",
+      "digest_match": true
+    },
+    {
+      "table": "meta.dataset_refresh_run",
+      "expected_rows": 2,
+      "actual_rows": 2,
+      "rows_match": true,
+      "expected_digest": "c56257d66e0b1c56e321843a9944f4a9",
+      "actual_digest": "c56257d66e0b1c56e321843a9944f4a9",
+      "digest_match": true
+    },
+    {
+      "table": "meta.metric_assumption",
+      "expected_rows": 7,
+      "actual_rows": 7,
+      "rows_match": true,
+      "expected_digest": "2dbec8b9d804bc33a206d7b884d3abf9",
+      "actual_digest": "2dbec8b9d804bc33a206d7b884d3abf9",
+      "digest_match": true
+    },
+    {
+      "table": "meta.metric_lineage_registry",
+      "expected_rows": 35,
+      "actual_rows": 35,
+      "rows_match": true,
+      "expected_digest": "7b50e6e1d150d773c969776dc19717dd",
+      "actual_digest": "7b50e6e1d150d773c969776dc19717dd",
+      "digest_match": true
+    },
+    {
+      "table": "meta.data_quality_rule",
+      "expected_rows": 44,
+      "actual_rows": 44,
+      "rows_match": true,
+      "expected_digest": "f5300c8f47d9f58566e3ee247eeb5c4c",
+      "actual_digest": "f5300c8f47d9f58566e3ee247eeb5c4c",
+      "digest_match": true
+    },
+    {
+      "table": "meta.data_quality_run",
+      "expected_rows": 5,
+      "actual_rows": 5,
+      "rows_match": true,
+      "expected_digest": "b8533c14b3d6d208da037796dc406973",
+      "actual_digest": "b8533c14b3d6d208da037796dc406973",
+      "digest_match": true
+    },
+    {
+      "table": "meta.data_incident",
+      "expected_rows": 3,
+      "actual_rows": 3,
+      "rows_match": true,
+      "expected_digest": "a2edf5f7a82e54fbbb57f5d1b197feab",
+      "actual_digest": "a2edf5f7a82e54fbbb57f5d1b197feab",
+      "digest_match": true
+    },
+    {
+      "table": "meta.data_quarantine_summary",
+      "expected_rows": 1,
+      "actual_rows": 1,
+      "rows_match": true,
+      "expected_digest": "92ea137df8a1e0c64c40ef2e8f0889c9",
+      "actual_digest": "92ea137df8a1e0c64c40ef2e8f0889c9",
+      "digest_match": true
+    },
+    {
+      "table": "mart.suburb_market_snapshot",
+      "expected_rows": 15334,
+      "actual_rows": 15334,
+      "rows_match": true,
+      "expected_digest": "6f388dc753dc629021c504e6996d0ecb",
+      "actual_digest": "6f388dc753dc629021c504e6996d0ecb",
+      "digest_match": true
+    },
+    {
+      "table": "mart.postcode_market_snapshot",
+      "expected_rows": 2641,
+      "actual_rows": 2641,
+      "rows_match": true,
+      "expected_digest": "3bc95ba0ba0f42119f20b2b0c843204e",
+      "actual_digest": "3bc95ba0ba0f42119f20b2b0c843204e",
+      "digest_match": true
+    },
+    {
+      "table": "mart.suburb_demographic_profile_2021",
+      "expected_rows": 15334,
+      "actual_rows": 15334,
+      "rows_match": true,
+      "expected_digest": "3eb4cc9f2dbc054b863c701e4075ba65",
+      "actual_digest": "3eb4cc9f2dbc054b863c701e4075ba65",
+      "digest_match": true
+    },
+    {
+      "table": "mart.postcode_demographic_profile_2021",
+      "expected_rows": 2641,
+      "actual_rows": 2641,
+      "rows_match": true,
+      "expected_digest": "be61fcc0eddda6cd5091a3956bb7d0d3",
+      "actual_digest": "be61fcc0eddda6cd5091a3956bb7d0d3",
+      "digest_match": true
+    },
+    {
+      "table": "mart.suburb_market_timeseries",
+      "expected_rows": 102625,
+      "actual_rows": 102625,
+      "rows_match": true,
+      "expected_digest": "217b8754530ed889282d42a1de80c666",
+      "actual_digest": "217b8754530ed889282d42a1de80c666",
+      "digest_match": true
+    },
+    {
+      "table": "mart.postcode_market_timeseries",
+      "expected_rows": 23150,
+      "actual_rows": 23150,
+      "rows_match": true,
+      "expected_digest": "7638ec00eae9b5abe62f98f0ab6d4189",
+      "actual_digest": "7638ec00eae9b5abe62f98f0ab6d4189",
+      "digest_match": true
+    },
+    {
+      "table": "mart.suburb_rent_quarterly",
+      "expected_rows": 99561,
+      "actual_rows": 99561,
+      "rows_match": true,
+      "expected_digest": "32915b7d16ce8142dba54fb53378b026",
+      "actual_digest": "32915b7d16ce8142dba54fb53378b026",
+      "digest_match": true
+    },
+    {
+      "table": "mart.postcode_rent_quarterly",
+      "expected_rows": 75578,
+      "actual_rows": 75578,
+      "rows_match": true,
+      "expected_digest": "ba5888270f7c9ec5230f87958c51246a",
+      "actual_digest": "ba5888270f7c9ec5230f87958c51246a",
+      "digest_match": true
+    },
+    {
+      "table": "mart.lga_rent_quarterly",
+      "expected_rows": 13931,
+      "actual_rows": 13931,
+      "rows_match": true,
+      "expected_digest": "263e09beaf5c42cc11f66d139da62982",
+      "actual_digest": "263e09beaf5c42cc11f66d139da62982",
+      "digest_match": true
+    }
+  ]
+}
