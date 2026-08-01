@@ -37,6 +37,11 @@ describe("046_research_api_grant_hardening.sql", () => {
   it("revokes PUBLIC function execution before explicit anon/authenticated grants", () => {
     expect(lower).toContain("revoke all privileges on function public.get_market_snapshot_v2(text) from public, anon, authenticated");
     expect(lower).toContain("grant execute on function public.get_market_snapshot_v2(text) to anon, authenticated");
-    expect(lower).toContain("revoke all on schema core, mart, staging, meta from anon, authenticated");
+    expect(lower).toContain("revoke all on schema core, mart, meta from anon, authenticated");
+  });
+
+  it("only revokes on schema staging if it exists, so this migration applies unmodified whether or not the full 003-036 staging schema is present (e.g. Production's minimum-contract bootstrap never creates it)", () => {
+    expect(lower).toMatch(/if exists \(select 1 from pg_namespace where nspname = 'staging'\)/);
+    expect(lower).toContain("revoke all on schema staging from anon, authenticated");
   });
 });

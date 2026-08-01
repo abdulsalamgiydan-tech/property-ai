@@ -56,4 +56,19 @@ grant execute on function public.get_metric_lineage_v1(text, text, text) to anon
 grant execute on function public.get_warehouse_operations_summary_v1() to anon, authenticated;
 
 -- Internal schemas are deliberately not exposed directly via the Data API.
-revoke all on schema core, mart, staging, meta from anon, authenticated;
+-- `staging` only exists where the full 003-036 warehouse history has been
+-- applied (e.g. warehouse-validation, or a clean 001-046 replay) -- the
+-- Sprint 18.2 Production minimum-contract bootstrap (048-054) deliberately
+-- never creates it (zero staging tables are read by any granted view/
+-- function). Guard the revoke so this migration applies unmodified in both
+-- contexts instead of hard-failing on Production with "schema staging does
+-- not exist" -- found via the Sprint 18.2 Phase 9 rehearsal against a
+-- disposable branch that reproduces Production's actual (no-staging) state.
+do $$
+begin
+  if exists (select 1 from pg_namespace where nspname = 'staging') then
+    revoke all on schema staging from anon, authenticated;
+  end if;
+end $$;
+
+revoke all on schema core, mart, meta from anon, authenticated;

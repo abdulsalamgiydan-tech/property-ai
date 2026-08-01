@@ -1,0 +1,8 @@
+# .mjs scripts carry a `#!/usr/bin/env node` shebang. Combined with CRLF line
+# endings (the default checkout on Windows when core.autocrlf=true), Vite's
+# shebang-stripping in the vitest transform pipeline fails with
+# "SyntaxError: Invalid or unexpected token" even though the file is valid
+# JS (esbuild alone parses it fine) and `node file.mjs` runs it fine.
+# Force LF regardless of platform checkout settings to prevent this class
+# of bug from recurring for any future .mjs script.
+*.mjs text eol=lf

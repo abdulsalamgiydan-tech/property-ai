@@ -1,0 +1,31 @@
+{
+  "snapshot_id": "wh-snap-2026-07-31-ed76873c-min21",
+  "target_host": "db.lgmlwlessxdjtddxkpcw.supabase.co",
+  "started_at": "2026-08-01T05:28:32.467Z",
+  "tables_done": [
+    "core.dim_geography",
+    "meta.jurisdiction",
+    "meta.source",
+    "meta.dataset",
+    "meta.dataset_freshness_status",
+    "meta.dataset_refresh_run",
+    "meta.metric_assumption",
+    "meta.metric_lineage_registry",
+    "meta.data_quality_rule",
+    "meta.data_quality_run",
+    "meta.data_incident",
+    "meta.data_quarantine_summary",
+    "mart.suburb_market_snapshot",
+    "mart.postcode_market_snapshot",
+    "mart.suburb_demographic_profile_2021",
+    "mart.postcode_demographic_profile_2021",
+    "mart.suburb_market_timeseries",
+    "mart.postcode_market_timeseries",
+    "mart.suburb_rent_quarterly",
+    "mart.postcode_rent_quarterly",
+    "mart.lga_rent_quarterly"
+  ],
+  "tables_failed": [],
+  "finished_at": "2026-08-01T05:33:09.950Z",
+  "duration_ms": 104415
+}
