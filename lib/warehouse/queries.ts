@@ -329,6 +329,39 @@ export async function getMarketSnapshotV2(geographyId: string): Promise<MarketSn
   return (data as MarketSnapshotV2) ?? null;
 }
 
+// One row per accepted official metric for a suburb (SAL). Returns both direct
+// observations and qualified derived yields, each with its source, period window,
+// freshness (retrieved_at) and direct/derived status. Backed by the SECURITY
+// DEFINER RPC public.get_official_suburb_metrics_v1 (migration 057) — the RPC is
+// the only consumer path that exposes the derived yields (the 056 view is
+// direct-only), and it grants the client no access to the internal core/mart
+// schemas. Contextual/postcode rows are never returned. Aggregate values only.
+export type OfficialSuburbMetric = {
+  geography_id: string;
+  metric: string;
+  property_type: string;
+  bedroom_group: string;
+  value: number;
+  unit: string;
+  sample_size: number | null;
+  period_start: string | null;
+  period_end: string;
+  status: "direct" | "derived";
+  is_derived: boolean;
+  derived_from: string | null;
+  source_id: string;
+  attribution: string;
+  retrieved_at: string;
+};
+
+export async function getOfficialSuburbMetricsV1(geographyId: string): Promise<OfficialSuburbMetric[]> {
+  const supabase = createWarehouseClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("get_official_suburb_metrics_v1", { p_geography_id: geographyId });
+  if (error) return [];
+  return (data ?? []) as OfficialSuburbMetric[];
+}
+
 // The `get_market_snapshot_v2` RPC's RETURNS TABLE contract omits ~15 columns
 // that mart storage (and the `v_*_market_snapshot_v1` views) actually hold —
 // investor repayment, RBA rate/period, sales turnover, direct-vs-derived, data
