@@ -1,94 +1,82 @@
-# Coverage V2 — validation-promotion package
+# Coverage V2.1 — promotion package (yield lane)
 
-**Production and Supabase (validation + Production) were NOT touched by this
-sprint.** This package describes exactly how a future, human-approved sprint
-would load the locally-materialised coverage into a Supabase **validation
-branch** (never Production) after review. Nothing here has been executed
-remotely.
+**Production and Supabase (validation + Production) were NOT touched.** No remote
+migration was applied. Nothing here has been executed remotely.
 
-## What was materialised locally (real, SQL-evidenced)
+## Outcome of the yield lineage audit: ZERO promotion-ready yields
 
-Phase 3A — NSW suburb gross-yield recovery from existing valid Propellect
-observations, through an ephemeral local DuckDB warehouse
-(`warehouse/data/local/coverage_v2.duckdb`, gitignored):
+The NSW suburb gross-yield lineage audit
+(`warehouse/scripts/coverage/materialise_nsw_yield.mjs`) requalified all **126**
+naive price+rent overlap candidates against the full warehouse contract
+(`lib/warehouse/yieldLineage.ts`). Result: **0 promotion-ready** (all
+`lineage_unverified`). Reasons, from the read-only warehouse contract:
 
-| Layer | Table | Rows |
-|---|---|---|
-| raw | `raw.yield_candidate` | 126 |
-| staging | `staging.yield_candidate` (with disposition) | 126 |
-| core | `core.market_observation` | 12 (2 inputs × 6) |
-| mart | `mart.suburb_yield_recovered` | **6** |
+- the medians are aggregate **`all`** dwelling type — the metric registry
+  permits `gross_yield` for `house`/`unit` only, never `all`;
+- **no upstream observation ids** are exposed → derivation cannot cite its two
+  real inputs;
+- **no actual sample sizes** are exposed (only confidence labels) → the metric
+  minimum cannot be proven;
+- **no bedroom groups** are exposed → compatibility cannot be proven.
 
-Disposition ledger (reconciles to 126): `insufficient_sample` 78,
-`incompatible_period` 42, `materialised` 6.
+Per the sprint rule "if the defensible result falls from six to zero, report
+zero", **no yield promotion migration is created** — an empty/misleading yield
+migration would be worse than none.
 
-## Source manifest & checksum
+## Consequence for migrations
 
-- Source: `propellect_warehouse:v_suburb_market_snapshot_v1` (read-only REST).
-- Raw file: `warehouse/data/local/nsw_yield_candidates.json` (gitignored).
-- Manifest: `warehouse/data/local/nsw_yield_candidates.manifest.json` — records
-  endpoint, `retrieved_at`, `row_count=126`, and the SHA-256 content digest of
-  the canonical candidate set. Deterministic: two runs produced the identical
-  digest, count (6) and mart rows.
-- Transformation version: `gross_yield@1`. Parser/adapters: `qld_rta_rent@1`
-  (not used for materialisation — deferred).
+- `055_widen_get_market_snapshot_v2.sql` — remains merged and **UNAPPLIED**,
+  unchanged.
+- **No new migration** is proposed by this package (0 qualified rows). When
+  real, lineage-complete observations exist (see the provenance evidence request
+  and the deferred official sources), the next additive migration would take the
+  next free number after inspecting the merged repo, and would create a
+  read-only `mart`/view carrying: `geography_id, gross_yield_pct, property_type
+  (house|unit), bedroom_group, price_observation_id, rent_observation_id,
+  price_period, rent_period, formula_version, status` — exposed only via a
+  granted view, never a raw internal table.
 
-## Exact local reproduction commands
+## PostgreSQL-valid validation SQL (for the future, real, qualified payload)
 
-```
-# 1. Reproduce the materialisation + SQL evidence (read-only pull → DuckDB)
-node warehouse/scripts/coverage/materialise_nsw_yield.mjs --apply-local
-# 2. Dry-run coverage measurement (no writes)
-node warehouse/scripts/coverage/coverage_maximiser.mjs
-# 3. Deterministic rerun check: rerun step 1, compare
-#    warehouse/data/local/nsw_yield_candidates.manifest.json sha256 + mart count
-```
-
-## Migration order (prepared elsewhere / to prepare before promotion)
-
-- `055_widen_get_market_snapshot_v2.sql` — already merged, **UNAPPLIED**.
-- A new additive migration (next free number after inspecting the merged repo)
-  would create `mart.suburb_yield_recovered` (or extend the snapshot mart) with
-  the columns produced here: `geography_id, gross_yield_pct, property_type,
-  geography_level, price_observation_id, rent_observation_id, sales_period,
-  rent_period, formula_version, status`. **Not created/applied in this sprint**
-  (guardrail: no remote migration application; materialisation stayed local).
-
-## Expected validation queries (post-load, on a validation branch)
+These are written for **PostgreSQL/Supabase** (not DuckDB). They assume the
+future promotion mart `mart.suburb_yield_recovered` and observation table
+`core.market_observation`:
 
 ```sql
--- must equal 6
-select count(*) from mart.suburb_yield_recovered;
--- every mart row references two real input observations
+-- 1. every mart row cites two REAL upstream observations
 select count(*) from mart.suburb_yield_recovered y
-  where not exists (select 1 from core.market_observation o where o.observation_id = y.price_observation_id)
-     or not exists (select 1 from core.market_observation o where o.observation_id = y.rent_observation_id);  -- expect 0
--- no yield materialised from a stale/incompatible pair (all gaps ≤ 400d)
-select count(*) from mart.suburb_yield_recovered where abs(date_diff('day', sales_period, rent_period)) > 400;  -- expect 0
+where not exists (select 1 from core.market_observation o where o.observation_id = y.price_observation_id)
+   or not exists (select 1 from core.market_observation o where o.observation_id = y.rent_observation_id);  -- expect 0
+
+-- 2. no aggregate 'all' yields (registry: house/unit only)
+select count(*) from mart.suburb_yield_recovered where property_type not in ('house','unit');  -- expect 0
+
+-- 3. period compatibility (PostgreSQL date arithmetic, not DuckDB date_diff)
+select count(*) from mart.suburb_yield_recovered
+where abs(price_period - rent_period) > interval '400 days';  -- expect 0
+
+-- 4. both inputs independently suburb-level & direct
+select count(*) from mart.suburb_yield_recovered y
+join core.market_observation p on p.observation_id = y.price_observation_id
+join core.market_observation r on r.observation_id = y.rent_observation_id
+where p.geography_level <> 'suburb' or r.geography_level <> 'suburb'
+   or p.status <> 'direct' or r.status <> 'direct';  -- expect 0
 ```
 
-## Rollback plan
+## Migration replay (local, ephemeral, blank Postgres)
 
-Local-only: delete `warehouse/data/local/coverage_v2.duckdb` (regenerable).
-Remote (future): the promotion migration would be additive; rollback = drop the
-new mart object. No existing table is mutated.
+`055` and any future migration must replay cleanly on a **blank ephemeral local
+Postgres** — the existing `clean-migration-replay` CI job (postgis service
+container, workflow_dispatch) does exactly this. No remote apply.
 
-## Remote preflight checklist (for the future approved sprint)
+## Rollback
 
-- [ ] Human approval recorded.
-- [ ] Target = Supabase **validation branch** (never Production).
-- [ ] `055` + new migration replay clean on a blank ephemeral DB (CI job).
-- [ ] anon/authenticated grants reviewed — new mart exposed only via a
-      read-only view, never a raw internal table; no service-role key client-side.
-- [ ] Before/after coverage captured on the validation branch.
-- [ ] Production snapshot `wh-snap-2026-07-31-ed76873c-min21` confirmed unchanged.
+No remote change was made, so there is nothing to roll back. A future additive
+promotion migration would roll back by dropping only the new mart object; no
+existing table is mutated.
 
-## Impact estimate
+## Proof Production untouched
 
-Storage: negligible (6 mart rows + 12 observation rows). Execution: seconds.
-Security: read-only source pull; no credentials in artifacts; no client exposure.
-
-## Evidence Production untouched
-
-No Supabase write API, migration apply, or deploy was invoked this sprint. All
-writes were to `warehouse/data/local/` (gitignored) and `warehouse/reports/`.
+No Supabase write API, migration apply, or deploy was invoked. All writes were
+to `warehouse/data/local/` (gitignored) and `warehouse/reports/`. Production
+snapshot `wh-snap-2026-07-31-ed76873c-min21` unchanged.

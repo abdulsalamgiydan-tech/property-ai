@@ -1,16 +1,16 @@
-metric,label,unit,kind,all_sal,direct_populated,recoverable_now,missing,coverage_pct,projected_after_recovery_pct,primary_reason
-median_house_price,"Median house price",AUD,direct,15334,4756,0,10578,31,31,source_not_ingested
-median_unit_price,"Median unit price",AUD,direct,15334,1454,0,13880,9.5,9.5,source_not_ingested
-median_house_rent,"Median house rent (weekly)",AUD/week,direct,15334,3089,0,12245,20.1,20.1,source_not_ingested
-gross_yield,"Gross rental yield",%,derived,15334,453,126,14881,3,3.8,calculation_inputs_missing
-growth_12m,"12-month price change (cumulative)",%,derived,15334,735,0,14599,4.8,4.8,calculation_inputs_missing
-growth_3yr_cumulative,"3-year price change (cumulative)",%,derived,15334,0,0,15334,0,0,calculation_inputs_missing
-growth_3yr_cagr,"3-year price growth (CAGR)",%/yr,derived,15334,0,0,15334,0,0,calculation_inputs_missing
-growth_5yr_cumulative,"5-year price change (cumulative)",%,derived,15334,0,0,15334,0,0,calculation_inputs_missing
-growth_5yr_cagr,"5-year price growth (CAGR)",%/yr,derived,15334,0,0,15334,0,0,calculation_inputs_missing
-growth_10yr_cumulative,"10-year price change (cumulative)",%,derived,15334,0,0,15334,0,0,calculation_inputs_missing
-growth_10yr_cagr,"10-year price growth (CAGR)",%/yr,derived,15334,0,0,15334,0,0,calculation_inputs_missing
-sales_volume_12m,"Sales volume (12m)",count,direct,15334,4811,0,10523,31.4,31.4,source_not_ingested
-vacancy_rate,"Rental vacancy rate",%,unsourced,15334,0,0,15334,0,0,no_reusable_source
-days_on_market,"Days on market",days,unsourced,15334,0,0,15334,0,0,no_reusable_source
-population,"Population",persons,direct,15334,15334,0,0,100,100,source_not_ingested
+metric,label,unit,kind,all_sal,direct_populated,naive_price_rent_overlap,qualified_recoverable,missing,coverage_pct,primary_reason
+median_house_price,"Median house price",AUD,direct,15334,4756,0,0,10578,31,source_not_ingested
+median_unit_price,"Median unit price",AUD,direct,15334,1454,0,0,13880,9.5,source_not_ingested
+median_house_rent,"Median house rent (weekly)",AUD/week,direct,15334,3089,0,0,12245,20.1,source_not_ingested
+gross_yield,"Gross rental yield",%,derived,15334,453,126,0,14881,3,calculation_inputs_missing
+growth_12m,"12-month price change (cumulative)",%,derived,15334,735,0,0,14599,4.8,calculation_inputs_missing
+growth_3yr_cumulative,"3-year price change (cumulative)",%,derived,15334,0,0,0,15334,0,calculation_inputs_missing
+growth_3yr_cagr,"3-year price growth (CAGR)",%/yr,derived,15334,0,0,0,15334,0,calculation_inputs_missing
+growth_5yr_cumulative,"5-year price change (cumulative)",%,derived,15334,0,0,0,15334,0,calculation_inputs_missing
+growth_5yr_cagr,"5-year price growth (CAGR)",%/yr,derived,15334,0,0,0,15334,0,calculation_inputs_missing
+growth_10yr_cumulative,"10-year price change (cumulative)",%,derived,15334,0,0,0,15334,0,calculation_inputs_missing
+growth_10yr_cagr,"10-year price growth (CAGR)",%/yr,derived,15334,0,0,0,15334,0,calculation_inputs_missing
+sales_volume_12m,"Sales volume (12m)",count,direct,15334,4811,0,0,10523,31.4,source_not_ingested
+vacancy_rate,"Rental vacancy rate",%,unsourced,15334,0,0,0,15334,0,no_reusable_source
+days_on_market,"Days on market",days,unsourced,15334,0,0,0,15334,0,no_reusable_source
+population,"Population",persons,direct,15334,15334,0,0,0,100,complete

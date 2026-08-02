@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-08-02T04:46:17.134Z",
+  "mode": "apply-local",
+  "reference_now": "2026-08-02",
+  "endpoint": "https://lzonauinzatmtytyoems.supabase.co/rest/v1/v_suburb_market_snapshot_v1?median_sale_price_12m=not.is.null&median_weekly_rent_latest=not.is.null&gross_yield_pct=is.null&state_code=eq.1&select=geography_id,geography_code,geography_name,state_code,median_sale_price_12m,median_weekly_rent_latest,latest_sales_period,latest_rent_period,sales_sample_confidence,rent_confidence,direct_or_derived,snapshot_generated_at&order=geography_id",
+  "classification": {
+    "naive_price_rent_overlap": 126,
+    "lineage_unverified": 126,
+    "quality_qualified": 0,
+    "materialised_local": 0,
+    "promotion_ready": 0
+  },
+  "disposition_ledger": [
+    {
+      "disposition": "lineage_unverified",
+      "count": 126
+    }
+  ],
+  "source_provenance": {
+    "rate_source": "rba",
+    "rent_source": "nsw_dcj_rent_and_sales_report",
+    "sales_source": "nsw_vg_sales",
+    "yield_source": "derived",
+    "demographics_source": "abs_census_2021",
+    "population_growth_source": "sprint12_ws4_2016_2021_bridge"
+  },
+  "note": "0 promotion-ready: the read-only warehouse contract exposes no upstream observation ids, actual sample sizes, or bedroom groups, and the medians are aggregate 'all' (registry permits gross_yield for house/unit only). The prior 'six materialised' were provisional candidates passing simplified snapshot gates — NOT lineage-qualified.",
+  "source_checksum": "59d93e6e4b6ac15f5417d36e9395bba85ed95fc52d5e4db2338e17becf122e3a"
+}

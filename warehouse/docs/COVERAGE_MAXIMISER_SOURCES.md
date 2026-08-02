@@ -12,12 +12,15 @@
   **Coverage Maximiser** engine (dry-run), the metric-definition registry, the
   growth and yield **recovery calculation engines** (tested), a **schema-drift-safe
   parser proof** (QLD RTA rents, with fixtures), and a safe read-only CI workflow.
-- **Measured recoverable uplift (dry-run, from data already loaded):**
-  `gross_yield` +126 suburbs (453 → 579; 3.0% → 3.8%). Multi-year growth is **0**
-  recoverable from the snapshot because `median_sale_price_prev_12m` is 0%
-  populated — recovery requires reprocessing sales history (timeseries), a
-  warehouse-refresh task, not a snapshot calc. No uplift is promised beyond what
-  the dry-run measured.
+- **CORRECTION (V2.1): the earlier "+126 recoverable (453 → 579)" yield claim
+  was wrong.** 126 is only a *naive* price+rent overlap, not qualified coverage.
+  The lineage audit (`warehouse/scripts/coverage/materialise_nsw_yield.mjs`)
+  requalified all 126 against the full contract → **0 promotion-ready** (all
+  `lineage_unverified`: aggregate `all` type, and no upstream observation ids /
+  actual sample sizes / bedroom groups exposed). See
+  `warehouse/reports/coverage_v2/nsw_yield_lineage_audit.*`. Multi-year growth is
+  **0** recoverable from the snapshot (`median_sale_price_prev_12m` is 0%
+  populated) — needs reprocessing of sales history. **No uplift is claimed.**
 
 ## Ranking method
 

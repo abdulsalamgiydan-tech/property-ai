@@ -78,25 +78,27 @@ async function main() {
 
   for (const def of defs) {
     let directPopulated = 0;
-    let recoverable = 0;
-    let recoverableReason = null;
+    let naiveOverlap = 0;
+    let naiveReason = null;
 
     if (def.column) {
       directPopulated = await count(`${def.column}=not.is.null`);
     }
 
-    // Measured recoverability from data already loaded (dry-run):
+    // NAIVE price+rent / input overlap — an UNQUALIFIED upper bound only. It is
+    // NOT recoverable coverage: each candidate must pass the full lineage
+    // contract (lib/warehouse/yieldLineage.ts). The NSW yield lineage audit
+    // requalified all 126 naive overlaps to 0 promotion-ready. Never project an
+    // uplift from this number.
     if (def.key === "gross_yield") {
-      // suburb price + suburb rent present, yield null → recoverable via formula
-      recoverable = await count("median_sale_price_12m=not.is.null&median_weekly_rent_latest=not.is.null&gross_yield_pct=is.null");
-      recoverableReason = "same-geography price+rent present, yield not computed";
+      naiveOverlap = await count("median_sale_price_12m=not.is.null&median_weekly_rent_latest=not.is.null&gross_yield_pct=is.null");
+      naiveReason = "naive price+rent overlap — NOT lineage-qualified (aggregate 'all'; no upstream obs ids/samples). Audit: 0 promotion-ready.";
     } else if (def.key === "growth_12m") {
-      // needs a prior 12m median; measure how many have both current + prior
-      recoverable = await count("median_sale_price_12m=not.is.null&median_sale_price_prev_12m=not.is.null&annual_price_change_pct=is.null");
-      recoverableReason = "prior-period median absent in snapshot — recovery requires reprocessing sales history (timeseries)";
+      naiveOverlap = await count("median_sale_price_12m=not.is.null&median_sale_price_prev_12m=not.is.null&annual_price_change_pct=is.null");
+      naiveReason = "prior-period median is 0% populated in the snapshot — recovery requires reprocessing sales history (timeseries)";
     } else if (def.key.startsWith("growth_") && def.key.includes("yr")) {
-      recoverable = 0; // requires bulk timeseries reprocessing — not measurable from snapshot view
-      recoverableReason = "requires rolling-window medians from sales history (timeseries dry-run, DB read)";
+      naiveOverlap = 0;
+      naiveReason = "requires rolling-window medians from sales history (timeseries, DB read)";
     }
 
     const missing = total - directPopulated;
@@ -107,20 +109,20 @@ async function main() {
       kind: def.kind,
       all_sal_denominator: total,
       direct_populated: directPopulated,
-      recoverable_now: recoverable,
+      naive_price_rent_overlap: naiveOverlap, // UNQUALIFIED upper bound, not coverage
+      qualified_recoverable: 0, // requires the lineage audit; 0 provable from the read-only contract
       missing,
       coverage_pct: total ? Number(((directPopulated / total) * 100).toFixed(1)) : 0,
-      projected_after_recovery_pct: total ? Number((((directPopulated + recoverable) / total) * 100).toFixed(1)) : 0,
-      primary_reason: primaryReason(def, recoverable),
-      recoverable_reason: recoverableReason,
+      primary_reason: directPopulated >= total ? "complete" : primaryReason(def, naiveOverlap),
+      naive_overlap_reason: naiveReason,
     });
   }
 
-  // Rank the next-best opportunity by measured recoverable count.
+  // Rank naive opportunities (explicitly NOT qualified uplift — each needs the lineage audit).
   const opportunities = rows
-    .filter((r) => r.recoverable_now > 0)
-    .sort((a, b) => b.recoverable_now - a.recoverable_now)
-    .map((r) => ({ metric: r.metric, recoverable_now: r.recoverable_now, why: r.recoverable_reason }));
+    .filter((r) => r.naive_price_rent_overlap > 0)
+    .sort((a, b) => b.naive_price_rent_overlap - a.naive_price_rent_overlap)
+    .map((r) => ({ metric: r.metric, naive_overlap: r.naive_price_rent_overlap, qualified_recoverable: 0, why: r.naive_overlap_reason }));
 
   const report = {
     generated_at: new Date().toISOString(),
@@ -130,38 +132,38 @@ async function main() {
     total_sal: total,
     metrics: rows,
     ranked_opportunities: opportunities,
-    note: "Dry-run measures current + recoverable coverage from already-loaded data. No values were written. Multi-year growth requires reprocessing sales history and is reported as a blocker, not an uplift.",
+    note: "naive_price_rent_overlap is an UNQUALIFIED upper bound, NOT recoverable coverage. The NSW yield lineage audit requalified all 126 naive yield overlaps to 0 promotion-ready. No uplift is projected from naive overlaps. No values were written.",
   };
 
   // ── console (human) ──
   console.log(`\nCoverage Maximiser — ${APPLY_LOCAL ? "APPLY-LOCAL" : "DRY-RUN"} — ${total.toLocaleString()} SAL${STATE ? ` (state ${STATE})` : ""}\n`);
-  console.log("metric".padEnd(26) + "direct".padStart(9) + "recov.".padStart(8) + "cover%".padStart(8) + "→after".padStart(8) + "  reason");
+  console.log("metric".padEnd(26) + "direct".padStart(9) + "naive".padStart(8) + "qual.".padStart(7) + "cover%".padStart(8) + "  primary reason");
   for (const r of rows) {
     console.log(
       r.metric.padEnd(26) +
         String(r.direct_populated).padStart(9) +
-        String(r.recoverable_now).padStart(8) +
+        String(r.naive_price_rent_overlap).padStart(8) +
+        String(r.qualified_recoverable).padStart(7) +
         `${r.coverage_pct}`.padStart(8) +
-        `${r.projected_after_recovery_pct}`.padStart(8) +
         `  ${r.primary_reason}`
     );
   }
   if (opportunities.length) {
-    console.log(`\nNext-best opportunity: ${opportunities[0].metric} (+${opportunities[0].recoverable_now} suburbs recoverable now) — ${opportunities[0].why}`);
+    console.log(`\nLargest naive overlap: ${opportunities[0].metric} (${opportunities[0].naive_overlap} price+rent overlaps) — qualified_recoverable=0 until the lineage audit qualifies them. ${opportunities[0].why}`);
   } else {
-    console.log("\nNo recoverable uplift measurable from already-loaded data; remaining gaps need new source ingestion.");
+    console.log("\nNo naive overlaps; remaining gaps need new source ingestion.");
   }
 
   // ── machine-readable + CSV + MD ──
   if (APPLY_LOCAL) {
     fs.mkdirSync(OUT, { recursive: true });
     fs.writeFileSync(path.join(OUT, "coverage_maximiser.json"), JSON.stringify(report, null, 2));
-    const csv = ["metric,label,unit,kind,all_sal,direct_populated,recoverable_now,missing,coverage_pct,projected_after_recovery_pct,primary_reason"]
-      .concat(rows.map((r) => [r.metric, `"${r.label}"`, r.unit, r.kind, r.all_sal_denominator, r.direct_populated, r.recoverable_now, r.missing, r.coverage_pct, r.projected_after_recovery_pct, r.primary_reason].join(",")))
+    const csv = ["metric,label,unit,kind,all_sal,direct_populated,naive_price_rent_overlap,qualified_recoverable,missing,coverage_pct,primary_reason"]
+      .concat(rows.map((r) => [r.metric, `"${r.label}"`, r.unit, r.kind, r.all_sal_denominator, r.direct_populated, r.naive_price_rent_overlap, r.qualified_recoverable, r.missing, r.coverage_pct, r.primary_reason].join(",")))
       .join("\n");
     fs.writeFileSync(path.join(OUT, "coverage_maximiser.csv"), csv);
-    const md = [`# Coverage Maximiser report (${report.mode})`, "", `Generated ${report.generated_at} · ${total.toLocaleString()} SAL · view \`${VIEW}\``, "", "| metric | direct | recoverable now | coverage % | →after | primary reason |", "|---|--:|--:|--:|--:|---|"]
-      .concat(rows.map((r) => `| ${r.label} | ${r.direct_populated} | ${r.recoverable_now} | ${r.coverage_pct}% | ${r.projected_after_recovery_pct}% | ${r.primary_reason} |`))
+    const md = [`# Coverage Maximiser report (${report.mode})`, "", `Generated ${report.generated_at} · ${total.toLocaleString()} SAL · view \`${VIEW}\``, "", "> \`naive_price_rent_overlap\` is an UNQUALIFIED upper bound, not coverage. \`qualified_recoverable\` is 0 until the lineage audit qualifies candidates.", "", "| metric | direct | naive overlap | qualified | coverage % | primary reason |", "|---|--:|--:|--:|--:|---|"]
+      .concat(rows.map((r) => `| ${r.label} | ${r.direct_populated} | ${r.naive_price_rent_overlap} | ${r.qualified_recoverable} | ${r.coverage_pct}% | ${r.primary_reason} |`))
       .join("\n");
     fs.writeFileSync(path.join(OUT, "coverage_maximiser.md"), md);
     console.log(`\nWrote JSON/CSV/MD to ${OUT}/ (local artifacts only — no DB write).`);

@@ -1,20 +1,26 @@
 #!/usr/bin/env node
 /**
- * Phase 3A — materialise recoverable NSW suburb gross yields into an EPHEMERAL
- * LOCAL warehouse (DuckDB) through raw → staging → core → mart, with SQL-
- * generated before/after coverage evidence and a full disposition ledger for
- * every one of the naive candidates.
+ * Phase 2/3 (V2.1) — NSW suburb gross-yield LINEAGE AUDIT + safe materialiser.
  *
- * Real observations only (Propellect's own suburb snapshot, read-only). Quality
- * gates are NOT lowered to inflate coverage: a candidate is materialised only
- * when both inputs are suburb-level DIRECT, positive, period-compatible, and
- * both meet the medium+ sample tier (≥ registry minSample). Everything else is
- * quarantined with a reason. The final materialised count is whatever the rules
- * yield — never forced to 126.
+ * TRUTH-FIRST. This no longer claims a "materialised" yield from simplified
+ * snapshot gates. It requalifies every naive price+rent overlap candidate
+ * against the FULL warehouse contract (lib/warehouse/yieldLineage.ts). A yield
+ * is materialised ONLY when both inputs independently prove real upstream
+ * observation ids, same canonical geography/version, independent direct suburb
+ * status, a permitted house/unit property type (NEVER aggregate 'all'), matching
+ * bedroom groups, ACTUAL sample sizes ≥ minimum, compatible periods and
+ * freshness. The public read-only warehouse interfaces expose none of the
+ * per-observation lineage (no observation ids, no actual counts, no bedroom
+ * groups; the medians are aggregate 'all'), so the expected, honest result is
+ * ZERO promotion-ready yields — reported as such, not weakened to preserve one.
  *
- * Writes ONLY to warehouse/data/local (gitignored) and warehouse/reports. No
- * remote/Production/Supabase write path. Deterministic: same frozen warehouse →
- * same checksum → same mart rows.
+ * SAFETY:
+ *   - default mode is genuinely READ-ONLY: NO filesystem writes or deletions.
+ *   - --apply-local is REQUIRED for any write; raw is content-addressed and an
+ *     identical existing raw file is reused (never overwritten/deleted).
+ *   - DuckDB runs IN-MEMORY (no db file created or deleted).
+ *   - dates are emitted as ISO strings; volatile timestamps are reported
+ *     separately from the deterministic payload.
  *
  * Usage: node warehouse/scripts/coverage/materialise_nsw_yield.mjs [--apply-local]
  */
@@ -23,17 +29,56 @@ import path from "path";
 import crypto from "crypto";
 import { DuckDBInstance } from "@duckdb/node-api";
 
+// Mirror of the canonical, unit-tested contract in lib/warehouse/yieldLineage.ts
+// (kept in lockstep). Reimplemented here as plain JS so this CLI has no .ts
+// import (CI/node-20 safe). If the .ts contract changes, update this too.
+const ALLOWED_YIELD_TYPES = new Set(["house", "unit"]);
+function qualifyYield(ev, opts) {
+  const reasons = [];
+  const req = (cond, why) => { if (!cond) reasons.push(why); };
+  req(!!ev.price.observationId, "price: no proven upstream observation id");
+  req(!!ev.rent.observationId, "rent: no proven upstream observation id");
+  req(!!ev.price.geographyId && ev.price.geographyId === ev.rent.geographyId, "inputs are not the same canonical geography id");
+  req(!!ev.price.asgsVersion && ev.price.asgsVersion === ev.rent.asgsVersion, "inputs are not the same ASGS geography version");
+  req(ev.price.geographyLevel === "suburb", "price is not suburb-level");
+  req(ev.rent.geographyLevel === "suburb", "rent is not suburb-level");
+  req(ev.price.directStatus === "direct", "price is not an independently-direct suburb observation");
+  req(ev.rent.directStatus === "direct", "rent is not an independently-direct suburb observation");
+  const pt = ev.price.propertyType;
+  req(pt != null && ALLOWED_YIELD_TYPES.has(pt), `price property_type ${pt ?? "null"} not permitted for gross yield (house/unit only)`);
+  req(ev.rent.propertyType != null && ev.rent.propertyType === pt, "price and rent property types differ");
+  req((ev.price.bedroomGroup ?? null) === (ev.rent.bedroomGroup ?? null), "bedroom groupings differ");
+  req(ev.price.sampleSize != null && ev.price.sampleSize >= opts.minSample, "price actual sample size below minimum");
+  req(ev.rent.sampleSize != null && ev.rent.sampleSize >= opts.minSample, "rent actual sample size below minimum");
+  req(ev.price.value != null && ev.price.value > 0 && ev.rent.value != null && ev.rent.value > 0, "invalid/non-positive value");
+  const havePeriods = ev.price.periodEnd && ev.rent.periodEnd;
+  req(!!havePeriods, "missing period start/end on one or both inputs");
+  if (havePeriods) {
+    const gap = Math.abs(new Date(ev.price.periodEnd).getTime() - new Date(ev.rent.periodEnd).getTime()) / 86_400_000;
+    req(gap <= opts.maxPeriodGapDays, `period windows exceed ${opts.maxPeriodGapDays}d compatibility`);
+  }
+  req(ev.price.ageDays != null && ev.price.ageDays <= opts.freshnessSlaDays, "price stale beyond SLA");
+  req(ev.rent.ageDays != null && ev.rent.ageDays <= opts.freshnessSlaDays, "rent stale beyond SLA");
+  if (reasons.length === 0) return { qualified: true, disposition: "materialised_local", reasons: [], derivedId: "yield_" + crypto.createHash("sha256").update(`${ev.price.observationId}|${ev.rent.observationId}|gross_yield@2`).digest("hex").slice(0, 24) };
+  const disposition =
+    reasons.some((r) => r.includes("observation id") || r.includes("ASGS") || r.includes("independently-direct") || r.includes("suburb-level"))
+      ? (reasons.some((r) => r.includes("independently-direct") || r.includes("suburb-level")) ? "context_only" : "lineage_unverified")
+      : reasons.some((r) => r.includes("property_type") || r.includes("property types")) ? "incompatible_property_type"
+      : reasons.some((r) => r.includes("bedroom")) ? "incompatible_bedroom_group"
+      : reasons.some((r) => r.includes("sample")) ? "insufficient_sample"
+      : reasons.some((r) => r.includes("period")) ? "incompatible_period"
+      : reasons.some((r) => r.includes("stale")) ? "stale" : "invalid_value";
+  return { qualified: false, disposition, reasons, derivedId: null };
+}
+
 const APPLY = process.argv.includes("--apply-local");
 const DATA_DIR = "warehouse/data/local";
 const REPORT_DIR = "warehouse/reports/coverage_v2";
 const RAW_JSON = path.join(DATA_DIR, "nsw_yield_candidates.json");
 const MANIFEST = path.join(DATA_DIR, "nsw_yield_candidates.manifest.json");
-const DB_PATH = path.join(DATA_DIR, "coverage_v2.duckdb");
 
-// Compatibility rules (documented; see warehouse/config/metric_definitions.mjs).
-const MAX_PERIOD_GAP_DAYS = 400; // annual rent vs 12m sales window
-const ACCEPTED_SAMPLE_TIERS = ["medium", "high"]; // ≥ minSample 10; excludes low(<10) & insufficient(<5)
-const TIER_LIST = ACCEPTED_SAMPLE_TIERS.map((t) => `'${t}'`).join(","); // single source of truth for the SQL IN-list
+const OPTS = { minSample: 10, maxPeriodGapDays: 400, freshnessSlaDays: 400 };
+const REFERENCE_NOW = "2026-08-02"; // fixed reference for deterministic freshness
 
 function loadEnv() {
   const env = { ...process.env };
@@ -54,7 +99,67 @@ async function fetchCandidates(env) {
   const cols = "geography_id,geography_code,geography_name,state_code,median_sale_price_12m,median_weekly_rent_latest,latest_sales_period,latest_rent_period,sales_sample_confidence,rent_confidence,direct_or_derived,snapshot_generated_at";
   const endpoint = `${base}/v_suburb_market_snapshot_v1?median_sale_price_12m=not.is.null&median_weekly_rent_latest=not.is.null&gross_yield_pct=is.null&state_code=eq.1&select=${cols}&order=geography_id`;
   const rows = await (await fetch(endpoint, { headers: H })).json();
-  return { rows, endpoint };
+  // Representative lineage (NSW row_provenance is row-uniform: sales=nsw_vg_sales, rent=nsw_dcj).
+  let provenance = null;
+  if (rows[0]) {
+    const lin = await (await fetch(`${base}/rpc/get_metric_lineage_v1`, {
+      method: "POST", headers: { ...H, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_geography_id: rows[0].geography_id, p_mart_table: "suburb_market_snapshot", p_metric_family: "rent" }),
+    })).json();
+    provenance = Array.isArray(lin) ? lin[0]?.row_provenance ?? null : null;
+  }
+  return { rows, endpoint, provenance };
+}
+
+function asgsVersionOf(gid) {
+  const m = String(gid).match(/(ASGS\d+_\d{4})$/);
+  return m ? m[1] : null;
+}
+function ageDays(periodEnd) {
+  if (!periodEnd) return null;
+  return Math.round((new Date(REFERENCE_NOW).getTime() - new Date(periodEnd).getTime()) / 86_400_000);
+}
+
+/**
+ * Build per-input evidence from the snapshot. Critically, the snapshot exposes
+ * NO upstream observation id, NO actual sample size, NO bedroom group, and the
+ * medians are aggregate ('all') — so those evidence fields are null/'all' and
+ * the contract cannot be satisfied. We do not invent ids or samples.
+ */
+function evidenceFor(c) {
+  const gid = c.geography_id;
+  const asgs = asgsVersionOf(gid);
+  const common = {
+    observationId: null, // NOT exposed by the read-only contract — never synthesised
+    geographyId: gid,
+    asgsVersion: asgs,
+    geographyLevel: "suburb",
+    bedroomGroup: null, // NOT exposed
+    sampleSize: null, // NOT exposed (only a confidence label)
+    qualityStatus: c.direct_or_derived === "direct" ? "passed" : null,
+  };
+  return {
+    price: {
+      ...common,
+      directStatus: "direct", // sales = nsw_vg_sales, is_derived=false
+      propertyType: "all", // median_sale_price_12m is an aggregate median
+      periodStart: null,
+      periodEnd: c.latest_sales_period,
+      sourceId: "nsw_vg_sales",
+      value: c.median_sale_price_12m,
+      ageDays: ageDays(c.latest_sales_period),
+    },
+    rent: {
+      ...common,
+      directStatus: "direct", // rent lineage is_derived=false, but see disposition reasons
+      propertyType: "all", // median_weekly_rent_latest is an aggregate median
+      periodStart: null,
+      periodEnd: c.latest_rent_period,
+      sourceId: "nsw_dcj_rent_and_sales_report",
+      value: c.median_weekly_rent_latest,
+      ageDays: ageDays(c.latest_rent_period),
+    },
+  };
 }
 
 async function main() {
@@ -63,129 +168,74 @@ async function main() {
     console.error("FAIL CLOSED: warehouse read-only creds not configured.");
     process.exit(1);
   }
-  fs.mkdirSync(DATA_DIR, { recursive: true });
 
-  const { rows, endpoint } = await fetchCandidates(env);
-  // Immutable raw + checksum (content-addressed).
-  const canonical = JSON.stringify(rows);
-  const checksum = crypto.createHash("sha256").update(canonical).digest("hex");
-  fs.writeFileSync(RAW_JSON, JSON.stringify(rows, null, 2));
-  const manifest = {
-    source: "propellect_warehouse:v_suburb_market_snapshot_v1",
-    endpoint,
-    retrieved_at: new Date().toISOString(),
-    row_count: rows.length,
-    sha256: checksum,
-    note: "Read-only pull of NSW suburb-level yield candidates (price+rent present, yield null).",
-  };
-  fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 2));
+  const { rows, endpoint, provenance } = await fetchCandidates(env);
 
-  // Ephemeral DuckDB warehouse (raw → staging → core → mart).
-  if (fs.existsSync(DB_PATH)) fs.rmSync(DB_PATH);
-  const db = await DuckDBInstance.create(DB_PATH);
+  // Requalify every candidate against the full contract.
+  const results = rows.map((c) => {
+    const q = qualifyYield(evidenceFor(c), OPTS);
+    return { geography_id: c.geography_id, geography_code: c.geography_code, geography_name: c.geography_name, disposition: q.disposition, qualified: q.qualified, reasons: q.reasons, derivedId: q.derivedId };
+  });
+  const dispo = results.reduce((m, r) => ((m[r.disposition] = (m[r.disposition] || 0) + 1), m), {});
+  const materialised = results.filter((r) => r.qualified);
+
+  // In-memory DuckDB — SQL reconciliation only, no db file touched.
+  const db = await DuckDBInstance.create(":memory:");
   const con = await db.connect();
-  const run = (sql) => con.run(sql);
-  const all = async (sql) => (await con.runAndReadAll(sql)).getRowObjects();
+  await con.run(`CREATE TABLE audit (geography_id VARCHAR, disposition VARCHAR, qualified BOOLEAN);`);
+  const app = await con.createAppender("audit");
+  for (const r of results) { app.appendVarchar(r.geography_id); app.appendVarchar(r.disposition); app.appendBoolean(r.qualified); app.endRow(); }
+  app.closeSync();
+  const ledger = (await (await con.runAndReadAll(`SELECT disposition, count(*) n FROM audit GROUP BY 1 ORDER BY n DESC`)).getRowObjects()).map((d) => ({ disposition: d.disposition, count: Number(d.n) }));
+  const [{ total }] = (await (await con.runAndReadAll(`SELECT count(*) total FROM audit`)).getRowObjects());
 
-  for (const s of ["raw", "staging", "core", "mart"]) await run(`CREATE SCHEMA ${s};`);
-
-  await run(`CREATE TABLE raw.yield_candidate AS SELECT * FROM read_json_auto('${RAW_JSON.replace(/\\/g, "/")}');`);
-  await run(`ALTER TABLE raw.yield_candidate ADD COLUMN source_checksum VARCHAR;`);
-  await run(`UPDATE raw.yield_candidate SET source_checksum='${checksum}';`);
-
-  // Staging: validate + assign a single disposition per candidate.
-  await run(`
-    CREATE TABLE staging.yield_candidate AS
-    SELECT *,
-      CASE
-        WHEN median_sale_price_12m IS NULL OR median_sale_price_12m <= 0
-          OR median_weekly_rent_latest IS NULL OR median_weekly_rent_latest <= 0 THEN 'invalid_value'
-        WHEN direct_or_derived <> 'direct' THEN 'context_only'
-        WHEN abs(date_diff('day', CAST(latest_sales_period AS DATE), CAST(latest_rent_period AS DATE))) > ${MAX_PERIOD_GAP_DAYS} THEN 'incompatible_period'
-        WHEN sales_sample_confidence NOT IN (${TIER_LIST}) OR rent_confidence NOT IN (${TIER_LIST}) THEN 'insufficient_sample'
-        ELSE 'materialised'
-      END AS disposition
-    FROM raw.yield_candidate;
-  `);
-
-  // Core: one observation row per accepted input (both price and rent get IDs).
-  await run(`
-    CREATE TABLE core.market_observation AS
-    SELECT 'obs_'||geography_id||'_price' AS observation_id, geography_id, 'suburb' AS geography_level,
-           'median_sale_price' AS metric, 'all' AS property_type, median_sale_price_12m AS value,
-           CAST(latest_sales_period AS DATE) AS period, sales_sample_confidence AS confidence,
-           'v_suburb_market_snapshot_v1.median_sale_price_12m' AS source_field, 'direct' AS status
-    FROM staging.yield_candidate WHERE disposition='materialised'
-    UNION ALL
-    SELECT 'obs_'||geography_id||'_rent', geography_id, 'suburb',
-           'median_weekly_rent', 'all', median_weekly_rent_latest,
-           CAST(latest_rent_period AS DATE), rent_confidence,
-           'v_suburb_market_snapshot_v1.median_weekly_rent_latest', 'direct'
-    FROM staging.yield_candidate WHERE disposition='materialised';
-  `);
-
-  // Mart: derived gross yield with BOTH input observation IDs + formula version.
-  await run(`
-    CREATE TABLE mart.suburb_yield_recovered AS
-    SELECT geography_id, geography_code, geography_name,
-           round(median_weekly_rent_latest*52/median_sale_price_12m*100, 2) AS gross_yield_pct,
-           'all' AS property_type, 'suburb' AS geography_level,
-           'obs_'||geography_id||'_price' AS price_observation_id,
-           'obs_'||geography_id||'_rent'  AS rent_observation_id,
-           CAST(latest_sales_period AS DATE) AS sales_period,
-           CAST(latest_rent_period AS DATE) AS rent_period,
-           'gross_yield@1' AS formula_version, 'direct' AS status
-    FROM staging.yield_candidate WHERE disposition='materialised';
-  `);
-
-  // ── SQL-generated evidence ──
-  const dispo = await all(`SELECT disposition, count(*) AS n FROM staging.yield_candidate GROUP BY 1 ORDER BY n DESC;`);
-  const [{ candidates }] = await all(`SELECT count(*) AS candidates FROM raw.yield_candidate;`);
-  const [{ materialised }] = await all(`SELECT count(*) AS materialised FROM mart.suburb_yield_recovered;`);
-  const [{ obs_rows }] = await all(`SELECT count(*) AS obs_rows FROM core.market_observation;`);
-  const sample = await all(`SELECT geography_code, geography_name, gross_yield_pct, price_observation_id, rent_observation_id, sales_period, rent_period FROM mart.suburb_yield_recovered ORDER BY gross_yield_pct DESC LIMIT 8;`);
-
-  const report = {
-    generated_at: new Date().toISOString(),
-    mode: APPLY ? "apply-local" : "dry-run",
-    db_path: DB_PATH,
-    source_manifest: manifest,
-    naive_candidates: Number(candidates),
-    materialised_yields: Number(materialised),
-    core_observation_rows: Number(obs_rows),
-    disposition_ledger: dispo.map((d) => ({ disposition: d.disposition, count: Number(d.n) })),
-    sample_materialised: sample.map((s) => ({ ...s, gross_yield_pct: Number(s.gross_yield_pct) })),
+  const payload = {
+    classification: {
+      naive_price_rent_overlap: Number(total),
+      lineage_unverified: dispo.lineage_unverified || 0,
+      quality_qualified: 0, // none pass the FULL contract from accessible data
+      materialised_local: materialised.length,
+      promotion_ready: 0,
+    },
+    disposition_ledger: ledger,
+    source_provenance: provenance,
+    note: "0 promotion-ready: the read-only warehouse contract exposes no upstream observation ids, actual sample sizes, or bedroom groups, and the medians are aggregate 'all' (registry permits gross_yield for house/unit only). The prior 'six materialised' were provisional candidates passing simplified snapshot gates — NOT lineage-qualified.",
   };
+  const report = { generated_at: new Date().toISOString(), mode: APPLY ? "apply-local" : "read-only", reference_now: REFERENCE_NOW, endpoint, ...payload };
 
-  console.log(`\nPhase 3A — NSW yield materialisation (${report.mode})`);
-  console.log(`raw candidates: ${report.naive_candidates}  →  materialised: ${report.materialised_yields}  (core obs rows: ${report.core_observation_rows})`);
+  console.log(`\nNSW yield LINEAGE AUDIT (${report.mode}) — reference ${REFERENCE_NOW}`);
+  console.log(`naive price+rent overlap: ${Number(total)}  →  promotion-ready: 0  (materialised_local: ${materialised.length})`);
   console.log("disposition ledger:");
-  for (const d of report.disposition_ledger) console.log(`  ${d.disposition.padEnd(22)} ${d.count}`);
-  console.log("sample materialised yields:");
-  for (const s of report.sample_materialised) console.log(`  ${s.geography_name} (${s.geography_code}): ${s.gross_yield_pct}%`);
+  for (const d of ledger) console.log(`  ${String(d.disposition).padEnd(24)} ${d.count}`);
+  console.log("rent source provenance:", provenance?.rent_source, "| sales:", provenance?.sales_source);
 
   if (APPLY) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+    // Content-addressed raw; reuse identical existing file (never overwrite/delete).
+    const canonical = JSON.stringify(rows);
+    const checksum = crypto.createHash("sha256").update(canonical).digest("hex");
+    const existing = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, "utf8")) : null;
+    if (!existing || existing.sha256 !== checksum) {
+      fs.writeFileSync(RAW_JSON, JSON.stringify(rows, null, 2));
+      fs.writeFileSync(MANIFEST, JSON.stringify({ source: "propellect_warehouse:v_suburb_market_snapshot_v1", endpoint, retrieved_at: new Date().toISOString(), row_count: rows.length, sha256: checksum }, null, 2));
+    }
     fs.mkdirSync(REPORT_DIR, { recursive: true });
-    fs.writeFileSync(path.join(REPORT_DIR, "nsw_yield_materialisation.json"), JSON.stringify(report, null, 2));
-    const csv = ["disposition,count"].concat(report.disposition_ledger.map((d) => `${d.disposition},${d.count}`)).join("\n");
+    fs.writeFileSync(path.join(REPORT_DIR, "nsw_yield_lineage_audit.json"), JSON.stringify({ ...report, source_checksum: checksum }, null, 2));
+    const csv = ["geography_code,geography_name,disposition,qualified,reasons"]
+      .concat(results.map((r) => `${r.geography_code},"${r.geography_name}",${r.disposition},${r.qualified},"${r.reasons.join("; ")}"`)).join("\n");
     fs.writeFileSync(path.join(REPORT_DIR, "nsw_yield_disposition.csv"), csv);
-    const md = [
-      `# Phase 3A — NSW yield materialisation (${report.mode})`, "",
-      `Source: \`${manifest.source}\` · sha256 \`${checksum.slice(0, 16)}…\` · retrieved ${manifest.retrieved_at}`, "",
-      `**Naive candidates:** ${report.naive_candidates} → **materialised:** ${report.materialised_yields}`, "",
-      "| disposition | count |", "|---|--:|",
-      ...report.disposition_ledger.map((d) => `| ${d.disposition} | ${d.count} |`),
-    ].join("\n");
-    fs.writeFileSync(path.join(REPORT_DIR, "nsw_yield_materialisation.md"), md);
-    console.log(`\nWrote SQL-generated evidence to ${REPORT_DIR}/ (local artifacts only — no DB/remote write).`);
+    const md = [`# NSW yield lineage audit (${report.mode})`, "", `naive price+rent overlap: **${Number(total)}** → promotion-ready: **0**`, "",
+      "| disposition | count |", "|---|--:|", ...ledger.map((d) => `| ${d.disposition} | ${d.count} |`), "",
+      `Rent source: \`${provenance?.rent_source}\`; sales source: \`${provenance?.sales_source}\`.`,
+      "", "The medians are aggregate `all` (registry permits gross_yield for house/unit only) and the read-only contract exposes no upstream observation ids / actual sample sizes / bedroom groups, so no candidate proves the full lineage contract."].join("\n");
+    fs.writeFileSync(path.join(REPORT_DIR, "nsw_yield_lineage_audit.md"), md);
+    console.log(`\nWrote lineage audit to ${REPORT_DIR}/ (local artifacts only).`);
   } else {
-    console.log("\n[dry-run] pass --apply-local to persist the SQL evidence report locally.");
+    console.log("\n[read-only] no filesystem writes. Pass --apply-local to persist the audit report.");
   }
-
-  await con.closeSync?.();
 }
 
 main().catch((e) => {
-  console.error("materialise_nsw_yield failed:", e.message);
+  console.error("nsw yield lineage audit failed:", e.message);
   process.exit(1);
 });
