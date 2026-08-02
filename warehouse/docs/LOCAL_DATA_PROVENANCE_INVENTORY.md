@@ -1,5 +1,13 @@
 # Local warehouse data — provenance inventory & evidence request (V2.1)
 
+> **V2.1.1 scope note (explicit):** the **zero fully-lineage-qualified yields**
+> conclusion is valid. The residential-active / source-eligible **per-record
+> gap-ledger coverage remains incomplete** (the coverage report is still largely
+> aggregate). The ~2.3 GB of local data below is **preserved but unusable for any
+> coverage claim until its provenance is verified or the resources are officially
+> reacquired**. **No external coverage was added** in V2.1 or V2.1.1.
+
+
 `warehouse/data/local/` contains ~2.3 GB of pre-existing DuckDB/Parquet/JSON
 artifacts that were **not created by any committed script on this branch** and
 carry **no manifest, checksum, retrieval log, source URL, or licence evidence**

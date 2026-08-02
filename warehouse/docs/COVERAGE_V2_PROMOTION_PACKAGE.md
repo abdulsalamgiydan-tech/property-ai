@@ -36,32 +36,32 @@ migration would be worse than none.
   price_period, rent_period, formula_version, status` — exposed only via a
   granted view, never a raw internal table.
 
-## PostgreSQL-valid validation SQL (for the future, real, qualified payload)
+## PostgreSQL-valid validation SQL (executed, not asserted)
 
-These are written for **PostgreSQL/Supabase** (not DuckDB). They assume the
-future promotion mart `mart.suburb_yield_recovered` and observation table
-`core.market_observation`:
+The statements live in one module,
+`warehouse/scripts/coverage/promotionValidationSql.mjs`, and are **executed
+against real PostgreSQL (PGlite/WASM)** by
+`warehouse/scripts/coverage/promotion_sql.test.ts` — so they are proven valid,
+not merely written. They validate the future promotion mart
+`mart.suburb_yield_recovered` + `core.market_observation` (schema in the same
+module).
+
+Correction applied: in PostgreSQL `date - date` returns an **integer number of
+days**, so the period check compares to an integer (`> 400`), not
+`interval '400 days'` (which the prior doc used, and which errors on `date`
+columns):
 
 ```sql
--- 1. every mart row cites two REAL upstream observations
-select count(*) from mart.suburb_yield_recovered y
-where not exists (select 1 from core.market_observation o where o.observation_id = y.price_observation_id)
-   or not exists (select 1 from core.market_observation o where o.observation_id = y.rent_observation_id);  -- expect 0
-
--- 2. no aggregate 'all' yields (registry: house/unit only)
-select count(*) from mart.suburb_yield_recovered where property_type not in ('house','unit');  -- expect 0
-
--- 3. period compatibility (PostgreSQL date arithmetic, not DuckDB date_diff)
-select count(*) from mart.suburb_yield_recovered
-where abs(price_period - rent_period) > interval '400 days';  -- expect 0
-
--- 4. both inputs independently suburb-level & direct
-select count(*) from mart.suburb_yield_recovered y
-join core.market_observation p on p.observation_id = y.price_observation_id
-join core.market_observation r on r.observation_id = y.rent_observation_id
-where p.geography_level <> 'suburb' or r.geography_level <> 'suburb'
-   or p.status <> 'direct' or r.status <> 'direct';  -- expect 0
+-- period compatibility (date - date is integer days in PostgreSQL)
+select count(*)::int as violations
+from mart.suburb_yield_recovered
+where abs(price_period - rent_period) > 400;  -- expect 0
 ```
+
+The other checks (orphan observation refs, aggregate `'all'` property type, and
+non-direct/non-suburb inputs) are in the module and each returns
+`violations = 0` for a qualified payload; the test also proves a deliberate
+`'all'` row is caught (`violations = 1`).
 
 ## Migration replay (local, ephemeral, blank Postgres)
 
