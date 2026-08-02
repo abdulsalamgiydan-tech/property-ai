@@ -70,3 +70,36 @@ geography-join evaluation.
   limited free medians.
 - **Multi-year growth**: recoverable from NSW VG history (free) once ingested;
   other states gated by the paid-sales ceiling.
+
+---
+
+## V2 real-ingestion attempt log (this sprint)
+
+**Environment egress is partial.** From this sandbox: `data.gov.au` and
+`www.abs.gov.au` are unreachable (HTTP 000); `rta.qld.gov.au` and generic hosts
+are reachable (HTTP 200); the Propellect warehouse REST is reachable. Official
+bulk portals (ABS DataPacks/Regional Population/Approvals, data.gov.au, and the
+data.sa.gov.au CKAN API) could **not** be downloaded here.
+
+**Disposition of attempted external sources:**
+- **QLD RTA median rents** → `deferred_licence_unclear`: the median-rents page
+  exposes no downloadable median-rents file with a stated licence (only an
+  interactive quick-finder and an old `rta-bond-statistics.xlsx`); no CC BY /
+  reuse statement was verifiable on the page. Not materialised (guardrail:
+  ambiguous terms → defer, do not expose).
+- **SA metro house sales / private rent (data.sa.gov.au, CC BY)** →
+  `source_unavailable` here: CKAN endpoint unreachable (HTTP 000). Highest-value
+  *reachable-elsewhere* CC BY candidate; ingest in an environment with egress.
+- **ABS Census/Regional Population/Approvals (data portals)** →
+  `source_unavailable` here (HTTP 000).
+
+**Real coverage materialised this sprint** used **existing valid Propellect
+observations only** (no external download, no third-party licence question): the
+NSW suburb gross-yield recovery (Phase 3A) — 126 candidates → 6 quality-gated
+yields, through a real ephemeral DuckDB raw→staging→core→mart pipeline with
+SQL-generated evidence and a deterministic rerun. See
+`warehouse/reports/coverage_v2/` and the promotion package.
+
+The parsers, registry, geography-resolution rules, disposition engine and
+Coverage Maximiser are ready to ingest the deferred external sources once run in
+an environment with open-data egress and verified licences.

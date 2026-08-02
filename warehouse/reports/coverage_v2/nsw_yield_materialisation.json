@@ -1,0 +1,110 @@
+{
+  "generated_at": "2026-08-02T04:25:26.981Z",
+  "mode": "apply-local",
+  "db_path": "warehouse\\data\\local\\coverage_v2.duckdb",
+  "source_manifest": {
+    "source": "propellect_warehouse:v_suburb_market_snapshot_v1",
+    "endpoint": "https://lzonauinzatmtytyoems.supabase.co/rest/v1/v_suburb_market_snapshot_v1?median_sale_price_12m=not.is.null&median_weekly_rent_latest=not.is.null&gross_yield_pct=is.null&state_code=eq.1&select=geography_id,geography_code,geography_name,state_code,median_sale_price_12m,median_weekly_rent_latest,latest_sales_period,latest_rent_period,sales_sample_confidence,rent_confidence,direct_or_derived,snapshot_generated_at&order=geography_id",
+    "retrieved_at": "2026-08-02T04:25:26.945Z",
+    "row_count": 126,
+    "sha256": "59d93e6e4b6ac15f5417d36e9395bba85ed95fc52d5e4db2338e17becf122e3a",
+    "note": "Read-only pull of NSW suburb-level yield candidates (price+rent present, yield null)."
+  },
+  "naive_candidates": 126,
+  "materialised_yields": 6,
+  "core_observation_rows": 12,
+  "disposition_ledger": [
+    {
+      "disposition": "insufficient_sample",
+      "count": 78
+    },
+    {
+      "disposition": "incompatible_period",
+      "count": 42
+    },
+    {
+      "disposition": "materialised",
+      "count": 6
+    }
+  ],
+  "sample_materialised": [
+    {
+      "geography_code": "14273",
+      "geography_name": "West Wyalong",
+      "gross_yield_pct": 4.91,
+      "price_observation_id": "obs_SAL_14273_ASGS3_2021_price",
+      "rent_observation_id": "obs_SAL_14273_ASGS3_2021_rent",
+      "sales_period": {
+        "days": 20454
+      },
+      "rent_period": {
+        "days": 20454
+      }
+    },
+    {
+      "geography_code": "11080",
+      "geography_name": "Corowa",
+      "gross_yield_pct": 4.76,
+      "price_observation_id": "obs_SAL_11080_ASGS3_2021_price",
+      "rent_observation_id": "obs_SAL_11080_ASGS3_2021_rent",
+      "sales_period": {
+        "days": 20454
+      },
+      "rent_period": {
+        "days": 20454
+      }
+    },
+    {
+      "geography_code": "12203",
+      "geography_name": "Kootingal",
+      "gross_yield_pct": 4.04,
+      "price_observation_id": "obs_SAL_12203_ASGS3_2021_price",
+      "rent_observation_id": "obs_SAL_12203_ASGS3_2021_rent",
+      "sales_period": {
+        "days": 20454
+      },
+      "rent_period": {
+        "days": 20454
+      }
+    },
+    {
+      "geography_code": "11999",
+      "geography_name": "Islington",
+      "gross_yield_pct": 3.76,
+      "price_observation_id": "obs_SAL_11999_ASGS3_2021_price",
+      "rent_observation_id": "obs_SAL_11999_ASGS3_2021_rent",
+      "sales_period": {
+        "days": 20454
+      },
+      "rent_period": {
+        "days": 20454
+      }
+    },
+    {
+      "geography_code": "10283",
+      "geography_name": "Belrose",
+      "gross_yield_pct": 2.63,
+      "price_observation_id": "obs_SAL_10283_ASGS3_2021_price",
+      "rent_observation_id": "obs_SAL_10283_ASGS3_2021_rent",
+      "sales_period": {
+        "days": 20454
+      },
+      "rent_period": {
+        "days": 20454
+      }
+    },
+    {
+      "geography_code": "12761",
+      "geography_name": "Mount Colah",
+      "gross_yield_pct": 2.17,
+      "price_observation_id": "obs_SAL_12761_ASGS3_2021_price",
+      "rent_observation_id": "obs_SAL_12761_ASGS3_2021_rent",
+      "sales_period": {
+        "days": 20454
+      },
+      "rent_period": {
+        "days": 20454
+      }
+    }
+  ]
+}
