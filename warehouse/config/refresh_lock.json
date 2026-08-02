@@ -1,0 +1,26 @@
+{
+  "_note": "Accepted-version lock: the exact official resource each accepted source was last ingested from. `detect` compares live catalogue state against this to decide unchanged / new_period / revision. Updated only when a reviewed refresh candidate is accepted.",
+  "sources": {
+    "sa_metro_median_house_sales": {
+      "period_rank": 202602,
+      "period_label": "Q2 2026",
+      "resource_sha256": "9cfa8aa71d2c453c09ca1d3baecc1955144863cfb5c4caef01c12266e639ef7a",
+      "package_id": "metro-median-house-sales",
+      "check_cadence_days": 30
+    },
+    "sa_private_rental_report": {
+      "period_rank": 202603,
+      "period_label": "March 2026",
+      "resource_sha256": "d0db486e96141577e540886db6923b586d57db852c2088ffca9cbe894fb92b0a",
+      "package_id": "private-rent-report",
+      "check_cadence_days": 30
+    },
+    "vic_dffh_moving_annual_rent": {
+      "period_rank": 202509,
+      "period_label": "September 2025 quarter",
+      "resource_sha256": "817c5b8e",
+      "package_id": "rental-report-quarterly-moving-annual-rents-by-suburb",
+      "check_cadence_days": 30
+    }
+  }
+}

@@ -1,0 +1,68 @@
+name: Official Data Refresh (dry-run)
+
+# V4A safe refresh automation. SCHEDULED DISCOVERY + change detection ONLY —
+# dry-run, read-only, no database write path, no remote promotion, no auto-merge.
+# It runs the shared refresh state machine against the official CKAN catalogues
+# and reports one machine state per accepted source.
+#
+# SAFETY: no Supabase/Vercel/Production credentials; no `pull_request_target`;
+# GITHUB_TOKEN only; minimal permissions; concurrency + timeouts; no raw resources
+# committed. A scheduled workflow on a FEATURE branch is NOT operational — GitHub
+# only runs schedules from the default branch. This is stated honestly and the
+# schedule stays inactive until merged.
+
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: "Optional single source id (e.g. sa_metro_median_house_sales)"
+        required: false
+        default: ""
+  schedule:
+    # PROPOSED cadence — SA/VIC publish quarterly; check monthly. INACTIVE until
+    # this file is on the default branch.
+    - cron: "0 6 5 * *"
+
+concurrency:
+  group: official-refresh-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    name: Detect official-source changes (dry-run)
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      # Unit-level state machine + registry + parser tests (no network).
+      - name: Refresh state-machine tests
+        run: npx vitest run warehouse/scripts/refresh/refreshEngine.test.ts warehouse/config/v3_source_registry.test.ts warehouse/adapters/sa_private_rent/parse.test.ts warehouse/adapters/sa_metro_house_sales/parse.test.ts warehouse/adapters/vic_rental_report/parse.test.ts warehouse/scripts/geography/resolveSal.test.ts
+      # Live discovery + change detection (metadata only; no bytes accepted, no DB write).
+      - name: Live detect (dry-run)
+        id: detect
+        run: |
+          node warehouse/scripts/refresh/refreshEngine.mjs detect --json > refresh-detect.json || true
+          echo "----- detect result -----"
+          cat refresh-detect.json
+      - name: Static proof — no remote/Production write path in refresh code
+        run: |
+          if grep -RInE "lib/supabase/(server|client)|SERVICE_ROLE|service_role|apply_migration|deploy_to_vercel" warehouse/scripts/refresh warehouse/scripts/acquire warehouse/scripts/ingest; then
+            echo "::error::refresh/ingest code references a production/service-role/deploy path"; exit 1
+          fi
+          echo "No production/service-role/deploy path in refresh code."
+      - name: Upload detection evidence (retention-limited artifact)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: refresh-detect-evidence
+          path: refresh-detect.json
+          if-no-files-found: ignore
+          retention-days: 30
