@@ -1,0 +1,106 @@
+/**
+ * V3 official-source registry (machine-readable). Dispositions and HTTP/licence
+ * evidence were captured live this sprint (read-only probes + real downloads).
+ * Only `accepted_official_reusable` sources may enter a promotable layer.
+ */
+export const DISPOSITIONS = [
+  "accepted_official_reusable", "accepted_official_context_only", "reacquisition_required",
+  "licence_unclear", "geography_incompatible", "schema_unsupported", "temporarily_unreachable",
+  "paid_or_prohibited", "provenance_unverified",
+];
+
+export const V3_SOURCES = [
+  {
+    id: "sa_metro_median_house_sales", name: "Metropolitan Median House Sales", provider: "Government of South Australia (Valuer-General / Office of Land Value)",
+    jurisdiction: "SA", landing: "https://data.sa.gov.au/data/dataset/metro-median-house-sales",
+    resource_url: "https://data.sa.gov.au/data/api/3/action/package_show?id=metro-median-house-sales",
+    access: "ckan_api", format: "XLSX", geography_level: "suburb", asgs_version: "resolved to ASGS3_2021 via warehouse spine",
+    property_types: ["house"], bedroom_detail: false, history: "quarterly", cadence: "quarterly",
+    sample_fields: ["sales count"], licence: "Creative Commons Attribution", licence_url: "https://creativecommons.org/licenses/by/4.0/",
+    commercial_reuse: true, derivative_permitted: true, attribution: "© Government of South Australia (CC BY 4.0)",
+    parser_version: "sa_metro_house_sales@1", refresh_sla_days: 120, disposition: "accepted_official_reusable", blocker: null,
+    reachability: 200, http_verified: true,
+  },
+  {
+    id: "sa_private_rental_report", name: "Private Rental Report", provider: "Government of South Australia (SA Housing Authority / Consumer & Business Services)",
+    jurisdiction: "SA", landing: "https://data.sa.gov.au/data/dataset/private-rent-report",
+    resource_url: "https://data.sa.gov.au/data/api/3/action/package_show?id=private-rent-report",
+    access: "ckan_api", format: "XLSX", geography_level: "suburb", asgs_version: "resolved to ASGS3_2021 via warehouse spine",
+    property_types: ["house", "unit"], bedroom_detail: true, history: "quarterly", cadence: "quarterly",
+    sample_fields: ["bond count"], licence: "Creative Commons Attribution", licence_url: "https://creativecommons.org/licenses/by/4.0/",
+    commercial_reuse: true, derivative_permitted: true, attribution: "© Government of South Australia (CC BY 4.0)",
+    parser_version: "sa_private_rent@1", refresh_sla_days: 120, disposition: "accepted_official_reusable", blocker: null,
+    reachability: 200, http_verified: true,
+  },
+  {
+    id: "nsw_vg_bulk_psi", name: "NSW Valuer General Bulk Property Sales Information", provider: "NSW Valuer General",
+    jurisdiction: "NSW", landing: "https://valuation.property.nsw.gov.au/embed/propertySalesInformation",
+    resource_url: "https://www.valuergeneral.nsw.gov.au/__psi/", access: "bulk_zip", format: "ZIP/DAT", geography_level: "property→suburb",
+    property_types: ["house", "unit", "land"], bedroom_detail: false, history: "1990→current (weekly)", cadence: "weekly",
+    sample_fields: ["transaction count"], licence: "CC BY 4.0 (per prior lineage)", licence_url: "https://www.valuergeneral.nsw.gov.au",
+    commercial_reuse: true, derivative_permitted: true, attribution: "© NSW Valuer General",
+    parser_version: null, refresh_sla_days: 14, disposition: "reacquisition_required",
+    blocker: "bulk host reachable (valuation.property.nsw.gov.au 200) but full history is multi-GB; bounded slice deferred to a follow-on within the 20GB budget. www.valuergeneral.nsw.gov.au landing returns 403 (access-controlled — not circumvented).",
+    reachability: 200,
+  },
+  {
+    id: "abs_asgs_census_context", name: "ABS ASGS + 2021 Census SAL DataPacks / Regional Population", provider: "Australian Bureau of Statistics",
+    jurisdiction: "AU", landing: "https://www.abs.gov.au/census/find-census-data/datapacks", resource_url: "https://www.abs.gov.au",
+    access: "https_download", format: "ZIP/CSV", geography_level: "SAL/SA2", asgs_version: "ASGS3_2021",
+    property_types: [], bedroom_detail: false, history: "2021 Census / annual", cadence: "5-yearly / annual",
+    sample_fields: [], licence: "Creative Commons Attribution", licence_url: "https://creativecommons.org/licenses/by/4.0/",
+    commercial_reuse: true, derivative_permitted: true, attribution: "© ABS (CC BY 4.0)",
+    parser_version: null, refresh_sla_days: 1825, disposition: "reacquisition_required",
+    blocker: "abs.gov.au reachable (200) but DataPacks are large zips; the warehouse already holds ABS-derived Census context (population etc.) in Production. Tractable SAL context reacquisition deferred; kept distinct from current market observations.",
+    reachability: 200,
+  },
+  {
+    id: "qld_rta_median_rents", name: "RTA Median Rents Quarterly", provider: "Queensland Residential Tenancies Authority",
+    jurisdiction: "QLD", landing: "https://www.data.qld.gov.au/dataset", resource_url: "https://www.data.qld.gov.au/api/3/action/package_search?q=rta+median+rents",
+    access: "ckan_api", format: "CSV/XLSX", geography_level: "suburb/postcode/lga", asgs_version: null,
+    property_types: ["house", "townhouse", "unit"], bedroom_detail: true, history: "quarterly", cadence: "quarterly",
+    sample_fields: ["bond count"], licence: "verify via CKAN package", licence_url: null,
+    commercial_reuse: null, derivative_permitted: null, attribution: "© Queensland RTA",
+    parser_version: "qld_rta_rent@1 (fixture proof exists)", refresh_sla_days: 120, disposition: "reacquisition_required",
+    blocker: "data.qld.gov.au CKAN reachable (200); exact package id must be resolved via package_search and licence confirmed before ingest. Deferred.",
+    reachability: 200,
+  },
+  {
+    id: "wa_rental_bonds", name: "WA Rental Bonds", provider: "WA (via AHDAP housing data exchange)",
+    jurisdiction: "WA", landing: "https://housing-data-exchange.ahdap.org/dataset/west-australia-rental-bonds-data-2023-current",
+    resource_url: "https://housing-data-exchange.ahdap.org/api/3/action/status_show", access: "ckan_api", format: "CSV",
+    geography_level: "suburb/postcode", asgs_version: null, property_types: ["house", "unit"], bedroom_detail: true,
+    history: "2023→current", cadence: "monthly", sample_fields: ["bond count"], licence: "verify AHDAP dataset licence", licence_url: null,
+    commercial_reuse: null, derivative_permitted: null, attribution: "© WA Government", parser_version: null,
+    refresh_sla_days: 30, disposition: "licence_unclear", blocker: "AHDAP CKAN reachable (200); originating-authority + commercial-reuse conditions must be verified before ingest. Deferred.",
+    reachability: 200,
+  },
+  {
+    id: "vic_vg_property_sales", name: "Victorian Property Sales Statistics", provider: "Valuer-General Victoria",
+    jurisdiction: "VIC", landing: "https://www.land.vic.gov.au/valuations/resources-and-reports/property-sales-statistics",
+    resource_url: null, access: "https_download", format: "XLSX", geography_level: "suburb", asgs_version: null,
+    property_types: ["house", "unit", "land"], bedroom_detail: false, history: "annual+quarterly", cadence: "quarterly",
+    sample_fields: ["sales count"], licence: "CC BY (per site)", licence_url: null, commercial_reuse: null, derivative_permitted: null,
+    attribution: "© State of Victoria", parser_version: null, refresh_sla_days: 120, disposition: "temporarily_unreachable",
+    blocker: "land.vic.gov.au returns HTTP 403 (access control) from this environment — not circumvented per guardrails.", reachability: 403,
+  },
+  {
+    id: "tas_rental_bonds", name: "TAS Rental Bond Statistics", provider: "Tasmania CBOS (Consumer, Building and Occupational Services)",
+    jurisdiction: "TAS", landing: "https://www.cbos.tas.gov.au/topics/housing/renting/bonds/rental-bond-statistics",
+    resource_url: null, access: "https_download", format: "XLSX", geography_level: "suburb", asgs_version: null,
+    property_types: ["house", "unit"], bedroom_detail: true, history: "monthly", cadence: "monthly", sample_fields: ["bond count"],
+    licence: null, licence_url: null, commercial_reuse: null, derivative_permitted: null, attribution: "© State of Tasmania",
+    parser_version: null, refresh_sla_days: 30, disposition: "temporarily_unreachable",
+    blocker: "cbos.tas.gov.au returns HTTP 403 (access control) from this environment — not circumvented.", reachability: 403,
+  },
+  {
+    id: "local_2p3gb_collection", name: "Pre-existing local warehouse artifacts (~2.3 GB)", provider: "unknown (prior session)",
+    jurisdiction: "AU", landing: null, resource_url: null, access: "local_file", format: "duckdb/parquet", geography_level: "mixed",
+    asgs_version: null, property_types: [], bedroom_detail: false, history: null, cadence: null, sample_fields: [], licence: null,
+    licence_url: null, commercial_reuse: null, derivative_permitted: null, attribution: null, parser_version: null, refresh_sla_days: null,
+    disposition: "provenance_unverified", blocker: "no manifest/checksum/producing-commit; preserved, never used for coverage. See LOCAL_DATA_PROVENANCE_INVENTORY.md.",
+    reachability: null,
+  },
+];
+
+export const ACCEPTED = V3_SOURCES.filter((s) => s.disposition === "accepted_official_reusable");
