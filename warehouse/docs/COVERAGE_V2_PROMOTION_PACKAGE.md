@@ -58,10 +58,20 @@ from mart.suburb_yield_recovered
 where abs(price_period - rent_period) > 400;  -- expect 0
 ```
 
-The other checks (orphan observation refs, aggregate `'all'` property type, and
-non-direct/non-suburb inputs) are in the module and each returns
-`violations = 0` for a qualified payload; the test also proves a deliberate
-`'all'` row is caught (`violations = 1`).
+**Full-contract parity.** `contractViolationsSql($1 = as-of)` enforces the
+COMPLETE canonical contract — every predicate in `lib/warehouse/yieldLineage.mjs`
+`qualifyYield`: verified observation existence, matching geography/ASGS version,
+independent direct suburb status, accepted source contract + verified
+provenance, accepted quality, non-quarantined, house/unit type (equal, matching
+the mart row), non-null equal bedroom group (`'all'` only if a legitimate
+aggregate), actual sample ≥ 10, positive values, freshness (not future, within
+SLA of `$1`), and the full period rule (start ≤ end each; overlap OR end-lag ≤
+400; window-length ratio ≤ 2). It uses `(… ) is not true` so a NULL field counts
+as a violation (three-valued-logic safe). `promotion_sql.test.ts` runs shared
+JS↔PGlite parity fixtures (`lineageParityFixtures.mjs`) and asserts, for the
+accepted case and every rejected variant, that
+`qualifyYield(...).qualified === (contractViolations === 0)` — the SQL contract
+is proven equivalent to the JS contract against real PostgreSQL.
 
 ## Migration replay (local, ephemeral, blank Postgres)
 

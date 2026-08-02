@@ -59,11 +59,19 @@ export function validateRetrieval(res, text) {
     return { ok: false, reason: kind };
   }
   if (body.length < 1 || body.length > 100000) return { ok: false, reason: `row count ${body.length} outside bounds [1,100000]` };
-  const first = body[0];
-  const missing = REQUIRED_COLUMNS.filter((c) => !(c in first));
-  if (missing.length) return { ok: false, reason: `schema drift: missing columns ${missing.join(", ")}` };
-  if (typeof first.median_sale_price_12m !== "number" || typeof first.median_weekly_rent_latest !== "number") {
-    return { ok: false, reason: "schema drift: price/rent are not numbers" };
+  // Validate EVERY row (not just the first) — a later drifted/typed-wrong row
+  // must fail the whole retrieval closed.
+  for (let i = 0; i < body.length; i++) {
+    const row = body[i];
+    if (row == null || typeof row !== "object") return { ok: false, reason: `row ${i}: not an object` };
+    const missing = REQUIRED_COLUMNS.filter((c) => !(c in row));
+    if (missing.length) return { ok: false, reason: `row ${i}: schema drift — missing columns ${missing.join(", ")}` };
+    if (typeof row.median_sale_price_12m !== "number" || typeof row.median_weekly_rent_latest !== "number") {
+      return { ok: false, reason: `row ${i}: price/rent are not numbers` };
+    }
+    if (typeof row.latest_sales_period !== "string" || typeof row.latest_rent_period !== "string") {
+      return { ok: false, reason: `row ${i}: period columns are not strings` };
+    }
   }
   return { ok: true, rows: body };
 }
@@ -83,7 +91,7 @@ function asgsVersionOf(gid) {
 export function evidenceFor(c) {
   const gid = c.geography_id;
   const common = {
-    observationId: null, geographyId: gid, asgsVersion: asgsVersionOf(gid),
+    observationId: null, observationVerified: false, geographyId: gid, asgsVersion: asgsVersionOf(gid),
     geographyLevel: "suburb", directStatus: null, sourceContract: null,
     provenanceVerified: false, qualityStatus: null, bedroomGroup: null,
     aggregateBedroomLegitimate: false, sampleSize: null, quarantined: false,
@@ -123,15 +131,27 @@ export function atomicWrite(target, content) {
   fs.renameSync(tmp, target);
 }
 
-/** Content-addressed immutable raw: filename carries the sha8; identical existing file is reused; never overwrites a different resource. */
+/**
+ * Content-addressed immutable raw. The sha is computed over the EXACT bytes
+ * written to the file (the pretty-printed JSON), so the manifest sha256 equals
+ * `sha256(fs.readFileSync(rawPath))` byte-for-byte. An existing sha-named file
+ * is reused only after re-reading it and verifying its bytes hash to the same
+ * sha (integrity); a mismatch is treated as corruption and throws — never a
+ * silent reuse, and a different resource is never written to a fixed path.
+ */
 export function writeImmutableRaw(rows, endpoint, dataDir = DATA_DIR) {
-  const canonical = JSON.stringify(rows);
-  const sha = crypto.createHash("sha256").update(canonical).digest("hex");
+  const fileContent = JSON.stringify(rows, null, 2); // EXACT bytes that will be on disk
+  const sha = crypto.createHash("sha256").update(fileContent).digest("hex");
   const sha8 = sha.slice(0, 8);
   fs.mkdirSync(dataDir, { recursive: true });
   const rawPath = path.join(dataDir, `nsw_yield_candidates.${sha8}.json`);
   const manPath = path.join(dataDir, `nsw_yield_candidates.${sha8}.manifest.json`);
-  if (!fs.existsSync(rawPath)) atomicWrite(rawPath, JSON.stringify(rows, null, 2));
+  if (fs.existsSync(rawPath)) {
+    const onDisk = crypto.createHash("sha256").update(fs.readFileSync(rawPath)).digest("hex");
+    if (onDisk !== sha) throw new Error(`raw resource corruption: ${rawPath} bytes hash ${onDisk.slice(0, 8)} != ${sha8}`);
+  } else {
+    atomicWrite(rawPath, fileContent);
+  }
   if (!fs.existsSync(manPath)) {
     atomicWrite(manPath, JSON.stringify({ source: "propellect_warehouse:v_suburb_market_snapshot_v1", endpoint, row_count: rows.length, sha256: sha }, null, 2));
   }

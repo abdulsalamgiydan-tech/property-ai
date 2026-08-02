@@ -1,7 +1,8 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import fs from "fs";
 import os from "os";
 import path from "path";
+import crypto from "crypto";
 import { qualifyYield as canonicalQualify } from "../../../lib/warehouse/yieldLineage.mjs";
 import {
   qualifyYield as cliQualify,
@@ -54,6 +55,20 @@ describe("validateRetrieval — fails closed", () => {
   it("rejects an out-of-bounds row count", () => {
     expect(validateRetrieval(fakeRes(), JSON.stringify([])).ok).toBe(false);
   });
+  it("validates EVERY row — a valid row 0 with a later drifted/typed-wrong row fails closed", () => {
+    const rows = [
+      goodRow,
+      { ...goodRow, geography_id: "SAL_2" },
+      { ...goodRow, geography_id: "SAL_3", median_weekly_rent_latest: "480" }, // string, not number
+    ];
+    const r = validateRetrieval(fakeRes(), JSON.stringify(rows));
+    expect(r.ok).toBe(false);
+    expect(r.reason).toMatch(/row 2/);
+  });
+  it("fails closed when a later row is missing a required column", () => {
+    const rows = [goodRow, { geography_id: "SAL_2", median_sale_price_12m: 1, latest_sales_period: "x", latest_rent_period: "y" }];
+    expect(validateRetrieval(fakeRes(), JSON.stringify(rows)).ok).toBe(false);
+  });
 });
 
 describe("evidenceFor — honest, never fabricated", () => {
@@ -62,6 +77,7 @@ describe("evidenceFor — honest, never fabricated", () => {
     const e = evidenceFor(c);
     for (const side of [e.price, e.rent]) {
       expect(side.observationId).toBeNull();
+      expect(side.observationVerified).toBe(false); // never fabricate a verified lookup
       expect(side.sampleSize).toBeNull();
       expect(side.bedroomGroup).toBeNull();
       expect(side.provenanceVerified).toBe(false);
@@ -99,17 +115,32 @@ describe("buildTotals — engine-derived and reconciling", () => {
 });
 
 describe("immutable + atomic writes", () => {
-  it("atomicWrite writes via temp+rename; a failed temp write leaves the target untouched", () => {
+  it("a simulated rename failure leaves the pre-existing v1 target present and unchanged", () => {
     const d = tmp();
     const target = path.join(d, "artifact.json");
     atomicWrite(target, "v1");
     expect(fs.readFileSync(target, "utf8")).toBe("v1");
-    // force a failure: target dir removed so the temp write throws
-    fs.rmSync(d, { recursive: true, force: true });
-    expect(() => atomicWrite(target, "v2")).toThrow();
-    // recreate dir + last valid content to assert it was never partially overwritten
-    // (the original file was in the removed dir; the invariant is: rename is atomic,
-    //  so a consumer never sees a half-written target)
+    // Real simulated failure: the temp write succeeds but the rename throws.
+    const spy = vi.spyOn(fs, "renameSync").mockImplementationOnce(() => { throw new Error("simulated ENOSPC on rename"); });
+    expect(() => atomicWrite(target, "v2")).toThrow(/simulated/);
+    spy.mockRestore();
+    // The existing v1 target is intact (never half-written); tidy any leftover temp.
+    expect(fs.readFileSync(target, "utf8")).toBe("v1");
+    for (const f of fs.readdirSync(d)) if (f.includes(".tmp-")) fs.rmSync(path.join(d, f));
+  });
+  it("byte-accurate checksum: manifest sha256 equals the exact bytes saved in the raw file", () => {
+    const d = tmp();
+    const { sha, rawPath, manPath } = writeImmutableRaw([{ x: 1 }, { x: 2 }], "e", d);
+    const onDisk = crypto.createHash("sha256").update(fs.readFileSync(rawPath)).digest("hex");
+    expect(onDisk).toBe(sha); // file bytes hash exactly to the recorded sha
+    expect(JSON.parse(fs.readFileSync(manPath, "utf8")).sha256).toBe(onDisk);
+    expect(path.basename(rawPath)).toContain(sha.slice(0, 8));
+  });
+  it("verifies an existing checksum path before reuse and throws on corruption", () => {
+    const d = tmp();
+    const a = writeImmutableRaw([{ x: 1 }], "e", d);
+    fs.writeFileSync(a.rawPath, "corrupted bytes"); // tamper with the sha-named file
+    expect(() => writeImmutableRaw([{ x: 1 }], "e", d)).toThrow(/corruption/);
   });
   it("changed resources create NEW checksum paths and preserve earlier resources", () => {
     const d = tmp();
@@ -118,8 +149,7 @@ describe("immutable + atomic writes", () => {
     expect(a.rawPath).not.toBe(b.rawPath);
     expect(fs.existsSync(a.rawPath)).toBe(true); // earlier preserved
     expect(fs.existsSync(b.rawPath)).toBe(true);
-    // identical content reuses the same path (idempotent)
-    const a2 = writeImmutableRaw([{ x: 1 }], "e", d);
+    const a2 = writeImmutableRaw([{ x: 1 }], "e", d); // identical content reuses same path after integrity check
     expect(a2.rawPath).toBe(a.rawPath);
   });
 });

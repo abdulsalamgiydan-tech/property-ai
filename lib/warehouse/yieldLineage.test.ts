@@ -7,6 +7,7 @@ const OPTS = { minSample: 10, asOf: "2026-08-02", maxEndLagDays: 400, freshnessS
 function input(over = {}) {
   return {
     observationId: "obs_price_1",
+    observationVerified: true,
     geographyId: "SAL_14273_ASGS3_2021",
     asgsVersion: "ASGS3_2021",
     geographyLevel: "suburb",
@@ -70,6 +71,12 @@ describe("qualifyYield — full lineage contract", () => {
   });
   it("rejects a fabricated/absent observation id (lineage_unverified)", () => {
     expect(qualifyYield(ev({ observationId: null }, {}), OPTS).disposition).toBe("lineage_unverified");
+  });
+  it("rejects a RANDOM non-null observation id that was not verified via lookup", () => {
+    const q = qualifyYield(ev({ observationId: "totally-made-up-id", observationVerified: false }, {}), OPTS);
+    expect(q.qualified).toBe(false);
+    expect(q.disposition).toBe("lineage_unverified");
+    expect(q.reasons.join(" ")).toMatch(/not verified via lookup/);
   });
   it("rejects a contextual (postcode) input as not independently-direct", () => {
     expect(qualifyYield(ev({}, { geographyLevel: "postcode", directStatus: "contextual" }), OPTS).disposition).toBe("context_only");
