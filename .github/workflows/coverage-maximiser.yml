@@ -1,0 +1,112 @@
+name: Coverage Maximiser
+
+# Warehouse Coverage Maximiser V1 — SAFE, READ-ONLY, DRY-RUN automation.
+#
+# This workflow NEVER writes to Supabase (validation or Production), NEVER
+# deploys, and has NO Production write path. It runs the deterministic coverage
+# calculation tests, then (only if a READ-ONLY warehouse anon key is configured
+# as a repo secret) measures current + recoverable coverage and uploads the
+# report as an artifact. Promotion of any recovered value into the warehouse is
+# a separate, human-approved step and is intentionally NOT part of this job.
+
+on:
+  pull_request:
+    branches: [main, "feature/**"]
+  workflow_dispatch:
+    inputs:
+      state:
+        description: "Optional state filter (NSW, VIC, QLD, SA, WA, TAS)"
+        required: false
+        default: ""
+      metric:
+        description: "Optional single metric key (e.g. gross_yield)"
+        required: false
+        default: ""
+  schedule:
+    # PROPOSED weekly cadence (Mondays 06:00 UTC), dry-run only. Inactive until
+    # this workflow exists on the repository default branch — schedules only run
+    # from the default branch.
+    - cron: "0 6 * * 1"
+
+concurrency:
+  group: coverage-maximiser-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # Safe PR gate — NO warehouse/Production secret, no DB, no network data.
+  pr-checks:
+    name: Coverage PR checks (no secrets)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Focused coverage tests
+        run: npx vitest run lib/warehouse/yieldLineage.test.ts lib/warehouse/yieldDisposition.test.ts lib/warehouse/growthMetrics.test.ts lib/warehouse/yieldRecovery.test.ts warehouse/scripts/coverage/registry.test.ts warehouse/adapters/qld_rta_rent/parse.test.ts
+      - name: Full Vitest
+        run: npm test
+      - name: ESLint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: git diff --check
+        run: git --no-pager diff --check
+      - name: Static proof — no Production/remote write path in coverage code
+        run: |
+          echo "## No-Production-write-path scan" >> "$GITHUB_STEP_SUMMARY"
+          # Coverage code must not import the production Supabase clients or a service-role key.
+          if grep -RInE "lib/supabase/(server|client)|SERVICE_ROLE|service_role" warehouse/scripts/coverage lib/warehouse/growthMetrics.ts lib/warehouse/yieldLineage.ts lib/warehouse/yieldDisposition.ts lib/warehouse/yieldRecovery.ts; then
+            echo "::error::coverage code references a production/service-role write path"
+            exit 1
+          fi
+          echo "No production/service-role write path in coverage code." >> "$GITHUB_STEP_SUMMARY"
+
+  coverage:
+    name: Measure suburb coverage (dry-run)
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Deterministic calculation + parser guards — never touch the network.
+      - name: Coverage calculation self-checks
+        run: npx vitest run lib/warehouse/growthMetrics.test.ts lib/warehouse/yieldRecovery.test.ts warehouse/adapters/qld_rta_rent/parse.test.ts warehouse/scripts/coverage/registry.test.ts
+
+      # Live measurement is OPTIONAL and READ-ONLY. Skipped automatically when
+      # the read-only warehouse anon secret is not configured — never fails the
+      # job for a missing secret, and never uses a Production write credential.
+      - name: Measure coverage (read-only dry-run)
+        if: ${{ env.WAREHOUSE_SUPABASE_URL != '' }}
+        env:
+          WAREHOUSE_SUPABASE_URL: ${{ secrets.WAREHOUSE_SUPABASE_URL }}
+          WAREHOUSE_SUPABASE_ANON_KEY: ${{ secrets.WAREHOUSE_SUPABASE_ANON_KEY }}
+        run: |
+          node warehouse/scripts/coverage/coverage_maximiser.mjs \
+            --apply-local \
+            --out coverage-maximiser-report \
+            ${{ inputs.state && format('--state {0}', inputs.state) || '' }} \
+            ${{ inputs.metric && format('--metric {0}', inputs.metric) || '' }}
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-maximiser-report
+          path: coverage-maximiser-report/
+          if-no-files-found: ignore

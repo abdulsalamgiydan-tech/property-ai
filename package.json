@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@duckdb/node-api": "^1.5.4-r.1",
+    "@electric-sql/pglite": "^0.5.4",
     "@tailwindcss/postcss": "^4",
     "@types/leaflet": "^1.9.21",
     "@types/node": "^20",
