@@ -15,12 +15,27 @@
 -- getEnrichedMarketSnapshot) already back-fills these from the view at query
 -- time, so the UI is correct without this migration. This migration brings the
 -- RPC — and therefore the public /api/v1/snapshot surface, which cannot read
--- the view merge — to parity. Apply only after review, on a branch, verified
--- against the live function definition (this body is reproduced from 052 with
--- 15 columns appended; re-confirm no drift before applying).
+-- the view merge — to parity. This body is reproduced from 052 with 15 columns
+-- appended (verified against the live function; no drift).
+--
+-- MUST DROP FIRST: widening the RETURNS TABLE changes the function's OUT-parameter
+-- row type, which CREATE OR REPLACE cannot do (Postgres 42P13: "cannot change
+-- return type of existing function"). So drop the existing narrow function first,
+-- then recreate the widened contract. DROP without CASCADE — it fails closed if
+-- any object depends on the function (none do: it is only reached via PostgREST
+-- RPC). IF EXISTS keeps the migration valid on a blank database (no-op) while
+-- behaving identically on Production, where the narrow function exists. DROP also
+-- removes the ACL, so the intended EXECUTE grants are restored immediately after
+-- (anon, authenticated, service_role; PUBLIC stays revoked per the migration 046
+-- hardening). Ownership/SECURITY DEFINER/STABLE/search_path are unchanged from 052.
+-- The whole migration runs in one transaction, so a failure during recreation
+-- rolls back and leaves the narrow function intact.
 --
 -- Reversible: re-running migration 052's definition of get_market_snapshot_v2
--- restores the narrower contract.
+-- (plus 046's revoke-from-public / grant-to-anon,authenticated) restores the
+-- narrower contract and ACL.
+
+DROP FUNCTION IF EXISTS public.get_market_snapshot_v2(text);
 
 CREATE OR REPLACE FUNCTION public.get_market_snapshot_v2(p_geography_id text)
  RETURNS TABLE(geography_id text, geography_code text, geography_name text, jurisdiction text, state_code text, geography_method text, latest_sales_period date, latest_rent_period date, latest_yield_period date, latest_approvals_period date, latest_demographics_period integer, snapshot_generated_at timestamp with time zone, coverage_status text, sales_volume_12m integer, median_sale_price_12m numeric, annual_price_change_pct numeric, median_sale_price_detached numeric, median_sale_price_apartment numeric, median_sale_price_townhouse numeric, sales_sample_confidence text, median_weekly_rent_latest numeric, median_weekly_rent_prev numeric, annual_rent_change_pct numeric, rent_confidence text, gross_yield_pct numeric, yield_confidence text, dwelling_stock_total integer, approvals_12m integer, approvals_per_1000_dwellings numeric, supply_confidence text, total_population integer, total_households integer, median_weekly_household_income integer, renter_share numeric, owner_with_mortgage_share numeric, population_growth_2016_2021_pct numeric, price_to_income_ratio numeric, est_monthly_repayment_owner_occupier numeric, repayment_to_income_pct numeric, affordability_confidence text, confidence_label text, missing_metric_reasons jsonb,
@@ -55,3 +70,8 @@ AS $function$
   full outer join (select * from mart.postcode_market_snapshot where geography_id = p_geography_id and dwelling_type is null) p
     on false;
 $function$;
+
+-- Restore the intended ACL after the drop/recreate (matches the post-046 state:
+-- PUBLIC revoked; EXECUTE for anon, authenticated and service_role).
+REVOKE ALL ON FUNCTION public.get_market_snapshot_v2(text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.get_market_snapshot_v2(text) TO anon, authenticated, service_role;

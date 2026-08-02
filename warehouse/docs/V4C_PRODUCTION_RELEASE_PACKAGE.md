@@ -7,11 +7,28 @@ candidate is already loaded on the Supabase **validation branch**
 Nothing here has been applied to Production (`oshquaxsloolqucwvigc`), `main`,
 Vercel, remote env vars, Storage or Stash, and no further remote DB write was made.
 
+## V4D correction (2026-08-03) — migration 055 made Production-applicable
+The first V4D Production attempt at candidate `9cd403f` **failed atomically on
+migration 055** (Postgres `42P13: cannot change return type of existing function`):
+`CREATE OR REPLACE` cannot widen a function's `RETURNS TABLE` when the narrower
+migration-052 version already exists. **Production was left completely untouched**
+(history still 054/046; no rollback needed). The rehearsal missed it because it
+created the function on a blank DB rather than *replacing* the existing narrow one.
+Migration 055 is now `DROP FUNCTION IF EXISTS` (no CASCADE) → recreate the exact
+57-column contract → `REVOKE` PUBLIC → `GRANT EXECUTE` to anon/authenticated/
+service_role (restoring the post-046 ACL; `DROP` clears grants, unlike `CREATE OR
+REPLACE`). The release rehearsal now starts from the real 052 narrow function and
+verifies the 57-column contract, the preserved ACL/SECURITY DEFINER/STABLE/
+search_path, and atomic rollback. **Candidate `9cd403f` is SUPERSEDED**; a fresh
+Production approval is required for the corrected head.
+
 ## Exact release contents (apply strictly in this order)
-1. **`055_widen_get_market_snapshot_v2.sql`** — CREATE OR REPLACE widening the
-   existing snapshot RPC to the full contract (adds `direct_or_derived`,
-   `rba_rate_*`, `sales_turnover_pct`, investor repayment, etc.). Reversible by
-   re-running migration 052's definition. Prepared before V4C; unchanged.
+1. **`055_widen_get_market_snapshot_v2.sql`** — **DROP (no CASCADE) + recreate**
+   widening the existing snapshot RPC to the full 57-column contract (adds
+   `direct_or_derived`, `rba_rate_*`, `sales_turnover_pct`, investor repayment,
+   etc.) and restoring the intended ACL (PUBLIC revoked; EXECUTE for anon,
+   authenticated, service_role). Atomic; reversible by re-running migration 052's
+   definition + 046's grant. Corrected in V4D.
 2. **`056_official_suburb_metrics.sql`** — additive `core.official_observation`,
    `mart.official_suburb_metric`, and the **direct-only** public view
    `v_official_suburb_metric_v1` (anon/authenticated SELECT on the view only).
