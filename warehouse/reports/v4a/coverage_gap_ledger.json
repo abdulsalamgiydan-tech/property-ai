@@ -1,0 +1,161 @@
+{
+  "generated_note": "National state × metric × property-type coverage-gap ledger for the official CC-BY lanes. Covered counts are from the pinned payload; gaps/blocks carry specific honest reasons. No fabricated coverage.",
+  "as_of": "2026-08-02",
+  "payload_sha256": "cbd0b269d5ffc8b31501475c612172e0844bb3b69b400362d501f52b30392326",
+  "summary": {
+    "covered_cells": 7,
+    "gap_cells": 3,
+    "blocked_cells": 5,
+    "by_state": {
+      "SA": {
+        "covered": 5,
+        "total_cells": 5
+      },
+      "VIC": {
+        "covered": 2,
+        "total_cells": 5
+      },
+      "NSW": {
+        "covered": 0,
+        "total_cells": 5
+      }
+    }
+  },
+  "matrix": [
+    {
+      "state": "SA",
+      "metric": "median_house_price",
+      "property_type": "house",
+      "status": "covered",
+      "suburb_count": 92,
+      "source": "data.sa.gov.au (CC BY)",
+      "reason": null
+    },
+    {
+      "state": "SA",
+      "metric": "median_rent",
+      "property_type": "house",
+      "status": "covered",
+      "suburb_count": 153,
+      "source": "data.sa.gov.au (CC BY)",
+      "reason": null
+    },
+    {
+      "state": "SA",
+      "metric": "median_rent",
+      "property_type": "unit",
+      "status": "covered",
+      "suburb_count": 71,
+      "source": "data.sa.gov.au (CC BY)",
+      "reason": null
+    },
+    {
+      "state": "SA",
+      "metric": "sales_volume",
+      "property_type": "house",
+      "status": "covered",
+      "suburb_count": 92,
+      "source": "data.sa.gov.au (CC BY)",
+      "reason": null
+    },
+    {
+      "state": "SA",
+      "metric": "gross_yield",
+      "property_type": "house",
+      "status": "covered",
+      "suburb_count": 83,
+      "source": "derived",
+      "reason": null
+    },
+    {
+      "state": "VIC",
+      "metric": "median_house_price",
+      "property_type": "house",
+      "status": "gap",
+      "suburb_count": 0,
+      "source": null,
+      "reason": "No accepted CC-BY VIC house-price source: land.vic.gov.au median-house .xls returns HTTP 403 (recorded, not circumvented)."
+    },
+    {
+      "state": "VIC",
+      "metric": "median_rent",
+      "property_type": "house",
+      "status": "covered",
+      "suburb_count": 34,
+      "source": "dffh.vic.gov.au (CC BY)",
+      "reason": null
+    },
+    {
+      "state": "VIC",
+      "metric": "median_rent",
+      "property_type": "unit",
+      "status": "covered",
+      "suburb_count": 35,
+      "source": "dffh.vic.gov.au (CC BY)",
+      "reason": null
+    },
+    {
+      "state": "VIC",
+      "metric": "sales_volume",
+      "property_type": "house",
+      "status": "gap",
+      "suburb_count": 0,
+      "source": null,
+      "reason": "No accepted CC-BY VIC sales-volume source in this release (DFFH suburb file is rent only)."
+    },
+    {
+      "state": "VIC",
+      "metric": "gross_yield",
+      "property_type": "house",
+      "status": "gap",
+      "suburb_count": 0,
+      "source": null,
+      "reason": "Derived yield requires a direct VIC house price, which is absent (see VIC house-price gap) — no yield produced."
+    },
+    {
+      "state": "NSW",
+      "metric": "median_house_price",
+      "property_type": "house",
+      "status": "blocked",
+      "suburb_count": 0,
+      "source": null,
+      "reason": "BLOCKED: NSW VG PSI weekly/annual sales return HTTP 403; no CC-BY residential-sales bulk on data.nsw.gov.au."
+    },
+    {
+      "state": "NSW",
+      "metric": "median_rent",
+      "property_type": "house",
+      "status": "blocked",
+      "suburb_count": 0,
+      "source": null,
+      "reason": "BLOCKED: no accepted CC-BY NSW suburb rent source onboarded this release."
+    },
+    {
+      "state": "NSW",
+      "metric": "median_rent",
+      "property_type": "unit",
+      "status": "blocked",
+      "suburb_count": 0,
+      "source": null,
+      "reason": "BLOCKED: no accepted CC-BY NSW suburb rent source onboarded this release."
+    },
+    {
+      "state": "NSW",
+      "metric": "sales_volume",
+      "property_type": "house",
+      "status": "blocked",
+      "suburb_count": 0,
+      "source": null,
+      "reason": "BLOCKED: depends on the same NSW VG PSI sales feed (HTTP 403)."
+    },
+    {
+      "state": "NSW",
+      "metric": "gross_yield",
+      "property_type": "house",
+      "status": "blocked",
+      "suburb_count": 0,
+      "source": null,
+      "reason": "BLOCKED: no NSW price or rent inputs accepted — no yield produced."
+    }
+  ]
+}
