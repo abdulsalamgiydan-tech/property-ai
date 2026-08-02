@@ -71,19 +71,33 @@ async function main() {
   const resolve = buildResolver(spine, "4");
 
   const coreObs = []; // {observation_id, geography_id, geography_level, asgs_version, metric, property_type, bedroom_group, value, sample_size, period_start, period_end, source_id, resource_sha, status, quality_status}
+  const byObsId = new Map(); // observation_id -> core row (integrity: one row per canonical key)
   const quarantine = [...house.quarantined.map((q) => ({ ...q, stage: "parse" })), ...rent.quarantined.map((q) => ({ ...q, stage: "parse" }))];
+  const recon = { staged: 0, duplicates_deduped: 0, conflicts_quarantined: 0 };
   const asgs = "ASGS3_2021";
 
   const addObs = (rec, metric, propertyType, value, sample, periodStart, periodEnd, resourceSha, sourceId) => {
+    recon.staged += 1;
     const g = resolve(rec.suburb);
     if (!g.matched) { quarantine.push({ ...rec, metric, quarantine_reason: g.reason, stage: "geography" }); return null; }
+    const observation_id = obsId(sourceId, g.geographyId, metric, propertyType, periodEnd, resourceSha);
+    const existing = byObsId.get(observation_id);
+    if (existing) {
+      // Same canonical key (source, SAL, metric, type, period, resource): two source
+      // localities resolved to one SAL. Identical value -> dedup; different value ->
+      // conflict (fail closed to quarantine, never silently pick one).
+      if (existing.value === value && existing.sample_size === sample) { recon.duplicates_deduped += 1; return existing; }
+      recon.conflicts_quarantined += 1;
+      quarantine.push({ ...rec, metric, quarantine_reason: "conflicting_value_same_canonical_key", stage: "core", geography_id: g.geographyId, kept_value: existing.value, rejected_value: value });
+      return null;
+    }
     const o = {
-      observation_id: obsId(sourceId, g.geographyId, metric, propertyType, periodEnd, resourceSha),
-      geography_id: g.geographyId, geography_code: g.geographyCode, geography_level: "suburb", asgs_version: asgs,
+      observation_id, geography_id: g.geographyId, geography_code: g.geographyCode, geography_level: "suburb", asgs_version: asgs,
       metric, property_type: propertyType, bedroom_group: "all", value, sample_size: sample,
       period_start: periodStart, period_end: periodEnd, source_id: sourceId, resource_sha: resourceSha, status: "direct", quality_status: "passed",
     };
     coreObs.push(o);
+    byObsId.set(observation_id, o);
     return o;
   };
 
@@ -132,8 +146,26 @@ async function main() {
   for (const o of coreObs) { app.appendVarchar(o.observation_id); app.appendVarchar(o.geography_id); app.appendVarchar(o.metric); app.appendVarchar(o.property_type); app.appendDouble(o.value); app.appendInteger(o.sample_size|0); app.appendDate({days: Math.floor(new Date(o.period_end).getTime()/86400000)}); app.appendVarchar(o.status); app.appendVarchar(o.source_id); app.endRow(); }
   app.closeSync();
   const rows = async (sql) => (await (await con.runAndReadAll(sql)).getRowObjects());
-  const marted = await rows(`select metric, property_type, count(distinct geography_id) suburbs from core_obs group by 1,2 order by 1,2`);
+  const marted = await rows(`select metric, property_type, count(*) observations, count(distinct geography_id) suburbs from core_obs group by 1,2 order by 1,2`);
   const [{ total_obs }] = await rows(`select count(*) total_obs from core_obs`);
+  const [{ uniq_ids }] = await rows(`select count(distinct observation_id) uniq_ids from core_obs`);
+  const [{ uniq_sal }] = await rows(`select count(distinct geography_id) uniq_sal from core_obs`);
+  const rawParsed = house.records.length * 2 + house.records.filter((r) => r.prior_house_median > 0 && r.prior_sales_count >= 10).length + rent.observations.length;
+  const perMetricObsSum = marted.reduce((a, m) => a + Number(m.observations), 0);
+  const reconciliation = {
+    note: "524-vs-487 explained: V3 double-counted observations where two SA source localities resolved to one SAL; those are now deduped (identical) or quarantined (conflicting). After dedup, total core rows == sum of per-metric rows == sum of per-metric distinct SALs.",
+    raw_accepted_records_expanded_to_metrics: rawParsed,
+    staged_addObs_calls: recon.staged,
+    duplicates_deduped: recon.duplicates_deduped,
+    conflicts_quarantined: recon.conflicts_quarantined,
+    core_direct_observations: Number(total_obs),
+    unique_observation_ids: Number(uniq_ids),
+    per_metric_observation_sum: perMetricObsSum,
+    unique_sal_covered: Number(uniq_sal),
+    derived_observations: Number(marted.find((m) => m.metric === "price_growth_12m")?.observations ?? 0),
+    contextual_observations: 0,
+    integrity_ok: Number(total_obs) === Number(uniq_ids) && Number(total_obs) === perMetricObsSum,
+  };
 
   // 6. before/after vs existing warehouse SA coverage (read-only REST)
   const base = env.WAREHOUSE_SUPABASE_URL.replace(/\/$/, "") + "/rest/v1";
@@ -145,8 +177,18 @@ async function main() {
   const report = {
     as_of: asOf,
     sources: [{ ...hsRaw, licence: hs.licence, name: hs.name }, { ...rrRaw, licence: rr.licence, name: rr.name }].map((s) => ({ source_sha256: s.sha, path: path.basename(s.rawPath), licence: s.licence, resource: s.name })),
+    reconciliation,
     core_observations: Number(total_obs),
-    materialised_by_metric: marted.map((m) => ({ metric: m.metric, property_type: m.property_type, suburbs: Number(m.suburbs) })),
+    materialised_by_metric: marted.map((m) => ({ metric: m.metric, property_type: m.property_type, observations: Number(m.observations), suburbs: Number(m.suburbs) })),
+    net_new_vs_verified: {
+      note: "net-new = warehouse had 0 before; newly-verified = independently re-verified official data overlapping existing coverage",
+      median_house_price: "net_new (SA house price was 0)",
+      gross_yield: "net_new (SA yield was 0)",
+      sales_volume: "net_new",
+      price_growth_12m: "net_new",
+      median_rent_house: "newly_verified_overlap (SA rent already had ~950 suburbs)",
+      median_rent_unit: "mixed (net_new where warehouse lacked SA unit rent)",
+    },
     qualified_yields: yields.length,
     yield_sample: yields.slice(0, 5),
     quarantined: quarantine.length,

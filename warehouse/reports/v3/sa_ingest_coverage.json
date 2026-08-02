@@ -14,34 +14,62 @@
       "resource": "Private Rental Report 2026-03"
     }
   ],
-  "core_observations": 524,
+  "reconciliation": {
+    "note": "524-vs-487 explained: V3 double-counted observations where two SA source localities resolved to one SAL; those are now deduped (identical) or quarantined (conflicting). After dedup, total core rows == sum of per-metric rows == sum of per-metric distinct SALs.",
+    "raw_accepted_records_expanded_to_metrics": 964,
+    "staged_addObs_calls": 964,
+    "duplicates_deduped": 37,
+    "conflicts_quarantined": 0,
+    "core_direct_observations": 487,
+    "unique_observation_ids": 487,
+    "per_metric_observation_sum": 487,
+    "unique_sal_covered": 177,
+    "derived_observations": 79,
+    "contextual_observations": 0,
+    "integrity_ok": true
+  },
+  "core_observations": 487,
   "materialised_by_metric": [
     {
       "metric": "median_house_price",
       "property_type": "house",
+      "observations": 92,
       "suburbs": 92
     },
     {
       "metric": "median_rent",
       "property_type": "house",
+      "observations": 153,
       "suburbs": 153
     },
     {
       "metric": "median_rent",
       "property_type": "unit",
+      "observations": 71,
       "suburbs": 71
     },
     {
       "metric": "price_growth_12m",
       "property_type": "house",
+      "observations": 79,
       "suburbs": 79
     },
     {
       "metric": "sales_volume",
       "property_type": "house",
+      "observations": 92,
       "suburbs": 92
     }
   ],
+  "net_new_vs_verified": {
+    "note": "net-new = warehouse had 0 before; newly-verified = independently re-verified official data overlapping existing coverage",
+    "median_house_price": "net_new (SA house price was 0)",
+    "gross_yield": "net_new (SA yield was 0)",
+    "sales_volume": "net_new",
+    "price_growth_12m": "net_new",
+    "median_rent_house": "newly_verified_overlap (SA rent already had ~950 suburbs)",
+    "median_rent_unit": "mixed (net_new where warehouse lacked SA unit rent)"
+  },
   "qualified_yields": 83,
   "yield_sample": [
     {
