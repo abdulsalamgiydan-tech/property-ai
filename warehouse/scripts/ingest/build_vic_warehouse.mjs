@@ -65,6 +65,8 @@ async function main() {
   const APPLY = argv.includes("--apply-local");
   const i = argv.indexOf("--as-of");
   const asOf = i !== -1 && argv[i + 1] ? argv[i + 1] : new Date().toISOString().slice(0, 10);
+  const emitIdx = argv.indexOf("--emit-payload");
+  const EMIT_PAYLOAD = emitIdx !== -1 && argv[emitIdx + 1] ? argv[emitIdx + 1] : null;
   const env = loadEnv();
   if (!env.WAREHOUSE_SUPABASE_URL) { console.error("FAIL CLOSED: warehouse creds missing"); process.exit(1); }
 
@@ -133,6 +135,21 @@ async function main() {
   console.log(`core observations: ${report.core_observations}  unique VIC suburbs: ${report.reconciliation.unique_sal_covered}`);
   for (const m of report.by_property_bedroom) console.log(`  ${m.property_type}/${m.bedroom_group}br: ${m.suburbs} suburbs`);
   console.log(`quarantined: ${report.quarantined}`, JSON.stringify(report.quarantine_by_reason));
+
+  if (EMIT_PAYLOAD) {
+    // Emit the EXACT accepted VIC candidate rows (direct bedroom-specific suburb
+    // rent) in the promotion payload-row shape. Deterministic given --as-of + raw.
+    const attribution = "© State of Victoria (DFFH) (CC BY 4.0)";
+    const payload = coreObs.map((o) => ({
+      id: o.observation_id, src: o.source_id, sha: raw.sha, geo: o.geography_id,
+      metric: o.metric, pt: o.property_type, bg: o.bedroom_group, val: o.value,
+      unit: "AUD/week", n: o.sample_size ?? null, ps: null, pe: o.period_end,
+      status: o.status, attr: attribution,
+    }));
+    fs.mkdirSync(path.dirname(EMIT_PAYLOAD), { recursive: true });
+    fs.writeFileSync(EMIT_PAYLOAD, JSON.stringify({ state: "VIC", as_of: asOf, rows: payload }, null, 2));
+    console.log(`\n[emit-payload] wrote ${payload.length} VIC rows -> ${EMIT_PAYLOAD}`);
+  }
 
   if (APPLY) { fs.mkdirSync(REPORT_DIR, { recursive: true }); fs.writeFileSync(path.join(REPORT_DIR, "vic_ingest_coverage.json"), JSON.stringify(report, null, 2)); console.log(`\nWrote ${REPORT_DIR}/vic_ingest_coverage.json`); }
   else console.log("\n[read-only] pass --apply-local to persist the report.");

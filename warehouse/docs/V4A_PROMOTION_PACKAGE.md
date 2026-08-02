@@ -1,8 +1,36 @@
-# V4A — SA/VIC official-metrics promotion package (rehearsed, NOT applied)
+# V4A — SA/VIC official-metrics promotion package (loaded on the VALIDATION BRANCH)
 
-**Production and Supabase (validation + Production) were NOT touched.** No remote
-migration was applied. This package is rehearsed locally only and awaits separate
-human approval before any validation-branch load.
+**Production was NOT touched.** Migration `056` + the deterministic SA+VIC
+candidate are now loaded on the designated Supabase **validation branch**
+(`lzonauinzatmtytyoems`) only — see "Validation-branch load (executed)" below.
+Production (`oshquaxsloolqucwvigc`), `main`, Vercel, env vars, Storage and Stash
+were untouched, and there is no promotion beyond the validation branch.
+
+## Validation-branch load (executed — Abdul-approved, validation branch only)
+Loaded via `warehouse/scripts/promotion/load_validation_branch.mjs
+--confirm-validation-load` (fail-closed prod-ref guard; SSL; statement_timeout).
+- **Payload**: 689 rows — SA 491 + VIC 198; 606 direct + 83 derived (SA house
+  yields). SHA-256 `cbd0b269d5ffc8b31501475c612172e0844bb3b69b400362d501f52b30392326`
+  (pinned in `warehouse/reports/v4a/validation_load_manifest.json`; bytes gitignored).
+- **`price_growth_12m` deliberately EXCLUDED**: it is a *signed* metric (can be < 0)
+  and is incompatible with `056`'s `value > 0` invariant; deferred to a dedicated
+  signed-metric lane (recorded in the manifest `excluded`).
+- **All 16 load checks PASSED** (preflight / migration applied / core=mart=689 /
+  4 post-load validations = 0 / least-privilege grants / idempotent reload /
+  conflict fail-closed / transactional rollback) — `validation_load_report.json`.
+- **Independent read-only re-verification PASSED** (9 checks) via
+  `verify_validation_branch.mjs`: core=689, view=606 (direct-only), 83 derived
+  yields in the internal mart, SA Belair + VIC bedroom-specific rent visible, no
+  postcode/contextual row in the public view, Production ref never referenced.
+- The public `v_official_suburb_metric_v1` view is **direct-only by design**;
+  derived yields live in the internal `mart.official_suburb_metric` (status
+  `derived`) pending a future exposed projection.
+
+**STOP**: next remote action (Production promotion) requires separate approval.
+
+---
+
+## Rehearsal package (below reflects the pre-load local rehearsal)
 
 ## Migration
 `supabase/migrations/056_official_suburb_metrics.sql` — **additive, unapplied**.

@@ -49,6 +49,8 @@ async function main() {
   const APPLY = argv.includes("--apply-local");
   const asOfIdx = argv.indexOf("--as-of");
   const asOf = asOfIdx !== -1 && argv[asOfIdx + 1] ? argv[asOfIdx + 1] : new Date().toISOString().slice(0, 10);
+  const emitIdx = argv.indexOf("--emit-payload");
+  const EMIT_PAYLOAD = emitIdx !== -1 && argv[emitIdx + 1] ? argv[emitIdx + 1] : null;
   const env = loadEnv();
   if (!env.WAREHOUSE_SUPABASE_URL) { console.error("FAIL CLOSED: warehouse creds missing"); process.exit(1); }
 
@@ -135,7 +137,7 @@ async function main() {
     if (!m.price || !m.rent) continue;
     const ev = { price: inputEv(m.price, m.price.source_id), rent: inputEv(m.rent, m.rent.source_id) };
     const q = qualifyYield(ev, { ...YIELD_OPTS, asOf });
-    if (q.qualified) yields.push({ geography_id: gid, gross_yield_pct: Number(((m.rent.value * 52) / m.price.value * 100).toFixed(2)), price_observation_id: m.price.observation_id, rent_observation_id: m.rent.observation_id, derived_id: q.derivedId });
+    if (q.qualified) yields.push({ geography_id: gid, gross_yield_pct: Number(((m.rent.value * 52) / m.price.value * 100).toFixed(2)), price_observation_id: m.price.observation_id, rent_observation_id: m.rent.observation_id, derived_id: q.derivedId, period_start: m.rent.period_start, period_end: m.price.period_end });
   }
 
   // 5. DuckDB raw->staging->core->mart (ephemeral in-memory) for SQL coverage
@@ -207,6 +209,37 @@ async function main() {
   console.log(`qualified house yields: ${report.qualified_yields}`);
   console.log(`quarantined: ${report.quarantined}`, JSON.stringify(report.quarantine_by_reason));
   console.log(`SA before/after:`, JSON.stringify(report.before_after_sa));
+
+  if (EMIT_PAYLOAD) {
+    // Emit the EXACT accepted candidate rows (direct core observations + qualified
+    // derived yields) in the promotion payload-row shape consumed by
+    // officialPromotion.observationValues(). Deterministic given --as-of + raw.
+    const unitFor = { median_house_price: "AUD", sales_volume: "count", median_rent: "AUD/week" };
+    const attribution = "© Government of South Australia (CC BY 4.0)";
+    // price_growth_12m is a SIGNED metric (can be negative) and is deliberately
+    // EXCLUDED: migration 056's official_observation_value_positive (value > 0)
+    // invariant only admits positive point-in-time metrics, and growth was never
+    // in the rehearsed payload. A signed-metric lane is deferred to a later change.
+    const payload = [];
+    for (const o of coreObs) {
+      if (o.metric === "price_growth_12m") continue;
+      payload.push({
+        id: o.observation_id, src: o.source_id, sha: o.resource_sha, geo: o.geography_id,
+        metric: o.metric, pt: o.property_type, bg: o.bedroom_group, val: o.value,
+        unit: unitFor[o.metric] ?? "unit", n: o.sample_size ?? null, ps: o.period_start ?? null,
+        pe: o.period_end, status: o.status, attr: attribution,
+      });
+    }
+    for (const y of yields) payload.push({
+      id: y.derived_id, src: "derived", sha: "derived", geo: y.geography_id,
+      metric: "gross_yield", pt: "house", bg: "all", val: y.gross_yield_pct, unit: "%",
+      n: null, ps: y.period_start ?? null, pe: y.period_end, status: "derived",
+      formula: "gross_yield@2", price: y.price_observation_id, rent: y.rent_observation_id, attr: attribution,
+    });
+    fs.mkdirSync(path.dirname(EMIT_PAYLOAD), { recursive: true });
+    fs.writeFileSync(EMIT_PAYLOAD, JSON.stringify({ state: "SA", as_of: asOf, rows: payload }, null, 2));
+    console.log(`\n[emit-payload] wrote ${payload.length} SA rows -> ${EMIT_PAYLOAD}`);
+  }
 
   if (APPLY) {
     fs.mkdirSync(REPORT_DIR, { recursive: true });

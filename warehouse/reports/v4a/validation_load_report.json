@@ -1,0 +1,132 @@
+{
+  "generated_at": "2026-08-02T17:47:42.107Z",
+  "target": {
+    "supabase_branch_ref": "lzonauinzatmtytyoems",
+    "is_production": false,
+    "database": "postgres",
+    "role": "postgres"
+  },
+  "payload_sha256": "cbd0b269d5ffc8b31501475c612172e0844bb3b69b400362d501f52b30392326",
+  "manifest_sha256": "cbd0b269d5ffc8b31501475c612172e0844bb3b69b400362d501f52b30392326",
+  "counts": {
+    "core": 689,
+    "mart": 689,
+    "view": 606,
+    "payload": 689,
+    "expected_mart": 689,
+    "by_status": {
+      "direct": 606,
+      "derived": 83
+    },
+    "by_state": {
+      "SA": 491,
+      "VIC": 198
+    },
+    "by_metric": {
+      "median_house_price": 92,
+      "sales_volume": 92,
+      "median_rent": 422,
+      "gross_yield": 83
+    }
+  },
+  "excluded": {
+    "price_growth_12m": "SIGNED metric (can be < 0) — incompatible with migration 056 value>0 invariant; deferred to a dedicated signed-metric lane. Not part of this load."
+  },
+  "checks": [
+    {
+      "name": "preflight_existing_055_objects_intact",
+      "ok": true,
+      "detail": "mart.suburb_market_snapshot + public.v_suburb_market_snapshot_v1 present"
+    },
+    {
+      "name": "preflight_supabase_roles_present",
+      "ok": true,
+      "detail": "anon + authenticated exist"
+    },
+    {
+      "name": "preflight_no_preexisting_content_conflict",
+      "ok": true,
+      "detail": "pre-existing conflicting ids: 0"
+    },
+    {
+      "name": "migration_056_applied",
+      "ok": true,
+      "detail": "core+mart tables + public view exist"
+    },
+    {
+      "name": "core_row_count_matches_payload",
+      "ok": true,
+      "detail": "core=689 payload=689"
+    },
+    {
+      "name": "mart_row_count_matches_expected",
+      "ok": true,
+      "detail": "mart=689 expected=689"
+    },
+    {
+      "name": "postload_mart_direct_only_in_view",
+      "ok": true,
+      "detail": "violations=0"
+    },
+    {
+      "name": "postload_no_non_positive_values",
+      "ok": true,
+      "detail": "violations=0"
+    },
+    {
+      "name": "postload_no_contextual_in_mart",
+      "ok": true,
+      "detail": "violations=0"
+    },
+    {
+      "name": "postload_derived_yield_inputs_exist",
+      "ok": true,
+      "detail": "violations=0"
+    },
+    {
+      "name": "grant_anon_authenticated_select_view",
+      "ok": true,
+      "detail": "anon=true authenticated=true"
+    },
+    {
+      "name": "no_grant_on_core_internal",
+      "ok": true,
+      "detail": "anon=false authenticated=false (must be false)"
+    },
+    {
+      "name": "no_grant_on_mart_internal",
+      "ok": true,
+      "detail": "anon=false authenticated=false (must be false)"
+    },
+    {
+      "name": "idempotent_reload_no_change",
+      "ok": true,
+      "detail": "core 689->689, mart 689->689"
+    },
+    {
+      "name": "conflict_existing_id_not_overwritten",
+      "ok": true,
+      "detail": "stored=15 original=15 (tamper ignored)"
+    },
+    {
+      "name": "transactional_rollback_proven",
+      "ok": true,
+      "detail": "in-txn=1 after-rollback=0"
+    },
+    {
+      "name": "candidate_undisturbed_after_rollback",
+      "ok": true,
+      "detail": "core=689 expected=689"
+    }
+  ],
+  "all_checks_passed": true,
+  "untouched": [
+    "Production (oshquaxsloolqucwvigc)",
+    "main",
+    "Vercel",
+    "environment variables",
+    "Storage",
+    "Stash"
+  ],
+  "promotion_beyond_validation_branch": false
+}
