@@ -1,0 +1,176 @@
+{
+  "generated_at": "2026-08-02T20:46:36.317Z",
+  "target": {
+    "supabase_branch_ref": "lzonauinzatmtytyoems",
+    "is_production": false
+  },
+  "consumer_privilege": "set role anon (PostgREST anon-request equivalent)",
+  "note": "Freshness (retrieved_at) and derived yields are proven via the new consumer RPC get_official_suburb_metrics_v1 (migration 057) in the LOCAL rehearsal; 057 is NOT applied to the branch (no remote write). This proves the deployed 056 direct-only view path.",
+  "checks": [
+    {
+      "name": "sa_complete_has_price_and_rent",
+      "ok": true,
+      "detail": "SAL_40001_ASGS3_2021: metrics=median_house_price,median_rent,sales_volume"
+    },
+    {
+      "name": "sa_complete_rows_carry_source_period_status",
+      "ok": true,
+      "detail": "all 3 rows carry source_id+period_end+status"
+    },
+    {
+      "name": "sa_partial_has_rent_no_price",
+      "ok": true,
+      "detail": "SAL_40002_ASGS3_2021: metrics=median_rent,median_rent"
+    },
+    {
+      "name": "sa_partial_no_yield",
+      "ok": true,
+      "detail": "no gross_yield without a house price"
+    },
+    {
+      "name": "vic_only_direct_rent",
+      "ok": true,
+      "detail": "distinct VIC (metric,status)=median_rent/direct,median_rent/direct,median_rent/direct,median_rent/direct,median_rent/direct,median_rent/direct"
+    },
+    {
+      "name": "vic_is_bedroom_specific",
+      "ok": true,
+      "detail": "bedroom groups present=2,3,4+,1"
+    },
+    {
+      "name": "vic_no_yield",
+      "ok": true,
+      "detail": "VIC has no house price -> no yield exposed"
+    },
+    {
+      "name": "no_postcode_row_in_official_view",
+      "ok": true,
+      "detail": "POA_ rows in view=0"
+    },
+    {
+      "name": "no_contextual_in_official_view",
+      "ok": true,
+      "detail": "non-direct rows in view=0"
+    },
+    {
+      "name": "anon_denied_core_official_observation",
+      "ok": true,
+      "detail": "select on core.official_observation raises for anon"
+    },
+    {
+      "name": "anon_denied_mart_official_suburb_metric",
+      "ok": true,
+      "detail": "select on mart.official_suburb_metric raises for anon"
+    },
+    {
+      "name": "calderwood_direct_price_intact",
+      "ok": true,
+      "detail": "median_sale_price_12m=1114000"
+    }
+  ],
+  "all_checks_passed": true,
+  "evidence": {
+    "sa_complete": {
+      "geography_id": "SAL_40001_ASGS3_2021",
+      "rows": [
+        {
+          "metric": "median_house_price",
+          "property_type": "house",
+          "bedroom_group": "all",
+          "value": "940000",
+          "unit": "AUD",
+          "period_end": "2026-06-29T14:00:00.000Z",
+          "status": "direct",
+          "source_id": "sa_metro_median_house_sales",
+          "attribution": "© Government of South Australia (CC BY 4.0)"
+        },
+        {
+          "metric": "median_rent",
+          "property_type": "house",
+          "bedroom_group": "all",
+          "value": "600",
+          "unit": "AUD/week",
+          "period_end": "2026-03-30T13:00:00.000Z",
+          "status": "direct",
+          "source_id": "sa_private_rental_report",
+          "attribution": "© Government of South Australia (CC BY 4.0)"
+        },
+        {
+          "metric": "sales_volume",
+          "property_type": "house",
+          "bedroom_group": "all",
+          "value": "32",
+          "unit": "count",
+          "period_end": "2026-06-29T14:00:00.000Z",
+          "status": "direct",
+          "source_id": "sa_metro_median_house_sales",
+          "attribution": "© Government of South Australia (CC BY 4.0)"
+        }
+      ]
+    },
+    "sa_partial": {
+      "geography_id": "SAL_40002_ASGS3_2021",
+      "rows": [
+        {
+          "metric": "median_rent",
+          "property_type": "house",
+          "value": "650",
+          "period_end": "2026-03-30T13:00:00.000Z",
+          "status": "direct",
+          "source_id": "sa_private_rental_report"
+        },
+        {
+          "metric": "median_rent",
+          "property_type": "unit",
+          "value": "459",
+          "period_end": "2026-03-30T13:00:00.000Z",
+          "status": "direct",
+          "source_id": "sa_private_rental_report"
+        }
+      ]
+    },
+    "vic_shape": [
+      {
+        "metric": "median_rent",
+        "property_type": "house",
+        "bedroom_group": "2",
+        "status": "direct"
+      },
+      {
+        "metric": "median_rent",
+        "property_type": "house",
+        "bedroom_group": "3",
+        "status": "direct"
+      },
+      {
+        "metric": "median_rent",
+        "property_type": "house",
+        "bedroom_group": "4+",
+        "status": "direct"
+      },
+      {
+        "metric": "median_rent",
+        "property_type": "unit",
+        "bedroom_group": "1",
+        "status": "direct"
+      },
+      {
+        "metric": "median_rent",
+        "property_type": "unit",
+        "bedroom_group": "2",
+        "status": "direct"
+      },
+      {
+        "metric": "median_rent",
+        "property_type": "unit",
+        "bedroom_group": "3",
+        "status": "direct"
+      }
+    ],
+    "calderwood_snapshot": {
+      "geography_id": "SAL_10749_ASGS3_2021",
+      "median_sale_price_12m": "1114000",
+      "median_weekly_rent_latest": null
+    }
+  }
+}
