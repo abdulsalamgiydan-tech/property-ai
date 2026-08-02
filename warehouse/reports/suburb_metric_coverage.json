@@ -1,0 +1,172 @@
+{
+  "generated_at": "2026-08-02T00:32:22.196Z",
+  "view": "v_suburb_market_snapshot_v1",
+  "total_suburb_snapshots": 15334,
+  "metrics": [
+    {
+      "metric": "median_house_price",
+      "column": "median_sale_price_detached",
+      "source": "warehouse",
+      "populated": 4756,
+      "missing": 10578,
+      "pct": 31
+    },
+    {
+      "metric": "median_unit_price",
+      "column": "median_sale_price_apartment",
+      "source": "warehouse",
+      "populated": 1454,
+      "missing": 13880,
+      "pct": 9.5
+    },
+    {
+      "metric": "median_sale_price_overall",
+      "column": "median_sale_price_12m",
+      "source": "warehouse",
+      "populated": 4821,
+      "missing": 10513,
+      "pct": 31.4
+    },
+    {
+      "metric": "median_weekly_rent",
+      "column": "median_weekly_rent_latest",
+      "source": "warehouse",
+      "populated": 3089,
+      "missing": 12245,
+      "pct": 20.1
+    },
+    {
+      "metric": "gross_yield",
+      "column": "gross_yield_pct",
+      "source": "warehouse",
+      "populated": 453,
+      "missing": 14881,
+      "pct": 3
+    },
+    {
+      "metric": "annual_price_growth_12m",
+      "column": "annual_price_change_pct",
+      "source": "warehouse",
+      "populated": 735,
+      "missing": 14599,
+      "pct": 4.8
+    },
+    {
+      "metric": "sales_volume_12m",
+      "column": "sales_volume_12m",
+      "source": "warehouse",
+      "populated": 4811,
+      "missing": 10523,
+      "pct": 31.4
+    },
+    {
+      "metric": "dwelling_stock",
+      "column": "dwelling_stock_total",
+      "source": "warehouse",
+      "populated": 15334,
+      "missing": 0,
+      "pct": 100
+    },
+    {
+      "metric": "approvals_12m",
+      "column": "approvals_12m",
+      "source": "warehouse",
+      "populated": 15329,
+      "missing": 5,
+      "pct": 100
+    },
+    {
+      "metric": "population",
+      "column": "total_population",
+      "source": "warehouse",
+      "populated": 15334,
+      "missing": 0,
+      "pct": 100
+    },
+    {
+      "metric": "population_growth_2016_2021",
+      "column": "population_growth_2016_2021_pct",
+      "source": "warehouse",
+      "populated": 10935,
+      "missing": 4399,
+      "pct": 71.3
+    },
+    {
+      "metric": "repayment_owner_occupier",
+      "column": "est_monthly_repayment_owner_occupier",
+      "source": "warehouse",
+      "populated": 4821,
+      "missing": 10513,
+      "pct": 31.4
+    },
+    {
+      "metric": "repayment_investor",
+      "column": "est_monthly_repayment_investor",
+      "source": "warehouse",
+      "populated": 4821,
+      "missing": 10513,
+      "pct": 31.4
+    },
+    {
+      "metric": "sales_turnover_pct",
+      "column": "sales_turnover_pct",
+      "source": "warehouse",
+      "populated": 4007,
+      "missing": 11327,
+      "pct": 26.1
+    },
+    {
+      "metric": "rba_rate",
+      "column": "rba_rate_used",
+      "source": "warehouse",
+      "populated": 15334,
+      "missing": 0,
+      "pct": 100
+    },
+    {
+      "metric": "vacancy_rate",
+      "column": null,
+      "source": "not_in_warehouse",
+      "populated": 0,
+      "missing": 15334,
+      "pct": 0,
+      "note": "Stash-fallback candidate — not held in the Propellect warehouse"
+    },
+    {
+      "metric": "days_on_market",
+      "column": null,
+      "source": "not_in_warehouse",
+      "populated": 0,
+      "missing": 15334,
+      "pct": 0,
+      "note": "Stash-fallback candidate — not held in the Propellect warehouse"
+    },
+    {
+      "metric": "growth_3yr",
+      "column": null,
+      "source": "not_in_warehouse",
+      "populated": 0,
+      "missing": 15334,
+      "pct": 0,
+      "note": "Stash-fallback candidate — not held in the Propellect warehouse"
+    },
+    {
+      "metric": "growth_5yr",
+      "column": null,
+      "source": "not_in_warehouse",
+      "populated": 0,
+      "missing": 15334,
+      "pct": 0,
+      "note": "Stash-fallback candidate — not held in the Propellect warehouse"
+    },
+    {
+      "metric": "growth_10yr",
+      "column": null,
+      "source": "not_in_warehouse",
+      "populated": 0,
+      "missing": 15334,
+      "pct": 0,
+      "note": "Stash-fallback candidate — not held in the Propellect warehouse"
+    }
+  ]
+}

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MarketSnapshotView } from "@/components/research/MarketSnapshotView";
 import {
-  getMarketSnapshotV2,
+  getEnrichedMarketSnapshot,
   getMetricAssumptions,
   getSuburbDemographics,
   getTimeseriesV2,
@@ -23,7 +23,7 @@ export default async function SuburbResearchPage({
   if (!geo) notFound();
 
   const [snapshot, demographics, timeseries, assumptions] = await Promise.all([
-    getMarketSnapshotV2(geo.geography_id),
+    getEnrichedMarketSnapshot(geo.geography_id, "SAL"),
     getSuburbDemographics(geo.geography_id),
     getTimeseriesV2(geo.geography_id),
     getMetricAssumptions(),
