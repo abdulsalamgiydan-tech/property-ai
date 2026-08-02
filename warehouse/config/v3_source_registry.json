@@ -65,6 +65,40 @@
     "http_verified": true
   },
   {
+    "id": "vic_dffh_moving_annual_rent",
+    "name": "Moving Annual Median Rent by Suburb and Town",
+    "provider": "Victorian Department of Families, Fairness and Housing (DFFH)",
+    "jurisdiction": "VIC",
+    "landing": "https://discover.data.vic.gov.au/dataset/rental-report-quarterly-moving-annual-rents-by-suburb",
+    "resource_url": "https://discover.data.vic.gov.au/api/3/action/package_show?id=rental-report-quarterly-moving-annual-rents-by-suburb",
+    "access": "ckan_api+documented_redirect",
+    "format": "XLSX",
+    "geography_level": "suburb",
+    "asgs_version": "resolved to ASGS3_2021 via warehouse spine",
+    "property_types": [
+      "house",
+      "unit"
+    ],
+    "bedroom_detail": true,
+    "history": "Mar 2000→latest quarter",
+    "cadence": "quarterly",
+    "sample_fields": [
+      "lease count"
+    ],
+    "licence": "Creative Commons Attribution 4.0 International",
+    "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+    "commercial_reuse": true,
+    "derivative_permitted": true,
+    "attribution": "© State of Victoria (DFFH) (CC BY 4.0)",
+    "parser_version": "vic_rental_report@1",
+    "refresh_sla_days": 120,
+    "disposition": "accepted_official_reusable",
+    "blocker": null,
+    "reachability": 200,
+    "http_verified": true,
+    "note": "Catalogued CC-BY on discover.data.vic.gov.au; file served by dffh.vic.gov.au via a documented 307 redirect (not circumvention). Bedroom-specific direct suburb rent; combined provider localities quarantined. VIC median-house price is 403-blocked (see vic_vg_property_sales) so no VIC yield."
+  },
+  {
     "id": "nsw_vg_bulk_psi",
     "name": "NSW Valuer General Bulk Property Sales Information",
     "provider": "NSW Valuer General",

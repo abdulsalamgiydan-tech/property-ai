@@ -1,0 +1,79 @@
+{
+  "as_of": "2026-08-02",
+  "source": {
+    "source_sha256": "817c5b8ea7985651af84519149276ef0281f8b6cfa4bcada39ea8aa87ed2952e",
+    "path": "vic_rent.817c5b8e.xlsx",
+    "licence": "Creative Commons Attribution 4.0 International | cc-by",
+    "resource": " Rental Report - Moving Annual Rents by LGA Sep 2025",
+    "final_host": "www.dffh.vic.gov.au"
+  },
+  "reconciliation": {
+    "staged": 914,
+    "duplicates_deduped": 0,
+    "conflicts_quarantined": 0,
+    "core_direct_observations": 198,
+    "unique_sal_covered": 35,
+    "integrity_ok": true
+  },
+  "core_observations": 198,
+  "by_property_bedroom": [
+    {
+      "property_type": "house",
+      "bedroom_group": "2",
+      "observations": 34,
+      "suburbs": 34
+    },
+    {
+      "property_type": "house",
+      "bedroom_group": "3",
+      "observations": 34,
+      "suburbs": 34
+    },
+    {
+      "property_type": "house",
+      "bedroom_group": "4+",
+      "observations": 32,
+      "suburbs": 32
+    },
+    {
+      "property_type": "unit",
+      "bedroom_group": "1",
+      "observations": 31,
+      "suburbs": 31
+    },
+    {
+      "property_type": "unit",
+      "bedroom_group": "2",
+      "observations": 35,
+      "suburbs": 35
+    },
+    {
+      "property_type": "unit",
+      "bedroom_group": "3",
+      "observations": 32,
+      "suburbs": 32
+    }
+  ],
+  "quarantined": 756,
+  "quarantine_by_reason": [
+    {
+      "reason": "suppressed_or_non_positive",
+      "count": 40
+    },
+    {
+      "reason": "geography_unmatched",
+      "count": 716
+    }
+  ],
+  "before_after_vic": {
+    "median_rent_direct_suburbs": {
+      "before_warehouse_any_rent": 79,
+      "after_new_bedroom_specific_obs": 198,
+      "after_unique_suburbs": 35
+    }
+  },
+  "notes": {
+    "vic_house_price": "land.vic.gov.au median-house .xls returns HTTP 403 (access control) — recorded, not circumvented; no VIC house price → no VIC yield",
+    "combined_localities": "combined provider localities (e.g. 'Albert Park-Middle Park-West St Kilda') resolve to no single SAL and are quarantined as geography_unmatched"
+  }
+}

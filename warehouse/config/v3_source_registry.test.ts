@@ -20,9 +20,11 @@ describe("V3 source registry", () => {
     }
   });
 
-  it("only the SA CC-BY lanes are accepted this sprint (others recorded with a precise blocker)", () => {
-    expect(ACCEPTED.map((s) => s.id).sort()).toEqual(["sa_metro_median_house_sales", "sa_private_rental_report"]);
-    // 403-blocked lanes are recorded, not circumvented
+  it("accepted lanes are the SA + VIC CC-BY sources; others recorded with a precise blocker", () => {
+    expect(ACCEPTED.map((s) => s.id).sort()).toEqual(["sa_metro_median_house_sales", "sa_private_rental_report", "vic_dffh_moving_annual_rent"]);
+    // VIC rent is served via a documented redirect from the official catalogue
+    expect(V3_SOURCES.find((s) => s.id === "vic_dffh_moving_annual_rent")?.licence).toMatch(/Creative Commons/);
+    // VIC median-house (land.vic) and TAS remain 403 — recorded, not circumvented
     expect(V3_SOURCES.find((s) => s.id === "vic_vg_property_sales")?.disposition).toBe("temporarily_unreachable");
     expect(V3_SOURCES.find((s) => s.id === "tas_rental_bonds")?.reachability).toBe(403);
     // the 2.3GB local collection is never promotable
