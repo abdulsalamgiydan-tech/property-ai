@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 const statusCopy = {
-  available: "Fresh warehouse data available",
+  available: "Warehouse data published and queryable",
   partial: "Some warehouse data needs review",
   unavailable: "Warehouse status unavailable",
 } as const;
@@ -80,16 +80,24 @@ export default async function ResearchSearchPage({
               <dd className="mt-1 text-xl font-semibold text-zinc-100">{summary.sourceCount || "Unavailable"}</dd>
             </div>
             <div>
-              <dt className="text-xs text-zinc-500">Current</dt>
-              <dd className="mt-1 text-xl font-semibold text-zinc-100">{summary.datasetCount ? `${summary.currentDatasetCount}/${summary.datasetCount}` : "Unavailable"}</dd>
+              <dt className="text-xs text-zinc-500">Published</dt>
+              <dd className="mt-1 text-xl font-semibold text-zinc-100">{summary.datasetCount ? `${summary.publishedDatasetCount}/${summary.datasetCount}` : "Unavailable"}</dd>
             </div>
             <div>
-              <dt className="text-xs text-zinc-500">Last refresh</dt>
-              <dd className="mt-1 text-sm font-medium text-zinc-100">{formatSummaryDate(summary.latestRetrievedAt)}</dd>
+              <dt className="text-xs text-zinc-500">Status checked</dt>
+              <dd className="mt-1 text-sm font-medium text-zinc-100">{formatSummaryDate(summary.latestComputedAt)}</dd>
             </div>
           </dl>
           {summary.attentionDatasetCount > 0 ? (
-            <p className="mt-4 text-xs leading-5 text-amber-200">{summary.attentionDatasetCount} dataset(s) are due, stale, blocked, failed, or awaiting manual review.</p>
+            <p className="mt-4 text-xs leading-5 text-amber-200">{summary.attentionDatasetCount} dataset(s) are due, stale, blocked, failed, or awaiting a source fix.</p>
+          ) : null}
+          {summary.attentionDatasetCount === 0 &&
+          summary.datasetCount > 0 &&
+          summary.publishedDatasetCount === summary.datasetCount &&
+          summary.currentDatasetCount < summary.datasetCount ? (
+            <p className="mt-4 text-xs leading-5 text-zinc-400">
+              Published from a validated snapshot; per-dataset automatic-refresh recency is not yet tracked.
+            </p>
           ) : null}
         </SectionCard>
       </div>

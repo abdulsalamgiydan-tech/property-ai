@@ -6,6 +6,9 @@ import { ExploreFilterForm } from "@/components/research/ExploreFilterForm";
 import { ExploreResultsList } from "@/components/research/ExploreResultsList";
 import { searchGeographiesV2 } from "@/lib/warehouse/queries";
 import { isMultiStateResearchEnabled } from "@/lib/warehouse/env";
+import { mergeExploreResults, resolveExploreJurisdictions } from "@/lib/research/exploreScope";
+
+const EXPLORE_RESULT_LIMIT = 50;
 
 export const metadata: Metadata = {
   title: "Explore Suburbs & Postcodes (Research Preview) | Propellect",
@@ -26,12 +29,16 @@ export default async function ExplorePage({
   const jurisdiction = state === "NSW" || state === "VIC" ? state : undefined;
   const geographyType = type === "SAL" || type === "POA" ? type : undefined;
 
-  const results = await searchGeographiesV2({
-    query: q,
-    jurisdiction,
-    geographyType,
-    limit: 50,
-  });
+  // Default (no state selected) must still respect the advertised NSW/VIC
+  // scope: query each supported jurisdiction explicitly and merge, rather than
+  // issuing an unbounded national query that leaks NT/QLD/etc. geographies.
+  const jurisdictionsToQuery = resolveExploreJurisdictions(jurisdiction);
+  const resultsByJurisdiction = await Promise.all(
+    jurisdictionsToQuery.map((j) =>
+      searchGeographiesV2({ query: q, jurisdiction: j, geographyType, limit: EXPLORE_RESULT_LIMIT })
+    )
+  );
+  const results = mergeExploreResults(resultsByJurisdiction, EXPLORE_RESULT_LIMIT);
 
   return (
     <div className="space-y-6">

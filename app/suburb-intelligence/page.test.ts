@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 const { notFound, isWarehousePreviewEnabled } = vi.hoisted(() => ({
   notFound: vi.fn(() => {
@@ -9,27 +9,26 @@ const { notFound, isWarehousePreviewEnabled } = vi.hoisted(() => ({
 vi.mock("next/navigation", () => ({ notFound }));
 vi.mock("@/lib/warehouse/env", () => ({ isWarehousePreviewEnabled }));
 
-vi.mock("@/components/suburb/SuburbIntelligenceClient", () => ({
-  SuburbIntelligenceClient: () => "SuburbIntelligenceClient",
-}));
-
 import SuburbIntelligencePage from "./page";
 
 describe("SuburbIntelligencePage", () => {
-  beforeEach(() => {
+  afterEach(() => {
     notFound.mockClear();
     isWarehousePreviewEnabled.mockReset();
   });
 
-  it("fails closed with notFound() when the warehouse preview flag is off (Production today)", () => {
+  // The legacy Suburb Intelligence page must fail closed with the app's
+  // standard 404 for a direct request, independent of any feature flag — so
+  // enabling the /research preview can never expose this unfinished page.
+  it("always throws the standard NEXT_NOT_FOUND when the warehouse preview flag is off", () => {
     isWarehousePreviewEnabled.mockReturnValue(false);
     expect(() => SuburbIntelligencePage()).toThrow("NEXT_NOT_FOUND");
     expect(notFound).toHaveBeenCalledTimes(1);
   });
 
-  it("renders the placeholder client when the warehouse preview flag is on (Preview)", () => {
+  it("always throws the standard NEXT_NOT_FOUND even when the warehouse preview flag is on", () => {
     isWarehousePreviewEnabled.mockReturnValue(true);
-    expect(() => SuburbIntelligencePage()).not.toThrow();
-    expect(notFound).not.toHaveBeenCalled();
+    expect(() => SuburbIntelligencePage()).toThrow("NEXT_NOT_FOUND");
+    expect(notFound).toHaveBeenCalledTimes(1);
   });
 });

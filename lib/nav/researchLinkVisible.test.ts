@@ -16,15 +16,15 @@ describe("buildDesktopNavLinks", () => {
     { href: "/analyse-property", label: "Analyse" },
   ];
   const researchLink = { href: "/research", label: "Research" };
-  const suburbIntelligenceLink = { href: "/suburb-intelligence", label: "Suburb intelligence" };
 
-  it("excludes both Research and Suburb Intelligence when the warehouse preview flag is off (Production today)", () => {
-    const links = buildDesktopNavLinks(false, publicLinks, researchLink, suburbIntelligenceLink);
+  it("shows only the public links when the warehouse preview flag is off (Production today)", () => {
+    const links = buildDesktopNavLinks(false, publicLinks, researchLink);
     expect(links.map((l) => l.href)).toEqual(["/", "/analyse-property"]);
   });
 
-  it("includes both Research and Suburb Intelligence when the warehouse preview flag is on (Preview)", () => {
-    const links = buildDesktopNavLinks(true, publicLinks, researchLink, suburbIntelligenceLink);
-    expect(links.map((l) => l.href)).toEqual(["/", "/research", "/analyse-property", "/suburb-intelligence"]);
+  it("inserts Research after Home when the warehouse preview flag is on, and never Suburb Intelligence", () => {
+    const links = buildDesktopNavLinks(true, publicLinks, researchLink);
+    expect(links.map((l) => l.href)).toEqual(["/", "/research", "/analyse-property"]);
+    expect(links.some((l) => l.href === "/suburb-intelligence")).toBe(false);
   });
 });
