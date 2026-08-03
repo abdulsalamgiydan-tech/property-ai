@@ -4,6 +4,7 @@ import { MarketSnapshotView } from "@/components/research/MarketSnapshotView";
 import {
   getEnrichedMarketSnapshot,
   getMetricAssumptions,
+  getOfficialSuburbMetricsV1,
   getSuburbDemographics,
   getTimeseriesV2,
   resolveGeographyByCode,
@@ -22,11 +23,12 @@ export default async function SuburbResearchPage({
   const geo = await resolveGeographyByCode("SAL", geographyCode);
   if (!geo) notFound();
 
-  const [snapshot, demographics, timeseries, assumptions] = await Promise.all([
+  const [snapshot, demographics, timeseries, assumptions, officialMetrics] = await Promise.all([
     getEnrichedMarketSnapshot(geo.geography_id, "SAL"),
     getSuburbDemographics(geo.geography_id),
     getTimeseriesV2(geo.geography_id),
     getMetricAssumptions(),
+    getOfficialSuburbMetricsV1(geo.geography_id),
   ]);
 
   return (
@@ -39,6 +41,7 @@ export default async function SuburbResearchPage({
       demographics={demographics}
       timeseries={timeseries}
       assumptions={assumptions}
+      officialMetrics={officialMetrics}
       scenarioLabEnabled={isScenarioLabEnabled()}
       researchCopilotEnabled={isResearchCopilotEnabled()}
     />

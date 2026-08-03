@@ -13,7 +13,25 @@ import {
   formatCountOrUnavailable as num,
   formatPeriodOrUnavailable as periodLabel,
 } from "@/lib/warehouse/formatMetric";
-import type { DemographicProfile, MarketSnapshot, MetricAssumption, TimeseriesRow } from "@/lib/warehouse/queries";
+import type { DemographicProfile, MarketSnapshot, MetricAssumption, OfficialSuburbMetric, TimeseriesRow } from "@/lib/warehouse/queries";
+
+const OFFICIAL_METRIC_LABELS: Record<string, string> = {
+  median_house_price: "Median house price",
+  median_rent: "Median rent",
+  sales_volume: "Sales volume",
+  gross_yield: "Gross yield",
+};
+
+function formatOfficialValue(value: number, unit: string): string {
+  if (unit === "%") return formatPercent(value, 2);
+  if (unit === "count") return num(value);
+  if (unit === "AUD" || unit === "AUD/week") return money(value);
+  return `${value} ${unit}`.trim();
+}
+
+function bedroomLabel(group: string): string {
+  return group === "all" ? "All" : `${group} bd`;
+}
 
 export function MarketSnapshotView({
   geographyId,
@@ -24,6 +42,7 @@ export function MarketSnapshotView({
   demographics,
   timeseries,
   assumptions,
+  officialMetrics = [],
   scenarioLabEnabled = false,
   researchCopilotEnabled = false,
 }: {
@@ -35,6 +54,7 @@ export function MarketSnapshotView({
   demographics: DemographicProfile | null;
   timeseries: TimeseriesRow[];
   assumptions: MetricAssumption[];
+  officialMetrics?: OfficialSuburbMetric[];
   scenarioLabEnabled?: boolean;
   researchCopilotEnabled?: boolean;
 }) {
@@ -102,6 +122,62 @@ export function MarketSnapshotView({
           </Link>
         ) : null}
       </SectionCard>
+
+      {/* 1b. Official government metrics (SA/VIC CC-BY open data) */}
+      {officialMetrics.length > 0 ? (
+        <SectionCard
+          title="Official government metrics"
+          description="Direct SA/VIC government open data (CC BY 4.0), independent of the modelled snapshot above."
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="text-zinc-500">
+                <tr>
+                  <th className="py-1 pr-4">Metric</th>
+                  <th className="py-1 pr-4">Type</th>
+                  <th className="py-1 pr-4">Bedrooms</th>
+                  <th className="py-1 pr-4">Value</th>
+                  <th className="py-1 pr-4">Period</th>
+                  <th className="py-1">Basis</th>
+                </tr>
+              </thead>
+              <tbody className="text-zinc-300">
+                {[...officialMetrics]
+                  .sort(
+                    (a, b) =>
+                      Number(a.is_derived) - Number(b.is_derived) ||
+                      a.metric.localeCompare(b.metric) ||
+                      a.property_type.localeCompare(b.property_type) ||
+                      a.bedroom_group.localeCompare(b.bedroom_group),
+                  )
+                  .map((m, i) => (
+                    <tr key={i} className="border-t border-zinc-800/60">
+                      <td className="py-1.5 pr-4">{OFFICIAL_METRIC_LABELS[m.metric] ?? m.metric}</td>
+                      <td className="py-1.5 pr-4 capitalize">{m.property_type}</td>
+                      <td className="py-1.5 pr-4">{bedroomLabel(m.bedroom_group)}</td>
+                      <td className="py-1.5 pr-4">{formatOfficialValue(m.value, m.unit)}</td>
+                      <td className="py-1.5 pr-4">{periodLabel(m.period_end)}</td>
+                      <td className="py-1.5">
+                        {m.is_derived ? (
+                          <span className="text-amber-300/80" title={m.derived_from ?? "derived"}>
+                            Derived
+                          </span>
+                        ) : (
+                          <span className="text-emerald-300/80">Direct</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3 text-[11px] leading-relaxed text-zinc-600">
+            Derived gross yield is computed from the official median house price and median
+            rent above (annualised). Aggregate medians/counts only — no property-level detail.
+            Source: {[...new Set(officialMetrics.map((m) => m.attribution))].join("; ")}.
+          </p>
+        </SectionCard>
+      ) : null}
 
       {/* 2. Affordability context */}
       <SectionCard

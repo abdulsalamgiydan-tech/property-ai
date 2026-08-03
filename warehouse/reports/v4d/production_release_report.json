@@ -1,0 +1,94 @@
+{
+  "release": "V4D — SA/VIC official metrics Production release",
+  "candidate_commit": "c6111a9ae2a80fe59795ae0613681c0a0817fd17",
+  "superseded_commit": "9cd403f6edd23c55d819665096ee947019a3d3fa",
+  "executed_at": "2026-08-03",
+  "production_project_ref": "oshquaxsloolqucwvigc",
+  "preflight": {
+    "head": "c6111a9",
+    "ci": "green",
+    "production_baseline_before": "migrations 054+046; official tables absent; suburb_market_snapshot=15334",
+    "get_market_snapshot_v2_before": "42 columns, SECURITY DEFINER, STABLE, search_path=public,mart, ACL {postgres,service_role,anon,authenticated}, PUBLIC absent, 0 dependents",
+    "payload_sha256": "cbd0b269d5ffc8b31501475c612172e0844bb3b69b400362d501f52b30392326",
+    "pr33_base_was": "feature/sprint18-production-warehouse-bootstrap (retargeted to main before merge)"
+  },
+  "migrations_applied": ["055_widen_get_market_snapshot_v2", "056_official_suburb_metrics", "057_official_suburb_metrics_consumer_rpc"],
+  "migration_055_verified": {
+    "out_columns": 57,
+    "security_definer": true,
+    "volatile": "STABLE",
+    "search_path": "public, mart",
+    "acl": "anon+authenticated+service_role EXECUTE; PUBLIC none",
+    "calderwood_price_via_widened_fn": 1114000,
+    "calderwood_direct_or_derived": "direct"
+  },
+  "load": {
+    "payload_sha256": "cbd0b269d5ffc8b31501475c612172e0844bb3b69b400362d501f52b30392326",
+    "compact_loader_verified_byte_identical_to_canonical": true,
+    "core_official_observation": 689,
+    "mart_official_suburb_metric": 689,
+    "public_view_v1_direct_only": 606,
+    "derived_yields": 83,
+    "sa_rows": 491,
+    "vic_rows": 198
+  },
+  "checks": {
+    "core_689": "PASS",
+    "mart_689": "PASS",
+    "view_606": "PASS",
+    "derived_83": "PASS",
+    "postload_mart_direct_only_in_view": "PASS (0)",
+    "postload_no_non_positive": "PASS (0)",
+    "postload_no_contextual_in_mart": "PASS (0)",
+    "postload_derived_yield_inputs_exist": "PASS (0)",
+    "grant_anon_authenticated_view_select": "PASS (true)",
+    "no_grant_anon_authenticated_core": "PASS (false)",
+    "no_grant_anon_authenticated_mart": "PASS (false)",
+    "no_schema_usage_anon_core_mart": "PASS (false)",
+    "grant_anon_authenticated_rpc_execute": "PASS (true)",
+    "idempotent_reload_no_change": "PASS (689/689)",
+    "conflict_existing_id_not_overwritten": "PASS (Belair price stayed 940000)",
+    "transactional_rollback_proven": "PASS (sentinel gone, core=689)"
+  },
+  "consumer_rpc_proof_production_anon_rest": {
+    "sa_complete_SAL_40085": "price 2054444 + rent 1000 + derived gross_yield 2.53% (is_derived, derived_from=gross_yield@2, retrieved_at) + volume 10",
+    "sa_partial_SAL_40002": "median_rent house 650 + unit 459 only; no price; no yield",
+    "vic_SAL_20035": "bedroom-specific median_rent only (bg 2/3/...); no yield; source vic_dffh_moving_annual_rent",
+    "calderwood_SAL_10749_official": "[] (no false official rent/yield)",
+    "postcode_POA_2527_official": "[] (no leak)",
+    "calderwood_widened_snapshot_055": "median_sale_price_12m 1114000 + direct_or_derived=direct + rba_rate_used 6.2 + est_monthly_repayment_investor 5632.99",
+    "internal_core_mart_via_anon_rest": "404 (schemas not exposed)"
+  },
+  "security_advisor_gate": {
+    "verdict": "PASS — only the two expected same-pattern additions",
+    "new_lints": [
+      "security_definer_view: public.v_official_suburb_metric_v1 (same class as 11 existing public views)",
+      "anon/authenticated_security_definer_function_executable: public.get_official_suburb_metrics_v1 (same class as 8 existing consumer RPCs)"
+    ],
+    "regression": "none"
+  },
+  "merge": {
+    "pr": 33,
+    "retargeted_base_to": "main",
+    "merge_commit": "0c51ae2",
+    "force_push": false,
+    "release_diff_files": 113,
+    "release_diff_scope": "warehouse + supabase migrations + lib/app/components (approved PRs #30/#31/#32) + 2 workflows; no unexpected changes"
+  },
+  "deploy": {
+    "trigger": "Vercel auto-deploy on merge to main",
+    "commit_status": "success",
+    "deployment_dashboard": "https://vercel.com/abdulsalamgiydan-9539s-projects/property-ai/6ee8XGxC71bFs8K8UJuirnmyfSz8",
+    "production_url": "https://property-ai.vercel.app",
+    "homepage_http": 200,
+    "note": "Vercel MCP access is 403 for the operator; deploy verified via commit status + live URL. Precise deployment ID requires Vercel dashboard."
+  },
+  "remote_systems_changed": [
+    "Supabase Production oshquaxsloolqucwvigc: +migrations 055/056/057, +689 official rows, +1 view, +1 RPC (additive)",
+    "GitHub main: merge commit 0c51ae2 (PR #33, 20 approved commits)",
+    "Vercel Production: new deployment (auto)",
+    "GitHub Actions: one official-refresh dry-run"
+  ],
+  "untouched": ["environment variables", "Storage", "Stash", "source data", "payload contents", "release scope"],
+  "status_label": "LIVE — SA OFFICIAL METRICS; VIC PARTIAL OFFICIAL RENTS"
+}
