@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import fs from "fs";
 import { PGlite } from "@electric-sql/pglite";
-import { INSERT_OBSERVATION, INSERT_MART, PAYLOAD, observationValues } from "./officialPromotion.mjs";
+import { INSERT_OBSERVATION, INSERT_MART, PAYLOAD, GROWTH_PAYLOAD, observationValues } from "./officialPromotion.mjs";
 
 /**
  * Full Production release-package rehearsal (real PostgreSQL via PGlite): applies
@@ -17,6 +17,7 @@ import { INSERT_OBSERVATION, INSERT_MART, PAYLOAD, observationValues } from "./o
 const M055 = fs.readFileSync("supabase/migrations/055_widen_get_market_snapshot_v2.sql", "utf8");
 const M056 = fs.readFileSync("supabase/migrations/056_official_suburb_metrics.sql", "utf8");
 const M057 = fs.readFileSync("supabase/migrations/057_official_suburb_metrics_consumer_rpc.sql", "utf8");
+const M058 = fs.readFileSync("supabase/migrations/058_signed_price_growth_constraint.sql", "utf8");
 
 // The REAL migration-052 narrow get_market_snapshot_v2 (42-column contract) + the
 // current post-046 ACL (PUBLIC revoked; EXECUTE for anon, authenticated,
@@ -112,6 +113,7 @@ describe("Production release rehearsal (055 drop+recreate → 056 → 057, real 
     await db.exec(M055); // DROP IF EXISTS is a no-op on a blank db
     await db.exec(M056);
     await db.exec(M057);
+    await db.exec(M058); // metric-aware value invariant (signed price_growth_12m)
 
     // widened contract present with the exact 57 columns
     expect((await actualOutColumns(db)).length).toBe(57);
@@ -120,10 +122,12 @@ describe("Production release rehearsal (055 drop+recreate → 056 → 057, real 
     // grants restored (anon/authenticated/service_role EXECUTE; PUBLIC revoked)
     expect(await execGrants(db)).toEqual({ anon: true, authenticated: true, service_role: true, nobody: false });
 
-    for (const r of PAYLOAD) await db.query(INSERT_OBSERVATION, observationValues(r));
-    for (const r of PAYLOAD) await db.query(INSERT_MART, [r.id]);
+    for (const r of [...PAYLOAD, ...GROWTH_PAYLOAD]) await db.query(INSERT_OBSERVATION, observationValues(r));
+    for (const r of [...PAYLOAD, ...GROWTH_PAYLOAD]) await db.query(INSERT_MART, [r.id]);
     expect((await db.query(`select 1 from public.get_official_suburb_metrics_v1('SAL_40085_ASGS3_2021') where metric='gross_yield'`)).rows.length).toBe(1);
     expect((await db.query(`select 1 from public.v_official_suburb_metric_v1 where geography_id='SAL_40085_ASGS3_2021' and metric='gross_yield'`)).rows.length).toBe(0);
+    // 058: signed growth (incl. the -6.11 negative) is accepted and exposed via the RPC
+    expect(Number((await db.query<{ value: number }>(`select value from public.get_official_suburb_metrics_v1('SAL_40085_ASGS3_2021') where metric='price_growth_12m'`)).rows[0].value)).toBe(-6.11);
     expect(await ok(db, `select has_function_privilege('anon','public.get_official_suburb_metrics_v1(text)','EXECUTE') ok`)).toBe(true);
     expect(await ok(db, `select has_table_privilege('anon','core.official_observation','SELECT') ok`)).toBe(false);
   });
@@ -159,6 +163,7 @@ describe("Production release rehearsal (055 drop+recreate → 056 → 057, real 
     // full sequence continues on the current schema
     await db.exec(M056);
     await db.exec(M057);
+    await db.exec(M058); // metric-aware value invariant (signed price_growth_12m)
     for (const r of PAYLOAD) await db.query(INSERT_OBSERVATION, observationValues(r));
     for (const r of PAYLOAD) await db.query(INSERT_MART, [r.id]);
     expect((await db.query(`select 1 from public.get_official_suburb_metrics_v1('SAL_40085_ASGS3_2021') where metric='gross_yield' and is_derived`)).rows.length).toBe(1);
@@ -190,6 +195,7 @@ describe("Production release rehearsal (055 drop+recreate → 056 → 057, real 
     await db.exec(M055);
     await db.exec(M056);
     await db.exec(M057);
+    await db.exec(M058); // metric-aware value invariant (signed price_growth_12m)
     for (const r of PAYLOAD) await db.query(INSERT_OBSERVATION, observationValues(r));
 
     await db.exec(`
