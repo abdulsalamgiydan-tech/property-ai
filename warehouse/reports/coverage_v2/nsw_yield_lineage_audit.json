@@ -1,0 +1,21 @@
+{
+  "deterministic": {
+    "as_of": "2026-08-02",
+    "endpoint": "https://lzonauinzatmtytyoems.supabase.co/rest/v1/v_suburb_market_snapshot_v1?median_sale_price_12m=not.is.null&median_weekly_rent_latest=not.is.null&gross_yield_pct=is.null&state_code=eq.1&select=geography_id,geography_code,geography_name,state_code,median_sale_price_12m,median_weekly_rent_latest,latest_sales_period,latest_rent_period,sales_sample_confidence,rent_confidence,direct_or_derived,snapshot_generated_at&order=geography_id",
+    "naive_price_rent_overlap": 126,
+    "lineage_unverified": 126,
+    "materialised_local": 0,
+    "promotion_ready": 0,
+    "disposition_ledger": [
+      {
+        "disposition": "lineage_unverified",
+        "count": 126
+      }
+    ],
+    "source_sha256": "4b73aa0e824f3c2ceabd5128d95345e30c8ffd27bf9ec838bd436da562607871"
+  },
+  "run": {
+    "generated_at": "2026-08-02T05:49:16.054Z",
+    "mode": "apply-local"
+  }
+}

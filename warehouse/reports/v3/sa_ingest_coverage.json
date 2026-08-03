@@ -1,0 +1,148 @@
+{
+  "as_of": "2026-08-02",
+  "sources": [
+    {
+      "source_sha256": "9cfa8aa71d2c453c09ca1d3baecc1955144863cfb5c4caef01c12266e639ef7a",
+      "path": "sa_metro_house_sales.9cfa8aa7.xlsx",
+      "licence": "Creative Commons Attribution | cc-by",
+      "resource": "Metropolitan Median House Sales Q2 2026"
+    },
+    {
+      "source_sha256": "d0db486e96141577e540886db6923b586d57db852c2088ffca9cbe894fb92b0a",
+      "path": "sa_private_rent.d0db486e.xlsx",
+      "licence": "Creative Commons Attribution | cc-by",
+      "resource": "Private Rental Report 2026-03"
+    }
+  ],
+  "reconciliation": {
+    "note": "524-vs-487 explained: V3 double-counted observations where two SA source localities resolved to one SAL; those are now deduped (identical) or quarantined (conflicting). After dedup, total core rows == sum of per-metric rows == sum of per-metric distinct SALs.",
+    "raw_accepted_records_expanded_to_metrics": 964,
+    "staged_addObs_calls": 964,
+    "duplicates_deduped": 37,
+    "conflicts_quarantined": 0,
+    "core_direct_observations": 487,
+    "unique_observation_ids": 487,
+    "per_metric_observation_sum": 487,
+    "unique_sal_covered": 177,
+    "derived_observations": 79,
+    "contextual_observations": 0,
+    "integrity_ok": true
+  },
+  "core_observations": 487,
+  "materialised_by_metric": [
+    {
+      "metric": "median_house_price",
+      "property_type": "house",
+      "observations": 92,
+      "suburbs": 92
+    },
+    {
+      "metric": "median_rent",
+      "property_type": "house",
+      "observations": 153,
+      "suburbs": 153
+    },
+    {
+      "metric": "median_rent",
+      "property_type": "unit",
+      "observations": 71,
+      "suburbs": 71
+    },
+    {
+      "metric": "price_growth_12m",
+      "property_type": "house",
+      "observations": 79,
+      "suburbs": 79
+    },
+    {
+      "metric": "sales_volume",
+      "property_type": "house",
+      "observations": 92,
+      "suburbs": 92
+    }
+  ],
+  "net_new_vs_verified": {
+    "note": "net-new = warehouse had 0 before; newly-verified = independently re-verified official data overlapping existing coverage",
+    "median_house_price": "net_new (SA house price was 0)",
+    "gross_yield": "net_new (SA yield was 0)",
+    "sales_volume": "net_new",
+    "price_growth_12m": "net_new",
+    "median_rent_house": "newly_verified_overlap (SA rent already had ~950 suburbs)",
+    "median_rent_unit": "mixed (net_new where warehouse lacked SA unit rent)"
+  },
+  "qualified_yields": 83,
+  "yield_sample": [
+    {
+      "geography_id": "SAL_40158_ASGS3_2021",
+      "gross_yield_pct": 3.1,
+      "price_observation_id": "obs_bff660a7f7cfb7f25c79",
+      "rent_observation_id": "obs_01aa0d95131d76459524",
+      "derived_id": "yield_34d44d2298a63f3635a432a2"
+    },
+    {
+      "geography_id": "SAL_40085_ASGS3_2021",
+      "gross_yield_pct": 2.53,
+      "price_observation_id": "obs_4fed06926eb662e35569",
+      "rent_observation_id": "obs_adbdfebcbcc08f932c17",
+      "derived_id": "yield_ec3c45b4ebda58b4ce188d1c"
+    },
+    {
+      "geography_id": "SAL_40806_ASGS3_2021",
+      "gross_yield_pct": 2.67,
+      "price_observation_id": "obs_24841fffa64dc2924890",
+      "rent_observation_id": "obs_ab3b054cc8dba4bf221b",
+      "derived_id": "yield_8eb3ce37a6ec321ba70119cf"
+    },
+    {
+      "geography_id": "SAL_40049_ASGS3_2021",
+      "gross_yield_pct": 3.04,
+      "price_observation_id": "obs_4c2f784374b5c478eadc",
+      "rent_observation_id": "obs_f7ca99eb648a1a5e2160",
+      "derived_id": "yield_dd34ef94c5412be5873c12f1"
+    },
+    {
+      "geography_id": "SAL_40212_ASGS3_2021",
+      "gross_yield_pct": 2.91,
+      "price_observation_id": "obs_736982ed681fb8ec022c",
+      "rent_observation_id": "obs_e34ee0171a3cc5df04fc",
+      "derived_id": "yield_f1f75ffe9c3c2e2c34cfe291"
+    }
+  ],
+  "quarantined": 1642,
+  "quarantine_by_reason": [
+    {
+      "reason": "insufficient_sample",
+      "count": 288
+    },
+    {
+      "reason": "non_positive_or_suppressed_median",
+      "count": 368
+    },
+    {
+      "reason": "privacy_suppressed_count",
+      "count": 546
+    },
+    {
+      "reason": "geography_unmatched",
+      "count": 440
+    }
+  ],
+  "before_after_sa": {
+    "median_house_price": {
+      "before": 0,
+      "after_direct": 92
+    },
+    "median_rent_house": {
+      "before": 950,
+      "after_direct": 153
+    },
+    "median_rent_unit": {
+      "before": null,
+      "after_direct": 71
+    },
+    "gross_yield": {
+      "before": 0,
+      "after_qualified": 83
+    }
+  }
+}

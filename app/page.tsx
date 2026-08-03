@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { LogoMark } from "@/components/design/LogoMark";
-import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
 
 const baseTools = [
   {
@@ -35,22 +34,11 @@ const baseTools = [
   },
 ] as const;
 
-// Same warehouse-preview gate as Navbar/`/suburb-intelligence` itself — this
-// tile links to a page whose metric cards are all "Data coming soon"
-// placeholders, so it only appears where that's true and doesn't otherwise
-// imply a functioning research product (Sprint 18.1 hotfix).
-const suburbIntelligenceTool = {
-  title: "Suburb Intelligence",
-  caption: "Understand the investment profile of Australian suburbs — yields, vacancy, and growth.",
-  href: "/suburb-intelligence",
-  cta: "Explore suburbs",
-  available: true,
-} as const;
-
 export default function HomePage() {
-  const tools = isWarehousePreviewEnabled()
-    ? [...baseTools.slice(0, 3), suburbIntelligenceTool, ...baseTools.slice(3)]
-    : baseTools;
+  // The legacy "Suburb Intelligence" tile (which linked to an unfinished
+  // placeholder page) has been removed. The research experience lives entirely
+  // under /research and is reached from the Research nav entry.
+  const tools = baseTools;
   return (
     <div className="min-h-full bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100">
       <main className="mx-auto flex min-h-full w-full max-w-7xl flex-col px-4 py-12 sm:px-6 sm:py-16">

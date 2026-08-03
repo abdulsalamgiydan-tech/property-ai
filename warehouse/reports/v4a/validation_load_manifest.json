@@ -1,0 +1,41 @@
+{
+  "generated_note": "Manifest for the SA+VIC official-metrics validation-branch load candidate. Payload bytes are NOT committed (gitignored); this checksum+counts pins the exact deterministic candidate.",
+  "as_of": "2026-08-02",
+  "payload_sha256": "cbd0b269d5ffc8b31501475c612172e0844bb3b69b400362d501f52b30392326",
+  "total_rows": 689,
+  "by_state": {
+    "SA": 491,
+    "VIC": 198
+  },
+  "by_status": {
+    "direct": 606,
+    "derived": 83
+  },
+  "by_metric": {
+    "median_house_price": 92,
+    "sales_volume": 92,
+    "median_rent": 422,
+    "gross_yield": 83
+  },
+  "by_state_metric_type": {
+    "SA:median_house_price:house": 92,
+    "SA:sales_volume:house": 92,
+    "SA:median_rent:house": 153,
+    "SA:median_rent:unit": 71,
+    "SA:gross_yield:house": 83,
+    "VIC:median_rent:unit": 98,
+    "VIC:median_rent:house": 100
+  },
+  "excluded": {
+    "price_growth_12m": "SIGNED metric (can be < 0) — incompatible with migration 056 value>0 invariant; deferred to a dedicated signed-metric lane. Not part of this load."
+  },
+  "sources": {
+    "SA": [
+      "sa_metro_median_house_sales",
+      "sa_private_rental_report"
+    ],
+    "VIC": [
+      "vic_dffh_moving_annual_rent"
+    ]
+  }
+}

@@ -11,20 +11,18 @@ export function shouldShowResearchNav(warehousePreviewEnabled: boolean): boolean
 export type NavLink = { href: string; label: string };
 
 /**
- * Builds the desktop primary-nav link list. Suburb Intelligence shares the
- * same warehouse-preview gate as Research: both surfaces depend on warehouse
- * data that only exists where WAREHOUSE_PREVIEW_ENABLED is on, so both must
- * appear and disappear together. Suburb Intelligence was previously
- * unconditional in `publicLinks` — an ungated placeholder that stayed live
- * in Production while Research itself was correctly gated (Sprint 18.1
- * hotfix, discovered via real authenticated Production UAT).
+ * Builds the desktop primary-nav link list. When the warehouse preview flag is
+ * on, the Research entry point is inserted immediately after Home. The legacy
+ * Suburb Intelligence link used to be appended here under the same flag, which
+ * meant enabling Research in Production also surfaced an unfinished placeholder
+ * page; that link (and the page's public entry points) have been removed so
+ * Research can be enabled on its own.
  */
 export function buildDesktopNavLinks(
   warehousePreviewEnabled: boolean,
   publicLinks: NavLink[],
-  researchLink: NavLink,
-  suburbIntelligenceLink: NavLink
+  researchLink: NavLink
 ): NavLink[] {
   if (!shouldShowResearchNav(warehousePreviewEnabled)) return publicLinks;
-  return [publicLinks[0], researchLink, ...publicLinks.slice(1), suburbIntelligenceLink];
+  return [publicLinks[0], researchLink, ...publicLinks.slice(1)];
 }
