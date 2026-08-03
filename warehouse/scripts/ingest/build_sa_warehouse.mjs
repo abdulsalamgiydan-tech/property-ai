@@ -51,6 +51,8 @@ async function main() {
   const asOf = asOfIdx !== -1 && argv[asOfIdx + 1] ? argv[asOfIdx + 1] : new Date().toISOString().slice(0, 10);
   const emitIdx = argv.indexOf("--emit-payload");
   const EMIT_PAYLOAD = emitIdx !== -1 && argv[emitIdx + 1] ? argv[emitIdx + 1] : null;
+  const emitGrowthIdx = argv.indexOf("--emit-growth-payload");
+  const EMIT_GROWTH = emitGrowthIdx !== -1 && argv[emitGrowthIdx + 1] ? argv[emitGrowthIdx + 1] : null;
   const env = loadEnv();
   if (!env.WAREHOUSE_SUPABASE_URL) { console.error("FAIL CLOSED: warehouse creds missing"); process.exit(1); }
 
@@ -108,8 +110,12 @@ async function main() {
     const ps = `${Number(rec.current_period_end.slice(0, 4))}-04-01`; // quarter window
     addObs(rec, "median_house_price", "house", rec.house_median, rec.sales_count, ps, rec.current_period_end, rec.resource_sha, rec.source_id);
     addObs(rec, "sales_volume", "house", rec.sales_count, rec.sales_count, ps, rec.current_period_end, rec.resource_sha, rec.source_id);
-    if (rec.prior_house_median != null && rec.prior_house_median > 0 && rec.prior_sales_count >= 10) {
-      const growth = Number(((rec.house_median / rec.prior_house_median - 1) * 100).toFixed(2));
+    // price_growth_12m from the SOURCE-PUBLISHED "Median Change" column (DIRECT
+    // provenance; matches (current/prior-1) for 156/156 rows). Signed percent,
+    // sign preserved (real minimum ≈ -6.11%). Gated on the same >=10 prior-sales
+    // quality bar as the other SA metrics.
+    if (rec.median_change != null && rec.prior_house_median != null && rec.prior_house_median > 0 && rec.prior_sales_count >= 10) {
+      const growth = Number((rec.median_change * 100).toFixed(2));
       addObs({ ...rec }, "price_growth_12m", "house", growth, Math.min(rec.sales_count, rec.prior_sales_count), rec.prior_period_end, rec.current_period_end, rec.resource_sha, rec.source_id);
     }
   }
@@ -216,10 +222,10 @@ async function main() {
     // officialPromotion.observationValues(). Deterministic given --as-of + raw.
     const unitFor = { median_house_price: "AUD", sales_volume: "count", median_rent: "AUD/week" };
     const attribution = "© Government of South Australia (CC BY 4.0)";
-    // price_growth_12m is a SIGNED metric (can be negative) and is deliberately
-    // EXCLUDED: migration 056's official_observation_value_positive (value > 0)
-    // invariant only admits positive point-in-time metrics, and growth was never
-    // in the rehearsed payload. A signed-metric lane is deferred to a later change.
+    // price_growth_12m (a SIGNED metric) is excluded from THIS payload — it ships
+    // in a SEPARATE signed-growth payload (see --emit-growth-payload) under the
+    // metric-aware migration 058 invariant, keeping the frozen 689-row payload and
+    // its checksum untouched.
     const payload = [];
     for (const o of coreObs) {
       if (o.metric === "price_growth_12m") continue;
@@ -239,6 +245,25 @@ async function main() {
     fs.mkdirSync(path.dirname(EMIT_PAYLOAD), { recursive: true });
     fs.writeFileSync(EMIT_PAYLOAD, JSON.stringify({ state: "SA", as_of: asOf, rows: payload }, null, 2));
     console.log(`\n[emit-payload] wrote ${payload.length} SA rows -> ${EMIT_PAYLOAD}`);
+  }
+
+  if (EMIT_GROWTH) {
+    // Emit ONLY the signed price_growth_12m rows, sourced from the publisher's
+    // "Median Change" column (DIRECT provenance), as a SEPARATE payload. Signed
+    // percent, sign preserved. Deterministic given --as-of + immutable raw.
+    const attribution = "© Government of South Australia (CC BY 4.0)";
+    const growthRows = coreObs
+      .filter((o) => o.metric === "price_growth_12m")
+      .map((o) => ({
+        id: o.observation_id, src: o.source_id, sha: o.resource_sha, geo: o.geography_id,
+        metric: o.metric, pt: o.property_type, bg: o.bedroom_group, val: o.value,
+        unit: "%", n: o.sample_size ?? null, ps: o.period_start ?? null,
+        pe: o.period_end, status: o.status, attr: attribution,
+      }));
+    const vals = growthRows.map((r) => r.val);
+    fs.mkdirSync(path.dirname(EMIT_GROWTH), { recursive: true });
+    fs.writeFileSync(EMIT_GROWTH, JSON.stringify({ state: "SA", metric: "price_growth_12m", provenance: "direct_source_published_median_change", as_of: asOf, rows: growthRows }, null, 2));
+    console.log(`\n[emit-growth-payload] wrote ${growthRows.length} SA price_growth_12m rows (min ${Math.min(...vals)} / max ${Math.max(...vals)}) -> ${EMIT_GROWTH}`);
   }
 
   if (APPLY) {

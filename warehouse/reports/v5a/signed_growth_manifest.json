@@ -1,0 +1,20 @@
+{
+  "generated_note": "Manifest for the SIGNED price_growth_12m payload (SA). Separate from the 689-row payload (cbd0b269…), which is unchanged. Sign preserved; bytes gitignored; this pins the exact candidate.",
+  "as_of": "2026-08-02",
+  "metric": "price_growth_12m",
+  "unit": "%",
+  "provenance": "direct_source_published_median_change",
+  "status": "direct",
+  "payload_sha256": "7cf8a3342326d458938013e7fd843ed30f289f402894e1edb619553cdfbdb222",
+  "total_rows": 79,
+  "negatives": 3,
+  "zeros": 0,
+  "positives": 76,
+  "observed_min": -6.11,
+  "observed_max": 41.61,
+  "bounds": {
+    "floor": -100,
+    "ceil": 1000
+  },
+  "source": "sa_metro_median_house_sales (Median Change column)"
+}

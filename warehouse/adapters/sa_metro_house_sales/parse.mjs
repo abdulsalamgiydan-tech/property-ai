@@ -37,11 +37,16 @@ export function parseSaHouseSales(rows, { retrievedAt, resourceSha }) {
     const sales = num(r[4]);
     const priorMedian = num(r[3]);
     const priorSales = num(r[2]);
+    // Source-published 1-year "Median Change" (column h[6]), a signed RATIO
+    // (e.g. -0.1874 = -18.74%). This is a DIRECT source-reported figure — the
+    // publisher's own change column — not something we compute. Preserved with sign.
+    const medianChange = num(r[6]);
     const base = {
       source_id: SOURCE_ID, resource_sha: resourceSha, parser_version: PARSER_VERSION,
       state: "SA", city: str(r[0]), suburb, property_type: "house", bedroom_group: "all", aggregate_bedroom_legitimate: true,
       current_period_end: currentPeriodEnd, prior_period_end: priorPeriodEnd, retrieved_at: retrievedAt,
       house_median: median, sales_count: sales, prior_house_median: priorMedian, prior_sales_count: priorSales,
+      median_change: medianChange,
     };
     if (median == null || median <= 0) { quarantined.push({ ...base, quarantine_reason: "non_positive_or_suppressed_median" }); continue; }
     if (sales == null || sales < MIN_SALES) { quarantined.push({ ...base, quarantine_reason: "insufficient_sample" }); continue; }
