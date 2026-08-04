@@ -28,7 +28,10 @@ export const INSERT_MART = `
 /** Post-load validation (each returns `violations`; a clean candidate yields 0). */
 export const POSTLOAD_VALIDATIONS = [
   { name: "mart_direct_only_in_view", sql: `select count(*)::int violations from v_official_suburb_metric_v1 where status <> 'direct'` },
-  { name: "no_non_positive_values", sql: `select count(*)::int violations from mart.official_suburb_metric where value <= 0` },
+  // Metric-aware (migration 058): every metric EXCEPT the signed price_growth_12m
+  // must be strictly positive; growth may be <= 0 but must stay within [-100, 1000].
+  { name: "no_non_positive_values", sql: `select count(*)::int violations from mart.official_suburb_metric where metric <> 'price_growth_12m' and value <= 0` },
+  { name: "growth_within_signed_bounds", sql: `select count(*)::int violations from mart.official_suburb_metric where metric = 'price_growth_12m' and (value < -100 or value > 1000)` },
   { name: "no_contextual_in_mart", sql: `select count(*)::int violations from mart.official_suburb_metric where status = 'contextual'` },
   { name: "derived_yield_inputs_exist", sql: `
       select count(*)::int violations from core.official_observation y
@@ -57,6 +60,18 @@ export const PAYLOAD = [
   { id: "obs_vic_armadale_rent2h", src: "vic_dffh_moving_annual_rent", sha: "817c5b8e", geo: "SAL_20001_ASGS3_2021", metric: "median_rent", pt: "house", bg: "2", val: 798, unit: "AUD/week", n: 30, ps: "2024-07-01", pe: "2025-06-30", status: "direct", attr: "© State of Victoria (DFFH) (CC BY 4.0)" },
   // A CONTEXTUAL row (postcode-level) that must NOT reach the direct view
   { id: "obs_ctx_postcode_rent", src: "context", sha: "ctx", geo: "POA_2527_ASGS3_2021", metric: "median_rent", pt: "house", bg: "all", val: 710, unit: "AUD/week", n: 100, ps: "2026-01-01", pe: "2026-03-31", status: "contextual" },
+];
+
+/**
+ * Representative SIGNED price_growth_12m rows (migration 058) — direct, source-
+ * published "Median Change" (percent, sign preserved). Negative, zero and positive
+ * cases (real SA extrema: min -6.11, max 41.61). Distinct geographies so each has
+ * its own mart PK. Loaded ON TOP OF migration 058's metric-aware value invariant.
+ */
+export const GROWTH_PAYLOAD = [
+  { id: "obs_growth_neg", src: "sa_metro_median_house_sales", sha: "9cfa8aa7", geo: "SAL_40085_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: -6.11, unit: "%", n: 16, ps: "2025-06-30", pe: "2026-06-30", status: "direct" },
+  { id: "obs_growth_zero", src: "sa_metro_median_house_sales", sha: "9cfa8aa7", geo: "SAL_40806_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: 0, unit: "%", n: 22, ps: "2025-06-30", pe: "2026-06-30", status: "direct" },
+  { id: "obs_growth_pos", src: "sa_metro_median_house_sales", sha: "9cfa8aa7", geo: "SAL_40120_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: 41.61, unit: "%", n: 21, ps: "2025-06-30", pe: "2026-06-30", status: "direct" },
 ];
 
 export function observationValues(r) {

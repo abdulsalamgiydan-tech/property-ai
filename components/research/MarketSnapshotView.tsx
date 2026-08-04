@@ -20,6 +20,7 @@ const OFFICIAL_METRIC_LABELS: Record<string, string> = {
   median_rent: "Median rent",
   sales_volume: "Sales volume",
   gross_yield: "Gross yield",
+  price_growth_12m: "12-month price growth",
 };
 
 function formatOfficialValue(value: number, unit: string): string {
@@ -172,8 +173,13 @@ export function MarketSnapshotView({
             </table>
           </div>
           <p className="mt-3 text-[11px] leading-relaxed text-zinc-600">
-            Derived gross yield is computed from the official median house price and median
-            rent above (annualised). Aggregate medians/counts only — no property-level detail.
+            {officialMetrics.some((m) => m.metric === "gross_yield") ? (
+              <>
+                Derived gross yield is computed from the official median house price and
+                median rent above (annualised).{" "}
+              </>
+            ) : null}
+            Aggregate medians/counts only — no property-level detail.
             Source: {[...new Set(officialMetrics.map((m) => m.attribution))].join("; ")}.
           </p>
         </SectionCard>
