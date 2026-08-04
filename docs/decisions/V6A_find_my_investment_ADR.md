@@ -67,7 +67,7 @@ deterministically. Any AI copy layer (reused `lib/strategy` pattern) may only
 a figure or a source claim. Cash-flow outputs are labelled **scenarios**, not advice.
 
 ### D6 — Provider-neutral data architecture (official today, Domain/PropTrack/Cotality-ready)
-Four separated layers (see `docs/data/provider_neutral_contract.md`):
+Four separated layers (see `docs/architecture/provider_neutral_contract.md`):
 1. **Source ingestion** — existing per-provider adapters (`warehouse/adapters/*`).
 2. **Canonical metrics** — `core.official_observation` today; a provider-neutral
    `meta.metric_provider` registry classifies each source's licence
@@ -86,7 +86,7 @@ a `licence_class` flag and are not exposed or redistributed without confirmed ri
 ### D7 — SA-only vertical slice; national honestly blocked
 The slice ranks only **eligible SA suburbs** built from currently accepted official
 CC-BY evidence. No fixtures or synthetic values reach customer-facing results. A
-**national coverage gate** (`docs/data/provider_neutral_contract.md#coverage-gate`)
+**national coverage gate** (`docs/architecture/provider_neutral_contract.md#coverage-gate`)
 must be met per state before that state can be ranked; until then the UI blocks
 national ranking with an honest "coverage not yet available" state. The product never
 implies Australia-wide coverage.
@@ -107,6 +107,6 @@ implies Australia-wide coverage.
 
 ## Links
 - Scoring spec: [`docs/scoring/opportunity_score_v1.md`](../scoring/opportunity_score_v1.md)
-- Data contract: [`docs/data/provider_neutral_contract.md`](../data/provider_neutral_contract.md)
+- Data contract: [`docs/architecture/provider_neutral_contract.md`](../architecture/provider_neutral_contract.md)
 - Migration: `supabase/migrations/059_investment_opportunity_engine.sql`
 - Engine: `lib/opportunity/*`
