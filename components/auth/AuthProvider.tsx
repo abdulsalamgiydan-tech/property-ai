@@ -54,10 +54,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     let cancelled = false;
 
-    void supabase.auth.getSession().then(({ data }) => {
+    void supabase.auth.getSession().then(async ({ data }) => {
       if (cancelled) return;
-      setSession(data.session ?? null);
-      setUser(data.session?.user ?? null);
+      if (data.session?.user) {
+        setSession(data.session);
+        setUser(data.session.user);
+        setLoading(false);
+        return;
+      }
+      const serverSession = await fetch("/api/auth/session", { cache: "no-store" }).catch(() => null);
+      if (cancelled) return;
+      if (serverSession?.ok) {
+        const body = (await serverSession.json().catch(() => null)) as { user?: User | null } | null;
+        setUser(body?.user ?? null);
+      } else {
+        setUser(null);
+      }
+      setSession(null);
       setLoading(false);
     });
 
@@ -77,6 +90,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(async () => {
     const supabase = createBrowserSupabaseClient();
     if (supabase) await supabase.auth.signOut();
+    await fetch("/api/auth/session", { method: "DELETE" }).catch(() => null);
+    setSession(null);
+    setUser(null);
     setModalOpen(false);
   }, []);
 
