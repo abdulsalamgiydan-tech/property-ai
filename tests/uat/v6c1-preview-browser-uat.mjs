@@ -104,7 +104,7 @@ async function run() {
   });
   page.on("response", async (res) => {
     const url = res.url();
-    if (url.includes("/api/investment/profile") || url.includes("/api/investment/shortlist") || url.includes("/api/investment/candidates")) {
+    if (url.includes("/api/auth/session") || url.includes("/api/investment/profile") || url.includes("/api/investment/shortlist") || url.includes("/api/investment/candidates")) {
       evidence.network.push({ method: res.request().method(), url: safeUrl(url), status: res.status() });
     }
   });
@@ -166,6 +166,9 @@ async function run() {
       return res.status === 200;
     }, { timeout: 10 * 60 * 1000 });
     evidence.checks.push({ id: "real_magic_link_signed_in_session", status: "PASS" });
+    const authSessionProbe = await countApi(page, "/api/auth/session");
+    evidence.authSessionProbeAfterLogin = { status: authSessionProbe.status, hasUser: Boolean(authSessionProbe.json?.user?.id) };
+    assert(authSessionProbe.status === 200 && authSessionProbe.json?.user?.id, "Server session probe did not return a user after magic link");
     await page.goto("/find-investment", { waitUntil: "domcontentloaded" });
     await waitForText(page, "Find My Investment", "signed_in_find_investment_render");
 
@@ -192,6 +195,7 @@ async function run() {
     await page.getByText("Evidence & provenance").waitFor({ state: "detached", timeout: 10000 });
     evidence.checks.push({ id: "escape_closes_evidence_dialog", status: "PASS" });
 
+    await page.getByLabel("Profile name").waitFor({ timeout: 45000 }).catch(async () => { evidence.bodyWhenProfileInputMissing = (await bodyText(page)).slice(0, 1200); throw new Error("Profile name input missing after authenticated session"); });
     await page.getByLabel("Profile name").fill(profileName);
     await page.getByRole("button", { name: "Save profile" }).click();
     await waitForText(page, "Saved", "profile_save_confirmation");
