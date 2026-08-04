@@ -1,5 +1,6 @@
 import { chromium } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
+import { setTimeout as sleep } from "node:timers/promises";
 import path from "node:path";
 
 const BASE_URL = process.env.V6C1_PREVIEW_URL || "https://property-pjusjq70m-zeebusiness93-2304s-projects.vercel.app";
@@ -67,6 +68,17 @@ async function countApi(page, route) {
     return { status: res.status, json };
   }, route);
   return result;
+}
+
+async function waitForApiStatus(page, route, status, timeoutMs) {
+  const deadline = Date.now() + timeoutMs;
+  let last = null;
+  while (Date.now() < deadline) {
+    last = await countApi(page, route).catch((error) => ({ status: 0, error: error?.message || String(error) }));
+    if (last.status === status) return last;
+    await sleep(1500);
+  }
+  throw new Error(`${route} did not return ${status} before timeout; last status ${last?.status ?? "none"}`);
 }
 
 async function run() {
@@ -161,10 +173,7 @@ async function run() {
     console.log("\nACTION REQUIRED: Complete the magic-link login in the visible browser window.");
     console.log("Use the modal in that browser. Do not paste the magic-link URL into this terminal or chat.");
     console.log("After the browser returns to /find-investment as a signed-in user, this script will continue automatically.\n");
-    await page.waitForFunction(async () => {
-      const res = await fetch("/api/investment/profile");
-      return res.status === 200;
-    }, { timeout: 10 * 60 * 1000 });
+    await waitForApiStatus(page, "/api/investment/profile", 200, 10 * 60 * 1000);
     evidence.checks.push({ id: "real_magic_link_signed_in_session", status: "PASS" });
     const authSessionProbe = await countApi(page, "/api/auth/session");
     evidence.authSessionProbeAfterLogin = { status: authSessionProbe.status, hasUser: Boolean(authSessionProbe.json?.user?.id) };
@@ -228,10 +237,7 @@ async function run() {
     await waitForText(page, "Get free early access", "post_signout_login_required");
     console.log("\nACTION REQUIRED: Sign back in through a fresh magic link in the same browser window.");
     console.log("Do not paste the link into this terminal or chat. The script will continue after /api/investment/profile returns 200.\n");
-    await page.waitForFunction(async () => {
-      const res = await fetch("/api/investment/profile");
-      return res.status === 200;
-    }, { timeout: 10 * 60 * 1000 });
+    await waitForApiStatus(page, "/api/investment/profile", 200, 10 * 60 * 1000);
     await page.goto("/find-investment", { waitUntil: "domcontentloaded" });
     await waitForText(page, profileName, "reopened_profile_after_resignin");
     await waitForText(page, "Your saved shortlist", "reopened_shortlist_after_resignin");
