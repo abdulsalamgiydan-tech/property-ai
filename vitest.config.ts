@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     environment: "node",
-    include: ["**/*.test.ts"],
+    include: ["**/*.test.ts", "**/*.test.tsx"],
     // PGlite-backed migration tests (e.g. 059) build a fresh in-memory Postgres
     // and can exceed the 5s default under CI load. A generous, bounded timeout
     // keeps them reliably green without masking genuine hangs.

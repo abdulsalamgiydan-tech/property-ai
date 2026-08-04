@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useAuth } from "@/components/auth/AuthProvider";
 import type {
   MandatoryMetric,
   MetricProvenance,
@@ -8,6 +9,8 @@ import type {
   RankOutput,
   Strategy,
 } from "@/lib/opportunity/types";
+import type { InvestmentProfileInput } from "@/lib/opportunity/profileSchema";
+import { useInvestmentPersistence, type SavedProfile } from "./useInvestmentPersistence";
 
 type ApiOutput = RankOutput & { dataUnavailable: boolean; offeredStates: readonly string[] };
 
@@ -38,6 +41,9 @@ function bandColour(band: string): string {
 }
 
 export default function FindInvestmentClient() {
+  const { user, openEarlyAccessModal } = useAuth();
+  const persistence = useInvestmentPersistence(!!user);
+
   const [step, setStep] = useState<"form" | "results">("form");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -53,16 +59,42 @@ export default function FindInvestmentClient() {
   const [riskTolerance, setRisk] = useState<"low" | "medium" | "high">("medium");
   const [holdingPeriodYears, setHold] = useState(10);
 
-  const [shortlist, setShortlist] = useState<Set<string>>(new Set());
   const [compare, setCompare] = useState<Set<string>>(new Set());
   const [drawer, setDrawer] = useState<RankedResult | null>(null);
 
-  const toggle = (set: Set<string>, id: string, setter: (s: Set<string>) => void) => {
-    const next = new Set(set);
-    if (next.has(id)) next.delete(id);
-    else next.add(id);
-    setter(next);
+  const currentInputs = useMemo<InvestmentProfileInput>(
+    () => ({ maxPrice, deposit, strategy, acceptableWeeklyHoldingCost, propertyType, states: states as InvestmentProfileInput["states"], riskTolerance, holdingPeriodYears }),
+    [maxPrice, deposit, strategy, acceptableWeeklyHoldingCost, propertyType, states, riskTolerance, holdingPeriodYears],
+  );
+
+  const applyInputs = useCallback((i: InvestmentProfileInput) => {
+    setMaxPrice(i.maxPrice); setDeposit(i.deposit); setStrategy(i.strategy);
+    setHolding(i.acceptableWeeklyHoldingCost); setPropertyType(i.propertyType);
+    setStates(i.states); setRisk(i.riskTolerance); setHold(i.holdingPeriodYears);
+  }, []);
+
+  const toggleCompare = (id: string) => {
+    setCompare((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   };
+
+  // Shortlist toggle goes through the RLS-protected API. Signed-out users are
+  // sent to the existing login journey — we never pretend the item was saved.
+  const onShortlist = useCallback(
+    async (geographyId: string) => {
+      if (!user) {
+        openEarlyAccessModal();
+        return;
+      }
+      if (persistence.shortlist.has(geographyId)) await persistence.removeShortlist(geographyId);
+      else await persistence.addShortlist(geographyId);
+    },
+    [user, openEarlyAccessModal, persistence],
+  );
 
   const submit = useCallback(async () => {
     setLoading(true);
@@ -71,10 +103,7 @@ export default function FindInvestmentClient() {
       const res = await fetch("/api/investment/candidates", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          maxPrice, deposit, strategy, acceptableWeeklyHoldingCost,
-          propertyType, states, riskTolerance, holdingPeriodYears,
-        }),
+        body: JSON.stringify(currentInputs),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -87,7 +116,7 @@ export default function FindInvestmentClient() {
     } finally {
       setLoading(false);
     }
-  }, [maxPrice, deposit, strategy, acceptableWeeklyHoldingCost, propertyType, states, riskTolerance, holdingPeriodYears]);
+  }, [currentInputs]);
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8">
@@ -99,6 +128,10 @@ export default function FindInvestmentClient() {
         </p>
       </header>
 
+      {user && persistence.hydrated && persistence.shortlist.size > 0 && (
+        <ShortlistPanel persistence={persistence} />
+      )}
+
       {step === "form" ? (
         <Questionnaire
           {...{ maxPrice, setMaxPrice, deposit, setDeposit, strategy, setStrategy,
@@ -107,19 +140,115 @@ export default function FindInvestmentClient() {
             loading, error, submit }}
         />
       ) : (
-        <Results
-          output={output}
-          onBack={() => setStep("form")}
-          shortlist={shortlist}
-          compare={compare}
-          onShortlist={(id) => toggle(shortlist, id, setShortlist)}
-          onCompare={(id) => toggle(compare, id, setCompare)}
-          onDetails={setDrawer}
-        />
+        <>
+          <SavedPanel
+            signedIn={!!user}
+            persistence={persistence}
+            currentInputs={currentInputs}
+            onLoadProfile={(p) => { applyInputs(p.inputs); }}
+            onSignInRequired={openEarlyAccessModal}
+          />
+          <Results
+            output={output}
+            onBack={() => setStep("form")}
+            shortlist={persistence.shortlist}
+            compare={compare}
+            onShortlist={onShortlist}
+            onCompare={toggleCompare}
+            onDetails={setDrawer}
+          />
+        </>
       )}
 
       {drawer && <EvidenceDrawer result={drawer} onClose={() => setDrawer(null)} />}
     </main>
+  );
+}
+
+// ---------------------------------------------------------------------------
+
+/** Persisted shortlist — visible on every step and after a hard refresh / new session. */
+function ShortlistPanel({ persistence }: { persistence: ReturnType<typeof useInvestmentPersistence> }) {
+  const geos = [...persistence.shortlist].sort();
+  return (
+    <div className="mb-4 rounded-xl border border-slate-200 bg-white p-3">
+      <h2 className="text-sm font-semibold text-slate-800">Your saved shortlist ({geos.length})</h2>
+      <ul className="mt-2 flex flex-wrap gap-2">
+        {geos.map((g) => (
+          <li key={g} className="flex items-center gap-1 rounded-full border border-slate-300 bg-slate-50 px-2.5 py-1 text-xs">
+            <a href={`/research/suburb/${suburbCode(g)}`} className="text-slate-700 underline">Suburb {suburbCode(g)}</a>
+            <button
+              aria-label={`Remove ${suburbCode(g)} from shortlist`}
+              onClick={() => persistence.removeShortlist(g)}
+              disabled={persistence.busy}
+              className="text-slate-400 hover:text-red-600 disabled:opacity-50"
+            >✕</button>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-1 text-xs text-slate-500">Saved to your account — persists across refresh and devices. Re-run a search to compare shortlisted suburbs.</p>
+    </div>
+  );
+}
+
+/** Saved profiles + save/load/update/delete, all server-backed (RLS). */
+function SavedPanel(props: {
+  signedIn: boolean;
+  persistence: ReturnType<typeof useInvestmentPersistence>;
+  currentInputs: InvestmentProfileInput;
+  onLoadProfile: (p: SavedProfile) => void;
+  onSignInRequired: () => void;
+}) {
+  const { persistence } = props;
+  const [name, setName] = useState("");
+  const [savedId, setSavedId] = useState<string | null>(null);
+
+  async function handleSave() {
+    if (!props.signedIn) { props.onSignInRequired(); return; }
+    const id = await persistence.saveProfile(name.trim() || "My investment profile", props.currentInputs);
+    if (id) { setSavedId(id); setName(""); }
+  }
+
+  if (!props.signedIn) {
+    return (
+      <div className="mb-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm">
+        <button onClick={props.onSignInRequired} className="font-medium text-slate-800 underline">Sign in</button>
+        <span className="text-slate-600"> to save this search and build a shortlist that persists across devices.</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mb-4 rounded-xl border border-slate-200 bg-white p-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <input
+          aria-label="Profile name"
+          value={name}
+          onChange={(e) => { setName(e.target.value); setSavedId(null); }}
+          placeholder="Name this search"
+          className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm"
+        />
+        <button onClick={handleSave} disabled={persistence.busy} className="rounded-lg bg-slate-900 px-3 py-1.5 text-sm font-medium text-white disabled:opacity-60">
+          {persistence.busy ? "Saving…" : "Save profile"}
+        </button>
+        {savedId && <span className="text-xs font-medium text-emerald-700">✓ Saved</span>}
+        {persistence.error && <span role="alert" className="text-xs text-red-600">{persistence.error}</span>}
+      </div>
+      {persistence.profiles.length > 0 && (
+        <ul className="mt-2 divide-y divide-slate-100 text-sm">
+          {persistence.profiles.map((p) => (
+            <li key={p.id} className="flex items-center justify-between py-1.5">
+              <span className="text-slate-700">{p.name}</span>
+              <span className="flex gap-2">
+                <button onClick={() => props.onLoadProfile(p)} className="text-xs text-slate-600 underline">Load</button>
+                <button onClick={() => persistence.updateProfile(p.id, p.name, props.currentInputs)} className="text-xs text-slate-600 underline">Update to current</button>
+                <button onClick={() => persistence.deleteProfile(p.id)} className="text-xs text-red-600 underline">Delete</button>
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
 
