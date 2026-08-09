@@ -12,6 +12,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -45,6 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(() => authConfigured);
   const [modalOpen, setModalOpen] = useState(false);
   const [earlyAccessModalKey, setEarlyAccessModalKey] = useState(0);
+  const serverCookieUserRef = useRef<User | null>(null);
 
   useEffect(() => {
     const supabase = createBrowserSupabaseClient();
@@ -54,10 +56,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     let cancelled = false;
 
-    void supabase.auth.getSession().then(({ data }) => {
+    void supabase.auth.getSession().then(async ({ data }) => {
       if (cancelled) return;
-      setSession(data.session ?? null);
-      setUser(data.session?.user ?? null);
+      if (data.session?.user) {
+        serverCookieUserRef.current = null;
+        setSession(data.session);
+        setUser(data.session.user);
+        setLoading(false);
+        return;
+      }
+      const serverSession = await fetch("/api/auth/session", { cache: "no-store" }).catch(() => null);
+      if (cancelled) return;
+      if (serverSession?.ok) {
+        const body = (await serverSession.json().catch(() => null)) as { user?: User | null } | null;
+        serverCookieUserRef.current = body?.user ?? null;
+        setUser(body?.user ?? null);
+      } else {
+        serverCookieUserRef.current = null;
+        setUser(null);
+      }
+      setSession(null);
       setLoading(false);
     });
 
@@ -65,7 +83,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, nextSession) => {
       setSession(nextSession);
-      setUser(nextSession?.user ?? null);
+      if (nextSession?.user) {
+        serverCookieUserRef.current = null;
+        setUser(nextSession.user);
+        return;
+      }
+      setUser(serverCookieUserRef.current);
     });
 
     return () => {
@@ -77,6 +100,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(async () => {
     const supabase = createBrowserSupabaseClient();
     if (supabase) await supabase.auth.signOut();
+    await fetch("/api/auth/session", { method: "DELETE" }).catch(() => null);
+    serverCookieUserRef.current = null;
+    setSession(null);
+    setUser(null);
     setModalOpen(false);
   }, []);
 
