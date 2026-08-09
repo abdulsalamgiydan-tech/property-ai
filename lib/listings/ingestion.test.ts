@@ -133,6 +133,6 @@ describe("domain adapter safety", () => {
   it("is inert without credentials — no client secrets, fails closed", async () => {
     expect(DomainListingProvider.isConfigured()).toBe(false);
     const d = new DomainListingProvider();
-    await expect(d.fetchRaw({ state: "SA" })).rejects.toThrow(/not configured|awaiting/i);
+    await expect(d.fetchRaw()).rejects.toThrow(/not configured|awaiting/i);
   });
 });

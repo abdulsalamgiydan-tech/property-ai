@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "typecheck:ci": "tsc --noEmit -p tsconfig.ci.json",
     "test": "vitest run",
     "warehouse:check": "node warehouse/scripts/quality/check_warehouse_files.mjs",
     "warehouse:rls:check": "node warehouse/scripts/quality/check_rls_policies.mjs",
