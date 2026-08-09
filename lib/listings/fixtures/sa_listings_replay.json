@@ -1,0 +1,167 @@
+{
+  "label": "LABELLED REPLAY DATA — synthetic SA sale listings for the V7B Deal Hunter alpha. NOT live provider data. No portal was scraped. Attributes and prices are invented for testing and must never be presented as real market listings.",
+  "provider": "replay",
+  "state": "SA",
+  "batches": [
+    {
+      "asOf": "2026-08-01T00:00:00Z",
+      "listings": [
+        {
+          "id": "RPL-0001",
+          "propertyId": "PROP-GRANGE-12MAIN",
+          "updatedAt": "2026-07-30T09:00:00Z",
+          "saleMode": "sale",
+          "status": "for_sale",
+          "address": { "full": "12 Main St, Grange SA 5022", "suburb": "Grange", "state": "SA", "postcode": "5022", "geographyId": "SAL40530", "lat": -34.9021, "lon": 138.4901, "precision": "rooftop" },
+          "propertyType": "house", "bedrooms": 3, "bathrooms": 1, "parking": 2, "landSqm": 620, "buildingSqm": 140,
+          "priceText": "$850,000 - $890,000", "priceLower": 850000, "priceUpper": 890000, "priceDisplay": "range",
+          "description": "Solid family home near the beach.",
+          "media": [ { "kind": "image", "url": "https://cdn.replay.example/RPL-0001/1.jpg" }, { "kind": "floorplan", "url": "https://cdn.replay.example/RPL-0001/fp.jpg" } ],
+          "inspections": [ { "start": "2026-08-03T01:00:00Z", "end": "2026-08-03T01:30:00Z" } ],
+          "agent": { "name": "Jo Agent", "agency": "Replay Realty", "contactUrl": "https://replay.example/agent/jo" },
+          "sourceUrl": "https://replay.example/listing/RPL-0001"
+        },
+        {
+          "id": "RPL-0002",
+          "propertyId": "PROP-BELAIR-5HILL",
+          "updatedAt": "2026-07-29T09:00:00Z",
+          "saleMode": "sale",
+          "status": "for_sale",
+          "address": { "full": "5 Hill Rd, Belair SA 5052", "suburb": "Belair", "state": "SA", "postcode": "5052", "geographyId": "SAL40089", "lat": -35.0001, "lon": 138.6201, "precision": "rooftop" },
+          "propertyType": "house", "bedrooms": 4, "bathrooms": 2, "parking": 2, "landSqm": 900, "buildingSqm": 210,
+          "priceText": "Contact Agent", "priceLower": null, "priceUpper": null, "priceDisplay": "contact_agent",
+          "description": "Elevated home in the hills.",
+          "media": [ { "kind": "image", "url": "https://cdn.replay.example/RPL-0002/1.jpg" } ],
+          "inspections": [],
+          "agent": { "name": "Sam Seller", "agency": "Replay Realty", "contactUrl": "https://replay.example/agent/sam" },
+          "sourceUrl": "https://replay.example/listing/RPL-0002"
+        },
+        {
+          "id": "RPL-0003",
+          "propertyId": "PROP-SEATON-8PARK",
+          "updatedAt": "2026-07-28T09:00:00Z",
+          "saleMode": "sale",
+          "status": "for_sale",
+          "address": { "full": "8 Park Ave, Seaton SA 5023", "suburb": "Seaton", "state": "SA", "postcode": "5023", "geographyId": "SAL41010", "lat": -34.8901, "lon": 138.5101, "precision": "rooftop" },
+          "propertyType": "unit", "bedrooms": 2, "bathrooms": 1, "parking": 1, "landSqm": null, "buildingSqm": 78,
+          "priceText": "Offers over $520,000", "priceLower": 520000, "priceUpper": null, "priceDisplay": "offers_over",
+          "description": "Neat unit close to transport.",
+          "media": [ { "kind": "image", "url": "https://cdn.replay.example/RPL-0003/1.jpg" } ],
+          "inspections": [ { "start": "2026-08-04T02:00:00Z", "end": "2026-08-04T02:30:00Z" } ],
+          "agent": { "name": "Pat Price", "agency": "Coast Property", "contactUrl": "https://replay.example/agent/pat" },
+          "sourceUrl": "https://replay.example/listing/RPL-0003"
+        },
+        {
+          "id": "RPL-0004",
+          "propertyId": "PROP-UNLEY-2QUEEN",
+          "updatedAt": "2026-07-27T09:00:00Z",
+          "saleMode": "sale",
+          "status": "for_sale",
+          "address": { "full": "2 Queen St, Unley SA 5061", "suburb": "Unley", "state": "SA", "postcode": "5061", "geographyId": "SAL41190", "lat": -34.9501, "lon": 138.6051, "precision": "rooftop" },
+          "propertyType": "house", "bedrooms": 3, "bathrooms": 2, "parking": 1, "landSqm": 480, "buildingSqm": 165,
+          "priceText": "$1,650,000", "priceLower": 1650000, "priceUpper": 1650000, "priceDisplay": "exact",
+          "description": "Character home, premium suburb.",
+          "media": [ { "kind": "image", "url": "https://cdn.replay.example/RPL-0004/1.jpg" } ],
+          "inspections": [],
+          "agent": { "name": "Lee List", "agency": "City Realty", "contactUrl": "https://replay.example/agent/lee" },
+          "sourceUrl": "https://replay.example/listing/RPL-0004"
+        },
+        {
+          "id": "RPL-0005",
+          "propertyId": "PROP-GRANGE-99SANDY",
+          "updatedAt": "2026-07-25T09:00:00Z",
+          "saleMode": "sale",
+          "status": "for_sale",
+          "address": { "full": "99 Sandy Cres, Grange SA 5022", "suburb": "Grange", "state": "SA", "postcode": "5022", "geographyId": "SAL40530", "lat": -34.9031, "lon": 138.4881, "precision": "rooftop" },
+          "propertyType": "house", "bedrooms": 5, "bathrooms": 3, "parking": 2, "landSqm": 700, "buildingSqm": 260,
+          "priceText": "$1,200,000", "priceLower": 1200000, "priceUpper": 1200000, "priceDisplay": "exact",
+          "description": "Large home, withdrawn later in this dataset.",
+          "media": [ { "kind": "image", "url": "https://cdn.replay.example/RPL-0005/1.jpg" } ],
+          "inspections": [],
+          "agent": { "name": "Jo Agent", "agency": "Replay Realty", "contactUrl": "https://replay.example/agent/jo" },
+          "sourceUrl": "https://replay.example/listing/RPL-0005"
+        }
+      ]
+    },
+    {
+      "asOf": "2026-08-06T00:00:00Z",
+      "listings": [
+        {
+          "id": "RPL-0001",
+          "propertyId": "PROP-GRANGE-12MAIN",
+          "updatedAt": "2026-08-05T09:00:00Z",
+          "saleMode": "sale",
+          "status": "for_sale",
+          "address": { "full": "12 Main St, Grange SA 5022", "suburb": "Grange", "state": "SA", "postcode": "5022", "geographyId": "SAL40530", "lat": -34.9021, "lon": 138.4901, "precision": "rooftop" },
+          "propertyType": "house", "bedrooms": 3, "bathrooms": 1, "parking": 2, "landSqm": 620, "buildingSqm": 140,
+          "priceText": "$820,000 - $860,000", "priceLower": 820000, "priceUpper": 860000, "priceDisplay": "range",
+          "description": "Solid family home near the beach. Price reduced.",
+          "media": [ { "kind": "image", "url": "https://cdn.replay.example/RPL-0001/1.jpg" }, { "kind": "floorplan", "url": "https://cdn.replay.example/RPL-0001/fp.jpg" } ],
+          "inspections": [ { "start": "2026-08-10T01:00:00Z", "end": "2026-08-10T01:30:00Z" } ],
+          "agent": { "name": "Jo Agent", "agency": "Replay Realty", "contactUrl": "https://replay.example/agent/jo" },
+          "sourceUrl": "https://replay.example/listing/RPL-0001"
+        },
+        {
+          "id": "RPL-0003",
+          "propertyId": "PROP-SEATON-8PARK",
+          "updatedAt": "2026-08-05T09:00:00Z",
+          "saleMode": "sale",
+          "status": "under_offer",
+          "address": { "full": "8 Park Ave, Seaton SA 5023", "suburb": "Seaton", "state": "SA", "postcode": "5023", "geographyId": "SAL41010", "lat": -34.8901, "lon": 138.5101, "precision": "rooftop" },
+          "propertyType": "unit", "bedrooms": 2, "bathrooms": 1, "parking": 1, "landSqm": null, "buildingSqm": 78,
+          "priceText": "Under Offer", "priceLower": 520000, "priceUpper": null, "priceDisplay": "offers_over",
+          "description": "Neat unit close to transport. Now under offer.",
+          "media": [ { "kind": "image", "url": "https://cdn.replay.example/RPL-0003/1.jpg" } ],
+          "inspections": [],
+          "agent": { "name": "Pat Price", "agency": "Coast Property", "contactUrl": "https://replay.example/agent/pat" },
+          "sourceUrl": "https://replay.example/listing/RPL-0003"
+        },
+        {
+          "id": "RPL-0004",
+          "propertyId": "PROP-UNLEY-2QUEEN",
+          "updatedAt": "2026-07-27T09:00:00Z",
+          "saleMode": "sale",
+          "status": "for_sale",
+          "address": { "full": "2 Queen St, Unley SA 5061", "suburb": "Unley", "state": "SA", "postcode": "5061", "geographyId": "SAL41190", "lat": -34.9501, "lon": 138.6051, "precision": "rooftop" },
+          "propertyType": "house", "bedrooms": 3, "bathrooms": 2, "parking": 1, "landSqm": 480, "buildingSqm": 165,
+          "priceText": "$1,650,000", "priceLower": 1650000, "priceUpper": 1650000, "priceDisplay": "exact",
+          "description": "Character home, premium suburb.",
+          "media": [ { "kind": "image", "url": "https://cdn.replay.example/RPL-0004/1.jpg" } ],
+          "inspections": [],
+          "agent": { "name": "Lee List", "agency": "City Realty", "contactUrl": "https://replay.example/agent/lee" },
+          "sourceUrl": "https://replay.example/listing/RPL-0004"
+        },
+        {
+          "id": "RPL-0005",
+          "propertyId": "PROP-GRANGE-99SANDY",
+          "updatedAt": "2026-08-04T09:00:00Z",
+          "saleMode": "sale",
+          "status": "withdrawn",
+          "address": { "full": "99 Sandy Cres, Grange SA 5022", "suburb": "Grange", "state": "SA", "postcode": "5022", "geographyId": "SAL40530", "lat": -34.9031, "lon": 138.4881, "precision": "rooftop" },
+          "propertyType": "house", "bedrooms": 5, "bathrooms": 3, "parking": 2, "landSqm": 700, "buildingSqm": 260,
+          "priceText": "Withdrawn", "priceLower": 1200000, "priceUpper": 1200000, "priceDisplay": "exact",
+          "description": "Large home, now withdrawn — relisted as RPL-0006.",
+          "media": [ { "kind": "image", "url": "https://cdn.replay.example/RPL-0005/1.jpg" } ],
+          "inspections": [],
+          "agent": { "name": "Jo Agent", "agency": "Replay Realty", "contactUrl": "https://replay.example/agent/jo" },
+          "sourceUrl": "https://replay.example/listing/RPL-0005"
+        },
+        {
+          "id": "RPL-0006",
+          "propertyId": "PROP-GRANGE-99SANDY",
+          "updatedAt": "2026-08-05T09:00:00Z",
+          "saleMode": "sale",
+          "status": "for_sale",
+          "address": { "full": "99 Sandy Cres, Grange SA 5022", "suburb": "Grange", "state": "SA", "postcode": "5022", "geographyId": "SAL40530", "lat": -34.9031, "lon": 138.4881, "precision": "rooftop" },
+          "propertyType": "house", "bedrooms": 5, "bathrooms": 3, "parking": 2, "landSqm": 700, "buildingSqm": 260,
+          "priceText": "$1,150,000", "priceLower": 1150000, "priceUpper": 1150000, "priceDisplay": "exact",
+          "description": "Same home as RPL-0005, relisted at a lower price after withdrawal.",
+          "media": [ { "kind": "image", "url": "https://cdn.replay.example/RPL-0006/1.jpg" } ],
+          "inspections": [],
+          "agent": { "name": "Jo Agent", "agency": "Replay Realty", "contactUrl": "https://replay.example/agent/jo" },
+          "sourceUrl": "https://replay.example/listing/RPL-0006"
+        }
+      ]
+    }
+  ]
+}

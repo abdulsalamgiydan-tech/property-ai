@@ -67,6 +67,11 @@ export const KNOWN_EXCEPTIONS = {
       "V7A (migration 062) — change alerts are written ONLY by the SECURITY DEFINER detector (detect_shortlist_change_events_v1), never by a client, so a user cannot forge an alert. The authenticated role gets no INSERT privilege and there is deliberately no insert policy; users may read/mark-seen (update)/dismiss (delete) their own rows via the standard auth.uid() = user_id predicate.",
     requiredOps: ["select", "update", "delete"],
   },
+  deal_listing_feedback: {
+    reason:
+      "V7B (migration 063) — append-only feedback signals (saved/passed/rejected+reason/etc) that drive transparent preference proposals. Same append-only shape as strategy_generations/user_feedback: an honest, unaltered record, so there is deliberately no update/delete policy.",
+    requiredOps: ["select", "insert"],
+  },
 };
 
 /** Extract every `public.<table>` created via `create table if not exists`. */
