@@ -70,3 +70,43 @@ headlessly. The functional/security behaviour those screens would show is alread
 
 ## Cost guardrail
 Branch billed at US$0.01344/hr (~US$0.32/day). Keep ≤ 7 days without renewed approval; ask before delete/extend.
+
+---
+
+## Automated browser UAT — agent + Playwright harness (V7C)
+
+A reusable project subagent **`v7c-preview-uat`** (`.claude/agents/v7c-preview-uat.md`) drives a
+deterministic Playwright suite against the isolated Preview. Invoke it with:
+
+> Use the v7c-preview-uat agent to execute the complete isolated Preview UAT.
+
+**Harness:** `playwright.config.ts` (desktop 1440×900 + mobile ~390×844 projects, single worker) and
+`uat/v7c/` — `00-isolation-gate.spec.ts` (mandatory pre-mutation gate), `journeys.spec.ts` (auth, buy box,
+ranked feed, deal detail, save/pass/reject, compare-3, Deal Brief, refresh persistence, synthetic labelling),
+`fixtures.ts` (Production-ref network guard + console/request error capture), `auth.setup.ts` (real
+magic-link bootstrap), `generate-evidence.mjs` (machine-readable `uat-result.json` + this section).
+Scripts: `npm run uat:v7c`, `uat:v7c:headed`, `uat:v7c:auth`, `uat:v7c:evidence`.
+
+### Bypass secret setup (required — do NOT disable Vercel Authentication)
+The Preview is SSO-protected; the harness reaches it via a **Vercel Protection Bypass for Automation** secret
+sent as request headers (`x-vercel-protection-bypass`, `x-vercel-set-bypass-cookie: true`). The secret is
+never logged/committed/placed in a URL.
+1. Vercel → property-ai (zeebusiness93 team) → **Settings → Deployment Protection → Protection Bypass for
+   Automation** → enable → copy the secret.
+2. Locally (never commit):
+   ```
+   export VERCEL_PREVIEW_URL=https://property-ai-git-v7c-preview-1c5599-zeebusiness93-2304s-projects.vercel.app
+   export VERCEL_AUTOMATION_BYPASS_SECRET=<secret>
+   export UAT_EMAIL=<your isolated-UAT test address>
+   ```
+3. One-time headed sign-in (real magic link): `npm run uat:v7c:auth` → complete the magic link in the opened
+   browser → storage state is saved to `uat/v7c/.auth/state.json` (gitignored).
+4. Run the UAT: `npm run uat:v7c` then `npm run uat:v7c:evidence`.
+
+Auth state, traces, videos, HTML report and any secrets are **gitignored** (`uat/v7c/.auth/`, `uat/v7c/.artifacts/`).
+Only curated `docs/decisions/v7c_screenshots/*.png` + `uat-result.json` are committed.
+
+<!-- AUTOMATED-UAT-RESULTS -->
+_(No automated browser run recorded yet — pending `VERCEL_AUTOMATION_BYPASS_SECRET` + a headed browser for the
+one-time magic-link bootstrap. See status below.)_
+<!-- AUTOMATED-UAT-RESULTS -->

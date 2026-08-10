@@ -63,3 +63,9 @@ next-env.d.ts
 
 .vercel
 .gstack/
+
+# V7C Preview UAT (Playwright) — never commit auth state, traces, videos, raw artifacts
+uat/v7c/.auth/
+uat/v7c/.artifacts/
+playwright-report/
+test-results/
