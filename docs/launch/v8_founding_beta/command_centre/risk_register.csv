@@ -1,0 +1,13 @@
+risk,category,likelihood,impact,trigger,mitigation,contingency,owner,status
+Low activation (<60%),product/adoption,medium,high,week-1 activation lagging,tighten onboarding; same-day unblock; simplify buy box,extend beta 30 days; narrow segment,Abdul,open
+Participants find it not useful (<4.0),product/value,medium,high,day-7 usefulness low,ship weekly fixes from feedback taxonomy,re-scope value prop; pause,Abdul,open
+Thin SA official evidence in some suburbs,data/coverage,high,medium,"missing" evidence frustrates users,label honestly; set expectations; prioritise seeded suburbs,communicate limitation; expand evidence later,Abdul,open
+Perceived as valuation/financial advice,trust/legal,low,high,a user treats output as advice,disclaimers near every output; support scripts; not-advice framing,legal review of copy; strengthen disclaimers,Abdul,open
+Manual entry too tedious,product/friction,medium,medium,drop-off at data entry,minimise fields; save progress; confirm-before-incomplete,revisit fields; explore licensed feed later,Abdul,open
+No viable provider agreement during beta,commercial/data,medium,low,provider terms/cost don't fit,stay on manual-entry BYOD (no dependency),revisit at Stage 3 when economics justify,Abdul,open
+Spam/community-rule breach in outreach,compliance,low,medium,mass or non-consented messaging,personalised, consented, rule-respecting outreach only,pause channel; apologise; adjust,Abdul,open
+Privacy/consent gap before charging,legal/privacy,medium,high,paid launch without policy,legal_privacy_trust_readiness checklist; policy pre-launch,delay paid launch until reviewed,Abdul,open
+Willingness-to-pay too low (<40%),commercial,medium,high,day-30 WTP weak,test lower price/per-report; probe must-haves,change pricing; narrow to payers; pause,Abdul,open
+Founder time overload (>5 hrs/wk),operational,medium,medium,support/interview load,cap cohort at 25; docs/self-serve; templated replies,reduce intake; extend timeline,Abdul,open
+Over-reliance on Abdul's network (not repeatable),growth,medium,medium,Stage 2 stalls,seed partner + waitlist + content channels early,test a repeatable channel before scaling,Abdul,open
+# likelihood/impact: low/medium/high. status: open/mitigating/closed. Owner is Abdul during the founder-led beta.

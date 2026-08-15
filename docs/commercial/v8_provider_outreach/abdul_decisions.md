@@ -6,6 +6,11 @@ field. Nothing here is legal or financial advice; verify entity/ABN/contract mat
 
 Australian English. These map 1:1 to the `[PLACEHOLDERS]` in the enquiry drafts and one‑pager.
 
+> **Consolidated recommendations** for these six (with evidence + the modelled volume/pricing) live in
+> `scale_strategy/abdul_decision_recommendations.md`; the unit‑economics behind them are in
+> `scale_strategy/business_model_and_unit_economics.md`. This sheet and that file are kept consistent — the modelled
+> defaults below (pilot size, volume, commercial model) mirror it; legal entity/ABN/contact stay **placeholders**.
+
 ---
 
 ### 1. Legal entity → `[LEGAL_ENTITY]`
@@ -31,8 +36,9 @@ Australian English. These map 1:1 to the `[PLACEHOLDERS]` in the enquiry drafts 
 
 ### 5. Expected listing/API volume → `[ESTIMATED_MONTHLY_LISTING_VOLUME]`
 - **Why needed:** providers price by volume/tier; you want the smallest tier that fits.
-- **Proposed default (hypothesis — validate):** for ≤25 users doing a handful of analyses each, on the order of
-  **low thousands of listing reads/month** (e.g. ~1,000–3,000). Refine once the beta shows real usage.
+- **Proposed default (hypothesis — validate):** for ≤25 users doing a handful of analyses each — **Low ~1,000 ·
+  Base ~2,000 · High ~3,500 reads/month** (mirrors `scale_strategy/abdul_decision_recommendations.md`). Refine once
+  the beta shows real usage.
 - **Your answer:** `__________` reads/month (initial) · `__________` (12‑month)
 
 ### 6. Preferred commercial model → `[PROPOSED_COMMERCIAL_MODEL]`

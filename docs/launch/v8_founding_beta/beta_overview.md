@@ -41,5 +41,8 @@ licensed live provider data; all beta data on the isolated V8 Preview branch (Co
 **documentation only** and touches no infrastructure.
 
 ## Related
-Product: `docs/decisions/V8_bring_your_own_deal_ADR.md`. Provider track: `../../commercial/v8_provider_outreach/`.
+**Command centre (start here):** `command_centre/README.md` — runbook, calendar, go/no‑go, KPI + pipeline
+templates, decision framework.
+Product: `docs/decisions/V8_bring_your_own_deal_ADR.md`. Provider + scale strategy:
+`../../commercial/v8_provider_outreach/` (incl. `scale_strategy/`).
 Metrics detail: `beta_kpi_tracker_spec.md`. Pricing experiments: `pricing_research_plan.md`.

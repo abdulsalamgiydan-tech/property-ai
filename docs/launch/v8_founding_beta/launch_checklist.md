@@ -5,7 +5,7 @@
 
 ## Pre‑launch (Week 0)
 **Commercial/kit (this workstream)**
-- ☐ `abdul_decisions.md` six inputs filled (entity, ABN, contact, pilot size, volume, model).
+- ☐ `../../commercial/v8_provider_outreach/abdul_decisions.md` six inputs filled (entity, ABN, contact, pilot size, volume, model).
 - ☐ Invite list shortlisted (~30 to land ~25 activated); screening form ready.
 - ☐ Invitation email + DM personalised; landing copy reviewed.
 - ☐ Onboarding guide, expectations, FAQ ready to send.
