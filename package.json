@@ -12,6 +12,8 @@
     "uat:v7c": "playwright test --project=desktop --project=mobile",
     "uat:v7c:headed": "playwright test --project=desktop --project=mobile --headed",
     "uat:v7c:evidence": "node uat/v7c/generate-evidence.mjs",
+    "uat:v8": "playwright test -c playwright.v8.config.ts --project=desktop --project=mobile",
+    "uat:v8:headed": "playwright test -c playwright.v8.config.ts --project=desktop --project=mobile --headed",
     "test": "vitest run",
     "warehouse:check": "node warehouse/scripts/quality/check_warehouse_files.mjs",
     "warehouse:rls:check": "node warehouse/scripts/quality/check_rls_policies.mjs",
