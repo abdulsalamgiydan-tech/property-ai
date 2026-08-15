@@ -96,23 +96,27 @@ token-reuse/API path was blocked by the credential classifier and abandoned; the
   intact (UI "Add URL" only appends).
 - Evidence: `uat/v7c/.artifacts/dashboard-recon.json`, `branch-auth-after.json` (gitignored).
 - Production Auth config (`oshq`) NOT touched. Temp profile deleted; no dashboard auth persisted.
-- Functional confirmation pending: a fresh magic link must show `redirect_to` = the exact Preview
-  `/auth/callback` and land/stay on the Preview host.
+- Functional confirmation **DONE**: a fresh magic link showed `redirect_to` = the exact Preview
+  `/auth/callback`; sign-in landed and stayed on the Preview host; server-side a new mmqx session
+  was created (`sb-mmqxwwjshnpcqngciqtx-auth-token`), zero Production requests.
 
-## Browser UAT — results & findings (2026-08-15, deployed Preview d9c6fe1)
-Full desktop (1440×900) + mobile (iPhone 13 / WebKit) run against the isolated Preview after the
-auth fix. **17 passed / 1 failed / 0 skipped.** Isolation gate green on both projects; no request
-referenced the Production ref in any journey; journey-05 writes verified server-side in mmqx
-(`deal_pipeline_items=1`, `rejected_with_reason=1`, `deal_listing_feedback=1`). Curated screenshots
-in `docs/decisions/v7c_screenshots/` (15). Production reconfirmed: `auth.users=4`, no V7 tables.
+## Browser UAT — results & findings
+Full desktop (1440×900) + mobile (iPhone 13 / WebKit), single worker, against the isolated Preview.
+- **First run (deployed d9c6fe1):** 17 passed / 1 failed — sole failure mobile-06 (compare-tray
+  occlusion, below).
+- **Final run (deployed 7400333, after the P1 fix): 18 / 18 PASSED** — desktop 9/9 + mobile 9/9,
+  including mobile-06 three-property comparison at 390×844.
+Isolation gate green on both projects; no request referenced the Production ref in any journey;
+journey-05 writes verified server-side in mmqx (`deal_pipeline_items=1`, `rejected_with_reason=1`,
+`deal_listing_feedback=1`). 16 curated screenshots in `docs/decisions/v7c_screenshots/` (incl. the
+replacement `06-compare.mobile.png`). Production reconfirmed: `auth.users=4`, no V7 tables.
 
 Findings (UX severity):
-- **P1 (mobile) — FIXED in code, pending deploy verification.** The Deal Hunter *compare tray*
-  (`fixed bottom-0 z-30`) was occluded by the mobile bottom tab-nav (`fixed bottom-0 z-40`), making
-  the "Compare" action unreachable on mobile — the sole failing journey (mobile 06). Minimal fix:
+- **P1 (mobile) — FIXED + VERIFIED (commit 7400333, deploy verified).** The Deal Hunter *compare
+  tray* (`fixed bottom-0 z-30`) was occluded by the mobile bottom tab-nav (`fixed bottom-0 z-40`),
+  making the "Compare" action unreachable on mobile — the sole first-run failure (mobile 06). Fix:
   `components/deal-hunter/DealHunterClient.tsx` tray now `bottom-20 z-40 lg:bottom-0 lg:z-30`.
-  Desktop 06 (three-property comparison) passes. Not verifiable this session because the UAT runs
-  against the deployed commit and pushing/redeploying is out of scope per instruction.
+  After deploy, mobile-06 passes (18/18); desktop-06 already passed.
 - **P2 — Preview-only console noise (no action).** Vercel injects `vercel.live/.../feedback.js` on
   preview deployments; the app CSP correctly blocks it (absent in production). Excluded from the
   console-error gate for `vercel.live` only.
@@ -121,7 +125,14 @@ Findings (UX severity):
   heading-scoped Deal Brief sections; buy-box scoped `strategy` assertion; cross-tab comparison
   selection; centre-scroll `tap()` for mobile fixed chrome.
 
-## Outstanding cleanup (deferred, pending approval)
-- The confirmed mmqx Auth user (`ab…@gmail.com`, 12:18:23Z) is kept as evidence — remove during the
-  normal UAT cleanup once the routing fix is verified. The 20 labelled synthetic market rows are
-  untouched by this incident.
+## Cleanup — COMPLETED (2026-08-15, after 18/18)
+- Signed-out/revoked the isolated UAT session, then deleted the UAT Auth user
+  (`a10803f5-…`, `ab…@gmail.com`) and all its data: `investment_profiles`, `deal_pipeline_items`,
+  `deal_listing_feedback`, `waitlist`. Local `uat/v7c/.auth/state.json` removed.
+- **Zero UAT residue** confirmed in mmqx: auth users/sessions/refresh-tokens = 0; profiles/pipeline/
+  feedback/waitlist = 0.
+- **Seed preserved:** `core.official_observation` = **20** SYNTHETIC-UAT market-evidence rows intact
+  (+ `meta.metric_provider` = 4 reference rows). No market/metric table was touched.
+- **Production reconfirmed unchanged:** `auth.users=4`, 0 recent sessions, no V7 tables, latest
+  applied migration `20260808064655` (061-era baseline; no 062/063/064).
+- `deal-hunter-preview` branch retained (deletion awaits Abdul's separate approval).

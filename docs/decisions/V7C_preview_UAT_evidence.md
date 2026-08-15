@@ -109,9 +109,9 @@ Only curated `docs/decisions/v7c_screenshots/*.png` + `uat-result.json` are comm
 <!-- AUTOMATED-UAT-RESULTS -->
 
 ## Automated browser UAT results (Playwright)
-Generated 2026-08-15T07:18:04.554Z against `https://property-ai-git-v7c-preview-1c5599-zeebusiness93-2304s-projects.vercel.app` — isolated ref `mmqx...iqtx`.
+Generated 2026-08-15T09:28:37.086Z against `https://property-ai-git-v7c-preview-1c5599-zeebusiness93-2304s-projects.vercel.app` — isolated ref `mmqx...iqtx`.
 
-**Totals:** 17/18 passed (1 failed).
+**Totals:** 18/18 passed (0 failed).
 
 | Journey | Viewport | Result |
 |---|---|---|
@@ -126,7 +126,7 @@ Generated 2026-08-15T07:18:04.554Z against `https://property-ai-git-v7c-preview-
 | 05 save / pass(+reason) / reject + persistence, verified via the API | desktop | PASS |
 | 05 save / pass(+reason) / reject + persistence, verified via the API | mobile | PASS |
 | 06 three-property comparison | desktop | PASS |
-| 06 three-property comparison | mobile | **FAIL** |
+| 06 three-property comparison | mobile | PASS |
 | 08 refresh + sign-in persistence keeps the buy box | desktop | PASS |
 | 08 refresh + sign-in persistence keeps the buy box | mobile | PASS |
 | 09 synthetic/replay data is clearly labelled | desktop | PASS |
@@ -134,5 +134,5 @@ Generated 2026-08-15T07:18:04.554Z against `https://property-ai-git-v7c-preview-
 | preview binds ONLY to the isolated deal-hunter-preview branch | desktop | PASS |
 | preview binds ONLY to the isolated deal-hunter-preview branch | mobile | PASS |
 
-**Curated screenshots (15):** `01-authentication.desktop.png`, `01-authentication.mobile.png`, `02-buybox.desktop.png`, `02-buybox.mobile.png`, `03-ranked-feed.desktop.png`, `03-ranked-feed.mobile.png`, `04-deal-detail-brief.desktop.png`, `04-deal-detail-brief.mobile.png`, `05-save-pass-reject.desktop.png`, `05-save-pass-reject.mobile.png`, `06-compare.desktop.png`, `08-refresh-persistence.desktop.png`, `08-refresh-persistence.mobile.png`, `09-synthetic-labelling.desktop.png`, `09-synthetic-labelling.mobile.png`.
+**Curated screenshots (16):** `01-authentication.desktop.png`, `01-authentication.mobile.png`, `02-buybox.desktop.png`, `02-buybox.mobile.png`, `03-ranked-feed.desktop.png`, `03-ranked-feed.mobile.png`, `04-deal-detail-brief.desktop.png`, `04-deal-detail-brief.mobile.png`, `05-save-pass-reject.desktop.png`, `05-save-pass-reject.mobile.png`, `06-compare.desktop.png`, `06-compare.mobile.png`, `08-refresh-persistence.desktop.png`, `08-refresh-persistence.mobile.png`, `09-synthetic-labelling.desktop.png`, `09-synthetic-labelling.mobile.png`.
 <!-- AUTOMATED-UAT-RESULTS -->

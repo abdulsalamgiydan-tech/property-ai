@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-15T07:18:04.554Z",
+  "generatedAt": "2026-08-15T09:28:37.086Z",
   "preview": "https://property-ai-git-v7c-preview-1c5599-zeebusiness93-2304s-projects.vercel.app",
   "isolatedSupabaseRef": "mmqxwwjshnpcqngciqtx",
   "totals": {
     "tests": 18,
-    "passed": 17,
-    "failed": 1
+    "passed": 18,
+    "failed": 0
   },
   "byProject": {
     "desktop": {
@@ -60,8 +60,8 @@
       ]
     },
     "mobile": {
-      "passed": 8,
-      "failed": 1,
+      "passed": 9,
+      "failed": 0,
       "tests": [
         {
           "title": "preview binds ONLY to the isolated deal-hunter-preview branch",
@@ -100,8 +100,8 @@
         },
         {
           "title": "06 three-property comparison",
-          "ok": false,
-          "status": "timedOut"
+          "ok": true,
+          "status": "passed"
         },
         {
           "title": "08 refresh + sign-in persistence keeps the buy box",
@@ -123,10 +123,11 @@
     "05-save-pass-reject.desktop.png",
     "05-save-pass-reject.mobile.png",
     "06-compare.desktop.png",
+    "06-compare.mobile.png",
     "08-refresh-persistence.desktop.png",
     "08-refresh-persistence.mobile.png",
     "09-synthetic-labelling.desktop.png",
     "09-synthetic-labelling.mobile.png"
   ],
-  "allPassed": false
+  "allPassed": true
 }
