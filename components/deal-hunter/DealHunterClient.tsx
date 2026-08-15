@@ -166,7 +166,9 @@ export default function DealHunterClient() {
           )}
 
           {compare.length > 0 && (
-            <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white p-3">
+            // Sit above the mobile bottom tab-nav (fixed bottom-0, z-40) so the Compare action is
+            // reachable on mobile; on desktop (lg) there is no bottom nav, so anchor to bottom-0.
+            <div className="fixed inset-x-0 bottom-20 z-40 border-t border-slate-200 bg-white p-3 lg:bottom-0 lg:z-30">
               <div className="mx-auto flex max-w-5xl items-center justify-between">
                 <span className="text-xs text-slate-600">{compare.length} selected to compare (max 3)</span>
                 <div className="flex gap-2">

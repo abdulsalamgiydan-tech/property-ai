@@ -45,10 +45,11 @@ export default defineConfig({
   projects: [
     // 1) One-time interactive magic-link bootstrap (headed). Saves storage state.
     { name: "setup", testMatch: /auth\.setup\.ts/ },
-    // 2) Desktop journeys.
+    // 2) Desktop journeys. Auth is a one-time manual bootstrap (`npm run uat:v7c:auth`); journeys
+    //    reuse the saved storage state and MUST NOT re-trigger the interactive setup, so `setup`
+    //    is intentionally not a dependency here.
     {
       name: "desktop",
-      dependencies: ["setup"],
       testIgnore: /auth\.setup\.ts/,
       use: {
         ...devices["Desktop Chrome"],
@@ -59,7 +60,6 @@ export default defineConfig({
     // 3) Mobile emulation journeys (~390x844).
     {
       name: "mobile",
-      dependencies: ["setup"],
       testIgnore: /auth\.setup\.ts/,
       use: {
         ...devices["iPhone 13"],

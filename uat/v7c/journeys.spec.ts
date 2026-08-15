@@ -1,5 +1,16 @@
 import { test, expect, shot } from "./fixtures";
-import type { Page } from "@playwright/test";
+import type { Page, Locator } from "@playwright/test";
+
+/**
+ * Tap a control after bringing it to the vertical centre. On mobile the fixed bottom tab-nav and
+ * floating account pill overlay the lower ~90px of the viewport; a real user scrolls the control up
+ * before tapping, which this emulates (it does not weaken any assertion).
+ */
+async function tap(locator: Locator): Promise<void> {
+  await locator.scrollIntoViewIfNeeded();
+  await locator.evaluate((el) => el.scrollIntoView({ block: "center", inline: "nearest" }));
+  await locator.click();
+}
 
 /**
  * V7C Deal Hunter customer journeys — desktop (1440x900) + mobile (~390x844), run under
@@ -8,23 +19,35 @@ import type { Page } from "@playwright/test";
  * persistence verified through the app's own RLS-protected APIs (no test-only backdoor).
  */
 
-/** Ensure the signed-in user has a saved buy box (uses the app's real authenticated API). */
+/**
+ * Ensure the signed-in user's buy box is the deterministic UAT buy box (via the app's real
+ * authenticated, RLS-protected API). Idempotent upsert: PATCH the most-recent profile if one
+ * exists, else POST. Wide enough (maxPrice/deposit/holding-cost) that the synthetic SA feed yields
+ * multiple eligible houses so the three-property comparison journey is genuinely exercised.
+ */
+const UAT_BUY_BOX = {
+  name: "V7C UAT buy box",
+  inputs: {
+    maxPrice: 1700000, deposit: 900000, strategy: "growth",
+    acceptableWeeklyHoldingCost: 1500, propertyType: "house",
+    states: ["SA"], riskTolerance: "medium", holdingPeriodYears: 10,
+  },
+};
+
 async function ensureBuyBox(page: Page): Promise<void> {
   const existing = await page.request.get("/api/investment/profile");
   if (existing.ok()) {
     const body = await existing.json();
-    if (Array.isArray(body.profiles) && body.profiles.length > 0) return;
+    const first = Array.isArray(body.profiles) ? body.profiles[0] : null;
+    if (first?.id) {
+      const patch = await page.request.patch("/api/investment/profile", {
+        data: { id: first.id, name: UAT_BUY_BOX.name, inputs: UAT_BUY_BOX.inputs },
+      });
+      expect(patch.ok(), "buy box profile should update via the RLS-protected API").toBeTruthy();
+      return;
+    }
   }
-  const res = await page.request.post("/api/investment/profile", {
-    data: {
-      name: "V7C UAT buy box",
-      inputs: {
-        maxPrice: 900000, deposit: 400000, strategy: "growth",
-        acceptableWeeklyHoldingCost: 600, propertyType: "house",
-        states: ["SA"], riskTolerance: "medium", holdingPeriodYears: 10,
-      },
-    },
-  });
+  const res = await page.request.post("/api/investment/profile", { data: UAT_BUY_BOX });
   expect(res.ok(), "buy box profile should save via the RLS-protected API").toBeTruthy();
 }
 
@@ -50,10 +73,12 @@ test("09 synthetic/replay data is clearly labelled", async ({ page }, testInfo) 
 
 test("02 buy box summary explains every answer", async ({ page }, testInfo) => {
   await page.goto("/deal-hunter");
-  await expect(page.getByRole("heading", { name: /your buy box/i })).toBeVisible();
-  await page.getByRole("button", { name: /how was this built/i }).click();
-  await expect(page.getByText(/max purchase price/i)).toBeVisible();
-  await expect(page.getByText(/strategy/i).first()).toBeVisible();
+  // Scope to the buy box section so /strategy/i doesn't match the (mobile-hidden) top-nav link.
+  const buyBox = page.locator("section", { has: page.getByRole("heading", { name: /your buy box/i }) });
+  await expect(buyBox).toBeVisible();
+  await buyBox.getByRole("button", { name: /how was this built/i }).click();
+  await expect(buyBox.getByText(/max purchase price/i)).toBeVisible();
+  await expect(buyBox.getByText(/strategy/i).first()).toBeVisible();
   await shot(page, testInfo.project.name, "02-buybox");
 });
 
@@ -73,11 +98,13 @@ test("03 ranked opportunity feed renders matches with a deal score", async ({ pa
 
 test("04 deal detail + 07 one-page Deal Brief with evidence-class labels", async ({ page }, testInfo) => {
   await page.goto("/deal-hunter");
-  await page.getByRole("button", { name: /details & brief/i }).first().click();
+  await tap(page.getByRole("button", { name: /details & brief/i }).first());
   const drawer = page.getByRole("dialog", { name: /deal brief/i });
   await expect(drawer).toBeVisible();
   for (const section of [/why it fits/i, /why it may not/i, /financials/i, /market evidence/i, /what could kill the deal/i, /what to verify next/i]) {
-    await expect(drawer.getByText(section)).toBeVisible();
+    // Section titles render as headings; the same words also appear as evidence-class badges,
+    // so scope to the heading role to avoid a strict-mode ambiguity.
+    await expect(drawer.getByRole("heading", { name: section })).toBeVisible();
   }
   // Evidence-class labels + the no-advice disclaimer must be present.
   await expect(drawer.getByText(/estimate|market evidence|listing fact|your input/i).first()).toBeVisible();
@@ -91,13 +118,13 @@ test("05 save / pass(+reason) / reject + persistence, verified via the API", asy
   const firstCard = page.locator("li", { has: page.getByText(/^Deal \d/i) }).first();
 
   // Save to review.
-  await firstCard.getByRole("button", { name: /save to review/i }).click();
+  await tap(firstCard.getByRole("button", { name: /save to review/i }));
   await expect(firstCard.getByText(/reviewing/i)).toBeVisible();
 
   // Pass requires a reason.
-  await firstCard.getByRole("button", { name: /pass/i }).click();
+  await tap(firstCard.getByRole("button", { name: /pass/i }));
   await expect(firstCard.getByText(/reason \(required\)/i)).toBeVisible();
-  await firstCard.getByRole("button", { name: /too expensive/i }).click();
+  await tap(firstCard.getByRole("button", { name: /too expensive/i }));
   await shot(page, testInfo.project.name, "05-save-pass-reject");
 
   // Persistence: reload and confirm state survived.
@@ -113,15 +140,30 @@ test("05 save / pass(+reason) / reject + persistence, verified via the API", asy
 
 test("06 three-property comparison", async ({ page }, testInfo) => {
   await page.goto("/deal-hunter");
-  const compareButtons = page.getByRole("button", { name: /^compare$/i });
-  const count = Math.min(3, await compareButtons.count());
-  test.skip(count < 2, "need at least two comparable listings in the synthetic feed");
-  for (let i = 0; i < count; i++) await compareButtons.nth(i).click();
-  await page.getByRole("button", { name: /^compare$/i, exact: false }).last().click().catch(() => {});
-  // The compare dialog shows a side-by-side of the selected suburbs.
-  const dialog = page.getByRole("dialog", { name: /compare/i });
+  // The feed is tabbed (Matches / Needs review / Excluded) and only the active tab renders cards;
+  // comparison selection persists across tabs and CompareView spans all buckets. Select up to three
+  // comparable listings across whichever tabs contain them (no seed data is altered).
+  const tabs = [/^matches \(/i, /needs review \(/i, /excluded \(/i];
+  let selected = 0;
+  for (const t of tabs) {
+    if (selected >= 3) break;
+    await tap(page.getByRole("button", { name: t }));
+    // Click each unselected per-card "Compare" in this tab (a selected one reads "Comparing").
+    while (selected < 3) {
+      const btn = page.locator("ul li").getByRole("button", { name: /^compare$/i }).first();
+      if ((await btn.count()) === 0) break;
+      await tap(btn);
+      selected += 1;
+    }
+  }
+  test.skip(selected < 2, "need at least two comparable listings across tabs in the synthetic feed");
+  // The compare tray's "Compare" button (enabled at >=2 selected) opens the side-by-side dialog.
+  await tap(page.getByRole("button", { name: /^compare$/i }).last());
+  const dialog = page.getByRole("dialog", { name: /compare deals/i });
   await expect(dialog).toBeVisible();
+  await expect(dialog.getByText(/deal score/i).first()).toBeVisible();
   await shot(page, testInfo.project.name, "06-compare");
+  await dialog.getByRole("button", { name: /close/i }).click();
 });
 
 test("08 refresh + sign-in persistence keeps the buy box", async ({ page }, testInfo) => {

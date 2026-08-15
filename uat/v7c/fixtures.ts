@@ -20,8 +20,15 @@ export const test = base.extend<{ guards: Guards }>({
   guards: async ({ page }, use, testInfo) => {
     const guards: Guards = { consoleErrors: [], failedRequests: [], productionHits: [] };
 
+    // Vercel injects a `vercel.live` feedback/toolbar script on PREVIEW deployments; the app's CSP
+    // correctly blocks it (it is absent in production). Exclude only that specific third-party,
+    // preview-only noise — never app-origin errors.
+    const BENIGN_CONSOLE = [/vercel\.live/i];
     page.on("console", (msg) => {
-      if (msg.type() === "error") guards.consoleErrors.push(msg.text());
+      if (msg.type() !== "error") return;
+      const text = msg.text();
+      if (BENIGN_CONSOLE.some((re) => re.test(text))) return;
+      guards.consoleErrors.push(text);
     });
     page.on("requestfailed", (req) => {
       guards.failedRequests.push(`${req.method()} ${req.url()} :: ${req.failure()?.errorText ?? ""}`);
