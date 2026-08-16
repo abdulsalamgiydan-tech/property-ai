@@ -123,7 +123,11 @@ export const strategyInputSchema = z
       (data.housingSituation === "own_ppor" && data.ppor !== null) ||
       (data.housingSituation !== "own_ppor" && data.ppor === null),
     { message: "PPOR details must be provided when you own your home, and omitted otherwise.", path: ["ppor"] }
-  );
+  )
+  .refine((data) => data.secondaryGoal === null || data.secondaryGoal !== data.primaryGoal, {
+    message: "Secondary goal must be different from primary goal.",
+    path: ["secondaryGoal"],
+  });
 
 export type StrategyInputParseResult =
   | { ok: true; input: StrategyInput }
