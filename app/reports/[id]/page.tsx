@@ -6,6 +6,12 @@ export const metadata: Metadata = {
   description: "View your saved property investment report.",
 };
 
-export default function SavedReportPage({ params }: { params: { id: string } }) {
-  return <SavedReportClient reportId={params.id} />;
+export default async function SavedReportPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  return <SavedReportClient reportId={id} />;
 }
