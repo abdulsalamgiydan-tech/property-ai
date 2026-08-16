@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
-import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
-import { foundingBetaGateOpen } from "@/lib/auth/foundingBeta";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { foundingBetaDeniedResponse, requireFoundingBetaAccess } from "@/lib/auth/foundingBetaAccess";
+import { serverErrorResponse } from "@/lib/api/safeError";
 import { investmentProfileSchema } from "@/lib/opportunity/profileSchema";
 import { deriveBuyBox } from "@/lib/dealhunter/buybox";
 import { fetchCandidateRows } from "@/lib/opportunity/candidates";
@@ -26,11 +25,9 @@ const bodySchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  if (!isWarehousePreviewEnabled()) return NextResponse.json({ error: "not found" }, { status: 404 });
-  const supabase = await createServerSupabaseClient();
-  const { data: auth } = await supabase.auth.getUser();
-  if (!auth.user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
-  if (!foundingBetaGateOpen(auth.user.email)) return NextResponse.json({ error: "not in founding beta" }, { status: 403 });
+  const access = await requireFoundingBetaAccess();
+  if (!access.ok) return foundingBetaDeniedResponse(access);
+  const { supabase } = access;
 
   const parsed = bodySchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "invalid body" }, { status: 400 });
@@ -48,7 +45,7 @@ export async function POST(req: NextRequest) {
     .select("inputs")
     .order("updated_at", { ascending: false })
     .limit(1);
-  if (pErr) return NextResponse.json({ error: pErr.message }, { status: 500 });
+  if (pErr) return serverErrorResponse();
   if (!profiles || profiles.length === 0) return NextResponse.json({ needsProfile: true });
   const pf = investmentProfileSchema.safeParse(profiles[0].inputs);
   if (!pf.success) return NextResponse.json({ error: "saved profile is invalid" }, { status: 422 });

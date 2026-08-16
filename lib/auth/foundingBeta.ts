@@ -10,16 +10,24 @@ export function isFoundingBetaEnabled(): boolean {
   return process.env.BYOD_FOUNDING_BETA_ENABLED === "true";
 }
 
+function normaliseEmail(email: string | null | undefined): string | null {
+  const normalized = email?.trim().toLowerCase() ?? "";
+  if (!normalized) return null;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized)) return null;
+  return normalized;
+}
+
 function allowlist(): string[] {
   return (process.env.FOUNDING_BETA_EMAILS ?? "")
     .split(",")
-    .map((s) => s.trim().toLowerCase())
-    .filter(Boolean);
+    .map(normaliseEmail)
+    .filter((email): email is string => Boolean(email));
 }
 
 export function isFoundingBetaEmail(email: string | null | undefined): boolean {
-  if (!email) return false;
-  return allowlist().includes(email.toLowerCase());
+  const normalized = normaliseEmail(email);
+  if (!normalized) return false;
+  return allowlist().includes(normalized);
 }
 
 /** The single gate the BYOD routes/pages use: flag on AND invited. */

@@ -4,9 +4,21 @@ import { NextRequest } from "next/server";
 let flagOn = true;
 let betaOpen = true;
 let mockClient: unknown = null;
-vi.mock("@/lib/warehouse/env", () => ({ isWarehousePreviewEnabled: () => flagOn }));
-vi.mock("@/lib/auth/foundingBeta", () => ({ foundingBetaGateOpen: () => betaOpen }));
-vi.mock("@/lib/supabase/server", () => ({ createServerSupabaseClient: async () => mockClient }));
+vi.mock("@/lib/auth/foundingBetaAccess", async () => {
+  const { NextResponse } = await vi.importActual<typeof import("next/server")>("next/server");
+  return {
+    requireFoundingBetaAccess: async () => {
+      if (!flagOn) return { ok: false, status: 404, body: { error: "not found" } };
+      const user = (mockClient as { auth?: { getUser?: () => Promise<{ data: { user: unknown } }> } } | null)?.auth?.getUser
+        ? (await (mockClient as { auth: { getUser: () => Promise<{ data: { user: unknown } }> } }).auth.getUser()).data.user
+        : null;
+      if (!user) return { ok: false, status: 401, body: { error: "unauthenticated" } };
+      if (!betaOpen) return { ok: false, status: 403, body: { error: "not in founding beta" } };
+      return { ok: true, supabase: mockClient, user };
+    },
+    foundingBetaDeniedResponse: (access: { status: number; body: unknown }) => NextResponse.json(access.body, { status: access.status }),
+  };
+});
 vi.mock("@/lib/opportunity/candidates", () => ({ fetchCandidateRows: async () => [] }));
 
 import { POST } from "./route";

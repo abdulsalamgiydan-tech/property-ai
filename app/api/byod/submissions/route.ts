@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
-import { foundingBetaGateOpen } from "@/lib/auth/foundingBeta";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { foundingBetaDeniedResponse, requireFoundingBetaAccess } from "@/lib/auth/foundingBetaAccess";
+import { serverErrorResponse } from "@/lib/api/safeError";
 import { byodListingSchema } from "@/lib/byod/schema";
 
 /**
@@ -12,22 +11,17 @@ import { byodListingSchema } from "@/lib/byod/schema";
  * affecting zero rows returns 404, never a misleading {ok:true}.
  */
 async function gate() {
-  if (!isWarehousePreviewEnabled()) return { status: 404 as const, body: { error: "not found" } };
-  const supabase = await createServerSupabaseClient();
-  const { data: auth } = await supabase.auth.getUser();
-  if (!auth.user) return { status: 401 as const, body: { error: "unauthenticated" } };
-  if (!foundingBetaGateOpen(auth.user.email)) return { status: 403 as const, body: { error: "not in founding beta" } };
-  return { supabase, user: auth.user };
+  return requireFoundingBetaAccess();
 }
 
 export async function GET() {
   const g = await gate();
-  if ("status" in g) return NextResponse.json(g.body, { status: g.status });
+  if (!g.ok) return foundingBetaDeniedResponse(g);
   const { data, error } = await g.supabase
     .from("byod_submissions")
     .select("id, address_full, suburb, state, geography_id, property_type, bedrooms, bathrooms, parking, land_area_sqm, price_display, price_lower, price_upper, listing_status, source_url, source_captured_at, created_at, updated_at")
     .order("created_at", { ascending: false });
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return serverErrorResponse();
   return NextResponse.json({ submissions: data ?? [] });
 }
 
@@ -35,7 +29,7 @@ const saveSchema = z.object({ listing: byodListingSchema });
 
 export async function POST(req: NextRequest) {
   const g = await gate();
-  if ("status" in g) return NextResponse.json(g.body, { status: g.status });
+  if (!g.ok) return foundingBetaDeniedResponse(g);
   const parsed = saveSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "invalid body" }, { status: 400 });
   const l = parsed.data.listing;
@@ -62,6 +56,6 @@ export async function POST(req: NextRequest) {
     })
     .select("id")
     .single();
-  if (error || !data) return NextResponse.json({ error: error?.message ?? "insert failed" }, { status: 500 });
+  if (error || !data) return serverErrorResponse();
   return NextResponse.json({ ok: true, id: data.id, listingKey: `user-entered:${data.id}` });
 }
