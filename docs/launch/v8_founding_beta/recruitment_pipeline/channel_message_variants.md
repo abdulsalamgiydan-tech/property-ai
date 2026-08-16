@@ -67,7 +67,7 @@ Complements the longer templates already in `../investor_invitation_email.md` an
 ## 9. Waitlist / decline response (warm hold or graceful no)
 > **If holding for a later wave:** Thanks [NAME] — I'm onboarding in small waves to support everyone properly, so
 > I'd love to bring you in with the **next group**. I'll hold your spot and reach out then; shout if anything
-> changes. 
+> changes.
 > **If declining / not a fit:** Totally understand, [NAME] — thanks for considering it. I'll leave it there and
 > won't follow up further. If you ever want to take a look later, the door's open.
 

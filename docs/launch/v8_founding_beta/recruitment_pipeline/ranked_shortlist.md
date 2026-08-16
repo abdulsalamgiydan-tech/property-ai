@@ -45,11 +45,11 @@ endorsement, and do not use them as a recruitment funnel. See `partner_pipeline.
 ## Channels to avoid for now
 | Channel / tactic | Why avoid (for the beta) |
 |---|---|
-| **Property Club (Kevin Young) and similar sell-side "clubs"** | Vendor/spruiker model (sells properties to investors); direct conflict with Propellect's independent, anti-spruiker positioning — reputational contamination | 
-| **Spruiker/developer-hosted seminars for co-branding** (e.g. Ironfish, Positive Real Estate, Urbantech, Nieuvision-style vendor events) | Sales agenda + vendor alignment; attend only to meet investors 1:1, never present as endorsed | 
-| **Unsanctioned forum / Facebook / Reddit self-promotion** | Breaches community rules + Spam Act norms; high reputational and ban risk; must be permission-led and value-first | 
-| **Cold mass-DM, bought lead lists, inferred/scraped emails** | Prohibited by the brief and by anti-spam law; destroys trust | 
-| **Buyer's agencies as a recruitment channel** | Competitor-adjacent; independence risk — research conversations only | 
+| **Property Club (Kevin Young) and similar sell-side "clubs"** | Vendor/spruiker model (sells properties to investors); direct conflict with Propellect's independent, anti-spruiker positioning — reputational contamination |
+| **Spruiker/developer-hosted seminars for co-branding** (e.g. Ironfish, Positive Real Estate, Urbantech, Nieuvision-style vendor events) | Sales agenda + vendor alignment; attend only to meet investors 1:1, never present as endorsed |
+| **Unsanctioned forum / Facebook / Reddit self-promotion** | Breaches community rules + Spam Act norms; high reputational and ban risk; must be permission-led and value-first |
+| **Cold mass-DM, bought lead lists, inferred/scraped emails** | Prohibited by the brief and by anti-spam law; destroys trust |
+| **Buyer's agencies as a recruitment channel** | Competitor-adjacent; independence risk — research conversations only |
 
 ## Caveat
 Weighted scores are directional. Re-rank after 2 weeks of real activation data by **activation rate × participant
