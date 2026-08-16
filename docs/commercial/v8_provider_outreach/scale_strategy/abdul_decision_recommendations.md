@@ -12,7 +12,7 @@ manual‑entry beta needs none of this).
 | 2 | **ABN** `[ABN]` | **placeholder — Abdul must supply** | the 11‑digit ABN of #1 |
 | 3 | **Contact** `[CONTACT_NAME]`/`[CONTACT_EMAIL]` | **placeholder — Abdul must supply** | you + a business‑domain email |
 | 4 | **Pilot user count** `[PILOT_USER_COUNT]` | **recommended** | **cap at 25** (matches beta design; enough signal, small enough to support personally) — raise only if activation demand clearly exceeds supply |
-| 5 | **Monthly listing/analysis volume** `[ESTIMATED_MONTHLY_LISTING_VOLUME]` | **modelled (Low/Base/High)** | **Low ~1,000 · Base ~2,000 · High ~3,500** reads/month for ≤25 users (a handful of analyses each); refine from real beta usage before quoting a provider |
+| 5 | **Monthly licensed-read volume** `[ESTIMATED_MONTHLY_LISTING_VOLUME]` | **modelled (Low/Base/High) — decomposed** | **Beta = 0 licensed reads (manual-entry).** Post-feed sizing hypothesis **~150 · ~750 · ~3,700 reads/month** for ≤25 users (= active users × completed analyses × reads/analysis); ask for a **~4,000–5,000 reads/month** tier with headroom. **Reads ≠ analyses ≠ API calls** — full decomposition in `../../../launch/v8_founding_beta/recruitment_pipeline/usage_volume_model.md`. Refine from real beta usage before quoting a provider |
 | 6 | **Commercial model** `[PROPOSED_COMMERCIAL_MODEL]` | **recommended experiment** | **freemium → Pro at a hypothesised A$19/mo**, with a **per‑report ($15)** parallel probe (see `business_model_and_unit_economics.md` §F) — a *hypothesis to validate*, not a set price |
 
 ## First commercial‑model experiment (recommended)

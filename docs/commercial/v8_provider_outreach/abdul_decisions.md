@@ -34,12 +34,17 @@ Australian English. These map 1:1 to the `[PLACEHOLDERS]` in the enquiry drafts 
 - **Proposed default:** **up to 25** invited SA investors (matches the founding‑beta plan).
 - **Your answer:** `__________` invited users
 
-### 5. Expected listing/API volume → `[ESTIMATED_MONTHLY_LISTING_VOLUME]`
-- **Why needed:** providers price by volume/tier; you want the smallest tier that fits.
-- **Proposed default (hypothesis — validate):** for ≤25 users doing a handful of analyses each — **Low ~1,000 ·
-  Base ~2,000 · High ~3,500 reads/month** (mirrors `scale_strategy/abdul_decision_recommendations.md`). Refine once
-  the beta shows real usage.
-- **Your answer:** `__________` reads/month (initial) · `__________` (12‑month)
+### 5. Expected licensed-read volume → `[ESTIMATED_MONTHLY_LISTING_VOLUME]`
+- **Why needed:** providers price by volume/tier; you want the smallest tier that fits — but the number must be
+  **licensed provider reads**, not analyses or API calls (those are different things; see the corrected model).
+- **Important:** the **manual-entry beta consumes ZERO licensed reads** (no live feed). This figure is a
+  **forward-sizing hypothesis for *if* a feed is signed**, not beta consumption.
+- **Proposed default (hypothesis — validate):** modelled from `active users × completed analyses × provider reads
+  per analysis` — post-feed **~150 (Low) · ~750 (Base) · ~3,700 (High) licensed reads/month** for ≤25 users. To
+  avoid under-provisioning, **ask a provider for a tier covering ~4,000–5,000 reads/month with headroom**, stating
+  the beta itself is zero. Full decomposition (analyses started/completed, unique properties, API calls) lives in
+  `../../launch/v8_founding_beta/recruitment_pipeline/usage_volume_model.md`; mirrors `scale_strategy/abdul_decision_recommendations.md`.
+- **Your answer:** `__________` licensed reads/month (post-feed sizing) · `__________` (12‑month)
 
 ### 6. Preferred commercial model → `[PROPOSED_COMMERCIAL_MODEL]`
 - **Why needed:** frames the "what we'd charge for" conversation and the free‑vs‑paid boundary.
