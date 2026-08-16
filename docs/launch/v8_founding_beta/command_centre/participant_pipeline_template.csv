@@ -1,0 +1,6 @@
+prospect_id,source,segment,screening_status,invite_status,onboarding_status,activation,day7_return,interview_status,day30_status,consent_status,notes
+P-001,network,active_sa_next_purchase,not_started,not_invited,not_started,no,no,not_scheduled,not_sent,not_captured,TEMPLATE ROW — replace with initials only; no full names/emails/phones in this file
+P-002,referral,active_sa_next_purchase,screened_in,invited,onboarded,yes,yes,scheduled,sent,captured,TEMPLATE ROW — example values only
+P-003,waitlist,active_sa_next_purchase,screened_out,not_invited,not_started,no,no,not_scheduled,not_sent,not_captured,TEMPLATE ROW — screened out (interstate); do not invite
+# columns: prospect_id | source(network/referral/waitlist/partner/community/content) | segment | screening_status(not_started/screened_in/screened_out) | invite_status(not_invited/invited/accepted/declined) | onboarding_status(not_started/onboarded) | activation(yes/no = completed a buy box) | day7_return(yes/no) | interview_status(not_scheduled/scheduled/done) | day30_status(not_sent/sent/done) | consent_status(not_captured/captured) | notes
+# PRIVACY: use initials or a code only — NO real names, emails, phone numbers, or addresses in the committed repo. Keep PII in a separate, access-controlled sheet outside version control.
