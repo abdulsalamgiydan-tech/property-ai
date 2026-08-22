@@ -10,11 +10,14 @@ import {
 } from "@/lib/warehouse/env";
 
 const WAREHOUSE_VALIDATION_REF = "lzonauinzatmtytyoems";
-// V7C: the dedicated, data-less Deal Hunter Preview branch (parent = Production,
-// with_data=false, seeded only with labelled synthetic data). A Preview bound to
-// this ref is a genuinely isolated environment, same as warehouse-validation.
+// V7C: the dedicated, data-less Deal Hunter Preview branch (retired/deleted post-UAT).
 const DEAL_HUNTER_PREVIEW_REF = "mmqxwwjshnpcqngciqtx";
-const ISOLATED_PREVIEW_REFS = new Set([WAREHOUSE_VALIDATION_REF, DEAL_HUNTER_PREVIEW_REF]);
+// V8: the dedicated, data-less SA Founding Beta branch (parent = Production,
+// with_data=false, seeded only with labelled synthetic data). A Preview bound to this
+// ref is a genuinely isolated environment, same as warehouse-validation. Adding it here
+// only WIDENS the isolated set; the Production-ref checks below are unchanged.
+const V8_FOUNDING_BETA_REF = "uvuvhftaexxfrfdgthtw";
+const ISOLATED_PREVIEW_REFS = new Set([WAREHOUSE_VALIDATION_REF, DEAL_HUNTER_PREVIEW_REF, V8_FOUNDING_BETA_REF]);
 const PRODUCTION_SUPABASE_REF = "oshquaxsloolqucwvigc";
 const PRODUCTION_HOSTS = new Set(["app.propellect.com.au", "propellect.com.au", "www.propellect.com.au"]);
 

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Propellect — provider one-pager</title>
+<style>
+  :root { --ink:#0f172a; --muted:#475569; --line:#e2e8f0; --brand:#6d28d9; --fill:#fff7ed; --fillln:#fdba74; }
+  * { box-sizing: border-box; }
+  html,body { margin:0; padding:0; color:var(--ink); font:12px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; }
+  .page { width:186mm; margin:0 auto; padding:2mm 0; }
+  header { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid var(--brand); padding-bottom:8px; }
+  .brand { font-size:22px; font-weight:700; letter-spacing:-.02em; color:var(--brand); }
+  .tag { color:var(--muted); font-size:11px; margin-top:2px; max-width:120mm; }
+  .meta { text-align:right; font-size:10px; color:var(--muted); }
+  h2 { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--brand); margin:12px 0 4px; }
+  p { margin:0 0 6px; }
+  ul { margin:0 0 6px; padding-left:16px; }
+  li { margin:1px 0; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:0 18px; }
+  .fill { background:var(--fill); border:1px dashed var(--fillln); border-radius:3px; padding:0 4px; color:#9a3412; font-weight:600; white-space:nowrap; }
+  .unlock { border:1px solid var(--line); border-left:3px solid var(--brand); background:#faf5ff; padding:8px 10px; border-radius:4px; margin-top:8px; }
+  footer { margin-top:12px; border-top:1px solid var(--line); padding-top:6px; font-size:10px; color:var(--muted); }
+  .k { color:var(--ink); font-weight:600; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <div class="brand">Propellect</div>
+      <div class="tag">Evidence-first property-investment analytics for Australian investors — official data, full provenance, never fabricated.</div>
+    </div>
+    <div class="meta">
+      app.propellect.com.au<br/>
+      Entity: <span class="fill">[legal entity]</span><br/>
+      ABN: <span class="fill">[ABN]</span>
+    </div>
+  </header>
+
+  <h2>What Propellect is</h2>
+  <p>An evidence-first platform that surfaces official, open-data market metrics with full provenance and helps an investor decide <span class="k">where</span> and <span class="k">which</span> property to consider. AI narrates deterministic analysis; it never invents a price, rent, yield or attribute. <span class="k">Live today:</span> an SA “Find My Investment” beta at app.propellect.com.au (suburb-level ranking from official CC-BY data, with a transparent evidence drawer). Current scale: <span class="fill">[users / traffic]</span>.</p>
+
+  <div class="grid">
+    <div>
+      <h2>What we want from you</h2>
+      <p>Authorised access to on-market <span class="k">SA sale listings</span> (national later) to power <span class="k">Deal Hunter</span> + “Bring Your Own Deal”: match live listings to a saved buy box, rank them transparently, and produce a one-page <span class="k">Deal Brief</span> — built from <span class="k">your listing facts + public official market evidence + the user’s own inputs</span>.</p>
+      <h2>Ambition</h2>
+      <p>SA first, then state-by-state nationwide — only when a state’s data (price, rent, yield, volume, growth) is present, fresh and licence-cleared. No nationwide claim until every offered state passes.</p>
+    </div>
+    <div>
+      <h2>The deal we propose (on your terms)</h2>
+      <ul>
+        <li><span class="k">Free to the user, always:</span> listing display, agent contact (never paywalled), and any provider price — shown with your attribution and a link back to the original listing.</li>
+        <li><span class="k">What we charge for:</span> our own derived analysis — deal-fit score, cash-flow scenarios, alerts, Deal Brief. Propellect IP layered on your facts, not your data.</li>
+        <li><span class="k">We do not scrape</span> any portal and do not redistribute raw data onward.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Trust &amp; security controls</h2>
+  <p>Provenance on every figure; per-field licensing metadata; RLS-isolated per-user data; least-privilege database access (SECURITY DEFINER consumer RPCs, no client secrets); configurable caching, retention and purge to honour your terms (including delete-on-termination and provider-directed takedown).</p>
+
+  <div class="unlock">
+    <span class="k">The one question that unlocks everything:</span> May Propellect charge for its derived analysis (scores, scenarios, alerts, Deal Brief) while keeping your listing display, agent contact and price information <span class="k">free and attributed</span>? A written “yes” lets us build to your terms immediately.
+  </div>
+
+  <div class="grid" style="margin-top:8px">
+    <div>
+      <h2>Proposed pilot</h2>
+      <p>SA-only, time-boxed (<span class="fill">[pilot length]</span>) on a sandbox/trial tier: prove the listing→Deal Brief loop on a small live SA sample under your terms, attribution + link-back live, retention/purge enforced; convert to a production Product Schedule on success. Pilot size: <span class="fill">[SA pilot size]</span>.</p>
+    </div>
+    <div>
+      <h2>Volumes &amp; model</h2>
+      <p>Expected reads/day: <span class="fill">[listing/API volume]</span>. Intended commercial model: <span class="fill">[commercial model]</span>. We will size to whichever plan/volume tier you recommend and start on the smallest that fits.</p>
+    </div>
+  </div>
+
+  <footer>
+    Contact: Abdul Giydan — <span class="fill">[email]</span> · <span class="fill">[phone]</span> — app.propellect.com.au &nbsp;•&nbsp;
+    Placeholders in orange are the only unverified facts; they are filled from real records before sending. No company facts, customer counts or traffic are asserted until verified.
+  </footer>
+</div>
+</body>
+</html>

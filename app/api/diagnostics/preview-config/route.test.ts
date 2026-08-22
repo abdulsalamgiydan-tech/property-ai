@@ -56,6 +56,32 @@ describe("GET /api/diagnostics/preview-config", () => {
     expect(JSON.stringify(body)).not.toContain("https://mmqxwwjshnpcqngciqtx.supabase.co");
   });
 
+  it("accepts the dedicated V8 SA Founding Beta branch (uvuvhftaexxfrfdgthtw) as isolated", async () => {
+    previewEnv();
+    vi.stubEnv("VERCEL_GIT_COMMIT_REF", "v8-sa-founding-beta");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://uvuvhftaexxfrfdgthtw.supabase.co");
+    vi.stubEnv("WAREHOUSE_SUPABASE_URL", "https://uvuvhftaexxfrfdgthtw.supabase.co");
+    const { GET } = await import("./route");
+    const res = GET();
+    const body = await res.json();
+    expect(res.status).toBe(200);
+    expect(body.configurationOk).toBe(true);
+    expect(body.supabase.appProjectRef).toBe("uvuv...thtw");
+    expect(body.supabase.appUsesIsolatedPreview).toBe(true);
+    expect(body.supabase.warehouseUsesIsolatedPreview).toBe(true);
+    expect(body.supabase.productionRefDetected).toBe(false);
+    expect(JSON.stringify(body)).not.toContain("https://uvuvhftaexxfrfdgthtw.supabase.co");
+  });
+
+  it("still 404s if the app Supabase URL points at Production even on the V8 branch (checks not weakened)", async () => {
+    previewEnv();
+    vi.stubEnv("VERCEL_GIT_COMMIT_REF", "v8-sa-founding-beta");
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://oshquaxsloolqucwvigc.supabase.co");
+    const { GET } = await import("./route");
+    const res = GET();
+    expect(res.status).toBe(404);
+  });
+
   it("404s in Vercel Production", async () => {
     previewEnv();
     vi.stubEnv("VERCEL_ENV", "production");

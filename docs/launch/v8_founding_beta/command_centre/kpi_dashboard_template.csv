@@ -1,0 +1,13 @@
+metric,definition,numerator,denominator,target,actual,status,data_source,owner,review_date
+activation_rate,Invited users who completed a buy box,activated_users,invited_users,>=60%,,,product activity,Abdul,YYYY-MM-DD
+seven_day_return,Activated users active again within 7 days,returned_within_7d,activated_users,>=40%,,,product activity,Abdul,YYYY-MM-DD
+usefulness_mean,Mean usefulness rating (day-7 Q2 + day-30 Q1),sum_of_ratings,count_of_ratings,>=4.0,,,surveys,Abdul,YYYY-MM-DD
+willingness_to_pay,Day-30 "yes"+"yes at price" share,wtp_yes_responses,day30_respondents,>=40%,,,day-30 survey,Abdul,YYYY-MM-DD
+properties_submitted,Total properties entered,properties_entered,n/a,track,,,product activity,Abdul,YYYY-MM-DD
+properties_analysed,Deal Briefs produced,briefs_generated,n/a,track,,,product activity,Abdul,YYYY-MM-DD
+saves,Deals saved to review,saves,n/a,track,,,product activity,Abdul,YYYY-MM-DD
+comparisons_run,Compare sessions,compare_sessions,n/a,track,,,product activity,Abdul,YYYY-MM-DD
+confirm_incomplete_rate,Proceeds after confirm-missing prompt,confirmed_incomplete,incomplete_submissions,track,,,product activity,Abdul,YYYY-MM-DD
+nps_style,Recommend score 0-10 (day-30 Q8),promoters_minus_detractors,day30_respondents,track,,,day-30 survey,Abdul,YYYY-MM-DD
+# status values: on_track / at_risk / off_track (fill weekly). actual/status/review_date left blank for use.
+# No personal data. Counts/aggregates only.

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { isWarehousePreviewEnabled } from "@/lib/warehouse/env";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { foundingBetaDeniedResponse, requireFoundingBetaAccess } from "@/lib/auth/foundingBetaAccess";
+import { serverErrorResponse } from "@/lib/api/safeError";
 import { fetchCandidateRows } from "@/lib/opportunity/candidates";
 import { investmentProfileSchema } from "@/lib/opportunity/profileSchema";
 import { deriveBuyBox } from "@/lib/dealhunter/buybox";
@@ -9,19 +9,19 @@ import { candidatesToEvidence, loadReplayListings } from "@/lib/dealhunter/feed"
 import { FIXTURE_LABEL } from "@/lib/listings/providers/replay";
 
 /**
- * Deal Hunter ranked feed (V7B). Flag-gated, auth-required. Loads the user's saved
- * investment profile → buy box, ranks the labelled REPLAY listings against real
- * official market evidence (the least-privilege candidates RPC). Read-only.
+ * Deal Hunter ranked feed (V7B). Invite-only, flag-gated, auth-required. Loads the
+ * user's saved investment profile → buy box, ranks the labelled REPLAY listings
+ * against real official market evidence (the least-privilege candidates RPC).
+ * Read-only.
  *
  * Data source is clearly labelled `replay` until authorised live provider access
  * exists. Nothing is fabricated — a suburb with no official evidence yields a
  * low-confidence "needs review" deal, never invented figures.
  */
 export async function GET() {
-  if (!isWarehousePreviewEnabled()) return NextResponse.json({ error: "not found" }, { status: 404 });
-  const supabase = await createServerSupabaseClient();
-  const { data: auth } = await supabase.auth.getUser();
-  if (!auth.user) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
+  const access = await requireFoundingBetaAccess();
+  if (!access.ok) return foundingBetaDeniedResponse(access);
+  const { supabase } = access;
 
   // Latest saved profile (RLS-scoped to this user).
   const { data: profiles, error: pErr } = await supabase
@@ -29,7 +29,7 @@ export async function GET() {
     .select("inputs")
     .order("updated_at", { ascending: false })
     .limit(1);
-  if (pErr) return NextResponse.json({ error: pErr.message }, { status: 500 });
+  if (pErr) return serverErrorResponse();
   if (!profiles || profiles.length === 0) return NextResponse.json({ needsProfile: true, items: [] });
 
   const parsed = investmentProfileSchema.safeParse(profiles[0].inputs);
