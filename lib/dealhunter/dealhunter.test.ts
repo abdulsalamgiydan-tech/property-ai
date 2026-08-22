@@ -36,10 +36,10 @@ function fullEvidence(over: Partial<Record<keyof SuburbEvidence, number>> = {}):
   };
 }
 const EVIDENCE: Record<string, SuburbEvidence> = {
-  SAL40530: fullEvidence({ price_growth_12m: 6.0 }), // Grange
-  SAL40089: fullEvidence({ price_growth_12m: 4.0 }), // Belair
-  SAL41190: fullEvidence({ price_growth_12m: 8.0 }), // Unley (high growth — must NOT rescue price gate)
-  SAL41010: fullEvidence(), // Seaton
+  SAL_40530: fullEvidence({ price_growth_12m: 6.0 }), // Grange
+  SAL_40089: fullEvidence({ price_growth_12m: 4.0 }), // Belair
+  SAL_41190: fullEvidence({ price_growth_12m: 8.0 }), // Unley (high growth — must NOT rescue price gate)
+  SAL_41010: fullEvidence(), // Seaton
 };
 
 const PROFILE: InvestmentProfile = {
@@ -118,7 +118,7 @@ describe("deal ranking (D) — hard gates never hidden", () => {
 
   it("marks missing evidence and does not fabricate a cash-flow when rent is absent", async () => {
     const bb = deriveBuyBox(PROFILE);
-    const noRent = rankDeals(await batch(0), bb, { SAL40530: { price_growth_12m: metric(6) } }, { asOf: ASOF });
+    const noRent = rankDeals(await batch(0), bb, { SAL_40530: { price_growth_12m: metric(6) } }, { asOf: ASOF });
     const grange = [...noRent.ranked, ...noRent.needsReview, ...noRent.ineligible].find((d) => d.key === "replay:RPL-0001")!;
     expect(grange.estimate).toBeNull();
     expect(grange.missing).toContain("median_rent");

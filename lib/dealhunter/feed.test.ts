@@ -10,12 +10,12 @@ function metric(value: number): MetricProvenance {
 describe("feed helpers", () => {
   it("maps candidate rows to per-suburb evidence, keeping only mandatory metrics", () => {
     const rows: CandidateRow[] = [
-      { geography_id: "SAL40530", jurisdiction: "SA", property_type: "house", metrics: { median_rent: metric(520), gross_yield: metric(3.4), extra_metric: metric(1) } as never },
+      { geography_id: "SAL_40530", jurisdiction: "SA", property_type: "house", metrics: { median_rent: metric(520), gross_yield: metric(3.4), extra_metric: metric(1) } as never },
     ];
     const ev = candidatesToEvidence(rows);
-    expect(ev.SAL40530.median_rent?.value).toBe(520);
-    expect(ev.SAL40530.gross_yield?.value).toBe(3.4);
-    expect((ev.SAL40530 as Record<string, unknown>).extra_metric).toBeUndefined();
+    expect(ev.SAL_40530.median_rent?.value).toBe(520);
+    expect(ev.SAL_40530.gross_yield?.value).toBe(3.4);
+    expect((ev.SAL_40530 as Record<string, unknown>).extra_metric).toBeUndefined();
   });
 
   it("loads labelled replay listings as canonical rows", async () => {

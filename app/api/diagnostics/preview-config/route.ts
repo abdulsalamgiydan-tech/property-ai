@@ -10,6 +10,11 @@ import {
 } from "@/lib/warehouse/env";
 
 const WAREHOUSE_VALIDATION_REF = "lzonauinzatmtytyoems";
+// V7C: the dedicated, data-less Deal Hunter Preview branch (parent = Production,
+// with_data=false, seeded only with labelled synthetic data). A Preview bound to
+// this ref is a genuinely isolated environment, same as warehouse-validation.
+const DEAL_HUNTER_PREVIEW_REF = "mmqxwwjshnpcqngciqtx";
+const ISOLATED_PREVIEW_REFS = new Set([WAREHOUSE_VALIDATION_REF, DEAL_HUNTER_PREVIEW_REF]);
 const PRODUCTION_SUPABASE_REF = "oshquaxsloolqucwvigc";
 const PRODUCTION_HOSTS = new Set(["app.propellect.com.au", "propellect.com.au", "www.propellect.com.au"]);
 
@@ -56,7 +61,11 @@ export function GET() {
   const targetIsPreview = vercelEnv === "preview";
   const appUsesWarehouseValidation = appSupabaseRef === WAREHOUSE_VALIDATION_REF;
   const warehouseUsesWarehouseValidation = warehouseSupabaseRef === WAREHOUSE_VALIDATION_REF;
-  const configurationOk = targetIsPreview && appUsesWarehouseValidation && warehouseUsesWarehouseValidation;
+  // A Preview is correctly configured when it points at ANY isolated branch
+  // (warehouse-validation OR the dedicated deal-hunter-preview branch).
+  const appUsesIsolatedPreview = appSupabaseRef != null && ISOLATED_PREVIEW_REFS.has(appSupabaseRef);
+  const warehouseUsesIsolatedPreview = warehouseSupabaseRef != null && ISOLATED_PREVIEW_REFS.has(warehouseSupabaseRef);
+  const configurationOk = targetIsPreview && appUsesIsolatedPreview && warehouseUsesIsolatedPreview;
 
   return NextResponse.json(
     {
@@ -69,6 +78,8 @@ export function GET() {
         warehouseProjectRef: warehouseSupabaseRef ? `${warehouseSupabaseRef.slice(0, 4)}...${warehouseSupabaseRef.slice(-4)}` : null,
         appUsesWarehouseValidation,
         warehouseUsesWarehouseValidation,
+        appUsesIsolatedPreview,
+        warehouseUsesIsolatedPreview,
         productionRefDetected: false,
         anonKeyFingerprint: shortFingerprint(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY),
         warehouseAnonKeyFingerprint: shortFingerprint(process.env.WAREHOUSE_SUPABASE_ANON_KEY),

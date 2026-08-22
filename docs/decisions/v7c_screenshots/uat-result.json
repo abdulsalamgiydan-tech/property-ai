@@ -1,0 +1,133 @@
+{
+  "generatedAt": "2026-08-15T09:28:37.086Z",
+  "preview": "https://property-ai-git-v7c-preview-1c5599-zeebusiness93-2304s-projects.vercel.app",
+  "isolatedSupabaseRef": "mmqxwwjshnpcqngciqtx",
+  "totals": {
+    "tests": 18,
+    "passed": 18,
+    "failed": 0
+  },
+  "byProject": {
+    "desktop": {
+      "passed": 9,
+      "failed": 0,
+      "tests": [
+        {
+          "title": "preview binds ONLY to the isolated deal-hunter-preview branch",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "01 authentication — signed-in landing, not the signed-out CTA",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "09 synthetic/replay data is clearly labelled",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "02 buy box summary explains every answer",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "03 ranked opportunity feed renders matches with a deal score",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "04 deal detail + 07 one-page Deal Brief with evidence-class labels",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "05 save / pass(+reason) / reject + persistence, verified via the API",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "06 three-property comparison",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "08 refresh + sign-in persistence keeps the buy box",
+          "ok": true,
+          "status": "passed"
+        }
+      ]
+    },
+    "mobile": {
+      "passed": 9,
+      "failed": 0,
+      "tests": [
+        {
+          "title": "preview binds ONLY to the isolated deal-hunter-preview branch",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "01 authentication — signed-in landing, not the signed-out CTA",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "09 synthetic/replay data is clearly labelled",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "02 buy box summary explains every answer",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "03 ranked opportunity feed renders matches with a deal score",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "04 deal detail + 07 one-page Deal Brief with evidence-class labels",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "05 save / pass(+reason) / reject + persistence, verified via the API",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "06 three-property comparison",
+          "ok": true,
+          "status": "passed"
+        },
+        {
+          "title": "08 refresh + sign-in persistence keeps the buy box",
+          "ok": true,
+          "status": "passed"
+        }
+      ]
+    }
+  },
+  "screenshots": [
+    "01-authentication.desktop.png",
+    "01-authentication.mobile.png",
+    "02-buybox.desktop.png",
+    "02-buybox.mobile.png",
+    "03-ranked-feed.desktop.png",
+    "03-ranked-feed.mobile.png",
+    "04-deal-detail-brief.desktop.png",
+    "04-deal-detail-brief.mobile.png",
+    "05-save-pass-reject.desktop.png",
+    "05-save-pass-reject.mobile.png",
+    "06-compare.desktop.png",
+    "06-compare.mobile.png",
+    "08-refresh-persistence.desktop.png",
+    "08-refresh-persistence.mobile.png",
+    "09-synthetic-labelling.desktop.png",
+    "09-synthetic-labelling.mobile.png"
+  ],
+  "allPassed": true
+}

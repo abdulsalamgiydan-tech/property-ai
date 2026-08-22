@@ -40,6 +40,22 @@ describe("GET /api/diagnostics/preview-config", () => {
     expect(JSON.stringify(body)).not.toContain("https://lzonauinzatmtytyoems.supabase.co");
   });
 
+  it("accepts the dedicated deal-hunter-preview branch (mmqxwwjshnpcqngciqtx) as isolated", async () => {
+    previewEnv();
+    vi.stubEnv("NEXT_PUBLIC_SUPABASE_URL", "https://mmqxwwjshnpcqngciqtx.supabase.co");
+    vi.stubEnv("WAREHOUSE_SUPABASE_URL", "https://mmqxwwjshnpcqngciqtx.supabase.co");
+    const { GET } = await import("./route");
+    const res = GET();
+    const body = await res.json();
+    expect(res.status).toBe(200);
+    expect(body.configurationOk).toBe(true);
+    expect(body.supabase.appProjectRef).toBe("mmqx...iqtx");
+    expect(body.supabase.appUsesIsolatedPreview).toBe(true);
+    expect(body.supabase.warehouseUsesIsolatedPreview).toBe(true);
+    expect(body.supabase.productionRefDetected).toBe(false);
+    expect(JSON.stringify(body)).not.toContain("https://mmqxwwjshnpcqngciqtx.supabase.co");
+  });
+
   it("404s in Vercel Production", async () => {
     previewEnv();
     vi.stubEnv("VERCEL_ENV", "production");
