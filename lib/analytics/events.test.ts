@@ -35,6 +35,27 @@ describe("trackEvent", () => {
       trackEvent({ name: "error_encountered", surface: "search", errorKind: "network" });
       trackEvent({ name: "research_copilot_answered", geographyCode: "21640", grounded: true });
       trackEvent({ name: "feedback_submitted", category: "idea" });
+      trackEvent({ name: "founding_beta_buy_box_required", surface: "byod" });
+      trackEvent({ name: "founding_beta_analysis_started", surface: "byod" });
+      trackEvent({ name: "founding_beta_missing_facts_prompted", surface: "byod", missingCount: 2 });
+      trackEvent({ name: "founding_beta_analysis_completed", surface: "byod", bucket: "ranked", completeFacts: true, missingCount: 0 });
+      trackEvent({ name: "founding_beta_pipeline_updated", surface: "deal_hunter", status: "reviewing" });
+      trackEvent({ name: "founding_beta_deal_brief_opened", surface: "deal_hunter" });
+      trackEvent({ name: "founding_beta_compare_opened", surface: "byod", selectionCount: 2 });
     }).not.toThrow();
+  });
+
+  it("keeps the founding-beta contract free of identity, listing and free-text fields", () => {
+    const events = [
+      { name: "founding_beta_buy_box_required", surface: "byod" },
+      { name: "founding_beta_analysis_started", surface: "byod" },
+      { name: "founding_beta_missing_facts_prompted", surface: "byod", missingCount: 2 },
+      { name: "founding_beta_analysis_completed", surface: "byod", bucket: "needs_review", completeFacts: false, missingCount: 2 },
+      { name: "founding_beta_pipeline_updated", surface: "deal_hunter", status: "reviewing" },
+      { name: "founding_beta_deal_brief_opened", surface: "deal_hunter" },
+      { name: "founding_beta_compare_opened", surface: "byod", selectionCount: 2 },
+    ];
+    const payload = JSON.stringify(events);
+    expect(payload).not.toMatch(/email|user.?id|listing|address|url|token|@|https?:/i);
   });
 });

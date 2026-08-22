@@ -25,7 +25,20 @@ export type AnalyticsEvent =
   | { name: "feedback_rate_limited"; category: string }
   | { name: "onboarding_started"; source: "onboarding" | "settings" }
   | { name: "onboarding_completed"; source: "onboarding" | "settings"; completionStep: number }
-  | { name: "onboarding_skipped"; source: "onboarding" | "settings" };
+  | { name: "onboarding_skipped"; source: "onboarding" | "settings" }
+  // Founding-beta events deliberately accept categorical values and counts only.
+  // Never add an email, user id, listing key, address, URL, free text or auth data.
+  | { name: "founding_beta_buy_box_required"; surface: FoundingBetaSurface }
+  | { name: "founding_beta_analysis_started"; surface: "byod" }
+  | { name: "founding_beta_missing_facts_prompted"; surface: "byod"; missingCount: number }
+  | { name: "founding_beta_analysis_completed"; surface: "byod"; bucket: FoundingBetaResultBucket; completeFacts: boolean; missingCount: number }
+  | { name: "founding_beta_pipeline_updated"; surface: FoundingBetaSurface; status: FoundingBetaPipelineStatus }
+  | { name: "founding_beta_deal_brief_opened"; surface: FoundingBetaSurface }
+  | { name: "founding_beta_compare_opened"; surface: FoundingBetaSurface; selectionCount: number };
+
+export type FoundingBetaSurface = "byod" | "deal_hunter";
+export type FoundingBetaResultBucket = "ranked" | "needs_review" | "ineligible";
+export type FoundingBetaPipelineStatus = "reviewing" | "due_diligence" | "rejected";
 
 /**
  * Development-mode logger only. In production this is intentionally a

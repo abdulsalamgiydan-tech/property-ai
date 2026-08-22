@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { BuyBoxRequiredCard } from "@/components/founding-beta/BuyBoxRequiredCard";
+import { trackEvent, type FoundingBetaPipelineStatus } from "@/lib/analytics/events";
 import type { DealResult } from "@/lib/dealhunter/types";
 import { buildDealBrief } from "@/lib/dealhunter/dealbrief";
 
@@ -74,13 +76,16 @@ export default function DealHunterClient() {
     else setLoading(false);
   }, [user, load]);
 
-  const setStatus = useCallback(async (key: string, status: string, reason?: string) => {
+  const setStatus = useCallback(async (key: string, status: FoundingBetaPipelineStatus, reason?: string) => {
     setPipeline((p) => ({ ...p, [key]: status }));
-    await fetch("/api/dealhunter/pipeline", {
+    const pipelineResponse = await fetch("/api/dealhunter/pipeline", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ listing_key: key, status, ...(reason ? { rejection_reason: reason } : {}) }),
     });
+    if (pipelineResponse.ok) {
+      trackEvent({ name: "founding_beta_pipeline_updated", surface: "deal_hunter", status });
+    }
     const kind = status === "rejected" ? "rejected" : status === "reviewing" ? "saved" : "saved";
     await fetch("/api/dealhunter/feedback", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ listing_key: key, kind, ...(reason ? { reason } : {}) }) });
   }, []);
@@ -119,9 +124,7 @@ export default function DealHunterClient() {
       {loading && <p className="text-sm text-slate-500">Loading your deals…</p>}
       {error && <p className="rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-700">{error}</p>}
       {feed?.needsProfile && (
-        <p className="rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-700">
-          Save an investment profile in <a href="/find-investment" className="underline">Find My Investment</a> first — it becomes your buy box.
-        </p>
+        <BuyBoxRequiredCard surface="deal_hunter" />
       )}
 
       {feed && !feed.needsProfile && (
@@ -158,7 +161,7 @@ export default function DealHunterClient() {
             <ul className="space-y-3">
               {visible.map((d) => (
                 <DealCard key={d.key} deal={d} status={pipeline[d.key]} inCompare={compare.includes(d.key)}
-                  onDetails={() => setSelected(d)} onCompare={() => toggleCompare(d.key)}
+                  onDetails={() => { setSelected(d); trackEvent({ name: "founding_beta_deal_brief_opened", surface: "deal_hunter" }); }} onCompare={() => toggleCompare(d.key)}
                   onSave={() => setStatus(d.key, "reviewing")} onDueDiligence={() => setStatus(d.key, "due_diligence")}
                   onPass={(reason) => setStatus(d.key, "rejected", reason)} />
               ))}
@@ -173,7 +176,7 @@ export default function DealHunterClient() {
                 <span className="text-xs text-slate-600">{compare.length} selected to compare (max 3)</span>
                 <div className="flex gap-2">
                   <button onClick={() => setCompare([])} className="text-xs text-slate-500 underline">Clear</button>
-                  <button onClick={() => setShowCompare(true)} disabled={compare.length < 2}
+                  <button onClick={() => { setShowCompare(true); trackEvent({ name: "founding_beta_compare_opened", surface: "deal_hunter", selectionCount: compare.length }); }} disabled={compare.length < 2}
                     className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40">Compare</button>
                 </div>
               </div>

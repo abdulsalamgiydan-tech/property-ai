@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LogoMark } from "@/components/design/LogoMark";
+import { HomeAccountCTA } from "@/components/home/HomeAccountCTA";
 
 const baseTools = [
   {
@@ -84,12 +85,7 @@ export default function HomePage() {
                 >
                   Compare 2 properties
                 </Link>
-                <Link
-                  href="/dashboard"
-                  className="inline-flex items-center justify-center rounded-xl border border-violet-500/45 bg-violet-950/25 px-5 py-3 text-sm font-semibold text-violet-200 transition hover:bg-violet-950/40 focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500/30"
-                >
-                  Sign in / Get started
-                </Link>
+                <HomeAccountCTA />
               </div>
             </div>
             <div className="grid w-full max-w-sm grid-cols-2 gap-3">

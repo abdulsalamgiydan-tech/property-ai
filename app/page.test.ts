@@ -6,6 +6,7 @@ import type { ReactElement } from "react";
 // runtime or the font/logo modules.
 vi.mock("next/link", () => ({ default: (props: Record<string, unknown>) => props }));
 vi.mock("@/components/design/LogoMark", () => ({ LogoMark: () => null }));
+vi.mock("@/components/home/HomeAccountCTA", () => ({ HomeAccountCTA: () => null }));
 
 import HomePage from "./page";
 
