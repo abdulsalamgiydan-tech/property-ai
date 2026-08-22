@@ -6,6 +6,7 @@ import { createAdminSupabaseClient } from "@/lib/supabase/adminClient";
 import { isAdminEmail } from "@/lib/auth/isAdminEmail";
 import { logAdminAccessDenied } from "@/lib/auth/logAdminAccessDenied";
 import { isInternalOperationsEnabled } from "@/lib/warehouse/env";
+import { getFoundingBetaReadiness } from "@/lib/founding-beta/readiness";
 
 export const metadata: Metadata = { title: "Admin | Propellect", robots: { index: false, follow: false } };
 
@@ -42,6 +43,7 @@ export default async function AdminPage() {
   }
 
   const admin = createAdminSupabaseClient();
+  const foundingBeta = getFoundingBetaReadiness();
 
   let entitlements: EntitlementRow[] = [];
   let entitlementsError: string | null = null;
@@ -67,6 +69,49 @@ export default async function AdminPage() {
         <p className="mt-2 text-sm text-zinc-400">
           Signed in as {user?.email}. Read-only view — tier changes still require the Supabase dashboard directly.
         </p>
+
+        <section className="mt-8 rounded-2xl border border-zinc-800 bg-zinc-900/55 p-5" aria-labelledby="founding-beta-readiness-heading">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-violet-300">Launch controls</p>
+              <h2 id="founding-beta-readiness-heading" className="mt-1 text-lg font-semibold text-white">Founding beta readiness</h2>
+            </div>
+            <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${foundingBeta.gateState === "dark" ? "border-emerald-500/35 bg-emerald-950/25 text-emerald-300" : "border-amber-500/40 bg-amber-950/30 text-amber-200"}`}>
+              {foundingBeta.gateState === "dark" ? "Dark" : "Invited cohort active"}
+            </span>
+          </div>
+
+          <dl className="mt-4 grid gap-3 text-xs sm:grid-cols-3">
+            <div className="rounded-lg border border-zinc-800 bg-zinc-950/45 p-3">
+              <dt className="text-zinc-500">Warehouse surface</dt>
+              <dd className="mt-1 font-medium text-zinc-200">{foundingBeta.warehouseSurfaceEnabled ? "Enabled" : "Off"}</dd>
+            </div>
+            <div className="rounded-lg border border-zinc-800 bg-zinc-950/45 p-3">
+              <dt className="text-zinc-500">Founding-beta flag</dt>
+              <dd className="mt-1 font-medium text-zinc-200">{foundingBeta.foundingBetaEnabled ? "Enabled" : "Off"}</dd>
+            </div>
+            <div className="rounded-lg border border-zinc-800 bg-zinc-950/45 p-3">
+              <dt className="text-zinc-500">Valid invited identities</dt>
+              <dd className="mt-1 font-medium text-zinc-200">{foundingBeta.invitedIdentityCount}</dd>
+            </div>
+          </dl>
+
+          {foundingBeta.gateState === "dark" ? (
+            <div className="mt-4 rounded-lg border border-emerald-500/20 bg-emerald-950/15 p-3 text-xs text-emerald-200">
+              Deal Hunter and Bring Your Own Deal remain unavailable through the founding-beta gate.
+            </div>
+          ) : null}
+
+          {foundingBeta.activationRequirements.length > 0 ? (
+            <div className="mt-4">
+              <p className="text-xs font-medium text-zinc-300">Required before an approved invitation wave</p>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-zinc-500">
+                {foundingBeta.activationRequirements.map((requirement) => <li key={requirement}>{requirement}</li>)}
+              </ul>
+            </div>
+          ) : null}
+          <p className="mt-4 text-[11px] text-zinc-600">Read-only summary. No identities or environment values are displayed, and this page cannot change a launch control.</p>
+        </section>
 
         {!admin ? (
           <div className="mt-8 rounded-xl border border-amber-500/30 bg-amber-950/15 p-4 text-sm text-amber-200">

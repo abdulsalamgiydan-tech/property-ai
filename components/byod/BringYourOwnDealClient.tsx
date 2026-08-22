@@ -4,6 +4,8 @@ import { useState, type FormEvent } from "react";
 import type { DealBrief, DealBriefFigure } from "@/lib/dealhunter/dealbrief";
 import type { DealResult } from "@/lib/dealhunter/types";
 import type { Completeness } from "@/lib/byod/schema";
+import { BuyBoxRequiredCard } from "@/components/founding-beta/BuyBoxRequiredCard";
+import { trackEvent, type FoundingBetaPipelineStatus } from "@/lib/analytics/events";
 
 /**
  * V8 Bring Your Own Deal (invite-only). The customer pastes a listing URL FOR
@@ -100,15 +102,31 @@ export default function BringYourOwnDealClient() {
       const body = (await res.json()) as AnalyzeResponse;
       if (!res.ok) { setError((body as { error?: string }).error ?? "Analysis failed."); return; }
       if ("needsProfile" in body) { setNeedsProfile(true); return; }
-      if ("needsConfirmation" in body) { setPendingConfirm(body.completeness); return; }
-      setAnalysis(body as Analysis); setSaved(null);
+      if ("needsConfirmation" in body) {
+        setPendingConfirm(body.completeness);
+        trackEvent({ name: "founding_beta_missing_facts_prompted", surface: "byod", missingCount: body.completeness.missing.length });
+        return;
+      }
+      const completed = body as Analysis;
+      setAnalysis(completed); setSaved(null);
+      trackEvent({
+        name: "founding_beta_analysis_completed",
+        surface: "byod",
+        bucket: completed.bucket,
+        completeFacts: completed.completeness.complete,
+        missingCount: completed.completeness.missing.length,
+      });
     } catch { setError("Network error — please try again."); }
     finally { setBusy(false); }
   }
 
-  async function onSubmit(e: FormEvent) { e.preventDefault(); await analyze(false); }
+  async function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    trackEvent({ name: "founding_beta_analysis_started", surface: "byod" });
+    await analyze(false);
+  }
 
-  async function pipeline(status: string, reason?: string) {
+  async function pipeline(status: FoundingBetaPipelineStatus, reason?: string) {
     if (!analysis) return;
     setBusy(true); setError(null);
     try {
@@ -121,7 +139,10 @@ export default function BringYourOwnDealClient() {
         method: "POST", headers: { "content-type": "application/json" },
         body: JSON.stringify({ listing_key: analysis.listingKey, status, rejection_reason: reason }),
       });
-      if (res.ok) setSaved(status);
+      if (res.ok) {
+        setSaved(status);
+        trackEvent({ name: "founding_beta_pipeline_updated", surface: "byod", status });
+      }
       else setError("Could not update your pipeline.");
     } finally { setBusy(false); }
   }
@@ -193,7 +214,7 @@ export default function BringYourOwnDealClient() {
             </select>
           </label>
 
-          {needsProfile && <p className="rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800" role="alert">Build your buy box first in Find My Investment, then come back to score your own deal.</p>}
+          {needsProfile && <BuyBoxRequiredCard surface="byod" />}
           {error && <p className="text-xs text-red-600" role="alert">{error}</p>}
 
           <button type="submit" disabled={busy} className="w-full rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-medium text-white disabled:opacity-60">{busy ? "Analysing…" : "Analyse against my buy box"}</button>
@@ -230,7 +251,7 @@ export default function BringYourOwnDealClient() {
               </div>
             )}
             <div className="mt-3 flex flex-wrap gap-2">
-              <button onClick={() => setShowBrief(true)} className="rounded-lg border border-slate-300 px-2.5 py-1 text-xs text-slate-700">Deal brief</button>
+              <button onClick={() => { setShowBrief(true); trackEvent({ name: "founding_beta_deal_brief_opened", surface: "byod" }); }} className="rounded-lg border border-slate-300 px-2.5 py-1 text-xs text-slate-700">Deal brief</button>
               <button onClick={() => pipeline("reviewing")} disabled={busy} className="rounded-lg border border-slate-300 px-2.5 py-1 text-xs text-slate-700">Save to review</button>
               <button onClick={() => pipeline("rejected", "too_expensive")} disabled={busy} className="rounded-lg border border-slate-300 px-2.5 py-1 text-xs text-slate-700">Pass (too expensive)</button>
               <button onClick={() => { setCompare((c) => (c.find((x) => x.listingKey === analysis.listingKey) || c.length >= 3 ? c : [...c, analysis])); }} className="rounded-lg border border-slate-300 px-2.5 py-1 text-xs text-slate-700">Add to compare</button>
@@ -281,7 +302,7 @@ export default function BringYourOwnDealClient() {
             <span className="text-xs text-slate-600">{compare.length} selected to compare (max 3)</span>
             <div className="flex gap-2">
               <button onClick={() => setCompare([])} className="text-xs text-slate-500 underline">Clear</button>
-              <button onClick={() => setShowCompare(true)} disabled={compare.length < 2} className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40">Compare</button>
+              <button onClick={() => { setShowCompare(true); trackEvent({ name: "founding_beta_compare_opened", surface: "byod", selectionCount: compare.length }); }} disabled={compare.length < 2} className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-medium text-white disabled:opacity-40">Compare</button>
             </div>
           </div>
         </div>
