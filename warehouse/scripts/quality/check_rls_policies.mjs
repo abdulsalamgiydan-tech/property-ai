@@ -62,6 +62,11 @@ export const KNOWN_EXCEPTIONS = {
       "Entitlement/tier table (Sprint 13 WS11, schema only — no billing activation) — users may read their own tier but must NEVER be able to write it themselves (self-elevation to a paid tier), so there is deliberately no insert/update/delete policy for the authenticated/anon role, only a service_role-only 'for all' policy.",
     requiredOps: ["select"],
   },
+  investment_shortlist_change_events: {
+    reason:
+      "V7A (migration 062) — change alerts are written ONLY by the SECURITY DEFINER detector (detect_shortlist_change_events_v1), never by a client, so a user cannot forge an alert. The authenticated role gets no INSERT privilege and there is deliberately no insert policy; users may read/mark-seen (update)/dismiss (delete) their own rows via the standard auth.uid() = user_id predicate.",
+    requiredOps: ["select", "update", "delete"],
+  },
 };
 
 /** Extract every `public.<table>` created via `create table if not exists`. */
