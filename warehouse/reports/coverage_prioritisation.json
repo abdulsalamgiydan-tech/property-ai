@@ -1,0 +1,201 @@
+{
+  "generated_at": "2026-08-23",
+  "evidence_policy": {
+    "published": "committed warehouse coverage report only",
+    "verified_local": "parsed, mapped, quality-gated local candidate only",
+    "estimated": "addressable ceiling/ranking only; never achieved coverage"
+  },
+  "published_baseline": {
+    "total_suburb_snapshots": 15334,
+    "median_sale_price_overall": 4821,
+    "median_weekly_rent": 3089,
+    "gross_yield": 453,
+    "annual_price_growth_12m": 735
+  },
+  "ranked_opportunities": [
+    {
+      "source_id": "sa_metro_median_house_sales",
+      "jurisdiction": "SA",
+      "metric_family": "sales",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 1696,
+      "score": 1377.576,
+      "blockers": [
+        "metro only",
+        "house only",
+        "suppressed low-transaction suburbs"
+      ],
+      "disposition": "accepted_existing_pipeline",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "vic_dffh_moving_annual_rent",
+      "jurisdiction": "VIC",
+      "metric_family": "rent",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 2944,
+      "score": 894.24,
+      "blockers": [
+        "combined localities must remain quarantined",
+        "current warehouse coverage is snapshot-thin"
+      ],
+      "disposition": "accepted_existing_pipeline",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "sa_private_rental_report",
+      "jurisdiction": "SA",
+      "metric_family": "rent",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 1696,
+      "score": 616.284,
+      "blockers": [
+        "historical workbook variants",
+        "small-cell suppression and rounding"
+      ],
+      "disposition": "accepted_existing_pipeline",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "nsw_dcj_rent_and_sales_report",
+      "jurisdiction": "NSW",
+      "metric_family": "rent",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 4542,
+      "score": 298.92,
+      "blockers": [
+        "postcode/LGA grain rather than universal SAL-direct",
+        "missing quarters",
+        "exact licence URL review"
+      ],
+      "disposition": "existing_pipeline_registry_reconciled",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "qld_rta_median_rents",
+      "jurisdiction": "QLD",
+      "metric_family": "rent",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 3233,
+      "score": 169.733,
+      "blockers": [
+        "exact package id and licence must be resolved before reacquisition"
+      ],
+      "disposition": "existing_pipeline_catalogue_reacquisition_required",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "nsw_vg_bulk_psi",
+      "jurisdiction": "NSW",
+      "metric_family": "sales",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 4542,
+      "score": 82.778,
+      "blockers": [
+        "multi-GB history",
+        "current licence re-verification",
+        "official landing access-controlled in this environment"
+      ],
+      "disposition": "existing_pipeline_reacquisition_required",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "wa_rental_bonds",
+      "jurisdiction": "WA",
+      "metric_family": "rent",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 1699,
+      "score": 52.032,
+      "blockers": [
+        "raw bonds require median computation",
+        "v3 licence record reconciliation"
+      ],
+      "disposition": "existing_pipeline_licence_reconciliation_required",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "vic_vg_property_sales",
+      "jurisdiction": "VIC",
+      "metric_family": "sales",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 2944,
+      "score": 49.68,
+      "blockers": [
+        "official portal returned 403 from prior environment",
+        "live XLSX header/checksum not acquired"
+      ],
+      "disposition": "fixture_verified_manual_inbox",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "qld_official_sales_gap",
+      "jurisdiction": "QLD",
+      "metric_family": "sales",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 3233,
+      "score": 7.759,
+      "blockers": [
+        "no free reusable bulk suburb-median source found",
+        "licensing purchase requires separate human decision"
+      ],
+      "disposition": "paid_official_gap",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "tas_rental_bonds",
+      "jurisdiction": "TAS",
+      "metric_family": "rent",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 776,
+      "score": 4.656,
+      "blockers": [
+        "official page confirms monthly XLSX publication through data.gov.au, but exact current resource URL is not captured",
+        "reuse licence, live workbook schema and adapter are unverified"
+      ],
+      "disposition": "official_manual_download_reacquisition_required",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "tas_official_sales_gap",
+      "jurisdiction": "TAS",
+      "metric_family": "sales",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 776,
+      "score": 1.901,
+      "blockers": [
+        "no free reusable suburb sales bulk source confirmed",
+        "paid/restricted access"
+      ],
+      "disposition": "paid_or_restricted_gap",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "nt_official_market_gap",
+      "jurisdiction": "NT",
+      "metric_family": "sales_and_rent",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 303,
+      "score": 0.424,
+      "blockers": [
+        "all official property-group datasets reviewed; no sales or rent dataset",
+        "industry-association sources excluded"
+      ],
+      "disposition": "official_portal_no_market_dataset",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    },
+    {
+      "source_id": "act_official_market_gap",
+      "jurisdiction": "ACT",
+      "metric_family": "sales_and_rent",
+      "evidence": "estimated",
+      "estimated_addressable_ceiling": 136,
+      "score": 0.19,
+      "blockers": [
+        "official portal searches returned no property-sales, rent or rental-bond dataset"
+      ],
+      "disposition": "official_portal_zero_result",
+      "warning": "Opportunity ranking only; not achieved or published coverage."
+    }
+  ],
+  "production_coverage_changed": false
+}

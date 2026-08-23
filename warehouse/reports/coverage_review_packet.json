@@ -1,0 +1,310 @@
+{
+  "generated_at": "2026-08-23",
+  "source_id": "wa_property_sales",
+  "source_status": "fixture-verified candidate; official live resource schema not yet matched",
+  "admission": {
+    "local_quality_gates_pass": true,
+    "publishable": false,
+    "blockers": [
+      "official machine-readable resource/header not acquired",
+      "candidate exposes weekly count/turnover, not median sale price",
+      "no validation-branch database run approved or performed"
+    ]
+  },
+  "candidate_evidence": {
+    "accepted_observations": 4,
+    "candidate_geography_ids": [
+      "SAL50018",
+      "SAL51124"
+    ],
+    "parser_quarantine": [
+      {
+        "suburb": "PERTH",
+        "reason": "wrong_state"
+      },
+      {
+        "suburb": "BROOME",
+        "reason": "unparseable_period"
+      },
+      {
+        "suburb": "BUNBURY",
+        "reason": "non_positive_or_suppressed_sales_count"
+      },
+      {
+        "suburb": "GERALDTON",
+        "reason": "non_positive_or_suppressed_turnover"
+      }
+    ],
+    "mapping_quarantine": [
+      {
+        "suburb": "SPRINGFIELD",
+        "reason": "ambiguous_asgs_match_for_SPRINGFIELD_WA_(2_candidates)"
+      }
+    ],
+    "candidate_fixture_checksum": "0e66dfcbc5b1dfe6a861c3eaeb5ed0894e4160fac5530acd4b0f39df935a92f2",
+    "checksum_scope": "SHA-256 of the committed sanitised NORMALISED_ROWS JSON payload; not an official resource checksum",
+    "schema_fingerprint": "75dadc17b9f510b078aab8354ed18c2bb4f78ad18a9cd98988f9c61398ec5871"
+  },
+  "source_freshness": {
+    "classification": "fixture_only_not_a_live_refresh",
+    "earliest_reporting_period": "2026-08-21",
+    "latest_reporting_period": "2026-08-21",
+    "acquired_at": "2026-08-23T00:00:00Z"
+  },
+  "licence": {
+    "catalogue_status": "verified_reusable",
+    "name": "Creative Commons Attribution 4.0 (catalogue listing)",
+    "live_resource_licence_matched": false
+  },
+  "quarantine": {
+    "total": 5,
+    "by_reason": {
+      "ambiguous_asgs_match_for_SPRINGFIELD_WA_(2_candidates)": 1,
+      "non_positive_or_suppressed_sales_count": 1,
+      "non_positive_or_suppressed_turnover": 1,
+      "unparseable_period": 1,
+      "wrong_state": 1
+    },
+    "rows": [
+      {
+        "stage": "parser",
+        "suburb": "PERTH",
+        "reason": "wrong_state"
+      },
+      {
+        "stage": "parser",
+        "suburb": "BROOME",
+        "reason": "unparseable_period"
+      },
+      {
+        "stage": "parser",
+        "suburb": "BUNBURY",
+        "reason": "non_positive_or_suppressed_sales_count"
+      },
+      {
+        "stage": "parser",
+        "suburb": "GERALDTON",
+        "reason": "non_positive_or_suppressed_turnover"
+      },
+      {
+        "stage": "mapping",
+        "suburb": "SPRINGFIELD",
+        "reason": "ambiguous_asgs_match_for_SPRINGFIELD_WA_(2_candidates)"
+      }
+    ]
+  },
+  "coverage": {
+    "total_geographies": 15334,
+    "metrics": [
+      {
+        "metric": "gross_yield",
+        "total_geographies": 15334,
+        "current_published": 453,
+        "after_published": 453,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 14881,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "median_rent",
+        "total_geographies": 15334,
+        "current_published": 3089,
+        "after_published": 3089,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 12245,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "median_sale_price",
+        "total_geographies": 15334,
+        "current_published": 4821,
+        "after_published": 4821,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 10513,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "price_growth_12m",
+        "total_geographies": 15334,
+        "current_published": 735,
+        "after_published": 735,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 14599,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "weekly_property_sales_count",
+        "total_geographies": 15334,
+        "current_published": 0,
+        "after_published": 0,
+        "verified_local_candidate": 2,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 15334,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "weekly_property_sales_turnover",
+        "total_geographies": 15334,
+        "current_published": 0,
+        "after_published": 0,
+        "verified_local_candidate": 2,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 15334,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      }
+    ],
+    "derived_unlocks": {
+      "verified_local_yield": 0,
+      "verified_local_growth_12m": 0,
+      "note": "Counts use candidate rows only; published/candidate intersections require explicit geography-ID sets."
+    },
+    "production_coverage_changed": false
+  },
+  "state_and_national": {
+    "national": [
+      {
+        "metric": "gross_yield",
+        "total_geographies": 15334,
+        "current_published": 453,
+        "after_published": 453,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 14881,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "median_rent",
+        "total_geographies": 15334,
+        "current_published": 3089,
+        "after_published": 3089,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 12245,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "median_sale_price",
+        "total_geographies": 15334,
+        "current_published": 4821,
+        "after_published": 4821,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 10513,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "price_growth_12m",
+        "total_geographies": 15334,
+        "current_published": 735,
+        "after_published": 735,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 14599,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "weekly_property_sales_count",
+        "total_geographies": 15334,
+        "current_published": 0,
+        "after_published": 0,
+        "verified_local_candidate": 2,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 15334,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "weekly_property_sales_turnover",
+        "total_geographies": 15334,
+        "current_published": 0,
+        "after_published": 0,
+        "verified_local_candidate": 2,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 15334,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      }
+    ],
+    "WA": {
+      "current_published_source_attributed": null,
+      "verified_local_candidate_geographies": [
+        "SAL50018",
+        "SAL51124"
+      ],
+      "verified_local_candidate_metrics": {
+        "weekly_property_sales_count": 2,
+        "weekly_property_sales_turnover": 2
+      },
+      "estimated_only": 0,
+      "note": "The committed baseline has no state/source-attributed geography-ID set, so overlap and exact newly-covered WA IDs remain unresolved."
+    }
+  },
+  "fully_covered_snapshots": {
+    "current_published": null,
+    "verified_local_candidate": 0,
+    "reason": "Aggregate baseline counts do not contain the geography-ID intersections needed to prove full price+rent+yield+growth coverage."
+  },
+  "still_missing": [
+    {
+      "metric": "gross_yield",
+      "national_unavailable": 14881
+    },
+    {
+      "metric": "median_rent",
+      "national_unavailable": 12245
+    },
+    {
+      "metric": "median_sale_price",
+      "national_unavailable": 10513
+    },
+    {
+      "metric": "price_growth_12m",
+      "national_unavailable": 14599
+    },
+    {
+      "metric": "weekly_property_sales_count",
+      "national_unavailable": 15334
+    },
+    {
+      "metric": "weekly_property_sales_turnover",
+      "national_unavailable": 15334
+    }
+  ],
+  "expected_production_publish_delta": 0,
+  "proposed_future_write_scope": {
+    "approved_now": false,
+    "tables": [],
+    "rows": 0,
+    "upsert_keys": [],
+    "validation_command": null,
+    "status": "not_proposed_until_live_resource_and_destination_schema_are_reviewed"
+  },
+  "rollback_plan": "If a future validation load is approved, delete only rows matching source_id + file checksum; no such rows exist now.",
+  "production_coverage_changed": false
+}
