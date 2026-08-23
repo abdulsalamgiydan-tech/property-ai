@@ -6,6 +6,8 @@ import { EmptyState } from "@/components/design/EmptyState";
 import { ConfidenceBadge } from "@/components/research/ConfidenceBadge";
 import { AboutThisMetric } from "@/components/research/AboutThisMetric";
 import { ProfileViewTracker } from "@/components/research/ProfileViewTracker";
+import { MetricProvenancePanel } from "@/components/research/MetricProvenancePanel";
+import type { SuburbMetricProvenance } from "@/lib/warehouse/suburbMetricProvenance";
 import { formatPercent } from "@/lib/formatCurrency";
 import {
   formatMoneyOrUnavailable as money,
@@ -44,6 +46,7 @@ export function MarketSnapshotView({
   timeseries,
   assumptions,
   officialMetrics = [],
+  metricProvenance,
   scenarioLabEnabled = false,
   researchCopilotEnabled = false,
 }: {
@@ -56,6 +59,7 @@ export function MarketSnapshotView({
   timeseries: TimeseriesRow[];
   assumptions: MetricAssumption[];
   officialMetrics?: OfficialSuburbMetric[];
+  metricProvenance?: SuburbMetricProvenance;
   scenarioLabEnabled?: boolean;
   researchCopilotEnabled?: boolean;
 }) {
@@ -123,6 +127,15 @@ export function MarketSnapshotView({
           </Link>
         ) : null}
       </SectionCard>
+
+      {metricProvenance ? (
+        <SectionCard
+          title="Data provenance & freshness"
+          description="Every headline metric with its basis (direct observation vs derived), source, reporting period and freshness. Missing values are explained, never shown as zero, and a suburb median is never presented as a specific property's value."
+        >
+          <MetricProvenancePanel provenance={metricProvenance} />
+        </SectionCard>
+      ) : null}
 
       {/* 1b. Official government metrics (SA/VIC CC-BY open data) */}
       {officialMetrics.length > 0 ? (
