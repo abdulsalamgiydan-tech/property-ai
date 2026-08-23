@@ -114,6 +114,31 @@ unchanged until a separately approved validation and publication process.
 5. Re-check ACT/NT official portals periodically, retaining national ABS context
    while direct market sources remain unavailable.
 
+## Official Coverage Uplift 1 — SA metropolitan house price (proven end-to-end)
+
+A genuine official source has now been run end-to-end through the offline
+pipeline. Evidence: `warehouse/reports/sa_metro_house_coverage_uplift.{json,md}`;
+runner: `warehouse/scripts/coverage/sa_metro_house_price_uplift.mjs`; adapter:
+`warehouse/adapters/sa_metro_house_sales/{parse,normalize}.mjs`.
+
+- **Source:** SA Metropolitan Median House Sales, Q2 2026 (Government of South
+  Australia, Valuer-General / Office of Land Value), CC BY 4.0, verified reusable.
+  SHA-256 `9cfa8aa7…`, retrieved 2026-08-23, period 2026-06-30.
+- **Pipeline:** discover → single conservative public GET (host allow-list
+  `data.sa.gov.au`) → strict parse (fail-closed) → strict ASGS 2021 SAL mapping
+  against the committed `warehouse/metadata/sa_all_sals.json` spine → dedupe/
+  conflict reconciliation → offline quality gates (admit) → coverage simulation.
+- **Result:** **170 unique ASGS 2021 SAL ids** carry a DIRECT
+  `median_sale_price_detached`, plus 170 DIRECT publisher-reported
+  `annual_price_growth_12m` (the source's own "Median Change" column). 293 rows
+  quarantined with reasons (216 insufficient sample, 76 suppressed/non-positive,
+  1 zero-match `RIVERLEA PARK`), 0 ambiguous, 0 natural-key conflicts, 38
+  identical duplicates deduped. **Materiality target (≥100) met.**
+- **Evidence label:** `verified_local`. This is a **candidate footprint**
+  (170 of 1,696 SA SALs); overlap with published production is unknown because no
+  remote database was read, so **net-new production coverage is not claimed** and
+  the published baseline above is unchanged. Idempotent (byte-identical rerun).
+
 ## Guardrails retained
 
 No remote database read/write, migration, Supabase branch, Vercel/environment

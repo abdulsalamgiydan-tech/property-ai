@@ -20,3 +20,35 @@ export const DRIFTED_ROWS = [
   ["City", "Locality", "Sales", "Median", "Sales", "Median", "Change"],
   ["ADELAIDE", "ADELAIDE", 20, 1000000, 22, 1100000, 0.1],
 ];
+
+/**
+ * Committed-style SA SAL spine slice (ASGS 2021 codes, state_code "4") for
+ * offline geography-mapping tests. Mirrors warehouse/metadata/sa_all_sals.json
+ * ({ geography_code, geography_name }). "Newtown" appears twice with distinct
+ * codes to exercise the ambiguous-match quarantine; "Springfield" is absent to
+ * exercise zero-match.
+ */
+export const SPINE_FIXTURE = [
+  { geography_code: "40001", geography_name: "Belair" },
+  { geography_code: "40002", geography_name: "Stirling (SA)" },
+  { geography_code: "40003", geography_name: "Adelaide" },
+  { geography_code: "40004", geography_name: "Aldgate" },
+  { geography_code: "40005", geography_name: "Balhannah" },
+  { geography_code: "40006", geography_name: "Ashton" },
+  { geography_code: "40010", geography_name: "Newtown" },
+  { geography_code: "40011", geography_name: "Newtown" },
+];
+
+/**
+ * Two suburbs each appearing twice: BELAIR resolves to one SAL with an identical
+ * median + change (→ deduped), STIRLING resolves to one SAL with conflicting
+ * medians (→ both quarantined as conflicting_value_same_natural_key). Exercises
+ * deterministic dedupe/conflict reconciliation.
+ */
+export const DEDUP_CONFLICT_ROWS = [
+  ["City", "Suburb", "Sales 2Q 2025", "Median 2Q 2025", "Sales 2Q 2026", "Median 2Q 2026", "Median Change"],
+  ["ADELAIDE HILLS", "BELAIR", 17, 1207007, 16, 1455000, 0.2054],
+  ["CITY OF MITCHAM", "BELAIR", 14, 1300000, 15, 1455000, 0.2054], // same SAL, identical median+change → dedupe
+  ["ADELAIDE HILLS", "STIRLING", 25, 1400000, 22, 1520000, 0.0857],
+  ["ONKAPARINGA", "STIRLING", 20, 1450000, 18, 1600000, 0.10], // same SAL, conflicting median → both quarantined
+];

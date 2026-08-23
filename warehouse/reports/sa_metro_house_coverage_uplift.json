@@ -1,0 +1,262 @@
+{
+  "milestone": "OFFICIAL_COVERAGE_UPLIFT_1",
+  "generated_at": "2026-08-23T00:00:00Z",
+  "as_of": "2026-08-23",
+  "production_coverage_changed": false,
+  "source": {
+    "source_id": "sa_metro_median_house_sales",
+    "name": "Metropolitan Median House Sales Q2 2026",
+    "publisher": "Government of South Australia (Valuer-General / Office of Land Value)",
+    "jurisdiction": "SA",
+    "landing_url": "https://data.sa.gov.au/data/dataset/metro-median-house-sales",
+    "resource_url": "https://data.sa.gov.au/data/dataset/0d447195-1158-4a3c-8cc7-0e333b87eb72/resource/8428aa95-c9fd-4c56-946c-6aa316ba7bf7/download/lsg_stats_2026_2q.xlsx",
+    "licence": "Creative Commons Attribution | cc-by",
+    "licence_url": "http://creativecommons.org/licenses/by/4.0",
+    "attribution": "© Government of South Australia (CC BY 4.0)",
+    "commercial_reuse": true,
+    "derivative_permitted": true
+  },
+  "acquisition": {
+    "retrieved_at_utc": "2026-08-23T00:00:00Z",
+    "final_url": "https://data.sa.gov.au/data/dataset/0d447195-1158-4a3c-8cc7-0e333b87eb72/resource/8428aa95-c9fd-4c56-946c-6aa316ba7bf7/download/lsg_stats_2026_2q.xlsx",
+    "final_host": "data.sa.gov.au",
+    "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "bytes": 37459,
+    "sha256": "9cfa8aa71d2c453c09ca1d3baecc1955144863cfb5c4caef01c12266e639ef7a",
+    "etag": "\"1784275937.362-37459-1231428003\"",
+    "last_modified": "Fri, 17 Jul 2026 08:12:17 GMT",
+    "schema_fingerprint": "6297926bf4b8f7e97eb0cc7d9cbc88830b5659d3cb535135d21280e1305d547b"
+  },
+  "schema": {
+    "header": [
+      "City",
+      "Suburb",
+      "Sales 2Q 2025",
+      "Median 2Q 2025",
+      "Sales 2Q 2026",
+      "Median 2Q 2026",
+      "Median Change"
+    ],
+    "current_period_end": "2026-06-30",
+    "prior_period_end": "2025-06-30"
+  },
+  "geography": {
+    "level": "SAL",
+    "asgs_version": "ASGS 2021 (Suburbs and Localities)",
+    "state": "SA",
+    "state_code": "4",
+    "spine_artifact": "warehouse/metadata/sa_all_sals.json",
+    "spine_size": 1696
+  },
+  "metric_family": "sale_price",
+  "counts": {
+    "source_rows_scanned": 482,
+    "parsed_records": 190,
+    "accepted_observations": 340,
+    "accepted_by_metric": {
+      "median_sale_price_detached": 170,
+      "annual_price_growth_12m": 170
+    },
+    "unique_mapped_asgs_ids": 170,
+    "unique_source_geography_labels": 170,
+    "unmatched": 1,
+    "ambiguous": 0,
+    "deduped_identical": 38,
+    "natural_key_conflicts": 0,
+    "quarantined_total": 293,
+    "quarantine_by_reason": [
+      {
+        "reason": "parse:insufficient_sample",
+        "count": 216
+      },
+      {
+        "reason": "parse:non_positive_or_suppressed_median",
+        "count": 76
+      },
+      {
+        "reason": "geography:geography_unmatched",
+        "count": 1
+      }
+    ]
+  },
+  "classification": {
+    "direct": 340,
+    "derived": 0,
+    "contextual": 0,
+    "unavailable_note": "gross_yield is NOT emitted for these suburbs — this source carries no rent, so a yield would require a second source and is honestly left unavailable (never zero)."
+  },
+  "freshness": {
+    "fresh": 340,
+    "stale": 0,
+    "unknown": 0
+  },
+  "materiality": {
+    "target_unique_mapped_geographies": 100,
+    "unique_mapped_asgs_ids": 170,
+    "met": true,
+    "basis": "unique ASGS 2021 SAL ids carrying a DIRECT median_sale_price_detached observation"
+  },
+  "candidate_footprint": {
+    "unique_mapped_asgs_ids": 170,
+    "of_state_sal_universe": 1696,
+    "production_overlap": "unknown",
+    "net_new_provable": false,
+    "note": "This is a CANDIDATE footprint measured offline against the committed SA SAL spine. Overlap with already-published production coverage is unknown here because no remote warehouse/database was read (prohibited). Net-new production uplift cannot be claimed without a separately approved database validation run; production coverage remains unchanged."
+  },
+  "coverage_simulation": {
+    "total_geographies": 15334,
+    "metrics": [
+      {
+        "metric": "annual_price_growth_12m",
+        "total_geographies": 15334,
+        "current_published": 735,
+        "after_published": 735,
+        "verified_local_candidate": 170,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 14599,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "gross_yield",
+        "total_geographies": 15334,
+        "current_published": 453,
+        "after_published": 453,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 14881,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "median_rent",
+        "total_geographies": 15334,
+        "current_published": 3089,
+        "after_published": 3089,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 12245,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "median_sale_price",
+        "total_geographies": 15334,
+        "current_published": 4821,
+        "after_published": 4821,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 10513,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "median_sale_price_detached",
+        "total_geographies": 15334,
+        "current_published": 0,
+        "after_published": 0,
+        "verified_local_candidate": 170,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 15334,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "price_growth_12m",
+        "total_geographies": 15334,
+        "current_published": 735,
+        "after_published": 735,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 14599,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      }
+    ],
+    "derived_unlocks": {
+      "verified_local_yield": 0,
+      "verified_local_growth_12m": 0,
+      "note": "Counts use candidate rows only; published/candidate intersections require explicit geography-ID sets."
+    },
+    "production_coverage_changed": false
+  },
+  "quality_gates": {
+    "admit": true,
+    "accepted_rows": 340,
+    "quarantined_rows": 293,
+    "gates": [
+      {
+        "id": "file_integrity",
+        "passed": true,
+        "severity": "blocking",
+        "details": "size/MIME/completeness accepted"
+      },
+      {
+        "id": "source_and_licence",
+        "passed": true,
+        "severity": "blocking",
+        "details": "source/licence match"
+      },
+      {
+        "id": "schema_fingerprint",
+        "passed": true,
+        "severity": "blocking",
+        "details": "schema fingerprint accepted"
+      },
+      {
+        "id": "observation_contract",
+        "passed": true,
+        "severity": "blocking",
+        "details": "0 invalid observation(s)"
+      },
+      {
+        "id": "natural_key_uniqueness",
+        "passed": true,
+        "severity": "blocking",
+        "details": "unique natural keys"
+      },
+      {
+        "id": "coverage_collapse",
+        "passed": true,
+        "severity": "blocking",
+        "details": "no previous candidate baseline"
+      },
+      {
+        "id": "minimum_sample_size",
+        "passed": true,
+        "severity": "blocking",
+        "details": "0 row(s) below required sample 10"
+      },
+      {
+        "id": "distribution_shift",
+        "passed": true,
+        "severity": "blocking",
+        "details": "annual_price_growth_12m:1.000, median_sale_price_detached:1.000 (maximum 4)"
+      },
+      {
+        "id": "idempotent_rerun",
+        "passed": true,
+        "severity": "blocking",
+        "details": "stable natural-key set"
+      },
+      {
+        "id": "quarantine_accounting",
+        "passed": true,
+        "severity": "informational",
+        "details": "293 source row(s) quarantined with reasons"
+      }
+    ],
+    "failures": []
+  },
+  "idempotency": {
+    "accepted_natural_key_count": 340,
+    "deterministic_given_bytes": true,
+    "note": "Given identical source bytes (sha256 above), parse+normalise+reconcile are pure and produce byte-identical accepted keys and totals on every rerun."
+  }
+}

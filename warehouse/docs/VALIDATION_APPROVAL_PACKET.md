@@ -109,3 +109,31 @@ remote rows exist. For a future approved branch-only load, rollback must delete
 only rows identified by `source_id` plus `file_checksum`, re-run before/after
 counts, then delete the disposable validation branch after explicit approval.
 Production rollback is neither needed nor authorised by this packet.
+
+## Addendum — Official Coverage Uplift 1: SA metropolitan house price (verified_local)
+
+A first genuine official price source has been proven end-to-end offline.
+Evidence: `warehouse/reports/sa_metro_house_coverage_uplift.{json,md}`.
+
+- **Candidate batch:** `sa_metro_median_house_sales`, Metropolitan Median House
+  Sales Q2 2026 (Government of South Australia, CC BY 4.0). Resource SHA-256
+  `9cfa8aa71d2c453c09ca1d3baecc1955144863cfb5c4caef01c12266e639ef7a`, schema
+  fingerprint `6297926b…`, period 2026-06-30, retrieved 2026-08-23 (UTC).
+- **Accepted:** 340 DIRECT observations — 170 `median_sale_price_detached` (AUD)
+  and 170 `annual_price_growth_12m` (%, the publisher's own "Median Change") —
+  across **170 unique ASGS 2021 SAL ids** (materiality ≥100 met). All rows pass
+  the strict contract, natural-key, schema-drift, distribution, minimum-sample,
+  coverage-collapse and idempotency gates (`admit = true`).
+- **Quarantine:** 293 rows with explicit reasons (216 insufficient sample, 76
+  suppressed/non-positive median, 1 zero-match `RIVERLEA PARK`); 0 ambiguous, 0
+  conflicts, 38 identical duplicates deduped. No fabricated or zero-filled values.
+- **Preconditions carried forward unchanged.** This packet still proposes **no**
+  remote write. Turning the 170-SAL candidate footprint into published coverage
+  requires a separately approved disposable-branch validation run supplying exact
+  target table, upsert keys (`source_id` + natural key), row cap and before/after
+  SQL. Overlap with published production is unknown (no database was read); **no
+  net-new production coverage is claimed** and Production remains unchanged.
+- **Stop conditions** in the list above apply verbatim to this batch; the run
+  fails closed on schema drift, licence change, HTML-as-data, checksum/fingerprint
+  drift, zero-match/ambiguous geography, suppression/non-positive value, duplicate
+  natural key or non-idempotent rerun.
