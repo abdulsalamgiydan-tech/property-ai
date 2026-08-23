@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { dryRun } from "./validate_sa_house_price_branch.mjs";
+import { dryRun, executionIntent } from "./validate_sa_house_price_branch.mjs";
 
 const savedExit = process.exitCode;
 afterEach(() => { process.exitCode = savedExit; vi.restoreAllMocks(); });
@@ -16,10 +16,18 @@ describe("SA house-price validation harness — dry run", () => {
     expect(names).toEqual(expect.arrayContaining([
       "checksum_matches_report",
       "schema_fingerprint_matches_report",
-      "within_row_cap",
+      "exact_row_count",
       "classification_split_direct_derived",
       "target_schema_supports_batch",
     ]));
     log.mockRestore();
+  });
+
+  it("requires rollback-only execution and rejects retain/cleanup/commit modes", () => {
+    expect(executionIntent(["--execute", "--branch-ref", "branchref"]).rollbackValidation).toBe(false);
+    expect(executionIntent(["--execute", "--rollback-validation", "--branch-ref", "branchref"]))
+      .toMatchObject({ execute: true, rollbackValidation: true, branchRef: "branchref", forbidden: [] });
+    expect(executionIntent(["--execute", "--rollback-validation", "--retain", "--cleanup"]).forbidden)
+      .toEqual(["--retain", "--cleanup"]);
   });
 });

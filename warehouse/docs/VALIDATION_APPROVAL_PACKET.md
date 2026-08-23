@@ -1,4 +1,4 @@
-# Validation Approval Packet — SA metropolitan house-price batch (Official Coverage Uplift 1.1)
+# Validation Approval Packet — SA metropolitan house-price batch (Official Coverage Uplift 1.2)
 
 **Status: PREPARED — NOT APPROVED, NOT EXECUTED.** This packet describes a
 disposable-branch-only validation load. Nothing here runs until a human approves
@@ -36,8 +36,12 @@ values before any write and **fail closed** on any difference.
 
 ## 3. Exact target table & column mapping
 
-Target: additive official-metrics objects (migrations `056`/`057`/`058`, additive,
-already authored + PGlite-rehearsed). No existing object altered/dropped.
+Target: official-metrics objects from migrations `056`/`057`/`058`. The rollback
+validation harness **never applies migrations**. It requires all three versions in
+`supabase_migrations.schema_migrations` and independently verifies the core table,
+mart table, direct-only view, consumer RPC and migration-058 signed-growth
+constraint before the first candidate insert. Missing ledger or physical structure
+fails closed.
 
 `core.official_observation` (internal; no anon/authenticated grant) columns:
 `observation_id, source_id, resource_sha256, geography_id, geography_level,
@@ -66,18 +70,25 @@ Projected to `mart.official_suburb_metric` for direct/derived rows; exposed via
 
 - `core.official_observation`: PK `observation_id` = deterministic content address of
   `source_id | geography_id | metric | property_type | bedroom_group | period_end |
-  resource_sha256`. Insert is `on conflict (observation_id) do nothing` — an existing
-  id with a **different** value is never overwritten (fail closed).
+  resource_sha256`. Before insertion, every existing id is compared across all
+  value, period, geography, classification, lineage, licence, attribution and
+  freshness fields. Any difference fails closed; exact matches are retained.
 - `mart.official_suburb_metric`: PK / upsert key
   `(geography_id, metric, property_type, bedroom_group, period_end)`,
-  `on conflict … do nothing`.
+  Every existing natural key is likewise compared field-for-field before insertion;
+  any differing value/provenance fails closed. `on conflict … do nothing` is used
+  only after that exact-content preflight.
 
 ## 5. Maximum inserted / updated row count
 
-- Core: **≤ 340** rows (170 `median_house_price` + 170 `price_growth_12m`).
-- Mart: **≤ 340** rows (same natural keys; distinct metric per row).
-- The loader enforces `rows.length ≤ ROW_CAP (340)` and refuses if exceeded.
-- Idempotent re-run inserts/updates **0** additional rows.
+- Core candidate: **exactly 340** rows (170 `median_house_price` + 170
+  `price_growth_12m`).
+- Mart candidate: **exactly 340** distinct natural keys.
+- The harness refuses a partial batch, an oversized batch, duplicate observation
+  ids or duplicate mart keys.
+- Exact simulated deltas are calculated from new vs exact-pre-existing rows and
+  asserted after load. An identical second load must produce delta **0**.
+- All simulated new rows are rolled back; retained delta is always **0**.
 
 ## 6. Environment guards (branch only)
 
@@ -93,84 +104,79 @@ Projected to `mart.official_suburb_metric` for direct/derived rows; exposed via
 
 - **Dry-run is the default** (no DB connection): verifies checksum/fingerprint/row-cap,
   prints the sanitised plan, and stops.
-- Execution requires the explicit flag `--execute` **and** a valid non-Production
-  branch ref. All writes happen inside **one** `BEGIN … COMMIT`; any post-load gate
-  failure triggers `ROLLBACK` (branch unchanged).
+- Execution requires both `--execute --rollback-validation` **and** a valid,
+  exact non-Production branch ref. `--commit`, `--retain` and `--cleanup` are
+  explicitly rejected.
+- Migration-ledger and physical-structure checks, conflict preflight, candidate
+  inserts, exact delta assertions, scoped validations, RPC/view verification and
+  identical replay all occur inside **one transaction**.
+- The sole terminal transaction action is intentional **`ROLLBACK`**, including on
+  success. There is no `COMMIT` path. A second, fresh database connection then
+  proves the exact pre-run candidate snapshot was restored.
 
-## 8. Before / after read-only SQL
-
-```sql
--- BEFORE (read-only)
-select count(*) from core.official_observation where source_id = 'sa_metro_median_house_sales';
-select metric, count(*) from mart.official_suburb_metric
-  where source_id = 'sa_metro_median_house_sales' group by 1 order by 1;
--- AFTER (read-only) — expect core delta ≤ 340, mart delta ≤ 340
+```bash
+node warehouse/scripts/promotion/validate_sa_house_price_branch.mjs \
+  --execute --rollback-validation --branch-ref <approved-disposable-ref>
 ```
+
+## 8. Before / after scope
+
+- Core before/after snapshots are keyed by the exact 340 content-addressed
+  `observation_id` values.
+- Mart snapshots are keyed by the exact 340 natural keys.
+- Existing exact rows are preserved. Unrelated rows—even from the same source or
+  checksum—are outside the run and cannot affect validation counts.
+- First-load deltas must equal the preflight-calculated new-row counts; second-load
+  deltas must equal zero; post-rollback deltas must equal zero.
 
 ## 9. Duplicate / conflict checks
 
-- Pre-load: scan payload ids already stored with a **different** value → abort if any.
-- Insert `on conflict do nothing` guarantees existing content is never overwritten.
-- Post-load conflict probe: re-insert one id with `value+1`; assert the stored value
-  is unchanged.
+- Pre-load: compare all core content/provenance fields and all mart value/provenance
+  fields. A mismatch on either key aborts before inserts.
+- Insert `on conflict do nothing` is therefore idempotency protection, not a
+  substitute for conflict detection.
+- After load: all 340 core rows and all 340 mart keys must exist and exactly match
+  the candidate. The identical replay must change nothing.
 
-## 10. Validation queries (each must return 0 violations)
+## 10. Candidate-scoped validation gates
 
-```sql
--- value / metric-aware bounds
-select count(*) from mart.official_suburb_metric where metric <> 'price_growth_12m' and value <= 0;
-select count(*) from mart.official_suburb_metric where metric = 'price_growth_12m' and (value < -100 or value > 1000);
--- period
-select count(*) from core.official_observation where source_id='sa_metro_median_house_sales' and period_end <> date '2026-06-30';
--- property type
-select count(*) from core.official_observation where source_id='sa_metro_median_house_sales' and property_type <> 'house';
--- source / provenance
-select count(*) from core.official_observation where source_id='sa_metro_median_house_sales' and (resource_sha256 <> '9cfa8aa7…' or retrieved_at is null or licence is null);
--- direct-only view never shows non-direct
-select count(*) from v_official_suburb_metric_v1 where status <> 'direct';
--- contextual never reaches the mart
-select count(*) from mart.official_suburb_metric where status = 'contextual';
--- row count
-select count(*) from core.official_observation where source_id='sa_metro_median_house_sales';  -- expect ≤ 340
-```
+All row-level validation queries are scoped to the exact candidate observation ids.
+They assert: non-growth values positive; growth within `[-100,1000]`; prices direct;
+growth derived with formula lineage; exact suburb/ASGS/house/all shape; complete
+licence/attribution/checksum/freshness provenance. Every candidate row is then
+verified through `get_official_suburb_metrics_v1`; derived growth must have
+`is_derived=true` and its formula label. The direct-only view must contain each
+direct price and exclude every derived growth row.
 
-## 11. Cleanup SQL (scoped ONLY by source id + file checksum / run id)
+## 11. No cleanup/delete path
 
-```sql
-delete from mart.official_suburb_metric
-  where source_id = 'sa_metro_median_house_sales'
-    and (geography_id, metric, property_type, bedroom_group, period_end) in (
-      select geography_id, metric, property_type, bedroom_group, period_end
-      from core.official_observation
-      where source_id = 'sa_metro_median_house_sales'
-        and resource_sha256 = '9cfa8aa71d2c453c09ca1d3baecc1955144863cfb5c4caef01c12266e639ef7a');
-delete from core.official_observation
-  where source_id = 'sa_metro_median_house_sales'
-    and resource_sha256 = '9cfa8aa71d2c453c09ca1d3baecc1955144863cfb5c4caef01c12266e639ef7a';
-```
-
-Cleanup never touches any other source, checksum, or geography. No existing object
-is dropped.
+Uplift 1.2 removes the earlier source+checksum cleanup mode. Such a delete could
+remove an exact row that existed before the run. Restoration is transaction rollback
+plus exact snapshot comparison only. No table, row or branch deletion is performed.
 
 ## 12. Rollback verification
 
-- In-transaction sentinel proof: insert a sentinel id inside a `BEGIN`, confirm it is
-  visible, `ROLLBACK`, confirm it is gone and the candidate row count is unchanged.
-- After a scoped cleanup, re-run the BEFORE queries and confirm the source's row
-  counts return to their pre-load values.
+- The complete real candidate—not merely a sentinel—is loaded and validated inside
+  the transaction, then intentionally rolled back.
+- A fresh connection re-reads all 340 core ids and 340 mart keys and compares them
+  with the exact before snapshot. New rows must be absent; pre-existing exact rows
+  must remain field-for-field equivalent across all compared database fields.
+- Injected failures after core insert, after mart insert, before validations and
+  after validations are PGlite-tested to leave zero new residue.
 
 ## 13. Branch lifetime / cost — HUMAN CONFIRM
 
 - Disposable-branch ref, region, size ceiling, expected growth, lifetime and cost are
-  **placeholders requiring explicit human confirmation** before execution. The loader
-  refuses to run without an explicit branch ref and the `--execute` flag.
+  **placeholders requiring explicit human confirmation** before execution. The harness
+  refuses to run without an explicit branch ref and both rollback-validation flags.
 
 ## 14. Execution status
 
-**Execution is NOT approved.** This run performed the offline dry-run path and unit
-tests only. Applying migrations `056/057/058` and loading rows to a disposable branch
-is a separate, human-approved step. Production and founding-beta configuration are
-untouched.
+**Execution is NOT approved.** This implementation and its PGlite tests touch no
+remote database. Provisioning a disposable branch with migrations `056/057/058`
+and authorising the rollback-only validation command are separate human-controlled
+steps. The harness itself will not apply those migrations and will not retain the
+candidate. Production and founding-beta configuration remain untouched.
 
 ## Stop conditions
 

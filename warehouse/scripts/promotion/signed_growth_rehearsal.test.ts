@@ -75,19 +75,20 @@ describe("signed price_growth_12m rehearsal (migration 058, PGlite)", () => {
     expect(await count(db, `select count(*)::int c from core.official_observation where metric='price_growth_12m'`)).toBe(3);
   });
 
-  it("consumer RPC exposes growth (direct) with source/period/freshness/status; view stays consistent", async () => {
+  it("consumer RPC exposes growth as DERIVED; the direct-only view excludes it", async () => {
     const db = await db056_057_058();
     await load(db, [...PAYLOAD, ...GROWTH_PAYLOAD]);
     const g = (await db.query<Record<string, unknown>>(`select * from public.get_official_suburb_metrics_v1('SAL_40085_ASGS3_2021') where metric='price_growth_12m'`)).rows[0];
     expect(Number(g.value)).toBe(-6.11);
-    expect(g.status).toBe("direct");
-    expect(g.is_derived).toBe(false);
+    expect(g.status).toBe("derived");
+    expect(g.is_derived).toBe(true);
+    expect(g.derived_from).toBe("publisher_median_change@1");
     expect(g.unit).toBe("%");
     expect(g.period_end).toBeTruthy();
     expect(g.retrieved_at).toBeTruthy();
     expect(g.source_id).toBe("sa_metro_median_house_sales");
-    // growth is a DIRECT metric -> also visible in the direct-only public view
-    expect(await count(db, `select count(*)::int c from public.v_official_suburb_metric_v1 where metric='price_growth_12m' and status='direct'`)).toBe(3);
+    // Derived growth is intentionally absent from the direct-only public view.
+    expect(await count(db, `select count(*)::int c from public.v_official_suburb_metric_v1 where metric='price_growth_12m'`)).toBe(0);
     // no internal ids leaked in the RPC projection
     for (const k of ["observation_id", "resource_sha256", "price_observation_id"]) expect(k in g).toBe(false);
   });
@@ -103,7 +104,7 @@ describe("signed price_growth_12m rehearsal (migration 058, PGlite)", () => {
     expect(Number((await db.query<{ value: number }>(`select value from core.official_observation where observation_id='obs_growth_neg'`)).rows[0].value)).toBe(-6.11);
     // rollback
     await db.exec("begin");
-    await db.query(INSERT_OBSERVATION, observationValues({ id: "obs_growth_sentinel", src: "s", sha: "s", geo: "SAL_40001_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: -3, unit: "%", n: 10, ps: "2025-06-30", pe: "2026-06-30", status: "direct" } as Row));
+    await db.query(INSERT_OBSERVATION, observationValues({ id: "obs_growth_sentinel", src: "s", sha: "s", geo: "SAL_40001_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: -3, unit: "%", n: 10, ps: "2025-06-30", pe: "2026-06-30", status: "derived", formula: "publisher_median_change@1" } as Row));
     await db.exec("rollback");
     expect(await count(db, `select count(*)::int c from core.official_observation where observation_id='obs_growth_sentinel'`)).toBe(0);
   });
