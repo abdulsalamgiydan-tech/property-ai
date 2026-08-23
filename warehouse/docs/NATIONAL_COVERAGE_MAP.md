@@ -128,16 +128,29 @@ runner: `warehouse/scripts/coverage/sa_metro_house_price_uplift.mjs`; adapter:
   `data.sa.gov.au`) → strict parse (fail-closed) → strict ASGS 2021 SAL mapping
   against the committed `warehouse/metadata/sa_all_sals.json` spine → dedupe/
   conflict reconciliation → offline quality gates (admit) → coverage simulation.
-- **Result:** **170 unique ASGS 2021 SAL ids** carry a DIRECT
-  `median_sale_price_detached`, plus 170 DIRECT publisher-reported
-  `annual_price_growth_12m` (the source's own "Median Change" column). 293 rows
-  quarantined with reasons (216 insufficient sample, 76 suppressed/non-positive,
-  1 zero-match `RIVERLEA PARK`), 0 ambiguous, 0 natural-key conflicts, 38
-  identical duplicates deduped. **Materiality target (≥100) met.**
+- **Result:** **170 unique ASGS 2021 SAL ids** carry a **DIRECT**
+  `median_sale_price_detached`, plus **170 DERIVED** `annual_price_growth_12m`
+  (a 12-month change; the publisher's own "Median Change" value + lineage are
+  preserved, but a change is derived, not a primary median read). **340 accepted =
+  170 direct + 170 derived** (not all-direct). 293 rows quarantined with reasons
+  (216 insufficient sample, 76 suppressed/non-positive, 1 zero-match `RIVERLEA
+  PARK`), 0 ambiguous, 0 conflicts, 38 identical duplicates deduped. **Materiality
+  target (≥100) met.** Row accounting reconciles at three grains
+  (482 = 190 + 292 source split; 189 mapped; 340 obs across 170 SALs) with tested
+  invariants — no silent loss.
+- **Target/serving:** lands in `core.official_observation` → `mart.official_suburb_metric`
+  (upsert key `geography_id,metric,property_type,bedroom_group,period_end`; geography
+  id `SAL_<code>_ASGS3_2021`). Detached-house median → target metric
+  `median_house_price`/`house` (NOT `median_sale_price_12m`/overall); growth →
+  `price_growth_12m`/`house`/derived (signed, migration 058). Surfaces via the
+  official-metrics RPC `get_official_suburb_metrics_v1` (direct + derived); the main
+  `get_market_snapshot_v2` price card / `median_sale_price_detached` column / search /
+  map are a separate NSW-fact-derived path and **do not change**.
 - **Evidence label:** `verified_local`. This is a **candidate footprint**
   (170 of 1,696 SA SALs); overlap with published production is unknown because no
   remote database was read, so **net-new production coverage is not claimed** and
-  the published baseline above is unchanged. Idempotent (byte-identical rerun).
+  the published baseline above is unchanged. Real acquisition timestamp preserved;
+  data-deterministic rerun.
 
 ## Guardrails retained
 

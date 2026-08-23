@@ -1,0 +1,24 @@
+{
+  "milestone": "OFFICIAL_COVERAGE_UPLIFT_1.1",
+  "source_id": "sa_metro_median_house_sales",
+  "resource_sha256": "9cfa8aa71d2c453c09ca1d3baecc1955144863cfb5c4caef01c12266e639ef7a",
+  "schema_fingerprint": "6297926bf4b8f7e97eb0cc7d9cbc88830b5659d3cb535135d21280e1305d547b",
+  "reporting_period_end": "2026-06-30",
+  "acquired_at_utc": "2026-08-23T05:21:59.978Z",
+  "target_table": "core.official_observation -> mart.official_suburb_metric",
+  "upsert_key_mart": "(geography_id, metric, property_type, bedroom_group, period_end)",
+  "row_cap": 340,
+  "core_rows": 340,
+  "mart_rows": 340,
+  "by_metric": {
+    "price_growth_12m": 170,
+    "median_house_price": 170
+  },
+  "by_status": {
+    "derived": 170,
+    "direct": 170
+  },
+  "payload_sha256": "d78a5e10cb2bed81ef3d2d27192ece1ee095f79f394e1bacb94f93e5114d26ec",
+  "payload_path_gitignored": "warehouse/data/local/coverage_uplift/sa_house_price_payload.json",
+  "note": "Manifest only (safe): checksums + aggregate counts. The per-row payload is gitignored (aggregate CC-BY suburb medians; kept out of git per the raw-data policy)."
+}

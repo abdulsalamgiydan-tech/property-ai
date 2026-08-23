@@ -48,8 +48,18 @@ describe("SA metro house-sales — canonical observations", () => {
       value: 1455000, unit: "AUD", classification: "direct", reportingPeriod: "2026-06-30", freshness: "fresh", confidence: "medium",
     });
     const growth = out.observations[1];
-    // 0.20546111… ratio → percent, rounded to 4dp; DIRECT (publisher-reported)
-    expect(growth).toMatchObject({ metric: "annual_price_growth_12m", unit: "%", classification: "direct", value: 20.5461 });
+    // 0.20546111… ratio → percent, rounded to 4dp; DERIVED (12-month change,
+    // publisher "Median Change" value + lineage preserved)
+    expect(growth).toMatchObject({ metric: "annual_price_growth_12m", unit: "%", classification: "derived", value: 20.5461 });
+  });
+
+  it("classifies the price DIRECT and the growth DERIVED (never all-direct)", () => {
+    const out = toCanonicalObservations(belairRecord(), resolve, { acquiredAt: OPTS.retrievedAt });
+    expect(out.ok).toBe(true);
+    if (!out.ok) return;
+    const byMetric = Object.fromEntries(out.observations.map((o) => [o.metric, o.classification]));
+    expect(byMetric.median_sale_price_detached).toBe("direct");
+    expect(byMetric.annual_price_growth_12m).toBe("derived");
   });
 
   it("rejects an invalid source-file checksum", () => {

@@ -11,7 +11,8 @@ const BASELINE = {
 };
 
 const ACQ = {
-  retrieved_at_utc: "2026-08-23T00:00:00Z",
+  acquired_at_utc: "2026-08-23T04:15:09.123Z",
+  acquired_at_source: "fresh_get",
   final_url: "https://data.sa.gov.au/.../lsg_stats_2026_2q.xlsx",
   final_host: "data.sa.gov.au",
   mime: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -20,7 +21,7 @@ const ACQ = {
   etag: '"1784275937"',
   last_modified: "Fri, 17 Jul 2026 08:12:17 GMT",
   schema_fingerprint: schemaFingerprint(REAL_ROWS[0]),
-  generated_at: "2026-08-23T00:00:00Z",
+  generated_at: "2026-08-23T04:15:10.000Z",
 };
 
 const SOURCE = {
@@ -62,10 +63,48 @@ describe("SA uplift runner — assembleCoverage (pure, offline)", () => {
     expect(evidence.counts.quarantine_by_reason.reduce((n, r) => n + r.count, 0)).toBe(evidence.counts.quarantined_total);
   });
 
-  it("classifies everything DIRECT and never fabricates yield", () => {
-    expect(evidence.classification.direct).toBe(evidence.counts.accepted_observations);
-    expect(evidence.classification.derived).toBe(0);
+  it("classifies price DIRECT and growth DERIVED (never all-direct), and never fabricates yield", () => {
+    expect(evidence.classification.direct).toBe(2); // 2 price rows
+    expect(evidence.classification.derived).toBe(2); // 2 growth rows
+    expect(evidence.classification.direct + evidence.classification.derived).toBe(evidence.counts.accepted_observations);
     expect(evidence.classification.unavailable_note).toMatch(/yield/i);
+  });
+
+  it("holds every reconciliation accounting invariant", () => {
+    const a = evidence.accounting;
+    expect(Object.values(a.invariants).every(Boolean)).toBe(true);
+    // fixture: 6 data rows, 2 parser-accepted, 4 parser-quarantined, 0 geo-rejected
+    expect(a.source_data_rows_scanned).toBe(a.parser_accepted_source_rows + a.parser_quarantined_source_rows);
+    expect(a.mapped_source_rows).toBe(a.parser_accepted_source_rows - a.geography_quarantined_source_rows);
+    expect(a.unique_canonical_geographies + a.duplicate_source_rows).toBe(a.mapped_source_rows);
+    expect(a.emitted_observations_before_dedup).toBe(a.accepted_observations_after_dedup + a.deduplicated_observations + a.conflict_events);
+    expect(a.source_data_rows_scanned).toBe(
+      a.parser_quarantined_source_rows + a.geography_quarantined_source_rows + a.unique_canonical_geographies + a.duplicate_source_rows,
+    );
+  });
+
+  it("documents an exact, compatible target table and non-conflating transforms", () => {
+    const tc = evidence.target_compatibility;
+    expect(tc.schema_supports_batch).toBe(true);
+    expect(tc.target_table).toMatch(/core\.official_observation/);
+    expect(tc.upsert_keys.mart).toBe("(geography_id, metric, property_type, bedroom_group, period_end)");
+    const price = tc.metric_transforms.find((t: { candidate_metric: string }) => t.candidate_metric === "median_sale_price_detached");
+    expect(price.target_metric).toBe("median_house_price");
+    expect(price.property_type).toBe("house");
+    // must NOT claim it feeds the overall 12m price or the main snapshot column
+    expect(JSON.stringify(tc)).not.toMatch(/median_sale_price_12m['"]?\s*:/);
+    expect(tc.serving.main_price_card_unchanged).toMatch(/do not change/i);
+    const growth = tc.metric_transforms.find((t: { candidate_metric: string }) => t.candidate_metric === "annual_price_growth_12m");
+    expect(growth.target_metric).toBe("price_growth_12m");
+    expect(growth.status).toBe("derived");
+  });
+
+  it("preserves the real acquisition timestamp separately from as_of and generated_at", () => {
+    expect(evidence.acquired_at_utc).toBe("2026-08-23T04:15:09.123Z");
+    expect(evidence.as_of).toBe("2026-08-23");
+    expect(evidence.reporting_period_end).toBe("2026-06-30");
+    expect(evidence.acquired_at_utc).not.toBe(`${evidence.as_of}T00:00:00Z`);
+    expect(evidence.acquisition.acquired_at_utc).toBe("2026-08-23T04:15:09.123Z");
   });
 
   it("labels the SAL geography level and the trusted spine artifact", () => {

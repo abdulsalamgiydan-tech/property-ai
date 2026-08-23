@@ -8,13 +8,16 @@
  * set). Zero matches → quarantined (geography_unmatched); a duplicate suburb
  * name within the state → quarantined (ambiguous_geography). No guessing, ever.
  *
- * Each accepted suburb yields DIRECT, publisher-reported facts:
- *   - median_sale_price_detached (AUD)  — the published quarterly HOUSE median.
- *   - annual_price_growth_12m (%)       — the publisher's own "Median Change"
- *     column (this quarter vs the same quarter one year earlier). This is a
- *     DIRECT source figure, not something we derive; it is emitted as a percent
- *     to match the warehouse convention and is OMITTED (never zero-filled) when
- *     the source leaves it blank/suppressed.
+ * Each accepted suburb yields:
+ *   - median_sale_price_detached (AUD) — DIRECT: the published quarterly HOUSE
+ *     median (a primary source read).
+ *   - annual_price_growth_12m (%)      — DERIVED: a 12-month CHANGE, not a
+ *     primary median read. The value is the publisher's own "Median Change"
+ *     column (this quarter vs the same quarter one year earlier), so its source
+ *     and lineage are preserved, but a 12-month growth is a derived quantity and
+ *     is classified `derived` accordingly. Emitted as a percent to match the
+ *     warehouse convention and OMITTED (never zero-filled) when the source
+ *     leaves it blank/suppressed.
  *
  * This module is pure + deterministic: no network, no filesystem, no database.
  */
@@ -114,16 +117,19 @@ export function toCanonicalObservations(record, resolve, { acquiredAt } = {}) {
     method: "official published quarterly metropolitan median house sale price (data.sa.gov.au, CC BY 4.0)",
   }];
 
-  // DIRECT publisher-reported 12-month change ("Median Change"). Blank/suppressed
-  // changes are OMITTED — never coerced to 0 (0% would be a fabricated no-change).
+  // DERIVED 12-month change. The value is the publisher's own "Median Change"
+  // column (source + lineage preserved), but a 12-month growth is a derived
+  // quantity, not a primary median read, so it is classified `derived`.
+  // Blank/suppressed changes are OMITTED — never coerced to 0 (0% would be a
+  // fabricated no-change).
   if (record.median_change != null && Number.isFinite(record.median_change)) {
     observations.push({
       ...common,
       metric: "annual_price_growth_12m",
       value: Number((record.median_change * 100).toFixed(4)),
       unit: "%",
-      classification: "direct",
-      method: "publisher-reported 'Median Change' column (this quarter vs the same quarter one year earlier)",
+      classification: "derived",
+      method: "12-month change derived from the publisher-reported 'Median Change' column (this quarter vs the same quarter one year earlier); source figure and lineage preserved, classified derived as a change (not a primary median read)",
     });
   }
 
