@@ -1,0 +1,1464 @@
+{
+  "as_of": "2026-08-23",
+  "scope": "Offline national property-price/rent coverage engine; production coverage remains unchanged",
+  "evidence_labels": [
+    "published",
+    "verified_local",
+    "estimated",
+    "unavailable"
+  ],
+  "baseline": {
+    "report": "warehouse/reports/suburb_metric_coverage.json",
+    "total_suburb_snapshots": 15334,
+    "median_sale_price_overall": 4821,
+    "median_weekly_rent": 3089,
+    "gross_yield": 453,
+    "annual_price_growth_12m": 735
+  },
+  "sources": [
+    {
+      "source_id": "abs_asgs_census_context",
+      "jurisdiction": "NATIONAL",
+      "metric_family": "context",
+      "official_publisher": "Australian Bureau of Statistics",
+      "disposition": "existing_context_pipeline",
+      "evidence": "published",
+      "licence": {
+        "status": "verified_reusable",
+        "name": "Creative Commons Attribution 4.0"
+      },
+      "acquisition": {
+        "mode": "existing_pipeline",
+        "url": "https://www.abs.gov.au/census/find-census-data/datapacks",
+        "allowed_hosts": [
+          "abs.gov.au"
+        ],
+        "expected_kind": "zip"
+      },
+      "priority": {
+        "estimated_addressable_geographies": 0,
+        "reliability_weight": 1,
+        "accessibility_weight": 0.8,
+        "mapping_weight": 1,
+        "effort": 4
+      },
+      "blockers": [
+        "national context only; not a direct property sale-price or rent source",
+        "large DataPack reacquisition is outside this phase"
+      ],
+      "dataset_name": "ABS ASGS + 2021 Census SAL DataPacks / Regional Population",
+      "landing_url": "https://www.abs.gov.au/census/find-census-data/datapacks",
+      "resource_url": "https://www.abs.gov.au",
+      "geography_level": "SAL/SA2",
+      "property_types": [],
+      "metrics": [
+        "geography_spine",
+        "dwelling_stock",
+        "population"
+      ],
+      "history": "2021 Census / annual",
+      "cadence": "5-yearly / annual",
+      "format": "ZIP/CSV",
+      "access_method": "https_download",
+      "authentication": "source-specific; not exercised by Phase 2A",
+      "accessibility": {
+        "mode": "existing_pipeline",
+        "phase_2a_action": "existing_repository_pipeline",
+        "reusable_licence_verified": true,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "not_verified",
+        "expected_kind": "zip"
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "existing_context_pipeline",
+        "version": null,
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "published",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 15334,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 0,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "none",
+        "rent": "none",
+        "yield": "none",
+        "growth": "none",
+        "note": "Geography/demographic context supports mapping but is not market evidence."
+      },
+      "effort": 4,
+      "risk": {
+        "licence": "verified_reusable",
+        "blockers": [
+          "national context only; not a direct property sale-price or rent source",
+          "large DataPack reacquisition is outside this phase"
+        ]
+      }
+    },
+    {
+      "source_id": "nsw_vg_bulk_psi",
+      "jurisdiction": "NSW",
+      "metric_family": "sales",
+      "official_publisher": "NSW Valuer General",
+      "disposition": "existing_pipeline_reacquisition_required",
+      "evidence": "published",
+      "licence": {
+        "status": "review_required",
+        "name": "CC BY 4.0 per committed lineage; exact current terms must be reverified"
+      },
+      "acquisition": {
+        "mode": "existing_pipeline",
+        "url": "https://www.valuergeneral.nsw.gov.au/__psi/",
+        "expected_kind": "zip",
+        "allowed_hosts": [
+          "valuergeneral.nsw.gov.au"
+        ]
+      },
+      "priority": {
+        "estimated_addressable_geographies": 4542,
+        "reliability_weight": 0.9,
+        "accessibility_weight": 0.45,
+        "mapping_weight": 0.9,
+        "effort": 5
+      },
+      "blockers": [
+        "multi-GB history",
+        "current licence re-verification",
+        "official landing access-controlled in this environment"
+      ],
+      "dataset_name": "NSW Valuer General Bulk Property Sales Information",
+      "landing_url": "https://valuation.property.nsw.gov.au/embed/propertySalesInformation",
+      "resource_url": "https://www.valuergeneral.nsw.gov.au/__psi/",
+      "geography_level": "property→suburb",
+      "property_types": [
+        "house",
+        "unit",
+        "land"
+      ],
+      "metrics": [
+        "median_sale_price",
+        "sales_volume",
+        "price_growth_12m"
+      ],
+      "history": "1990→current (weekly)",
+      "cadence": "weekly",
+      "format": "ZIP/DAT",
+      "access_method": "bulk_zip",
+      "authentication": "source-specific; not exercised by Phase 2A",
+      "accessibility": {
+        "mode": "existing_pipeline",
+        "phase_2a_action": "existing_repository_pipeline",
+        "reusable_licence_verified": false,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "not_verified",
+        "expected_kind": "zip"
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "existing_pipeline_reacquisition_required",
+        "version": null,
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "published",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 4821,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 4542,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "potential_direct",
+        "rent": "none",
+        "yield": "conditional_on_comparable_rent",
+        "growth": "conditional_on_12_month_comparable_series"
+      },
+      "effort": 5,
+      "risk": {
+        "licence": "review_required",
+        "blockers": [
+          "multi-GB history",
+          "current licence re-verification",
+          "official landing access-controlled in this environment"
+        ]
+      }
+    },
+    {
+      "source_id": "nsw_dcj_rent_and_sales_report",
+      "jurisdiction": "NSW",
+      "metric_family": "rent",
+      "official_publisher": "NSW Department of Communities and Justice",
+      "disposition": "existing_pipeline_registry_reconciled",
+      "evidence": "published",
+      "licence": {
+        "status": "review_required",
+        "name": "Public NSW statistical report; exact commercial-reuse terms not captured in v3 registry"
+      },
+      "acquisition": {
+        "mode": "existing_pipeline",
+        "url": "https://dcj.nsw.gov.au/about-us/families-and-communities-statistics/housing-rent-and-sales/rent-and-sales-report.html",
+        "expected_kind": "xlsx",
+        "allowed_hosts": [
+          "dcj.nsw.gov.au"
+        ]
+      },
+      "priority": {
+        "estimated_addressable_geographies": 4542,
+        "reliability_weight": 0.9,
+        "accessibility_weight": 0.9,
+        "mapping_weight": 0.65,
+        "effort": 2
+      },
+      "blockers": [
+        "postcode/LGA grain rather than universal SAL-direct",
+        "missing quarters",
+        "exact licence URL review"
+      ],
+      "dataset_name": "NSW DCJ Rent and Sales Report — quarterly rent tables",
+      "landing_url": "https://dcj.nsw.gov.au/about-us/families-and-communities-statistics/housing-rent-and-sales/rent-and-sales-report.html",
+      "resource_url": null,
+      "geography_level": "postcode/LGA",
+      "property_types": [
+        "house",
+        "unit",
+        "townhouse",
+        "all"
+      ],
+      "metrics": [
+        "median_weekly_rent"
+      ],
+      "history": "2021-Q1→current where discoverable",
+      "cadence": "quarterly",
+      "format": "XLSX",
+      "access_method": "quarterly_https_xlsx",
+      "authentication": "source-specific; not exercised by Phase 2A",
+      "accessibility": {
+        "mode": "existing_pipeline",
+        "phase_2a_action": "existing_repository_pipeline",
+        "reusable_licence_verified": false,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "adapter_or_pipeline_registered",
+        "expected_kind": "xlsx"
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "existing_pipeline_registry_reconciled",
+        "version": "nsw_dcj_rent@existing",
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "published",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 3089,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 4542,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "none",
+        "rent": "potential_direct",
+        "yield": "conditional_on_comparable_price",
+        "growth": "none"
+      },
+      "effort": 2,
+      "risk": {
+        "licence": "review_required",
+        "blockers": [
+          "postcode/LGA grain rather than universal SAL-direct",
+          "missing quarters",
+          "exact licence URL review"
+        ]
+      }
+    },
+    {
+      "source_id": "vic_vg_property_sales",
+      "jurisdiction": "VIC",
+      "metric_family": "sales",
+      "official_publisher": "Valuer-General Victoria",
+      "disposition": "fixture_verified_manual_inbox",
+      "evidence": "verified_local",
+      "licence": {
+        "status": "review_required",
+        "name": "CC BY per official site; exact licence URL/commercial-use record incomplete"
+      },
+      "acquisition": {
+        "mode": "manual_inbox",
+        "url": null,
+        "expected_kind": "xlsx",
+        "filename_patterns": [
+          "vic.*property.*sales.*\\.xlsx$",
+          "property-sales-statistics.*\\.xlsx$"
+        ]
+      },
+      "priority": {
+        "estimated_addressable_geographies": 2944,
+        "reliability_weight": 0.9,
+        "accessibility_weight": 0.25,
+        "mapping_weight": 0.9,
+        "effort": 3
+      },
+      "blockers": [
+        "official portal returned 403 from prior environment",
+        "live XLSX header/checksum not acquired"
+      ],
+      "dataset_name": "Victorian Property Sales Statistics",
+      "landing_url": "https://www.land.vic.gov.au/valuations/resources-and-reports/property-sales-statistics",
+      "resource_url": null,
+      "geography_level": "suburb",
+      "property_types": [
+        "house",
+        "unit",
+        "land"
+      ],
+      "metrics": [
+        "median_sale_price",
+        "sales_volume",
+        "price_growth_12m"
+      ],
+      "history": "annual+quarterly",
+      "cadence": "quarterly",
+      "format": "XLSX",
+      "access_method": "https_download",
+      "authentication": "portal access may require a human browser; no automation or circumvention",
+      "accessibility": {
+        "mode": "manual_inbox",
+        "phase_2a_action": "human_download_then_local_inbox",
+        "reusable_licence_verified": false,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "not_verified",
+        "expected_kind": "xlsx"
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "fixture_verified_manual_inbox",
+        "version": null,
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "verified_local",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 4821,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 2944,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "potential_direct",
+        "rent": "none",
+        "yield": "conditional_on_comparable_rent",
+        "growth": "conditional_on_12_month_comparable_series"
+      },
+      "effort": 3,
+      "risk": {
+        "licence": "review_required",
+        "blockers": [
+          "official portal returned 403 from prior environment",
+          "live XLSX header/checksum not acquired"
+        ]
+      }
+    },
+    {
+      "source_id": "vic_dffh_moving_annual_rent",
+      "jurisdiction": "VIC",
+      "metric_family": "rent",
+      "official_publisher": "Victorian Department of Families, Fairness and Housing",
+      "disposition": "accepted_existing_pipeline",
+      "evidence": "published",
+      "licence": {
+        "status": "verified_reusable",
+        "name": "Creative Commons Attribution 4.0 International"
+      },
+      "acquisition": {
+        "mode": "live_public",
+        "url": "https://discover.data.vic.gov.au/api/3/action/package_show?id=rental-report-quarterly-moving-annual-rents-by-suburb",
+        "allowed_hosts": [
+          "discover.data.vic.gov.au"
+        ],
+        "expected_kind": "json",
+        "extension": "json",
+        "min_bytes": 100,
+        "max_bytes": 2000000,
+        "timeout_ms": 30000,
+        "retries": 3,
+        "backoff_ms": 500
+      },
+      "priority": {
+        "estimated_addressable_geographies": 2944,
+        "reliability_weight": 0.9,
+        "accessibility_weight": 0.9,
+        "mapping_weight": 0.75,
+        "effort": 2
+      },
+      "blockers": [
+        "combined localities must remain quarantined",
+        "current warehouse coverage is snapshot-thin"
+      ],
+      "dataset_name": "Moving Annual Median Rent by Suburb and Town",
+      "landing_url": "https://discover.data.vic.gov.au/dataset/rental-report-quarterly-moving-annual-rents-by-suburb",
+      "resource_url": "https://discover.data.vic.gov.au/api/3/action/package_show?id=rental-report-quarterly-moving-annual-rents-by-suburb",
+      "geography_level": "suburb",
+      "property_types": [
+        "house",
+        "unit"
+      ],
+      "metrics": [
+        "median_weekly_rent"
+      ],
+      "history": "Mar 2000→latest quarter",
+      "cadence": "quarterly",
+      "format": "XLSX",
+      "access_method": "ckan_api+documented_redirect",
+      "authentication": "none",
+      "accessibility": {
+        "mode": "live_public",
+        "phase_2a_action": "public_https_metadata_get",
+        "reusable_licence_verified": true,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "adapter_or_pipeline_registered",
+        "expected_kind": "json"
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "accepted_existing_pipeline",
+        "version": "vic_rental_report@1",
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "published",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 3089,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 2944,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "none",
+        "rent": "potential_direct",
+        "yield": "conditional_on_comparable_price",
+        "growth": "none"
+      },
+      "effort": 2,
+      "risk": {
+        "licence": "verified_reusable",
+        "blockers": [
+          "combined localities must remain quarantined",
+          "current warehouse coverage is snapshot-thin"
+        ]
+      }
+    },
+    {
+      "source_id": "qld_rta_median_rents",
+      "jurisdiction": "QLD",
+      "metric_family": "rent",
+      "official_publisher": "Queensland Residential Tenancies Authority",
+      "disposition": "existing_pipeline_catalogue_reacquisition_required",
+      "evidence": "published",
+      "licence": {
+        "status": "review_required",
+        "name": "Exact current package licence unresolved"
+      },
+      "acquisition": {
+        "mode": "discovery_only",
+        "url": "https://www.data.qld.gov.au/api/3/action/package_search?q=rta+median+rents",
+        "allowed_hosts": [
+          "data.qld.gov.au"
+        ],
+        "expected_kind": "json"
+      },
+      "priority": {
+        "estimated_addressable_geographies": 3233,
+        "reliability_weight": 0.8,
+        "accessibility_weight": 0.7,
+        "mapping_weight": 0.75,
+        "effort": 2
+      },
+      "blockers": [
+        "exact package id and licence must be resolved before reacquisition"
+      ],
+      "dataset_name": "RTA Median Rents Quarterly",
+      "landing_url": "https://www.data.qld.gov.au/dataset",
+      "resource_url": "https://www.data.qld.gov.au/api/3/action/package_search?q=rta+median+rents",
+      "geography_level": "suburb/postcode/lga",
+      "property_types": [
+        "house",
+        "townhouse",
+        "unit"
+      ],
+      "metrics": [
+        "median_weekly_rent"
+      ],
+      "history": "quarterly",
+      "cadence": "quarterly",
+      "format": "CSV/XLSX",
+      "access_method": "ckan_api",
+      "authentication": "not applicable or unresolved",
+      "accessibility": {
+        "mode": "discovery_only",
+        "phase_2a_action": "discovery_only_no_acquisition",
+        "reusable_licence_verified": false,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "adapter_or_pipeline_registered",
+        "expected_kind": "json"
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "existing_pipeline_catalogue_reacquisition_required",
+        "version": "qld_rta_rent@1 (fixture proof exists)",
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "published",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 3089,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 3233,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "none",
+        "rent": "potential_direct",
+        "yield": "conditional_on_comparable_price",
+        "growth": "none"
+      },
+      "effort": 2,
+      "risk": {
+        "licence": "review_required",
+        "blockers": [
+          "exact package id and licence must be resolved before reacquisition"
+        ]
+      }
+    },
+    {
+      "source_id": "qld_official_sales_gap",
+      "jurisdiction": "QLD",
+      "metric_family": "sales",
+      "official_publisher": "Queensland Valuer-General",
+      "disposition": "paid_official_gap",
+      "evidence": "unavailable",
+      "licence": {
+        "status": "restricted_or_paid",
+        "name": "Per-property/QVAS access"
+      },
+      "acquisition": {
+        "mode": "discovery_only",
+        "url": null,
+        "expected_kind": null
+      },
+      "priority": {
+        "estimated_addressable_geographies": 3233,
+        "reliability_weight": 0.8,
+        "accessibility_weight": 0.1,
+        "mapping_weight": 0.6,
+        "effort": 5
+      },
+      "blockers": [
+        "no free reusable bulk suburb-median source found",
+        "licensing purchase requires separate human decision"
+      ],
+      "dataset_name": "qld_official_sales_gap",
+      "landing_url": null,
+      "resource_url": null,
+      "geography_level": "unresolved_or_not_applicable",
+      "property_types": [],
+      "metrics": [
+        "median_sale_price",
+        "sales_volume",
+        "price_growth_12m"
+      ],
+      "history": "not_evidenced",
+      "cadence": "not_evidenced",
+      "format": "not_evidenced",
+      "access_method": "discovery_only_no_acquisition",
+      "authentication": "not applicable or unresolved",
+      "accessibility": {
+        "mode": "discovery_only",
+        "phase_2a_action": "discovery_only_no_acquisition",
+        "reusable_licence_verified": false,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "not_verified",
+        "expected_kind": null
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "paid_official_gap",
+        "version": null,
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "unavailable",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 4821,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 3233,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "potential_direct",
+        "rent": "none",
+        "yield": "conditional_on_comparable_rent",
+        "growth": "conditional_on_12_month_comparable_series"
+      },
+      "effort": 5,
+      "risk": {
+        "licence": "restricted_or_paid",
+        "blockers": [
+          "no free reusable bulk suburb-median source found",
+          "licensing purchase requires separate human decision"
+        ]
+      }
+    },
+    {
+      "source_id": "sa_metro_median_house_sales",
+      "jurisdiction": "SA",
+      "metric_family": "sales",
+      "official_publisher": "Government of South Australia",
+      "disposition": "accepted_existing_pipeline",
+      "evidence": "published",
+      "licence": {
+        "status": "verified_reusable",
+        "name": "Creative Commons Attribution 4.0"
+      },
+      "acquisition": {
+        "mode": "live_public",
+        "url": "https://data.sa.gov.au/data/api/3/action/package_show?id=metro-median-house-sales",
+        "allowed_hosts": [
+          "data.sa.gov.au"
+        ],
+        "expected_kind": "json",
+        "extension": "json",
+        "min_bytes": 100,
+        "max_bytes": 2000000,
+        "timeout_ms": 30000,
+        "retries": 3,
+        "backoff_ms": 500
+      },
+      "priority": {
+        "estimated_addressable_geographies": 1696,
+        "reliability_weight": 0.95,
+        "accessibility_weight": 0.95,
+        "mapping_weight": 0.9,
+        "effort": 1
+      },
+      "blockers": [
+        "metro only",
+        "house only",
+        "suppressed low-transaction suburbs"
+      ],
+      "dataset_name": "Metropolitan Median House Sales",
+      "landing_url": "https://data.sa.gov.au/data/dataset/metro-median-house-sales",
+      "resource_url": "https://data.sa.gov.au/data/api/3/action/package_show?id=metro-median-house-sales",
+      "geography_level": "suburb",
+      "property_types": [
+        "house"
+      ],
+      "metrics": [
+        "median_sale_price",
+        "sales_volume",
+        "price_growth_12m"
+      ],
+      "history": "quarterly",
+      "cadence": "quarterly",
+      "format": "XLSX",
+      "access_method": "ckan_api",
+      "authentication": "none",
+      "accessibility": {
+        "mode": "live_public",
+        "phase_2a_action": "public_https_metadata_get",
+        "reusable_licence_verified": true,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "adapter_or_pipeline_registered",
+        "expected_kind": "json"
+      },
+      "suppression": "suppression_is_explicitly_quarantined_or_reported",
+      "adapter": {
+        "status": "accepted_existing_pipeline",
+        "version": "sa_metro_house_sales@1",
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "published",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 4821,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 1696,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "potential_direct",
+        "rent": "none",
+        "yield": "conditional_on_comparable_rent",
+        "growth": "conditional_on_12_month_comparable_series"
+      },
+      "effort": 1,
+      "risk": {
+        "licence": "verified_reusable",
+        "blockers": [
+          "metro only",
+          "house only",
+          "suppressed low-transaction suburbs"
+        ]
+      }
+    },
+    {
+      "source_id": "sa_private_rental_report",
+      "jurisdiction": "SA",
+      "metric_family": "rent",
+      "official_publisher": "Government of South Australia",
+      "disposition": "accepted_existing_pipeline",
+      "evidence": "published",
+      "licence": {
+        "status": "verified_reusable",
+        "name": "Creative Commons Attribution 4.0"
+      },
+      "acquisition": {
+        "mode": "live_public",
+        "url": "https://data.sa.gov.au/data/api/3/action/package_show?id=private-rent-report",
+        "allowed_hosts": [
+          "data.sa.gov.au"
+        ],
+        "expected_kind": "json",
+        "extension": "json",
+        "min_bytes": 100,
+        "max_bytes": 2000000,
+        "timeout_ms": 30000,
+        "retries": 3,
+        "backoff_ms": 500
+      },
+      "priority": {
+        "estimated_addressable_geographies": 1696,
+        "reliability_weight": 0.9,
+        "accessibility_weight": 0.95,
+        "mapping_weight": 0.85,
+        "effort": 2
+      },
+      "blockers": [
+        "historical workbook variants",
+        "small-cell suppression and rounding"
+      ],
+      "dataset_name": "Private Rental Report",
+      "landing_url": "https://data.sa.gov.au/data/dataset/private-rent-report",
+      "resource_url": "https://data.sa.gov.au/data/api/3/action/package_show?id=private-rent-report",
+      "geography_level": "suburb",
+      "property_types": [
+        "house",
+        "unit"
+      ],
+      "metrics": [
+        "median_weekly_rent"
+      ],
+      "history": "quarterly",
+      "cadence": "quarterly",
+      "format": "XLSX",
+      "access_method": "ckan_api",
+      "authentication": "none",
+      "accessibility": {
+        "mode": "live_public",
+        "phase_2a_action": "public_https_metadata_get",
+        "reusable_licence_verified": true,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "adapter_or_pipeline_registered",
+        "expected_kind": "json"
+      },
+      "suppression": "suppression_is_explicitly_quarantined_or_reported",
+      "adapter": {
+        "status": "accepted_existing_pipeline",
+        "version": "sa_private_rent@1",
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "published",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 3089,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 1696,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "none",
+        "rent": "potential_direct",
+        "yield": "conditional_on_comparable_price",
+        "growth": "none"
+      },
+      "effort": 2,
+      "risk": {
+        "licence": "verified_reusable",
+        "blockers": [
+          "historical workbook variants",
+          "small-cell suppression and rounding"
+        ]
+      }
+    },
+    {
+      "source_id": "wa_rental_bonds",
+      "jurisdiction": "WA",
+      "metric_family": "rent",
+      "official_publisher": "WA Government / Australian Housing Data Analytics Platform",
+      "disposition": "existing_pipeline_licence_reconciliation_required",
+      "evidence": "published",
+      "licence": {
+        "status": "review_required",
+        "name": "Committed national manifest records CC BY 4.0; v3 registry still lacks exact terms URL"
+      },
+      "acquisition": {
+        "mode": "existing_pipeline",
+        "url": "https://housing-data-exchange.ahdap.org/dataset/west-australia-rental-bonds-data-2023-current",
+        "allowed_hosts": [
+          "housing-data-exchange.ahdap.org"
+        ],
+        "expected_kind": "csv"
+      },
+      "priority": {
+        "estimated_addressable_geographies": 1699,
+        "reliability_weight": 0.75,
+        "accessibility_weight": 0.7,
+        "mapping_weight": 0.7,
+        "effort": 3
+      },
+      "blockers": [
+        "raw bonds require median computation",
+        "v3 licence record reconciliation"
+      ],
+      "dataset_name": "WA Rental Bonds",
+      "landing_url": "https://housing-data-exchange.ahdap.org/dataset/west-australia-rental-bonds-data-2023-current",
+      "resource_url": "https://housing-data-exchange.ahdap.org/api/3/action/status_show",
+      "geography_level": "suburb/postcode",
+      "property_types": [
+        "house",
+        "unit"
+      ],
+      "metrics": [
+        "median_weekly_rent"
+      ],
+      "history": "2023→current",
+      "cadence": "monthly",
+      "format": "CSV",
+      "access_method": "ckan_api",
+      "authentication": "source-specific; not exercised by Phase 2A",
+      "accessibility": {
+        "mode": "existing_pipeline",
+        "phase_2a_action": "existing_repository_pipeline",
+        "reusable_licence_verified": false,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "not_verified",
+        "expected_kind": "csv"
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "existing_pipeline_licence_reconciliation_required",
+        "version": null,
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "published",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 3089,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 1699,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "none",
+        "rent": "potential_direct",
+        "yield": "conditional_on_comparable_price",
+        "growth": "none"
+      },
+      "effort": 3,
+      "risk": {
+        "licence": "review_required",
+        "blockers": [
+          "raw bonds require median computation",
+          "v3 licence record reconciliation"
+        ]
+      }
+    },
+    {
+      "source_id": "wa_property_sales",
+      "jurisdiction": "WA",
+      "metric_family": "weekly_sales_context",
+      "official_publisher": "Australian Government Regional Data Hub / Landgate",
+      "disposition": "fixture_verified_context_only",
+      "evidence": "verified_local",
+      "licence": {
+        "status": "verified_reusable",
+        "name": "Creative Commons Attribution 4.0 (catalogue listing)"
+      },
+      "acquisition": {
+        "mode": "discovery_only",
+        "url": "https://catalogue.data.infrastructure.gov.au/dataset/rdh-property-sales-and-trends-wa",
+        "allowed_hosts": [
+          "catalogue.data.infrastructure.gov.au"
+        ],
+        "expected_kind": "html"
+      },
+      "priority": {
+        "estimated_addressable_geographies": 0,
+        "reliability_weight": 0.4,
+        "accessibility_weight": 0.3,
+        "mapping_weight": 0.7,
+        "effort": 4
+      },
+      "blockers": [
+        "catalogue describes top weekly sales/turnover rather than suburb medians",
+        "machine-readable schema not acquired",
+        "cannot improve median-price coverage"
+      ],
+      "dataset_name": "Property Sales and Trends, WA",
+      "landing_url": "https://catalogue.data.infrastructure.gov.au/dataset/rdh-property-sales-and-trends-wa",
+      "resource_url": null,
+      "geography_level": "suburb (top weekly sales context)",
+      "property_types": [
+        "all_residential"
+      ],
+      "metrics": [
+        "weekly_property_sales_count",
+        "weekly_property_sales_turnover"
+      ],
+      "history": "weekly current context",
+      "cadence": "weekly",
+      "format": "HTML / normalised candidate fixture",
+      "access_method": "catalogue_html",
+      "authentication": "not applicable or unresolved",
+      "accessibility": {
+        "mode": "discovery_only",
+        "phase_2a_action": "discovery_only_no_acquisition",
+        "reusable_licence_verified": true,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "sanitised_normalised_fixture_only_live_header_unmatched",
+        "expected_kind": "html"
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "fixture_verified_context_only",
+        "version": "wa_property_sales@1-candidate",
+        "phase_2a_new_adapter": true
+      },
+      "warehouse_coverage": {
+        "evidence": "verified_local",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": null,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": 2,
+        "estimated_only_ceiling": 0,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "none",
+        "rent": "none",
+        "yield": "none",
+        "growth": "none",
+        "note": "Context facts cannot be reinterpreted as medians or valuations."
+      },
+      "effort": 4,
+      "risk": {
+        "licence": "verified_reusable",
+        "blockers": [
+          "catalogue describes top weekly sales/turnover rather than suburb medians",
+          "machine-readable schema not acquired",
+          "cannot improve median-price coverage"
+        ]
+      }
+    },
+    {
+      "source_id": "tas_official_sales_gap",
+      "jurisdiction": "TAS",
+      "metric_family": "sales",
+      "official_publisher": "Tasmanian Office of the Valuer-General",
+      "disposition": "paid_or_restricted_gap",
+      "evidence": "unavailable",
+      "licence": {
+        "status": "restricted_or_paid",
+        "name": "LIST property-sales reports appear fee-based"
+      },
+      "acquisition": {
+        "mode": "discovery_only",
+        "url": "https://www.thelist.tas.gov.au/",
+        "expected_kind": null
+      },
+      "priority": {
+        "estimated_addressable_geographies": 776,
+        "reliability_weight": 0.7,
+        "accessibility_weight": 0.1,
+        "mapping_weight": 0.7,
+        "effort": 5
+      },
+      "blockers": [
+        "no free reusable suburb sales bulk source confirmed",
+        "paid/restricted access"
+      ],
+      "dataset_name": "tas_official_sales_gap",
+      "landing_url": "https://www.thelist.tas.gov.au/",
+      "resource_url": null,
+      "geography_level": "unresolved_or_not_applicable",
+      "property_types": [],
+      "metrics": [
+        "median_sale_price",
+        "sales_volume",
+        "price_growth_12m"
+      ],
+      "history": "not_evidenced",
+      "cadence": "not_evidenced",
+      "format": "not_evidenced",
+      "access_method": "discovery_only_no_acquisition",
+      "authentication": "not applicable or unresolved",
+      "accessibility": {
+        "mode": "discovery_only",
+        "phase_2a_action": "discovery_only_no_acquisition",
+        "reusable_licence_verified": false,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "not_verified",
+        "expected_kind": null
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "paid_or_restricted_gap",
+        "version": null,
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "unavailable",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 4821,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 776,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "potential_direct",
+        "rent": "none",
+        "yield": "conditional_on_comparable_rent",
+        "growth": "conditional_on_12_month_comparable_series"
+      },
+      "effort": 5,
+      "risk": {
+        "licence": "restricted_or_paid",
+        "blockers": [
+          "no free reusable suburb sales bulk source confirmed",
+          "paid/restricted access"
+        ]
+      }
+    },
+    {
+      "source_id": "tas_rental_bonds",
+      "jurisdiction": "TAS",
+      "metric_family": "rent",
+      "official_publisher": "Tasmania CBOS",
+      "disposition": "official_manual_download_reacquisition_required",
+      "evidence": "unavailable",
+      "licence": {
+        "status": "review_required",
+        "name": "No reuse licence captured"
+      },
+      "acquisition": {
+        "mode": "discovery_only",
+        "url": "https://www.cbos.tas.gov.au/topics/housing/renting/bonds/rental-bond-statistics",
+        "expected_kind": "xlsx"
+      },
+      "priority": {
+        "estimated_addressable_geographies": 776,
+        "reliability_weight": 0.6,
+        "accessibility_weight": 0.2,
+        "mapping_weight": 0.8,
+        "effort": 4
+      },
+      "blockers": [
+        "official page confirms monthly XLSX publication through data.gov.au, but exact current resource URL is not captured",
+        "reuse licence, live workbook schema and adapter are unverified"
+      ],
+      "dataset_name": "TAS Rental Bond Statistics",
+      "landing_url": "https://www.cbos.tas.gov.au/topics/housing/renting/bonds/rental-bond-statistics",
+      "resource_url": null,
+      "geography_level": "suburb",
+      "property_types": [
+        "house",
+        "unit"
+      ],
+      "metrics": [
+        "median_weekly_rent"
+      ],
+      "history": "monthly",
+      "cadence": "monthly",
+      "format": "XLSX",
+      "access_method": "manual_data_gov_au_xlsx",
+      "authentication": "not applicable or unresolved",
+      "accessibility": {
+        "mode": "discovery_only",
+        "phase_2a_action": "discovery_only_no_acquisition",
+        "reusable_licence_verified": false,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "not_verified",
+        "expected_kind": "xlsx"
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "official_manual_download_reacquisition_required",
+        "version": null,
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "unavailable",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": 3089,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 776,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "none",
+        "rent": "potential_direct",
+        "yield": "conditional_on_comparable_price",
+        "growth": "none"
+      },
+      "effort": 4,
+      "risk": {
+        "licence": "review_required",
+        "blockers": [
+          "official page confirms monthly XLSX publication through data.gov.au, but exact current resource URL is not captured",
+          "reuse licence, live workbook schema and adapter are unverified"
+        ]
+      }
+    },
+    {
+      "source_id": "act_official_market_gap",
+      "jurisdiction": "ACT",
+      "metric_family": "sales_and_rent",
+      "official_publisher": "ACT Government",
+      "disposition": "official_portal_zero_result",
+      "evidence": "unavailable",
+      "licence": {
+        "status": "not_applicable",
+        "name": null
+      },
+      "acquisition": {
+        "mode": "discovery_only",
+        "url": "https://www.data.act.gov.au/",
+        "expected_kind": null
+      },
+      "priority": {
+        "estimated_addressable_geographies": 136,
+        "reliability_weight": 0.4,
+        "accessibility_weight": 0.1,
+        "mapping_weight": 0.7,
+        "effort": 5
+      },
+      "blockers": [
+        "official portal searches returned no property-sales, rent or rental-bond dataset"
+      ],
+      "dataset_name": "act_official_market_gap",
+      "landing_url": "https://www.data.act.gov.au/",
+      "resource_url": null,
+      "geography_level": "unresolved_or_not_applicable",
+      "property_types": [],
+      "metrics": [
+        "median_sale_price",
+        "median_weekly_rent",
+        "gross_yield",
+        "price_growth_12m"
+      ],
+      "history": "not_evidenced",
+      "cadence": "not_evidenced",
+      "format": "not_evidenced",
+      "access_method": "discovery_only_no_acquisition",
+      "authentication": "not applicable or unresolved",
+      "accessibility": {
+        "mode": "discovery_only",
+        "phase_2a_action": "discovery_only_no_acquisition",
+        "reusable_licence_verified": false,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "not_verified",
+        "expected_kind": null
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "official_portal_zero_result",
+        "version": null,
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "unavailable",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": null,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 136,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "unavailable",
+        "rent": "unavailable",
+        "yield": "unavailable",
+        "growth": "unavailable"
+      },
+      "effort": 5,
+      "risk": {
+        "licence": "not_applicable",
+        "blockers": [
+          "official portal searches returned no property-sales, rent or rental-bond dataset"
+        ]
+      }
+    },
+    {
+      "source_id": "nt_official_market_gap",
+      "jurisdiction": "NT",
+      "metric_family": "sales_and_rent",
+      "official_publisher": "Northern Territory Government",
+      "disposition": "official_portal_no_market_dataset",
+      "evidence": "unavailable",
+      "licence": {
+        "status": "not_applicable",
+        "name": null
+      },
+      "acquisition": {
+        "mode": "discovery_only",
+        "url": "https://data.nt.gov.au/",
+        "expected_kind": null
+      },
+      "priority": {
+        "estimated_addressable_geographies": 303,
+        "reliability_weight": 0.4,
+        "accessibility_weight": 0.1,
+        "mapping_weight": 0.7,
+        "effort": 5
+      },
+      "blockers": [
+        "all official property-group datasets reviewed; no sales or rent dataset",
+        "industry-association sources excluded"
+      ],
+      "dataset_name": "nt_official_market_gap",
+      "landing_url": "https://data.nt.gov.au/",
+      "resource_url": null,
+      "geography_level": "unresolved_or_not_applicable",
+      "property_types": [],
+      "metrics": [
+        "median_sale_price",
+        "median_weekly_rent",
+        "gross_yield",
+        "price_growth_12m"
+      ],
+      "history": "not_evidenced",
+      "cadence": "not_evidenced",
+      "format": "not_evidenced",
+      "access_method": "discovery_only_no_acquisition",
+      "authentication": "not applicable or unresolved",
+      "accessibility": {
+        "mode": "discovery_only",
+        "phase_2a_action": "discovery_only_no_acquisition",
+        "reusable_licence_verified": false,
+        "remote_database_required": false
+      },
+      "schema": {
+        "status": "not_verified",
+        "expected_kind": null
+      },
+      "suppression": "not_evidenced_or_not_applicable",
+      "adapter": {
+        "status": "official_portal_no_market_dataset",
+        "version": null,
+        "phase_2a_new_adapter": false
+      },
+      "warehouse_coverage": {
+        "evidence": "unavailable",
+        "source_attributed_geography_count": null,
+        "relevant_national_metric_baseline": null,
+        "baseline_report": "warehouse/reports/suburb_metric_coverage.json",
+        "note": "The committed baseline is national and is not attributed to this source row."
+      },
+      "last_refresh": {
+        "source_specific": null,
+        "status": "not_source_attributed_in_committed_baseline",
+        "baseline_report_generated_at": "2026-08-02T00:32:22.196Z"
+      },
+      "suburbs_unlocked": {
+        "published_source_attributed": null,
+        "verified_local_candidate": null,
+        "estimated_only_ceiling": 303,
+        "warning": "Estimated and verified-local values are not published coverage."
+      },
+      "impact": {
+        "price": "unavailable",
+        "rent": "unavailable",
+        "yield": "unavailable",
+        "growth": "unavailable"
+      },
+      "effort": 5,
+      "risk": {
+        "licence": "not_applicable",
+        "blockers": [
+          "all official property-group datasets reviewed; no sales or rent dataset",
+          "industry-association sources excluded"
+        ]
+      }
+    }
+  ],
+  "field_contract_version": "national-source-matrix@1",
+  "field_contract_note": "Null means not evidenced in committed artifacts; it never means zero."
+}

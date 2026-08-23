@@ -131,6 +131,42 @@
     "reachability": 200
   },
   {
+    "id": "nsw_dcj_rent_and_sales_report",
+    "name": "NSW DCJ Rent and Sales Report — quarterly rent tables",
+    "provider": "NSW Department of Communities and Justice (DCJ)",
+    "jurisdiction": "NSW",
+    "landing": "https://dcj.nsw.gov.au/about-us/families-and-communities-statistics/housing-rent-and-sales/rent-and-sales-report.html",
+    "resource_url": null,
+    "access": "quarterly_https_xlsx",
+    "format": "XLSX",
+    "geography_level": "postcode/LGA",
+    "asgs_version": "POA/LGA resolved to ASGS3_2021 via warehouse spine",
+    "property_types": [
+      "house",
+      "unit",
+      "townhouse",
+      "all"
+    ],
+    "bedroom_detail": true,
+    "history": "2021-Q1→current where discoverable",
+    "cadence": "quarterly",
+    "sample_fields": [
+      "new bonds lodged",
+      "total bonds held"
+    ],
+    "licence": "public NSW Government statistical report; exact reuse terms require review",
+    "licence_url": null,
+    "commercial_reuse": null,
+    "derivative_permitted": null,
+    "attribution": "© NSW Department of Communities and Justice",
+    "parser_version": "nsw_dcj_rent@existing",
+    "refresh_sla_days": 120,
+    "disposition": "licence_unclear",
+    "blocker": "Existing refresh registry/build/validate/load pipeline is proven and published, but this V3 catalogue previously omitted it. Exact current commercial-reuse/licence URL remains to be captured before treating reacquisition as promotable.",
+    "reachability": 200,
+    "note": "Registry reconciliation only — not a new adapter. See nsw_rental_bonds_source_manifest.json and refresh_registry.mjs."
+  },
+  {
     "id": "abs_asgs_census_context",
     "name": "ABS ASGS + 2021 Census SAL DataPacks / Regional Population",
     "provider": "Australian Bureau of Statistics",
@@ -223,6 +259,39 @@
     "reachability": 200
   },
   {
+    "id": "wa_property_sales",
+    "name": "Property Sales and Trends, WA",
+    "provider": "Australian Government Regional Data Hub / Landgate",
+    "jurisdiction": "WA",
+    "landing": "https://catalogue.data.infrastructure.gov.au/dataset/rdh-property-sales-and-trends-wa",
+    "resource_url": null,
+    "access": "catalogue_html",
+    "format": "HTML / normalised candidate fixture",
+    "geography_level": "suburb (top weekly sales context)",
+    "asgs_version": "candidate strict SAL mapping",
+    "property_types": [
+      "all_residential"
+    ],
+    "bedroom_detail": false,
+    "history": "weekly current context",
+    "cadence": "weekly",
+    "sample_fields": [
+      "sales count",
+      "total turnover"
+    ],
+    "licence": "Creative Commons Attribution 4.0 (official catalogue listing)",
+    "licence_url": "https://creativecommons.org/licenses/by/4.0/",
+    "commercial_reuse": true,
+    "derivative_permitted": true,
+    "attribution": "© Australian Government Regional Data Hub / Landgate (CC BY 4.0)",
+    "parser_version": "wa_property_sales@1-candidate",
+    "refresh_sla_days": 14,
+    "disposition": "accepted_official_context_only",
+    "blocker": "Official catalogue describes top weekly sales/turnover, not a suburb median-price series, and no machine-readable resource header was acquired. Candidate adapter is fixture-tested but non-publishable until live schema matching; it must never be used as median price or valuation evidence.",
+    "reachability": 200,
+    "note": "Context-only research lane. It does not increase median-price, yield or growth coverage."
+  },
+  {
     "id": "vic_vg_property_sales",
     "name": "Victorian Property Sales Statistics",
     "provider": "Valuer-General Victoria",
@@ -262,7 +331,7 @@
     "jurisdiction": "TAS",
     "landing": "https://www.cbos.tas.gov.au/topics/housing/renting/bonds/rental-bond-statistics",
     "resource_url": null,
-    "access": "https_download",
+    "access": "manual_data_gov_au_xlsx",
     "format": "XLSX",
     "geography_level": "suburb",
     "asgs_version": null,
@@ -283,9 +352,9 @@
     "attribution": "© State of Tasmania",
     "parser_version": null,
     "refresh_sla_days": 30,
-    "disposition": "temporarily_unreachable",
-    "blocker": "cbos.tas.gov.au returns HTTP 403 (access control) from this environment — not circumvented.",
-    "reachability": 403
+    "disposition": "licence_unclear",
+    "blocker": "The official CBOS page is reachable and confirms monthly XLSX publication through data.gov.au, but the exact current resource URL, reuse licence, workbook schema and parser have not been captured; fail closed until all four are verified.",
+    "reachability": 200
   },
   {
     "id": "local_2p3gb_collection",
