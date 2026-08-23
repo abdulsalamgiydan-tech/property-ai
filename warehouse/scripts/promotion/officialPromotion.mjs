@@ -63,15 +63,16 @@ export const PAYLOAD = [
 ];
 
 /**
- * Representative SIGNED price_growth_12m rows (migration 058) — direct, source-
- * published "Median Change" (percent, sign preserved). Negative, zero and positive
- * cases (real SA extrema: min -6.11, max 41.61). Distinct geographies so each has
- * its own mart PK. Loaded ON TOP OF migration 058's metric-aware value invariant.
+ * Representative SIGNED price_growth_12m rows (migration 058) — DERIVED. The
+ * publisher supplies the "Median Change" value, but a 12-month change is still a
+ * calculated quantity rather than a primary median observation. Its lineage is
+ * retained in formula_version. Derived growth reaches the RPC but is deliberately
+ * excluded from migration 056's direct-only public view.
  */
 export const GROWTH_PAYLOAD = [
-  { id: "obs_growth_neg", src: "sa_metro_median_house_sales", sha: "9cfa8aa7", geo: "SAL_40085_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: -6.11, unit: "%", n: 16, ps: "2025-06-30", pe: "2026-06-30", status: "direct" },
-  { id: "obs_growth_zero", src: "sa_metro_median_house_sales", sha: "9cfa8aa7", geo: "SAL_40806_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: 0, unit: "%", n: 22, ps: "2025-06-30", pe: "2026-06-30", status: "direct" },
-  { id: "obs_growth_pos", src: "sa_metro_median_house_sales", sha: "9cfa8aa7", geo: "SAL_40120_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: 41.61, unit: "%", n: 21, ps: "2025-06-30", pe: "2026-06-30", status: "direct" },
+  { id: "obs_growth_neg", src: "sa_metro_median_house_sales", sha: "9cfa8aa7", geo: "SAL_40085_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: -6.11, unit: "%", n: 16, ps: "2025-06-30", pe: "2026-06-30", status: "derived", formula: "publisher_median_change@1" },
+  { id: "obs_growth_zero", src: "sa_metro_median_house_sales", sha: "9cfa8aa7", geo: "SAL_40806_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: 0, unit: "%", n: 22, ps: "2025-06-30", pe: "2026-06-30", status: "derived", formula: "publisher_median_change@1" },
+  { id: "obs_growth_pos", src: "sa_metro_median_house_sales", sha: "9cfa8aa7", geo: "SAL_40120_ASGS3_2021", metric: "price_growth_12m", pt: "house", bg: "all", val: 41.61, unit: "%", n: 21, ps: "2025-06-30", pe: "2026-06-30", status: "derived", formula: "publisher_median_change@1" },
 ];
 
 export function observationValues(r) {

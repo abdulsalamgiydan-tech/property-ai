@@ -1,0 +1,335 @@
+{
+  "milestone": "OFFICIAL_COVERAGE_UPLIFT_1.1",
+  "generated_at": "2026-08-23T05:30:04.948Z",
+  "as_of": "2026-08-23",
+  "reporting_period_end": "2026-06-30",
+  "acquired_at_utc": "2026-08-23T05:21:59.978Z",
+  "production_coverage_changed": false,
+  "source": {
+    "source_id": "sa_metro_median_house_sales",
+    "name": "Metropolitan Median House Sales Q2 2026",
+    "publisher": "Government of South Australia (Valuer-General / Office of Land Value)",
+    "jurisdiction": "SA",
+    "landing_url": "https://data.sa.gov.au/data/dataset/metro-median-house-sales",
+    "resource_url": "https://data.sa.gov.au/data/dataset/0d447195-1158-4a3c-8cc7-0e333b87eb72/resource/8428aa95-c9fd-4c56-946c-6aa316ba7bf7/download/lsg_stats_2026_2q.xlsx",
+    "licence": "Creative Commons Attribution | cc-by",
+    "licence_url": "http://creativecommons.org/licenses/by/4.0",
+    "attribution": "© Government of South Australia (CC BY 4.0)",
+    "commercial_reuse": true,
+    "derivative_permitted": true
+  },
+  "acquisition": {
+    "acquired_at_utc": "2026-08-23T05:21:59.978Z",
+    "acquired_at_source": "immutable_sidecar",
+    "final_url": "https://data.sa.gov.au/data/dataset/0d447195-1158-4a3c-8cc7-0e333b87eb72/resource/8428aa95-c9fd-4c56-946c-6aa316ba7bf7/download/lsg_stats_2026_2q.xlsx",
+    "final_host": "data.sa.gov.au",
+    "mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "bytes": 37459,
+    "sha256": "9cfa8aa71d2c453c09ca1d3baecc1955144863cfb5c4caef01c12266e639ef7a",
+    "etag": "\"1784275937.362-37459-1231428003\"",
+    "last_modified": "Fri, 17 Jul 2026 08:12:17 GMT",
+    "schema_fingerprint": "6297926bf4b8f7e97eb0cc7d9cbc88830b5659d3cb535135d21280e1305d547b"
+  },
+  "schema": {
+    "header": [
+      "City",
+      "Suburb",
+      "Sales 2Q 2025",
+      "Median 2Q 2025",
+      "Sales 2Q 2026",
+      "Median 2Q 2026",
+      "Median Change"
+    ],
+    "current_period_end": "2026-06-30",
+    "prior_period_end": "2025-06-30"
+  },
+  "geography": {
+    "level": "SAL",
+    "asgs_version": "ASGS 2021 (Suburbs and Localities)",
+    "state": "SA",
+    "state_code": "4",
+    "spine_artifact": "warehouse/metadata/sa_all_sals.json",
+    "spine_size": 1696
+  },
+  "metric_family": "sale_price",
+  "accounting": {
+    "source_data_rows_scanned": 482,
+    "parser_accepted_source_rows": 190,
+    "parser_quarantined_source_rows": 292,
+    "geography_quarantined_source_rows": 1,
+    "mapped_source_rows": 189,
+    "duplicate_source_rows": 19,
+    "unique_canonical_geographies": 170,
+    "emitted_observations_before_dedup": 378,
+    "accepted_observations_after_dedup": 340,
+    "deduplicated_observations": 38,
+    "conflict_events": 0,
+    "quarantine_events": 293,
+    "invariants": {
+      "scanned_splits_into_parser_accepted_plus_quarantined": true,
+      "mapped_equals_parser_accepted_minus_geo_quarantined": true,
+      "unique_plus_duplicate_equals_mapped": true,
+      "emitted_equals_accepted_plus_deduped_plus_conflicts": true,
+      "quarantine_events_sum": true,
+      "no_silent_source_row_loss": true
+    },
+    "reconciliation_explanation": "These sit at three different grains, so they never sum naively (482 != 190 + 293). (1) SOURCE-ROW split: the 482 scanned data rows partition cleanly into 190 parser-accepted + 292 parser-quarantined. (2) The 1 geography rejection is a SUBSET of the 190 parser-accepted rows (RIVERLEA PARK parsed fine but has no ASGS 2021 SAL), leaving 189 mapped source rows; it is NOT a third addend on 482. (3) OBSERVATION grain: each mapped row emits a price + a derived-growth observation, so 189 mapped rows emit 378 observations; 38 are identical duplicates from 19 source rows that resolve to an already-seen SAL, leaving 340 accepted observations across 170 unique SALs. The 293 quarantine EVENTS = 292 parse + 1 geography + 0 conflicts."
+  },
+  "counts": {
+    "accepted_observations": 340,
+    "accepted_by_metric": {
+      "median_sale_price_detached": 170,
+      "annual_price_growth_12m": 170
+    },
+    "unique_mapped_asgs_ids": 170,
+    "unique_source_geography_labels": 170,
+    "unmatched": 1,
+    "ambiguous": 0,
+    "deduped_identical": 38,
+    "natural_key_conflicts": 0,
+    "quarantined_total": 293,
+    "quarantine_by_reason": [
+      {
+        "reason": "parse:insufficient_sample",
+        "count": 216
+      },
+      {
+        "reason": "parse:non_positive_or_suppressed_median",
+        "count": 76
+      },
+      {
+        "reason": "geography:geography_unmatched",
+        "count": 1
+      }
+    ]
+  },
+  "classification": {
+    "direct": 170,
+    "derived": 170,
+    "contextual": 0,
+    "note": "median_sale_price_detached is DIRECT (a primary published median). annual_price_growth_12m is DERIVED (a 12-month change; the publisher's 'Median Change' value and lineage are preserved, but it is a derived quantity, not a primary median read).",
+    "unavailable_note": "gross_yield is NOT emitted for these suburbs — this source carries no rent, so a yield would require a second source and is honestly left unavailable (never zero)."
+  },
+  "freshness": {
+    "fresh": 340,
+    "stale": 0,
+    "unknown": 0
+  },
+  "materiality": {
+    "target_unique_mapped_geographies": 100,
+    "unique_mapped_asgs_ids": 170,
+    "met": true,
+    "basis": "unique ASGS 2021 SAL ids carrying a DIRECT median_sale_price_detached observation"
+  },
+  "candidate_footprint": {
+    "unique_mapped_asgs_ids": 170,
+    "of_state_sal_universe": 1696,
+    "production_overlap": "unknown",
+    "net_new_provable": false,
+    "note": "This is a CANDIDATE footprint measured offline against the committed SA SAL spine. Overlap with already-published production coverage is unknown here because no remote warehouse/database was read (prohibited). Net-new production uplift cannot be claimed without a separately approved database validation run; production coverage remains unchanged."
+  },
+  "target_compatibility": {
+    "target_table": "core.official_observation (full-lineage) -> mart.official_suburb_metric (consumer projection)",
+    "migrations": [
+      "056_official_suburb_metrics.sql",
+      "057_official_suburb_metrics_consumer_rpc.sql",
+      "058_signed_price_growth_constraint.sql"
+    ],
+    "upsert_keys": {
+      "core": "observation_id (deterministic content-address of source_id|geography_id|metric|property_type|bedroom_group|period_end|resource_sha256)",
+      "mart": "(geography_id, metric, property_type, bedroom_group, period_end)"
+    },
+    "geography_id_transform": "SAL code (e.g. 40085) -> canonical warehouse id SAL_<code>_ASGS3_2021",
+    "metric_transforms": [
+      {
+        "candidate_metric": "median_sale_price_detached",
+        "target_metric": "median_house_price",
+        "property_type": "house",
+        "bedroom_group": "all",
+        "unit": "AUD",
+        "status": "direct",
+        "note": "the DETACHED-house median; NOT converted to median_sale_price_12m (overall) and NOT written to the main snapshot's median_sale_price_detached column"
+      },
+      {
+        "candidate_metric": "annual_price_growth_12m",
+        "target_metric": "price_growth_12m",
+        "property_type": "house",
+        "bedroom_group": "all",
+        "unit": "%",
+        "status": "derived",
+        "note": "signed percent, bounded [-100,1000] by migration 058; value = publisher 'Median Change' x100, lineage preserved, classified derived"
+      }
+    ],
+    "source_identifiers": {
+      "source_id": "sa_metro_median_house_sales",
+      "asgs_version": "ASGS3_2021",
+      "geography_level": "suburb",
+      "resource_sha256": "9cfa8aa71d2c453c09ca1d3baecc1955144863cfb5c4caef01c12266e639ef7a",
+      "licence": "CC BY 4.0",
+      "attribution": "© Government of South Australia (CC BY 4.0)"
+    },
+    "serving": {
+      "official_metrics_rpc": "public.get_official_suburb_metrics_v1(geography_id) exposes BOTH the direct price and the derived growth (is_derived flag) for the suburb's official-metrics panel on /research/suburb/[geographyCode]",
+      "direct_only_view": "public.v_official_suburb_metric_v1 exposes the direct median_house_price rows only (derived growth is stored but not shown here)",
+      "main_price_card_unchanged": "the main market-snapshot price card / median_sale_price_detached field / search results / map are served by get_market_snapshot_v2 (mart.suburb_market_snapshot, NSW-fact-derived) and are NOT written by this path — they do not change",
+      "remains_unavailable": "gross_yield (no rent in this source), median_sale_price_12m (overall), and everything in the main snapshot for these SA suburbs"
+    },
+    "schema_supports_batch": true
+  },
+  "coverage_simulation": {
+    "total_geographies": 15334,
+    "metrics": [
+      {
+        "metric": "annual_price_growth_12m",
+        "total_geographies": 15334,
+        "current_published": 735,
+        "after_published": 735,
+        "verified_local_candidate": 170,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 14599,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "gross_yield",
+        "total_geographies": 15334,
+        "current_published": 453,
+        "after_published": 453,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 14881,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "median_rent",
+        "total_geographies": 15334,
+        "current_published": 3089,
+        "after_published": 3089,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 12245,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "median_sale_price",
+        "total_geographies": 15334,
+        "current_published": 4821,
+        "after_published": 4821,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 10513,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "median_sale_price_detached",
+        "total_geographies": 15334,
+        "current_published": 0,
+        "after_published": 0,
+        "verified_local_candidate": 170,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 15334,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      },
+      {
+        "metric": "price_growth_12m",
+        "total_geographies": 15334,
+        "current_published": 735,
+        "after_published": 735,
+        "verified_local_candidate": 0,
+        "verified_new_geographies": null,
+        "verified_new_geography_ids": null,
+        "estimated_only_ceiling": 0,
+        "unavailable": 14599,
+        "evidence_separation": "after_published is unchanged until a separately approved database validation/publication run"
+      }
+    ],
+    "derived_unlocks": {
+      "verified_local_yield": 0,
+      "verified_local_growth_12m": 0,
+      "note": "Counts use candidate rows only; published/candidate intersections require explicit geography-ID sets."
+    },
+    "production_coverage_changed": false
+  },
+  "quality_gates": {
+    "admit": true,
+    "accepted_rows": 340,
+    "quarantined_rows": 293,
+    "gates": [
+      {
+        "id": "file_integrity",
+        "passed": true,
+        "severity": "blocking",
+        "details": "size/MIME/completeness accepted"
+      },
+      {
+        "id": "source_and_licence",
+        "passed": true,
+        "severity": "blocking",
+        "details": "source/licence match"
+      },
+      {
+        "id": "schema_fingerprint",
+        "passed": true,
+        "severity": "blocking",
+        "details": "schema fingerprint accepted"
+      },
+      {
+        "id": "observation_contract",
+        "passed": true,
+        "severity": "blocking",
+        "details": "0 invalid observation(s)"
+      },
+      {
+        "id": "natural_key_uniqueness",
+        "passed": true,
+        "severity": "blocking",
+        "details": "unique natural keys"
+      },
+      {
+        "id": "coverage_collapse",
+        "passed": true,
+        "severity": "blocking",
+        "details": "no previous candidate baseline"
+      },
+      {
+        "id": "minimum_sample_size",
+        "passed": true,
+        "severity": "blocking",
+        "details": "0 row(s) below required sample 10"
+      },
+      {
+        "id": "distribution_shift",
+        "passed": true,
+        "severity": "blocking",
+        "details": "annual_price_growth_12m:1.000, median_sale_price_detached:1.000 (maximum 4)"
+      },
+      {
+        "id": "idempotent_rerun",
+        "passed": true,
+        "severity": "blocking",
+        "details": "stable natural-key set"
+      },
+      {
+        "id": "quarantine_accounting",
+        "passed": true,
+        "severity": "informational",
+        "details": "293 source row(s) quarantined with reasons"
+      }
+    ],
+    "failures": []
+  },
+  "idempotency": {
+    "accepted_natural_key_count": 340,
+    "deterministic_given_bytes": true,
+    "note": "Given identical source bytes (sha256 above), parse+normalise+reconcile are pure and produce byte-identical accepted keys and totals on every rerun."
+  }
+}
