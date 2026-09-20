@@ -442,19 +442,52 @@ export function minimumWeeklyForBuyScoreAfterTax(
   return hi;
 }
 
-/** Weekly rent such that after-tax cashflow ≈ 0 (negative gearing aware). */
+function weeklyRentForAnnualNetIncome(
+  annualNetIncome: number,
+  vacancyPercent: number,
+  pmFeePercent: number
+): number {
+  const vacancyFactor = 1 - Math.max(0, vacancyPercent) / 100;
+  const managementFeeFactor = 1 - Math.max(0, pmFeePercent) / 100;
+  const annualNetIncomePerWeeklyDollar = 52 * vacancyFactor * managementFeeFactor;
+
+  if (annualNetIncomePerWeeklyDollar <= 0) return Number.POSITIVE_INFINITY;
+  return annualNetIncome / annualNetIncomePerWeeklyDollar;
+}
+
+/** Gross weekly rent such that first-year pre-tax cashflow ≈ 0. */
+export function computeBreakEvenWeeklyPreTax(
+  annualInterest: number,
+  annualExpenses: number,
+  vacancyPercent: number = 0,
+  pmFeePercent: number = 0
+): number {
+  return weeklyRentForAnnualNetIncome(
+    annualInterest + annualExpenses,
+    vacancyPercent,
+    pmFeePercent
+  );
+}
+
+/** Gross weekly rent such that after-tax cashflow ≈ 0 (negative gearing aware). */
 export function computeBreakEvenWeeklyAfterTax(
   annualInterest: number,
   annualExpenses: number,
   totalDepreciation: number,
-  marginalRate: number
+  marginalRate: number,
+  vacancyPercent: number = 0,
+  pmFeePercent: number = 0
 ): number {
   const P = annualInterest + annualExpenses;
   const m = marginalRate;
-  if (m <= 0 || m >= 0.999) return P / 52;
+  if (m <= 0 || m >= 0.999) {
+    return weeklyRentForAnnualNetIncome(P, vacancyPercent, pmFeePercent);
+  }
   const R = (-totalDepreciation * m) / (1 - m);
-  if (R >= totalDepreciation - 1e-6) return P / 52;
-  return (P + R) / 52;
+  if (R >= totalDepreciation - 1e-6) {
+    return weeklyRentForAnnualNetIncome(P, vacancyPercent, pmFeePercent);
+  }
+  return weeklyRentForAnnualNetIncome(P + R, vacancyPercent, pmFeePercent);
 }
 
 export type PropertyAnalysisInputs = {
@@ -747,9 +780,19 @@ export function analyzeProperty(input: PropertyAnalysisInputs): PropertyAnalysis
   else status = "weak";
 
   // Diagnostics
-  const breakEvenWeeklyPreTax = (interestAnnual + effectiveAnnualExpenses) / 52;
+  const breakEvenWeeklyPreTax = computeBreakEvenWeeklyPreTax(
+    interestAnnual,
+    expenses,
+    vacancy,
+    pmFeePercent
+  );
   const breakEvenWeeklyAfterTax = computeBreakEvenWeeklyAfterTax(
-    interestAnnual, effectiveAnnualExpenses, totalDep, m
+    interestAnnual,
+    expenses,
+    totalDep,
+    m,
+    vacancy,
+    pmFeePercent
   );
 
   const leverage = 1 - d / 100;
