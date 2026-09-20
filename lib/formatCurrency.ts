@@ -28,7 +28,9 @@ export function formatInputNumber(value: string): string {
   const n = Number(stripped);
   if (!Number.isFinite(n)) return value;
   const [intPart, decimalPart] = stripped.split(".");
-  const grouped = formatNumberGb(Number(intPart));
+  const normalisedIntPart =
+    intPart === "-" ? "-0" : intPart === "" ? "0" : intPart;
+  const grouped = formatNumberGb(Number(normalisedIntPart));
   return decimalPart !== undefined ? `${grouped}.${decimalPart}` : grouped;
 }
 
