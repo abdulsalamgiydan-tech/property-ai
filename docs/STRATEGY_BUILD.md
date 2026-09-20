@@ -118,7 +118,7 @@ Apply rules in priority order. First match wins. A8 is the default fallback.
 1. age >= 55 AND riskTolerance == "conservative" AND horizonYears <= 10
    → A7 Defensive Income
 
-2. ppor != null AND pporEquity >= 200000 AND liquidDepositAvailable < 80000
+2. ppor != null AND pporEquity >= 200000 AND liquidDepositAvailable <= 150000
    AND existingInvestmentProperties.length == 0
    → A11 Equity-Funded Scaler
 
@@ -131,7 +131,7 @@ Apply rules in priority order. First match wins. A8 is the default fallback.
    → A9 High Income Tax Optimiser
 
 5. householdIncome >= 250000 AND primaryGoal == "capital_growth"
-   AND liquidDepositAvailable >= 250000 AND horizonYears >= 20
+   AND liquidDepositAvailable >= 150000 AND horizonYears >= 20
    → A6 Capital Growth Sprinter
 
 6. intendedPortfolioSize >= 3 AND riskTolerance != "conservative"

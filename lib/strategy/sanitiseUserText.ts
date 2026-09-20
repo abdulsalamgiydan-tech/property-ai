@@ -11,7 +11,9 @@ export function sanitiseUserText(raw: string): { cleaned: string; flagged: boole
     s = next;
   };
 
-  markIfChanged(s.replace(/ignore (previous|all|prior) instructions/gi, ""));
+  markIfChanged(
+    s.replace(/ignore\s+(?:(?:previous|all|prior)\s+)+instructions/gi, "")
+  );
   markIfChanged(s.replace(/system\s*:/gi, ""));
   markIfChanged(
     s.replace(/<\/?system>/gi, "").replace(/<\/?instructions>/gi, "").replace(/<\/?assistant>/gi, "").replace(/<\/?user>/gi, "")
