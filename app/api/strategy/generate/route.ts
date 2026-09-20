@@ -2,7 +2,11 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { selectArchetype } from "@/lib/strategy/archetypes";
 import { generateStrategy, type StrategyInputForLlm } from "@/lib/strategy/claudeClient";
-import { parseStrategyInput, type StrategyInput } from "@/lib/strategy/strategyInput";
+import {
+  parseStrategyInput,
+  stripStrategyFirstName,
+  type StrategyInput,
+} from "@/lib/strategy/strategyInput";
 import type { StrategyOutput } from "@/lib/strategy/strategyOutput";
 import {
   countRecentGenerations,
@@ -19,9 +23,8 @@ function buildLlmInput(
   primaryConcern: string,
   additionalContext: string
 ): StrategyInputForLlm {
-  const { firstName: _omit, ...rest } = input;
   return {
-    ...rest,
+    ...stripStrategyFirstName(input),
     successVision,
     primaryConcern,
     additionalContext,
@@ -100,7 +103,7 @@ export async function POST(req: Request) {
       user_id: user.id,
       archetype_id: output.archetype_id,
       archetype_display_name: output.archetype_display_name,
-      input_json: input,
+      input_json: stripStrategyFirstName(input),
       output_json: output,
     });
 

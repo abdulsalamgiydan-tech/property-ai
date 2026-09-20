@@ -58,6 +58,14 @@ export type StrategyInput = {
   additionalContext: string;
 };
 
+export type StrategyInputWithoutFirstName = Omit<StrategyInput, "firstName">;
+
+export function stripStrategyFirstName(input: StrategyInput): StrategyInputWithoutFirstName {
+  const stripped = { ...input };
+  delete stripped.firstName;
+  return stripped;
+}
+
 const goalRankingSchema = z.enum([
   "passive_income",
   "capital_growth",
