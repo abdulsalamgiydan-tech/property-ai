@@ -65,11 +65,19 @@ export async function deleteComparison(id: string): Promise<{ ok: boolean; messa
   const supabase = createBrowserSupabaseClient();
   if (!supabase) return { ok: false, message: "Supabase is not configured." };
 
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("property_comparisons")
     .delete()
-    .eq("id", id);
+    .eq("id", id)
+    .select("id")
+    .maybeSingle();
 
   if (error) return { ok: false, message: error.message };
+  if (!data) {
+    return {
+      ok: false,
+      message: "Comparison not found or you do not have permission to delete it.",
+    };
+  }
   return { ok: true };
 }
