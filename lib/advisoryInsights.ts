@@ -1,5 +1,6 @@
 import type { PropertyAnalysisResult } from "@/lib/propertyAnalysis";
 import { formatAud, formatPercent } from "@/lib/formatCurrency";
+import { firstLoanYearFinance } from "@/lib/projections";
 
 /**
  * Up to three bullets: income position, holding/tax, growth vs risk.
@@ -125,11 +126,16 @@ export function keyRiskBullets(r: PropertyAnalysisResult): string[] {
 export function neutralPreTaxDepositPercent(
   r: PropertyAnalysisResult
 ): number | null {
-  const rate = r.interestRatePercent / 100;
-  if (rate <= 1e-9) return null;
   const net = r.effectiveAnnualRent - r.effectiveAnnualExpenses;
   if (net <= 0) return null;
-  const loanNeeded = net / rate;
+  const { interestAnnual: interestPerDollar } = firstLoanYearFinance({
+    loan: 1,
+    interestRatePercent: r.interestRatePercent,
+    loanTermYears: r.loanTermYears,
+    isInterestOnly: r.isInterestOnly,
+  });
+  if (interestPerDollar <= 1e-9) return null;
+  const loanNeeded = net / interestPerDollar;
   if (!Number.isFinite(loanNeeded) || loanNeeded <= 0) return null;
   if (loanNeeded >= r.purchasePrice) return null;
   const dep = 100 * (1 - loanNeeded / r.purchasePrice);
@@ -144,5 +150,25 @@ export function neutralPreTaxInterestRatePercent(
   if (r.loan <= 1e-6) return null;
   const net = r.effectiveAnnualRent - r.effectiveAnnualExpenses;
   if (net <= 0) return null;
-  return (net / r.loan) * 100;
+
+  const annualInterestAt = (interestRatePercent: number) =>
+    firstLoanYearFinance({
+      loan: r.loan,
+      interestRatePercent,
+      loanTermYears: r.loanTermYears,
+      isInterestOnly: r.isInterestOnly,
+    }).interestAnnual;
+
+  // The UI only displays plausible rates below 20%, but use a wider search bound
+  // so this helper does not silently return a false solution outside that range.
+  let low = 0;
+  let high = 100;
+  if (annualInterestAt(high) < net) return null;
+
+  for (let i = 0; i < 60; i++) {
+    const mid = (low + high) / 2;
+    if (annualInterestAt(mid) < net) low = mid;
+    else high = mid;
+  }
+  return (low + high) / 2;
 }
