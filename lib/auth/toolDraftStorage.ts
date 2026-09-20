@@ -65,9 +65,17 @@ function readJson<T>(raw: string | null): T | null {
   }
 }
 
+function readStoredJson<T>(key: string): T | null {
+  try {
+    return readJson<T>(localStorage.getItem(key));
+  } catch {
+    return null;
+  }
+}
+
 export function loadAnalyseDraft(): AnalyseDraftV1 | null {
   if (typeof window === "undefined") return null;
-  const d = readJson<AnalyseDraftV1>(localStorage.getItem(ANALYSE_KEY));
+  const d = readStoredJson<AnalyseDraftV1>(ANALYSE_KEY);
   if (!d || d.v !== 1) return null;
   return d;
 }
@@ -83,7 +91,7 @@ export function saveAnalyseDraft(draft: AnalyseDraftV1): void {
 
 export function loadCompareDraft(): CompareDraftV1 | null {
   if (typeof window === "undefined") return null;
-  const d = readJson<CompareDraftV1>(localStorage.getItem(COMPARE_KEY));
+  const d = readStoredJson<CompareDraftV1>(COMPARE_KEY);
   if (!d || d.v !== 1) return null;
   return d;
 }
