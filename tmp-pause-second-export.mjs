@@ -49,12 +49,35 @@ function query(sqlFile) {
   return JSON.parse(result.stdout.slice(start));
 }
 
+function existingRows(file) {
+  if (!fs.existsSync(file) || fs.statSync(file).size === 0) return 0;
+  let n = 0;
+  const fd = fs.openSync(file, "r");
+  const buf = Buffer.alloc(1024 * 1024);
+  let leftover = "";
+  try {
+    for (;;) {
+      const read = fs.readSync(fd, buf, 0, buf.length, null);
+      if (read === 0) break;
+      leftover += buf.toString("utf8", 0, read);
+      const parts = leftover.split("\n");
+      leftover = parts.pop();
+      n += parts.length;
+    }
+    if (leftover.length > 0) n += 1;
+  } finally {
+    fs.closeSync(fd);
+  }
+  return n;
+}
+
 const summary = [];
 for (const [schema, table, pageSize] of tables) {
   const file = path.join(outDir, `${schema}.${table}.jsonl`);
-  const stream = fs.createWriteStream(file);
-  let offset = 0;
-  let rows = 0;
+  const already = existingRows(file);
+  let offset = already;
+  let rows = already;
+  if (already) console.log(`${schema}.${table} resume rows=${already}`);
   for (;;) {
     const sqlFile = path.join(sqlDir, `page-${process.argv[2] || "small"}.sql`);
     fs.writeFileSync(
@@ -68,25 +91,35 @@ for (const [schema, table, pageSize] of tables) {
        ) t;`
     );
     let payload;
-    try {
-      const parsed = query(sqlFile);
-      payload = parsed.rows?.[0]?.payload ?? "[]";
-    } catch (err) {
-      if (pageSize > 5 && /too large|payload|413|statement timeout/i.test(err.message)) {
-        console.log(`shrink ${schema}.${table} at offset ${offset}`);
+    let parsed;
+    for (let attempt = 1; ; attempt += 1) {
+      try {
+        parsed = query(sqlFile);
+        break;
+      } catch (err) {
+        const transient = /503|connection termination|timeout|ECONNRESET|ETIMEDOUT/i.test(err.message);
+        if (transient && attempt < 6) {
+          console.log(`retry ${schema}.${table} offset ${offset} attempt ${attempt}`);
+          await new Promise((resolve) => setTimeout(resolve, 5000 * attempt));
+          continue;
+        }
+        if (pageSize > 5 && /too large|payload|413|statement timeout/i.test(err.message)) {
+          console.log(`shrink ${schema}.${table} at offset ${offset}`);
+        }
         throw err;
       }
-      throw err;
     }
+    payload = parsed.rows?.[0]?.payload ?? "[]";
     const batch = JSON.parse(payload);
-    for (const row of batch) stream.write(JSON.stringify(row) + "\n");
+    if (batch.length > 0) {
+      fs.appendFileSync(file, batch.map((row) => JSON.stringify(row)).join("\n") + "\n");
+    }
     rows += batch.length;
     offset += batch.length;
     console.log(`${schema}.${table} rows=${rows}`);
     if (batch.length < pageSize) break;
   }
-  await new Promise((resolve) => stream.end(resolve));
-  summary.push({ schema, table, rows, bytes: fs.statSync(file).size });
+  summary.push({ schema, table, rows, bytes: fs.existsSync(file) ? fs.statSync(file).size : 0 });
 }
 fs.writeFileSync(
   `C:/Users/abdul/Propellect-Restart-Backups/2026-10-05/supabase/second-main/jsonl-summary-${process.argv[2] || "small"}.json`,
