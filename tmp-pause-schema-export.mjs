@@ -20,7 +20,7 @@ const env = Object.fromEntries(
     })
 );
 
-const url = process.env.BACKUP_DB_URL || env.WAREHOUSE_VALIDATION_DB_URL || env.DATABASE_URL;
+const url = process.env.BACKUP_DB_URL || env.BACKUP_DB_URL || env.WAREHOUSE_VALIDATION_DB_URL || env.DATABASE_URL;
 const client = new Client({
   connectionString: url,
   ssl: { rejectUnauthorized: false },

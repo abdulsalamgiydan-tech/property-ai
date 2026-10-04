@@ -20,7 +20,7 @@ const env = Object.fromEntries(
     })
 );
 
-const url = process.env.BACKUP_DB_URL || env.WAREHOUSE_VALIDATION_DB_URL || env.DATABASE_URL;
+const url = process.env.BACKUP_DB_URL || env.BACKUP_DB_URL || env.WAREHOUSE_VALIDATION_DB_URL || env.DATABASE_URL;
 if (!url) {
   console.error("No database URL found in env file");
   process.exit(1);
