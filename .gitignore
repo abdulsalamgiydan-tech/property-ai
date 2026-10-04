@@ -63,3 +63,6 @@ next-env.d.ts
 
 .vercel
 .gstack/
+
+# agent skills (installed locally via `npx skills add ...`)
+.agents/
