@@ -11,6 +11,7 @@ import type {
 } from "@/lib/opportunity/types";
 import type { InvestmentProfileInput } from "@/lib/opportunity/profileSchema";
 import { useInvestmentPersistence, type SavedProfile } from "./useInvestmentPersistence";
+import ChangeAlerts from "./ChangeAlerts";
 
 type ApiOutput = RankOutput & { dataUnavailable: boolean; offeredStates: readonly string[] };
 
@@ -129,7 +130,10 @@ export default function FindInvestmentClient() {
       </header>
 
       {user && persistence.hydrated && persistence.shortlist.size > 0 && (
-        <ShortlistPanel persistence={persistence} />
+        <>
+          <ChangeAlerts shortlistSize={persistence.shortlist.size} />
+          <ShortlistPanel persistence={persistence} />
+        </>
       )}
 
       {step === "form" ? (

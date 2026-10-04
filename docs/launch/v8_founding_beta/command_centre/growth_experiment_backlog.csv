@@ -1,0 +1,10 @@
+experiment,hypothesis,target_segment,channel,cost_assumption,success_metric,ICE_or_RICE,required_approval,status,learning
+Personal invites to warm network,Warm SA investors activate fast,active_sa_next_purchase,network,$0 (founder time),activation_rate>=60%,ICE=9,none,proposed,
+Waitlist reactivation email,Opted-in SA waitlist converts to beta,active_sa_next_purchase,waitlist,$0,activation from waitlist>=40%,ICE=8,none,proposed,
+Referral ask to happy users,Activated users refer 1 quality peer,active_sa_next_purchase,referral,$0,referral_rate>=0.3,ICE=8,none,proposed,
+Broker/accountant partner intro,Partners refer investor clients,secondary_partner_channel,partner,$0,>=3 partner-sourced activations,RICE=6,Abdul (partner terms),proposed,
+Honest educational write-up,Content builds trust + inbound interest,active_sa_next_purchase,content,$0 (time),>=10 qualified interest,ICE=5,none,proposed,
+Price-point interview probe,$19 Pro hypothesis is acceptable,active_sa_next_purchase,interviews,$0,WTP>=40% at >=$19,ICE=7,none (no public price),proposed,
+Per-report option test,Occasional buyers prefer per-report,active_sa_next_purchase,surveys,$0,per-report preferred by a clear minority,ICE=5,none,proposed,
+# Scoring: ICE = Impact x Confidence x Ease (1-10 each, product of normalised) OR RICE = Reach x Impact x Confidence / Effort. Pick one and be consistent.
+# Guardrails: no paid ads in Stage 1; nothing sent/posted by this workstream; any partner revenue-share needs Abdul approval; no public price announced.

@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Preview UAT harness runs under Playwright's own tooling (not vitest/next lint).
+    "uat/**",
+    "playwright.config.ts",
+    "playwright.v8.config.ts",
   ]),
 ]);
 
