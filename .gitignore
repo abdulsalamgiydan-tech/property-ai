@@ -64,6 +64,9 @@ next-env.d.ts
 .vercel
 .gstack/
 
+# agent skills (installed locally via `npx skills add ...`)
+.agents/
+
 # Preview UAT (Playwright) — never commit auth state, traces, videos, raw artifacts
 uat/v7c/.auth/
 uat/v7c/.artifacts/
